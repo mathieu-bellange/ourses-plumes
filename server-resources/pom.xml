@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>ourses-plumes</artifactId>
+		<groupId>org.ourses</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>server-resources</artifactId>
+	<packaging>war</packaging>
+
+	<properties>
+		<!-- configuration du projet -->
+		<java-version>1.7</java-version>
+		<commons-lang-version>3.1</commons-lang-version>
+		<guava-version>14.0.1</guava-version>
+		<joda-time-version>2.2</joda-time-version>
+		<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
+		
+		<!-- REST -->
+		<jersey-version>1.17.1</jersey-version>
+		<jackson-version>1.9.12</jackson-version>
+	
+		<!-- log -->
+		<slf4j-version>1.6.6</slf4j-version>
+		<logback-version>1.0.11</logback-version>
+		
+		<!-- test -->
+		<junit-version>4.11</junit-version>
+		<fest-assert-version>1.4</fest-assert-version>
+		
+		<!-- sonar -->
+		<sonar.language>java</sonar.language>
+		<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
+	</properties>
+	
+	<dependencies>
+		<!-- configuration du projet -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang-version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-embedded</artifactId>
+			<version>6.1.26</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda-time-version}</version>
+		</dependency>
+		
+		<!-- test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert</artifactId>
+			<version>${fest-assert-version}</version>
+		</dependency>
+		
+		<!-- REST -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>${jackson-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-xc</artifactId>
+			<version>${jackson-version}</version>
+		</dependency>
+		
+		<!-- log -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>${slf4j-version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j-version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback-version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- configuration du projet -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.mbellange</groupId>
+									<artifactId>frontend-td</artifactId>
+									<version>0.0.1-SNAPSHOT</version>
+									<classifier>my-script</classifier>
+									<type>zip</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${webappDirectory}</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<executions>
+				</executions>
+				<configuration>
+					<warSourceDirectory>${webappDirectory}</warSourceDirectory>
+					<webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+					<webappDirectory>${webappDirectory}</webappDirectory>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp</directory>
+						</resource>
+					</webResources>
+					<warName>TennisDream</warName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
+				</configuration>
+			</plugin>
+			
+			<!-- sonar -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
