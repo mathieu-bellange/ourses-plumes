@@ -16,24 +16,33 @@
 		<guava-version>14.0.1</guava-version>
 		<joda-time-version>2.2</joda-time-version>
 		<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
-		
+
+		<!-- security -->
+		<shiro-version>1.2.2</shiro-version>
+
 		<!-- REST -->
 		<jersey-version>1.17.1</jersey-version>
 		<jackson-version>1.9.12</jackson-version>
-	
+
 		<!-- log -->
 		<slf4j-version>1.6.6</slf4j-version>
 		<logback-version>1.0.11</logback-version>
-		
+
 		<!-- test -->
 		<junit-version>4.11</junit-version>
 		<fest-assert-version>1.4</fest-assert-version>
 		
+		<!-- spring -->
+		<spring-version>3.2.0.RELEASE</spring-version>
+
 		<!-- sonar -->
 		<sonar.language>java</sonar.language>
 		<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
+
+		<!-- server -->
+		<jetty-version>6.1.26</jetty-version>
 	</properties>
-	
+
 	<dependencies>
 		<!-- configuration du projet -->
 		<dependency>
@@ -51,14 +60,36 @@
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jetty-embedded</artifactId>
-			<version>6.1.26</version>
+			<version>${jetty-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>${joda-time-version}</version>
 		</dependency>
-		
+
+		<!-- security -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>${shiro-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro-version}</version>
+		</dependency>
+
 		<!-- test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -70,7 +101,7 @@
 			<artifactId>fest-assert</artifactId>
 			<version>${fest-assert-version}</version>
 		</dependency>
-		
+
 		<!-- REST -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -92,7 +123,7 @@
 			<artifactId>jackson-xc</artifactId>
 			<version>${jackson-version}</version>
 		</dependency>
-		
+
 		<!-- log -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -124,37 +155,49 @@
 			<artifactId>logback-classic</artifactId>
 			<version>${logback-version}</version>
 		</dependency>
+
+		<!-- spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<!-- configuration du projet -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.mbellange</groupId>
-									<artifactId>frontend-td</artifactId>
-									<version>0.0.1-SNAPSHOT</version>
-									<classifier>my-script</classifier>
-									<type>zip</type>
-									<overWrite>false</overWrite>
-									<outputDirectory>${webappDirectory}</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-dependency-plugin</artifactId> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>unpack</id> -->
+			<!-- <phase>generate-resources</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>unpack</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <artifactItems> -->
+			<!-- <artifactItem> -->
+			<!-- <groupId>org.mbellange</groupId> -->
+			<!-- <artifactId>frontend-td</artifactId> -->
+			<!-- <version>0.0.1-SNAPSHOT</version> -->
+			<!-- <classifier>my-script</classifier> -->
+			<!-- <type>zip</type> -->
+			<!-- <overWrite>false</overWrite> -->
+			<!-- <outputDirectory>${webappDirectory}</outputDirectory> -->
+			<!-- </artifactItem> -->
+			<!-- </artifactItems> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -185,7 +228,7 @@
 					<target>${java-version}</target>
 				</configuration>
 			</plugin>
-			
+
 			<!-- sonar -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
