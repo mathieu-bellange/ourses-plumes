@@ -9,7 +9,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.ourses.server.utility.Safe;
+
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Realm qui contient toute la logique d'authentification et de permissions. récupère le login mdp en base grâce au
@@ -19,6 +20,8 @@ import org.ourses.server.utility.Safe;
  * 
  */
 public class StaticRealm extends AuthorizingRealm {
+	
+	private AccountDao accountDao;
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
@@ -29,7 +32,7 @@ public class StaticRealm extends AuthorizingRealm {
         checkNotNull(username, "Null usernames are not allowed by this realm.");
 
         // vérification du password
-        String password = Safe.getPassword(username);
+        String password = accountDao.getPassword(username);
         checkNotNull(password, "No account found for user [" + username + "]");
 
         return new SimpleAuthenticationInfo(username, password.toCharArray(), getName());
@@ -39,8 +42,8 @@ public class StaticRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         checkNotNull(principals, "PrincipalCollection method argument cannot be null.");
         String username = (String) principals.getPrimaryPrincipal();
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(Safe.getRoles(username));
-        info.setStringPermissions(Safe.getPermissions(username));
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(accountDao.getRoles(username));
+        info.setStringPermissions(accountDao.getPermissions(username));
         return info;
     }
 
@@ -48,5 +51,10 @@ public class StaticRealm extends AuthorizingRealm {
         if (reference == null) {
             throw new AuthenticationException(message);
         }
+    }
+    
+    @VisibleForTesting
+    protected void setAccountDao(AccountDao accountDao){
+    	this.accountDao = accountDao;
     }
 }
