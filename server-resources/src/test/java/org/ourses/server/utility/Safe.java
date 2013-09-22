@@ -1,14 +1,17 @@
 package org.ourses.server.utility;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.ourses.server.authentication.AccountDao;
+import org.ourses.server.authentication.BearAccount;
+import org.ourses.server.authentication.repository.AccountDao;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 
 /**
  * Classe présente que pour les Tests
@@ -18,6 +21,7 @@ import com.google.common.collect.HashMultimap;
  */
 @VisibleForTesting
 public class Safe implements AccountDao{
+	List<BearAccount> accounts = Lists.newArrayList();
     Map<String, String> passwords = new HashMap<String, String>();
     HashMultimap<String, String> permissions = HashMultimap.create();
     HashMultimap<String, String> roles = HashMultimap.create();

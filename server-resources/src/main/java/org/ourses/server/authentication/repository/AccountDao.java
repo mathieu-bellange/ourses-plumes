@@ -1,4 +1,4 @@
-package org.ourses.server.authentication;
+package org.ourses.server.authentication.repository;
 
 import java.util.Set;
 

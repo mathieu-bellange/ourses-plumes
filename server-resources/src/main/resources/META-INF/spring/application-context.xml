@@ -15,4 +15,60 @@
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">			
 	
+	<context:annotation-config />
+	<context:component-scan base-package="org.ourses.server" />
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!--  Transaction Manager -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+    
+    <!-- Default abstract Ebean Server configuration -->
+	<bean id="defaultEbeanServerConfig" class="com.avaje.ebean.config.ServerConfig" abstract="true">
+	    <property name="autofetchConfig">
+	        <bean class="com.avaje.ebean.config.AutofetchConfig">
+	            <property name="logDirectory" value="target" />
+	        </bean>
+	    </property>
+	
+	    <!-- turn off all logging by default -->
+	    <property name="loggingDirectory" value="target" />
+	    <property name="loggingLevel" value="SQL" />
+	
+	    <property name="externalTransactionManager">
+	        <bean class="com.avaje.ebean.springsupport.txn.SpringAwareJdbcTransactionManager" />
+	    </property>
+	
+	    <property name="namingConvention">
+	        <bean class="com.avaje.ebean.config.UnderscoreNamingConvention" />
+	    </property>
+	
+	</bean>
+	
+	<bean id="serverConfig" parent="defaultEbeanServerConfig">
+		<property name="name" value="test"/>
+		<property name="classes">
+			<list>
+				<value>org.ourses.server.authentication.OursesAuthorizationInfo</value>
+				<value>org.ourses.server.entities.Profile</value>
+				<value>org.ourses.server.authentication.BearAccount</value>
+			</list>
+		</property>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="defaultServer" value="true"/>
+
+		<property name="ddlGenerate" value="true"/>
+		<property name="ddlRun" value="true"/>
+	</bean>
+
+	<!-- Ebean server -->
+	<bean id="ebeanServer" class="com.avaje.ebean.springsupport.factory.EbeanServerFactoryBean">
+		<property name="serverConfig" ref="serverConfig"/>
+	</bean>
+
+    <jdbc:embedded-database id="dataSource" type="HSQL" >
+    </jdbc:embedded-database>	
+
 </beans>
