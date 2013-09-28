@@ -1,4 +1,4 @@
-package org.ourses.server.entities.administration;
+package org.ourses.server.domain.entities.administration;
 
 import java.util.Collection;
 import java.util.Set;

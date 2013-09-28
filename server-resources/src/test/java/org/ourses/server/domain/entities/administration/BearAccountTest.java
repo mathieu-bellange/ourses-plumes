@@ -1,4 +1,4 @@
-package org.ourses.server.entities.administration;
+package org.ourses.server.domain.entities.administration;
 
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ourses.server.authentication.util.ConstantsUtil;
-import org.ourses.server.entities.administration.BearAccount;
-import org.ourses.server.entities.administration.Profile;
+import org.ourses.server.domain.entities.administration.BearAccount;
+import org.ourses.server.domain.entities.administration.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -27,14 +27,13 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
 	
 	@Test
 	public void shouldCreateProfileWhenCreatingBearAccount(){		
-		BearAccount bearAccount = new BearAccount("julie.marie@gmail.com",null, "staticRealm", null);
-		assertThat(bearAccount.getProfile()).as("Le profil est créé en même temps que le compte et ne doit pas être nuls").isNotNull();
+		BearAccount bearAccount = new BearAccount("julie.marie@gmail.com",null, null, new Profile());
 		assertThat(bearAccount.getProfile().getPseudo()).isEqualTo(Profile.DEFAULT_PSEUDO);
 	}
 	
 	@Test
 	public void shouldInsertNewAccount(){
-		BearAccount bearAccount = new BearAccount("julie.marie@gmail.com","SexyJulie", "staticRealm", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE));
+		BearAccount bearAccount = new BearAccount("julie.marie@gmail.com","SexyJulie", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE), new Profile());
 		Ebean.save(bearAccount);
 		assertThat(bearAccount.getId()).isNotNull();
 		Ebean.delete(bearAccount);
@@ -43,11 +42,11 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
 	
 	@Test
 	public void shouldRetrieveListOfAccounts(){
-		BearAccount bearAccount = new BearAccount("julie.marie@gmail.com","SexyJulie", "staticRealm", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE));
+		BearAccount bearAccount = new BearAccount("julie.marie@gmail.com","SexyJulie", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE), new Profile());
 		Ebean.save(bearAccount);
-		BearAccount bearAccount2 = new BearAccount("julie.marie@gmail.com","SexyJulie", "staticRealm", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE));
+		BearAccount bearAccount2 = new BearAccount("julie.marie@gmail.com","SexyJulie", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE), new Profile());
 		Ebean.save(bearAccount2);
-		BearAccount bearAccount3 = new BearAccount("julie.marie@gmail.com","SexyJulie", "staticRealm", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE));
+		BearAccount bearAccount3 = new BearAccount("julie.marie@gmail.com","SexyJulie", Sets.newHashSet(ConstantsUtil.ADMINISTRATRICE,ConstantsUtil.REDACTRICE), new Profile());
 		Ebean.save(bearAccount3);
 		List<BearAccount> listBearAccounts = Ebean.find(BearAccount.class).findList();
 		assertThat(listBearAccounts).hasSize(3);

@@ -1,4 +1,4 @@
-package org.ourses.server.entities.administration;
+package org.ourses.server.domain.entities.administration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +18,8 @@ public class Profile {
 	@GeneratedValue
 	private Long id;
 	private String pseudo;
+
+	private String description;
 	
 	public Long getId() {
 		return id;
@@ -37,6 +39,14 @@ public class Profile {
 
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description){
+		this.description =description;
 	}
 	
 }

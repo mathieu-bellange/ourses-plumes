@@ -1,10 +1,11 @@
-package org.ourses.server.entities.administration;
+package org.ourses.server.domain.entities.administration;
 
 import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.avaje.ebean.Ebean;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -29,7 +31,9 @@ public class BearAccount implements Account {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4826475879469336578L;	
+	private static final long serialVersionUID = -4826475879469336578L;
+
+	private static final String REALM_NAME = "staticRealm";	
 	
 	@Id
 	@GeneratedValue
@@ -53,7 +57,7 @@ public class BearAccount implements Account {
 	/**
 	 * The authorization information for this account.
 	 */
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY,optional=false)
 	private OursesAuthorizationInfo authzInfo;
 	
 	public OursesAuthorizationInfo getAuthzInfo() {
@@ -67,7 +71,7 @@ public class BearAccount implements Account {
 	/**
 	 * Le profil lié au compte
 	 */
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY,optional=false)
 	private Profile profile;
 
 	/**
@@ -86,13 +90,13 @@ public class BearAccount implements Account {
 	 * @param roleNames
 	 * @param permissions
 	 */
-	public BearAccount(Object principal, Object credentials, String realmName,
-			Set<String> roleNames) {
+	public BearAccount(Object principal, Object credentials,
+			Set<String> roleNames, Profile profile) {
 		this.authcInfo = new SimpleAuthenticationInfo(
-				new SimplePrincipalCollection(principal, realmName),
+				new SimplePrincipalCollection(principal, REALM_NAME),
 				credentials);
 		this.authzInfo = new OursesAuthorizationInfo(roleNames);
-		this.profile = new Profile();
+		this.profile = profile;
 	}
 
 	/**
@@ -207,5 +211,14 @@ public class BearAccount implements Account {
 	@Transient
 	public Collection<Permission> getObjectPermissions() {
 		return Sets.newHashSet();
+	}
+	
+	public void save() {
+		//TODO gérer l'optimistic lock
+		Ebean.save(this);
+	}
+
+	public void delete() {
+		Ebean.delete(BearAccount.class, id);
 	}
 }

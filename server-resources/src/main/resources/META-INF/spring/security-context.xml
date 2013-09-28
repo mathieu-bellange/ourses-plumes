@@ -15,15 +15,14 @@
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<!-- override these for application-specific URLs if you like: 
-		<property name="loginUrl" value="/login.jsp"/>
-		<property name="successUrl" value="/home.jsp"/> 
-		<property name="unauthorizedUrl" value="/unauthorized.jsp"/> -->
+		<property name="loginUrl" value="/login.html"/>
+		<property name="successUrl" value="/sexe.html"/> 
+		<property name="unauthorizedUrl" value="/rien.html"/>
 		<property name="filterChainDefinitions">
 			<value>
-				/login.html = anon
-				/rest/safe/** = authcBasic, rest[safe]
-				/** = authcBasic
+				/login.html = authc
+				/rest/account/** = authc
+				/** = anon
 	        </value>
 		</property>
 	</bean>
