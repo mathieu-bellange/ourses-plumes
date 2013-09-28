@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.ourses.server.authentication.BearAccount;
 import org.ourses.server.authentication.repository.AccountDao;
+import org.ourses.server.entities.administration.BearAccount;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashMultimap;

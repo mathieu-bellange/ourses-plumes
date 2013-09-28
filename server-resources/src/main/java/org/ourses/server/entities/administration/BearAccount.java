@@ -1,4 +1,4 @@
-package org.ourses.server.authentication;
+package org.ourses.server.entities.administration;
 
 import java.util.Collection;
 import java.util.Set;
@@ -15,7 +15,6 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.ourses.server.entities.Profile;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -30,8 +29,8 @@ public class BearAccount implements Account {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4826475879469336578L;
-
+	private static final long serialVersionUID = -4826475879469336578L;	
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -93,7 +92,7 @@ public class BearAccount implements Account {
 				new SimplePrincipalCollection(principal, realmName),
 				credentials);
 		this.authzInfo = new OursesAuthorizationInfo(roleNames);
-		this.profile = null;
+		this.profile = new Profile();
 	}
 
 	/**

@@ -51,9 +51,9 @@
 		<property name="name" value="test"/>
 		<property name="classes">
 			<list>
-				<value>org.ourses.server.authentication.OursesAuthorizationInfo</value>
-				<value>org.ourses.server.entities.Profile</value>
-				<value>org.ourses.server.authentication.BearAccount</value>
+				<value>org.ourses.server.entities.administration.OursesAuthorizationInfo</value>
+				<value>org.ourses.server.entities.administration.Profile</value>
+				<value>org.ourses.server.entities.administration.BearAccount</value>
 			</list>
 		</property>
 		<property name="dataSource" ref="dataSource"/>

@@ -1,4 +1,4 @@
-package org.ourses.server.entities;
+package org.ourses.server.entities.administration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +12,13 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Profile {
+	protected static final String DEFAULT_PSEUDO = "Ourse à plumes";
 	
 	@Id
 	@GeneratedValue
 	private Long id;
-
+	private String pseudo;
+	
 	public Long getId() {
 		return id;
 	}
@@ -26,8 +28,15 @@ public class Profile {
 	}
 
 	public Profile() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.pseudo = DEFAULT_PSEUDO;
+	}
+
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
 	}
 	
 }
