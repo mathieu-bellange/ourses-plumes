@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,10 @@ public class Profile {
 	
 	public void setDescription(String description){
 		this.description =description;
+	}
+
+	public ProfileDTO toProfileDTO() {
+		return new ProfileDTO(pseudo, description);
 	}
 	
 }

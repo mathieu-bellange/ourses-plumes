@@ -11,6 +11,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.junit.Before;
 import org.junit.Test;
+import org.ourses.server.authentication.helpers.BearAccountHelperTestImpl;
 import org.ourses.server.utility.Safe;
 
 public class RealmTest {
@@ -27,6 +28,7 @@ public class RealmTest {
 	
 	@Test
 	public void shouldGetAuthenticationInfo(){
+		underTest.setAccountDao(new BearAccountHelperTestImpl());
 		token = new UsernamePasswordToken("Mathieu", "Bellange");
 		AuthenticationInfo result = underTest.getAuthenticationInfo(token);
 		assertThat(result).isNotNull();
@@ -35,19 +37,22 @@ public class RealmTest {
 	
 	@Test(expected=AuthenticationException.class)
 	public void shouldFailedOnNullLogin(){
+		underTest.setAccountDao(new BearAccountHelperTestImpl());
 		token = new UsernamePasswordToken(null, "Bellange");
 		underTest.getAuthenticationInfo(token);
 	}
 	
 	@Test
 	public void shouldGetAuthorizationInfo(){
+		underTest.setAccountDao(new BearAccountHelperTestImpl());
 		AuthorizationInfo authorization = underTest.doGetAuthorizationInfo(principals);
-		assertThat(authorization.getRoles()).as("Contient les rôles de l'utilisateur").contains("Admin");
+		assertThat(authorization.getRoles()).as("Contient les rôles de l'utilisateur").contains("ADMINISTRATRICE");
 		assertThat(authorization.getStringPermissions()).as("Contient les permissions de l'utilisateur").contains("safe:*");
 	}
 	
 	@Test(expected=AuthenticationException.class)
 	public void shouldFailedOnNullPrincipals(){
+		underTest.setAccountDao(new BearAccountHelperTestImpl());
 		underTest.doGetAuthorizationInfo(null);
 	}
 }

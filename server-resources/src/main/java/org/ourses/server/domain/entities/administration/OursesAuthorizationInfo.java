@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.Permission;
-import org.ourses.server.authentication.util.ConstantsUtil;
+import org.ourses.server.authentication.util.RolesUtil;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
 
 	public void setRolesForDb(String rolesForDb) {
 		this.rolesForDb = rolesForDb;
-		this.roles = ConstantsUtil.rolesForShiro(rolesForDb);
+		this.roles = RolesUtil.rolesForShiro(rolesForDb);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
      */
     public void setRoles(Set<String> roles) {
         this.roles = roles;
-        this.rolesForDb = ConstantsUtil.rolesForDb(roles);
+        this.rolesForDb = RolesUtil.rolesForDb(roles);
     }
 
     /**

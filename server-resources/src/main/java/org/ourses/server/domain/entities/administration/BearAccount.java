@@ -1,6 +1,7 @@
 package org.ourses.server.domain.entities.administration;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -221,4 +223,18 @@ public class BearAccount implements Account {
 	public void delete() {
 		Ebean.delete(BearAccount.class, id);
 	}
+	
+	public static List<BearAccount> findAllBearAccounts(){
+		return Ebean.find(BearAccount.class).findList();
+	}
+	
+	public BearAccountDTO toBearAccountDTO(){
+		return new BearAccountDTO( (String)authcInfo.getPrincipals().getPrimaryPrincipal(), (String)authcInfo.getCredentials(), 
+				Sets.newHashSet(authzInfo.getRoles()), profile.toProfileDTO());
+	}
+	
+	public static BearAccount getBearAccountByMail(String mail){
+		return Ebean.find(BearAccount.class).where().eq("mail", mail).findUnique();
+	}
+
 }

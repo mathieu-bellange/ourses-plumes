@@ -14,12 +14,12 @@ public class ConstantsUtilTest {
 	@Test
 	public void shouldGetSetOfStringsFromString(){
 		String roles = "ADMINISTRATRICE,REDACTRICE";
-		assertThat(ConstantsUtil.rolesForShiro(roles)).containsOnly("ADMINISTRATRICE","REDACTRICE");
+		assertThat(RolesUtil.rolesForShiro(roles)).containsOnly("ADMINISTRATRICE","REDACTRICE");
 	}
 	
 	@Test
 	public void shouldGetStringFromSetOfStrings(){
 		Set<String> roles = Sets.newHashSet("ADMINISTRATRICE","REDACTRICE");
-		assertThat(ConstantsUtil.rolesForDb(roles)).isEqualTo("ADMINISTRATRICE,REDACTRICE");
+		assertThat(RolesUtil.rolesForDb(roles)).isEqualTo("ADMINISTRATRICE,REDACTRICE");
 	}	
 }

@@ -9,7 +9,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.ourses.server.authentication.repository.AccountDao;
+import org.ourses.server.authentication.helpers.BearAccountHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -22,8 +23,9 @@ import com.google.common.annotations.VisibleForTesting;
  */
 public class StaticRealm extends AuthorizingRealm {
 	
-	private AccountDao accountDao;
-
+	@Autowired
+	private BearAccountHelper accountDao;
+	
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
@@ -55,7 +57,7 @@ public class StaticRealm extends AuthorizingRealm {
     }
     
     @VisibleForTesting
-    protected void setAccountDao(AccountDao accountDao){
+    protected void setAccountDao(BearAccountHelper accountDao){
     	this.accountDao = accountDao;
     }
 }

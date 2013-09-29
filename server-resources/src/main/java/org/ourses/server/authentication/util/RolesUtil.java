@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.google.common.collect.Sets;
 
-public final class ConstantsUtil {
+public final class RolesUtil {
 
 	public static String ADMINISTRATRICE = "Administratrice";
 	public static String REDACTRICE = "Rédactrice";
