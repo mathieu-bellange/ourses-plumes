@@ -54,6 +54,13 @@ public class BearAccountResourcesTest {
 		assertThat(list).isNotEmpty();
 	}
 	
+	private WebResource authenticate() throws JsonGenerationException, JsonMappingException, UniformInterfaceException, ClientHandlerException, IOException{
+		URI uri = UriBuilder.fromPath("/login.html").build();
+		WebResource webResource = webResource(uri);
+		webResource.path(uri.getPath()).header("Content-Type", "application/x-www-form-urlencoded").post("username=Mathieu&password=Bellange&rememberMe=True&Login=Login");
+		return webResource;
+	}
+	
 	private Object dummyAccount() {
 		return new BearAccountDTO("login","mdp", Sets.newHashSet("1"), new ProfileDTO("pseudo","description"));
 	}
