@@ -15,10 +15,10 @@
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">			
 	
-	<context:annotation-config />
 	<context:component-scan base-package="org.ourses.server" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager" />
+
 	
 	<!--  Transaction Manager -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -52,6 +52,7 @@
 		<property name="classes">
 			<list>
 				<value>org.ourses.server.domain.entities.administration.OursesAuthorizationInfo</value>
+				<value>org.ourses.server.domain.entities.administration.OursesAuthenticationInfo</value>
 				<value>org.ourses.server.domain.entities.administration.Profile</value>
 				<value>org.ourses.server.domain.entities.administration.BearAccount</value>
 			</list>
@@ -59,8 +60,8 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name="defaultServer" value="true"/>
 
-		<property name="ddlGenerate" value="true"/>
-		<property name="ddlRun" value="true"/>
+		<property name="ddlGenerate" value="false"/>
+		<property name="ddlRun" value="false"/>
 	</bean>
 
 	<!-- Ebean server -->
@@ -69,6 +70,8 @@
 	</bean>
 
     <jdbc:embedded-database id="dataSource" type="HSQL" >
+    	<jdbc:script location="classpath:META-INF/sql/test-create.sql"/>
+    	<jdbc:script location="classpath:META-INF/sql/INSERT_ACCOUNT.sql"/>
     </jdbc:embedded-database>	
 
 </beans>

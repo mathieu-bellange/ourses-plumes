@@ -10,19 +10,19 @@ import com.google.common.collect.Sets;
 @Component
 public class BearAccountHelperImpl implements BearAccountHelper {
 
-	@Override
-	public String getPassword(String username) {
-		return (String) BearAccount.getBearAccountByMail(username).getCredentials();
-	}
+    @Override
+    public String getPassword(String username) {
+        return BearAccount.getBearAccountCredentials(username);
+    }
 
-	@Override
-	public Set<String> getRoles(String username) {
-		return (Set<String>) BearAccount.getBearAccountByMail(username).getRoles();
-	}
+    @Override
+    public Set<String> getRoles(String username) {
+        return BearAccount.getBearAccountRoles(username);
+    }
 
-	@Override
-	public Set<String> getPermissions(String username) {
-		return Sets.newHashSet();
-	}
+    @Override
+    public Set<String> getPermissions(String username) {
+        return Sets.newHashSet();
+    }
 
 }

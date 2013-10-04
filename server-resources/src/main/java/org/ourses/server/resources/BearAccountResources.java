@@ -13,44 +13,53 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
+import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
+@Controller
 @Path("/account")
 public class BearAccountResources {
 
-	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createAccount(BearAccountDTO bearAccountDTO){
-		bearAccountDTO.toBearAccount().save();
-		return Response.ok().build();
-	}
-	
-	@DELETE
-	@Path("/{id}")
-	public Response deleteAccount(@PathParam("id") long id){
-		BearAccount bearAccount = new BearAccount();
-		bearAccount.setId(id);
-		bearAccount.delete();
-		return Response.ok().build();
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<BearAccountDTO> findAllBearAccounts(){
-		List<BearAccount> listBearAccount = BearAccount.findAllBearAccounts();
-		List<BearAccountDTO> listBearAccountDTO = Lists.transform(listBearAccount, new Function<BearAccount, BearAccountDTO>() {
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
+    public Response createAccount(BearAccountDTO bearAccountDTO) {
+        bearAccountDTO.toBearAccount().save();
+        return Response.ok().build();
+    }
 
-			@Override
-			@Nullable
-			public BearAccountDTO apply(@Nullable BearAccount bearAccount) {				
-				return bearAccount.toBearAccountDTO();
-			}
-		});
-		return listBearAccountDTO;
-	}
+    @DELETE
+    @Path("/{id}")
+    @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
+    public Response deleteAccount(@PathParam("id")
+    long id) {
+        BearAccount bearAccount = new BearAccount();
+        bearAccount.setId(id);
+        bearAccount.delete();
+        return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @RequiresRoles(RolesUtil.ADMINISTRATRICE)
+    public List<BearAccountDTO> findAllBearAccounts() {
+        List<BearAccount> listBearAccount = BearAccount.findAllBearAccounts();
+        List<BearAccountDTO> listBearAccountDTO = Lists.transform(listBearAccount,
+                new Function<BearAccount, BearAccountDTO>() {
+
+                    @Override
+                    @Nullable
+                    public BearAccountDTO apply(@Nullable
+                    BearAccount bearAccount) {
+                        return bearAccount.toBearAccountDTO();
+                    }
+                });
+        return listBearAccountDTO;
+    }
 }

@@ -19,41 +19,41 @@ import com.google.common.collect.Sets;
 
 @Entity
 @Component
-@Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class OursesAuthorizationInfo implements AuthorizationInfo {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -4775014513590290508L;
-	
-	@Id
-	@GeneratedValue
-	private Long id;
+    private static final long serialVersionUID = -4775014513590290508L;
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	private String rolesForDb;
+    public Long getId() {
+        return id;
+    }
 
-	 public String getRolesForDb() {
-		return rolesForDb;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setRolesForDb(String rolesForDb) {
-		this.rolesForDb = rolesForDb;
-		this.roles = RolesUtil.rolesForShiro(rolesForDb);
-	}
+    private String rolesForDb;
 
-	/**
+    public String getRolesForDb() {
+        return rolesForDb;
+    }
+
+    public void setRolesForDb(String rolesForDb) {
+        this.rolesForDb = rolesForDb;
+        this.roles = RolesUtil.rolesForShiro(rolesForDb);
+    }
+
+    /**
      * The internal roles collection.
      */
-	@Transient
+    @Transient
     protected Set<String> roles;
 
     /**
@@ -64,7 +64,9 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
 
     /**
      * Creates a new instance with the specified roles and no permissions.
-     * @param roles the roles assigned to the realm account.
+     * 
+     * @param roles
+     *            the roles assigned to the realm account.
      */
     public OursesAuthorizationInfo(Set<String> roles) {
         this.roles = roles;
@@ -72,7 +74,9 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
 
     /**
      * Sets the roles assigned to the account.
-     * @param roles the roles assigned to the account.
+     * 
+     * @param roles
+     *            the roles assigned to the account.
      */
     public void setRoles(Set<String> roles) {
         this.roles = roles;
@@ -80,9 +84,11 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     }
 
     /**
-     * Adds (assigns) a role to those associated with the account.  If the account doesn't yet have any roles, a
-     * new roles collection (a Set) will be created automatically.
-     * @param role the role to add to those associated with the account.
+     * Adds (assigns) a role to those associated with the account. If the account doesn't yet have any roles, a new
+     * roles collection (a Set) will be created automatically.
+     * 
+     * @param role
+     *            the role to add to those associated with the account.
      */
     public void addRole(String role) {
         if (this.roles == null) {
@@ -92,9 +98,11 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     }
 
     /**
-     * Adds (assigns) multiple roles to those associated with the account.  If the account doesn't yet have any roles, a
+     * Adds (assigns) multiple roles to those associated with the account. If the account doesn't yet have any roles, a
      * new roles collection (a Set) will be created automatically.
-     * @param roles the roles to add to those associated with the account.
+     * 
+     * @param roles
+     *            the roles to add to those associated with the account.
      */
     public void addRoles(Collection<String> roles) {
         if (this.roles == null) {
@@ -103,21 +111,21 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
         this.roles.addAll(roles);
     }
 
-	@Override
-	@Transient
-	public Collection<String> getStringPermissions() {
-		return Sets.newHashSet();
-	}
+    @Override
+    @Transient
+    public Set<String> getStringPermissions() {
+        return Sets.newHashSet();
+    }
 
-	@Override
-	@Transient
-	public Collection<Permission> getObjectPermissions() {
-		return Sets.newHashSet();
-	}
+    @Override
+    @Transient
+    public Set<Permission> getObjectPermissions() {
+        return Sets.newHashSet();
+    }
 
-	@Override
-	@Transient
-	public Collection<String> getRoles() {
-		return roles;
-	}
+    @Override
+    @Transient
+    public Set<String> getRoles() {
+        return roles;
+    }
 }

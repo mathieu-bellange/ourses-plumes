@@ -32,47 +32,51 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public class BearAccountResourcesTest {
-	
-	@Rule
-    public EmbeddedServer server = new EmbeddedServer();
-	
-	@Test
-	public void shouldCreateNewAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException, ClientHandlerException, IOException{
-		URI uri = UriBuilder.fromPath("/rest/account").build();
-		ObjectMapper mapper = new ObjectMapper();
-		ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(ClientResponse.class,mapper.writeValueAsString(dummyAccount()));
-		assertThat(clientResponse.getStatus()).as("Verif que le status est ok")
-				.isEqualTo(200);
-	}
-	
-	@Test
-	@Ignore
-	public void shouldSeeListAccounts(){
-		URI uri = UriBuilder.fromPath("/rest/account").build();
-		GenericType<Set<BearAccountDTO>> gt = new GenericType<Set<BearAccountDTO>>(){};
-		Set<BearAccountDTO> list = webResource(uri).header("Content-Type", "application/json").get(gt);
-		assertThat(list).isNotEmpty();
-	}
-	
-	private WebResource authenticate() throws JsonGenerationException, JsonMappingException, UniformInterfaceException, ClientHandlerException, IOException{
-		URI uri = UriBuilder.fromPath("/login.html").build();
-		WebResource webResource = webResource(uri);
-		webResource.path(uri.getPath()).header("Content-Type", "application/x-www-form-urlencoded").post("username=Mathieu&password=Bellange&rememberMe=True&Login=Login");
-		return webResource;
-	}
-	
-	private Object dummyAccount() {
-		return new BearAccountDTO("login","mdp", Sets.newHashSet("1"), new ProfileDTO("pseudo","description"));
-	}
 
-	/* helpers */	
-	private WebResource webResource(URI uri) {
-		ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
-		WebResource webResource = Client.create(cc).resource(server.uri())
-				.path(uri.getPath());
-		webResource.addFilter(new HTTPBasicAuthFilter("", ""));
-		webResource.accept(MediaType.APPLICATION_JSON_TYPE);
-		return webResource;
-	}
-	
+    @Rule
+    public EmbeddedServer server = new EmbeddedServer();
+
+    @Test
+    public void shouldCreateNewAccount() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        authenticate();
+        URI uri = UriBuilder.fromPath("/rest/account").build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+                ClientResponse.class, mapper.writeValueAsString(dummyAccount()));
+        assertThat(clientResponse.getStatus()).as("Verif que le status est ok").isEqualTo(200);
+    }
+
+    @Test
+    @Ignore
+    public void shouldSeeListAccounts() {
+        URI uri = UriBuilder.fromPath("/rest/account").build();
+        GenericType<Set<BearAccountDTO>> gt = new GenericType<Set<BearAccountDTO>>() {
+        };
+        Set<BearAccountDTO> list = webResource(uri).header("Content-Type", "application/json").get(gt);
+        assertThat(list).isNotEmpty();
+    }
+
+    private WebResource authenticate() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
+            ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath("/login.html").build();
+        WebResource webResource = webResource(uri);
+        webResource.header("Content-Type", "application/x-www-form-urlencoded").post(
+                "username=mbellange@gmail.com&password=Bellange&rememberMe=True&Login=Login");
+        return webResource;
+    }
+
+    private Object dummyAccount() {
+        return new BearAccountDTO("login", "mdp", Sets.newHashSet("1"), new ProfileDTO("pseudo", "description"));
+    }
+
+    /* helpers */
+    private WebResource webResource(URI uri) {
+        ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
+        WebResource webResource = Client.create(cc).resource(server.uri()).path(uri.getPath());
+        webResource.addFilter(new HTTPBasicAuthFilter("", ""));
+        webResource.accept(MediaType.APPLICATION_JSON_TYPE);
+        return webResource;
+    }
+
 }
