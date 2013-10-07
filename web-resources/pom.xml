@@ -10,21 +10,35 @@
 	<packaging>js</packaging>
 
 	<properties>
+		<!-- project configuration -->
+		<js.sourceDirectory>src/main/js</js.sourceDirectory>
+		<js.testSourceDirectory>src/test/js</js.testSourceDirectory>
+		<testDriver.config>jsTestDriver.conf</testDriver.config>
+		<testDriver.report.path>target/jsTestDriver</testDriver.report.path>
+		<testDriver.report.coverage>target/jsTestDriver/jsTestDriver.conf-coverage.dat</testDriver.report.coverage>
+		<jslint.version>1.0.1</jslint.version>
+		<js.plugin>2.0.0-alpha-1</js.plugin>
+	
+		<!-- Test -->
+		<jasmine.version>1.3.1.2</jasmine.version>
+		<testDriver.version>1.3.5.1</testDriver.version>
+		
+		<!-- sonar -->
 		<sonar.language>js</sonar.language>
-		<sonar.sources>src/main/js</sonar.sources>
-		<sonar.javascript.jstestdriver.reportsPath>target/jsTestDriver</sonar.javascript.jstestdriver.reportsPath>
-		<sonar.javascript.lcov.reportPath>target/jsTestDriver/jsTestDriver.conf-coverage.dat</sonar.javascript.lcov.reportPath>
+		<sonar.sources>${js.sourceDirectory}</sonar.sources>
+		<sonar.javascript.jstestdriver.reportsPath>${testDriver.report.path}</sonar.javascript.jstestdriver.reportsPath>
+		<sonar.javascript.lcov.reportPath>${testDriver.report.coverage}</sonar.javascript.lcov.reportPath>
 	</properties>
 
 	<build>
-		<sourceDirectory>src/main/js</sourceDirectory>
-		<testSourceDirectory>src/test/js</testSourceDirectory>
+		<sourceDirectory>${js.sourceDirectory}</sourceDirectory>
+		<testSourceDirectory>${js.testSourceDirectory}</testSourceDirectory>
 
 		<extensions>
 			<extension>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javascript-maven-plugin</artifactId>
-				<version>2.0.0-alpha-1</version>
+				<version>${js.plugin}</version>
 			</extension>
 		</extensions>
 		<plugins>
@@ -50,7 +64,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jslint-maven-plugin</artifactId>
-				<version>1.0.1</version>
+				<version>${jslint.version}</version>
 				<configuration>
 					<failOnIssues>false</failOnIssues>
 				</configuration>
@@ -60,7 +74,7 @@
 			<plugin>
 				<groupId>com.github.searls</groupId>
 				<artifactId>jasmine-maven-plugin</artifactId>
-				<version>1.3.1.2</version>
+				<version>${jasmine.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -69,18 +83,18 @@
 					</execution>
 				</executions>
 				<configuration>
-					<jsSrcDir>src/main/js</jsSrcDir>
-					<jsTestSrcDir>src/test/js</jsTestSrcDir>
+					<jsSrcDir>${js.sourceDirectory}</jsSrcDir>
+					<jsTestSrcDir>${js.testSourceDirectory}</jsTestSrcDir>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.googlecode.jstd-maven-plugin</groupId>
 				<artifactId>jstd-maven-plugin</artifactId>
-				<version>1.3.5.1</version>
+				<version>${testDriver.version}</version>
 				<configuration>
 					<port>9876</port>
-					<config>jsTestDriver.conf</config>
-					<testOutput>target/JsTestDriver</testOutput>
+					<config>${testDriver.config}</config>
+					<testOutput>${testDriver.report.path}</testOutput>
 				</configuration>
 				<executions>
 					<execution>
