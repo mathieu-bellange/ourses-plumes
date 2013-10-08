@@ -6,7 +6,7 @@
 		<artifactId>ourses-plumes</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>web-resourses</artifactId>
+	<artifactId>web-resources</artifactId>
 	<packaging>js</packaging>
 
 	<properties>
@@ -18,11 +18,11 @@
 		<testDriver.report.coverage>target/jsTestDriver/jsTestDriver.conf-coverage.dat</testDriver.report.coverage>
 		<jslint.version>1.0.1</jslint.version>
 		<js.plugin>2.0.0-alpha-1</js.plugin>
-	
+
 		<!-- Test -->
 		<jasmine.version>1.3.1.2</jasmine.version>
 		<testDriver.version>1.3.5.1</testDriver.version>
-		
+
 		<!-- sonar -->
 		<sonar.language>js</sonar.language>
 		<sonar.sources>${js.sourceDirectory}</sonar.sources>
@@ -69,7 +69,7 @@
 					<failOnIssues>false</failOnIssues>
 				</configuration>
 			</plugin>
-			
+
 			<!-- test -->
 			<plugin>
 				<groupId>com.github.searls</groupId>
@@ -107,6 +107,23 @@
 				</executions>
 			</plugin>
 			
+			<!-- server -->
+			<plugin>
+	            <groupId>org.mortbay.jetty</groupId>
+	            <artifactId>jetty-maven-plugin</artifactId>
+	            <configuration>
+	            	<scanIntervalSeconds>10</scanIntervalSeconds>	          
+	                <webAppConfig>
+	                    <contextPath>/</contextPath>   
+	                    <descriptor>${basedir}/build/web.xml</descriptor>	
+	                    <resourceBases>
+	                        <resourceBase>${basedir}/src/main/resources</resourceBase>
+	                        <resourceBase>${basedir}/src/main/lib</resourceBase>
+	                    </resourceBases>
+	                </webAppConfig>
+	            </configuration>
+	        </plugin>
+
 			<!-- sonar -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

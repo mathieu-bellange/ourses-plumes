@@ -49,7 +49,6 @@
 		<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
 
 		<!-- server -->
-		<jetty-version>8.1.13.v20130916</jetty-version>
 		<jetty-embedded-version>6.1.26</jetty-embedded-version>
 	</properties>
 
@@ -292,16 +291,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty-version}</version>
-				<configuration>
-					<!-- http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin -->
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<executions>
@@ -338,6 +327,17 @@
 				<version>${cobertura-version}</version>
 				<configuration>
 					<format>xml</format>
+				</configuration>
+			</plugin>
+			
+			<!-- server -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<!-- http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin -->
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
 				</configuration>
 			</plugin>
 
