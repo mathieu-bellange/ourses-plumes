@@ -3,16 +3,28 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Les ourses à plumes</title>
+	</head>
+	<body>
+		<form id="article" onsubmit="return sendArticle()">
+			<label for="title">Titre&nbsp;:&nbsp;</label>
+			<input id="title" type="text" />
+			<label for="publication">Publication&nbsp;:&nbsp;</label>
+			<input id="publication" type="date" />
+			<label for="categorie">Catégorie&nbsp;:&nbsp;</label>
+			<select id="categorie" >
+				<option value="option1" >Option 1</option>
+			</select>
+			<label for="label">Label&nbsp;:&nbsp;</label>
+			<input id="label" type="text"/>
+			<textarea id="editor">Test</textarea>
+			<label for="pseudo">Pseudo&nbsp;:&nbsp;</label>
+			<input id="pseudo" type="text"/>
+			<input id="confirm" type="submit" value="Confirme"/>
+		</form>
+		<!-- js -->
 		<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 		<script src="/js/ckeditor/ckeditor.js"></script>
 		<script src="/js/ckeditor/adapters/jquery.js"></script>
-		<script>
-		    window.onload = function() {
-		        CKEDITOR.replace( 'editor1' );
-		    };
-		</script>
-	</head>
-	<body>
-		<textarea name="editor1">Test</textarea>
+		<script type="text/javascript" src="/js/editor.js"></script>
 	</body>
 </html>

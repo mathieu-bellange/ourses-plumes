@@ -54,6 +54,8 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
+							<finalName>${project.build.finalName}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
 								<descriptor>${basedir}/build/assembly.xml</descriptor>
 							</descriptors>
@@ -111,16 +113,11 @@
 			<plugin>
 	            <groupId>org.mortbay.jetty</groupId>
 	            <artifactId>jetty-maven-plugin</artifactId>
-	            <configuration>
-	            	<scanIntervalSeconds>10</scanIntervalSeconds>	          
+	            <configuration>         
 	                <webAppConfig>
 	                    <contextPath>/</contextPath>   
-	                    <descriptor>${basedir}/build/web.xml</descriptor>	
-	                    <resourceBases>
-	                        <resourceBase>${basedir}/src/main/resources</resourceBase>
-	                        <resourceBase>${basedir}/src/main/lib</resourceBase>
-	                    </resourceBases>
 	                </webAppConfig>
+	                <webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory> 
 	            </configuration>
 	        </plugin>
 
