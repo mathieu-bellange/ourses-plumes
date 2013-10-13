@@ -221,6 +221,7 @@ public class BearAccount implements Account {
     }
 
     public static List<BearAccount> findAllBearAccounts() {
+    	//TODO: ajouter les propriétés à récupérer pour l'affichage de la liste (login?)
         return Ebean.find(BearAccount.class).findList();
     }
 

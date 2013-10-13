@@ -13,7 +13,6 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
@@ -31,7 +30,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
-public class BearAccountResourcesTest {
+public class BearAccountResourcesTest{
 
     @Rule
     public EmbeddedServer server = new EmbeddedServer();
@@ -39,7 +38,6 @@ public class BearAccountResourcesTest {
     @Test
     public void shouldCreateNewAccount() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
-        authenticate();
         URI uri = UriBuilder.fromPath("/rest/account").build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
@@ -47,23 +45,13 @@ public class BearAccountResourcesTest {
         assertThat(clientResponse.getStatus()).as("Verif que le status est ok").isEqualTo(200);
     }
 
-    @Test
-    @Ignore
-    public void shouldSeeListAccounts() {
-        URI uri = UriBuilder.fromPath("/rest/account").build();
+    @Test   
+    public void shouldSeeListAccounts() throws JsonGenerationException, JsonMappingException, UniformInterfaceException, ClientHandlerException, IOException {
+    	URI uri = UriBuilder.fromPath("/rest/account").build();
         GenericType<Set<BearAccountDTO>> gt = new GenericType<Set<BearAccountDTO>>() {
         };
         Set<BearAccountDTO> list = webResource(uri).header("Content-Type", "application/json").get(gt);
         assertThat(list).isNotEmpty();
-    }
-
-    private WebResource authenticate() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
-            ClientHandlerException, IOException {
-        URI uri = UriBuilder.fromPath("/login.html").build();
-        WebResource webResource = webResource(uri);
-        webResource.header("Content-Type", "application/x-www-form-urlencoded").post(
-                "username=mbellange@gmail.com&password=Bellange&rememberMe=True&Login=Login");
-        return webResource;
     }
 
     private Object dummyAccount() {

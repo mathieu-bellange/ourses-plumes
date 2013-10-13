@@ -16,7 +16,7 @@ import com.google.common.collect.Sets;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:META-INF/spring/application-context.xml")
-public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class BearAccountTest  extends AbstractTransactionalJUnit4SpringContextTests{
 
     @Test
     public void shouldCreateProfileWhenCreatingBearAccount() {
@@ -45,7 +45,8 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
         BearAccount bearAccount3 = new BearAccount("julie.marie@gmail.com", "SexyJulie", Sets.newHashSet(
                 RolesUtil.ADMINISTRATRICE, RolesUtil.REDACTRICE), new Profile());
         Ebean.save(bearAccount3);
-        List<BearAccount> listBearAccounts = Ebean.find(BearAccount.class).findList();
-        assertThat(listBearAccounts).hasSize(3);
+        List<BearAccount> listBearAccounts = BearAccount.findAllBearAccounts();
+        //il y a 5 BearAccount en base, 3 ici et 2 insérés par INSERT_ACCOUNT (src/main/resources/META-INF/sql)
+        assertThat(listBearAccounts).hasSize(5);
     }
 }
