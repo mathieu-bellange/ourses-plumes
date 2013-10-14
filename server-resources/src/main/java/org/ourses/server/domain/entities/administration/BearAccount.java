@@ -16,6 +16,7 @@ import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
+import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -98,7 +99,10 @@ public class BearAccount implements Account {
      */
     public BearAccount(Object principal, Object credentials, Set<String> roleNames, Profile profile) {
         this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
-        this.authzInfo = new OursesAuthorizationInfo(roleNames);
+        // TODO vérifier si c'est pas un abus, le problème c'est quand ebean ne récupère pas la liste des roles
+        if (roleNames != null) {
+            this.authzInfo = new OursesAuthorizationInfo(roleNames);
+        }
         this.profile = profile;
     }
 
@@ -217,26 +221,64 @@ public class BearAccount implements Account {
     }
 
     public void delete() {
+        // TODO attention id null
         Ebean.delete(BearAccount.class, id);
     }
 
-    public static List<BearAccount> findAllBearAccounts() {
-    	//TODO: ajouter les propriétés à récupérer pour l'affichage de la liste (login?)
-        return Ebean.find(BearAccount.class).findList();
+    /**
+     * Récupère la liste des comptes avec leurs informations administratives
+     * 
+     * @return
+     */
+    public static List<BearAccount> findAllAdministrationBearAccounts() {
+        return Ebean.find(BearAccount.class).fetch("authcInfo", "mail").fetch("authzInfo", "rolesForDb").findList();
     }
 
-    public BearAccountDTO toBearAccountDTO() {
-        return new BearAccountDTO((String) authcInfo.getPrincipals().getPrimaryPrincipal(), authcInfo.getCredentials(),
-                Sets.newHashSet(authzInfo.getRoles()), profile.toProfileDTO());
-    }
-
+    /**
+     * Récupère la mdp encrypté
+     * 
+     * @param mail
+     * @return
+     */
     public static String getBearAccountCredentials(String mail) {
         return Ebean.find(BearAccount.class).fetch("authcInfo", "credentials").where().eq("authcInfo.mail", mail)
                 .findUnique().getAuthcInfo().getCredentials();
     }
 
+    /**
+     * Récupère la liste des roles
+     * 
+     * @param mail
+     * @return
+     */
     public static Set<String> getBearAccountRoles(String mail) {
         return Ebean.find(BearAccount.class).fetch("authzInfo", "rolesForDb").where().eq("authcInfo.mail", mail)
                 .findUnique().getAuthzInfo().getRoles();
+    }
+
+    /**
+     * Transforme un bear account en bear account DTO. Attention ebean ne récupère pas l'ensemble des données du bean,
+     * il ne le fait que sur demande
+     * 
+     * @return
+     */
+    public BearAccountDTO toBearAccountDTO() {
+        String mail = null;
+        String credentials = null;
+        Set<String> roles = Sets.newHashSet();
+        ProfileDTO profileDTO = null;
+        if (authcInfo != null) {
+            if (authcInfo.getPrincipals() != null) {
+                mail = (String) authcInfo.getPrincipals().getPrimaryPrincipal();
+            }
+            credentials = authcInfo.getCredentials();
+        }
+        if (authzInfo != null) {
+            roles = authzInfo.getRoles();
+        }
+        if (profile != null) {
+            profileDTO = profile.toProfileDTO();
+        }
+        return new BearAccountDTO(mail, credentials, roles, profileDTO);
     }
 }

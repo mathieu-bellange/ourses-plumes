@@ -3,6 +3,7 @@ package org.ourses.server.domain.entities.administration;
 import java.util.Collection;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -39,6 +40,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
         this.id = id;
     }
 
+    @Column(name = "roles_for_db")
     private String rolesForDb;
 
     public String getRolesForDb() {
@@ -69,7 +71,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
      *            the roles assigned to the realm account.
      */
     public OursesAuthorizationInfo(Set<String> roles) {
-        this.roles = roles;
+        this.setRoles(roles);
     }
 
     /**

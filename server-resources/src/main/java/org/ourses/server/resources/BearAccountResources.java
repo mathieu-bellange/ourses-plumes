@@ -49,7 +49,7 @@ public class BearAccountResources {
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresRoles(RolesUtil.ADMINISTRATRICE)
     public List<BearAccountDTO> findAllBearAccounts() {
-        List<BearAccount> listBearAccount = BearAccount.findAllBearAccounts();
+        List<BearAccount> listBearAccount = BearAccount.findAllAdministrationBearAccounts();
         List<BearAccountDTO> listBearAccountDTO = Lists.transform(listBearAccount,
                 new Function<BearAccount, BearAccountDTO>() {
 
