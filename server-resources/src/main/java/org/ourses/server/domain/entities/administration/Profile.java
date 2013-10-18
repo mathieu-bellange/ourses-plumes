@@ -11,47 +11,46 @@ import org.springframework.stereotype.Component;
 
 @Entity
 @Component
-@Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Profile {
-	protected static final String DEFAULT_PSEUDO = "Ourse à plumes";
-	
-	@Id
-	@GeneratedValue
-	private Long id;
-	private String pseudo;
+    protected static final String DEFAULT_PSEUDO = "Ourse à plumes";
 
-	private String description;
-	
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String pseudo;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private String description;
 
-	public Profile() {
-		this.pseudo = DEFAULT_PSEUDO;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getPseudo() {
-		return pseudo;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
+    public Profile() {
+        this.pseudo = DEFAULT_PSEUDO;
+    }
 
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description){
-		this.description =description;
-	}
+    public String getPseudo() {
+        return pseudo;
+    }
 
-	public ProfileDTO toProfileDTO() {
-		return new ProfileDTO(pseudo, description);
-	}
-	
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ProfileDTO toProfileDTO() {
+        return new ProfileDTO(pseudo, description);
+    }
 }

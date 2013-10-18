@@ -12,77 +12,75 @@ import org.ourses.server.domain.entities.administration.BearAccount;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BearAccountDTO {
-	
-	private String mail;
-	private String password;
-	private Set<String> roles;
-	private ProfileDTO profile;
-	
-	public BearAccountDTO(){
-		
-	}
-	
-	public BearAccountDTO(String mail, String password,
-			Set<String> roles, ProfileDTO profile) {
-		this.mail = mail;
-		this.password = password;
-		this.roles = roles;
-		this.profile = profile;
-	}
 
-	@JsonProperty("password")
-	public String getPassword() {
-		return password;
-	}
+    private String mail;
+    private String password;
+    private Set<String> roles;
+    private ProfileDTO profile;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public BearAccountDTO() {
 
-	@JsonProperty("roles")
-	public Set<String> getRoles() {
-		return roles;
-	}
+    }
 
-	public void setRoles(Set<String> roles) {
-		this.roles = roles;
-	}
+    public BearAccountDTO(String mail, String password, Set<String> roles, ProfileDTO profile) {
+        this.mail = mail;
+        this.password = password;
+        this.roles = roles;
+        this.profile = profile;
+    }
 
-	@JsonProperty("mail")
-	public String getMail() {
-		return mail;
-	}
+    @JsonProperty("password")
+    public String getPassword() {
+        return password;
+    }
 
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-	
-	@JsonProperty("profile")
-	public ProfileDTO getProfile() {
-		return profile;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setProfile(ProfileDTO profileDTO) {
-		this.profile = profileDTO;
-	}
+    @JsonProperty("roles")
+    public Set<String> getRoles() {
+        return roles;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,
-				ToStringStyle.MULTI_LINE_STYLE);
-	}
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, true);
-	}
+    @JsonProperty("mail")
+    public String getMail() {
+        return mail;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj, true);
-	}
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
-	public BearAccount toBearAccount() {
-		return new BearAccount(mail,password,roles,profile.toProfile());
-	}
+    @JsonProperty("profile")
+    public ProfileDTO getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileDTO profileDTO) {
+        this.profile = profileDTO;
+    }
+
+    public BearAccount toBearAccount() {
+        return new BearAccount(mail, password, roles, profile.toProfile());
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, true);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, true);
+    }
 }

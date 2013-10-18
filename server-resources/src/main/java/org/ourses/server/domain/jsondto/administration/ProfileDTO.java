@@ -11,57 +11,55 @@ import org.springframework.beans.BeanUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileDTO {
-	
-	private String description;
-	private String pseudo;
-	
-	public ProfileDTO(){
-		
-	}
-	
-	public ProfileDTO(String pseudo, String description) {
-		this.pseudo = pseudo;
-		this.description = description;
-	}
 
-	@JsonProperty("description")
-	public String getDescription() {
-		return description;
-	}
+    private String description;
+    private String pseudo;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public ProfileDTO() {
 
-	@JsonProperty("pseudo")
-	public String getPseudo() {
-		return pseudo;
-	}
+    }
 
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
-	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,
-				ToStringStyle.MULTI_LINE_STYLE);
-	}
+    public ProfileDTO(String pseudo, String description) {
+        this.pseudo = pseudo;
+        this.description = description;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, true);
-	}
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj, true);
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Profile toProfile() {
-		Profile profile = new Profile();
-		BeanUtils.copyProperties(this, profile);
-		return profile;
-	}
+    @JsonProperty("pseudo")
+    public String getPseudo() {
+        return pseudo;
+    }
 
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public Profile toProfile() {
+        Profile profile = new Profile();
+        BeanUtils.copyProperties(this, profile);
+        return profile;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, true);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, true);
+    }
 }
