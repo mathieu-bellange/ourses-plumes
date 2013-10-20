@@ -7,8 +7,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.redaction.Category;
 import org.ourses.server.domain.jsondto.redaction.CategoryDTO;
 import org.springframework.stereotype.Controller;
@@ -23,7 +21,6 @@ public class CategoryResources {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresRoles({ RolesUtil.REDACTRICE, RolesUtil.ADMINISTRATRICE })
     public Set<CategoryDTO> findAllCategory() {
         Set<Category> categories = Category.findAllCategory();
         Set<CategoryDTO> categoriesToReturn = Sets.newHashSet(Collections2.transform(categories,
