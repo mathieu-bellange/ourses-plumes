@@ -11,6 +11,8 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.redaction.Tag;
 import org.ourses.server.domain.jsondto.redaction.TagDTO;
+import org.ourses.server.redaction.helpers.TagHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
@@ -21,11 +23,14 @@ import com.google.common.collect.Sets;
 @Path("/tag")
 public class TagResources {
 
+    @Autowired
+    TagHelper tagHelper;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @RequiresRoles({ RolesUtil.REDACTRICE, RolesUtil.ADMINISTRATRICE })
     public Set<TagDTO> findAllTag() {
-        Set<Tag> tags = Tag.findAllTag();
+        Set<Tag> tags = tagHelper.findAllTag();
         Set<TagDTO> tagsToReturn = Sets.newHashSet(Collections2.transform(tags, new Function<Tag, TagDTO>() {
 
             @Override
@@ -34,5 +39,9 @@ public class TagResources {
             }
         }));
         return tagsToReturn;
+    }
+
+    protected void setTagHelper(TagHelper tagHelper) {
+        this.tagHelper = tagHelper;
     }
 }

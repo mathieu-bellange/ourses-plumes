@@ -1,7 +1,6 @@
 package org.ourses.server.domain.entities.redaction;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import com.avaje.ebean.Ebean;
 
 @Entity
 @Component
@@ -58,10 +55,6 @@ public class Category implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public static Set<Category> findAllCategory() {
-        return Ebean.find(Category.class).findSet();
     }
 
     public CategoryDTO toCategoryDTO() {

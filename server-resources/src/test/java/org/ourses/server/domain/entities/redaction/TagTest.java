@@ -2,8 +2,6 @@ package org.ourses.server.domain.entities.redaction;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.util.Set;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ourses.server.domain.jsondto.redaction.TagDTO;
@@ -20,12 +18,5 @@ public class TagTest {
         TagDTO tagToVerify = tag.toTagDTO();
         // un tag ne peut être en double en basse
         assertThat(tagToVerify.getTag()).isEqualTo(tag.getTag());
-    }
-
-    @Test
-    public void shouldRetrieveSetsOfTag() {
-        Set<Tag> tags = Tag.findAllTag();
-        // ATTENTION données en base
-        assertThat(tags).onProperty("tag").containsOnly("Tag 1", "Tag 2");
     }
 }
