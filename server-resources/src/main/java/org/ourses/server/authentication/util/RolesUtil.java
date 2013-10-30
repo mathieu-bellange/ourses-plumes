@@ -13,32 +13,34 @@ public final class RolesUtil {
     public static final String LECTEUR_LECTRICE = "Lecteur/Lectrice";
 
     /**
-     * Mapping d'un set de roles issu de Shiro sur une String pour sa sauvegarde en base de données par Ebean (les sets
-     * de String ne sont pas supportés par JPA 1.0)
+     *Seul le rôle le plus habilité est conservé en base de données
      * */
     @Nonnull
     public static String rolesForDb(@Nonnull
     Set<String> roles) {
-        StringBuilder roleDb = new StringBuilder();
-        for (String role : roles) {
-            roleDb.append(role);
-            roleDb.append(",");
+        String roleDb = LECTEUR_LECTRICE;
+        if(roles.contains(ADMINISTRATRICE)){
+        	roleDb = ADMINISTRATRICE;
+        }else if(roles.contains(REDACTRICE)){
+        	roleDb = REDACTRICE;
         }
-        roleDb.replace(roleDb.length() - 1, roleDb.length(), "");
-
-        return roleDb.toString();
+        return roleDb;
     }
 
     /**
-     * Mapping d'une String (concatenation des roles séparés par une virgule) venant de la base données sur un set de
-     * roles pour Shiro (les sets de String ne sont pas supportés par JPA 1.0)
+     * Seul le rôle le plus habilité est conservé en base de données, on ajoute les rôles 
+     * supplémentaires pour Shiro
      * */
     @Nonnull
     public static Set<String> rolesForShiro(@Nonnull
     String role) {
         Set<String> roles = Sets.newHashSet();
-        for (String r : role.split(",")) {
-            roles.add(r);
+        roles.add(role);
+        if(role.equals(ADMINISTRATRICE)) {
+            roles.add(REDACTRICE);
+        }
+        if(!role.equals(LECTEUR_LECTRICE)){
+        	roles.add(LECTEUR_LECTRICE);
         }
         return roles;
     }

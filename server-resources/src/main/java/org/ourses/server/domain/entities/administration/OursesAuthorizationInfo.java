@@ -9,13 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.Permission;
 import org.ourses.server.authentication.util.RolesUtil;
+import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.avaje.ebean.Ebean;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -129,5 +135,35 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     @Transient
     public Set<String> getRoles() {
         return roles;
+    }
+    
+    public static Set<OursesAuthorizationInfo> findAllRoles(){
+    	return Ebean.find(OursesAuthorizationInfo.class).findSet();
+    }
+    
+    public OursesAuthzInfoDTO toOursesAuthzInfoDTO(){
+    	OursesAuthzInfoDTO oursesAuthzInfoDTO = new OursesAuthzInfoDTO(rolesForDb);
+    	oursesAuthzInfoDTO.setId(id);
+    	return oursesAuthzInfoDTO;
+    }
+    
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    /*
+     * une authorizationInfo ne peut pas être présente deux fois en base donc le hash code 
+     * et le equals ne tiennent compte que de authorizationInfo
+     */
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, "id");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
 }

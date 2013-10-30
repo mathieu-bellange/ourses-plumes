@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Nouveau Compte</title>
+	</head>
+	<body>
+		<form id="bearAccount" onsubmit="return createBearAccount()">
+			<label for="pseudo">Pseudo&nbsp;:&nbsp;</label>
+			<input id="pseudo" type="text" />
+			<label for="mail">Adresse mail&nbsp;:&nbsp;</label>
+			<input id="mail" type="text" />
+			<label for="password">Mot de passe&nbsp;:&nbsp;</label>
+			<input id="password" type="text" />
+			<label for="description">Description&nbsp;:&nbsp;</label>
+			<input id="description" type="text"/>
+			<label for="role">Rôle&nbsp;:&nbsp;</label>
+			<select id="role" >
+			</select>
+			<input id="confirm" type="submit" value="Créer le compte"/>
+		</form>
+		<!-- js -->
+		<script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+		<script src="/js/bearAccount.js"></script>
+	</body>
+</html>
