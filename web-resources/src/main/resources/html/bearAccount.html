@@ -9,11 +9,12 @@
 			<label for="pseudo">Pseudo&nbsp;:&nbsp;</label>
 			<input id="pseudo" type="text" />
 			<label for="mail">Adresse mail&nbsp;:&nbsp;</label>
-			<input id="mail" type="text" />
+			<input id="mail" type="text" required="required" 
+				pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$"/>
 			<label for="password">Mot de passe&nbsp;:&nbsp;</label>
-			<input id="password" type="text" />
+			<input id="password" type="text"  required="required"/>
 			<label for="description">Description&nbsp;:&nbsp;</label>
-			<input id="description" type="text"/>
+			<textarea id="description" maxlength="1000"></textarea>
 			<label for="role">Rôle&nbsp;:&nbsp;</label>
 			<select id="role" >
 			</select>

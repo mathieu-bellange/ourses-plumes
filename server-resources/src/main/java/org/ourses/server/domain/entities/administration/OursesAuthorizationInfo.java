@@ -79,6 +79,14 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     public OursesAuthorizationInfo(Set<String> roles) {
         this.setRoles(roles);
     }
+    
+    public OursesAuthorizationInfo(String role) {
+        this.setRolesForDb(role);
+    }
+    public OursesAuthorizationInfo(Long id, String role) {
+    	this.id = id;
+    	this.setRolesForDb(role);
+    }
 
     /**
      * Sets the roles assigned to the account.

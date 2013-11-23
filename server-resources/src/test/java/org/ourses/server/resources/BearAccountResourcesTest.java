@@ -16,10 +16,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
+import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.ourses.server.utility.EmbeddedServer;
 
-import com.google.common.collect.Sets;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -56,7 +56,7 @@ public class BearAccountResourcesTest {
     }
 
     private Object dummyAccount() {
-        return new BearAccountDTO("login", "mdp", Sets.newHashSet("1"), new ProfileDTO("pseudo", "description"));
+        return new BearAccountDTO("login", "mdp", new OursesAuthzInfoDTO("1"), new ProfileDTO("pseudo", "description"));
     }
 
     /* helpers */

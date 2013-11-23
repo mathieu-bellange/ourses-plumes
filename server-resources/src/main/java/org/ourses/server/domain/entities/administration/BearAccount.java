@@ -16,6 +16,7 @@ import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
+import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -65,7 +66,7 @@ public class BearAccount implements Account {
     /**
      * The authorization information for this account.
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private OursesAuthorizationInfo authzInfo;
 
     public OursesAuthorizationInfo getAuthzInfo() {
@@ -88,25 +89,14 @@ public class BearAccount implements Account {
     public BearAccount() {
     }
 
-    /**
-     * Constructeur d'un compte, le profil est créé en même temps que les infos d'authentication et d'autorisation.
-     * 
-     * @param principal
-     * @param credentials
-     * @param realmName
-     * @param roleNames
-     * @param permissions
-     */
-    public BearAccount(Object principal, Object credentials, Set<String> roleNames, Profile profile) {
-        this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
-        // TODO vérifier si c'est pas un abus, le problème c'est quand ebean ne récupère pas la liste des roles
-        if (roleNames != null) {
-            this.authzInfo = new OursesAuthorizationInfo(roleNames);
-        }
+    public BearAccount(Object principal, Object credentials,
+			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile) {
+    	this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
+        this.authzInfo = oursesAuthorizationInfo;
         this.profile = profile;
-    }
+	}
 
-    /**
+	/**
      * Renvoie le profil lié au compte
      * 
      * @return Profile profile
@@ -265,7 +255,7 @@ public class BearAccount implements Account {
     public BearAccountDTO toBearAccountDTO() {
         String mail = null;
         String credentials = null;
-        Set<String> roles = Sets.newHashSet();
+        OursesAuthzInfoDTO role = null;
         ProfileDTO profileDTO = null;
         if (authcInfo != null) {
             if (authcInfo.getPrincipals() != null) {
@@ -274,11 +264,11 @@ public class BearAccount implements Account {
             credentials = authcInfo.getCredentials();
         }
         if (authzInfo != null) {
-            roles = authzInfo.getRoles();
+            role = authzInfo.toOursesAuthzInfoDTO();
         }
         if (profile != null) {
             profileDTO = profile.toProfileDTO();
         }
-        return new BearAccountDTO(mail, credentials, roles, profileDTO);
+        return new BearAccountDTO(mail, credentials, role, profileDTO);
     }
 }

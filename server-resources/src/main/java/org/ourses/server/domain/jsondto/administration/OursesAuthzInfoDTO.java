@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.ourses.server.domain.entities.administration.OursesAuthorizationInfo;
 
 public class OursesAuthzInfoDTO {
 
@@ -34,6 +35,11 @@ public class OursesAuthzInfoDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public OursesAuthorizationInfo toOursesAuthorizationInfo() {
+		OursesAuthorizationInfo oursesAuthorizationInfo = new OursesAuthorizationInfo(this.id, this.role);
+        return oursesAuthorizationInfo;
+    }
 	
 	@Override
     public String toString() {

@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.avaje.ebean.Ebean;
-import com.google.common.collect.Sets;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:META-INF/spring/application-context.xml")
@@ -30,14 +29,15 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void shouldCreateProfileWhenCreatingBearAccount() {
+    	//Par défaut le pseudo est renseigné et la description peut être nulle
         BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", null, null, new Profile());
         assertThat(bearAccount.getProfile().getPseudo()).isEqualTo(Profile.DEFAULT_PSEUDO);
     }
 
     @Test
     public void shouldInsertNewAccount() {
-        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", "SexyJulie", Sets.newHashSet(
-                RolesUtil.ADMINISTRATRICE, RolesUtil.REDACTRICE), new Profile());
+        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", "SexyJulie",
+                new OursesAuthorizationInfo(RolesUtil.ADMINISTRATRICE), new Profile());
         Ebean.save(bearAccount);
         assertThat(bearAccount.getId()).isNotNull();
         Ebean.delete(bearAccount);
@@ -46,14 +46,14 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void shouldRetrieveListOfAdministrationAccounts() {
-        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", "SexyJulie", Sets.newHashSet(
-                RolesUtil.ADMINISTRATRICE, RolesUtil.REDACTRICE), new Profile());
+        BearAccount bearAccount =new BearAccount("julie.marie@gmail.com", "SexyJulie",
+        		new OursesAuthorizationInfo(RolesUtil.ADMINISTRATRICE), new Profile());
         Ebean.save(bearAccount);
-        BearAccount bearAccount2 = new BearAccount("julie.marie@gmail.com", "SexyJulie", Sets.newHashSet(
-                RolesUtil.ADMINISTRATRICE, RolesUtil.REDACTRICE), new Profile());
+        BearAccount bearAccount2 = new BearAccount("julie.marie@gmail.com", "SexyJulie",
+        		new OursesAuthorizationInfo(RolesUtil.ADMINISTRATRICE), new Profile());
         Ebean.save(bearAccount2);
-        BearAccount bearAccount3 = new BearAccount("julie.marie@gmail.com", "SexyJulie", Sets.newHashSet(
-                RolesUtil.ADMINISTRATRICE, RolesUtil.REDACTRICE), new Profile());
+        BearAccount bearAccount3 = new BearAccount("julie.marie@gmail.com", "SexyJulie",
+        		new OursesAuthorizationInfo(RolesUtil.ADMINISTRATRICE), new Profile());
         Ebean.save(bearAccount3);
         List<BearAccount> listBearAccounts = BearAccount.findAllAdministrationBearAccounts();
         // il y a 5 BearAccount en base, 3 ici et 2 insérés par INSERT_ACCOUNT (src/main/resources/META-INF/sql)

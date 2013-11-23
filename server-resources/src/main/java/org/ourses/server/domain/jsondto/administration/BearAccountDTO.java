@@ -1,7 +1,5 @@
 package org.ourses.server.domain.jsondto.administration;
 
-import java.util.Set;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,17 +13,17 @@ public class BearAccountDTO {
 
     private String mail;
     private String password;
-    private Set<String> roles;
+    private OursesAuthzInfoDTO role;
     private ProfileDTO profile;
 
     public BearAccountDTO() {
 
     }
 
-    public BearAccountDTO(String mail, String password, Set<String> roles, ProfileDTO profile) {
+    public BearAccountDTO(String mail, String password, OursesAuthzInfoDTO role, ProfileDTO profile) {
         this.mail = mail;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
         this.profile = profile;
     }
 
@@ -38,13 +36,13 @@ public class BearAccountDTO {
         this.password = password;
     }
 
-    @JsonProperty("roles")
-    public Set<String> getRoles() {
-        return roles;
+    @JsonProperty("role")
+    public OursesAuthzInfoDTO getRole() {
+        return role;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setRole(OursesAuthzInfoDTO role) {
+        this.role = role;
     }
 
     @JsonProperty("mail")
@@ -66,7 +64,7 @@ public class BearAccountDTO {
     }
 
     public BearAccount toBearAccount() {
-        return new BearAccount(mail, password, roles, profile.toProfile());
+        return new BearAccount(mail, password, role.toOursesAuthorizationInfo(), profile.toProfile());
     }
 
     @Override
