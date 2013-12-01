@@ -221,7 +221,7 @@ public class BearAccount implements Account {
      * @return
      */
     public static List<BearAccount> findAllAdministrationBearAccounts() {
-        return Ebean.find(BearAccount.class).fetch("authcInfo", "mail").fetch("authzInfo", "rolesForDb").findList();
+        return Ebean.find(BearAccount.class).fetch("authcInfo", "mail").fetch("authzInfo", "rolesForDb").fetch("profile","pseudo").findList();
     }
 
     /**

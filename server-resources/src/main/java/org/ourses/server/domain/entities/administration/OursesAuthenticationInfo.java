@@ -52,6 +52,7 @@ public class OursesAuthenticationInfo implements AuthenticationInfo {
 
     public void setMail(String mail) {
         this.mail = mail;
+        this.principals = new SimplePrincipalCollection(mail, BearAccount.REALM_NAME);
     }
 
     @Transient
@@ -75,6 +76,6 @@ public class OursesAuthenticationInfo implements AuthenticationInfo {
 
     public void setCredentials(String credentials) {
         this.credentials = credentials;
-        this.principals = new SimplePrincipalCollection(credentials, BearAccount.REALM_NAME);
+
     }
 }

@@ -38,7 +38,7 @@ $.getJSON("http://localhost:8080/rest/role", function(roles) {
 	var options = $("#role").prop('options');
 	$.each(roles, function(val, text) {
 		options[options.length] = new Option(text.role, text.id);
-	})
+	});
 });
 $(document).ready(function(){
 	$("#pseudo").val("OURSE A PLUME");
