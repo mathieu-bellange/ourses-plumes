@@ -3,7 +3,6 @@ function Article(){
 		this.body = $('#editor').val();
 		this.publication = $('#publication').val();
 		this.label = $('#label').val();
-		this.pseudo = $('#pseudo').val();
 		this.category = $('#category').val();	
 		this.toJson = function(){
 			return JSON.stringify(this);

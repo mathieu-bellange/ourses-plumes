@@ -14,12 +14,11 @@ function Profile() {
 }
 
 function OurseAuthzInfo(){
-	this.role = $("#role").text();
+	this.role = $("#role option:selected").text();
 	this.id = $("#role").val();
 }
 function createBearAccount() {
 	var bearAccount = new BearAccount();
-	alert(bearAccount.json());
 	$.ajax({
 		type : "POST",
 		url : "http://localhost:8080/rest/account",

@@ -26,9 +26,8 @@ import com.google.common.collect.Lists;
 @Path("/account")
 public class BearAccountResources {
 
-    @POST
+	@POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
     	System.out.println("createAccount - " + bearAccountDTO.toString());
         bearAccountDTO.toBearAccount().save();
