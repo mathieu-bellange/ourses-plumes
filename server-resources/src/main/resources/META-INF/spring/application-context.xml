@@ -18,6 +18,8 @@
 	<context:component-scan base-package="org.ourses.server" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<aop:aspectj-autoproxy />
 
 	
 	<!--  Transaction Manager -->
