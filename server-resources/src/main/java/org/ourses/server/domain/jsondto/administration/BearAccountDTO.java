@@ -11,6 +11,7 @@ import org.ourses.server.domain.entities.administration.BearAccount;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BearAccountDTO {
 
+	private Long id;
     private String mail;
     private String password;
     private OursesAuthzInfoDTO role;
@@ -20,14 +21,24 @@ public class BearAccountDTO {
 
     }
 
-    public BearAccountDTO(String mail, String password, OursesAuthzInfoDTO role, ProfileDTO profile) {
-        this.mail = mail;
+    public BearAccountDTO(Long id, String mail, String password, OursesAuthzInfoDTO role, ProfileDTO profile) {
+        this.id = id;
+    	this.mail = mail;
         this.password = password;
         this.role = role;
         this.profile = profile;
     }
 
-    @JsonProperty("password")
+    @JsonProperty("id")
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@JsonProperty("password")
     public String getPassword() {
         return password;
     }
@@ -64,7 +75,7 @@ public class BearAccountDTO {
     }
 
     public BearAccount toBearAccount() {
-        return new BearAccount(mail, password, role.toOursesAuthorizationInfo(), profile.toProfile());
+        return new BearAccount(id, mail, password, role.toOursesAuthorizationInfo(), profile.toProfile());
     }
 
     @Override

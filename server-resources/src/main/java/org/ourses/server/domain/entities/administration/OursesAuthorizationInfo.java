@@ -88,7 +88,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     	this.setRolesForDb(role);
     }
 
-    /**
+	/**
      * Sets the roles assigned to the account.
      * 
      * @param roles

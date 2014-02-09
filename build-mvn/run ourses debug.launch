@@ -8,7 +8,7 @@
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="logback.level=DEBUG"/>
 </listAttribute>
-<stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>
+<stringAttribute key="M2_RUNTIME" value="D:\Work\apache-maven-3.0.5"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="true"/>
 <intAttribute key="M2_THREADS" value="1"/>
 <booleanAttribute key="M2_UPDATE_SNAPSHOTS" value="false"/>

@@ -12,10 +12,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
+import org.ourses.server.domain.exception.EntityIdNull;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.springframework.stereotype.Controller;
 
@@ -39,10 +41,15 @@ public class BearAccountResources {
     @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response deleteAccount(@PathParam("id")
     long id) {
+    	Response response = Response.ok().build();
         BearAccount bearAccount = new BearAccount();
         bearAccount.setId(id);
-        bearAccount.delete();
-        return Response.ok().build();
+        try {
+			bearAccount.delete();
+		} catch (EntityIdNull e) {
+			response = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR, EntityIdNull.class).build();
+		}
+        return response;
     }
 
     @GET

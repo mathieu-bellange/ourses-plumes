@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.ourses.server.domain.exception.EntityIdNull;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
@@ -66,7 +67,7 @@ public class BearAccount implements Account {
     /**
      * The authorization information for this account.
      */
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false,cascade= CascadeType.REFRESH)
     private OursesAuthorizationInfo authzInfo;
 
     public OursesAuthorizationInfo getAuthzInfo() {
@@ -91,6 +92,12 @@ public class BearAccount implements Account {
 
     public BearAccount(Object principal, Object credentials,
 			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile) {
+    	this(null, principal, credentials, oursesAuthorizationInfo, profile);
+	}
+    
+    public BearAccount(Long id, Object principal, Object credentials,
+			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile) {
+    	this.id = id;
     	this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
         this.authzInfo = oursesAuthorizationInfo;
         this.profile = profile;
@@ -210,8 +217,10 @@ public class BearAccount implements Account {
         Ebean.save(this);
     }
 
-    public void delete() {
-        // TODO attention id null
+    public void delete() throws EntityIdNull {
+        if (id == null){
+        	throw new EntityIdNull();
+        }
         Ebean.delete(BearAccount.class, id);
     }
 
@@ -269,6 +278,6 @@ public class BearAccount implements Account {
         if (profile != null) {
             profileDTO = profile.toProfileDTO();
         }
-        return new BearAccountDTO(mail, credentials, role, profileDTO);
+        return new BearAccountDTO(this.id, mail, credentials, role, profileDTO);
     }
 }
