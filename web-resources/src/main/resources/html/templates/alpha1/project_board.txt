@@ -1,0 +1,219 @@
+﻿--------------------------------------------------------------------------------
+# Project Board
+--------------------------------------------------------------------------------
+# Semantic File Structure
+--------------------------------------------------------------------------------
+# Element                         HTML Tag        CSS Class
+  Container                       <div>           .wrapper
+    └─ Sidebar                    <aside>         .sidebar
+    │  └─ Title                   <div>           .logo
+    │  └─ Connection              <div>           *
+    │  └─ Navigation              <nav>           .sidenav
+    └─ Content                    <div>           .content
+       └─ Header                  <header>        .header
+       │  └─ Rubrics              <nav>           .supnav
+       │  └─ Newsbar              <div>           .newsbar
+       │  └─ Breadcrumbs          <div>           .breadcrumbs
+       │  └─ Accessibility        <div>           .accessibility
+       └─ Body                    <div>           .body
+       │  └─ Article Section      <section>       *
+       │  │  └─ Article Header    <header>        *
+       │  │  └─ Article Body      <article>       *
+       │  │  └─ Article Footer    <footer>        *
+       │  └─ Article Section      <section>       *
+       │     └─ Article Body      <article>       *
+       └─ Footer                  <footer>        .footer
+          └─ Site Links           <nav>           .subnav
+          └─ Copyright            <div>           .endnote
+--------------------------------------------------------------------------------
+# HTML Code Structure
+--------------------------------------------------------------------------------
+<div class="wrapper">
+  <aside class="sidebar">
+    <div class="logo"></div>
+    <nav class="sidenav"></nav>
+  </aside>
+  <div class="content">
+    <header class="header">
+      <nav class="supnav"></nav>
+      <div class="newsbar">
+      <div class="breadcrumbs">
+      <div class="accessibility">
+    </header>
+    <div class="body">
+      <section>
+        <header></header>
+        <article></article>
+        <footer></footer>
+      </section>
+      <section>
+        <article></article>
+      </section>
+    </div>
+    <footer class="footer">
+      <nav class="subnav"></nav>
+      <div class="endnote"></div>
+    </footer>
+  </div>
+</div>
+--------------------------------------------------------------------------------
+# Technical File Overview
+--------------------------------------------------------------------------------
+# Element         Default     Small       Medium      Large       X-Large     XX-Large
+  Width           *           320px       640px       1024px      1440px      1920px
+  Font            *           14px        15px        16px        17.5px      19px
+  Margin          0           *           *           *           *           *
+  Wrapper         *           100%        100%        95%         87.5%       75%
+  - Sidebar       *           25%         25%         25%         25%         25%
+  - Content       *           75%         75%         75%         75%         75%
+    - Header      inherit     inherit     inherit     inherit     inherit     inherit
+    - Body        inherit     inherit     inherit     inherit     inherit     inherit
+    - Footer      inherit     inherit     inherit     inherit     inherit     inherit
+--------------------------------------------------------------------------------
+# Display Sizing Scheme
+--------------------------------------------------------------------------------
+# Width   Font    Margin              px      Wrapper             px      Sidebar px      Content px      Display     Scale
+  320     14px    *                   *       100%                320px   *       *       100%    320px   small       *
+  480     14.5px  *                   *       100%                480px   *       *       100%    480px   small       *
+  640     15px    *                   *       100%                640px   *       *       100%    640px   medium      Medium Displays (641px and up)
+  800     15.5px  *                   *       100%                800px   25%     200px   75%     600px   medium      *
+  960     16px    *                   *       100%                960px   25%     240px   75%     720px   medium      *
+  1120    16.5px  3,57142857142857%   40px    96,42857142857143%  1080px  25%     270px   75%     810px   large       Large Displays (1024px and up)
+  1280    17px    6.25%               160px   93,75%              1120px  25%     280px   75%     840px   large       *
+  1440    17.5px  12.5%               240px   87,5%               1200px  25%     300px   75%     900px   xlarge      X-Large Displays (1441 and up)
+R 1600    18px    20%                 320px   80%                 1280px  25%     320px   75%     960px   xlarge      *
+  1760    18.5px  22,72727272727273%  400px   77,27272727272727%  1360    25%     340px   75%     1020px  xlarge      *
+  1920    19px    25%                 480px   75%                 1440    25%     360px   75%     1080px  xxlarge     XX-Large Displays (1920 and up)
+  2080    19.5px  26,92307692307692%  560px   73,07692307692308%  1520    25%     380px   75%     1140px  xxlarge     *
+  2240    20px    28,57142857142857%  640px   71,42857142857143%  1600    25%     400px   75%     1200px  xxlarge     *
+  2400    20.5px  30%                 720px   70%                 1680    25%     420px   75%     1260px  xxlarge     *
+  2560    21px    31.25%              800px   68,75%              1760    25%     440px   75%     1320px  xxlarge     *
+  2720    21.5px  32,35294117647059%  880px   67,64705882352941%  1840    25%     460px   75%     1380px  xxlarge     *
+  2880    22px    33,33333333333333%  960px   66,66666666666667%  1920    25%     480px   75%     1440px  xxlarge     *
+--------------------------------------------------------------------------------
+# Font Sizing Scheme
+--------------------------------------------------------------------------------
+# Font-size   Relative    Label       HTML Tags / CSS Classes
+  300%        *           *           h1
+  250%        *           *           h2
+  200%        *           *           h3
+  175%        *           *           h4
+  150%        *           *           h5, legend
+  137.5%      *           *           *
+  125%        *           *           h6, blockquote
+  100%        *           *           body, button, input, select, textarea, label
+  87.5%       *           *           small, abbr, code, pre, .label, .tooltip
+  75%         *           *           h0 small, sub, sup
+
+# Line-height Relative    Label       Tags
+  100%        *           *           *
+  125%        *           *           body, .label
+  133%        *           *           p
+  150%        *           *           h0, li, dd, dt, button, input, select, textarea, label, table th, table td
+--------------------------------------------------------------------------------
+# Color Method
+--------------------------------------------------------------------------------
+- Hex Triplet 3-digit (non-IE)
+  #fff
+- Hex Triplet 6-digit (IE)
+  #ffffff \9
+- RGBA (base 8) for text-shadow and box-shadow
+  rgba(0, 0, 0, .15)
+- RGB (base 8) for lightest colors (i.e. luminosity > 90%)
+  rgb(248, 248, 248)
+--------------------------------------------------------------------------------
+# Color Scheme
+--------------------------------------------------------------------------------
+# Basic               Color               Text Decoration     Chromatic Wheel Degree
+  background          white               *                   *
+  text                #333                *                   *
+  title               black               *                   *
+  link                darkorchid          underline           270°
+  link:hover          deeppink            underline           340°
+  link:focus          deeppink            underline           340°
+  link:active         darkorchid          underline           270°
+  link:visited        darkorchid          underline           270°
+
+# Color               Light               Dark                *
+  red                 #c33                #822                0°
+  orange              #f63                #931                15°
+  yellow              #ca0                #761                50°
+  green               #393                #252                120°
+  cyan                #399                #255                180°
+  blue                #36c                #248                220°
+  purple              #93c                #517                280°
+  magenta             #e2a                #a17                320°
+--------------------------------------------------------------------------------
+# Glossary
+--------------------------------------------------------------------------------
+# Classifications
+  Articles [art|article|articles]
+  → contenu textuel structuré traitant d'un sujet/objet déterminé
+  Rubriques [rub|rubric|rubrics]
+  → classification thématique (càd. selon l'objet/sujet de l'article) (p. ex. nécrologie, utopie, , etc.)
+  Catégories [cat|category|categories]
+  → classification typologique (càd. selon le type/genre de l'article) (p. ex. interview, brève, dossier, etc.)
+
+# Articles <Categories> {catégories}
+  Brèves → short news
+  Reportages → reports
+  Dossiers → in depth
+  Spotlights → feature stories
+  Interviews → interviews
+  Tribunes → op-ed
+  Revues du web → web reviews
+
+# Articles <Rubrics> {rubriques}
+  Luttes → struggles
+  Nos corps, nous-mêmes → our_bodies_ourselves
+  Intersectionnalité → intersectionality
+  International → international
+  Éducation & Culture → education_and_culture
+  Idées → ideas
+--------------------------------------------------------------------------------
+# Articles Components
+--------------------------------------------------------------------------------
+# CSS Class   Article component
+  .title      headline, hed → title
+  .summary    subhead, standfirst, rider, kicker, dek, deck → brief (usually one or two lines) elaboration of headline or summary
+  .author     byline → name and position of writer
+  .date       dateline → when and where story occurred or article was filed
+  *           lead, lede, intro → opening paragraph
+  *           kicker → closing paragraph
+--------------------------------------------------------------------------------
+# Articles Summaries
+--------------------------------------------------------------------------------
+[140chars] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam faucibus lorem eu justo fermentum tristique. Nam bibendum, tortor massa nunc.
+--------------------------------------------------------------------------------
+# Icon Sets
+--------------------------------------------------------------------------------
+# Icon Sets Sizes
+  - tiny            16x16
+  - small           24x24
+  - medium          32x32
+  - large           48x48
+
+# Subnav {icons-subnav-xxx.png}
+  * Home
+  - Mail
+  - Twitter
+  - Facebook
+
+# Share {icons-share-xxx.png}
+  - RSS Feed
+  - SendbyMail
+  - Twitter
+  - Facebook
+  - GooglePlus
+  - LinkedIn
+  - StumbeUpon
+  - Pinterest
+
+# Accessibility {icons-access-xxx.png}
+  - Home
+  - Search
+  - Brightness
+  - TextSizeIncrease
+  - TextSizeDecrease
+  - Print
+

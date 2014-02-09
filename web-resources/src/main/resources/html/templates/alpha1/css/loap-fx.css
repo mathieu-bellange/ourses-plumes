@@ -1,0 +1,232 @@
+﻿/*
+ * VERSION
+ * Les Ourses à plumes
+ * Shadows Cascading Style Sheet
+ * ver. alpha 1
+ *
+ */
+
+/* -------------------------------------------------------------------------- */
+/* # Font faces */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Basics */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Typography */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Colors */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Buttons */
+/* -------------------------------------------------------------------------- */
+
+button, .button {
+  box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .25) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+  -webkit-transition: background-color .1s ease-out, box-shadow .25s linear;
+     -moz-transition: background-color .1s ease-out, box-shadow .25s linear;
+       -o-transition: background-color .1s ease-out, box-shadow .25s linear;
+          transition: background-color .1s ease-out, box-shadow .25s linear;
+}
+
+button:hover, .button:hover,
+button:focus, .button:focus {
+  box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .125) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
+}
+
+button:active, .button:active {
+  box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
+}
+
+/* Buttons Coloring --------------------------------------------------------- */
+
+/* Secondary */
+button.secondary, .button.secondary,
+button.secondary.disabled, .button.secondary.disabled,
+button.secondary[disabled], .button.secondary[disabled],
+button.secondary.disabled:hover, .button.secondary.disabled:hover,
+button.secondary[disabled]:hover, .button.secondary[disabled]:hover,
+button.secondary.disabled:focus, .button.secondary.disabled:focus,
+button.secondary[disabled]:focus, .button.secondary[disabled]:focus {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+  box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .66) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
+}
+button.secondary:hover, .button.secondary:hover,
+button.secondary:focus, .button.secondary:focus {
+  box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .33) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
+}
+button.secondary:active, .button.secondary:active {
+  box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Containers */
+/* -------------------------------------------------------------------------- */
+
+/* Wrapper */
+.wrapper {
+  box-shadow: 5px 0px 10px 5px rgba(0, 0, 0, .25);
+}
+
+/* Content */
+.wrapper > .content {
+  box-shadow: -5px 0 10px 0 rgba(0, 0, 0, .25);
+}
+
+/* Sidebar */
+.wrapper > .sidebar input {
+  box-shadow: 1px 1px 2.5px 0 rgba(0, 0, 0, .5) inset, 1px 1px 0 0 rgba(255, 255, 255, .25);
+}
+
+.wrapper > .sidebar input:focus {
+  box-shadow: 1px 1px 2.5px 0 rgba(0, 0, 0, .5) inset, 1px 1px 0 0 rgba(255, 255, 255, .25), 0 0 .75rem .25rem #a8c;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Navs */
+/* -------------------------------------------------------------------------- */
+
+
+/* Usernav ------------------------------------------------------------------ */
+
+.usernav {
+  box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);
+}
+
+.usernav h5 {
+  text-shadow: .05rem .05rem .05rem rgba(0, 0, 0, .5);
+}
+
+/* Sidenav ------------------------------------------------------------------ */
+
+.sidenav ul li a {
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+}
+
+.sidenav ul li > a:active,
+.sidenav ul li > a.current {
+  text-shadow: -1px -1px 0px rgba(0, 0, 0, .5);
+}
+
+/* Supnav ------------------------------------------------------------------- */
+
+/* Subnav ------------------------------------------------------------------- */
+
+.subnav {
+  box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);
+}
+.subnav ul li {
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
+}
+.subnav ul li a:hover,
+.subnav ul li a:focus {
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, .075), 0 0 .5rem #ffb;
+}
+/* UNUSED */
+/*
+.subnav ul li a {
+  -webkit-transition: text-shadow .125s linear;
+     -moz-transition: text-shadow .125s linear;
+       -o-transition: text-shadow .125s linear;
+          transition: text-shadow .125s linear;
+}
+*/
+
+/* -------------------------------------------------------------------------- */
+/* # Logo */
+/* -------------------------------------------------------------------------- */
+
+/* UNUSED*/
+/*
+.logo h1 a {
+  text-shadow: 1px 1px 2.5px rgba(0, 0, 0, 1);
+  -webkit-transition: text-shadow .5s linear, color .125s linear, font-size .25s ease-in;
+     -moz-transition: text-shadow .5s linear, color .125s linear, font-size .25s ease-in;
+      -ms-transition: text-shadow .5s linear, color .125s linear, font-size .25s ease-in;
+       -o-transition: text-shadow .5s linear, color .125s linear, font-size .25s ease-in;
+          transition: text-shadow .5s linear, color .125s linear, font-size .25s ease-in;
+}
+.logo h1 a:hover,
+.logo h1 a:focus {
+  text-shadow: 1px 1px 2.5px rgba(0, 0, 0, .5), 0 0 1rem #ffc;
+}
+.logo .background {
+  -webkit-transition: -webkit-transform .5s ease-out;
+     -moz-transition:    -moz-transform .5s ease-out;
+      -ms-transition:     -ms-transform .5s ease-out;
+       -o-transition:      -o-transform .5s ease-out;
+          transition:         transform .5s ease-out;
+}
+.logo h1 a:hover + .background,
+.logo h1 a:focus + .background {
+  -webkit-transform: rotate(180deg) translateY(0);
+     -moz-transform: rotate(180deg) translateY(0);
+      -ms-transform: rotate(180deg) translateY(0);
+       -o-transform: rotate(180deg) translateY(0);
+          transform: rotate(180deg) translateY(0);
+}
+*/
+
+/* -------------------------------------------------------------------------- */
+/* # Articles */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Articles List */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Image Thumbnails */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Breadcrumbs */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Accordions */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Clearing Lightbox */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* # Orbit Slider */
+/* -------------------------------------------------------------------------- */
+
+.orbit-container {
+  box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);
+}
+
+.orbit-slides-container h1, .orbit-slides-container h2, .orbit-slides-container h3 {
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
+}
+
+.orbit-slides-container h4, .orbit-slides-container h5, .orbit-slides-container h6 {
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Backgrounds Effects */
+/* -------------------------------------------------------------------------- */
+
+/* Background Noise */
+
+body,
+button, .button,
+.subnav, .orbit-slides-container .headline {
+  background-image: url('../img/ui/background-noise.png');
+}
+/* Background Noise + Cells */
+
+.sidebar {
+  background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-cells.png');
+}
+

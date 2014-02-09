@@ -1,0 +1,982 @@
+﻿/*
+ * VERSION
+ * Les Ourses à plumes
+ * Standard Design Cascading Style Sheet
+ * ver. alpha 1
+ *
+ */
+
+/* -------------------------------------------------------------------------- */
+/* # Font faces */
+/* -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: Oswald; /* Oswald Book Font a.k.a Oswlad Regular */
+  src: url('../fnt/oswald.eot');
+  src: url('../fnt/oswald.eot?#iefix') format('embedded-opentype'),
+       url('../fnt/oswald.woff') format('woff'),
+       url('../fnt/oswald.ttf') format('truetype'),
+       url('../fnt/oswald.svg#oswald') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Basics */
+/* -------------------------------------------------------------------------- */
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+
+body {
+  font-size: 100%;
+  font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif;
+  color: #222;
+  background-image: none;
+  background-color: #324;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Typography */
+/* -------------------------------------------------------------------------- */
+
+/* Titles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: Oswald, Arial, sans-serif;
+  line-height: 150%;
+  color: black;
+}
+h1 {font-size: 300%;}
+h2 {font-size: 250%;}
+h3 {font-size: 200%;}
+h4 {font-size: 175%;}
+h5 {font-size: 150%;}
+h6 {font-size: 125%;}
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  font-size: 75%;
+  font-weight: normal;
+  line-height: 1;
+  color: silver;
+}
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration: none;}
+
+/* Paragraphs */
+p {
+  text-align: justify; /* TEMP : fucked up somewhat ; better use 'text-justify' class '*/
+  line-height: 133%;
+}
+
+/* Paragraphs Indentation and Spacing */
+article p {margin-bottom: 0;}
+article p + .collide,
+article .collide + .collide {text-indent: 2rem;}
+article .collide + p {margin-top: 1.25rem;}
+article .collide + .collide {margin-top: 0; text-indent: 2rem;}
+article .column p + p:last-child {margin-bottom: 1.25rem;}
+
+/* Links */
+a {text-decoration: underline;}
+a, a:link a:active, a:visited {color: darkorchid;}
+a:hover, a:focus {color: deeppink;}
+
+/* Horizontal Rule */
+hr {border-style: dashed; border-color: lightgray;}
+
+/* Exponential and Indicial */
+sup, sub {font-size: 75%; line-height: .1em;}
+
+/* -------------------------------------------------------------------------- */
+/* # Colors */
+/* -------------------------------------------------------------------------- */
+
+.red, .red a {color: #c33;}
+.red a:hover, .red a:focus {color: #822;}
+.orange, .orange a {color: #f63;}
+.orange a:hover, .orange a:focus {color: #931;}
+.yellow, .yellow a {color: #ca0;}
+.yellow a:hover, .yellow a:focus {color: #761;}
+.green, .green a {color: #393;}
+.green a:hover, .green a:focus {color: #252;}
+.cyan, .cyan a {color: #399;}
+.cyan a:hover, .cyan a:focus {color: #255;}
+.blue, .blue a {color: #36c;}
+.blue a:hover, .blue a:focus {color: #248;}
+.purple, .purple a {color: #93c;}
+.purple a:hover, .purple a:focus {color: #517;}
+.magenta, .magenta a {color: #e2a;}
+.magenta a:hover, .magenta a:focus {color: #a17;}
+
+/* -------------------------------------------------------------------------- */
+/* # Buttons */
+/* -------------------------------------------------------------------------- */
+
+button, .button,
+.prefix.button, .postfix.button {
+/*font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif; /* UNUSED */
+  font-family: Oswald, Arial, sans-serif;
+  font-weight: 900; /* BUG */
+  line-height: 100%;
+  border-width: .15rem;
+  border-style: solid;
+/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .25) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+/*text-shadow: 0 1px 1px rgba(0, 0, 0, .5);*/ /* UNUSED */
+/*
+  -webkit-transition: background-color .1s ease-out, box-shadow .25s linear;
+     -moz-transition: background-color .1s ease-out, box-shadow .25s linear;
+       -o-transition: background-color .1s ease-out, box-shadow .25s linear;
+          transition: background-color .1s ease-out, box-shadow .25s linear;
+*/
+}
+
+button:hover, .button:hover,
+button:focus, .button:focus {
+/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .125) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+
+button:active, .button:active {
+/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+
+/* Buttons Sizing */
+button, .button {font-size: 1.1rem;}
+button.tiny, .button.tiny {font-size: .75rem;}
+button.small, .button.small {font-size: .9rem;}
+button.large, .button.large {font-size: 1.5rem;}
+
+/* Buttons Shaping */
+button, .button, button.tiny, .button.tiny, button.small, .button.small, button.large, .button.large {
+  padding: .5em 1em;
+}
+
+/* Buttons Coloring --------------------------------------------------------- */
+
+/* Primary */
+button, .button,
+.prefix.button, .postfix.button,
+button.disabled, .button.disabled,
+button[disabled], .button[disabled],
+button.disabled:hover, .button.disabled:hover,
+button[disabled]:hover, .button[disabled]:hover,
+button.disabled:focus, .button.disabled:focus,
+button[disabled]:focus, .button[disabled]:focus {
+  background-color: #bb5;
+  border-color: #883;
+}
+button:hover, .button:hover,
+button:focus, .button:focus {
+  background-color: #aa4;
+}
+button:active, .button:active {
+  background-color: #883;
+}
+
+/* Secondary */
+button.secondary, .button.secondary,
+button.secondary.disabled, .button.secondary.disabled,
+button.secondary[disabled], .button.secondary[disabled],
+button.secondary.disabled:hover, .button.secondary.disabled:hover,
+button.secondary[disabled]:hover, .button.secondary[disabled]:hover,
+button.secondary.disabled:focus, .button.secondary.disabled:focus,
+button.secondary[disabled]:focus, .button.secondary[disabled]:focus {
+  background-color: #ddd;
+  border-color: #999;
+/*text-shadow: 0 1px 0 rgba(255, 255, 255, .5);*/ /* UNUSED */
+/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .66) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+button.secondary:hover, .button.secondary:hover,
+button.secondary:focus, .button.secondary:focus {
+  background-color: #ccc;
+/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .33) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+button.secondary:active, .button.secondary:active {
+  background-color: #999;
+/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+
+/* Success */
+button.success, .button.success,
+button.success.disabled, .button.success.disabled,
+button.success[disabled], .button.success[disabled],
+button.success.disabled:hover, .button.success.disabled:hover,
+button.success[disabled]:hover, .button.success[disabled]:hover,
+button.success.disabled:focus, .button.success.disabled:focus,
+button.success[disabled]:focus, .button.success[disabled]:focus {
+  background-color: #3a6;
+  border-color: #274;
+}
+button.success:hover, .button.success:hover,
+button.success:focus, .button.success:focus {
+  background-color: #295;
+}
+button.success:active, .button.success:active {
+  background-color: #274;
+}
+
+/* Alert */
+button.alert, .button.alert,
+button.alert.disabled, .button.alert.disabled,
+button.alert[disabled], .button.alert[disabled],
+button.alert.disabled:hover, .button.alert.disabled:hover,
+button.alert[disabled]:hover, .button.alert[disabled]:hover,
+button.alert.disabled:focus, .button.alert.disabled:focus,
+button.alert[disabled]:focus, .button.alert[disabled]:focus {
+  background-color: #d52;
+  border-color: #930;
+}
+button.alert:hover, .button.alert:hover,
+button.alert:focus, .button.alert:focus {
+  background-color: #c41;
+}
+button.alert:active, .button.alert:active {
+  background-color: #930;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Containers */
+/* -------------------------------------------------------------------------- */
+
+/* Wrapper */
+.wrapper {
+  width: 960px; /* WARNING : fixed width just for test ... */
+  width: 100%; /* WARNING : this will be adjusted with media queries */
+  margin-left: auto;
+  margin-right: auto;
+/*box-shadow: 5px 0px 10px 5px rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+
+/* Sidebar */
+.wrapper > .sidebar {
+  display: table-cell; /* WARNING : experimental ... */
+  width: 25%; /* TEMP : this has to be adjusted with media queries */
+  padding: .5rem; /* TEMP */
+  vertical-align: top;
+  background-color: #759;
+/*text-align: center; /* UNUSED : use .text-center instead */
+  border-left: 2px solid #a8c;
+}
+
+.wrapper > .sidebar input {
+  background-color: #ffc;
+  border-color: #537;
+}
+
+/* Content */
+.wrapper > .content {
+  display: table-cell; /* WARNING : experimental ... */
+  width: 75%; /* TEMP : this has to be adjusted with media queries */
+/*padding: 10px; /* UNUSED */
+  vertical-align: top;
+  background-color: #fff;
+/*box-shadow: -5px 0 10px 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+
+.wrapper > .content > hr {margin-right: 1rem; margin-left: 1rem;}
+
+.wrapper > .content > .header {}
+.wrapper > .content > .body {}
+.wrapper > .content > .footer {}
+
+.wrapper > .content > .header ,
+.wrapper > .content > .footer {
+/*text-align: center; /* UNUSED : use .text-center instead */
+}
+
+.wrapper > .content > .body .alert-box {
+  margin-left: 1rem; /* TEMP */
+  margin-right: 1rem; /* TEMP */
+}
+
+.sidebar a {
+  color: white;
+}
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sidebar hr {
+  border-top: 1px solid #537;
+  border-bottom: 1px solid #a8c;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Navs */
+/* -------------------------------------------------------------------------- */
+
+.sidenav ul li, .supnav ul li, .usernav ul li {
+  font-family: Oswald, Arial, sans-serif;
+}
+
+/* Usernav ------------------------------------------------------------------ */
+
+.usernav {
+  padding: .5rem;
+  background-color: white;
+}
+.usernav h5 {
+  color: white;
+  background-color: #d4a;
+}
+.usernav ul {
+  font-size: 125%;
+  line-height: 150%;
+}
+.usernav ul .large {
+  font-size: 133%;
+  line-height: 175%;
+}
+.usernav ul .red {
+  color: #c00;
+}
+.usernav ul li a {
+  display: block;
+  color: #222;
+  text-decoration: none;
+  border: .25rem solid transparent;
+  border-left: 0;
+  border-right: 0;
+}
+.usernav ul li a:hover {
+  color: white;
+  background-color: silver;
+}
+.usernav ul li a:active,
+.usernav ul li a.current {
+  color: gray;
+  border-color: gray;
+}
+
+/* Sidenav ------------------------------------------------------------------ */
+
+.sidenav {}
+
+.sidenav a, .supnav a, .subnav a {text-decoration: none;}
+
+.sidenav ul {
+  font-size: 175%;
+  line-height: 200%;
+}
+.sidenav ul li a {
+  /* TEMP */
+  /*
+  width: 90%;
+  margin : 0 5%;
+  */
+  display: block;
+  border: .25rem solid transparent;
+  border-left: 0;
+  border-right: 0;
+/*text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);*/ /* UNUSED */
+}
+.sidenav ul li a:hover {
+  background-color: #537;
+}
+.sidenav ul li a:active,
+.sidenav ul li a.current {
+  color: #a8c;
+  border-color: #a8c;
+/*text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);*/ /* UNUSED */
+}
+.sidenav ul ul {
+  font-size: 75%;
+  line-height: 175%;
+}
+.sidenav ul ul a {
+  color: #ffb;
+}
+
+/* Supnav ------------------------------------------------------------------- */
+
+.supnav {margin-top: .75rem;}
+.supnav ul li a {
+  padding: .25rem; /* Messed up with percent (long titles will inherit long range) ; use rem instead ... */
+  font-size: 1.15rem; /* TEMP : size adjusting */
+  line-height: 100%;
+  border-width: .25rem 0;
+  border-style: solid;
+  border-color: transparent;
+}
+.supnav .red a:hover,
+.supnav .orange a:hover,
+.supnav .yellow a:hover,
+.supnav .green a:hover,
+.supnav .cyan a:hover,
+.supnav .blue a:hover,
+.supnav .purple a:hover,
+.supnav .magenta a:hover {
+  color: white;
+}
+.supnav .red a:focus,
+.supnav .orange a:focus,
+.supnav .yellow a:focus,
+.supnav .green a:focus,
+.supnav .cyan a:focus,
+.supnav .blue a:focus,
+.supnav .purple a:focus,
+.supnav .magenta a:focus {
+  outline-offset: -.125rem;
+}
+/* Red */
+.supnav .red a:hover {background-color: #c33;}
+.supnav .red a:active,.supnav .red a.current:hover {border-color: #822;}
+.supnav .red a.current {border-color: #c33;}
+/* Orange */
+.supnav .orange a:hover {background-color: #f63;}
+.supnav .orange a:active, .supnav .orange a.current:hover {border-color: #931;}
+.supnav .orange a.current {border-color: #f63;}
+/* Yellow */
+.supnav .yellow a:hover {background-color: #ca0;}
+.supnav .yellow a:active, .supnav .yellow a.current:hover {border-color: #761;}
+.supnav .yellow a.current {border-color: #ca0;}
+/* Green */
+.supnav .green a:hover {background-color: #393;}
+.supnav .green a:active, .supnav .green a.current:hover {border-color: #252;}
+.supnav .green a.current {border-color: #393;}
+/* Cyan */
+.supnav .cyan a:hover {background-color: #399;}
+.supnav .cyan a:active, .supnav .cyan a.current:hover {border-color: #255;}
+.supnav .cyan a.current {border-color: #399;}
+/* Blue */
+.supnav .blue a:hover {background-color: #36c;}
+.supnav .blue a:active, .supnav .blue a.current:hover {border-color: #248;}
+.supnav .blue a.current {border-color: #36c;}
+/* Purple */
+.supnav .purple a:hover {background-color: #93c;}
+.supnav .purple a:active, .supnav .purple a.current:hover {border-color: #517;}
+.supnav .purple a.current {border-color: #93c;}
+/* Magenta */
+.supnav .magenta a:hover {background-color: #e2a;}
+.supnav .magenta a:active, .supnav .magenta a.current:hover {border-color: #a17;}
+.supnav .magenta a.current {border-color: #e2a;}
+
+/* Subnav ------------------------------------------------------------------- */
+
+.subnav {
+  line-height: 0;
+  background-color: #cb8;
+  border-top: 2px solid #eda;
+  border-bottom: 2px solid #ba7;
+/*box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+.supnav ul,
+.subnav ul {
+  display: inline-block;
+  margin: 0;
+}
+.subnav ul li {
+  margin-left: .75rem;
+  float: left;
+  color: white;
+  font-size: 1.15rem;
+  font-weight: bold;
+  list-style: none;
+  line-height: 48px;
+/*text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+.subnav ul li:before {
+  margin-right: .75rem;
+  float: left;
+  content: "•";
+}
+.subnav ul li:first-child:before,
+.subnav ul [class^="icon-"]:before {
+  content: "";
+  margin: 0;
+}
+.subnav ul li a {
+  color: white;
+  /* UNUSED */
+  /*
+  -webkit-transition: text-shadow .125s linear;
+     -moz-transition: text-shadow .125s linear;
+       -o-transition: text-shadow .125s linear;
+          transition: text-shadow .125s linear;
+  */
+}
+.subnav ul li a:hover,
+.subnav ul li a:focus {
+/*text-shadow: -1px -1px 0 rgba(0, 0, 0, .075), 0 0 .5rem #ffb;*/ /* UNUSED */
+}
+.subnav [class^="icon-"] a,
+.subnav [class*="icon-"] a {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  background-image: url('../img/ui/icons-subnav-48x48.png');
+  background-repeat: no-repeat;
+  vertical-align: bottom; /* BUG : middle will throw a thin top margin -- 'top' valid too */
+  text-indent: 1000%; /* Hide text */
+  white-space: nowrap; /* Hide text */
+  overflow: hidden; /* Hide text */
+}
+.subnav .icon-mailto a {background-position: 0 0;}
+.subnav .icon-mailto a:focus ,
+.subnav .icon-mailto a:hover {background-position: 0 -48px;}
+.subnav .icon-mailto a:active {background-position: 0 -96px;}
+.subnav .icon-twitter a {background-position: -48px 0;}
+.subnav .icon-twitter a:focus,
+.subnav .icon-twitter a:hover {background-position: -48px -48px;}
+.subnav .icon-twitter  a:active {background-position: -48px -96px;}
+.subnav .icon-facebook a {background-position: -96px 0;}
+.subnav .icon-facebook a:hover,
+.subnav .icon-facebook a:focus {background-position: -96px -48px;}
+.subnav .icon-facebook  a:active{background-position: -96px -96px;}
+
+/* -------------------------------------------------------------------------- */
+/* # Logo */
+/* -------------------------------------------------------------------------- */
+
+/* Logo */
+.logo {
+  background-image: url('../img/ui/background-logo.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 87.5%;
+}
+
+.logo img {width: 100%;}
+
+/* -------------------------------------------------------------------------- */
+/* # End Note (i.e. copyright) */
+/* -------------------------------------------------------------------------- */
+
+.endnote {
+  margin: .5rem 0 0;
+  font-size: .9rem;
+  color: gray;
+  text-align: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Inline Lists */
+/* -------------------------------------------------------------------------- */
+.inline-list:first-child,
+.inline-list > li:first-child {
+  margin-left: 0; /* Foundation override */
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Icons Lists */
+/* -------------------------------------------------------------------------- */
+
+/* Icons Share -------------------------------------------------------------- */
+
+.icons-share > li {margin-left: 1em;}
+.icons-share [class^="icon-"],
+.icons-share [class*="icon-"] {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-image: url('../img/ui/icons-share-16x16.png');
+  background-repeat: no-repeat;
+  vertical-align: text-bottom; /* BUG : 'middle' will screw up -- 'bottom' and 'top' valids -- 'text-top' and 'text-bottom' seem ok too */
+  text-indent: 1000%; /* Hide text */
+  white-space: nowrap; /* Hide text */
+  overflow: hidden; /* Hide text */
+  margin-right: .5em; /* TEMP : relative size */
+}
+.icons-share .icon-facebook {background-position: -48px -16px;}
+.icons-share .icon-googleplus {background-position: -64px -16px;}
+
+/* Icons Access ------------------------------------------------------------- */
+
+.icons-access > li {margin-left: 0;}
+.icons-access [class^="icon-"],
+.icons-access [class*="icon-"] {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-image: url('../img/ui/icons-access-24x24.png');
+  background-repeat: no-repeat;
+  vertical-align: text-bottom; /* BUG : 'middle' will screw up -- 'bottom' and 'top' valids -- 'text-top' and 'text-bottom' seem ok too */
+  text-indent: 1000%; /* Hide text */
+  white-space: nowrap; /* Hide text */
+  overflow: hidden; /* Hide text */
+  margin-right: .5em; /* TEMP : relative size */
+}
+.icons-access .icon-brightness {background-position: -48px 0;}
+.icons-access .icon-brightness:hover {background-position: -48px -24px;}
+.icons-access .icon-brightness:active {background-position: -48px -48px;}
+.icons-access .icon-text-increase {background-position: -72px 0;}
+.icons-access .icon-text-increase:hover {background-position: -72px -24px;}
+.icons-access .icon-text-increase:active {background-position: -72px -48px;}
+.icons-access .icon-text-decrease {background-position: -96px 0;}
+.icons-access .icon-text-decrease:hover {background-position: -96px -24px;}
+.icons-access .icon-text-decrease:active {background-position: -96px -48px;}
+.icons-access .icon-print {background-position: -120px 0}
+.icons-access .icon-print:hover {background-position: -120px -24px}
+.icons-access .icon-print:active {background-position: -120px -48px}
+
+/* -------------------------------------------------------------------------- */
+/* # Image Thumbnails */
+/* -------------------------------------------------------------------------- */
+
+.th.small img {max-width: 64px; max-height: 64px;}
+.th.medium img {max-width: 96px; max-height: 96px;}
+.th.large img {max-width: 128px; max-height: 128px;}
+
+/* -------------------------------------------------------------------------- */
+/* # Accordions */
+/* -------------------------------------------------------------------------- */
+
+.accordion dd > a {text-decoration: none;} /* Foundation override */
+.accordion dd > a:before {
+  content: "►";
+  margin-right: 1rem;
+  color: darkgray;
+}
+.accordion dd > a.current:before {
+  content: "▼";
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Breadcrumbs */
+/* -------------------------------------------------------------------------- */
+
+.breadcrumbs {
+  float: left;
+  margin: 1rem;
+  margin-right: 0;
+  margin-bottom: .75rem;
+}
+
+.breadcrumbs a,
+.breadcrumbs a:hover,
+.breadcrumbs a:focus,
+.breadcrumbs a:active,
+.breadcrumbs a:visited {
+  text-decoration: none;
+}
+
+.breadcrumbs > *:hover a,
+.breadcrumbs > *:focus a {
+  text-decoration: none;
+  color: #e26;
+}
+.breadcrumbs > * a,
+.breadcrumbs > * span {
+  color: #62a;
+}
+
+.breadcrumbs > *.current,
+.breadcrumbs > *.current a,
+.breadcrumbs > *.current:hover,
+.breadcrumbs > *.current:hover a,
+.breadcrumbs > *.current:focus,
+.breadcrumbs > *.current:focus a {
+  cursor: default;
+  color: #333;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Accessibility */
+/* -------------------------------------------------------------------------- */
+
+.accessibility {
+  float: right;
+  margin: 1rem;
+  margin-left: 0;
+  margin-bottom: .75rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Alert Boxes */
+/* -------------------------------------------------------------------------- */
+
+.alert-box {
+  border-width: .15rem;
+  background-color: #ffc;
+  border-color: lightgray;
+}
+.alert-box,
+.alert-box .close,
+.alert-box a,
+.alert-box .has-tip {
+  color: gray;
+}
+.alert-box a {
+  text-decoration: none;
+}
+.alert-box .has-tip {
+  border-bottom: 0;
+}
+.alert-box.secondary,
+.alert-box.success,
+.alert-box.alert,
+.alert-box.warning,
+.alert-box.info,
+.alert-box.secondary a,
+.alert-box.success a,
+.alert-box.alert a,
+.alert-box.warning a,
+.alert-box.info a,
+.alert-box.secondary .has-tip,
+.alert-box.success .has-tip,
+.alert-box.alert .has-tip,
+.alert-box.warning .has-tip,
+.alert-box.info .has-tip,
+.alert-box.secondary .close,
+.alert-box.success .close,
+.alert-box.alert .close,
+.alert-box.warning .close,
+.alert-box.info .close {
+  color: white;
+}
+.alert-box.secondary {background-color: silver; border-color: darkgray;}
+.alert-box.success {background-color: #3a6; border-color: #274;}
+.alert-box.alert {background-color: #d52; border-color: #930;}
+.alert-box.warning {background-color: #fa0; border-color: #b70;}
+.alert-box.info {background-color: #6bb; border-color: #388;}
+
+/* -------------------------------------------------------------------------- */
+/* # Labels */
+/* -------------------------------------------------------------------------- */
+
+.label {
+  font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif;
+  padding: .35rem;
+  color: white;
+  font-size: 85%;
+  font-weight: bold;
+  font-style: normal;
+  background-color: #bb5;
+}
+.label.secondary {color: white; background-color: silver;}
+.label.success {background-color: #3a6;}
+.label.alert {background-color: #d52;}
+
+/* -------------------------------------------------------------------------- */
+/* # Clearing Lightbox */
+/* -------------------------------------------------------------------------- */
+
+.clearing-close {text-decoration: none;} /* Foundation override */
+
+/* -------------------------------------------------------------------------- */
+/* # Orbit Slider */
+/* -------------------------------------------------------------------------- */
+
+.orbit-container {
+  /* UNUSED : Expanding for ribbons effect */
+  /*
+  left: -5%;
+  width: 110%;
+  width: 105%;
+  position: relative;
+  box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);
+  */
+}
+
+.orbit-prev {}
+.orbit-next {}
+.orbit-timer {}
+.orbit-progress {}
+.orbit-slide-number {}
+.orbit-slides-container {}
+
+.orbit-slides-container .headline {
+  height: 11.76470588235294rem;
+  background-color: silver;
+  border-top: .15rem solid gainsboro;
+  border-bottom: .15rem solid darkgray;
+}
+
+.orbit-slides-container .headline h1:first-child,
+.orbit-slides-container .headline h2:first-child,
+.orbit-slides-container .headline h3:first-child,
+.orbit-slides-container .headline h4:first-child,
+.orbit-slides-container .headline h5:first-child,
+.orbit-slides-container .headline h6:first-child {
+  margin-top: 2.75rem;
+}
+
+.orbit-slides-container h1, .orbit-slides-container h2, .orbit-slides-container h3 {
+  color: white;
+/*text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
+}
+
+.orbit-slides-container h4, .orbit-slides-container h5, .orbit-slides-container h6 {
+  color: #222;
+/*text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);*/ /* UNUSED */
+}
+
+/* Colored Boxes */
+.orbit-slides-container .headline.red {background-color: #e44; border-top-color: #f88; border-bottom-color: #a11;}
+.orbit-slides-container .headline.orange {background-color: #f83; border-top-color: #fb7; border-bottom-color: #c50;}
+.orbit-slides-container .headline.yellow {background-color: #fd3; border-top-color: #fe9; border-bottom-color: #ca0;}
+.orbit-slides-container .headline.green {background-color: #7c6; border-top-color: #8d7; border-bottom-color: #493;}
+.orbit-slides-container .headline.cyan {background-color: #6dd; border-top-color: #bee; border-bottom-color: #399;}
+.orbit-slides-container .headline.blue {background-color: #5af; border-top-color: #7bf; border-bottom-color: #17d;}
+.orbit-slides-container .headline.purple {background-color: #b5e; border-top-color: #c8e; border-bottom-color: #82b;}
+.orbit-slides-container .headline.magenta {background-color: #f4b; border-top-color: #f9d; border-bottom-color: #b28;}
+
+/* Orbit Image */
+.orbit-slides-container .orbit-image {
+  height: 11.76470588235294rem;
+  background-color: black;
+  overflow: hidden;
+}
+.orbit-slides-container .orbit-image img {
+  position: relative;
+  width: 100%;
+  bottom: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Articles */
+/* -------------------------------------------------------------------------- */
+
+/* Articles Header */
+article .title {}
+article .author {
+  margin: 0;
+  float: left;
+  width: 75%;
+  line-height: 3rem;
+}
+article .date {
+  margin: 0;
+  float: right;
+  width: 25%;
+  color: darkgray;
+  text-align: right;
+  line-height: 3rem;
+}
+article .summary {
+  clear: both;
+  margin: .75rem 0;
+  padding: .5rem 0;
+  color: gray;
+  font-size: 90%;
+  font-style: italic;
+  border: .25rem solid silver;
+  border-left: 0;
+  border-right: 0;
+}
+article .summary .label {
+  margin: 0 .25rem 0 0;
+  color: white;
+  background-color: #333;
+}
+
+/* Articles Body */
+/* Articles Footer */
+
+/* -------------------------------------------------------------------------- */
+/* # Articles List */
+/* -------------------------------------------------------------------------- */
+
+.articles-list {}
+.articles-list li {}
+.articles-list li h4 {
+  font-size: 125%; /* H4 font size reduction instead of H5/H6 using for better raw HTML display */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Replace last characters of overflowing text by ellipsis */
+  white-space: nowrap; /* Prevent text from returning to the line */
+}
+.articles-list li > h4 {
+  max-width: 65%; /* TEMP : percent size for box overlapping preventing */
+}
+
+.articles-list li .icons-share li {color: gray; font-size: 75%; margin-left: 1em;}
+.articles-list li .href-block {padding: .5rem; clear: right;}
+.articles-list li .title {
+  width: 10em; /* TEMP : fixed size for box overlapping preventing */
+  margin-top: 0;
+}
+.articles-list li .summary {font-size: 90%; margin: 0;}
+.articles-list li .date {margin-right: .5rem; color: darkgray;}
+.articles-list li .author {margin-left: .5rem; color: #222;}
+
+.articles-list li > h4 ,
+.articles-list li > .icons-share {
+  position: relative;
+  height: 2rem; /* Fixed height for vertical align middle */
+  line-height: 2rem; /* Fixed height for vertical align middle */
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0;
+}
+
+.href-block {
+  position: relative;
+  color: dimgray;
+  border: 1px solid gray;
+}
+.href-block:hover {
+  color: #222;
+  outline: 4px solid gray;
+}
+.href-block.red:hover {border-color: #c33; outline-color: #c33;}
+.href-block.orange:hover {border-color: #f63; outline-color: #f63;}
+.href-block.yellow:hover {border-color: #ca0; outline-color: #ca0;}
+.href-block.green:hover {border-color: #393; outline-color: #393;}
+.href-block.cyan:hover {border-color: #399; outline-color: #399;}
+.href-block.blue:hover {border-color: #36c; outline-color: #36c;}
+.href-block.purple:hover {border-color: #93c; outline-color: #93c;}
+.href-block.magenta:hover {border-color: #e2a; outline-color: #e2a;}
+
+.href-block a {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-indent: 1000%; /* Hide text */
+  white-space: nowrap; /* Hide text */
+  overflow: hidden; /* Hide text */
+  z-index: 1; /* Places the link above everything else in the div */
+  background-color: #fff; /* Fix to make div clickable in IE */
+  opacity: 0; /* Fix to make div clickable in IE */
+  filter: alpha(opacity=1); /* Fix to make div clickable in IE */
+}
+.href-block a:focus {opacity: .5;}
+
+/* -------------------------------------------------------------------------- */
+/* # Named Components */
+/* -------------------------------------------------------------------------- */
+
+/* Search */
+#_search_form {}
+#_search_form input{
+  background-image: url('../img/ui/icon-search-24x24.png');
+  background-repeat: no-repeat;
+  background-position: 97.5% center;
+}
+
+/* Auth */
+#_auth_toggle {
+  display: inline-block;
+  color: #a8c;
+  font-size: 125%;
+}
+#_auth_toggle.hide {
+  display: none;
+}
+#_auth_toggle:hover {
+  cursor: pointer;
+  color: #ffb;
+}
+#_auth_toggle:hover:before,
+#_auth_toggle:hover:after {
+  color: #a8c;
+  font-size: 75%;
+  line-height: 1px;
+}
+#_auth_toggle:hover:before {
+  margin-right: .5rem;
+  content: "▼";
+}
+#_auth_toggle:hover:after {
+  margin-left: .5rem;
+  content: "▼";
+}
+#_auth_toggle.active:hover:before {
+  content: "▲";
+}
+#_auth_toggle.active:hover:after {
+  content: "▲";
+}
+

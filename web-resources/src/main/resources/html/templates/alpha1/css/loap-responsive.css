@@ -1,0 +1,189 @@
+﻿/*
+ * VERSION
+ * Les Ourses à plumes
+ * Responsive Design Cascading Style Sheet
+ * ver. alpha 1
+ *
+ */
+
+/* -------------------------------------------------------------------------- */
+/* # Font Sizing */
+/* -------------------------------------------------------------------------- */
+
+/* Hi-res ------------------------------------------------------------------- */
+@media (min-width: 2880px) {
+  html {font-size: 21px;}
+}
+@media (min-width: 2720px) and (max-width: 2879px) {
+  html {font-size: 20.5px;}
+}
+@media (min-width: 2560px) and (max-width: 2719px) {
+  html {font-size: 20px;}
+}
+@media (min-width: 2400px) and (max-width: 2559px) {
+  html {font-size: 19.5px;}
+}
+@media (min-width: 2240px) and (max-width: 2399px) {
+  html {font-size: 19px;}
+}
+@media (min-width: 2080px) and (max-width: 2239px) {
+  html {font-size: 18.5px;}
+}
+@media (min-width: 1920px) and (max-width: 2079px) {
+  html {font-size: 18px;}
+}
+@media (min-width: 1760px) and (max-width: 1919px) {
+  html {font-size: 17.5px;}
+}
+
+/* Medium-res --------------------------------------------------------------- */
+@media (min-width: 1600px) and (max-width: 1759px) {
+  html {font-size: 17px;}
+}
+@media (min-width: 1440px) and (max-width: 1599px) {
+  html {font-size: 16.5px;}
+}
+@media (min-width: 1280px) and (max-width: 1439px) {
+  html {font-size: 16px;}
+}
+@media (min-width: 1120px) and (max-width: 1279px) {
+  html {font-size: 15.5px;}
+}
+
+/* Low-res ------------------------------------------------------------------ */
+@media (min-width: 960px) and (max-width: 1119px) {
+  html {font-size: 15px;}
+}
+@media (min-width: 800px) and (max-width: 959px) {
+  html {font-size: 14.5px;}
+}
+@media (min-width: 640px) and (max-width: 799px) {
+  html {font-size: 14px;}
+}
+@media (min-width: 480px) and (max-width: 639px) {
+  html {font-size: 13.5px;}
+}
+@media (max-width: 479px) {
+  html {font-size: 13px;}
+}
+
+/* -------------------------------------------------------------------------- */
+/* # Display Sizing */
+/* -------------------------------------------------------------------------- */
+
+/* Hi-res ------------------------------------------------------------------- */
+
+@media (min-width: 2880px) {
+  .wrapper {width: 66.66666666666667%;}
+}
+@media (min-width: 2720px) and (max-width: 2879px) {
+  .wrapper {width: 67.64705882352941%;}
+}
+@media (min-width: 2560px) and (max-width: 2719px) {
+  .wrapper {width: 68.75%;}
+}
+@media (min-width: 2400px) and (max-width: 2559px) {
+  .wrapper {width: 70%;}
+}
+@media (min-width: 2240px) and (max-width: 2399px) {
+  .wrapper {width: 71.42857142857143%;}
+}
+@media (min-width: 2080px) and (max-width: 2239px) {
+  .wrapper {width: 73.07692307692308%;}
+}
+@media (min-width: 1920px) and (max-width: 2079px) {
+  .wrapper {width: 75%;}
+}
+@media (min-width: 1760px) and (max-width: 1919px) {
+  .wrapper {width: 77.27272727272727%;}
+}
+
+/* Medium-res --------------------------------------------------------------- */
+
+@media (min-width: 1600px) and (max-width: 1759px) {
+  .wrapper {width: 80%;}
+}
+@media (min-width: 1440px) and (max-width: 1599px) {
+  .wrapper {width: 87.5%;}
+}
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .wrapper {width: 93.75%;}
+}
+@media (min-width: 1120px) and (max-width: 1279px) {
+  .wrapper {width: 96.42857142857143%;}
+}
+
+/* Low-res ------------------------------------------------------------------ */
+
+@media (min-width: 960px) and (max-width: 1119px) {
+}
+@media (min-width: 800px) and (max-width: 959px) {
+  .supnav ul li a {font-size: 90%;} /* TEMP : font size adjustment for 800px to 959px display width */
+}
+@media (min-width: 640px) and (max-width: 799px) {
+}
+@media (min-width: 480px) and (max-width: 639px) {
+}
+@media (max-width: 479px) {
+}
+@media (min-width: 800px) and (max-width: 1119px) {
+  .sidebar {width: 25%;}
+  .wrapper > .content {width: 100%;}
+}
+@media (max-width: 799px) {
+  .sidebar {
+    width: 100%;
+    display: block;
+  }
+  .logo {
+    width: 33.33333333333333%;
+    float: left;
+  }
+  .sidebar .search,
+  .sidebar .auth {
+    width: 66.66666666666667%;
+    float: right;
+  }
+  .sidenav {
+    width: 100%;
+  }
+  .sidebar .usernav {
+    clear: left;
+  }
+  .sidebar .usernav ul {
+  }
+  .sidebar .usernav ul li{
+    float: left;
+    width: 50%;
+    line-height: 2rem;
+  }
+  .sidebar .sidenav ul {
+  }
+  .sidebar .sidenav li {
+    float: left;
+    width: 33.33333333333333%;
+    line-height: 3rem;
+  }
+  .supnav {
+    margin: 0;
+    width: 100%;
+  }
+  .supnav li {
+    margin: 0;
+    float: left;
+    width: 50%;
+  }
+  .wrapper > .content {
+    width: 100%;
+    display: block;
+  }
+  article .author {
+    width: 100%;
+  }
+  article .date {
+    float: left;
+    width: 100%;
+    text-align: left;
+  }
+}
+
