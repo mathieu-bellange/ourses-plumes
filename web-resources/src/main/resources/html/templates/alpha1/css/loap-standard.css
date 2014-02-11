@@ -390,7 +390,10 @@ button.alert:active, .button.alert:active {
 
 /* Supnav ------------------------------------------------------------------- */
 
-.supnav {margin-top: .75rem;}
+.supnav {
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+}
 .supnav ul li a {
   padding: .25rem; /* Messed up with percent (long titles will inherit long range) ; use rem instead ... */
   font-size: 1.15rem; /* TEMP : size adjusting */

@@ -7,6 +7,11 @@
 --------------------------------------------------------------------------------
 # Changes List (alpha 1)
 --------------------------------------------------------------------------------
+# Edit
+- Correct supnav bottom margin
+- Correct articles column width on large display
+
+# Initial
 - Define HTML skeleton
 - Define display sizing scheme (i.e. responsive design)
 - Define font sizing scheme
