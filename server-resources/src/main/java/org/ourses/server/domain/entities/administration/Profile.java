@@ -3,6 +3,7 @@ package org.ourses.server.domain.entities.administration;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -21,6 +22,17 @@ public class Profile {
     private String pseudo;
 
     private String description;
+    
+    @Version
+    private Integer version;
+
+    public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
     public Long getId() {
         return id;
@@ -51,6 +63,6 @@ public class Profile {
     }
 
     public ProfileDTO toProfileDTO() {
-        return new ProfileDTO(pseudo, description);
+        return new ProfileDTO(pseudo, description, version);
     }
 }

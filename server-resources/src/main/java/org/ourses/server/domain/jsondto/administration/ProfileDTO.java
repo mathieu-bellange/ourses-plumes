@@ -14,14 +14,16 @@ public class ProfileDTO {
 
     private String description;
     private String pseudo;
+	private Integer version;
 
     public ProfileDTO() {
 
     }
 
-    public ProfileDTO(String pseudo, String description) {
+    public ProfileDTO(String pseudo, String description, Integer version) {
         this.pseudo = pseudo;
         this.description = description;
+        this.version = version;
     }
 
     @JsonProperty("description")
@@ -41,6 +43,15 @@ public class ProfileDTO {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
+    
+    public void setVersion(Integer version) {
+		this.version = version;
+	}
+	
+    @JsonProperty("version")
+	public Integer getVersion() {
+		return version;
+	}
 
     public Profile toProfile() {
         Profile profile = new Profile();

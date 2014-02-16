@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
@@ -49,8 +50,19 @@ public class BearAccount implements Account {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    @Version
+    private Integer version;
 
-    /**
+    public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	/**
      * The authentication information (principals and credentials) for this account.
      */
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
@@ -92,15 +104,16 @@ public class BearAccount implements Account {
 
     public BearAccount(Object principal, Object credentials,
 			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile) {
-    	this(null, principal, credentials, oursesAuthorizationInfo, profile);
+    	this(null, principal, credentials, oursesAuthorizationInfo, profile,null);
 	}
     
     public BearAccount(Long id, Object principal, Object credentials,
-			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile) {
+			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile, Integer version) {
     	this.id = id;
     	this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
         this.authzInfo = oursesAuthorizationInfo;
         this.profile = profile;
+        this.version = version;
 	}
 
 	/**
@@ -213,7 +226,6 @@ public class BearAccount implements Account {
     }
 
     public void save() {
-        // TODO gérer l'optimistic lock
         Ebean.save(this);
     }
 
@@ -278,6 +290,6 @@ public class BearAccount implements Account {
         if (profile != null) {
             profileDTO = profile.toProfileDTO();
         }
-        return new BearAccountDTO(this.id, mail, credentials, role, profileDTO);
+        return new BearAccountDTO(this.id, mail, credentials, role, profileDTO, version);
     }
 }

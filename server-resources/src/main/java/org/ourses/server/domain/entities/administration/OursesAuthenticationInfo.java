@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -43,6 +44,17 @@ public class OursesAuthenticationInfo implements AuthenticationInfo {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    @Version
+    private Integer version;
+
+    public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
     private String mail;
 

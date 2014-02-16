@@ -16,17 +16,19 @@ public class BearAccountDTO {
     private String password;
     private OursesAuthzInfoDTO role;
     private ProfileDTO profile;
+    private Integer version;
 
     public BearAccountDTO() {
 
     }
 
-    public BearAccountDTO(Long id, String mail, String password, OursesAuthzInfoDTO role, ProfileDTO profile) {
+    public BearAccountDTO(Long id, String mail, String password, OursesAuthzInfoDTO role, ProfileDTO profile, Integer version) {
         this.id = id;
     	this.mail = mail;
         this.password = password;
         this.role = role;
         this.profile = profile;
+        this.setVersion(version);
     }
 
     @JsonProperty("id")
@@ -36,6 +38,15 @@ public class BearAccountDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@JsonProperty("version")
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	@JsonProperty("password")
@@ -75,7 +86,7 @@ public class BearAccountDTO {
     }
 
     public BearAccount toBearAccount() {
-        return new BearAccount(id, mail, password, role.toOursesAuthorizationInfo(), profile.toProfile());
+        return new BearAccount(id, mail, password, role.toOursesAuthorizationInfo(), profile.toProfile(), version);
     }
 
     @Override

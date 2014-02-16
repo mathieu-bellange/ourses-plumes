@@ -45,6 +45,8 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     public void setId(Long id) {
         this.id = id;
     }
+    
+   
 
     @Column(name = "roles_for_db")
     private String rolesForDb;

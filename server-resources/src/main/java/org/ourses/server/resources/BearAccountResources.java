@@ -3,10 +3,12 @@ package org.ourses.server.resources;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.persistence.OptimisticLockException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,10 +33,22 @@ public class BearAccountResources {
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAccount(BearAccountDTO bearAccountDTO) {
-    	System.out.println("createAccount - " + bearAccountDTO.toString());
         bearAccountDTO.toBearAccount().save();
-        return Response.ok().build();
+        return Response.status(Status.CREATED).build();
     }
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateAccount(BearAccountDTO bearAccountDTO) {
+		Response response;
+		try{
+			bearAccountDTO.toBearAccount().save();
+			response = Response.ok(bearAccountDTO).build();
+		}catch(OptimisticLockException ole){
+			response = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR, OptimisticLockException.class).build();
+		}
+		return response;
+	}
 
     @DELETE
     @Path("/{id}")

@@ -14,6 +14,7 @@ public class OursesAuthzInfoDTO {
 	
 	@JsonProperty("role")
 	private String role;	
+	
 
 	public OursesAuthzInfoDTO(String role) {
 		this.role = role;
@@ -35,6 +36,8 @@ public class OursesAuthzInfoDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
 	
 	public OursesAuthorizationInfo toOursesAuthorizationInfo() {
 		OursesAuthorizationInfo oursesAuthorizationInfo = new OursesAuthorizationInfo(this.id, this.role);
