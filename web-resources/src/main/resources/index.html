@@ -17,7 +17,7 @@
     <meta name="author" content="">
 
     <!-- Document Title -->
-    <title>Les Ourses à plumes • Alpha 1 [NO-FX]</title>
+    <title>Les Ourses à plumes • Alpha 1</title>
 
     <!-- Style Sheets -->
     <!--[if gte IE 9]>
@@ -26,6 +26,7 @@
     <link href="css/foundation.css" rel="stylesheet" />
     <link href="css/loap-standard.css" rel="stylesheet" />
     <link href="css/loap-responsive.css" rel="stylesheet" />
+    <link href="css/loap-fx.css" rel="stylesheet" />
 
     <!-- Favorite Icon -->
     <link href="img/ico/loap-icon.png" type="image/x-icon" rel="icon" />
@@ -34,7 +35,6 @@
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script src="js/modernizr.js"></script>
 
   </head>
 
@@ -72,13 +72,13 @@
         <h4 id="_auth_toggle" class="">Authentification</h4>
         <div id="_auth_form" class="row collapse auth hide">
           <div class="column">
-            <input type="text" placeholder="Nom d&rsquo;utilisateur ou Adresse mail">
+            <input name="username" id="username" type="text" placeholder="Nom d&rsquo;utilisateur ou Adresse mail">
           </div>
           <div class="column small-8 medium-8 large-8">
-            <input type="password" placeholder="Mot de passe">
+            <input name="password" id="password" type="password" placeholder="Mot de passe">
           </div>
           <div class="column small-4 medium-4 large-4">
-            <button id="_connect_switch" class="button small postfix">Connexion</button>
+             <button id="_connect_switch" class="button small postfix">Connexion</button>
           </div>
         </div>
 
@@ -831,8 +831,8 @@ def helloworld (universe) {
     </div>
 
     <!-- Post Loading Scripts -->
-    <script src="js/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="js/jquery/jquery.js"></script>
+    <script src="js/foundation/foundation.js"></script>
     <script src="js/loap.js"></script>
     <script>$(document).foundation();</script>
   </body>

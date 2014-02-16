@@ -15,12 +15,11 @@
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/login.html"/>
+		<property name="loginUrl" value=""/>
 <!-- 		<property name="successUrl" value="/logout.html"/>  -->
 		<property name="unauthorizedUrl" value="/rien.html"/>
 		<property name="filterChainDefinitions">
 			<value>
-				/login.html = authc
 				/rest/account/** = authc
 				/logout = logout
 				/** = anon

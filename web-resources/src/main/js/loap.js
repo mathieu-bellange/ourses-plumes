@@ -36,17 +36,37 @@ $("#_auth_toggle").click(
 );
 
 /* Connect Switcher --------------------------------------------------------- */
+function Login() {
+	this.mail = $("#username").val();
+	this.password = $("#password").val();
+	this.json = function() {
+		return JSON.stringify(this);
+	};
+}
 
 $("#_connect_switch").click(
   function() {
-    $("#_auth_toggle").addClass("hide");
-    if ($("#_auth_toggle").hasClass("active")) {
-      $("#_auth_toggle").removeClass("active");
-    }
-    $("#_auth_form").addClass("hide");
-    if ($(".usernav").hasClass("hide")) {
-      $(".usernav").removeClass("hide");
-    }
+	  var login = new Login();
+	  $.ajax({
+          type: "POST",
+          url: "http://localhost:8080/rest/authc",
+          data: login.json(),
+          contentType : "application/json; charset=utf-8",
+          success: function (data) {    
+        	  $("#_auth_toggle").addClass("hide");
+        	    if ($("#_auth_toggle").hasClass("active")) {
+        	      $("#_auth_toggle").removeClass("active");
+        	    }
+        	    $("#_auth_form").addClass("hide");
+        	    if ($(".usernav").hasClass("hide")) {
+        	      $(".usernav").removeClass("hide");
+        	    }
+          },
+          error: function(jqXHR, text, error){
+        	  alert("error");
+          },
+          dataType : "json"
+	  });
   }
 );
 
