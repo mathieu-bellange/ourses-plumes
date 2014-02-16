@@ -1,0 +1,44 @@
+﻿--------------------------------------------------------------------------------
+# Version
+--------------------------------------------------------------------------------
+# Version History
+--------------------------------------------------------------------------------
+- Current  : alpha 1
+--------------------------------------------------------------------------------
+# Changes List (alpha 1)
+--------------------------------------------------------------------------------
+# Edit
+- Correct supnav bottom margin
+- Correct articles column width on large display
+
+# Initial
+- Define HTML skeleton
+- Define display sizing scheme (i.e. responsive design)
+- Define font sizing scheme
+- Set up HTML index
+- Set up CSS files
+- Set up basic typograhic styles (i.e. paragraphs, titles, links, etc. )
+- Colorize logo
+- Convert logo to Scalable vector graphic
+- Make a registred user menu
+- Put 'news' just before page content
+- Remove 'search' from bottom of sidenav and place it to the top after 'connect'
+- Remove 'social_networks' from sidenav and place it just after sitenav
+- Rename 'rubric-{color_name}' in '{color_name}'
+- Create first sets of icon files
+- Define most common classes
+--------------------------------------------------------------------------------
+# Todo
+--------------------------------------------------------------------------------
+* Remove 'home' and 'contact' from sidenav
+* Replace 'yellow' by 'brown'
+! Remove accessibility features from page header and place them below article
+! Add ribbons effect on newsbar
+! Add JS scripts to accessibility links
+! Add small and large font size class for articles paragraphs
+! Make an agenda section
+! Make an account section
+! Do a default account image
+! Edit .panel .callout a
+! Define print classes
+

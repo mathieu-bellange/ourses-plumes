@@ -1,0 +1,124 @@
+﻿--------------------------------------------------------------------------------
+# Dev Notes
+--------------------------------------------------------------------------------
+# Comments
+--------------------------------------------------------------------------------
+# Marks : regexp_q = (NEW|EDIT|TEMP|TEST|DEBUG|UNUSED|NOTE)
+  NEW
+  EDIT
+  TEMP
+  TEST
+  DEBUG
+  UNUSED
+  NOTE
+--------------------------------------------------------------------------------
+# Characters
+--------------------------------------------------------------------------------
+# UTF-8       HTML Int    HTML Sym    Description
+  *           &#160;      &nbsp;      Espace insécable (No-Break Space)
+  *           &#8201;     &thinsp;    Espace fin (Thin Space)
+  *           &#8239;     *           Espace fin insécable (Narrow No-Break Space)
+  «           &#171;      &laquo;     Guillemet typographique gauche
+  »           &#187;      &raquo;     Guillemet typographique droit
+  ­           &#173;      &shy;       Tiret conditionnel
+  –           &#8211;     &ndash;     Tiret moyen (demi-cadratin)
+  —           &#8212;     &mdash;     Tiret long (cadratin)
+  …           &#133;      &hellip;    Points de suspension
+  §           &#167;      &sect;      Paragraphe
+  ¶           &#182;      &para;      Pied de mouche
+  ‼           &#8252;     *           Double point d'exclamation
+  ©           &#169;      &copy;      Copyright
+  ®           &#174;      &reg;       Marque déposée
+  œ           &#156;      &oelig;     oe ligaturés
+  Œ           &#140;      &OElig;     OE ligaturé majuscule
+  À           &#192;      &Agrave;    A accent grave majuscule
+  Ç           &#199;      &Ccedil;    C cédille majuscule
+  È           &#200;      &Egrave;    E accent grave majuscule
+  É           &#201;      &Eacute;    E accent aigu majuscule
+  Ê           &#202;      &Ecirc;     E accent circonflexe majuscule
+  Ë           &#203;      &Euml;      E tréma majuscule
+  ±           &#177;      &plusmn;    Plus ou moins
+  ×           &#215;      &times;     Fois
+  √           &#8730;     *           Racine carrée
+  ≈           &#8776;     *           Presque égal
+  ‰           &#137;      *           Pour mille
+  ¼           &#188;      &frac14;    Fraction un quart
+  ½           &#189;      &frac12;    Fraction un demi
+  ¾           &#190;      &frac34;    Fraction trois-quarts
+  †           &#134;      &dagger;    Obèle
+  ‡           &#135;      &Dagger;    Double obèle
+  ♀           &#9792;     *           Signe femelle
+  ♂           &#9794;     *           Signe male
+  ↑           &#8593;     &uarr;      Flèche vers le haut
+  ↓           &#8595;     &darr;      Flèche vers le bas
+  ←           &#8592;     &larr;      Flèche vers la gauche
+  →           &#8594;     &rarr;      Flèche vers la droite
+  •           &#149;      &bull;      Balle
+  ◊           &#9674;     &loz;       Losange
+  ○           &#9675;     *           Cercle
+  ■           &#9632;     *           Carré
+  ▲           &#9650;     *           Triangle vers le haut
+  ▼           &#9660;     *           Triangle vers le bas
+  ◄           &#9668;     *           Triangle vers la gauche
+  ►           &#9658;     *           Triangle vers la droite
+  ♥           &#9829;     &hearts;    Cœur
+  ♦           &#9830;     &diams;     Carreau
+  ♣           &#9827;     &clubs;     Trèfle
+  ♠           &#9824;     &spades;    Pique
+--------------------------------------------------------------------------------
+# IE Hacks
+--------------------------------------------------------------------------------
+  IE 6 Underscore hack = _{css_ref}: {css_value};
+  IE 7 Star hack       = *{css_ref}: {css_value};
+  IE 8 Backslash hack  = {css_ref}: {css_value} \9;
+--------------------------------------------------------------------------------
+# HTML Tags Usage Hacks
+--------------------------------------------------------------------------------
+  <b> : [b]adge (e.g. chip, label, tag, token, macaroon, mark, medal, sticker ... | puce, Étiquette, tag, jeton, macaron, empreinte, insigne, auto-collant)
+  <i> : [i]con
+  <s> : u[s]er picture {stamp signet/sticker/subject/silhouette}
+  <u> : marked-[u]p text {upper-text}
+--------------------------------------------------------------------------------
+# HTML Tags Usage <>
+--------------------------------------------------------------------------------
+  <cite> : should be used for the title of a work -- will be used for authors too
+    use class .author instead ...
+  <summary> : should be used as a caption for a <details> parent element -- will be used for summarize articles
+    use class .summary instead ...
+--------------------------------------------------------------------------------
+# HTML Element ID Syntax and Usage
+--------------------------------------------------------------------------------
+# Bookmarking
+  Syntax      : element-id
+  - Target    : <h1 id="element-id">
+  - Referer   : <a href="element-id">
+  Usage       : inner links (anchors)
+
+# Scripting
+  Syntax      : _element-id
+  - Target    : <div id="_element-id">
+  - Referer   : <a onClick="document.getElementById(_element-id).className = 'active';">
+  Usage       : script references (jQuery)
+--------------------------------------------------------------------------------
+# HTML Headings Default Size by Browsers
+--------------------------------------------------------------------------------
+#   IE7         IE8         Firefox 2+  Firefox 3+  Opera       Safari 3.1  Safari 4
+H1  24pt        2em         32px        2em         32px        32px        2em
+H2  18pt        1.5em       24px        1.5em       24px        24px        1.5em
+H3  13.55pt     1.17em      18.7333px   1.17em      18px        19px        1.17em
+H4  *           *           *           *           *           *           *
+H5  10pt        0.83em      13.2667px   0.83em      13px        13px        0.83em
+H6  7.55pt      0.67em      10.7333px   0.75em      10px        11px        0.75em
+--------------------------------------------------------------------------------
+# CSS Hide Text Tricks
+--------------------------------------------------------------------------------
+# Method 1
+  font-size: .001px;
+  color: transparent;
+  text-shadow: none;
+
+# Method 2
+  text-indent: 1000%;
+  white-space: nowrap;
+  overflow: hidden;
+
