@@ -42,7 +42,7 @@ public class BearAccountResourcesTest {
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
                 ClientResponse.class, mapper.writeValueAsString(dummyAccount()));
-        assertThat(clientResponse.getStatus()).as("Verif que le status est ok").isEqualTo(200);
+        assertThat(clientResponse.getStatus()).as("Verif que le status est ok").isEqualTo(201);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class BearAccountResourcesTest {
     }
 
     private Object dummyAccount() {
-        return new BearAccountDTO(1l, "login", "mdp", new OursesAuthzInfoDTO("1"), new ProfileDTO("pseudo",
+        return new BearAccountDTO(null, "login", "mdp", new OursesAuthzInfoDTO(1l, "1"), new ProfileDTO("pseudo",
                 "description", 0), 0);
     }
 

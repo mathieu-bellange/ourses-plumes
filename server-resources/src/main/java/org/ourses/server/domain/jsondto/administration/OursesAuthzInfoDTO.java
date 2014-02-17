@@ -9,49 +9,54 @@ import org.ourses.server.domain.entities.administration.OursesAuthorizationInfo;
 
 public class OursesAuthzInfoDTO {
 
-	@JsonProperty("id")
-	private Long id;
-	
-	@JsonProperty("role")
-	private String role;	
-	
+    @JsonProperty("id")
+    private Long id;
 
-	public OursesAuthzInfoDTO(String role) {
-		this.role = role;
-	}
-	public OursesAuthzInfoDTO() {
-		super();
-	}
+    @JsonProperty("role")
+    private String role;
 
-	public String getRole() {
-		return role;
-	}
+    public OursesAuthzInfoDTO() {
+        super();
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	
-	
-	public OursesAuthorizationInfo toOursesAuthorizationInfo() {
-		OursesAuthorizationInfo oursesAuthorizationInfo = new OursesAuthorizationInfo(this.id, this.role);
+    public OursesAuthzInfoDTO(String role) {
+        this(null, role);
+    }
+
+    public OursesAuthzInfoDTO(Long id, String role) {
+        this.id = id;
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public OursesAuthorizationInfo toOursesAuthorizationInfo() {
+        OursesAuthorizationInfo oursesAuthorizationInfo = new OursesAuthorizationInfo(this.id, this.role);
         return oursesAuthorizationInfo;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     /*
-     * une authorizationInfo ne peut pas être présente deux fois en base donc le hash code 
-     * et le equals ne tiennent compte que de authorizationInfo
+     * une authorizationInfo ne peut pas être présente deux fois en base donc le hash code et le equals ne tiennent
+     * compte que de authorizationInfo
      */
 
     @Override
@@ -63,5 +68,5 @@ public class OursesAuthzInfoDTO {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
-	
+
 }
