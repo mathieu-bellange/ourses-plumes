@@ -56,7 +56,8 @@ public class BearAccountResourcesTest {
     }
 
     private Object dummyAccount() {
-        return new BearAccountDTO("login", "mdp", new OursesAuthzInfoDTO("1"), new ProfileDTO("pseudo", "description"));
+        return new BearAccountDTO(1l, "login", "mdp", new OursesAuthzInfoDTO("1"), new ProfileDTO("pseudo",
+                "description", 0), 0);
     }
 
     /* helpers */
