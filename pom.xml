@@ -35,7 +35,7 @@
 		</pluginManagement>
 	</build>
 	<modules>
-		<module>server-resources</module>
 		<module>web-resources</module>
+		<module>server-resources</module>
 	</modules>
 </project>
