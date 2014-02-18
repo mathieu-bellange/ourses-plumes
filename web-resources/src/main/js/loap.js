@@ -49,7 +49,7 @@ $("#_connect_switch").click(
 	  var login = new Login();
 	  $.ajax({
           type: "POST",
-          url: "http://localhost:8080/rest/authc",
+          url: "/rest/authc",
           data: login.json(),
           contentType : "application/json; charset=utf-8",
           success: function (data) {    
@@ -74,8 +74,17 @@ $("#_connect_switch").click(
 
 $("#_disconnect_switch").click(
   function() {
-    $(".usernav").addClass("hide");
-    $("#_auth_toggle").removeClass("hide");
+	  $.ajax({
+          type: "POST",
+          url: "/logout",
+          success: function (data) {    
+        	  $(".usernav").addClass("hide");
+        	  $("#_auth_toggle").removeClass("hide");
+          },
+          error: function(jqXHR, text, error){
+        	  alert("error");
+          }
+	  });
   }
 );
 
