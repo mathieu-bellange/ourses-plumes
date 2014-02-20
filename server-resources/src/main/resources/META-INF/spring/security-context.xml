@@ -13,9 +13,9 @@
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/"/>
+		<property name="loginUrl" value="/login"/>
 <!-- 		<property name="successUrl" value="/logout.html"/>  -->
-		<property name="unauthorizedUrl" value="/rien.html"/>
+<!-- 		<property name="unauthorizedUrl" value="/rien.html"/> -->
 		<property name="filterChainDefinitions">
 			<value>
 				/rest/account/** = authc
