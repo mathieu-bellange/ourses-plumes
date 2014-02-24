@@ -21,18 +21,18 @@
 /* Auth Visibility Toggler -------------------------------------------------- */
 
 $("#_auth_toggle").click(
-  function() {
-    if (!$(this).hasClass("active")) {
-      $(this).addClass("active");
-    } else {
-      $(this).removeClass("active");
-    }
-    if ($("#_auth_form").hasClass("hide")) {
-      $("#_auth_form").removeClass("hide");
-    } else {
-      $("#_auth_form").addClass("hide");
-    }
-  }
+		function() {
+			/* masque login */
+		    if ($(this).hasClass("active")) {
+		    	appRouter.navigate("", {trigger: false});
+		    	$(this).removeClass("active");
+		    	$("#_auth_form").addClass("hide");
+		    } 
+		    /* show login */
+		    else {
+		    	appRouter.navigate("/login", {trigger: true});
+		    }
+		}
 );
 
 /* Connect Switcher --------------------------------------------------------- */
@@ -53,14 +53,8 @@ $("#_connect_switch").click(
           data: login.json(),
           contentType : "application/json; charset=utf-8",
           success: function (data) {    
-        	  $("#_auth_toggle").addClass("hide");
-        	    if ($("#_auth_toggle").hasClass("active")) {
-        	      $("#_auth_toggle").removeClass("active");
-        	    }
-        	    $("#_auth_form").addClass("hide");
-        	    if ($(".usernav").hasClass("hide")) {
-        	      $(".usernav").removeClass("hide");
-        	    }
+        	  /* show administration */
+        	  appRouter.navigate("/administration", {trigger: true});
           },
           error: function(jqXHR, text, error){
         	  alert("error");

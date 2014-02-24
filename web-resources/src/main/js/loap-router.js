@@ -2,19 +2,23 @@
 var LoapRouter = Backbone.Router.extend ({
     routes: {
         '' : 'home',
-        'view': 'viewImage',
         'login' : 'login',
+        'administration' : 'admin',
         '*notFound': 'notFound'
     },
     home: function () {
-        alert('you are viewing home page');
-    },
-    viewImage: function () {
-        alert('you are viewing an image');
+        
     },
     login: function(){
-    	$("#_auth_toggle").click();
+    	$("#_auth_toggle").addClass("active");
+    	$("#_auth_form").removeClass("hide");
     	$("#username").select();
+    },
+    admin : function(){
+    	$("#_auth_toggle").addClass("hide");
+   	  	$("#_auth_toggle").removeClass("active");
+   	  	$("#_auth_form").addClass("hide");
+   	  	$(".usernav").removeClass("hide");
     },
     notFound:function(){
     	alert('not found');
