@@ -30,7 +30,7 @@ $("#_auth_toggle").click(
 		    } 
 		    /* show login */
 		    else {
-		    	appRouter.navigate("/login", {trigger: true});
+		    	appRouter.navigate("login", {trigger: true});
 		    }
 		}
 );
@@ -54,7 +54,7 @@ $("#_connect_switch").click(
           contentType : "application/json; charset=utf-8",
           success: function (data) {    
         	  /* show administration */
-        	  appRouter.navigate("/administration", {trigger: true});
+        	  appRouter.navigate("administration/welcome", {trigger: true});
           },
           error: function(jqXHR, text, error){
         	  alert("error");

@@ -3,7 +3,7 @@ var LoapRouter = Backbone.Router.extend ({
     routes: {
         '' : 'home',
         'login' : 'login',
-        'administration' : 'admin',
+        'administration/:name' : 'admin',
         '*notFound': 'notFound'
     },
     home: function () {
@@ -14,11 +14,13 @@ var LoapRouter = Backbone.Router.extend ({
     	$("#_auth_form").removeClass("hide");
     	$("#username").select();
     },
-    admin : function(){
-    	$("#_auth_toggle").addClass("hide");
-   	  	$("#_auth_toggle").removeClass("active");
-   	  	$("#_auth_form").addClass("hide");
-   	  	$(".usernav").removeClass("hide");
+    admin : function(name){
+    	if (name == "welcome"){
+    		$("#_auth_toggle").addClass("hide");
+    		$("#_auth_toggle").removeClass("active");
+    		$("#_auth_form").addClass("hide");
+    		$(".usernav").removeClass("hide");
+    	}
     },
     notFound:function(){
     	alert('not found');
@@ -29,4 +31,4 @@ var LoapRouter = Backbone.Router.extend ({
 var appRouter = new LoapRouter();
  
 // use html5 History API
-Backbone.history.start({pushState: true});
+Backbone.history.start();
