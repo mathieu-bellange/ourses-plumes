@@ -18,7 +18,21 @@
 		<!-- server -->
 		<jetty.version>8.1.13.v20130916</jetty.version>
 	</properties>
+	
+	<scm>
+		<developerConnection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</developerConnection>
+		<connection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</connection>
+		<url>git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</url>
+	</scm>
+	
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.2.2</version>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
