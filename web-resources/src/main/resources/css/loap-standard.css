@@ -240,6 +240,7 @@ button.alert:active, .button.alert:active {
 
 /* Wrapper */
 .wrapper {
+  display: table;
   width: 960px; /* WARNING : fixed width just for test ... */
   width: 100%; /* WARNING : this will be adjusted with media queries */
   margin-left: auto;
