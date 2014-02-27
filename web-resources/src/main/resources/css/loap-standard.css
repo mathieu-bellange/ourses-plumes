@@ -115,30 +115,16 @@ sup, sub {font-size: 75%; line-height: .1em;}
 
 button, .button,
 .prefix.button, .postfix.button {
-/*font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif; /* UNUSED */
   font-family: Oswald, Arial, sans-serif;
   font-weight: 900; /* BUG */
   line-height: 100%;
   border-width: .15rem;
   border-style: solid;
-/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .25) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
-/*text-shadow: 0 1px 1px rgba(0, 0, 0, .5);*/ /* UNUSED */
-/*
-  -webkit-transition: background-color .1s ease-out, box-shadow .25s linear;
-     -moz-transition: background-color .1s ease-out, box-shadow .25s linear;
-       -o-transition: background-color .1s ease-out, box-shadow .25s linear;
-          transition: background-color .1s ease-out, box-shadow .25s linear;
-*/
 }
 
 button:hover, .button:hover,
-button:focus, .button:focus {
-/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .125) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
-}
-
-button:active, .button:active {
-/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
-}
+button:focus, .button:focus {}
+button:active, .button:active {}
 
 /* Buttons Sizing */
 button, .button {font-size: 1.1rem;}
@@ -183,17 +169,13 @@ button.secondary.disabled:focus, .button.secondary.disabled:focus,
 button.secondary[disabled]:focus, .button.secondary[disabled]:focus {
   background-color: #ddd;
   border-color: #999;
-/*text-shadow: 0 1px 0 rgba(255, 255, 255, .5);*/ /* UNUSED */
-/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .66) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
 }
 button.secondary:hover, .button.secondary:hover,
 button.secondary:focus, .button.secondary:focus {
   background-color: #ccc;
-/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .33) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
 }
 button.secondary:active, .button.secondary:active {
   background-color: #999;
-/*box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
 }
 
 /* Success */
@@ -240,24 +222,22 @@ button.alert:active, .button.alert:active {
 
 /* Wrapper */
 .wrapper {
-  display: table; /* EDIT */
-  width: 960px; /* WARNING : fixed width just for test ... */
-  width: 100%; /* WARNING : this will be adjusted with media queries */
-  height: 100%; /* EDIT */
-  margin-left: auto;
-  margin-right: auto;
-/*box-shadow: 5px 0px 10px 5px rgba(0, 0, 0, .25);*/ /* UNUSED */
+  position: absolute;
+  display: table;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  background-color: white;
 }
 
 /* Sidebar */
 .wrapper > .sidebar {
-  display: table-cell; /* WARNING : experimental ... */
-  width: 25%; /* TEMP : this has to be adjusted with media queries */
-  padding: .5rem; /* TEMP */
+  display: table-cell;
+  width: 25%;
+  padding: 1rem;
   vertical-align: top;
   background-color: #759;
-/*text-align: center; /* UNUSED : use .text-center instead */
-  border-left: 2px solid #a8c;
+  border-left: .125rem solid #a8c;
 }
 
 .wrapper > .sidebar input {
@@ -267,12 +247,10 @@ button.alert:active, .button.alert:active {
 
 /* Content */
 .wrapper > .content {
-  display: table-cell; /* WARNING : experimental ... */
-  width: 75%; /* TEMP : this has to be adjusted with media queries */
-/*padding: 10px; /* UNUSED */
+  display: table-cell;
+  width: 75%;
+  padding: 0 0 1rem;
   vertical-align: top;
-  background-color: #fff;
-/*box-shadow: -5px 0 10px 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
 }
 
 .wrapper > .content > hr {margin-right: 1rem; margin-left: 1rem;}
@@ -280,11 +258,6 @@ button.alert:active, .button.alert:active {
 .wrapper > .content > .header {}
 .wrapper > .content > .body {}
 .wrapper > .content > .footer {}
-
-.wrapper > .content > .header ,
-.wrapper > .content > .footer {
-/*text-align: center; /* UNUSED : use .text-center instead */
-}
 
 .wrapper > .content > .body .alert-box {
   margin-left: 1rem; /* TEMP */
@@ -362,16 +335,10 @@ button.alert:active, .button.alert:active {
   line-height: 200%;
 }
 .sidenav ul li a {
-  /* TEMP */
-  /*
-  width: 90%;
-  margin : 0 5%;
-  */
   display: block;
   border: .25rem solid transparent;
   border-left: 0;
   border-right: 0;
-/*text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);*/ /* UNUSED */
 }
 .sidenav ul li a:hover {
   background-color: #537;
@@ -380,7 +347,6 @@ button.alert:active, .button.alert:active {
 .sidenav ul li a.current {
   color: #a8c;
   border-color: #a8c;
-/*text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);*/ /* UNUSED */
 }
 .sidenav ul ul {
   font-size: 75%;
@@ -392,10 +358,7 @@ button.alert:active, .button.alert:active {
 
 /* Supnav ------------------------------------------------------------------- */
 
-.supnav {
-  margin-top: .75rem;
-  margin-bottom: .75rem;
-}
+.supnav {margin: .75rem 0 .5rem;}
 .supnav ul li a {
   padding: .25rem; /* Messed up with percent (long titles will inherit long range) ; use rem instead ... */
   font-size: 1.15rem; /* TEMP : size adjusting */
@@ -464,7 +427,6 @@ button.alert:active, .button.alert:active {
   background-color: #cb8;
   border-top: 2px solid #eda;
   border-bottom: 2px solid #ba7;
-/*box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);*/ /* UNUSED */
 }
 .supnav ul,
 .subnav ul {
@@ -479,7 +441,6 @@ button.alert:active, .button.alert:active {
   font-weight: bold;
   list-style: none;
   line-height: 48px;
-/*text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
 }
 .subnav ul li:before {
   margin-right: .75rem;
@@ -491,20 +452,7 @@ button.alert:active, .button.alert:active {
   content: "";
   margin: 0;
 }
-.subnav ul li a {
-  color: white;
-  /* UNUSED */
-  /*
-  -webkit-transition: text-shadow .125s linear;
-     -moz-transition: text-shadow .125s linear;
-       -o-transition: text-shadow .125s linear;
-          transition: text-shadow .125s linear;
-  */
-}
-.subnav ul li a:hover,
-.subnav ul li a:focus {
-/*text-shadow: -1px -1px 0 rgba(0, 0, 0, .075), 0 0 .5rem #ffb;*/ /* UNUSED */
-}
+.subnav ul li a {color: white;}
 .subnav [class^="icon-"] a,
 .subnav [class*="icon-"] a {
   width: 48px;
@@ -763,16 +711,7 @@ button.alert:active, .button.alert:active {
 /* # Orbit Slider */
 /* -------------------------------------------------------------------------- */
 
-.orbit-container {
-  /* UNUSED : Expanding for ribbons effect */
-  /*
-  left: -5%;
-  width: 110%;
-  width: 105%;
-  position: relative;
-  box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);
-  */
-}
+.orbit-container {}
 
 .orbit-prev {}
 .orbit-next {}
@@ -797,15 +736,8 @@ button.alert:active, .button.alert:active {
   margin-top: 2.75rem;
 }
 
-.orbit-slides-container h1, .orbit-slides-container h2, .orbit-slides-container h3 {
-  color: white;
-/*text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);*/ /* UNUSED */
-}
-
-.orbit-slides-container h4, .orbit-slides-container h5, .orbit-slides-container h6 {
-  color: #222;
-/*text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);*/ /* UNUSED */
-}
+.orbit-slides-container h1, .orbit-slides-container h2, .orbit-slides-container h3 {color: white;}
+.orbit-slides-container h4, .orbit-slides-container h5, .orbit-slides-container h6 {color: #222;}
 
 /* Colored Boxes */
 .orbit-slides-container .headline.red {background-color: #e44; border-top-color: #f88; border-bottom-color: #a11;}

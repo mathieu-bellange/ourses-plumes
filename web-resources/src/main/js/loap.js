@@ -10,9 +10,26 @@
 /* # jQuery  Variables */
 /* -------------------------------------------------------------------------- */
 
+/* Object Login ------------------------------------------------------------- */
+
+function Login(mail,password) {
+	this.mail = mail;
+	this.password = password;
+	this.json = function() {
+		return JSON.stringify(this);
+	};
+}
+
 /* -------------------------------------------------------------------------- */
 /* # jQuery  Functions */
 /* -------------------------------------------------------------------------- */
+
+/* Wrapper Height Fix ------------------------------------------------------- */
+
+function wrapper_height_fix() {
+  var h = $(window).height();
+  $(".wrapper").css("height", h + "px");
+}
 
 /* -------------------------------------------------------------------------- */
 /* # jQuery  Events */
@@ -36,17 +53,9 @@ $("#_auth_toggle").click(
 );
 
 /* Connect Switcher --------------------------------------------------------- */
-function Login() {
-	this.mail = $("#username").val();
-	this.password = $("#password").val();
-	this.json = function() {
-		return JSON.stringify(this);
-	};
-}
-
 $("#_connect_switch").click(
   function() {
-	  var login = new Login();
+	  var login = new Login($("#username").val(),$("#password").val());
 	  $.ajax({
           type: "POST",
           url: "/rest/authc",
@@ -146,3 +155,14 @@ $(".accordion dd > a").click(
   }
 );
 
+/* Window Resize ------------------------------------------------------------ */
+
+$(window).resize(function() {
+  wrapper_height_fix();
+});
+
+/* Document Ready  ---------------------------------------------------------- */
+
+$(document).ready(function() {
+  wrapper_height_fix();
+});
