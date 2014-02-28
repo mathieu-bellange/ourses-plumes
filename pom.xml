@@ -23,6 +23,7 @@
 		<developerConnection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</developerConnection>
 		<connection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</connection>
 		<url>git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</url>
+		<tag>HEAD</tag>
 	</scm>
 	
 	<build>
