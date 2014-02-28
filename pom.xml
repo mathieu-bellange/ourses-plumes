@@ -35,14 +35,11 @@
 			        <dependency>
 			        	<groupId>org.apache.maven.scm</groupId>
 			          	<artifactId>maven-scm-provider-gitexe</artifactId>
-			          	<version>1.8.1</version>
+			          	<version>1.9</version>
 			    	</dependency>
 			    </dependencies>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<developmentVersion>${env.NEXTDEVVERSION}-SNAPSHOT</developmentVersion>
-					<releaseVersion>${env.RELEASEVERSION}</releaseVersion>
-					<tag>${env.RELEASEVERSION}</tag>
 				</configuration>
 			</plugin>
 		</plugins>
