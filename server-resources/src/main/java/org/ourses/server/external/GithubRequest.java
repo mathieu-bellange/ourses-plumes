@@ -1,4 +1,4 @@
-package org.ourses.server.bugtracking;
+package org.ourses.server.external;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
@@ -15,18 +15,19 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.representation.Form;
 
 @Service
-public class RESTRequest {
+public class GithubRequest {
 
-    public static final String ACCESS_TOKEN = "access_token";
+    public static final String ACCESS_TOKEN = "token ";
+    public static final String AUTHORIZATION = "Authorization";
 
-    public ClientResponse post(String uri, Form formulaire) {
+    public ClientResponse addIssue(String uri, Form formulaire) {
         ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
         Client client = Client.create(cc);
         if (formulaire == null) {
             formulaire = new Form();
         }
         WebResource webResource = client.resource(UriBuilder.fromUri(uri).build());
-        return webResource.header("Authorization", "token " + GithubInfoApi.ACCESS_TOKEN)
+        return webResource.header(AUTHORIZATION, ACCESS_TOKEN + GithubInfoApi.ACCESS_TOKEN)
                 .type(MediaType.APPLICATION_FORM_URLENCODED).accept(MediaType.APPLICATION_JSON_TYPE)
                 .post(ClientResponse.class, formulaire);
 
