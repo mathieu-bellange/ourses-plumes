@@ -8,10 +8,11 @@ import org.apache.shiro.authc.SimpleAccount;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.junit.Test;
+import org.ourses.security.authentication.OursesCredentialsMatcher;
 
 public class MatcherTest {
 	
-	private CredentialsMatcher undertest = new ReverseCredentialsMatcher();
+	private CredentialsMatcher undertest = new OursesCredentialsMatcher();
 	private AuthenticationToken token = new UsernamePasswordToken("Mathieu", "Bellange");
 	private AuthenticationInfo account;
 		

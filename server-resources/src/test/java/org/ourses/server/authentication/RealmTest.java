@@ -11,6 +11,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.junit.Before;
 import org.junit.Test;
+import org.ourses.security.authentication.OursesCredentialsMatcher;
 import org.ourses.server.authentication.helpers.BearAccountHelperTestImpl;
 import org.ourses.server.utility.Safe;
 
@@ -23,7 +24,7 @@ public class RealmTest {
 	@Before
 	public void superSetup(){
 		underTest.setAccountDao(new Safe());
-		underTest.setCredentialsMatcher(new ReverseCredentialsMatcher());
+		underTest.setCredentialsMatcher(new OursesCredentialsMatcher());
 	}
 	
 	@Test

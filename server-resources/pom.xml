@@ -25,6 +25,7 @@
 
 		<!-- security -->
 		<shiro-version>1.2.2</shiro-version>
+		<ourses-security-version>0.0.1-SNAPSHOT</ourses-security-version>
 
 		<!-- REST -->
 		<jersey-version>1.17.1</jersey-version>
@@ -118,6 +119,11 @@
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
 			<version>${shiro-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ourses</groupId>
+			<artifactId>ourses-security</artifactId>
+			<version>${ourses-security-version}</version>
 		</dependency>
 
 		<!-- test -->

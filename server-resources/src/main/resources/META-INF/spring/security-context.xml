@@ -39,11 +39,11 @@
 		<property name="sessionDAO" ref="sessionDAO" />
 	</bean>
 	
-	<!-- Define the Shiro Realm implementation you want to use to connect to your back-end -->
-	<bean id="reverseCredentialsMatcher"  class="org.ourses.server.authentication.ReverseCredentialsMatcher"/>
+	<!-- class placée dans un jar non public -->
+	<bean id="oursesCredentialsMatcher"  class="org.ourses.security.authentication.OursesCredentialsMatcher"/>
 	
 	<bean id="myRealm" class="org.ourses.server.authentication.StaticRealm" >
-		<property name="credentialsMatcher" ref="reverseCredentialsMatcher"/>
+		<property name="credentialsMatcher" ref="oursesCredentialsMatcher"/>
 	</bean>
 
 	<!-- security manager de shiro -->
