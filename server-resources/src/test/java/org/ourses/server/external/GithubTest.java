@@ -24,7 +24,7 @@ public class GithubTest {
         Form formulaire = new Form();
         formulaire.add(GithubInfoApi.TITLE, "le titre");
         formulaire.add(GithubInfoApi.BODY, "le corps");
-        ClientResponse clientResponse = request.addIssue(GithubInfoApi.BUG_TRACKING_URI, formulaire);
+        ClientResponse clientResponse = request.addIssue(formulaire);
         assertThat(clientResponse.getStatus()).as("Verif que le status est ok").isEqualTo(201);
     }
 }
