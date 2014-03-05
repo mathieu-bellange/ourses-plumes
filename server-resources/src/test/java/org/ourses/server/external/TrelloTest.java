@@ -22,7 +22,7 @@ public class TrelloTest {
     public void shouldCreateIssue() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
             ClientHandlerException, IOException {
         Form formulaire = new Form();
-        formulaire.add(TrelloInfoApi.TOKEN, "fb48c4ee6d41ea0d0bff943874179203901196c74dbe2b0a4c6bee4b5bb4da71");
+        // formulaire.add(TrelloInfoApi.TOKEN, "fb48c4ee6d41ea0d0bff943874179203901196c74dbe2b0a4c6bee4b5bb4da71");
         formulaire.add(TrelloInfoApi.KEY, TrelloInfoApi.API_KEY);
         formulaire.add(TrelloInfoApi.TITLE, "Titre");
         formulaire.add(TrelloInfoApi.BODY, "Corps");
