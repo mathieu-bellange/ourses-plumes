@@ -23,6 +23,8 @@ public class TrelloRequest {
         if (formulaire == null) {
             formulaire = new Form();
         }
+
+        // oAuth 1
         WebResource webResource = client.resource(UriBuilder.fromUri(TrelloInfoApi.ADD_CAR_URL).build());
         return webResource.type(MediaType.APPLICATION_FORM_URLENCODED).accept(MediaType.APPLICATION_JSON_TYPE)
                 .post(ClientResponse.class, formulaire);
