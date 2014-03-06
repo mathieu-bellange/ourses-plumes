@@ -1,0 +1,103 @@
+﻿------------------------------------------------------------------------
+# Version History
+------------------------------------------------------------------------
+# Product                 Current         Previous
+- Project Template        alpha 2         alpha 1
+- Foundation              5.1.1           5.0.3
+- jQuery                  2.1.0           2.0.3
+- Modernizr               2.7.1           2.6.2
+- Normalize               3.0.0           2.1.2
+------------------------------------------------------------------------
+# Todo
+------------------------------------------------------------------------
+* Replace 'yellow' by 'brown'
+* Remove 'home' and 'contact' from main-nav
+* Remove 'accessibility' from page header and place it below 'article'
+* Add 'small' and 'large' font size classes for articles paragraphs
+* Make main-nav sticky
+* Replace :mailto by a contact form
+* Make news-list elements clickable (i.e. slider links)
+* Add equalizer component to block-grid (i.e. compute rows)
+* Add images size classes
+* Edit text editor
+* Replace vertical margin and top border of comments by a hr tag
+------------------------------------------------------------------------
+# Changes List (alpha 2)
+------------------------------------------------------------------------
+# Initial Commit
+- Update Foundation framework
+- Update jQuery library
+- Update Modernizr library
+- Update Normalize stylesheet
+- Rebuild CSS structure (i.e. renamed layout classes)
+- Rebuild logo based upon given model (x2)
+- Rebuild favorite icon (x2)
+- Rebuild orbit slider handling
+- Make an agenda section
+- Make a profile section
+- Make some logo variants
+- Make some icons for rubrics
+- Make breadcrumbs feature working (wrongly, but it does)
+- Add a dev toolbar for debug
+- Add user pictures classes
+- Add tags to articles
+- Add comments to articles
+- Add a flag icon on alert button
+- Add a callout class to articles
+- Add colors classes for labels
+- Add abide validation feature to forms
+- Add ribbons effect on news-list and site-nav
+- Remove two columns view for medium and large display
+- Remove nav-pane left-border for small and medium displays
+- Define minimal print classes
+- Define .grey color classes
+- Define .date color for whole document
+- Define .disabled classes for navs and accessibility
+- Changed .close classes handling (i.e. empty anchor => pseudo :after)
+- Move search input on top of nav-pane
+- Move disconnect link to the end of user-nav
+- Replace connection form by a modal (can be launched from anywhere)
+- Set browser focus on first input after connect modal opening
+- Set up an iconset for whole application
+- Set up default account images
+- Size up tiny buttons font and reduce padding
+- Bind nav links to displayable sections (disabled others)
+- Bind accessibility links to scripts
+- Harmonize headings usage
+- Harmonize font family references
+- Edit .panel .callout
+- Edit <kbd> and .keystrokes
+- Reduce outline for toolbar links
+- Reduce outline for accessibility icons
+- Fix main-nav sub-list behaviour
+- Fix navs :hover and :active events
+- Fix navs text-decoration redundancy
+- Fix colored anchors :hover event
+- Fix clearing lightbox close redundancy
+- Fix clearing lightbox thumbnails and image height overflowing bug
+- Fix latest block-grid-list rubric width bug
+------------------------------------------------------------------------
+# Changes List (alpha 1)
+------------------------------------------------------------------------
+# Initial Commit
+- Define HTML skeleton
+- Define display sizing scheme (i.e. responsive design)
+- Define font sizing scheme
+- Set up HTML index
+- Set up CSS files
+- Set up basic typography (i.e. paragraphs, titles, links, etc. )
+- Colorize logo
+- Convert logo to scalable vector graphic
+- Make a registred user menu
+- Put 'newsbar' just before section
+- Remove 'search' from bottom of main-nav and place it to the top
+- Remove 'social_networks' from main-nav and place it just after sitenav
+- Rename 'rubric-{color_name}' in '{color_name}'
+- Create first sets of icon files
+- Define some utility classes
+
+# Corrections
+- Correct fast-nav bottom margin removal
+- Correct articles column on large display
+- Correct wrapper min-height bug
+

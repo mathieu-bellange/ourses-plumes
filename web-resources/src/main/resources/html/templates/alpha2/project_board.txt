@@ -1,0 +1,484 @@
+﻿------------------------------------------------------------------------
+# Project Board
+------------------------------------------------------------------------
+# Semantic File Structure
+------------------------------------------------------------------------
+# Element                         HTML Tag        CSS Class
+  Container                       <div>           .frame
+    └─ Sidebar                    <aside>         .nav-pane
+    │  └─ Page Title              <div>           .logo
+    │  └─ User Menu               <nav>           .user-nav
+    │  └─ Main Menu               <nav>           .main-nav
+    │  └─ Page Menu               <nav>           .sub-nav
+    └─ Content                    <div>           .main-pane
+       └─ Header                  <header>        *
+       │  └─ Rubrics              <nav>           .fast-nav
+       │  └─ Newsbar              <div>           .news-list
+       │  └─ Breadcrumbs          <div>           .breadcrumbs
+       │  └─ Accessibility        <div>           .accessibility
+       └─ Body                    <section>       *
+       │  └─ Article              <article>       *
+       └─ Footer                  <footer>        *
+          └─ Site Links           <nav>           .site-nav
+          └─ Copyright            <div>           .end-notes
+------------------------------------------------------------------------
+# HTML Code Structure
+------------------------------------------------------------------------
+<div class="frame">
+  <aside class="nav-pane">
+    <div class="logo"></div>
+    <nav class="user-nav"></nav>
+    <nav class="main-nav"></nav>
+    <nav class="sub-nav"></nav>
+  </aside>
+  <div class="main-pane">
+    <header>
+      <nav class="fast-nav"></nav>
+      <div class="news-list">
+      <div class="breadcrumbs">
+      <div class="accessibility">
+    </header>
+    <section>
+      <article></article>
+    </section>
+    <footer class="footer">
+      <nav class="site-nav"></nav>
+      <div class="end-notes"></div>
+    </footer>
+  </div>
+</div>
+------------------------------------------------------------------------
+# Technical File Overview
+------------------------------------------------------------------------
+# Element         Default     Small       Medium      Large       X-Large     XX-Large
+  Width           *           320px       640px       1024px      1440px      1920px
+  Font            *           14px        15px        16px        17.5px      19px
+  Margin          0           *           *           *           *           *
+  Frame           *           100%        100%        95%         87.5%       75%
+  - Nav Pane      *           25%         25%         25%         25%         25%
+  - Main Pane     *           75%         75%         75%         75%         75%
+    - Header      inherit     inherit     inherit     inherit     inherit     inherit
+    - Body        inherit     inherit     inherit     inherit     inherit     inherit
+    - Footer      inherit     inherit     inherit     inherit     inherit     inherit
+------------------------------------------------------------------------
+# Display Sizing Scheme
+------------------------------------------------------------------------
+# Width   Font    Margin              px      Frame               px      Nav     px      Main    px      Display     Scale
+  320     14px    *                   *       100%                320px   *       *       100%    320px   small       *
+  480     14.5px  *                   *       100%                480px   *       *       100%    480px   small       *
+  640     15px    *                   *       100%                640px   *       *       100%    640px   medium      Medium Displays (641px and up)
+  800     15.5px  *                   *       100%                800px   25%     200px   75%     600px   medium      *
+  960     16px    *                   *       100%                960px   25%     240px   75%     720px   medium      *
+  1120    16.5px  3,57142857142857%   40px    96,42857142857143%  1080px  25%     270px   75%     810px   large       Large Displays (1024px and up)
+  1280    17px    6.25%               160px   93,75%              1120px  25%     280px   75%     840px   large       *
+  1440    17.5px  12.5%               240px   87,5%               1200px  25%     300px   75%     900px   xlarge      X-Large Displays (1441 and up)
+R 1600    18px    20%                 320px   80%                 1280px  25%     320px   75%     960px   xlarge      *
+  1760    18.5px  22,72727272727273%  400px   77,27272727272727%  1360    25%     340px   75%     1020px  xlarge      *
+  1920    19px    25%                 480px   75%                 1440    25%     360px   75%     1080px  xxlarge     XX-Large Displays (1920 and up)
+  2080    19.5px  26,92307692307692%  560px   73,07692307692308%  1520    25%     380px   75%     1140px  xxlarge     *
+  2240    20px    28,57142857142857%  640px   71,42857142857143%  1600    25%     400px   75%     1200px  xxlarge     *
+  2400    20.5px  30%                 720px   70%                 1680    25%     420px   75%     1260px  xxlarge     *
+  2560    21px    31.25%              800px   68,75%              1760    25%     440px   75%     1320px  xxlarge     *
+  2720    21.5px  32,35294117647059%  880px   67,64705882352941%  1840    25%     460px   75%     1380px  xxlarge     *
+  2880    22px    33,33333333333333%  960px   66,66666666666667%  1920    25%     480px   75%     1440px  xxlarge     *
+------------------------------------------------------------------------
+# Font Sizing Scheme
+------------------------------------------------------------------------
+# Font-size   Relative    Label       HTML Tags / CSS Classes
+  300%        *           *           h1
+  250%        *           *           h2
+  200%        *           *           h3
+  175%        *           *           h4
+  150%        *           *           h5, legend
+  137.5%      *           *           *
+  125%        *           *           h6, blockquote
+  100%        *           *           body, button, input, select, textarea, label
+  87.5%       *           *           small, abbr, code, pre, .label, .tooltip
+  75%         *           *           h0 small, sub, sup
+
+# Line-height Relative    Label       Tags
+  100%        *           *           *
+  125%        *           *           body, .label
+  133%        *           *           p
+  150%        *           *           h0, li, dd, dt, button, input, select, textarea, label, table th, table td
+------------------------------------------------------------------------
+# Color Method
+------------------------------------------------------------------------
+- Hex Triplet 3-digit (non-IE)
+  #fff
+- Hex Triplet 6-digit (IE)
+  #ffffff \9
+- RGBA (base 8) for text-shadow and box-shadow
+  rgba(0, 0, 0, .15)
+- RGB (base 8) for lightest colors (i.e. luminosity > 90%)
+  rgb(248, 248, 248)
+------------------------------------------------------------------------
+# Color Scheme
+------------------------------------------------------------------------
+# Basic               Color               Text Decoration     Chromatic
+  background          white               *                   *
+  text                #222                *                   *
+  title               black               *                   *
+  anchor:link         darkorchid          underline           270°
+  anchor:hover        deeppink            underline           340°
+  anchor:focus        deeppink            underline           340°
+  anchor:active       darkorchid          underline           270°
+  anchor:visited      darkorchid          underline           270°
+
+# Greyscale
+  text-white          #fff                *                   0°
+  text-silver         #999                *                   0°
+  text-steel          #666                *                   0°
+  text-iron           #222                *                   0°
+  text-black          #000                *                   0°
+
+# Color               Light               Dark                *
+  red                 #c33                #822                0°
+  orange              #f63                #931                15°
+  yellow              #ca0                #761                50°
+  green               #393                #252                120°
+  cyan                #399                #255                180°
+  blue                #36c                #248                220°
+  purple              #93c                #517                280°
+  magenta             #e2a                #a17                320°
+------------------------------------------------------------------------
+# HTML Headings Usage
+------------------------------------------------------------------------
+#   Size            Usage
+H1  Huge            Document Title
+H2  Large           Section Title
+H3  Normal          Block Title
+H4  *               Part Title
+H5  Small           *
+H6  Tiny            *
+------------------------------------------------------------------------
+# HTML Headings Structure
+------------------------------------------------------------------------
+H1 : <Dev Toolbar>
+H1 : Titre de page → Les Ourses à plumes
+
+  H2 : Navigation interne (hidden)
+    H3 : Fonctionnalités (hidden)
+      H4 : Recherche
+      H4 : Connexion
+      H4 : Fil d'Ariane
+      H4 : Accessibilité
+    H3 : Menu utilisatrice → Nom d'utilisatrice
+    H3 : Menu principal (hidden)
+      H4 : Sections (not shown)
+        H5 : Catégories (not shown)
+        H5 : Rubriques (hidden)
+
+  HR : -------------------------------- (hidden)
+
+  H2 : Actualités (hidden)
+    H3 : Gros titre → Baby Loup : le combat continu !
+      H4 : Accroche → La Cour de cassation réexamine l'affaire en assemblée plénière
+
+  HR : --------------------------------
+
+  H2 : Section → Liste des utilisateurs
+    H3 : Nom d'utilisatrice → Nadejda Tolokonnikova
+
+  HR : --------------------------------
+  
+  H2 : Section → Édito (hidden)
+    H3 : Date / Période (facultatif)
+
+  HR : --------------------------------
+  
+  H2 : Section → À la une (hidden)
+    H3 : Date / Période (facultatif)
+
+  HR : --------------------------------
+  
+  H2 : Section → Articles (hidden)
+    H3 : Liste d'articles -> Brèves (catégorie)
+    H3 : Liste d'articles -> Intersectionnalité (rubriques)
+    H3 : Liste d'articles -> Sexisme (tag)
+
+  HR : --------------------------------
+
+  H2 : Section → Article (hidden)
+    H3 : Article → Naturalisation et paupérisation du travail des femmes
+      H4 : Partie → Les services à la personne : un secteur « naturellement » féminin
+      H4 : Partie → Un travail aux conditions difficiles
+      H4 : Partie → Travail non déclaré et exploitation raciste
+      H4 : Commentaires
+      
+  HR : --------------------------------
+
+  H2 : Section → Agenda (hidden)
+    H3 : Date → 14 juillet 2014
+      H4 : Évènement → Fête nationale
+    H3 : Date → 11 septembre 2014
+      H4 : Évènement → Commération en l'honneur des victimes de l'attentat contre les Twins Towers
+
+  HR : --------------------------------
+
+  H2 : Section → Nos amies (hidden)
+    H3 : Groupe → Associations
+    H3 : Groupe → Services publics
+    H3 : Groupe → Sociétés commerciales
+
+  HR : --------------------------------
+  
+  H2 : Contact (hidden)
+    H3 : Formulaire → Envoyer un message
+
+  HR : -------------------------------- (hidden)
+
+  H2 : Navigation externe (hidden)
+    H3 : Menu de site (hidden)
+------------------------------------------------------------------------
+# Font Families
+------------------------------------------------------------------------
+# Scheme
+  Liberation Fonts, Droid Fonts, Croscore Fonts, Windows Fonts, Generic
+
+# Type              *
+  Titles            Oswald, sans-serif;
+  Sans-serif        Liberation Sans, Droid Sans, Arimo, Arial, sans-serif
+  Serif             Liberation Serif, Droid Serif, Tinos, Times New Roman, serif
+  Monospace         Liberation Mono, Droid Sans Mono, Cousine, Courier New, monospace
+------------------------------------------------------------------------
+# Anchors Activity Classes
+------------------------------------------------------------------------
+# Note
+  This classes should semantically be placed on the anchor itself.
+  This is how they are supposed to be and how they have been added.
+  Foundation do not however ... (i.e. on <li> in <ul>, not <a>)
+  That is why various components have alternate handling.
+  So be careful with syntax for these to properly work.
+
+# Class                   Usage
+  .active                 toggle → the anchor is active, it can be unactived by clicking on it ; usually used for components displaying (e.g. accordion, filters, etc.)
+  .current                switch → the anchor is the one switched on in a group, it can be switched off by clicking on a sibling element in the group ; usually used for pages displaying (e.g. nav, tabs, sorting, breadcrumbs, etc.)
+  .disabled               toggle, switch → the anchor is permanently deactivated, it can't be enabled at all (e.g. null link)
+  .unavailable            toggle, switch → the anchor is temporarily deactivated, it can be enabled if conditions are met (e.g. pagination previous)
+  .no-active              toggle → the anchor can't be actived, it behave like an event launcher in a group (e.g. clear, reset)
+  .no-current             switch → the anchor can't be switched on, it behave like an event launcher in a group (e.g. mailto, connect, disconnect, etc.)
+  .not-disabled           toggle, switch → the anchor is disabled but has been enabled by script
+  .not-unavailable        toggle, switch → the anchor is unavailable but has been made available by script
+------------------------------------------------------------------------
+# Glossary
+------------------------------------------------------------------------
+# Classifications
+  Articles [art|article|articles]
+  → contenu textuel structuré traitant d'un sujet/objet déterminé
+  Rubriques [rub|rubric|rubrics]
+  → classification thématique (càd. selon l'objet/sujet de l'article) (p. ex. nécrologie, utopie, , etc.)
+  Catégories [cat|category|categories]
+  → classification typologique (càd. selon le type/genre de l'article) (p. ex. interview, brève, dossier, etc.)
+
+# Intitulé FR                     Anglais                         Code
+  Catégories                      Categories                      .category
+  - Articles                      Articles                        .article
+  - Brèves                        Short News                      .shortnews
+  - Reportages                    Reports                         .report
+  - Dossiers                      In Depth                        .indepth
+  - Spotlights                    Feature Stories                 .spotlight
+  - Interviews                    Interviews                      .interview
+  - Tribunes                      Op-ed                           .oped
+  - Revues du web                 Web Reviews                     .webreview
+  Rubriques                       Headings                        .rubric
+  - Luttes                        Struggles                       .struggles
+  - Nos corps, nous-mêmes         Our Bodies, Ourselves           .ourbodies
+  - Intersectionnalité            Intersectionality               .intersec
+  - International                 International                   .internat
+  - Éducation & Culture           Education & Culture             .educult
+  - Idées                         Ideas                           .ideas
+------------------------------------------------------------------------
+# Articles Components
+------------------------------------------------------------------------
+# CSS Class   Article component
+  .headline   headline, hed → title
+  .summary    summary, subhead, standfirst, rider, kicker, dek, deck → brief (usually one or two lines) elaboration of headline or summary
+  .byline     byline → name and position of writer
+  .dateline   dateline → when and where story occurred or article was filed
+  *           lead, lede, intro → opening paragraph
+  *           kicker → closing paragraph
+------------------------------------------------------------------------
+# Articles Summaries
+------------------------------------------------------------------------
+[140chars] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam faucibus lorem eu justo fermentum tristique. Nam bibendum, tortor massa nunc.
+------------------------------------------------------------------------
+# File Structure
+------------------------------------------------------------------------
+# HTML file               Section CSS Class       Section Common Name
+  index.html              *                       Édito
+  latest.html             article-block-list      À la une
+  articles.html           article-list            Articles
+  article.html            article                 Nom de l'article (gabarit)
+  folders.html            article-group           Dossiers (arborescence)
+  agenda.html             date-list | date-table  Agenda
+  contact.html            contact-form            Contact
+  users.html              user-list               Liste des comptes
+  friends.html            list                    Nos amies
+  about.html              *                       Présentation
+  legal.html              *                       Mentions légales
+  sitemap.html            *                       Plan du site (facultatif)
+  search.html             *                       Résultats de recherche
+
+# JS File                 Kind of functions       Usage
+  loap-main.js            .append() | .prepend()  Generic content integration (i.e. nav-pane, header, footer, etc.)
+  loap-layout.js          .show() | .hide()       *
+  loap-[filename].js      .click()                *
+------------------------------------------------------------------------
+# Icon Set
+------------------------------------------------------------------------
+# Icon Sizes
+  - Large           48x48
+  - Medium          36x36
+  - Small           24x24
+
+# UI Icons
+  - left // arrows | white glowing
+  - right
+  - up
+  - down
+  - show // ui | grayscale
+  - hide
+  - expand
+  - collapse
+
+# Browsing Icons
+  - home // navigation | grayscale
+  - search
+  - mail
+  - link
+  - brightness // accessibility | grayscale
+  - textinc
+  - textdec
+  - print
+
+# Publishing Icons
+  - article // topic | colored
+  - author
+  - date
+  - tags
+  - comment // comments | colored
+  - reply
+  - edit
+  - alert
+
+# Ordering Icons
+  - rubric // rubrics | colored blocks
+  - struggle
+  - ourbody
+  - intersec
+  - internat
+  - educult
+  - ideas
+  - undefined
+
+# Networking Icons
+  - syndicate // share | colored blocks
+  - twitter
+  - facebook
+  - googleplus
+  - tumblr
+  - linkedin
+  - pinterest
+  - stumbleupon
+------------------------------------------------------------------------
+# User Interface Images
+------------------------------------------------------------------------
+# Ribbons (24x24x13)
+  - Orbit Headline
+  - Orbit Image
+  - Orbit Red
+  - Orbit Orange
+  - Orbit Yellow
+  - Orbit Green
+  - Orbit Cyan
+  - Orbit Blue
+  - Orbit Purple
+  - Orbit Magenta
+  - Subnav
+------------------------------------------------------------------------
+# User Pictures
+------------------------------------------------------------------------
+# Format
+  - JPG progressive 75% compression
+  - max 30 Kb
+
+# Size
+  ! Huge            384x384 (max allowed)
+  - Large           256x256
+  - Medium          128x128
+  - Small           96x96
+  - Tiny            48x48
+
+# Dummies
+  - Diana (Wonder Woman)
+  - Inna (Shevchenko)
+  - Nadejda (Tolokonnikova)
+  - Vandana (Shiva)
+  - François (Hollande)
+
+# Method 1
+> img HTML tag
+  - Pros : expected usage of <img> element, easy to set up
+  - Cons : no good control over image positioning and sizing even using a <figure> holder, plain HTML page overloaded with user pictures
+  - Conc : should not be used to display user pictures
+  
+# Method 2
+> background-img CSS property without jQuery
+  - Pros : good control over image positioning and sizing
+  - Cons : not really standard usage of background-image property, need to rewrite css file at each user image update
+  - Conc : not a good issue for displaying user pictures
+
+# Method 3
+> background-img CSS property with jQuery
+  - Pros : good control over image positioning and sizing
+  - Cons : not really standard usage of background-image property
+  - Conc : chosen method for user pictures displaying
+------------------------------------------------------------------------
+# Visibility Handling
+------------------------------------------------------------------------
+# Method 1
+> element.hide() | element.show()
+  - Pros : very short writing
+  - Cons : no 'hide' class handling (so a 'hide' element can be shown), non logical visibility checking → element.css("display") == 'none')
+  - Conc : alternate method ; should be used only for element that are always visible (i.e. elements that will never use the 'hide' class) (e.g. logo, pane, header, footer, etc.)
+
+# Method 2
+> element.addClass("hide") | element.removeClass("hide")
+  - Pros : correct handling of 'hide' class, logical visbility checking → element.hasClass('hide')
+  - Cons : a bit long to write
+  - Conc : chosen method ; should be used for all hidden elements (most of content elements are thrown to client with the 'hide' class set on)
+------------------------------------------------------------------------
+# Inner Linking
+------------------------------------------------------------------------
+# Case 1 : absolute link (e.g. http://ourse-plumes.domain/article.html#article_name)
+# Case 2 : relative link (e.g. #article_name)
+
+# Method 1
+> href="#section_name"
+  - Pros : logcial linking, short writing, good callback in browser (the user know exactly what he points at), an inner anchor will display a section and point directly to it
+  - Cons : navigation may appear 'weird' (the header is always hidden by scrolling), may introduce be too much movement in the page for navigation to be cool
+
+# Method 2
+> data-show="section_name"
+  - Pros : flexible method (inner anchor can still be set, an outer anchor can also be set), no # syntax usage
+  - Cons : non DOM attribute, long writing, need href="javascript:void(0)" for the anchor to be valid => tab can't be opened, previous/next browser ability broken
+
+# Method 3
+> href="#section_name" where '#section_name' refers to the document root and is rewritten on-the-fly
+  - Pros : logcial linking, short writing, no fake elements needed
+  - Cons : may generate compatibility problems while rewriting the DOM
+------------------------------------------------------------------------
+# CSS Structure Renaming Chart
+------------------------------------------------------------------------
+# Old Element             New Element             Real Name
+  .wrapper                .frame                  Cadre
+  .sidebar                .nav-pane               Panneau de navigation
+  .user-nav               .user-nav               Menu utilisateur
+  .sidenav                .main-nav               Menu principal
+  .content                .main-pane              Panneau principal
+  .supnav                 .fast-nav               Navigation rapide
+  .orbit-container        .news-list              Actualités
+  .body                   *                       *
+  .subnav                 .site-nav               Menu de site
+
