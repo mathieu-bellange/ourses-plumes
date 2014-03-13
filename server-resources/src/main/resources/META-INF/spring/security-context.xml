@@ -19,6 +19,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/rest/account/** = authc
+				/bug-tracker.html = anon
 				/logout = logout
 				/** = anon
 	        </value>

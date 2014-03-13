@@ -15,7 +15,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
 	<!-- UTF-8 filter -->
 	<filter>
     	<filter-name>encoding-filter</filter-name>
@@ -44,9 +43,23 @@
 	
 	<filter-mapping>
         <filter-name>jsessionIdAvoiderFilter</filter-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
+	
+	<!-- filter rewriter -->
+	<filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+        <init-param>
+            <param-name>logLevel</param-name>
+            <param-value>WARN</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 	<!-- security filter -->
 	<filter>
@@ -80,10 +93,10 @@
 	</servlet-mapping>
 	
 	<!-- error -->
-	<error-page>
-    	<error-code>404</error-code>
-    	<location>/</location>
-	</error-page>
+<!-- 	<error-page> -->
+<!--     	<error-code>404</error-code> -->
+<!--     	<location>/error.html</location> -->
+<!-- 	</error-page> -->
 
 	<welcome-file-list>
 		<welcome-file>/index.html</welcome-file>

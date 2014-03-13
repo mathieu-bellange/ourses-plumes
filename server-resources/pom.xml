@@ -81,6 +81,11 @@
 			<artifactId>jsr305</artifactId>
 			<version>${jsr-305-version}</version>
 		</dependency>
+		<dependency>
+	        <groupId>org.tuckey</groupId>
+	        <artifactId>urlrewritefilter</artifactId>
+	        <version>4.0.3</version>
+	    </dependency>
 		
 		<!-- aop -->
 		<dependency>
