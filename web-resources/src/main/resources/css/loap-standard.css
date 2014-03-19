@@ -2580,6 +2580,7 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 .users-table {width: 100%;}
+.users-table td button, .users-table td select {margin:0;}
 
 /* ------------------------------------------------------------------ */
 /* # User Account */

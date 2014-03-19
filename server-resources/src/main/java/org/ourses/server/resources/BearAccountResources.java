@@ -16,8 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
 import org.ourses.server.domain.exception.EntityIdNull;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
@@ -30,45 +28,49 @@ import com.google.common.collect.Lists;
 @Path("/account")
 public class BearAccountResources {
 
-	@POST
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAccount(BearAccountDTO bearAccountDTO) {
         bearAccountDTO.toBearAccount().save();
         return Response.status(Status.CREATED).build();
     }
-	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateAccount(BearAccountDTO bearAccountDTO) {
-		Response response;
-		try{
-			bearAccountDTO.toBearAccount().save();
-			response = Response.ok(bearAccountDTO).build();
-		}catch(OptimisticLockException ole){
-			response = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR, OptimisticLockException.class).build();
-		}
-		return response;
-	}
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAccount(BearAccountDTO bearAccountDTO) {
+        Response response;
+        try {
+            bearAccountDTO.toBearAccount().save();
+            response = Response.ok(bearAccountDTO).build();
+        }
+        catch (OptimisticLockException ole) {
+            response = Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .header(HTTPUtility.HEADER_ERROR, OptimisticLockException.class).build();
+        }
+        return response;
+    }
 
     @DELETE
     @Path("/{id}")
-    @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
+    // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response deleteAccount(@PathParam("id")
     long id) {
-    	Response response = Response.ok().build();
+        Response response = Response.ok().build();
         BearAccount bearAccount = new BearAccount();
         bearAccount.setId(id);
         try {
-			bearAccount.delete();
-		} catch (EntityIdNull e) {
-			response = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR, EntityIdNull.class).build();
-		}
+            bearAccount.delete();
+        }
+        catch (EntityIdNull e) {
+            response = Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .header(HTTPUtility.HEADER_ERROR, EntityIdNull.class).build();
+        }
         return response;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RequiresRoles(RolesUtil.ADMINISTRATRICE)
+    // @RequiresRoles(RolesUtil.ADMINISTRATRICE)
     public List<BearAccountDTO> findAllBearAccounts() {
         List<BearAccount> listBearAccount = BearAccount.findAllAdministrationBearAccounts();
         List<BearAccountDTO> listBearAccountDTO = Lists.transform(listBearAccount,

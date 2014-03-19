@@ -18,7 +18,7 @@
 <!-- 		<property name="unauthorizedUrl" value="/rien.html"/> -->
 		<property name="filterChainDefinitions">
 			<value>
-				/rest/account/** = authc
+				/rest/account/** = anon
 				/bug-tracker.html = anon
 				/logout = logout
 				/** = anon

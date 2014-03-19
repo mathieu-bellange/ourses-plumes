@@ -31,32 +31,24 @@
   </head>
   <body id="root" class="css-fx">
   	<section>
-  		<form id="new-bug" action="/">
-		  <div class="row">
-		    <div class="large-12 columns">
-		      <label><h6>Intitul&eacute; du bug</h6>
-		        <input id="bug-title" type="text" placeholder="Titre" maxlength="50" />
-		      </label>
-		    </div>
-		  </div>
-		  <div class="row">
-		    <div class="large-12 columns">
-		      <label><h6>Description d&eacute;taill&eacute;</h6>
-		        <textarea id="bug-body" placeholder="Description" maxlength="2000"></textarea>
-		      </label>
-		    </div>
-		  </div>
-		  <div class="row">
-		    <div class="large-12 columns">
-		      <button type="submit" class="right">Valider</button>
-		    </div>
-		  </div>
-		</form>
+  		<table class="users-table" id="accountsTable">
+			<thead>
+				<tr>
+					<th>Login</th>
+					<th>Mail</th>
+					<th>R&ocirc;le</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody >
+				
+			</tbody>
+		</table>
   	</section>
   	<!--Post Loading Scripts-->
     <script src="js/jquery/jquery.js"></script>
     <script src="js/foundation/foundation.js"></script>
-    <script src="js/loap-bug-tracker.js"></script>
+    <script src="js/loap-accounts.js"></script>
     <script>$(document).foundation();</script>
   </body>
  </html>

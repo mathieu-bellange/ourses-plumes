@@ -9,5 +9,11 @@
         <from>/bug-tracker</from>
         <to>/bug-tracker.html</to>
     </rule>
+    
+    <rule>
+        <note>redirection vers la page des listes de comptes</note>
+        <from>/comptes</from>
+        <to>/accounts.html</to>
+    </rule>
 
 </urlrewrite>
