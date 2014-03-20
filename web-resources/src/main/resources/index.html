@@ -19,11 +19,12 @@
     <link href="css/loap-standard.css" rel="stylesheet" />
     <link href="css/loap-responsive.css" rel="stylesheet" />
     <link href="css/loap-fx.css" rel="stylesheet" />
-<!--     <link href="css/loap-debug.css" rel="stylesheet" /> -->
+    <link href="css/loap-debug.css" rel="stylesheet" />
     <!--[if gte IE 9]>
       <style type="text/css">.gradient{filter:none;}</style>
     <![endif]-->
     <!--Pre Loading Scripts-->
+    <script src="js/loap-conf.js"></script>
     <script src="js/modernizr/modernizr.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -31,7 +32,7 @@
   </head>
   <body id="root" class="css-fx">
     <!--Dev Toolbar-->
-    <div id="toolbar" class="hide-for-print">
+    <div id="toolbar" class="hide-for-print hide">
       <div class="top-bar" data-topbar>
         <ul class="title-area">
           <li class="name">
@@ -126,7 +127,8 @@
             <li><a href="javascript:void(0)" class="disabled">Publier un article</a></li>
             <li class="small"><a href="javascript:void(0)" class="disabled"><s>Modifier les cat&eacute;gories</s></a></li>
             <li class="small"><a href="javascript:void(0)" class="disabled"><s>Modifier les rubriques</s></a></li>
-            <li><a href="javascript:void(0)" data-show="user-list">Lister les comptes</a></li>
+            <li><a href="accounts.html" data-show="user-list">Lister les comptes</a></li>
+            <li><a href="bug-tracker.html" data-show="bug-tracker">Signaler un bug</a></li>
             <li class="text-large"><a href="javascript:void(0)" class="connect-switch no-current red">D&eacute;connexion</a></li>
           </ul>
         </nav>
@@ -176,7 +178,7 @@
           <hr class="hide">
           <!--News List-->
           <h2 class="hide">Actualit&eacute;s</h2>
-          <div class="hide-for-small">
+          <div class="news-list hide-for-small">
             <ul data-orbit data-options="
               animation_speed: 375;
               slide_number_text: sur;
@@ -1947,15 +1949,30 @@ def helloworld (universe) {
     </div>
     <!--Post Loading Scripts-->
     <script src="js/jquery/jquery.js"></script>
+    <script src="js/foundation/foundation.lib.js"></script>
+    <!--
     <script src="js/foundation/foundation.js"></script>
+    <script src="js/foundation/foundation.abide.js"></script>
     <script src="js/foundation/foundation.accordion.js"></script>
+    <script src="js/foundation/foundation.alert.js"></script>
+    <script src="js/foundation/foundation.clearing.js"></script>
+    <script src="js/foundation/foundation.dropdown.js"></script>
+    <script src="js/foundation/foundation.equalizer.js"></script>
+    <script src="js/foundation/foundation.interchange.js"></script>
+    <script src="js/foundation/foundation.joyride.js"></script>
+    <script src="js/foundation/foundation.magellan.js"></script>
+    <script src="js/foundation/foundation.offcanvas.js"></script>
     <script src="js/foundation/foundation.orbit.js"></script>
+    <script src="js/foundation/foundation.reveal.js"></script>
+    <script src="js/foundation/foundation.tab.js"></script>
     <script src="js/foundation/foundation.tooltip.js"></script>
+    <script src="js/foundation/foundation.topbar.js"></script>
+    -->
     <script src="js/backbone/underscore.js"></script>
     <script src="js/backbone/backbone.js"></script>
     <script src="js/loap-router.js"></script>
     <script src="js/loap-connexion.js"></script>
-    <script src="js/loap.js"></script>
+    <script src="js/loap-core.js"></script>
     <script>$(document).foundation();</script>
   </body>
 </html>
