@@ -31,7 +31,49 @@
   </head>
   <body id="root" class="css-fx">
   	<section>
-
+		<form id="bearAccount" onsubmit="return createBearAccount()">
+			 <div class="row">
+			    <div class="large-12 columns">
+					<label for="pseudo">Pseudo&nbsp;:&nbsp;
+						<input id="pseudo" type="text" />
+					</label>
+			    </div>
+		    </div>
+		    <div class="row">
+			    <div class="large-12 columns">
+					<label for="mail">Adresse mail&nbsp;:&nbsp;
+						<input id="mail" type="text" required="required" 
+							pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$"/>
+					</label>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="large-12 columns">
+					<label for="password">Mot de passe&nbsp;:&nbsp;
+						<input id="password" type="text"  required="required"/>
+					</label>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="large-12 columns">
+					<label for="description">Description&nbsp;:&nbsp;
+						<textarea id="description" maxlength="1000"></textarea>
+					</label>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="large-12 columns">
+					<label for="role">R&ocirc;le&nbsp;:&nbsp;
+						<select id="role" ></select>
+					</label>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="large-12 columns">
+					<input class="button" id="confirm" type="submit" value="Valider"/>
+			    </div>
+			</div>
+		</form>
   	</section>
   	<!--Post Loading Scripts-->
     <script src="js/jquery/jquery.js"></script>

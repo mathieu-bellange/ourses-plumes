@@ -26,6 +26,7 @@ function createBearAccount() {
 		data : bearAccount.json(),
 		success : function(jqXHR, status, errorThrown) {
 			alert(status);
+			window.location = window.location.host + "/comptes";
 		},
 		error : function(jqXHR, status, errorThrown) {
 			alert(status);
