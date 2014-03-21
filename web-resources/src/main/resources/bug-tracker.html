@@ -1,62 +1,80 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
-  <head>
-    <!--Document Title-->
-    <title>Les Ourses &agrave; plumes</title>
-    <!--Meta Tags-->
-    <meta charset="utf-8">
-    <meta name="application-name" content="Feathered Bears Webzine Template">
-    <meta name="author" content="Les Ourses &agrave; plumes">
-    <meta name="keywords" content="Webzine, F&eacute;minisme">
-    <meta name="description" content="Une revue web f&eacute;ministe">
-    <meta name="generator" content="Notepad++ 6.0.5">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Favorite Icon-->
-    <link href="img/ico/loap-icon-64x64.png" type="image/x-icon" rel="icon" />
-    <!--Style Sheets-->
-    <link href="css/normalize.css" rel="stylesheet" />
-    <link href="css/foundation.css" rel="stylesheet" />
-    <link href="css/loap-standard.css" rel="stylesheet" />
-    <link href="css/loap-responsive.css" rel="stylesheet" />
-    <link href="css/loap-fx.css" rel="stylesheet" />
-<!--     <link href="css/loap-debug.css" rel="stylesheet" /> -->
-    <!--[if gte IE 9]>
-      <style type="text/css">.gradient{filter:none;}</style>
-    <![endif]-->
-    <!--Pre Loading Scripts-->
-    <script src="js/modernizr/modernizr.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body id="root" class="css-fx">
-  	<section>
-  		<form id="new-bug" action="/">
-		  <div class="row">
-		    <div class="large-12 columns">
-		      <label><h6>Intitul&eacute; du bug</h6>
-		        <input id="bug-title" type="text" placeholder="Titre" maxlength="50" />
-		      </label>
-		    </div>
-		  </div>
-		  <div class="row">
-		    <div class="large-12 columns">
-		      <label><h6>Description d&eacute;taill&eacute;</h6>
-		        <textarea id="bug-body" placeholder="Description" maxlength="2000"></textarea>
-		      </label>
-		    </div>
-		  </div>
-		  <div class="row">
-		    <div class="large-12 columns">
-		      <button type="submit" class="right">Valider</button>
-		    </div>
-		  </div>
-		</form>
-  	</section>
-  	<!--Post Loading Scripts-->
-    <script src="js/jquery/jquery.js"></script>
-    <script src="js/foundation/foundation.js"></script>
-    <script src="js/loap-bug-tracker.js"></script>
-    <script>$(document).foundation();</script>
-  </body>
- </html>
+	<head>
+		<!--Document Title-->
+		<title>Les Ourses &agrave; plumes</title>
+		<!--Meta Tags-->
+		<meta charset="utf-8">
+		<meta name="application-name" content="Feathered Bears Webzine Template">
+		<meta name="author" content="Les Ourses &agrave; plumes">
+		<meta name="keywords" content="Webzine, F&eacute;minisme">
+		<meta name="description" content="Une revue web f&eacute;ministe">
+		<meta name="generator" content="Notepad++ 6.0.5">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--Favorite Icon-->
+		<link href="img/ico/loap-icon-64x64.png" type="image/x-icon" rel="icon" />
+		<!--Style Sheets-->
+		<link href="css/normalize.css" rel="stylesheet" />
+		<link href="css/foundation.css" rel="stylesheet" />
+		<link href="css/loap-standard.css" rel="stylesheet" />
+		<link href="css/loap-responsive.css" rel="stylesheet" />
+		<link href="css/loap-fx.css" rel="stylesheet" />
+		<link href="css/loap-debug.css" rel="stylesheet" />
+		<!--[if gte IE 9]>
+			<style type="text/css">.gradient{filter:none;}</style>
+		<![endif]-->
+		<!--Pre Loading Scripts-->
+		<script src="js/modernizr/modernizr.js"></script>
+		<script src="js/jquery/jquery.js"></script>
+		<script src="js/loap-conf.js"></script>
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	<body id="root" class="css-fx">
+		<div id="main" class="frame">
+			<div class="main-pane">
+				<section style="padding: 0 1rem;">
+					<fieldset>
+						<legend>Rapport de bug</legend>
+						<form id="new-bug" action="/" data-abide>
+						<div class="row" style="margin-bottom: 1rem;">
+							<div class="column medium-4 large-push-2 large-2">
+								<label for="bug-title">Intitul&eacute; <sup class="medium red">*</sup></label>
+							</div>
+							<div class="column medium-8 large-pull-2 large-6">
+								<input id="bug-title" type="text" maxlength="50" style="margin-bottom: 0;" placeholder="Intitul&eacute; du bug" required />
+								<small class="error">Veuillez intituler le bug rapport&eacute;</small>
+							</div>
+						</div>
+						<div class="row" style="margin-bottom: 1rem;">
+							<div class="column medium-4 large-push-2 large-2">
+								<label for="bug-body">Description <sup class="medium red">*</sup></label>
+							</div>
+							<div class="column medium-8 large-pull-2 large-6">
+								<textarea id="bug-body" maxlength="2000" style="margin-bottom: 0; max-width: 100%; min-width: 100%; min-height: 10rem;" placeholder="Description du bug" required></textarea>
+								<small class="error">Veuillez d&eacute;crire le bug rapport&eacute;</small>
+							</div>
+						</div>
+						<div class="row" style="margin-bottom: 1rem;">
+							<div class="column small-12 medium-push-4 medium-8 large-push-4 medium-pull-2 large-6">
+								<button type="submit" class="right" style="margin-bottom: 0;">Valider</button>
+							</div>
+						</div>
+					</form>
+					</fieldset>
+				</section>
+			</div>
+		</div>
+		<!--Post Loading Scripts-->
+		<script src="js/loap-wrap.js"></script>
+		<script src="js/foundation/foundation.lib.js"></script>
+		<script src="js/backbone/underscore.js"></script>
+		<script src="js/backbone/backbone.js"></script>
+		<script src="js/loap-core.js"></script>
+		<script src="js/loap-router.js"></script>
+		<script src="js/loap-connexion.js"></script>
+		<script src="js/loap-bug-tracker.js"></script>
+		<script>$(document).foundation();</script>
+	</body>
+</html>

@@ -359,8 +359,7 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
-					<!-- http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin -->
-					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<reload>manual</reload>
 					<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
 					<webAppConfig>
 						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>

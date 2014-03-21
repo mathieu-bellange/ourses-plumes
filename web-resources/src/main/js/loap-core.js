@@ -1,7 +1,7 @@
 ﻿/*
  * VERSION
  * Les Ourses à plumes
- * Javascript Scripts
+ * Javascript Core
  * Required jQuery Library
  * ver. alpha 2
  *
@@ -10,6 +10,15 @@
 /* ------------------------------------------------------------------ */
 /* # TEST */
 /* ------------------------------------------------------------------ */
+
+/* Loading Feedback */
+$(document).ready(function() {
+  if (loading_feedback == true) {
+    alert("LOAP core JS alpha 2 loaded");
+  }
+});
+
+/* ULR Parser */
 /*
 $(document).ready(function() {
   var url = window.location.pathname;
@@ -23,6 +32,13 @@ $(document).ready(function() {
 /* ------------------------------------------------------------------ */
 /* # Toolbar */
 /* ------------------------------------------------------------------ */
+
+/* Toolbar */
+$(document).ready(function() {
+  if (dev_toolbar == true) {
+    $("#toolbar").removeClass("hide");
+  }
+});
 
 /* Toolbar Null Links Toggler */
 $("#_null_links_toggle").click(function() {
@@ -383,7 +399,7 @@ $(".pagination li a").click(function() {
 });
 
 /* ------------------------------------------------------------------ */
-/* Date List */
+/* # Date List */
 /* ------------------------------------------------------------------ */
 
 /* Date List Filters */

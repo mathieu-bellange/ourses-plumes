@@ -57,8 +57,3 @@ $.getJSON("http://localhost:8080/rest/category", function(json){
 $(document).ready(function(){
 	$('#editor').ckeditor();
 });
-
-
-
-
-
