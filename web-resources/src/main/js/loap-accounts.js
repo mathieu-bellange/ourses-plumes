@@ -34,6 +34,8 @@ function getAccount(){
 			$.each(roles, function(val, text) {
 				options[options.length] = new Option(text.role, text.id);
 			});
+			// selectionne la bonne option
+			comboRole.val(value.role.id);
 			// creer le bouton delete
 			var buttonDel = $( "<button>" ).text("Delete");
 			buttonDel.on("click",value.id,deleteEvent);
@@ -49,8 +51,6 @@ function getAccount(){
 			ligne.append(delCol);
 			//ajoute la ligne au tableau
 			$("#accountsTable tbody").append(ligne);
-			// selectionne la bonne option
-			$("#accountsTable tr[data-account-id="+value.id+"] select").val(value.role.id);
 		});
 	});
 };

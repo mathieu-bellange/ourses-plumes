@@ -4,6 +4,34 @@
 
 <urlrewrite>
 
+	<!-- redirection des fichiers statiques js, css fnt et img -->
+
+	<rule>
+        <note>redirection des css</note>
+        <from>^/(.*)/css/(.*)$</from>
+        <to>/css/$2</to>
+    </rule>
+    
+	<rule>
+        <note>redirection des js</note>
+        <from>^/(.*)/js/(.*)$</from>
+        <to>/js/$2</to>
+    </rule>
+    
+	<rule>
+        <note>redirection des img</note>
+        <from>^/(.*)/img/(.*)$</from>
+        <to>/img/$2</to>
+    </rule>
+    
+	<rule>
+        <note>redirection des fnt</note>
+        <from>^/(.*)/fnt/(.*)$</from>
+        <to>/fnt/$2</to>
+    </rule>
+    
+    <!-- redirection html -->
+
     <rule>
         <note>redirection vers la page d'ajout d'un bug github</note>
         <from>/bug-tracker</from>
@@ -11,9 +39,16 @@
     </rule>
     
     <rule>
+        <note>redirection vers la page du compte</note>
+        <from>^/comptes/(.*)$</from>
+        <to>/account.html</to>
+    </rule>
+    
+    <rule>
         <note>redirection vers la page des listes de comptes</note>
         <from>/comptes</from>
         <to>/accounts.html</to>
     </rule>
+    
 
 </urlrewrite>
