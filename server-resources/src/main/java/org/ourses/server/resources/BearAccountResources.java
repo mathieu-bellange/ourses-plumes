@@ -32,7 +32,7 @@ public class BearAccountResources {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAccount(BearAccountDTO bearAccountDTO) {
         bearAccountDTO.toBearAccount().save();
-        return Response.status(Status.CREATED).build();
+        return Response.status(Status.CREATED).entity(bearAccountDTO).build();
     }
 
     @PUT
