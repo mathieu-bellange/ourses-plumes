@@ -23,7 +23,7 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void shouldGetBearAccountDTO() {
-        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", null, null, new Profile());
+        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", null, new Profile(),0);
         BearAccountDTO bearAccounToVerify = bearAccount.toBearAccountDTO();
         assertThat(bearAccounToVerify).isNotNull();
         assertThat(bearAccounToVerify.getMail()).isEqualTo(
@@ -33,14 +33,15 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     public void shouldCreateProfileWhenCreatingBearAccount() {
     	//Par défaut le pseudo est renseigné et la description peut être nulle
-        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", null, null, new Profile());
+        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", null, new Profile(),0);
         assertThat(bearAccount.getProfile().getPseudo()).isEqualTo(Profile.DEFAULT_PSEUDO);
     }
 
     @Test
     public void shouldInsertNewAccount() {
         BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", "SexyJulie",
-                new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE), new Profile());
+               new Profile(),0);
+        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
         Ebean.save(bearAccount);
         assertThat(bearAccount.getId()).isNotNull();
         Ebean.delete(bearAccount);
@@ -50,13 +51,16 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     public void shouldRetrieveListOfAdministrationAccounts() {
         BearAccount bearAccount =new BearAccount("julie.marie@gmail.com", "SexyJulie",
-        		new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE), new Profile());
+        		 new Profile(),0);
+        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
         Ebean.save(bearAccount);
         BearAccount bearAccount2 = new BearAccount("julie.marie@gmail.com", "SexyJulie",
-        		new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE), new Profile());
+        		 new Profile(),0);
+        bearAccount2.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
         Ebean.save(bearAccount2);
         BearAccount bearAccount3 = new BearAccount("julie.marie@gmail.com", "SexyJulie",
-        		new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE), new Profile());
+        		 new Profile(),0);
+        bearAccount3.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
         Ebean.save(bearAccount3);
         List<BearAccount> listBearAccounts = BearAccount.findAllAdministrationBearAccounts();
         // il y a 5 BearAccount en base, 3 ici et 2 insérés par INSERT_ACCOUNT (src/main/resources/META-INF/sql)
@@ -72,7 +76,8 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test(expected=EntityNotFoundException.class)
     public void shouldDeleteAccount() throws EntityIdNull{
     	BearAccount bearAccount =new BearAccount("julie.marie@gmil.com", "SexyJulie",
-        		new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE), new Profile());
+        		 new Profile(),0);
+    	bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
         Ebean.save(bearAccount);
         bearAccount.delete();
         Ebean.refresh(bearAccount);

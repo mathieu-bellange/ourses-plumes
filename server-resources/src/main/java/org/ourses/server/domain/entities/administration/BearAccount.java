@@ -108,6 +108,13 @@ public class BearAccount implements Account {
         this.profile = profile;
         this.version = version;
 	}
+    
+    public BearAccount( Object principal, Object credentials, Profile profile, Integer version) {
+    	this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
+    	this.profile = profile;
+    	this.version = version;
+    }
+
 
 	/**
      * Renvoie le profil lié au compte
@@ -283,6 +290,8 @@ public class BearAccount implements Account {
         if (profile != null) {
             profileDTO = profile.toProfileDTO();
         }
-        return new BearAccountDTO(this.id, mail, credentials, role, profileDTO, version);
+        BearAccountDTO bearAccountDTO =  new BearAccountDTO(this.id, mail, credentials, profileDTO, version);
+        bearAccountDTO.setRole(role);
+        return bearAccountDTO;
     }
 }

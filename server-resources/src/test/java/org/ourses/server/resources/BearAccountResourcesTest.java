@@ -16,7 +16,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
-import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.ourses.server.utility.EmbeddedServer;
 
@@ -56,7 +55,7 @@ public class BearAccountResourcesTest {
     }
 
     private Object dummyAccount() {
-        return new BearAccountDTO(null, "login", "mdp", new OursesAuthzInfoDTO(1l, "1"), new ProfileDTO("pseudo",
+        return new BearAccountDTO(null, "login", "mdp", new ProfileDTO("pseudo",
                 "description", 0), 0);
     }
 

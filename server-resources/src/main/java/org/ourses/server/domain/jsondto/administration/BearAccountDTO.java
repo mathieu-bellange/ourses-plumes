@@ -12,27 +12,27 @@ import org.ourses.server.domain.entities.administration.BearAccount;
 public class BearAccountDTO {
 
 	private Long id;
-    private String mail;
-    private String password;
-    private OursesAuthzInfoDTO role;
-    private ProfileDTO profile;
-    private Integer version;
+	private String mail;
+	private String password;
+	private OursesAuthzInfoDTO role;
+	private ProfileDTO profile;
+	private Integer version;
 
-    public BearAccountDTO() {
+	public BearAccountDTO() {
 
-    }
+	}
 
-    public BearAccountDTO(Long id, String mail, String password, OursesAuthzInfoDTO role, ProfileDTO profile, Integer version) {
-        this.id = id;
-    	this.mail = mail;
-        this.password = password;
-        this.role = role;
-        this.profile = profile;
-        this.setVersion(version);
-    }
+	public BearAccountDTO(Long id, String mail, String password,
+			ProfileDTO profile, Integer version) {
+		this.id = id;
+		this.mail = mail;
+		this.password = password;
+		this.profile = profile;
+		this.setVersion(version);
+	}
 
-    @JsonProperty("id")
-    public Long getId() {
+	@JsonProperty("id")
+	public Long getId() {
 		return id;
 	}
 
@@ -50,57 +50,63 @@ public class BearAccountDTO {
 	}
 
 	@JsonProperty("password")
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    @JsonProperty("role")
-    public OursesAuthzInfoDTO getRole() {
-        return role;
-    }
+	@JsonProperty("role")
+	public OursesAuthzInfoDTO getRole() {
+		return role;
+	}
 
-    public void setRole(OursesAuthzInfoDTO role) {
-        this.role = role;
-    }
+	public void setRole(OursesAuthzInfoDTO role) {
+		this.role = role;
+	}
 
-    @JsonProperty("mail")
-    public String getMail() {
-        return mail;
-    }
+	@JsonProperty("mail")
+	public String getMail() {
+		return mail;
+	}
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
 
-    @JsonProperty("profile")
-    public ProfileDTO getProfile() {
-        return profile;
-    }
+	@JsonProperty("profile")
+	public ProfileDTO getProfile() {
+		return profile;
+	}
 
-    public void setProfile(ProfileDTO profileDTO) {
-        this.profile = profileDTO;
-    }
+	public void setProfile(ProfileDTO profileDTO) {
+		this.profile = profileDTO;
+	}
 
-    public BearAccount toBearAccount() {
-        return new BearAccount(id, mail, password, profile.toProfile(), version);
-    }
+	public BearAccount toBearAccount() {
+		BearAccount bearAccount = new BearAccount(id, mail, password,
+				profile.toProfile(), version);
+		if (role != null) {
+			bearAccount.setAuthzInfo(role.toOursesAuthorizationInfo());
+		}
+		return bearAccount;
+	}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,
+				ToStringStyle.MULTI_LINE_STYLE);
+	}
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this, true);
-    }
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this, true);
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj, true);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj, true);
+	}
 }
