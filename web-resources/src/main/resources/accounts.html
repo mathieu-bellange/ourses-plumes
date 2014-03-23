@@ -1,37 +1,43 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <!--Document Title-->
-    <title>Les Ourses &agrave; plumes</title>
-    <!--Meta Tags-->
-    <meta charset="utf-8">
-    <meta name="application-name" content="Feathered Bears Webzine Template">
-    <meta name="author" content="Les Ourses &agrave; plumes">
-    <meta name="keywords" content="Webzine, F&eacute;minisme">
-    <meta name="description" content="Une revue web f&eacute;ministe">
-    <meta name="generator" content="Notepad++ 6.0.5">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Favorite Icon-->
-    <link href="img/ico/loap-icon-64x64.png" type="image/x-icon" rel="icon" />
-    <!--Style Sheets-->
-    <link href="css/normalize.css" rel="stylesheet" />
-    <link href="css/foundation.css" rel="stylesheet" />
-    <link href="css/loap-standard.css" rel="stylesheet" />
-    <link href="css/loap-responsive.css" rel="stylesheet" />
-    <link href="css/loap-fx.css" rel="stylesheet" />
+<head>
+<!--Document Title-->
+<title>Les Ourses &agrave; plumes</title>
+<!--Meta Tags-->
+<meta charset="utf-8">
+<meta name="application-name" content="Feathered Bears Webzine Template">
+<meta name="author" content="Les Ourses &agrave; plumes">
+<meta name="keywords" content="Webzine, F&eacute;minisme">
+<meta name="description" content="Une revue web f&eacute;ministe">
+<meta name="generator" content="Notepad++ 6.0.5">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--Favorite Icon-->
+<link href="img/ico/loap-icon-64x64.png" type="image/x-icon" rel="icon" />
+<!--Style Sheets-->
+<link href="css/normalize.css" rel="stylesheet" />
+<link href="css/foundation.css" rel="stylesheet" />
+<link href="css/loap-standard.css" rel="stylesheet" />
+<link href="css/loap-responsive.css" rel="stylesheet" />
+<link href="css/loap-fx.css" rel="stylesheet" />
 <!--     <link href="css/loap-debug.css" rel="stylesheet" /> -->
-    <!--[if gte IE 9]>
+<!--[if gte IE 9]>
       <style type="text/css">.gradient{filter:none;}</style>
     <![endif]-->
-    <!--Pre Loading Scripts-->
-    <script src="js/modernizr/modernizr.js"></script>
-    <!--[if lt IE 9]>
+<!--Pre Loading Scripts-->
+<script src="js/modernizr/modernizr.js"></script>
+<!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body id="root" class="css-fx">
-  	<section>
-  		<table class="users-table" id="accountsTable">
+</head>
+<body id="root" class="css-fx">
+	<section>
+		<div id="comptes-alert" data-alert style="display: none;" class="alert-box success radius">
+			<span class="comptes-alert-message"></span>
+			<a href="javascript:void(0)" class="close-comptes">&times;</a>
+		</div>
+		<a href="/comptes/nouveau" class="button">Ajouter nouvelle
+			contributrice</a>
+		<table class="users-table" id="accountsTable">
 			<thead>
 				<tr>
 					<th>Login</th>
@@ -40,15 +46,17 @@
 					<th></th>
 				</tr>
 			</thead>
-			<tbody >
-				
+			<tbody>
+
 			</tbody>
 		</table>
-  	</section>
-  	<!--Post Loading Scripts-->
-    <script src="js/jquery/jquery.js"></script>
-    <script src="js/foundation/foundation.lib.js"></script>
-    <script src="js/loap-accounts.js"></script>
-    <script>$(document).foundation();</script>
-  </body>
- </html>
+	</section>
+	<!--Post Loading Scripts-->
+	<script src="js/jquery/jquery.js"></script>
+	<script src="js/foundation/foundation.lib.js"></script>
+	<script src="js/loap-accounts.js"></script>
+	<script>
+		$(document).foundation();
+	</script>
+</body>
+</html>

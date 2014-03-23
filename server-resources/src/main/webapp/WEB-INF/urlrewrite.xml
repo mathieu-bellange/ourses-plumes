@@ -40,7 +40,7 @@
     
     <rule>
         <note>redirection vers la page du compte</note>
-        <from>^/comptes/nouveau$</from>
+        <from>/comptes/nouveau</from>
         <to>/account.html</to>
     </rule>
     
