@@ -35,9 +35,13 @@
 		<div id="main" class="frame">
 			<div class="main-pane">
 				<section style="padding: 0 1rem;">
+					<div id="bug-alert" data-alert style="display:none;" class="alert-box success radius">
+						<span class="bug-alert-message"></span>	
+						 <a href="javascript:void(0)" class="close-bug">&times;</a>
+					</div>
 					<fieldset>
 						<legend>Rapport de bug</legend>
-						<form id="new-bug" data-abide>
+						<form id="new-bug" onsubmit="return false;" data-abide>
 						<div class="row" style="margin-bottom: 1rem;">
 							<div class="column medium-4 large-push-2 large-2">
 								<label for="bug-title">Intitul&eacute; <sup class="medium red">*</sup></label>
