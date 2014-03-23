@@ -101,17 +101,10 @@ public class BearAccount implements Account {
      */
     public BearAccount() {
     }
-
-    public BearAccount(Object principal, Object credentials,
-			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile) {
-    	this(null, principal, credentials, oursesAuthorizationInfo, profile,null);
-	}
     
-    public BearAccount(Long id, Object principal, Object credentials,
-			OursesAuthorizationInfo oursesAuthorizationInfo, Profile profile, Integer version) {
+    public BearAccount(Long id, Object principal, Object credentials, Profile profile, Integer version) {
     	this.id = id;
     	this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
-        this.authzInfo = oursesAuthorizationInfo;
         this.profile = profile;
         this.version = version;
 	}

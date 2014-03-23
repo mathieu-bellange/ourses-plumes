@@ -86,7 +86,7 @@ public class BearAccountDTO {
     }
 
     public BearAccount toBearAccount() {
-        return new BearAccount(id, mail, password, role.toOursesAuthorizationInfo(), profile.toProfile(), version);
+        return new BearAccount(id, mail, password, profile.toProfile(), version);
     }
 
     @Override

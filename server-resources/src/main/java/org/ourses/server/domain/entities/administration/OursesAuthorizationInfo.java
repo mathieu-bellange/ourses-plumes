@@ -151,6 +151,10 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     	return Ebean.find(OursesAuthorizationInfo.class).findSet();
     }
     
+    public static OursesAuthorizationInfo findRoleByName(String roleName){
+    	return Ebean.find(OursesAuthorizationInfo.class).where().eq("roles_for_db", roleName).findUnique(); 
+    }
+    
     public OursesAuthzInfoDTO toOursesAuthzInfoDTO(){
     	OursesAuthzInfoDTO oursesAuthzInfoDTO = new OursesAuthzInfoDTO(rolesForDb);
     	oursesAuthzInfoDTO.setId(id);

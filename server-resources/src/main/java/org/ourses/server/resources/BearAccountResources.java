@@ -16,7 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
+import org.ourses.server.domain.entities.administration.OursesAuthorizationInfo;
 import org.ourses.server.domain.exception.EntityIdNull;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.springframework.stereotype.Controller;
@@ -30,8 +32,12 @@ public class BearAccountResources {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+ // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
-        bearAccountDTO.toBearAccount().save();
+    	//on créé par défaut un compte en rédactrice
+        BearAccount account = bearAccountDTO.toBearAccount();
+        account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
+        account.save();
         return Response.status(Status.CREATED).entity(bearAccountDTO).build();
     }
 
