@@ -21,7 +21,7 @@ $( "#new-bug" ).submit(function( event ) {
 			data: bug.json(),
 			contentType : "application/json; charset=utf-8",
 			success: function (data) {
-				$("#bug-alert").remove("alert");
+				$("#bug-alert").remove("error");
 				$("#bug-alert").addClass("success");
 				$("#bug-alert-message").text("Le bug a été correctement créé");
 				$("#bug-alert").fadeIn(500);
@@ -30,7 +30,7 @@ $( "#new-bug" ).submit(function( event ) {
 			},
 			error: function(jqXHR, text, error){
 				$("#bug-alert").remove("success");
-				$("#bug-alert").addClass("alert");
+				$("#bug-alert").addClass("error");
 				$("#bug-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
 				$("#bug-alert").fadeIn(500);
 			},

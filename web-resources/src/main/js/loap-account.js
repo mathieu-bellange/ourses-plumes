@@ -29,9 +29,8 @@ $("#bearAccount").submit(function(event){
 				window.location.href = "/comptes";
 			},
 			error : function(jqXHR, status, errorThrown) {
-				$("#compte-alert").remove("success");
-				$("#compte-alert").addClass("warning");
-				$(".compte-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+				$("#compte-alert").addClass("error");
+				$("#compte-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
 				$("#compte-alert").fadeIn(500);
 			},
 			dataType : "json"
@@ -40,6 +39,6 @@ $("#bearAccount").submit(function(event){
 });
 
 /*Events */
-$(".close-compte").on('click', function(event) {
+$("#compte-alert .close").on('click', function(event) {
 	$("#compte-alert").fadeOut(500);
 });

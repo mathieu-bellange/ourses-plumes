@@ -13,9 +13,8 @@ $.getJSON("/rest/role", function(rolesBdd) {
 	roles = rolesBdd;
 	getAccount();
 }).fail(function(){
-	$("#comptes-alert").remove("success");
-	$("#comptes-alert").addClass("warning");
-	$(".comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+	$("#comptes-alert").addClass("error");
+	$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
 	$("#comptes-alert").fadeIn(500);
 });
 
@@ -63,9 +62,8 @@ function getAccount(){
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
-			$("#comptes-alert").remove("success");
-			$("#comptes-alert").addClass("warning");
-			$(".comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+			$("#comptes-alert").addClass("error");
+			$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
 			$("#comptes-alert").fadeIn(500);
 		},
 		dataType : "json"
@@ -109,6 +107,6 @@ function deleteEvent(event){
 	});
 };
 
-$(".close-comptes").on('click', function(event) {
+$("#comptes-alert .close").on('click', function(event) {
 	$("#comptes-alert").fadeOut(500);
 });
