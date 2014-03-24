@@ -8,7 +8,7 @@ function GithubBug(title,body) {
 }
 
 /* Events */
-$(".close-bug").on('click', function(event) {
+$("#bug-alert .close").on('click', function(event) {
 	$("#bug-alert").fadeOut(500);
 });
 
@@ -21,9 +21,9 @@ $( "#new-bug" ).submit(function( event ) {
 			data: bug.json(),
 			contentType : "application/json; charset=utf-8",
 			success: function (data) {
-				$("#bug-alert").remove("warning");
+				$("#bug-alert").remove("alert");
 				$("#bug-alert").addClass("success");
-				$(".bug-alert-message").text("Le bug a été correctement créé");
+				$("#bug-alert-message").text("Le bug a été correctement créé");
 				$("#bug-alert").fadeIn(500);
 				$("#bug-title").val("");
 				$("#bug-body").val("");
@@ -31,8 +31,8 @@ $( "#new-bug" ).submit(function( event ) {
 			},
 			error: function(jqXHR, text, error){
 				$("#bug-alert").remove("success");
-				$("#bug-alert").addClass("warning");
-				$(".bug-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+				$("#bug-alert").addClass("alert");
+				$("#bug-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
 				$("#bug-alert").fadeIn(500);
 			},
 			dataType : "json"
