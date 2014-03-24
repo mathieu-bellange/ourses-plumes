@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Profile {
-    protected static final String DEFAULT_PSEUDO = "Ourse à plumes";
 
     @Id
     @GeneratedValue
@@ -22,17 +21,17 @@ public class Profile {
     private String pseudo;
 
     private String description;
-    
+
     @Version
     private Integer version;
 
     public Integer getVersion() {
-		return version;
-	}
+        return version;
+    }
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     public Long getId() {
         return id;
@@ -43,7 +42,12 @@ public class Profile {
     }
 
     public Profile() {
-        this.pseudo = DEFAULT_PSEUDO;
+    }
+
+    public Profile(Long id, String pseudo, String description) {
+        this.id = id;
+        this.pseudo = pseudo;
+        this.description = description;
     }
 
     public String getPseudo() {

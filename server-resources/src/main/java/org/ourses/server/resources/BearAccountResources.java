@@ -1,14 +1,13 @@
 package org.ourses.server.resources;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
-import javax.persistence.OptimisticLockException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,8 +18,13 @@ import javax.ws.rs.core.Response.Status;
 import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
 import org.ourses.server.domain.entities.administration.OursesAuthorizationInfo;
-import org.ourses.server.domain.exception.EntityIdNull;
+import org.ourses.server.domain.exception.AccountProfileNullException;
+import org.ourses.server.domain.exception.AuthenticationProfileNullException;
+import org.ourses.server.domain.exception.AuthorizationProfileNullException;
+import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
+import org.ourses.server.domain.jsondto.util.PatchDto;
+import org.ourses.server.resources.util.PATCH;
 import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
@@ -32,28 +36,31 @@ public class BearAccountResources {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
- // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
+    // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
-    	//on créé par défaut un compte en rédactrice
+        // on créé par défaut un compte en rédactrice
         BearAccount account = bearAccountDTO.toBearAccount();
         account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
-        account.save();
-        return Response.status(Status.CREATED).entity(bearAccountDTO).build();
-    }
-
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAccount(BearAccountDTO bearAccountDTO) {
-        Response response;
+        Response response = null;
         try {
-            bearAccountDTO.toBearAccount().save();
-            response = Response.ok(bearAccountDTO).build();
+            account.save();
+            response = Response.status(Status.CREATED).entity(account.toBearAccountDTO()).build();
         }
-        catch (OptimisticLockException ole) {
-            response = Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .header(HTTPUtility.HEADER_ERROR, OptimisticLockException.class).build();
+        catch (AccountProfileNullException | AuthenticationProfileNullException | AuthorizationProfileNullException e) {
+            response = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR, e.getClass())
+                    .build();
         }
         return response;
+    }
+
+    @PATCH
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAccount(@PathParam("id")
+    long id, Set<PatchDto> setModification) {
+        BearAccount bearAccount = BearAccount.find(id);
+        bearAccount.update(setModification);
+        return Response.ok().build();
     }
 
     @DELETE
@@ -67,9 +74,9 @@ public class BearAccountResources {
         try {
             bearAccount.delete();
         }
-        catch (EntityIdNull e) {
+        catch (EntityIdNullException e) {
             response = Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .header(HTTPUtility.HEADER_ERROR, EntityIdNull.class).build();
+                    .header(HTTPUtility.HEADER_ERROR, EntityIdNullException.class).build();
         }
         return response;
     }

@@ -16,10 +16,15 @@ import javax.persistence.Version;
 import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.ourses.server.domain.exception.EntityIdNull;
+import org.ourses.security.util.SecurityUtility;
+import org.ourses.server.domain.exception.AccountProfileNullException;
+import org.ourses.server.domain.exception.AuthenticationProfileNullException;
+import org.ourses.server.domain.exception.AuthorizationProfileNullException;
+import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
+import org.ourses.server.domain.jsondto.util.PatchDto;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -50,19 +55,19 @@ public class BearAccount implements Account {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     @Version
     private Integer version;
 
     public Integer getVersion() {
-		return version;
-	}
+        return version;
+    }
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
-	/**
+    /**
      * The authentication information (principals and credentials) for this account.
      */
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
@@ -79,7 +84,7 @@ public class BearAccount implements Account {
     /**
      * The authorization information for this account.
      */
-    @OneToOne(fetch = FetchType.LAZY, optional = false,cascade= CascadeType.REFRESH)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REFRESH)
     private OursesAuthorizationInfo authzInfo;
 
     public OursesAuthorizationInfo getAuthzInfo() {
@@ -101,22 +106,15 @@ public class BearAccount implements Account {
      */
     public BearAccount() {
     }
-    
+
     public BearAccount(Long id, Object principal, Object credentials, Profile profile, Integer version) {
-    	this.id = id;
-    	this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
+        this.id = id;
+        this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
         this.profile = profile;
         this.version = version;
-	}
-    
-    public BearAccount( Object principal, Object credentials, Profile profile, Integer version) {
-    	this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
-    	this.profile = profile;
-    	this.version = version;
     }
 
-
-	/**
+    /**
      * Renvoie le profil lié au compte
      * 
      * @return Profile profile
@@ -225,15 +223,36 @@ public class BearAccount implements Account {
         return Sets.newHashSet();
     }
 
-    public void save() {
+    public void save() throws AccountProfileNullException, AuthenticationProfileNullException,
+            AuthorizationProfileNullException {
+        if (profile == null) {
+            throw new AccountProfileNullException();
+        }
+        if (authcInfo == null) {
+            throw new AuthenticationProfileNullException();
+        }
+        if (authzInfo == null) {
+            throw new AuthorizationProfileNullException();
+        }
+        authcInfo = new OursesAuthenticationInfo(authcInfo.getMail(), SecurityUtility.encryptedPassword(authcInfo
+                .getCredentials()));
         Ebean.save(this);
     }
 
-    public void delete() throws EntityIdNull {
-        if (id == null){
-        	throw new EntityIdNull();
+    public void update(Set<PatchDto> updateProps) {
+        // TODO update
+        // Ebean.update(this, updateProps);
+    }
+
+    public void delete() throws EntityIdNullException {
+        if (id == null) {
+            throw new EntityIdNullException();
         }
         Ebean.delete(BearAccount.class, id);
+    }
+
+    public static BearAccount find(Long id) {
+        return Ebean.find(BearAccount.class, id);
     }
 
     /**
@@ -242,7 +261,7 @@ public class BearAccount implements Account {
      * @return
      */
     public static List<BearAccount> findAllAdministrationBearAccounts() {
-        return Ebean.find(BearAccount.class).fetch("authcInfo", "mail").fetch("authzInfo", "rolesForDb").fetch("profile","pseudo").findList();
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").findList();
     }
 
     /**
@@ -252,8 +271,8 @@ public class BearAccount implements Account {
      * @return
      */
     public static String getBearAccountCredentials(String mail) {
-        return Ebean.find(BearAccount.class).fetch("authcInfo", "credentials").where().eq("authcInfo.mail", mail)
-                .findUnique().getAuthcInfo().getCredentials();
+        return Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("authcInfo.mail", mail).findUnique()
+                .getAuthcInfo().getCredentials();
     }
 
     /**
@@ -263,26 +282,22 @@ public class BearAccount implements Account {
      * @return
      */
     public static Set<String> getBearAccountRoles(String mail) {
-        return Ebean.find(BearAccount.class).fetch("authzInfo", "rolesForDb").where().eq("authcInfo.mail", mail)
-                .findUnique().getAuthzInfo().getRoles();
+        return Ebean.find(BearAccount.class).fetch("authzInfo").where().eq("authcInfo.mail", mail).findUnique()
+                .getAuthzInfo().getRoles();
     }
 
     /**
      * Transforme un bear account en bear account DTO. Attention ebean ne récupère pas l'ensemble des données du bean,
-     * il ne le fait que sur demande
+     * il ne le fait que sur demande. On ne doit pas copier le mdp dans le dto, il reste côté serveur
      * 
      * @return
      */
     public BearAccountDTO toBearAccountDTO() {
         String mail = null;
-        String credentials = null;
         OursesAuthzInfoDTO role = null;
         ProfileDTO profileDTO = null;
         if (authcInfo != null) {
-            if (authcInfo.getPrincipals() != null) {
-                mail = (String) authcInfo.getPrincipals().getPrimaryPrincipal();
-            }
-            credentials = authcInfo.getCredentials();
+            mail = (String) authcInfo.getPrincipals().getPrimaryPrincipal();
         }
         if (authzInfo != null) {
             role = authzInfo.toOursesAuthzInfoDTO();
@@ -290,7 +305,7 @@ public class BearAccount implements Account {
         if (profile != null) {
             profileDTO = profile.toProfileDTO();
         }
-        BearAccountDTO bearAccountDTO =  new BearAccountDTO(this.id, mail, credentials, profileDTO, version);
+        BearAccountDTO bearAccountDTO = new BearAccountDTO(this.id, mail, null, profileDTO, role, version);
         bearAccountDTO.setRole(role);
         return bearAccountDTO;
     }

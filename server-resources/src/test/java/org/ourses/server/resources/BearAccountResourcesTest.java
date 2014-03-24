@@ -27,7 +27,6 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public class BearAccountResourcesTest {
 
@@ -55,15 +54,13 @@ public class BearAccountResourcesTest {
     }
 
     private Object dummyAccount() {
-        return new BearAccountDTO(null, "login", "mdp", new ProfileDTO("pseudo",
-                "description", 0), 0);
+        return new BearAccountDTO(null, "login", "mdp", new ProfileDTO("pseudo", "description", 0), null, 0);
     }
 
     /* helpers */
     private WebResource webResource(URI uri) {
         ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
         WebResource webResource = Client.create(cc).resource(server.uri()).path(uri.getPath());
-        webResource.addFilter(new HTTPBasicAuthFilter("", ""));
         webResource.accept(MediaType.APPLICATION_JSON_TYPE);
         return webResource;
     }

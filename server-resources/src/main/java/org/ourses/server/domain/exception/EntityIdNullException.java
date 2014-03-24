@@ -1,6 +1,6 @@
 package org.ourses.server.domain.exception;
 
-public final class EntityIdNull extends Exception {
+public final class EntityIdNullException extends Exception {
 
 	/**
 	 * 

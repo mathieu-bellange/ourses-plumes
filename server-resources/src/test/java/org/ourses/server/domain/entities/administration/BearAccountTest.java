@@ -7,85 +7,118 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.ourses.security.util.SecurityUtility;
 import org.ourses.server.authentication.util.RolesUtil;
-import org.ourses.server.domain.exception.EntityIdNull;
+import org.ourses.server.domain.exception.AccountProfileNullException;
+import org.ourses.server.domain.exception.AuthenticationProfileNullException;
+import org.ourses.server.domain.exception.AuthorizationProfileNullException;
+import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.avaje.ebean.Ebean;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:META-INF/spring/application-context.xml")
 public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void shouldGetBearAccountDTO() {
-        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", null, new Profile(),0);
+        BearAccount bearAccount = new BearAccount(1l, "julie.marie@gmail.com", "mdp", new Profile(1l, "moi", "test"), 0);
+        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, "role"));
         BearAccountDTO bearAccounToVerify = bearAccount.toBearAccountDTO();
         assertThat(bearAccounToVerify).isNotNull();
+        assertThat(bearAccounToVerify.getProfile()).isNotNull();
+        assertThat(bearAccounToVerify.getRole()).isNotNull();
+        assertThat(bearAccounToVerify.getPassword()).isNull();
         assertThat(bearAccounToVerify.getMail()).isEqualTo(
                 (String) bearAccount.getAuthcInfo().getPrincipals().getPrimaryPrincipal());
+
+        // prinicpal ne peut pas être null dans shiro
+        bearAccount = new BearAccount(1l, "Principal", null, null, 0);
+        // set null après l'instanciation
+        bearAccount.setAuthcInfo(null);
+        bearAccounToVerify = bearAccount.toBearAccountDTO();
+        assertThat(bearAccounToVerify).isNotNull();
+        assertThat(bearAccounToVerify.getProfile()).isNull();
+        assertThat(bearAccounToVerify.getRole()).isNull();
+        assertThat(bearAccounToVerify.getPassword()).isNull();
+        assertThat(bearAccounToVerify.getMail()).isNull();
     }
 
     @Test
-    public void shouldCreateProfileWhenCreatingBearAccount() {
-    	//Par défaut le pseudo est renseigné et la description peut être nulle
-        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", null, new Profile(),0);
-        assertThat(bearAccount.getProfile().getPseudo()).isEqualTo(Profile.DEFAULT_PSEUDO);
-    }
-
-    @Test
-    public void shouldInsertNewAccount() {
-        BearAccount bearAccount = new BearAccount("julie.marie@gmail.com", "SexyJulie",
-               new Profile(),0);
-        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
-        Ebean.save(bearAccount);
+    @Rollback
+    public void shouldInsertNewAccount() throws AccountProfileNullException, AuthenticationProfileNullException,
+            AuthorizationProfileNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "Julie", new Profile(), 0);
+        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, RolesUtil.ADMINISTRATRICE));
+        bearAccount.save();
         assertThat(bearAccount.getId()).isNotNull();
-        Ebean.delete(bearAccount);
-        assertThat(Ebean.find(BearAccount.class, bearAccount.getId())).isNull();
+        assertThat(bearAccount.getAuthcInfo().getCredentials()).isEqualTo(SecurityUtility.encryptedPassword("Julie"));
+    }
+
+    @Test(expected = AccountProfileNullException.class)
+    public void shouldNotInserAccountWithProfileNull() throws AccountProfileNullException,
+            AuthenticationProfileNullException, AuthorizationProfileNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(), 0);
+        bearAccount.setProfile(null);
+        bearAccount.save();
+    }
+
+    @Test(expected = AuthenticationProfileNullException.class)
+    public void shouldNotInserAccountWithAuthcNull() throws AccountProfileNullException,
+            AuthenticationProfileNullException, AuthorizationProfileNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(), 0);
+        bearAccount.setAuthcInfo(null);
+        bearAccount.save();
+    }
+
+    @Test(expected = AuthorizationProfileNullException.class)
+    public void shouldNotInserAccountWithAuthzNull() throws AccountProfileNullException,
+            AuthenticationProfileNullException, AuthorizationProfileNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(), 0);
+        bearAccount.save();
     }
 
     @Test
     public void shouldRetrieveListOfAdministrationAccounts() {
-        BearAccount bearAccount =new BearAccount("julie.marie@gmail.com", "SexyJulie",
-        		 new Profile(),0);
-        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
-        Ebean.save(bearAccount);
-        BearAccount bearAccount2 = new BearAccount("julie.marie@gmail.com", "SexyJulie",
-        		 new Profile(),0);
-        bearAccount2.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
-        Ebean.save(bearAccount2);
-        BearAccount bearAccount3 = new BearAccount("julie.marie@gmail.com", "SexyJulie",
-        		 new Profile(),0);
-        bearAccount3.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
-        Ebean.save(bearAccount3);
         List<BearAccount> listBearAccounts = BearAccount.findAllAdministrationBearAccounts();
-        // il y a 5 BearAccount en base, 3 ici et 2 insérés par INSERT_ACCOUNT (src/main/resources/META-INF/sql)
-        assertThat(listBearAccounts).hasSize(5);
+        // il y a 2 BearAccount en base insérés par INSERT_ACCOUNT (src/main/resources/META-INF/sql)
+        assertThat(listBearAccounts).hasSize(2);
+        // vérifie que l'on a bien les informations du comptes id, authorizationInfo et AuthenticationInfo
+        assertThat(listBearAccounts).onProperty("id").isNotNull();
+        assertThat(listBearAccounts).onProperty("authcInfo").isNotNull();
+        assertThat(listBearAccounts).onProperty("authzInfo").isNotNull();
+        assertThat(listBearAccounts).onProperty("profile").isNotNull();
     }
-    
+
     /**
-     * Ebean possède un cache transactionnel qui renvoie la même instance tant que la transaction n'est pas finie. 
-     * Test la nullité du bean avec un Ebean.refresh
+     * Ebean possède un cache transactionnel qui renvoie la même instance tant que la transaction n'est pas finie. Test
+     * la nullité du bean avec un Ebean.refresh
      * 
-     * @throws EntityIdNull
+     * @throws EntityIdNullException
      */
-    @Test(expected=EntityNotFoundException.class)
-    public void shouldDeleteAccount() throws EntityIdNull{
-    	BearAccount bearAccount =new BearAccount("julie.marie@gmil.com", "SexyJulie",
-        		 new Profile(),0);
-    	bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l,RolesUtil.ADMINISTRATRICE));
+    @Test(expected = EntityNotFoundException.class)
+    @Rollback
+    public void shouldDeleteAccount() throws EntityIdNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmil.com", "SexyJulie", new Profile(), 0);
+        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, RolesUtil.ADMINISTRATRICE));
         Ebean.save(bearAccount);
         bearAccount.delete();
         Ebean.refresh(bearAccount);
     }
-    
-    @Test(expected=EntityIdNull.class)
-    public void shouldNotDeleteAccountWithIdNull() throws EntityIdNull{
-    	BearAccount idNull = new BearAccount();
-    	idNull.delete();
+
+    @Test(expected = EntityIdNullException.class)
+    public void shouldNotDeleteAccountWithIdNull() throws EntityIdNullException {
+        BearAccount idNull = new BearAccount();
+        idNull.delete();
+    }
+
+    @Test
+    @Rollback
+    public void shouldUpdateAccount() {
+        BearAccount account = BearAccount.find(1l);
+        assertThat(account.getProfile()).isNotNull();
     }
 }
