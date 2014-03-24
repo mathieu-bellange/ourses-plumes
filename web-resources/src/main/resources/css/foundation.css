@@ -4456,6 +4456,8 @@ fieldset {
 [data-abide] span.error, [data-abide] small.error {
   display: none; }
 
+/* BUG : same as above ; left-over */
+/*
 span.error, small.error {
   display: block;
   padding: 0.375rem 0.5625rem 0.5625rem;
@@ -4466,6 +4468,7 @@ span.error, small.error {
   font-style: italic;
   background: #c60f13;
   color: white; }
+*/
 
 .error input,
 .error textarea,

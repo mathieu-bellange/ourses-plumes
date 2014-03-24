@@ -27,7 +27,6 @@ $( "#new-bug" ).submit(function( event ) {
 				$("#bug-alert").fadeIn(500);
 				$("#bug-title").val("");
 				$("#bug-body").val("");
-				
 			},
 			error: function(jqXHR, text, error){
 				$("#bug-alert").remove("success");

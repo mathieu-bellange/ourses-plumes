@@ -323,22 +323,22 @@ button.success:active, .button.success:active {
   background-color: #274;
 }
 
-/* Alert */
-button.alert, .button.alert,
-button.alert.disabled, .button.alert.disabled,
-button.alert[disabled], .button.alert[disabled],
-button.alert.disabled:hover, .button.alert.disabled:hover,
-button.alert[disabled]:hover, .button.alert[disabled]:hover,
-button.alert.disabled:focus, .button.alert.disabled:focus,
-button.alert[disabled]:focus, .button.alert[disabled]:focus {
+/* Alert / Error */
+button.alert, .button.alert, button.error, .button.error,
+button.alert.disabled, .button.alert.disabled, button.error.disabled, .button.error.disabled,
+button.alert[disabled], .button.alert[disabled], button.error[disabled], .button.error[disabled],
+button.alert.disabled:hover, .button.alert.disabled:hover, button.error.disabled:hover, .button.error.disabled:hover,
+button.alert[disabled]:hover, .button.alert[disabled]:hover, button.error[disabled]:hover, .button.error[disabled]:hover,
+button.alert.disabled:focus, .button.alert.disabled:focus, button.error.disabled:focus, .button.error.disabled:focus,
+button.alert[disabled]:focus, .button.alert[disabled]:focus, button.error[disabled]:focus, .button.error[disabled]:focus {
   background-color: #d52;
   border-color: #930;
 }
-button.alert:hover, .button.alert:hover,
-button.alert:focus, .button.alert:focus {
+button.alert:hover, .button.alert:hover, button.error:hover, .button.error:hover,
+button.alert:focus, .button.alert:focus, button.error:focus, .button.error:focus {
   background-color: #c41;
 }
-button.alert:active, .button.alert:active {
+button.alert:active, .button.alert:active, button.error:active, .button.error:active {
   background-color: #930;
 }
 
@@ -2058,23 +2058,26 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .alert-box.secondary,
 .alert-box.success,
 .alert-box.alert,
+.alert-box.error,
 .alert-box.warning,
 .alert-box.info,
 .alert-box.secondary a,
 .alert-box.success a,
 .alert-box.alert a,
+.alert-box.error a,
 .alert-box.warning a,
 .alert-box.info a,
 .alert-box.secondary .close,
 .alert-box.success .close,
 .alert-box.alert .close,
+.alert-box.error .close,
 .alert-box.warning .close,
 .alert-box.info .close {
   color: white;
 }
 .alert-box.secondary {background-color: silver; border-color: darkgray;}
 .alert-box.success {background-color: #3a6; border-color: #274;}
-.alert-box.alert {background-color: #d52; border-color: #930;}
+.alert-box.alert, .alert-box.error {background-color: #d52; border-color: #930;}
 .alert-box.warning {background-color: #fa0; border-color: #b70;}
 .alert-box.info {background-color: #6bb; border-color: #388;}
 
@@ -2096,8 +2099,8 @@ a.label:hover, a.label:focus {color: white; background-color: #884;}
 a.label.secondary:hover, a.label.secondary:focus {background-color: darkgray;}
 .label.success {background-color: #3a6;}
 a.label.success:hover, a.label.success:focus {background-color: #274;}
-.label.alert {background-color: #d52;}
-a.label.alert:hover, a.label.alert:focus {background-color: #930;}
+.label.alert, .label.error {background-color: #d52;}
+a.label.alert:hover, a.label.alert:focus, a.label.error:hover, a.label.error:focus {background-color: #930;}
 .label.inverse {background-color: #444;}
 a.label.inverse:hover, a.label.inverse:focus {background-color: #777;}
 
