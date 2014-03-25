@@ -3,8 +3,7 @@
  * Les Ourses à plumes
  * Javascript Core
  * Required jQuery Library
- * ver. alpha 2
- *
+ * ver. 0.0.2
  */
 
 /* ------------------------------------------------------------------ */
@@ -129,7 +128,7 @@ $("#_css_debug_comment_list_toggle").click(function() {
 /* Toolbar CSS Effects Toggler */
 $("#_css_fx_toggle").click(function() {
   $(this).toggleClass("active");
-  $("#root").toggleClass("css-fx");
+  $("body").toggleClass("css-fx");
 });
 
 /* Toolbar Stick Toggler */
@@ -492,4 +491,3 @@ $("[class*='-nav'] ul li a").click(function() { // WARNING : [class$='-nav'] is 
     selector.not(".disabled").addClass("current");
   }
 });
-
