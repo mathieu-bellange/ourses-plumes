@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.ourses.server.domain.entities.redaction.Tag;
 import org.ourses.server.redaction.helpers.TagHelper;
+import org.ourses.server.resources.TagResources;
 
 import com.google.common.collect.Sets;
 

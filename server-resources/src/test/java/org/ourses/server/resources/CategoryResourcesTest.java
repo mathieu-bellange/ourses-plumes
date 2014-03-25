@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.ourses.server.domain.entities.redaction.Category;
 import org.ourses.server.redaction.helpers.CategoryHelper;
+import org.ourses.server.resources.CategoryResources;
 
 import com.google.common.collect.Sets;
 

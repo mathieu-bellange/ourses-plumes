@@ -36,6 +36,7 @@ public class BearAccountResources {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
         // on créé par défaut un compte en rédactrice
