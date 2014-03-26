@@ -158,6 +158,5 @@
 	<modules>
 		<module>web-resources</module>
 		<module>server-resources</module>
-		<module>ourses-integration</module>
 	</modules>
 </project>
