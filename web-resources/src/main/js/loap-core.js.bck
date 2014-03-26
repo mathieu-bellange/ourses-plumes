@@ -10,6 +10,13 @@
 /* # TEST */
 /* ------------------------------------------------------------------ */
 
+/* Loading Feedback */
+$(document).ready(function() {
+  if (loading_feedback == true) {
+    alert("LOAP core JS alpha 2 loaded");
+  }
+});
+
 /* ULR Parser */
 /*
 $(document).ready(function() {
@@ -22,36 +29,13 @@ $(document).ready(function() {
 */
 
 /* ------------------------------------------------------------------ */
-/* # Update */
-/* ------------------------------------------------------------------ */
-/* NOTE
- * All instructions that need a refresh should be put below.
- * That is for anything launched by a generated element.
- * It concerns append, prepend, wrap, before, after, insert, html, etc.
- * Events should be attached for now and the future to a parent element.
- */
-
-function update() {
-  /* User Pictures Displayer */
-  $("[data-image]").each(function() {
-    var file = $(this).attr("data-image");
-    var dir = "img/";
-    $(this).css("background-image", "url('" + dir + file + "')")
-  });
-}
-
-$(function() {
-  update(); // TEMP : trigger update() on document ready
-});
-
-/* ------------------------------------------------------------------ */
 /* # Toolbar */
 /* ------------------------------------------------------------------ */
 
-/* Toolbar CSS Toggle Checker */
+/* Toolbar */
 $(document).ready(function() {
-  if ($css_fx == false) {
-    $("#_css_fx_toggle").addClass("active");
+  if (dev_toolbar == true) {
+    $("#toolbar").removeClass("hide");
   }
 });
 
@@ -151,7 +135,7 @@ $("#_css_fx_toggle").click(function() {
 $("#_toolbar_stick_toggle").click(function() {
   $(this).toggleClass("active");
   $("#toolbar").toggleClass("fixed");
-  if ($("#main").css("margin-top") != "45px") {
+  if (!("#main").css("margin-top") == "45px") {
     $("#main").css("margin-top", "45px");
   } else {
     $("#main").css("margin-top", 0);
@@ -172,25 +156,12 @@ $("#toolbar .close").click(function() {
 
 /* Connect Visibility Switcher */
 function connect() {
-
+  // Set Connect Class
+  $("#main").toggleClass("connect"); // Connection tag -- rather ugly ...
   // Toggle Launcher Visibility
   $(".connect-launcher").toggleClass("hide");
-
-  if (!$("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
-    // Build User Navigation
-    $(".nav-pane hr").first().before(build_user_nav());
-    $(".user-nav").foundation();
-    update(); // TEMP TEST
-  } else {
-    // Destroy User Navigation
-    $(".user-nav").detach();
-  }
   // Toggle User Navigation Visibility
-  // $(".user-nav").toggleClass("hide"); // UNUSED
-
-  // Set Connect Class
-  $("#main").toggleClass("connect"); // Connection tag -- rather ugly ... better store data or variable
-
+  $(".user-nav").toggleClass("hide");
   // Toggle Comment List Editing Features Visibility
   $(".comment-list .connect").toggleClass("hide");
   $(".comment-list .reply").toggleClass("hide");
@@ -203,40 +174,26 @@ function connect() {
   }
   $(".comment-list .comment .column:nth-child(3)").toggleClass("hide");
   $(".comment-list .warning").toggleClass("hide");
-
   // Hide User Connected Sections
-  if (!$("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
+  if (!$("#main").hasClass("connect")) { // Temporary way of holding disconnection ; should delete content and redirect
     $("[id^='user-']").addClass("hide"); // Hide any user-* section
     $(".user-nav a").removeClass("current"); // Remove current tag for all anchors in user-nav
     $(".breadcrumbs").empty(); // Clean Breadcrumbs
     $("#home").removeClass("hide"); // Show Home
     $(".breadcrumbs").append("<li class='unavailable'><a href='javascript:void(0)' data-show='home'>&Eacute;dito</a></li>"); // Append home level 1
   }
-
   // Close Auth Modal
   $("#_connect_modal").foundation("reveal", "close");
-
 }
 
-/* Connect Switcher Click Event */
-// $(".connect-switch").click(connect); // UNUSED
-$("html").on("click", ".connect-switch", connect); // Attach event to html for future elements
-
-/* Connect Modal Open Event */
-$("#_connect_modal").on("open", function() {
-  $("#_connect_modal").append(build_connect_form());
-  $("#_connect_modal").foundation();
-});
+/* Connect Switcher */
+$(".connect-switch").click(connect);
 
 /* Connect Modal Opened Event */
 $("#_connect_modal").on("opened", function(){
-  $("#_connect_modal input:first").focus(); // Set browser focus on first input
-});
-
-/* Connect Modal Closed Event */
-$("#_connect_modal").on("closed", function(){
-  $("#_connect_modal form").detach();
-});
+    $("#_connect_modal input:first").focus(); // Set browser focus on first input
+  }
+);
 
 /* ------------------------------------------------------------------ */
 /* # Main Navigation */
@@ -396,14 +353,11 @@ $(".accessibility .icon-textdec").click(function() {
 /* # User Pictures */
 /* ------------------------------------------------------------------ */
 
-/* UNUSED : put to top in update */
-/*
 $("[data-image]").each(function() {
   var file = $(this).attr("data-image");
   var dir = "img/";
   $(this).css("background-image", "url('" + dir + file + "')")
 });
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Accordions */
@@ -513,22 +467,7 @@ $(document).ready(function() {
 /* # Links Display Switchers */
 /* ------------------------------------------------------------------ */
 
-/* UNUSED */
-/*
 $("[data-show]").click(function() {
-  var selector = "#" + $(this).attr("data-show")
-  if ($(selector).hasClass("hide")) {
-    // Display section
-    $(".main-pane > section").addClass("hide");
-    $(selector).removeClass("hide");
-    // Refresh Breadcrumbs
-    refresh_breadcrumbs($(this));
-  }
-});
-*/
-
-/* Attach event for now and the future to 'html' */
-$("html").on("click", "[data-show]", function() {
   var selector = "#" + $(this).attr("data-show")
   if ($(selector).hasClass("hide")) {
     // Display section
@@ -543,8 +482,6 @@ $("html").on("click", "[data-show]", function() {
 /* # Links Current Switchers */
 /* ------------------------------------------------------------------ */
 
-/* UNUSED */
-/*
 $("[class*='-nav'] ul li a").click(function() { // WARNING : [class$='-nav'] is false if any class is put after (e.g. 'hide')
   var selector = $(this);
   if (!selector.hasClass("no-current")) {
@@ -554,21 +491,3 @@ $("[class*='-nav'] ul li a").click(function() { // WARNING : [class$='-nav'] is 
     selector.not(".disabled").addClass("current");
   }
 });
-*/
-
-/* Attach event for now and the future to 'html' */
-$("html").on("click", "[class*='-nav'] ul li a", function() {
-  var selector = $(this);
-  if (!selector.hasClass("no-current")) {
-    if (!selector.hasClass("disabled")) {
-      $("[class*='-nav'] ul li a").removeClass("current");
-    }
-    selector.not(".disabled").addClass("current");
-  }
-});
-
-/* ------------------------------------------------------------------ */
-/* # Initialize */
-/* ------------------------------------------------------------------ */
-
-/* TEMP : Empty for now */
