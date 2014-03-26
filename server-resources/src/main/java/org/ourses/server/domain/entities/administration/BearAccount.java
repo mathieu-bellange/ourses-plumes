@@ -17,9 +17,9 @@ import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.ourses.security.util.SecurityUtility;
+import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
+import org.ourses.server.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
-import org.ourses.server.domain.exception.AuthenticationProfileNullException;
-import org.ourses.server.domain.exception.AuthorizationProfileNullException;
 import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
@@ -109,7 +109,9 @@ public class BearAccount implements Account {
 
     public BearAccount(Long id, Object principal, Object credentials, Profile profile, Integer version) {
         this.id = id;
-        this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
+        if (principal != null) {
+            this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
+        }
         this.profile = profile;
         this.version = version;
     }
@@ -223,16 +225,16 @@ public class BearAccount implements Account {
         return Sets.newHashSet();
     }
 
-    public void save() throws AccountProfileNullException, AuthenticationProfileNullException,
-            AuthorizationProfileNullException {
-        if (profile == null) {
+    public void save() throws AccountProfileNullException, AccountAuthcInfoNullException, AccountAuthzInfoNullException {
+        if (profile == null || profile.getPseudo() == null) {
             throw new AccountProfileNullException();
         }
-        if (authcInfo == null) {
-            throw new AuthenticationProfileNullException();
+        // le principal ne peut pas être null, shiro explose avant la création du bean
+        if (authcInfo == null || authcInfo.getCredentials() == null) {
+            throw new AccountAuthcInfoNullException();
         }
         if (authzInfo == null) {
-            throw new AuthorizationProfileNullException();
+            throw new AccountAuthzInfoNullException();
         }
         authcInfo = new OursesAuthenticationInfo(authcInfo.getMail(), SecurityUtility.encryptedPassword(authcInfo
                 .getCredentials()));

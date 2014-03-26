@@ -18,12 +18,13 @@ import javax.ws.rs.core.Response.Status;
 import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
 import org.ourses.server.domain.entities.administration.OursesAuthorizationInfo;
+import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
+import org.ourses.server.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
-import org.ourses.server.domain.exception.AuthenticationProfileNullException;
-import org.ourses.server.domain.exception.AuthorizationProfileNullException;
 import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.util.PatchDto;
+import org.ourses.server.resources.util.HTTPUtility;
 import org.ourses.server.resources.util.PATCH;
 import org.springframework.stereotype.Controller;
 
@@ -47,9 +48,9 @@ public class BearAccountResources {
             account.save();
             response = Response.status(Status.CREATED).entity(account.toBearAccountDTO()).build();
         }
-        catch (AccountProfileNullException | AuthenticationProfileNullException | AuthorizationProfileNullException e) {
-            response = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR, e.getClass())
-                    .build();
+        catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
+            response = Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .header(HTTPUtility.HEADER_ERROR, e.getClass().getSimpleName()).build();
         }
         return response;
     }

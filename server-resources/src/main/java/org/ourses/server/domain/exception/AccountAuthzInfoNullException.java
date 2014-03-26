@@ -1,6 +1,6 @@
 package org.ourses.server.domain.exception;
 
-public class AuthorizationProfileNullException extends Exception {
+public class AccountAuthzInfoNullException extends Exception {
 
     /**
      * 

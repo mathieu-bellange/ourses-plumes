@@ -1,4 +1,4 @@
-package org.ourses.server.resources;
+package org.ourses.server.resources.util;
 
 /**
  * Constantes pour les requêtes HTTP

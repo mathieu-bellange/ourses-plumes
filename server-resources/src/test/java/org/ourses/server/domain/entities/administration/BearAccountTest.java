@@ -9,9 +9,9 @@ import javax.persistence.EntityNotFoundException;
 import org.junit.Test;
 import org.ourses.security.util.SecurityUtility;
 import org.ourses.server.authentication.util.RolesUtil;
+import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
+import org.ourses.server.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
-import org.ourses.server.domain.exception.AuthenticationProfileNullException;
-import org.ourses.server.domain.exception.AuthorizationProfileNullException;
 import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.springframework.test.annotation.Rollback;
@@ -49,9 +49,10 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     @Rollback
-    public void shouldInsertNewAccount() throws AccountProfileNullException, AuthenticationProfileNullException,
-            AuthorizationProfileNullException {
-        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "Julie", new Profile(), 0);
+    public void shouldInsertNewAccount() throws AccountProfileNullException, AccountAuthcInfoNullException,
+            AccountAuthzInfoNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "Julie", new Profile(null, "Pseudo",
+                ""), 0);
         bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, RolesUtil.ADMINISTRATRICE));
         bearAccount.save();
         assertThat(bearAccount.getId()).isNotNull();
@@ -60,24 +61,48 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test(expected = AccountProfileNullException.class)
     public void shouldNotInserAccountWithProfileNull() throws AccountProfileNullException,
-            AuthenticationProfileNullException, AuthorizationProfileNullException {
-        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(), 0);
-        bearAccount.setProfile(null);
+            AccountAuthcInfoNullException, AccountAuthzInfoNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", null, 0);
         bearAccount.save();
     }
 
-    @Test(expected = AuthenticationProfileNullException.class)
-    public void shouldNotInserAccountWithAuthcNull() throws AccountProfileNullException,
-            AuthenticationProfileNullException, AuthorizationProfileNullException {
-        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(), 0);
+    @Test(expected = AccountProfileNullException.class)
+    public void shouldNotInserAccountWithPseudoNull() throws AccountProfileNullException,
+            AccountAuthcInfoNullException, AccountAuthzInfoNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(null, null,
+                ""), 0);
+        bearAccount.save();
+    }
+
+    @Test(expected = AccountAuthcInfoNullException.class)
+    public void shouldNotInserAccountWithAuthcNull() throws AccountProfileNullException, AccountAuthcInfoNullException,
+            AccountAuthzInfoNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(null,
+                "Pseudo", ""), 0);
         bearAccount.setAuthcInfo(null);
         bearAccount.save();
     }
 
-    @Test(expected = AuthorizationProfileNullException.class)
-    public void shouldNotInserAccountWithAuthzNull() throws AccountProfileNullException,
-            AuthenticationProfileNullException, AuthorizationProfileNullException {
-        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(), 0);
+    @Test(expected = AccountAuthcInfoNullException.class)
+    public void shouldNotInserAccountWithPasswordNull() throws AccountProfileNullException,
+            AccountAuthcInfoNullException, AccountAuthzInfoNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", null, new Profile(null, "Pseudo", ""),
+                0);
+        bearAccount.save();
+    }
+
+    @Test(expected = AccountAuthzInfoNullException.class)
+    public void shouldNotInserAccountWithRoleNull() throws AccountProfileNullException, AccountAuthcInfoNullException,
+            AccountAuthzInfoNullException {
+        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmail.com", "SexyJulie", new Profile(null,
+                "Pseudo", ""), 0);
+        bearAccount.save();
+    }
+
+    @Test(expected = AccountAuthcInfoNullException.class)
+    public void shouldNotInserAccountWithMailNull() throws AccountProfileNullException, AccountAuthcInfoNullException,
+            AccountAuthzInfoNullException {
+        BearAccount bearAccount = new BearAccount(null, null, "SexyJulie", new Profile(null, "Pseudo", ""), 0);
         bearAccount.save();
     }
 

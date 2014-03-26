@@ -42,6 +42,9 @@
 		<!-- sonar -->
 		<sonar.language>java</sonar.language>
 		<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
+		
+		<!-- maven plugin -->
+		<war-plugin-version>2.4</war-plugin-version>
 	</properties>
 
 	<dependencies>
@@ -300,13 +303,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
+				<version>${war-plugin-version}</version>
 				<executions>
 				</executions>
 				<configuration>
 					<warSourceDirectory>${webappDirectory}</warSourceDirectory>
 					<webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
 					<webappDirectory>${webappDirectory}</webappDirectory>
+					<attachClasses>true</attachClasses>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
