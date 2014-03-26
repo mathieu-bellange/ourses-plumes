@@ -15,8 +15,11 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.ourses.server.authentication.util.RolesUtil;
+import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
+import org.ourses.server.domain.exception.AccountProfileNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
+import org.ourses.server.resources.util.HTTPUtility;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
@@ -30,8 +33,8 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 public class ITBearAccountResourcesTest {
 
     @Test
-    public void shouldCreateNewAccount() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldCreateAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
+            ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath("/rest/account").build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
@@ -45,6 +48,51 @@ public class ITBearAccountResourcesTest {
         assertThat(account.getProfile()).isNotNull();
         assertThat(account.getRole()).isNotNull();
         assertThat(account.getRole().getRole()).isEqualTo(RolesUtil.REDACTRICE);
+    }
+
+    @Test
+    public void shouldNotCreateAccountWithoutPseudo() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath("/rest/account").build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+                ClientResponse.class,
+                mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "mdp", new ProfileDTO(null, null, 0), null,
+                        0)));
+        // status attendu 500
+        assertThat(clientResponse.getStatus()).isEqualTo(500);
+        assertThat(clientResponse.getHeaders().getFirst(HTTPUtility.HEADER_ERROR)).isEqualTo(
+                AccountProfileNullException.class.getSimpleName());
+    }
+
+    @Test
+    public void shouldNotCreateAccountWithoutMail() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath("/rest/account").build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+                ClientResponse.class,
+                mapper.writeValueAsString(new BearAccountDTO(null, null, "mdp", new ProfileDTO("pseudo", null, 0),
+                        null, 0)));
+        // status attendu 500
+        assertThat(clientResponse.getStatus()).isEqualTo(500);
+        assertThat(clientResponse.getHeaders().getFirst(HTTPUtility.HEADER_ERROR)).isEqualTo(
+                AccountAuthcInfoNullException.class.getSimpleName());
+    }
+
+    @Test
+    public void shouldNotCreateAccountWithoutMdp() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath("/rest/account").build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+                ClientResponse.class,
+                mapper.writeValueAsString(new BearAccountDTO(null, "Julie", null, new ProfileDTO("pseudo", null, 0),
+                        null, 0)));
+        // status attendu 500
+        assertThat(clientResponse.getStatus()).isEqualTo(500);
+        assertThat(clientResponse.getHeaders().getFirst(HTTPUtility.HEADER_ERROR)).isEqualTo(
+                AccountAuthcInfoNullException.class.getSimpleName());
     }
 
     @Test

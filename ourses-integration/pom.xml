@@ -106,6 +106,8 @@
 		    <artifactId>jetty-maven-plugin</artifactId>
 		    <configuration>
 		    	 <contextPath>/</contextPath>
+		    	 <stopPort>8005</stopPort>
+		    	 <stopKey>STOP</stopKey>
 		    	<war>${project.build.directory}/war/integration-test.war</war>
 		    </configuration>
 		     <executions>
