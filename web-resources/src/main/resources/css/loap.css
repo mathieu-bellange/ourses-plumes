@@ -151,7 +151,15 @@ del {
 hr {border-style: dashed; border-color: lightgray;}
 
 /* Forms */
+fieldset {
+  padding-bottom: 0; /* Foundation override */
+}
+
 fieldset legend {
+  font-family: Oswald, sans-serif;
+  font-weight: normal;
+  padding: 0 .5rem;
+  color: gray;
   background-color: transparent; /* Foundation override */
 }
 
@@ -3008,18 +3016,6 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
 }
 
-/* Disabled */
-[class*="-nav"] ul li a.disabled,
-[class*="-nav"] ul li a:hover.disabled,
-[class*="-nav"] ul li a:focus.disabled,
-[class*="-nav"] ul li a:active.disabled,
-[class*="-nav"] ul li a.disabled.current,
-[class*="-nav"] ul li a:hover.disabled.current,
-[class*="-nav"] ul li a:focus.disabled.current,
-[class*="-nav"] ul li a:active.disabled.current {
-  text-shadow: none;
-}
-
 /* Keystrokes */
 .css-fx kbd,
 .css-fx .keystroke {
@@ -3049,6 +3045,18 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .css-fx .site-nav ul li {text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);}
 .css-fx .site-nav ul li a:hover,
 .css-fx .site-nav ul li a:focus {text-shadow: -1px -1px 0 rgba(0, 0, 0, .075), 0 0 .5rem #ffb;}
+
+/* Disabled */
+[class*="-nav"] ul li a.disabled,
+[class*="-nav"] ul li a:hover.disabled,
+[class*="-nav"] ul li a:focus.disabled,
+[class*="-nav"] ul li a:active.disabled,
+[class*="-nav"] ul li a.disabled.current,
+[class*="-nav"] ul li a:hover.disabled.current,
+[class*="-nav"] ul li a:focus.disabled.current,
+[class*="-nav"] ul li a:active.disabled.current {
+  text-shadow: none;
+}
 
 /* Logo */
 .logo a {
