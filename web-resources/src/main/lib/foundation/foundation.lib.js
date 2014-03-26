@@ -1,17 +1,15 @@
 ﻿/*
- * Foundation Responsive Library
+ * VERSION
+ * Foundation
+ * Responsive Library
  * http://foundation.zurb.com
+ * ver. 5.1.1
+ *
+ * NOTE
  * Copyright 2014, ZURB
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  */
-
-/* Loading Feedback */
-$(document).ready(function() {
-  if (loading_feedback == true) {
-    alert("Foundation 5.1.1 library loaded");
-  }
-});
 
 (function (e, t, n, r) {
     "use strict";
