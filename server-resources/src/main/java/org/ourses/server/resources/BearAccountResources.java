@@ -7,12 +7,13 @@ import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.ourses.server.authentication.util.RolesUtil;
@@ -35,24 +36,53 @@ import com.google.common.collect.Lists;
 @Path("/account")
 public class BearAccountResources {
 
-    @POST
+    @PUT
+    @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
         // on créé par défaut un compte en rédactrice
         BearAccount account = bearAccountDTO.toBearAccount();
+        ResponseBuilder responseBuilder = Response.status(Status.CREATED);
         account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
-        Response response = null;
         try {
             account.save();
-            response = Response.status(Status.CREATED).entity(account.toBearAccountDTO()).build();
+           	responseBuilder = responseBuilder.entity(account.toBearAccountDTO());            	
         }
         catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
-            response = Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .header(HTTPUtility.HEADER_ERROR, e.getClass().getSimpleName()).build();
+            responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .header(HTTPUtility.HEADER_ERROR, e.getClass().getSimpleName());
         }
-        return response;
+        return responseBuilder.build();
+    }
+    
+    @PUT
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
+    //TODO gérer l'update
+    public Response updateAccount(BearAccountDTO bearAccountDTO) {
+    	// on créé par défaut un compte en rédactrice
+    	BearAccount account = bearAccountDTO.toBearAccount();
+    	ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
+    	boolean isNew = account.getId() == null;
+    	if(isNew){
+    		account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
+    		responseBuilder = Response.status(Status.CREATED);
+    	}
+    	try {
+    		account.save();
+    		if(isNew){
+    			responseBuilder = responseBuilder.entity(account.toBearAccountDTO());            	
+    		}          	            	            
+    	}
+    	catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
+    		responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR)
+    				.header(HTTPUtility.HEADER_ERROR, e.getClass().getSimpleName());
+    	}
+    	return responseBuilder.build();
     }
 
     @PATCH

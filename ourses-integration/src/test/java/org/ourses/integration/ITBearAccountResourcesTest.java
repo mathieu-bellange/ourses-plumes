@@ -31,13 +31,15 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 public class ITBearAccountResourcesTest {
+	
+	private static final String PATH_CREATE = "/rest/account/create";
 
     @Test
     public void shouldCreateAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
             ClientHandlerException, IOException {
-        URI uri = UriBuilder.fromPath("/rest/account").build();
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class, mapper.writeValueAsString(dummyAccount()));
         // status attendu 201
         BearAccountDTO account = clientResponse.getEntity(BearAccountDTO.class);
@@ -53,9 +55,9 @@ public class ITBearAccountResourcesTest {
     @Test
     public void shouldNotCreateAccountWithoutPseudo() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
-        URI uri = UriBuilder.fromPath("/rest/account").build();
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class,
                 mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "mdp", new ProfileDTO(null, null, 0), null,
                         0)));
@@ -68,9 +70,9 @@ public class ITBearAccountResourcesTest {
     @Test
     public void shouldNotCreateAccountWithoutMail() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
-        URI uri = UriBuilder.fromPath("/rest/account").build();
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class,
                 mapper.writeValueAsString(new BearAccountDTO(null, null, "mdp", new ProfileDTO("pseudo", null, 0),
                         null, 0)));
@@ -83,9 +85,9 @@ public class ITBearAccountResourcesTest {
     @Test
     public void shouldNotCreateAccountWithoutMdp() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
-        URI uri = UriBuilder.fromPath("/rest/account").build();
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").post(
+        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class,
                 mapper.writeValueAsString(new BearAccountDTO(null, "Julie", null, new ProfileDTO("pseudo", null, 0),
                         null, 0)));

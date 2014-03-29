@@ -21,8 +21,8 @@ $("#bearAccount").submit(function(event){
 		var profile = new Profile($("#pseudo").val());
 		var bearAccount = new BearAccount($("#mail").val(),$("#password").val(),profile);
 		$.ajax({
-			type : "POST",
-			url : "/rest/account",
+			type : "PUT",
+			url : "/rest/account/create",
 			contentType : "application/json; charset=utf-8",
 			data : bearAccount.json(),
 			success : function(jqXHR, status, errorThrown) {
