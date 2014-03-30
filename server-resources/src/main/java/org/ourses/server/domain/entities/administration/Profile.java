@@ -10,6 +10,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.avaje.ebean.Ebean;
+
 @Entity
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -69,4 +71,8 @@ public class Profile {
     public ProfileDTO toProfileDTO() {
         return new ProfileDTO(pseudo, description, version);
     }
+
+	public static int countPseudo(String pseudo) {
+		return Ebean.find(Profile.class).where().eq("pseudo", pseudo).findRowCount();
+	}
 }

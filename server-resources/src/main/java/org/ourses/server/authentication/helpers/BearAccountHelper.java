@@ -15,5 +15,7 @@ public interface BearAccountHelper {
     Set<String> getRoles(String username);
 
     Set<String> getPermissions(String username);
+    
+    boolean isNewPseudo(String pseudo);
 
 }

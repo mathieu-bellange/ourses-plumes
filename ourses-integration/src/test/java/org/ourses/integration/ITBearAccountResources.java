@@ -6,14 +6,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Set;
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+import org.ourses.integration.util.TestHelper;
 import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
@@ -21,16 +20,12 @@ import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.ourses.server.resources.util.HTTPUtility;
 
-import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 
-public class ITBearAccountResourcesTest {
+public class ITBearAccountResources {
 	
 	private static final String PATH_CREATE = "/rest/account/create";
 
@@ -39,7 +34,7 @@ public class ITBearAccountResourcesTest {
             ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class, mapper.writeValueAsString(dummyAccount()));
         // status attendu 201
         BearAccountDTO account = clientResponse.getEntity(BearAccountDTO.class);
@@ -57,7 +52,7 @@ public class ITBearAccountResourcesTest {
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class,
                 mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "mdp", new ProfileDTO(null, null, 0), null,
                         0)));
@@ -72,7 +67,7 @@ public class ITBearAccountResourcesTest {
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class,
                 mapper.writeValueAsString(new BearAccountDTO(null, null, "mdp", new ProfileDTO("pseudo", null, 0),
                         null, 0)));
@@ -87,7 +82,7 @@ public class ITBearAccountResourcesTest {
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = webResource(uri).header("Content-Type", "application/json").put(
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json").put(
                 ClientResponse.class,
                 mapper.writeValueAsString(new BearAccountDTO(null, "Julie", null, new ProfileDTO("pseudo", null, 0),
                         null, 0)));
@@ -103,7 +98,7 @@ public class ITBearAccountResourcesTest {
         URI uri = UriBuilder.fromPath("/rest/account").build();
         GenericType<Set<BearAccountDTO>> gt = new GenericType<Set<BearAccountDTO>>() {
         };
-        Set<BearAccountDTO> list = webResource(uri).get(gt);
+        Set<BearAccountDTO> list = TestHelper.webResource(uri).get(gt);
         assertThat(list).isNotEmpty();
         for (BearAccountDTO account : list) {
             assertThat(account.getId()).isNotNull();
@@ -113,17 +108,9 @@ public class ITBearAccountResourcesTest {
             assertThat(account.getRole().getRole()).isNotNull();
         }
     }
-
+    
     private Object dummyAccount() {
         return new BearAccountDTO(null, "mail", "mdp", new ProfileDTO("pseudo", null, 0), null, 0);
-    }
-
-    /* helpers */
-    private WebResource webResource(URI uri) {
-        ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
-        WebResource webResource = Client.create(cc).resource("http://localhost:8080").path(uri.getPath());
-        webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);
-        return webResource;
     }
 
 }

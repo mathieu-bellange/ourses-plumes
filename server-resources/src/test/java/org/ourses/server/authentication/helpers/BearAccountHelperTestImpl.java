@@ -32,4 +32,9 @@ public class BearAccountHelperTestImpl implements BearAccountHelper {
 		return null;
 	}
 
+	@Override
+	public boolean isNewPseudo(String pseudo) {
+		return false;
+	}
+
 }

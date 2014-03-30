@@ -51,4 +51,9 @@ public class Safe implements BearAccountHelper{
     public Set<String> getPermissions(String username) {
         return permissions.get(username);
     }
+
+	@Override
+	public boolean isNewPseudo(String pseudo) {
+		return false;
+	}
 }
