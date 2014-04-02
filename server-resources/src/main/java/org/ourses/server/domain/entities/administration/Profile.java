@@ -72,7 +72,7 @@ public class Profile {
         return new ProfileDTO(pseudo, description, version);
     }
 
-	public static int countPseudo(String pseudo) {
-		return Ebean.find(Profile.class).where().eq("pseudo", pseudo).findRowCount();
-	}
+    public static int countPseudo(String pseudo) {
+        return Ebean.find(Profile.class).where().eq("pseudo", pseudo).findRowCount();
+    }
 }

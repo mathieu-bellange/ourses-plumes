@@ -13,6 +13,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.avaje.ebean.Ebean;
+
 @Entity
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -44,17 +46,17 @@ public class OursesAuthenticationInfo implements AuthenticationInfo {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     @Version
     private Integer version;
 
     public Integer getVersion() {
-		return version;
-	}
+        return version;
+    }
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     private String mail;
 
@@ -89,5 +91,9 @@ public class OursesAuthenticationInfo implements AuthenticationInfo {
     public void setCredentials(String credentials) {
         this.credentials = credentials;
 
+    }
+
+    public static int countMail(String mail) {
+        return Ebean.find(OursesAuthenticationInfo.class).where().eq("mail", mail).findRowCount();
     }
 }

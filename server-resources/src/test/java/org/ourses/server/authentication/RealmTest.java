@@ -13,47 +13,43 @@ import org.junit.Before;
 import org.junit.Test;
 import org.ourses.security.authentication.OursesCredentialsMatcher;
 import org.ourses.server.authentication.helpers.BearAccountHelperTestImpl;
-import org.ourses.server.utility.Safe;
 
 public class RealmTest {
-	
-	private StaticRealm underTest = new StaticRealm();
-	private AuthenticationToken token;
-	private PrincipalCollection principals = new SimplePrincipalCollection("Mathieu", "StaticRealm");
 
-	@Before
-	public void superSetup(){
-		underTest.setAccountDao(new Safe());
-		underTest.setCredentialsMatcher(new OursesCredentialsMatcher());
-	}
-	
-	@Test
-	public void shouldGetAuthenticationInfo(){
-		underTest.setAccountDao(new BearAccountHelperTestImpl());
-		token = new UsernamePasswordToken("Mathieu", "Bellange");
-		AuthenticationInfo result = underTest.getAuthenticationInfo(token);
-		assertThat(result).isNotNull();
-		assertThat(result.getPrincipals().getPrimaryPrincipal()).as("le login").isEqualTo("Mathieu");
-	}
-	
-	@Test(expected=AuthenticationException.class)
-	public void shouldFailedOnNullLogin(){
-		underTest.setAccountDao(new BearAccountHelperTestImpl());
-		token = new UsernamePasswordToken(null, "Bellange");
-		underTest.getAuthenticationInfo(token);
-	}
-	
-	@Test
-	public void shouldGetAuthorizationInfo(){
-		underTest.setAccountDao(new BearAccountHelperTestImpl());
-		AuthorizationInfo authorization = underTest.doGetAuthorizationInfo(principals);
-		assertThat(authorization.getRoles()).as("Contient les rôles de l'utilisateur").contains("ADMINISTRATRICE");
-		assertThat(authorization.getStringPermissions()).as("Contient les permissions de l'utilisateur").contains("safe:*");
-	}
-	
-	@Test(expected=AuthenticationException.class)
-	public void shouldFailedOnNullPrincipals(){
-		underTest.setAccountDao(new BearAccountHelperTestImpl());
-		underTest.doGetAuthorizationInfo(null);
-	}
+    private final StaticRealm underTest = new StaticRealm();
+    private AuthenticationToken token;
+    private final PrincipalCollection principals = new SimplePrincipalCollection("Mathieu", "StaticRealm");
+
+    @Before
+    public void superSetup() {
+        underTest.setAccountDao(new BearAccountHelperTestImpl());
+        underTest.setCredentialsMatcher(new OursesCredentialsMatcher());
+    }
+
+    @Test
+    public void shouldGetAuthenticationInfo() {
+        token = new UsernamePasswordToken("Mathieu", "Bellange");
+        AuthenticationInfo result = underTest.getAuthenticationInfo(token);
+        assertThat(result).isNotNull();
+        assertThat(result.getPrincipals().getPrimaryPrincipal()).as("le login").isEqualTo("Mathieu");
+    }
+
+    @Test(expected = AuthenticationException.class)
+    public void shouldFailedOnNullLogin() {
+        token = new UsernamePasswordToken(null, "Bellange");
+        underTest.getAuthenticationInfo(token);
+    }
+
+    @Test
+    public void shouldGetAuthorizationInfo() {
+        AuthorizationInfo authorization = underTest.doGetAuthorizationInfo(principals);
+        assertThat(authorization.getRoles()).as("Contient les rôles de l'utilisateur").contains("ADMINISTRATRICE");
+        assertThat(authorization.getStringPermissions()).as("Contient les permissions de l'utilisateur").contains(
+                "safe:*");
+    }
+
+    @Test(expected = AuthenticationException.class)
+    public void shouldFailedOnNullPrincipals() {
+        underTest.doGetAuthorizationInfo(null);
+    }
 }

@@ -15,20 +15,32 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Path("/signup_check")
 public class SignUpResources {
-	
-	@Autowired
-	BearAccountHelper accountHelper;
-	
-	@POST
-	@Path("/pseudo")
-	@Consumes(MediaType.APPLICATION_JSON)
+
+    @Autowired
+    BearAccountHelper accountHelper;
+
+    @POST
+    @Path("/pseudo")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-	public Response checkPseudo(String pseudo) {
-		Status status = Status.FORBIDDEN;
-		if(accountHelper.isNewPseudo(pseudo)){
-			status = Status.NO_CONTENT;
-		}
-		return Response.status(status).build();
-	}
+    public Response checkPseudo(String pseudo) {
+        Status status = Status.FORBIDDEN;
+        if (accountHelper.isNewPseudo(pseudo)) {
+            status = Status.NO_CONTENT;
+        }
+        return Response.status(status).build();
+    }
+
+    @POST
+    @Path("/mail")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response checkMail(String mail) {
+        Status status = Status.FORBIDDEN;
+        if (accountHelper.isNewMail(mail)) {
+            status = Status.NO_CONTENT;
+        }
+        return Response.status(status).build();
+    }
 
 }
