@@ -22,7 +22,6 @@ import org.ourses.server.domain.entities.administration.OursesAuthorizationInfo;
 import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
-import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.util.PatchDto;
 import org.ourses.server.resources.util.HTTPUtility;
@@ -48,41 +47,41 @@ public class BearAccountResources {
         account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
         try {
             account.save();
-           	responseBuilder = responseBuilder.entity(account.toBearAccountDTO());            	
+            responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
         }
         catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
-            responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .header(HTTPUtility.HEADER_ERROR, e.getClass().getSimpleName());
+            responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR,
+                    e.getClass().getSimpleName());
         }
         return responseBuilder.build();
     }
-    
+
     @PUT
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
-    //TODO gérer l'update
+    // TODO gérer l'update
     public Response updateAccount(BearAccountDTO bearAccountDTO) {
-    	// on créé par défaut un compte en rédactrice
-    	BearAccount account = bearAccountDTO.toBearAccount();
-    	ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
-    	boolean isNew = account.getId() == null;
-    	if(isNew){
-    		account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
-    		responseBuilder = Response.status(Status.CREATED);
-    	}
-    	try {
-    		account.save();
-    		if(isNew){
-    			responseBuilder = responseBuilder.entity(account.toBearAccountDTO());            	
-    		}          	            	            
-    	}
-    	catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
-    		responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR)
-    				.header(HTTPUtility.HEADER_ERROR, e.getClass().getSimpleName());
-    	}
-    	return responseBuilder.build();
+        // on créé par défaut un compte en rédactrice
+        BearAccount account = bearAccountDTO.toBearAccount();
+        ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
+        boolean isNew = account.getId() == null;
+        if (isNew) {
+            account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
+            responseBuilder = Response.status(Status.CREATED);
+        }
+        try {
+            account.save();
+            if (isNew) {
+                responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
+            }
+        }
+        catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
+            responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR,
+                    e.getClass().getSimpleName());
+        }
+        return responseBuilder.build();
     }
 
     @PATCH
@@ -100,17 +99,10 @@ public class BearAccountResources {
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response deleteAccount(@PathParam("id")
     long id) {
-        Response response = Response.ok().build();
         BearAccount bearAccount = new BearAccount();
         bearAccount.setId(id);
-        try {
-            bearAccount.delete();
-        }
-        catch (EntityIdNullException e) {
-            response = Response.status(Status.INTERNAL_SERVER_ERROR)
-                    .header(HTTPUtility.HEADER_ERROR, EntityIdNullException.class).build();
-        }
-        return response;
+        bearAccount.delete();
+        return Response.status(Status.NO_CONTENT).build();
     }
 
     @GET

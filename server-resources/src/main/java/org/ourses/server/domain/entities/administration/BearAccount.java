@@ -20,7 +20,6 @@ import org.ourses.security.util.SecurityUtility;
 import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
-import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
@@ -246,10 +245,7 @@ public class BearAccount implements Account {
         // Ebean.update(this, updateProps);
     }
 
-    public void delete() throws EntityIdNullException {
-        if (id == null) {
-            throw new EntityIdNullException();
-        }
+    public void delete() {
         Ebean.delete(BearAccount.class, id);
     }
 
