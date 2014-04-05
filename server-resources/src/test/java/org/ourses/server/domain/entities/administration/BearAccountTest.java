@@ -12,7 +12,6 @@ import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
-import org.ourses.server.domain.exception.EntityIdNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -126,18 +125,12 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
      */
     @Test(expected = EntityNotFoundException.class)
     @Rollback
-    public void shouldDeleteAccount() throws EntityIdNullException {
+    public void shouldDeleteAccount() {
         BearAccount bearAccount = new BearAccount(null, "julie.marie@gmil.com", "SexyJulie", new Profile(), 0);
         bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, RolesUtil.ADMINISTRATRICE));
         Ebean.save(bearAccount);
         bearAccount.delete();
         Ebean.refresh(bearAccount);
-    }
-
-    @Test(expected = EntityIdNullException.class)
-    public void shouldNotDeleteAccountWithIdNull() throws EntityIdNullException {
-        BearAccount idNull = new BearAccount();
-        idNull.delete();
     }
 
     @Test

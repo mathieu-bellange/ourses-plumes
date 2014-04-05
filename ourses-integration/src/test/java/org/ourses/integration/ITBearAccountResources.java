@@ -17,6 +17,7 @@ import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
+import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
 import org.ourses.server.resources.util.HTTPUtility;
 
@@ -30,6 +31,9 @@ public class ITBearAccountResources {
     private static final String PATH_CREATE = "/rest/account/create";
     private static final String PATH_GET_ALL = "/rest/account";
     private static final String PATH_DELETE = "/rest/account/3";
+    private static final String PATH_GET_ACCOUNT = "/rest/account/2";
+    private static final String PATH_UPDATE_ROLE = "rest/account/2/role";
+	private static final String PATH_GET_FALSE_ACCOUNT = "/rest/account/59";
 
     /* Account création */
 
@@ -137,4 +141,33 @@ public class ITBearAccountResources {
 
     /* TODO Patch du rôle par l'admin */
 
+    @Test
+    public void shouldGetAccount(){
+    	URI uri = UriBuilder.fromPath(PATH_GET_ACCOUNT).build();
+    	ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+    	BearAccountDTO bearAccountDTO = clientResponse.getEntity(BearAccountDTO.class);
+    	assertThat(clientResponse.getStatus()).isEqualTo(200);
+    	assertThat(bearAccountDTO).isNotNull();
+    	assertThat(bearAccountDTO.getId()).isEqualTo(2);
+    	assertThat(bearAccountDTO.getPassword()).isNull();
+    	
+    }
+    
+    @Test
+    public void shouldNotFindAccount(){
+    	URI uri = UriBuilder.fromPath(PATH_GET_FALSE_ACCOUNT).build();
+    	ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+    	assertThat(clientResponse.getStatus()).isEqualTo(500);
+    }
+    
+    @Test
+    public void updateRoleAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException, ClientHandlerException, IOException{
+    	URI uri = UriBuilder.fromPath(PATH_UPDATE_ROLE).build();
+    	ObjectMapper mapper = new ObjectMapper();
+    	ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json").put(ClientResponse.class, mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.ADMINISTRATRICE)));
+    	assertThat(clientResponse.getStatus()).isEqualTo(200);
+    	ClientResponse clientResponseGet = TestHelper.webResource(UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(ClientResponse.class);
+    	BearAccountDTO bearAccountDTO = clientResponseGet.getEntity(BearAccountDTO.class);
+    	assertThat(bearAccountDTO.getRole().getRole()).isEqualTo(RolesUtil.ADMINISTRATRICE);
+    }
 }

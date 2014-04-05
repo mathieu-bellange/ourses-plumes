@@ -5,6 +5,9 @@ roles = null;
 function OurseAuthzInfo(id,role){
 	this.role = role;
 	this.id = id;
+	this.json = function() {
+		return JSON.stringify(this);
+	};
 };
 
 /* AJAX */
@@ -75,18 +78,19 @@ function getAccount(){
 function updateEvent(event) {
 	// compte dans l'event
 	var value = event.data;
-	
-	value.role = new OurseAuthzInfo($("#accountsTable tr[data-account-id="+value.id+"] select").val(),$("#accountsTable tr[data-account-id="+value.id+"] select option:selected").text());
+	var roleUrl = "/rest/account/"+value.id+"/role";
+	var role = new OurseAuthzInfo($("#accountsTable tr[data-account-id="+value.id+"] select").val(),$("#accountsTable tr[data-account-id="+value.id+"] select option:selected").text());
 	$.ajax({
 		type : "PUT",
-		url : "/rest/account",
+		url : roleUrl,
 		contentType : "application/json; charset=utf-8",
-		data : JSON.stringify(value),
+		data : role.json(),
 		success : function(data, status, jqxhr) {
-			alert(status);
 		},
 		error : function(jqXHR, status, errorThrown) {
-			alert(jqXHR.responseText);
+			$("#comptes-alert").addClass("error");
+			$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+			$("#comptes-alert").fadeIn(500);
 		},
 		dataType : "json"
 	});
@@ -102,7 +106,9 @@ function deleteEvent(event){
 			$("#accountsTable tr[data-account-id="+id+"]").remove();
 		},
 		error : function(jqXHR, status, errorThrown) {
-			alert(status);
+			$("#comptes-alert").addClass("error");
+			$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+			$("#comptes-alert").fadeIn(500);
 		}
 	});
 };

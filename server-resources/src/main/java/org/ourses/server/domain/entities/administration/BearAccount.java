@@ -23,7 +23,6 @@ import org.ourses.server.domain.exception.AccountProfileNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
-import org.ourses.server.domain.jsondto.util.PatchDto;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -240,9 +239,8 @@ public class BearAccount implements Account {
         Ebean.save(this);
     }
 
-    public void update(Set<PatchDto> updateProps) {
-        // TODO update
-        // Ebean.update(this, updateProps);
+    public void update(Set<String> updateProps) {
+        Ebean.update(this, updateProps);
     }
 
     public void delete() {
@@ -250,7 +248,7 @@ public class BearAccount implements Account {
     }
 
     public static BearAccount find(Long id) {
-        return Ebean.find(BearAccount.class, id);
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").where().eq("id", id).findUnique();
     }
 
     /**

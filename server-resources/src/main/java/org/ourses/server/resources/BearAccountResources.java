@@ -1,7 +1,6 @@
 package org.ourses.server.resources;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
@@ -23,22 +22,22 @@ import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.domain.exception.AccountProfileNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
-import org.ourses.server.domain.jsondto.util.PatchDto;
+import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.resources.util.HTTPUtility;
-import org.ourses.server.resources.util.PATCH;
 import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 @Controller
 @Path("/account")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class BearAccountResources {
 
     @PUT
     @Path("/create")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
         // on créé par défaut un compte en rédactrice
@@ -57,9 +56,7 @@ public class BearAccountResources {
     }
 
     @PUT
-    @Path("/update")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/update")    
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     // TODO gérer l'update
     public Response updateAccount(BearAccountDTO bearAccountDTO) {
@@ -84,14 +81,27 @@ public class BearAccountResources {
         return responseBuilder.build();
     }
 
-    @PATCH
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @PUT
+    @Path("/{id}/role")
     public Response updateAccount(@PathParam("id")
-    long id, Set<PatchDto> setModification) {
+    long id, OursesAuthzInfoDTO role) {
         BearAccount bearAccount = BearAccount.find(id);
-        bearAccount.update(setModification);
+        bearAccount.setAuthzInfo(role.toOursesAuthorizationInfo());
+        bearAccount.update(Sets.newHashSet("authzInfo"));
         return Response.ok().build();
+    }
+    
+    @GET
+    @Path("/{id}")
+    public Response getAccount(@PathParam("id") long id){
+    	BearAccount bearAccount = BearAccount.find(id);
+    	ResponseBuilder builder;
+    	if(bearAccount == null){
+    		builder = Response.serverError();
+    	}else{
+    		builder = Response.ok().entity(bearAccount.toBearAccountDTO());
+    	}
+    	return builder.build();
     }
 
     @DELETE
@@ -106,7 +116,6 @@ public class BearAccountResources {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     // @RequiresRoles(RolesUtil.ADMINISTRATRICE)
     public List<BearAccountDTO> findAllBearAccounts() {
         List<BearAccount> listBearAccount = BearAccount.findAllAdministrationBearAccounts();
