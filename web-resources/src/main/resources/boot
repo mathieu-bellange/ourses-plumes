@@ -115,7 +115,14 @@ var xhr = (function() {
  * The function has been named accordingly to doT.js
  */
 
-function loadfile(file, async=false, method="GET", send=null, response="text") {
+function loadfile(file, async, method, send, response) {
+
+//default param
+method = (typeof method === "undefined") ? "GET" : method;
+send = (typeof send === "undefined") ? null : send;
+response = (typeof response === "undefined") ? "text" : response;
+async = (typeof async === "undefined") ? false : async;
+
   if (typeof xhr !== "undefined") {
     xhr.open(method, file, async); // define request arguments
     xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
@@ -141,11 +148,17 @@ function p_char(n, c) { // Print Character (n.b. for local use only)
   return s;
 }
 
-function tb(n=1, c="\t") { // Tabulation (alias)
+function tb(n, c) { // Tabulation (alias)
+	//default param
+n = (typeof n === "undefined") ? 1 : n;
+c = (typeof c === "undefined") ? "\t" : c;
   return p_char(n, c);
 }
 
-function lb(n=1, c="\n") { // Line Break (alias)
+function lb(n, c) { // Line Break (alias)
+//default param
+n = (typeof n === "undefined") ? 1 : n;
+c = (typeof c === "undefined") ? "\t" : c;
   return p_char(n, c);
 }
 
