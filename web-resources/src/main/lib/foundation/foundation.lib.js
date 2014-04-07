@@ -1,11 +1,11 @@
-﻿/*
- * VERSION
+﻿/*!
  * Foundation
  * Responsive Library
  * http://foundation.zurb.com
  * ver. 5.1.1
  *
- * NOTE
+ * Required jQuery
+ *
  * Copyright 2014, ZURB
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
