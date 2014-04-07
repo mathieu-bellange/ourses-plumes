@@ -1,0 +1,81 @@
+﻿<h2>External template</h2>
+<h3 class="red">Basic templating</h3>
+
+<!--Interpolation-->
+<h4 class="subheader">Interpolation</h4>
+	<div class="panel">
+		<h5 style="color: red;">{{= data.title }}</h5>
+		<p style="color: green;">{{= data.text }}</p>
+	</div>
+
+<!--Evaluation-->
+<h4 class="subheader">Evaluation</h4>
+	<div class="panel">
+{{ for (var key in data) { }}
+		<span style="color: dimgray;">{{= key }}</span> |
+{{ } }}
+	</div>
+
+<!--Partial Define-->
+{{## def.partial :
+		<strong style="color: blue;">{{= data.text }}</strong>
+#}}
+
+<!--Partial Use-->
+<h4 class="subheader">Partials</h4>
+	<div class="panel">
+		<p>This is a template partial&thinsp;: {{# def.partial}}</p>
+	</div>
+
+<!--Conditional-->
+<h4 class="subheader">Conditionals</h4>
+	<div class="panel">
+{{? data.title.length == 0 }}
+		<p><code>&ldquo;{{= data.title }}&rdquo;</code> string is 0 character length.</p>
+{{?? data.title.length <= 10 }}
+		<p><code>&ldquo;{{= data.title }}&rdquo;</code> string is less than 10 characters length.</p>
+{{??}}
+		<p><code>&ldquo;{{= data.title }}&rdquo;</code> string is more than 10 characters length.</p>
+{{?}}
+	</div>
+
+<!--Iterate-->
+<h4 class="subheader">Arrays</h4>
+	<div class="panel">
+		<ol>
+{{~ data.list :value}}
+			<li>{{=value}}</li>
+{{~}}
+		</ol>
+	</div>
+
+<!--Encode-->
+<h4 class="subheader">Encode</h4>
+	<div class="panel">
+		<p>To set up the biggest title in HTML use the <code>{{! data.code }}</code> tag</p>
+	</div>
+
+<h3 class="red">Advanced templating</h3>
+
+<!--Define Partial for Attributes-->
+{{## def.attributes: hash:
+{{ for (key in hash) { }}
+{{= hash[key] !== "" ? " " + key + "='" +  hash[key] + "'" : " " + key }}
+{{ } }}
+#}}
+
+<!--Define Partial for List Item-->
+{{## def.list_item: item:
+			<li {{# def.attributes:item.params }}>{{= item.name || "<em>Default Item Name</em>" }}{{= typeof item.parent_name !== "undefined" ? " in " + item.parent_name : "" }}</li>
+#}}
+
+<!--Evaluate Advanced List Template-->
+<h4 class="subheader">Advanced list</h4>
+	<div class="panel">
+{{ var list = data.advanced.list; }}
+		<ol{{# def.attributes:list.params}}>
+{{~ list.items:value}}
+	{{# def.list_item:value}}
+{{~}}
+		</ol>
+	</div>
