@@ -138,6 +138,12 @@ $("#bearAccount").submit(function(event){
 });
 
 /* Events */
+$("#pseudo").on("keypress", function(){
+  setValidationIcon(this, null);
+});
+$("#mail").on("keypress", function(){
+  setValidationIcon(this, null);
+});
 $("#password").on("focus", function(event){ // clear input
 	$(this).attr("placeholder", "");
 });
