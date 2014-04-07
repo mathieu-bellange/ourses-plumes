@@ -8,52 +8,34 @@
 		<div>
 			<div>
 				<section id="account">
-					<div id="compte-alert" data-alert style="display: none;"
-						class="alert-box radius text-center">
-						<span id="compte-alert-message"></span> <a href="javascript:void(0)"
-							class="close"></a>
+					<div id="compte-alert" data-alert style="display: none;" class="alert-box radius text-center">
+						<span id="compte-alert-message"></span>
+						<a href="javascript:void(0)" class="close"></a>
 					</div>
 					<form id="bearAccount" onsubmit="return false;" data-abide="ajax">
 						<div class="row">
-							<div class="large-12 columns">
-								<label for="pseudo">Pseudo&nbsp;:&nbsp;<sup class="medium red">*</sup>
-									<div class="row collapse">
-										<div class="small-9 columns">
-											<input id="pseudo" maxlength="50" type="text" required />
-										</div>
-										<div class="small-3 columns">
-											<span id="pseudoPostFix" class="postfix"></span>
-										</div>
-									</div>
-									<small class="error">Pseudo d&eacute;j&agrave; pris</small></label>
+							<div class="column small-12 large-offset-2 large-8">
+								<label for="pseudo">Pseudo&nbsp;:&nbsp;<sup class="medium red">*</sup></label>
+								<input id="pseudo" class="validation-icon" maxlength="50" type="text" required />
+								<small class="error">Pseudo d&eacute;j&agrave; pris</small>
 							</div>
 						</div>
 						<div class="row">
-							<div class="large-12 columns">
-								<label for="mail">Adresse mail&nbsp;:&nbsp;<sup class="medium red">*</sup> 
-									<div class="row collapse">
-										<div class="small-9 columns">
-											<input id="mail" type="text" required maxlength="100" pattern="email" /> 
-											<small	class="error">Mail d&eacute;j&agrave; pris ou invalide</small>
-										</div>
-										<div class="small-3 columns">
-											<span id="mailPostFix" class="postfix"></span>
-										</div>
-									</div>
-								</label>
+							<div class="column small-12 large-offset-2 large-8">
+								<label for="mail">Adresse mail&nbsp;:&nbsp;<sup class="medium red">*</sup></label>
+								<input id="mail" class="validation-icon" type="text" maxlength="100" required pattern="email" />
+								<small class="error">Mail d&eacute;j&agrave; pris ou invalide</small>
 							</div>
 						</div>
 						<div class="row">
-							<div class="large-12 columns">
-								<label for="password">Mot de passe&nbsp;:&nbsp;<sup	class="medium red">*</sup> 
-									<input id="password" type="password" required placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre"
-										pattern="^(?=.*\d).{7,20}$" maxlength="20" /> 
-									<small class="error">Mot de passe trop court (minimum 7 caract&egrave;res dont un chiffre)</small>
-								</label>
+							<div class="column small-12 large-offset-2 large-8">
+								<label for="password">Mot de passe&nbsp;:&nbsp;<sup	class="medium red">*</sup></label>
+								<input id="password" type="password" maxlength="20" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" required pattern="^(?=.*\d).{7,20}$" />
+								<small class="error">Mot de passe trop court (minimum 7 caract&egrave;res dont un chiffre)</small>
 							</div>
 						</div>
 						<div class="row">
-							<div class="large-12 columns">
+							<div class="column small-12 large-offset-2 large-8 text-right">
 								<input class="button" id="confirm" type="submit" value="Valider" />
 							</div>
 						</div>

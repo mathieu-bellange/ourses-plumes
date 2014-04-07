@@ -350,6 +350,32 @@ button.alert:active, .button.alert:active, button.error:active, .button.error:ac
 }
 
 /* ------------------------------------------------------------------ */
+/* # Validation Icons */
+/* ------------------------------------------------------------------ */
+input.validation-icon,
+input.validation-icon:hover,
+input.validation-icon:focus {
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+}
+input.validation-icon.wrong,
+input.validation-icon.wrong:hover,
+input.validation-icon.wrong:focus {
+  background-image: url('../img/ui/icon-wrong-24x24.png');
+}
+input.validation-icon.valid,
+input.validation-icon.valid:hover,
+input.validation-icon.valid:focus {
+  background-image: url('../img/ui/icon-valid-24x24.png');
+}
+input.validation-icon.loading,
+input.validation-icon.loading:hover,
+input.validation-icon.loading:focus {
+  background-image: url('../img/ui/icon-loading-24x24.gif');
+}
+
+/* ------------------------------------------------------------------ */
 /* # Disabled */
 /* ------------------------------------------------------------------ */
 
