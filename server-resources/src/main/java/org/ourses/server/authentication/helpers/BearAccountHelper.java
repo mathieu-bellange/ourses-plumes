@@ -20,4 +20,6 @@ public interface BearAccountHelper {
 
     boolean isNewMail(String mail);
 
+    boolean isMailValid(String mail);
+
 }

@@ -2,6 +2,7 @@ package org.ourses.server.authentication.helpers;
 
 import java.util.Set;
 
+import org.ourses.server.authentication.util.BearAccountUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
 import org.ourses.server.domain.entities.administration.OursesAuthenticationInfo;
 import org.ourses.server.domain.entities.administration.Profile;
@@ -35,6 +36,11 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     @Override
     public boolean isNewMail(String mail) {
         return OursesAuthenticationInfo.countMail(mail) == 0;
+    }
+
+    @Override
+    public boolean isMailValid(String mail) {
+        return BearAccountUtil.mailPattern.matcher(mail).matches();
     }
 
 }

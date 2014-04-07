@@ -50,6 +50,15 @@ public class ITSignUpResources {
     }
 
     @Test
+    public void shouldWarnMailNotValid() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_CHECK_MAIL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+                .post(ClientResponse.class, "a");
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.FORBIDDEN.getStatusCode());
+    }
+
+    @Test
     public void shouldGreetNewMail() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
             ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_CHECK_MAIL).build();

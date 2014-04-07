@@ -12,7 +12,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.ourses.security.authentication.OursesCredentialsMatcher;
-import org.ourses.server.authentication.helpers.BearAccountHelperTestImpl;
+import org.ourses.server.authentication.util.BearAccountHelperTestImpl;
 
 public class RealmTest {
 

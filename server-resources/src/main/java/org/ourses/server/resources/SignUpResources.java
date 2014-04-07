@@ -37,7 +37,7 @@ public class SignUpResources {
     @Produces(MediaType.APPLICATION_JSON)
     public Response checkMail(String mail) {
         Status status = Status.FORBIDDEN;
-        if (accountHelper.isNewMail(mail)) {
+        if (accountHelper.isMailValid(mail) && accountHelper.isNewMail(mail)) {
             status = Status.NO_CONTENT;
         }
         return Response.status(status).build();

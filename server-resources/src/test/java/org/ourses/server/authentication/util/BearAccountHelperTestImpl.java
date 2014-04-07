@@ -1,6 +1,8 @@
-package org.ourses.server.authentication.helpers;
+package org.ourses.server.authentication.util;
 
 import java.util.Set;
+
+import org.ourses.server.authentication.helpers.BearAccountHelper;
 
 import com.google.common.collect.Sets;
 
@@ -37,6 +39,11 @@ public class BearAccountHelperTestImpl implements BearAccountHelper {
 
     @Override
     public boolean isNewMail(String mail) {
+        return false;
+    }
+
+    @Override
+    public boolean isMailValid(String mail) {
         return false;
     }
 
