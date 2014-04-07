@@ -1,8 +1,7 @@
-﻿/*
- * VERSION
+﻿/**
  * Les Ourses à plumes
  * Javascript Core
- * Required jQuery Library
+ * Require jQuery Library
  * ver. 0.0.2
  */
 
@@ -21,39 +20,66 @@ $(document).ready(function() {
 });
 */
 
+/* Show active section on page load */
+
+/* ULR Parser */
+$(document).ready(function() {
+  var url = window.location.pathname;
+  var q = /[a-zA-Z-_]*\.(?:html|htm)/;
+  var page = url.match(q);
+  var selector = location.hash
+  if ($(selector).hasClass("hide")) {
+    // Display section
+    $(".main-pane > section").addClass("hide");
+    $(selector).removeClass("hide");
+  }
+});
+
+
 /* ------------------------------------------------------------------ */
-/* # Update */
+/* # Object */
 /* ------------------------------------------------------------------ */
 /* NOTE
  * All instructions that need a refresh should be put below.
- * That is for anything launched by a generated element.
+ * That is mainly for anything launched by a generated element.
  * It concerns append, prepend, wrap, before, after, insert, html, etc.
- * Events should be attached for now and the future to a parent element.
+ * Anything created after loading. This is an IIFE.
+ *
+ * Events have to be separatly attached for now and the future
+ * to a parent element (i.e. with 'on' or 'live' jQuery methods).
  */
 
-function update() {
-  /* User Pictures Displayer */
-  $("[data-image]").each(function() {
-    var file = $(this).attr("data-image");
-    var dir = "img/";
-    $(this).css("background-image", "url('" + dir + file + "')")
-  });
-}
-
-$(function() {
-  update(); // TEMP : trigger update() on document ready
-});
+var self = (function() {
+  return {
+    init: function() {},
+    update: function() {
+      /* User Pictures Displayer */
+      $("[data-image]").each(function() {
+        var file = $(this).attr("data-image");
+        var dir = "img/";
+        $(this).css("background-image", "url('" + dir + file + "')")
+      });
+    }
+  };
+}());
+$(document).ready(self.update()); // TEMP : Launch after loading ; can't make a named function self-executing and reusable
 
 /* ------------------------------------------------------------------ */
 /* # Toolbar */
 /* ------------------------------------------------------------------ */
 
-/* Toolbar CSS Toggle Checker */
-$(document).ready(function() {
-  if ($css_fx == false) {
-    $("#_css_fx_toggle").addClass("active");
-  }
-});
+
+/* ================================================================== */
+if (typeof $boot !== "undefined") { // TEMP
+  /* Toolbar CSS Toggle Checker */
+  $(document).ready(function() {
+    if ($css_fx == false) {
+      $("#_css_fx_toggle").addClass("active");
+    }
+  });
+}
+/* ================================================================== */
+
 
 /* Toolbar Null Links Toggler */
 $("#_null_links_toggle").click(function() {
@@ -176,17 +202,23 @@ function connect() {
   // Toggle Launcher Visibility
   $(".connect-launcher").toggleClass("hide");
 
-  if (!$("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
-    // Build User Navigation
-    $(".nav-pane hr").first().before(build_user_nav());
-    $(".user-nav").foundation();
-    update(); // TEMP TEST
-  } else {
-    // Destroy User Navigation
-    $(".user-nav").detach();
+
+/* ================================================================== */
+  if (typeof $boot !== "undefined") { // TEMP
+    if ($("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
+      // Destroy User Navigation
+      $(".user-nav").detach();
+    } else {
+      // Build User Navigation
+      $(".nav-pane hr").first().before(build_user_nav());
+      $(".user-nav").foundation();
+      self.update(); // TEMP TEST
+    }
   }
+/* ================================================================== */
+
   // Toggle User Navigation Visibility
-  // $(".user-nav").toggleClass("hide"); // UNUSED
+  $(".user-nav").toggleClass("hide"); // UNUSED : but provides old visibility toogle method compatibility
 
   // Set Connect Class
   $("#main").toggleClass("connect"); // Connection tag -- rather ugly ... better store data or variable
@@ -209,8 +241,8 @@ function connect() {
     $("[id^='user-']").addClass("hide"); // Hide any user-* section
     $(".user-nav a").removeClass("current"); // Remove current tag for all anchors in user-nav
     $(".breadcrumbs").empty(); // Clean Breadcrumbs
-    $("#home").removeClass("hide"); // Show Home
-    $(".breadcrumbs").append("<li class='unavailable'><a href='javascript:void(0)' data-show='home'>&Eacute;dito</a></li>"); // Append home level 1
+    // $("#home").removeClass("hide"); // Show Home
+    // $(".breadcrumbs").append("<li class='unavailable'><a href='javascript:void(0)' data-show='home'>&Eacute;dito</a></li>"); // Append home level 1
   }
 
   // Close Auth Modal
@@ -222,21 +254,28 @@ function connect() {
 // $(".connect-switch").click(connect); // UNUSED
 $("html").on("click", ".connect-switch", connect); // Attach event to html for future elements
 
-/* Connect Modal Open Event */
-$("#_connect_modal").on("open", function() {
-  $("#_connect_modal").append(build_connect_form());
-  $("#_connect_modal").foundation();
-});
-
 /* Connect Modal Opened Event */
 $("#_connect_modal").on("opened", function(){
   $("#_connect_modal input:first").focus(); // Set browser focus on first input
 });
 
-/* Connect Modal Closed Event */
-$("#_connect_modal").on("closed", function(){
-  $("#_connect_modal form").detach();
-});
+
+/* ================================================================== */
+if (typeof $boot !== "undefined") { // TEMP
+
+  /* Connect Modal Open Event */
+  $("#_connect_modal").on("open", function() {
+    $("#_connect_modal").append(build_connect_form());
+    $("#_connect_modal").foundation();
+  });
+
+  /* Connect Modal Closed Event */
+  $("#_connect_modal").on("closed", function(){
+    $("#_connect_modal form").detach();
+  });
+}
+/* ================================================================== */
+
 
 /* ------------------------------------------------------------------ */
 /* # Main Navigation */
@@ -572,3 +611,13 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 /* ------------------------------------------------------------------ */
 
 /* TEMP : Empty for now */
+
+/* ================================================================== */
+/* Trying to hide the slider display ol/ul to bar ...
+ * Need to edit the 'news-list' class for the element getting the
+ * styles before class 'orbit-slider' is put to DOM.
+ * OR !!! Manually set the orbit-slider class => DONT WORK
+ */
+// $(".news-list").removeClass("hide");
+// $(".news-list").addClass("hide-for-small");
+/* ================================================================== */

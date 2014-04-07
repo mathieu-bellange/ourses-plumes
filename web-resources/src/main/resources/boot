@@ -1,279 +1,179 @@
-﻿/*
- * VERSION
+﻿/**
  * Les Ourses à plumes
  * Javascript Boot
- * Required Javascript
+ * Require Javascript
  * ver. 0.0.2
  */
 
 /* ------------------------------------------------------------------ */
-/* # Public variables initialization */
+/* # Public Variables */
 /* ------------------------------------------------------------------ */
 
 /* Utility */
 $build_compress   = false;                              // Boolean. Compress generated content (i.e. remove tabs and line ends). Default = false
 $dev_toolbar      = true;                               // Boolean. Create dev toolbar. Default = false
 $css_fx           = true;                               // Boolean. Enable CSS effects. Default = true
-$null_link        = "javascript:void(0)";               // String.  Set void link value. Default = "javascript:void(0)"
+$lib_ext          = ".min";                             // String.  JS libraries additional extension. Default = ".min"
+$null_link        = "javascript:void(0)";               // String.  Set null link value. Default = "javascript:void(0)"
 
 /* Whois */
-$org_name         = "Les Ourses &agrave; plumes";       // String. Set organization name.
-$app_name         = "Webzine f&eacute;ministe";         // String. Set application name.
-$app_ver          = "0.0.2";                            // String. Set application version.
-$app_kwd          = ["Webzine", "F&eacute;minisme"];    // Array.  Set application keywords.
-$app_desc         = "Un webzine f&eacute;ministe";      // String. Set application keywords.
-$app_genr         = "R. Plant Whole Lotta Love 2.0";    // String. Set application generator (i.e. the softwares used for dev).
+$org_name         = "Les Ourses &agrave; plumes";       // String.  Set organization name.
+$app_name         = "Webzine f&eacute;ministe";         // String.  Set application name.
+$app_ver          = "0.0.2";                            // String.  Set application version.
+$app_kwd          = ["Webzine", "F&eacute;minisme"];    // Array.   Set application keywords.
+$app_desc         = "Un webzine f&eacute;ministe.";     // String.  Set application keywords.
+$app_genr         = null;                               // String.  Set application generator (i.e. the software used for dev).
+$app_path         = {js_own: "js/", js_lib: "js/"};     // Object.  Set application path to files.
 
 /* TEMP */
-$user_name        = "Nadejda";                          // String. Register user name (short).
-$user_picture     = "usr-nadejda.jpg";                  // String. Register user picture file.
-$page_title       = null;                               // String. Register page title.
+$boot             = true;                               // Boolean. Flag for this file setup.
+$free_log         = true;                               // Boolean. Disable abide validation for logger.
+$user_name        = "Nadejda";                          // String.  Register user name (short).
+$user_picture     = "usr-nadejda.jpg";                  // String.  Register user picture file.
+$page_title       = null;                               // String.  Register page title.
 
 /* ------------------------------------------------------------------ */
-/* # Private variables initialization */
+/* # TEMP : Reloc Path for serverless edits */
 /* ------------------------------------------------------------------ */
 
-var org_js_loc = lib_js_loc = "js/"; // App running scope definition (i.e. source, test or build)
 if (window.location.href.split("/")[0].slice(0,4) == "file") {
-  var org_js_loc = "../js/";
-  var lib_js_loc = "../lib/";
+  $app_path.js_own = "../js/", $app_path.js_lib = "../lib/";
 }
-
-var head_meta = [
-  {name: "viewport", content: "width=device-width, initial-scale=1.0"},
-  {name: "author", content: $org_name},
-  {name: "application-name", content: $app_name},
-  {name: "keywords", content: $app_kwd.toString()},
-  {name: "description", content: $app_desc},
-  {name: "generator", content: $app_genr}
-];
-
-var head_links = [
-  {href : "img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"},
-  {href : "css/normalize.css", rel: "stylesheet"},
-  {href : "css/foundation.css", rel: "stylesheet"},
-  {href : "css/loap.css", rel: "stylesheet"}
-];
-
-var head_scripts = [
-  {src: lib_js_loc + "modernizr/modernizr.js"},
-  {src: lib_js_loc + "jquery/jquery.js"},
-];
-
-var body_scripts = [
-  {src: org_js_loc + "loap-build.js"},
-  {src: org_js_loc + "loap-core.js"},
-  {src: lib_js_loc + "foundation/foundation.lib.js"}
-];
-
-var ie_cond_comments = [
-  {cond: "lt IE 9", text: "<script src='//html5shim.googlecode.com/svn/trunk/html5.js'></script>"},
-  {cond: "gte IE 9", text: "<style type='text/css'>.gradient{filter:none;}</style>"}
-];
 
 /* ------------------------------------------------------------------ */
-/* # Methods declaration */
+/* # Private Variables */
 /* ------------------------------------------------------------------ */
 
-function tb(n=1, v="\t") { // Tabulation
-  var s = new String;
-  if ($build_compress == false) {
-    for (var i = 0; i < n; i++) {
-      s += v;
-    }
-  }
-  return s;
-}
+/**
+doT.templateSettings = {
+  evaluate: regexp,      // parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)
+  interpolate: regexp,   // parse a string as a javascript instruction and append it to the result function (n.b. this is default behaviour)
+  encode: regexp,        // replace illegal characters by html numeric entities
+  use: regexp,           // call partial template
+  define: regexp,        // set partial template
+  conditional: regexp,   // execute 'if-else if-else' structure
+  iterate: regexp,       // loop an array
+  varname: string,       // define the name of result function argument (i.e. the variable used for templating)
+  strip: boolean,        // erase whitespaces in result output (including tabulations and line breaks -- minify/compress)
+  append: boolean,       // define concatenated output result in a single line variable (i.e. use '+' operand instead of '+=' operand for 'out' var)
+  selfcontained: boolean // include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)
+};
+*/
 
-function lb(n=1, v="\n") { // Line Break
-  var s = new String;
-  if ($build_compress == false) {
-    for (var i = 0; i < n; i++) {
-      s += v;
-    }
-  }
-  return s;
-}
+var doT_custom_settings =
+  lb() + tb(3) + "doT.templateSettings.varname = 'data';" +
+  lb() + tb(3) + "doT.templateSettings.strip = false;" +
+  lb() + tb(2);
 
-function arr_to_str(arr, v=lb()) { // Array to String
-  str = new String;
-  for (var i = 0; i < arr.length; i++) {
-    str += arr[i];
-    if (i < arr.length - 1) {
-      str += v;
-    }
-  }
-  return str;
-}
+var IE_conditional_comments = [
+  lb() + tb(3) + "<script src='//html5shim.googlecode.com/svn/trunk/html5.js'></script>",
+  lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
+];
 
-function write_title() {
-  if ($page_title != null) {
-    // document.write(lb() + tb(2) + "<title>" + $org_name + " &bull; " + $page_title + "<\/title>");
-    document.write(lb() + tb(2) + "<title>" + $org_name + " &bull; " + $page_title + "<\/title>");
+var head_tags = [
+  {elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
+  {elem: "meta", attr: {name: "author", content: $org_name}},
+  {elem: "meta", attr: {name: "application-name", content: $app_name}},
+  {elem: "meta", attr: {name: "keywords", content: $app_kwd.toString()}},
+  {elem: "meta", attr: {name: "description", content: $app_desc}},
+  {elem: "meta", attr: {name: "generator", content: $app_genr}},
+  {elem: "link", attr: {href: "img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
+  {elem: "link", attr: {href: "css/normalize.css", rel: "stylesheet"}},
+  {elem: "link", attr: {href: "css/foundation.css", rel: "stylesheet"}},
+  {elem: "link", attr: {href: "css/loap.css", rel: "stylesheet"}},
+  {elem: "script", attr: {src: $app_path.js_lib + "modernizr/modernizr" + $lib_ext +".js"}},
+  {elem: "script", attr: {src: $app_path.js_lib + "jquery/jquery" + $lib_ext + ".js"}},
+  {elem: "script", attr: {src: $app_path.js_lib + "dot/dot" + $lib_ext + ".js"}},
+  {elem: "script", text: doT_custom_settings},
+  {elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"},
+  {elem: "!--[gt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"}
+];
+
+var body_tags = [
+  {elem: "script", attr: {src: $app_path.js_own + "loap-build.js"}},
+  {elem: "script", attr: {src: $app_path.js_own + "loap-core.js"}},
+  {elem: "script", attr: {src: $app_path.js_lib + "foundation/foundation.lib.js"}}
+];
+
+var xhr = (function() {
+  if (typeof XMLHttpRequest !== "undefined") {
+    return new XMLHttpRequest();// IE7+, Firefox, Chrome, Opera, Safari
+  } else if (typeof ActiveXObject !== "undefined") {
+    return new ActiveXObject("Microsoft.XMLHTTP"); // IE5, IE6
   } else {
-    document.write(lb() + tb(2) + "<title>" + $org_name + "<\/title>");
+    return;
   }
-}
+}());
 
-function write_meta(arr) {
-  var str = new String;
-  for (var i in arr) {
-    str += lb() + tb(2) + "<meta";
-    if (arr[i].charset != null) {str += " charset='" + arr[i].charset + "'";}
-    if (arr[i].name != null) {str += " name='" + arr[i].name + "'";}
-    if (arr[i].content != null) {str += " content='" + arr[i].content + "'";}
-    str += ">";
-  }
-  document.write(str);
-}
+/* ------------------------------------------------------------------ */
+/* # Methods Declaration */
+/* ------------------------------------------------------------------ */
 
-function write_links(arr) {
-  var str = new String;
-  for (var i in arr) {
-    str += lb() + tb(2) + "<link href='" + arr[i].href + "'";
-    if (arr[i].rel != null) {str += " rel='" + arr[i].rel + "'";}
-    if (arr[i].type != null) {str += " type='" + arr[i].rel + "'";}
-    str += ">";
-  }
-  document.write(str);
-}
+/*
+ * NOTE
+ * Below is a simple file request.
+ * The function has been named accordingly to doT.js
+ */
 
-function write_scripts(arr) {
-  var str = new String;
-  for (var i in arr) {
-    str += lb() + tb(2) + "<script";
-    if (arr[i].src != null) {str += " src='" + arr[i].src + "'";}
-    if (arr[i].type != null) {str += " type='" + arr[i].type + "'";}
-    if (arr[i].charset != null) {str += " charset='" + arr[i].charset + "'";}
-    str += ">";
-    if (arr[i].text != null) {str += arr[i].text;}
-    str += "<\/script>";
-  }
-  document.write(str);
-}
-
-function write_ie_cond_comments(arr) {
-  var str = new String;
-  for (var i in arr) {
-    str += lb() + tb(2) + "<!--[if ";
-    if (arr[i].cond != null) {str += arr[i].cond;}
-    str += "]>";
-    if (arr[i].text != null) {str += lb() + tb(3) + arr[i].text;}
-    str += lb() + tb(2) + "<![endif]-->";
-  }
-  document.write(str);
-}
-
-function mk_list(arr, t=0, lst="ul", cls=null, prp=null) {
-  var itm = "li";
-  var str = tb(t) + "<" + lst;
-  if (cls != null) {
-    str += " class='" + cls + "'";
-  }
-  if (prp != null) {
-    str += " " + prp;
-  }
-  str += ">" + lb();
-  for (var i = 0; i < arr.length; i++) {
-    str += tb(t+1) + "<" + itm + "";
-    if (arr[i].parent_id != null) {
-      str += " id='" + arr[i].parent_id + "'";
-    }
-    if (arr[i].parent_class != null) {
-      str += " class='" + arr[i].parent_class + "'";
-    }
-    if (arr[i].parent_extra != null) {
-      str += " " + arr[i].parent_extra;
-    }
-    str += ">";
-    if (arr[i].item_href != null) {
-      str += "<a href='" + arr[i].item_href + "'";
-      if (arr[i].item_id != null) {
-        str += " id='" + arr[i].item_id + "'";
-      }
-      if (arr[i].item_class != null) {
-        str += " class='" + arr[i].item_class + "'";
-      }
-      if (arr[i].item_extra != null) {
-        str += " " + arr[i].item_extra;
-      }
-      str += ">";
-      if (arr[i].text != null) {
-        str += arr[i].text;
-      }
-      str += "</a>";
-    } else if (arr[i].item_id != null || arr[i].item_class != null || arr[i].item_extra != null) {
-      str += "<span";
-      if (arr[i].item_id != null) {
-        str += " id='" + arr[i].item_id + "'";
-      }
-      if (arr[i].item_class != null) {
-        str += " class='" + arr[i].item_class + "'";
-      }
-      if (arr[i].item_extra != null) {
-        str += " " + arr[i].item_extra;
-      }
-      str += ">";
-      if (arr[i].text != null) {
-        str += arr[i].text;
-      }
-      str += "</span>";
-    } else if (arr[i].text != null) {
-      str += arr[i].text;
-    }
-    if (arr[i].extra != null) {
-      str += lb();
-      if (arr[i].extra == "headline") {
-        str += tb(t+2) + "<div class='orbit-headline text-center'>" + lb();
-        if (arr[i].title != null) {
-          str += tb(t+3) + "<h1>" + arr[i].title + "</h1>" + lb();
-          if (arr[i].subtitle != null) {
-            str += tb(t+3) + "<h6>" + arr[i].subtitle + "</h6>" + lb();
-          }
-        } else if (arr[i].quote != null) {
-          str += tb(t+3) + "<blockquote class='text-large'>" + lb() + tb(t+4) + arr[i].quote + lb();
-          if (arr[i].cite != null) {
-            str += tb(t+4) + "<cite>" + arr[i].cite + "</cite>" + lb();
-          }
-          str += tb(t+3) + "</blockquote>" + lb();
-        }
-        str += tb(t+2) + "</div>" + lb() + tb(t+1) + "</" + itm + ">";
-      } else if (arr[i].extra == "image") {
-        if (arr[i].img_src != null) {
-          str += tb(t+2) + "<div class='orbit-image'>" + lb() + tb(t+3) + "<img src='img/" + arr[i].img_src + "'";
-          if (arr[i].img_alt != null) {
-            str += " alt='" + arr[i].img_alt;
-          }
-          str += "'>" + lb();
-          str += tb(t+2) + "</div>" + lb();
-        }
-        if (arr[i].caption != null) {
-          str += tb(t+2) + "<div class='orbit-caption'>" + lb();
-          str += tb(t+3) + arr[i].caption + lb();
-          str += tb(t+2) + "</div>" + lb();
-        }
-        str += tb(t+1) + "</" + itm + ">";
-      } else {
-        str += arr[i].extra + lb() + tb(t+1) + "</" + itm + ">";
-      }
+function loadfile(file, async=false, method="GET", send=null, response="text") {
+  if (typeof xhr !== "undefined") {
+    xhr.open(method, file, async); // define request arguments
+    xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
+    xhr.overrideMimeType("text/plain"); // override response MIME type
+    xhr.send(send); // send request to server
+    if (response == "xml") {
+      return xhr.responseXML; // return XML response from server
     } else {
-      str += "</" + itm + ">";
+      return xhr.responseText; // return Plain Text response from server
     }
-    str += lb();
+  } else {
+    console.log(file + " loading failed. XMLHttpRequest not supported.");
   }
-  str += tb(t) + "</" + lst + ">";
+}
+
+function p_char(n, c) { // Print Character (n.b. for local use only)
+  var s = "";
+  if ($build_compress == false) {
+    for (var i = 0; i < n; i++) {
+      s += c;
+    }
+  }
+  return s;
+}
+
+function tb(n=1, c="\t") { // Tabulation (alias)
+  return p_char(n, c);
+}
+
+function lb(n=1, c="\n") { // Line Break (alias)
+  return p_char(n, c);
+}
+
+function mk_tags(array) { // Make Tags
+  var str = "";
+  for (index in array) {
+    str += lb() + tb(2) + "<" + array[index].elem;
+    for (param in array[index].attr) {
+      if (array[index].attr[param] != null) {
+        str += " " + param + "='" + array[index].attr[param] + "'";
+      }
+    }
+    str += ">";
+    if (typeof array[index].text !== "undefined") {
+      str += array[index].text;
+    }
+    if (array[index].elem == "script") {
+      str += "</script>";
+    }
+  }
   return str;
 }
 
-function loap() {
-  write_scripts(body_scripts);
+function loap() { // Postbuild Processing
+  document.write(mk_tags(body_tags));
 }
 
 /* ------------------------------------------------------------------ */
-/* # Process Prebuild */
+/* # Prebuild Processing */
 /* ------------------------------------------------------------------ */
-write_title();
-write_meta(head_meta);
-write_links(head_links);
-write_scripts(head_scripts);
-write_ie_cond_comments(ie_cond_comments);
+document.write(mk_tags(head_tags));
