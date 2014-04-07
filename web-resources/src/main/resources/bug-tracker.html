@@ -1,26 +1,13 @@
 ﻿<!doctype html>
 <html lang="fr">
 	<head>
-		<title>Les Ourses &agrave; plumes</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="img/ico/loap-icon-64x64.png" type="image/x-icon" rel="icon" />
-		<link href="css/normalize.css" rel="stylesheet" />
-		<link href="css/foundation.css" rel="stylesheet" />
-		<link href="css/loap.css" rel="stylesheet" />
-		<!--[if gte IE 9]>
-			<style type="text/css">.gradient{filter:none;}</style>
-		<![endif]-->
-		<script src="js/modernizr/modernizr.js"></script>
-		<script src="js/jquery/jquery.js"></script>
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+		<script src="boot"></script>
 	</head>
-	<body class="css-fx">
-		<div id="main" class="frame">
-			<div class="main-pane">
-				<section>
+	<body>
+		<div>
+			<div>
+				<section id="bug-tracker">
 					<div id="bug-alert" class="alert-box radius text-center" style="display:none;" data-alert>
 						<span id="bug-alert-message"></span>
 						<a href="javascript:void(0)" class="close"></a>
@@ -53,11 +40,10 @@
 				</section>
 			</div>
 		</div>
-		<script src="js/loap-conf.js"></script>
-		<script src="js/loap-build.js"></script>
-		<script src="js/loap-core.js"></script>
-		<script src="js/loap-bug-tracker.js"></script>
-		<script src="js/foundation/foundation.lib.js"></script>
+		<script>
+			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_path.js_own + "loap-bug-tracker.js"}});
+			loap();
+		</script>
 		<script>
 			$(document).foundation();
 		</script>
