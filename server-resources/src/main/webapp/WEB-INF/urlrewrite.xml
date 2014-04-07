@@ -30,6 +30,24 @@
         <to>/fnt/$2</to>
     </rule>
     
+	<rule>
+        <note>redirection des json</note>
+        <from>^/(.*)/json/(.*)$</from>
+        <to>/json/$2</to>
+    </rule>
+    
+	<rule>
+        <note>redirection des templates</note>
+        <from>^/(.*)/tmpl/(.*)$</from>
+        <to>/tmpl/$2</to>
+    </rule>
+    
+	<rule>
+        <note>redirection du boot</note>
+        <from>^/(.*)/boot$</from>
+        <to>/boot</to>
+    </rule>
+    
     <!-- redirection html -->
 
     <rule>
