@@ -1,0 +1,77 @@
+﻿<!--Include External Template-->
+{{#def["tmpl/main.tmpl"] || (def["tmpl/main.tmpl"] = loadfile("tmpl/main.tmpl"))}}
+
+<!--Define Partial for News List-->
+{{## def.news_list_item :
+{{? typeof item.image !== "undefined" }}
+								<div class="orbit-image">
+									<img src="{{= item.image.src }}" alt="{{= item.image.alt }}">
+								</div>
+{{? typeof item.image.caption !== "undefined" }}
+								<div class="orbit-caption">
+									{{= item.image.caption }}
+								</div>
+{{?}}
+{{?? typeof item.quote !== "undefined" }}
+								<div class="orbit-headline text-center">
+									<blockquote class="text-large">
+										{{= item.quote.text }}
+										<cite>{{= item.quote.cite }}</cite>
+									</blockquote>
+								</div>
+{{?}}
+#}}
+
+				<!--Header-->
+				<header class="header text-center hide-for-print">
+					<!--Fast Nav-->
+					<h5 class="hide">Rubriques</h5>
+					<nav class="fast-nav">
+						<ul class="inline-list">
+							{{~ data.fast_nav : item }}
+							<li{{# def.attr : item.attr }}>{{# def.list_item : item }}</li>
+							{{~}}
+						</ul>
+					</nav>
+					<hr class="hide">
+					<!--News List-->
+					<h2 class="hide">Actualit&eacute;s</h2>
+					<div class="news-list hide-for-small">
+						<ul data-orbit data-options="
+							animation_speed: 375;
+							slide_number_text: sur;
+							slide_number: false;
+							bullets: false;
+							timer: false;
+							">
+							<li class="">
+								<div class="orbit-headline text-center">
+									<h1>{{= $org_name }}</h1>
+									<h6>{{= $app_name + " " + $app_ver }}</h6>
+								</div>
+							</li>
+							{{~ data.news_list :item }}
+							<li{{= typeof item.class !== "undefined" ? " class=" + item.class : "" }}>
+								{{# def.news_list_item }}
+							</li>
+							{{~}}
+						</ul>
+					</div>
+					<hr class="hide">
+					<!--Breadcrumbs-->
+					<h4 class="hide">Fil d&rsquo;Ariane</h4>
+					<ul class="breadcrumbs">
+						<li class="unavailable">Les Ourses &agrave; plumes</li>
+						<!--NOT YET IMPLEMENTED-->
+					</ul>
+					<!--Accessibility-->
+					<h4 class="hide">Accessibilit&eacute;</h4>
+					<div class="accessibility">
+						<ul class="inline-list">
+							{{~ data.accessibility : item }}
+							<li{{# def.attr : item.attr }}>{{# def.list_item : item }}</li>
+							{{~}}
+						</ul>
+					</div>
+				</header>
+				<hr>
