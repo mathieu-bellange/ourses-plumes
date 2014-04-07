@@ -47,9 +47,9 @@
 			</div>
 		</div>
 		<script>
+			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_path.js_own + "loap-dev_templating.js"}});
 			loap();
 		</script>
-		<script src="../js/loap-dev_templating.js"></script>
 		<script>
 			$(document).foundation();
 		</script>
