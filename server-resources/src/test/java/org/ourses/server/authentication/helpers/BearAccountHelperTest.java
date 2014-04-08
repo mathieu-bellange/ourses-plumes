@@ -20,9 +20,9 @@ public class BearAccountHelperTest {
 
     @Test
     public void shouldValidPassword() {
-        assertThat(helper.isPasswordValid("azerty7")).isTrue();
+        assertThat(helper.isPasswordValid("azer77azaety")).isTrue();
         assertThat(helper.isPasswordValid("azertyu")).isFalse();
-        // assertThat(helper.isPasswordValid("1245789")).isFalse();
+        assertThat(helper.isPasswordValid("1245789")).isFalse();
         assertThat(helper.isPasswordValid("aze7")).isFalse();
         assertThat(helper.isPasswordValid("")).isFalse();
         assertThat(helper.isPasswordValid(null)).isFalse();
