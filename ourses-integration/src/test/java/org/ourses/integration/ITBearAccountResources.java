@@ -14,12 +14,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.authentication.util.RolesUtil;
-import org.ourses.server.domain.exception.AccountAuthcInfoNullException;
-import org.ourses.server.domain.exception.AccountProfileNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.domain.jsondto.administration.ProfileDTO;
-import org.ourses.server.resources.util.HTTPUtility;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -33,7 +30,7 @@ public class ITBearAccountResources {
     private static final String PATH_DELETE = "/rest/account/3";
     private static final String PATH_GET_ACCOUNT = "/rest/account/2";
     private static final String PATH_UPDATE_ROLE = "rest/account/2/role";
-	private static final String PATH_GET_FALSE_ACCOUNT = "/rest/account/59";
+    private static final String PATH_GET_FALSE_ACCOUNT = "/rest/account/59";
 
     /* Account création */
 
@@ -45,8 +42,8 @@ public class ITBearAccountResources {
         ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
                 .put(ClientResponse.class, mapper.writeValueAsString(dummyAccount()));
         // status attendu 201
-        BearAccountDTO account = clientResponse.getEntity(BearAccountDTO.class);
         assertThat(clientResponse.getStatus()).as("Verif que le status est ok").isEqualTo(201);
+        BearAccountDTO account = clientResponse.getEntity(BearAccountDTO.class);
         // id non null, password null, profil non null et role à Rédactrice
         assertThat(account.getId()).isNotNull();
         assertThat(account.getPassword()).isNull();
@@ -66,10 +63,23 @@ public class ITBearAccountResources {
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "mdp",
                                 new ProfileDTO(null, null, 0), null, 0)));
-        // status attendu 500
-        assertThat(clientResponse.getStatus()).isEqualTo(500);
-        assertThat(clientResponse.getHeaders().getFirst(HTTPUtility.HEADER_ERROR)).isEqualTo(
-                AccountProfileNullException.class.getSimpleName());
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotCreateAccountWithPseudoAlreadyTaken() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = TestHelper
+                .webResource(uri)
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class,
+                        mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "mdp", new ProfileDTO("jpetit",
+                                null, 0), null, 0)));
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
     }
 
     @Test
@@ -83,10 +93,38 @@ public class ITBearAccountResources {
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, null, "mdp", new ProfileDTO("pseudo", null,
                                 0), null, 0)));
-        // status attendu 500
-        assertThat(clientResponse.getStatus()).isEqualTo(500);
-        assertThat(clientResponse.getHeaders().getFirst(HTTPUtility.HEADER_ERROR)).isEqualTo(
-                AccountAuthcInfoNullException.class.getSimpleName());
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotCreateAccountWithWrongMail() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = TestHelper
+                .webResource(uri)
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class,
+                        mapper.writeValueAsString(new BearAccountDTO(null, "toto", "mdp", new ProfileDTO("pseudo",
+                                null, 0), null, 0)));
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotCreateAccountWithMailAlreadyTaken() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = TestHelper
+                .webResource(uri)
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class,
+                        mapper.writeValueAsString(new BearAccountDTO(null, "jpetit@gmail.com", "mdp", new ProfileDTO(
+                                "pseudo", null, 0), null, 0)));
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
     }
 
     @Test
@@ -100,10 +138,23 @@ public class ITBearAccountResources {
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "Julie", null, new ProfileDTO("pseudo",
                                 null, 0), null, 0)));
-        // status attendu 500
-        assertThat(clientResponse.getStatus()).isEqualTo(500);
-        assertThat(clientResponse.getHeaders().getFirst(HTTPUtility.HEADER_ERROR)).isEqualTo(
-                AccountAuthcInfoNullException.class.getSimpleName());
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotCreateAccountWithWrongMdp() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_CREATE).build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = TestHelper
+                .webResource(uri)
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class,
+                        mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "aze", new ProfileDTO("pseudo",
+                                null, 0), null, 0)));
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
     }
 
     /* List Account */
@@ -136,38 +187,44 @@ public class ITBearAccountResources {
     }
 
     private Object dummyAccount() {
-        return new BearAccountDTO(null, "mail", "mdp", new ProfileDTO("pseudo", null, 0), null, 0);
+        return new BearAccountDTO(null, "mail@gmail.com", "mdp789654azerr", new ProfileDTO("pseudo", null, 0), null, 0);
     }
 
     /* TODO Patch du rôle par l'admin */
 
     @Test
-    public void shouldGetAccount(){
-    	URI uri = UriBuilder.fromPath(PATH_GET_ACCOUNT).build();
-    	ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
-    	BearAccountDTO bearAccountDTO = clientResponse.getEntity(BearAccountDTO.class);
-    	assertThat(clientResponse.getStatus()).isEqualTo(200);
-    	assertThat(bearAccountDTO).isNotNull();
-    	assertThat(bearAccountDTO.getId()).isEqualTo(2);
-    	assertThat(bearAccountDTO.getPassword()).isNull();
-    	
+    public void shouldGetAccount() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ACCOUNT).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+        BearAccountDTO bearAccountDTO = clientResponse.getEntity(BearAccountDTO.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        assertThat(bearAccountDTO).isNotNull();
+        assertThat(bearAccountDTO.getId()).isEqualTo(2);
+        assertThat(bearAccountDTO.getPassword()).isNull();
+
     }
-    
+
     @Test
-    public void shouldNotFindAccount(){
-    	URI uri = UriBuilder.fromPath(PATH_GET_FALSE_ACCOUNT).build();
-    	ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
-    	assertThat(clientResponse.getStatus()).isEqualTo(500);
+    public void shouldNotFindAccount() {
+        URI uri = UriBuilder.fromPath(PATH_GET_FALSE_ACCOUNT).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(500);
     }
-    
+
     @Test
-    public void updateRoleAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException, ClientHandlerException, IOException{
-    	URI uri = UriBuilder.fromPath(PATH_UPDATE_ROLE).build();
-    	ObjectMapper mapper = new ObjectMapper();
-    	ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json").put(ClientResponse.class, mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.ADMINISTRATRICE)));
-    	assertThat(clientResponse.getStatus()).isEqualTo(200);
-    	ClientResponse clientResponseGet = TestHelper.webResource(UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(ClientResponse.class);
-    	BearAccountDTO bearAccountDTO = clientResponseGet.getEntity(BearAccountDTO.class);
-    	assertThat(bearAccountDTO.getRole().getRole()).isEqualTo(RolesUtil.ADMINISTRATRICE);
+    public void updateRoleAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
+            ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_UPDATE_ROLE).build();
+        ObjectMapper mapper = new ObjectMapper();
+        ClientResponse clientResponse = TestHelper
+                .webResource(uri)
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class,
+                        mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.ADMINISTRATRICE)));
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ClientResponse clientResponseGet = TestHelper.webResource(UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(
+                ClientResponse.class);
+        BearAccountDTO bearAccountDTO = clientResponseGet.getEntity(BearAccountDTO.class);
+        assertThat(bearAccountDTO.getRole().getRole()).isEqualTo(RolesUtil.ADMINISTRATRICE);
     }
 }

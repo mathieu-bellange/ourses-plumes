@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.ourses.server.authentication.helpers.BearAccountHelper;
 import org.ourses.server.authentication.util.RolesUtil;
 import org.ourses.server.domain.entities.administration.BearAccount;
 import org.ourses.server.domain.entities.administration.OursesAuthorizationInfo;
@@ -24,6 +25,7 @@ import org.ourses.server.domain.exception.AccountProfileNullException;
 import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
 import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
 import org.ourses.server.resources.util.HTTPUtility;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
@@ -36,17 +38,33 @@ import com.google.common.collect.Sets;
 @Produces(MediaType.APPLICATION_JSON)
 public class BearAccountResources {
 
+    @Autowired
+    private BearAccountHelper helper;
+
     @PUT
     @Path("/create")
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
-        // on créé par défaut un compte en rédactrice
-        BearAccount account = bearAccountDTO.toBearAccount();
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
-        account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
+        String pseudo = null;
+        if (bearAccountDTO.getProfile() != null) {
+            pseudo = bearAccountDTO.getProfile().getPseudo();
+        }
         try {
-            account.save();
-            responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
+            // test si login/mail/password ok
+            if (helper.isNewMail(bearAccountDTO.getMail()) && helper.isMailValid(bearAccountDTO.getMail())
+                    && helper.isPseudoValid(pseudo) && helper.isNewPseudo(pseudo)
+                    && helper.isPasswordValid(bearAccountDTO.getPassword())) {
+                // on créé par défaut un compte en rédactrice
+                BearAccount account = bearAccountDTO.toBearAccount();
+                account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
+
+                account.save();
+                responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
+            }
+            else {
+                responseBuilder = Response.status(Status.FORBIDDEN);
+            }
         }
         catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
             responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR).header(HTTPUtility.HEADER_ERROR,
@@ -56,7 +74,7 @@ public class BearAccountResources {
     }
 
     @PUT
-    @Path("/update")    
+    @Path("/update")
     // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     // TODO gérer l'update
     public Response updateAccount(BearAccountDTO bearAccountDTO) {
@@ -90,18 +108,20 @@ public class BearAccountResources {
         bearAccount.update(Sets.newHashSet("authzInfo"));
         return Response.ok().build();
     }
-    
+
     @GET
     @Path("/{id}")
-    public Response getAccount(@PathParam("id") long id){
-    	BearAccount bearAccount = BearAccount.find(id);
-    	ResponseBuilder builder;
-    	if(bearAccount == null){
-    		builder = Response.serverError();
-    	}else{
-    		builder = Response.ok().entity(bearAccount.toBearAccountDTO());
-    	}
-    	return builder.build();
+    public Response getAccount(@PathParam("id")
+    long id) {
+        BearAccount bearAccount = BearAccount.find(id);
+        ResponseBuilder builder;
+        if (bearAccount == null) {
+            builder = Response.serverError();
+        }
+        else {
+            builder = Response.ok().entity(bearAccount.toBearAccountDTO());
+        }
+        return builder.build();
     }
 
     @DELETE

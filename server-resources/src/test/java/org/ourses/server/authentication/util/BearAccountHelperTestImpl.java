@@ -47,4 +47,14 @@ public class BearAccountHelperTestImpl implements BearAccountHelper {
         return false;
     }
 
+    @Override
+    public boolean isPseudoValid(String mail) {
+        return false;
+    }
+
+    @Override
+    public boolean isPasswordValid(String mail) {
+        return false;
+    }
+
 }

@@ -8,6 +8,7 @@ import org.ourses.server.domain.entities.administration.OursesAuthenticationInfo
 import org.ourses.server.domain.entities.administration.Profile;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 @Component
@@ -40,7 +41,17 @@ public class BearAccountHelperImpl implements BearAccountHelper {
 
     @Override
     public boolean isMailValid(String mail) {
-        return BearAccountUtil.mailPattern.matcher(mail).matches();
+        return !Strings.isNullOrEmpty(mail) && BearAccountUtil.mailPattern.matcher(mail).matches();
+    }
+
+    @Override
+    public boolean isPseudoValid(String pseudo) {
+        return !Strings.isNullOrEmpty(pseudo);
+    }
+
+    @Override
+    public boolean isPasswordValid(String password) {
+        return !Strings.isNullOrEmpty(password) && BearAccountUtil.passwordPattern.matcher(password).matches();
     }
 
 }
