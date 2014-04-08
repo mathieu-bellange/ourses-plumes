@@ -52,19 +52,19 @@
 
     <rule>
         <note>redirection vers la page d'ajout d'un bug github</note>
-        <from>/bug-tracker</from>
+        <from>^/bug-tracker$</from>
         <to>/bug-tracker.html</to>
     </rule>
     
     <rule>
         <note>redirection vers la page du compte</note>
-        <from>/comptes/nouveau</from>
+        <from>^/comptes/nouveau$</from>
         <to>/account.html</to>
     </rule>
     
     <rule>
         <note>redirection vers la page des listes de comptes</note>
-        <from>/comptes</from>
+        <from>^/comptes$</from>
         <to>/accounts.html</to>
     </rule>
     
