@@ -12,137 +12,160 @@ function Profile(pseudo) {
 	this.pseudo = pseudo;
 }
 
-/* UNUSED */
-/*
-var pseudoIsValid = false;
-var mailIsValid = false;
-
-function checkPseudo(){
-	return pseudoIsValid;
+function isFormValid(){
+	var isPseudoValid = !$("#pseudo").attr("data-invalid");
+	var isMailValid = !$("#mail").attr("data-invalid");
+	var isPasswordValid = !$("#password").attr("data-invalid");
+	return isPseudoValid && isMailValid && isPasswordValid;
 }
-*/
 
 /* DOM manipulation */
-function setValidationIcon(selector, isValid) {
+
+function setValidationIcon(selector,labelSelector, isValid) {
 	if (isValid == true) {
 		$(selector).addClass("valid");
+		$(selector).removeAttr("data-invalid");
 		$(selector).removeClass("wrong");
 		$(selector).removeClass("loading");
+		$(labelSelector).hide();
 	} else if (isValid == false) {
 		$(selector).removeClass("valid");
+		$(selector).attr("data-invalid",true);
 		$(selector).addClass("wrong");
 		$(selector).removeClass("loading");
+		$(labelSelector).show();
 	} else {
 		$(selector).removeClass("valid");
 		$(selector).removeClass("wrong");
 		$(selector).addClass("loading");
+		$(labelSelector).hide();
 	}
 }
-/* UNUSED */
-/*
-function showPseudoIconValidation(valid){
-	pseudoIsValid = valid;
-	if (valid){
-		$("#pseudoPostFix").html("ok");
-	}else{
-		$("#pseudoPostFix").html("notOk");
-	}
-}
-function showPseudoIconLoading(){
-	$("#pseudoPostFix").html("load");
-}
-function showMailIconValidation(valid){
-	mailIsValid = valid;
-	if (valid){
-		$("#mailPostFix").html("ok");
-	}else{
-		$("#mailPostFix").html("notOk");
-	}
-}
-function showMailIconLoading(){
-	$("#mailPostFix").html("load");
-}
-*/
 
 /* AJAX */
-$("#pseudo").keyup(function(event){
-// showPseudoIconLoading();
-	if (typeof pseudoTimeoutValid !== "undefined") {clearTimeout(pseudoTimeoutValid);}
-	var selector = this;
-	setValidationIcon(selector, null);
-	var pseudo = $("#pseudo").val();
+function checkPseudoAJAX(){
+	if (typeof pseudoTimeoutValid !== "undefined") {
+		clearTimeout(pseudoTimeoutValid);
+	}
+	var selector = $("#pseudo");
+	setValidationIcon(selector,$("#pseudoError"), null);
+	var pseudo = selector.val();
 	$.ajax({
 		type : "POST",
 		url : "/rest/signup_check/pseudo",
 		contentType : "application/json; charset=utf-8",
 		data : pseudo,
 		success : function(data, textStatus, jqXHR) {
-			// showPseudoIconValidation(true);
-			pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, true)}, 500);
+			pseudoTimeoutValid = setTimeout(function(){
+				setValidationIcon(selector,$("#pseudoError"), true)}, 500);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 403){
-				// showPseudoIconValidation(false);
-				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, false)}, 500);
+				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#pseudoError"), false)}, 500);
 			}
 		},
 		dataType : "json"
 	});
-});
+}
 
-$("#mail").keyup(function(event){
-	// showMailIconLoading();
-	if (typeof mailTimeoutValid !== "undefined") {clearTimeout(mailTimeoutValid);}
-	var selector = this;
-	setValidationIcon(selector, null);
-	var mail = $("#mail").val();
+function checkPasswordAJAX(){
+	if (typeof passwordTimeoutValid !== "undefined") {
+		clearTimeout(passwordTimeoutValid);
+	}
+	var selector = $("#password");
+	setValidationIcon(selector,$("#passwordError"), null);
+	var pseudo = selector.val();
+	$.ajax({
+		type : "POST",
+		url : "/rest/signup_check/password",
+		contentType : "application/json; charset=utf-8",
+		data : pseudo,
+		success : function(data, textStatus, jqXHR) {
+			passwordTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#passwordError"), true)}, 500);
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 403){
+				passwordTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#passwordError"), false)}, 500);
+			}
+		},
+		dataType : "json"
+	});
+}
+
+function checkMailAJAX(){
+	if (typeof mailTimeoutValid !== "undefined") {
+		clearTimeout(mailTimeoutValid);
+	}
+	var selector = $("#mail");
+	setValidationIcon(selector,$("#mailError"), null);
+	var mail = selector.val();
 	$.ajax({
 		type : "POST",
 		url : "/rest/signup_check/mail",
 		contentType : "application/json; charset=utf-8",
 		data : mail,
 		success : function(data, textStatus, jqXHR) {
-			// showMailIconValidation(true);
-			mailTimeoutValid = setTimeout(function(){setValidationIcon(selector, true)}, 500);
+			mailTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#mailError"), true)}, 500);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 403){
-				// showMailIconValidation(false);
-				mailTimeoutValid = setTimeout(function(){setValidationIcon(selector, false)}, 500);
+				mailTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#mailError"), false)}, 500);
 			}
 		},
 		dataType : "json"
 	});
-});
+}
 
-$("#bearAccount").submit(function(event){
-	if (document.getElementById("bearAccount").checkValidity()){
-		var profile = new Profile($("#pseudo").val());
-		var bearAccount = new BearAccount($("#mail").val(),$("#password").val(),profile);
-		$.ajax({
-			type : "PUT",
-			url : "/rest/account/create",
-			contentType : "application/json; charset=utf-8",
-			data : bearAccount.json(),
-			success : function(jqXHR, status, errorThrown) {
-				window.location.href = "/comptes";
-			},
-			error : function(jqXHR, status, errorThrown) {
+function submitAccountAJAX(){
+	var profile = new Profile($("#pseudo").val());
+	var bearAccount = new BearAccount($("#mail").val(),$("#password").val(),profile);
+	$.ajax({
+		type : "PUT",
+		url : "/rest/account/create",
+		contentType : "application/json; charset=utf-8",
+		data : bearAccount.json(),
+		success : function(jqXHR, status, errorThrown) {
+			window.location.href = "/comptes";
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 403){
+				checkPseudoAJAX();
+				checkPasswordAJAX();
+				checkMailAJAX();
+			}else{
 				$("#compte-alert").addClass("error");
 				$("#compte-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
 				$("#compte-alert").fadeIn(500);
-			},
-			dataType : "json"
-		});
-	}
-});
+			}
+		},
+		dataType : "json"
+	});
+}
+
 
 /* Events */
+$("#bearAccount").submit(function(event){
+	if (isFormValid()){
+		submitAccountAJAX();
+	}
+});
+$("#pseudo").keyup(function(event){
+	checkPseudoAJAX();
+});
 $("#pseudo").on("keypress", function(){
-  setValidationIcon(this, null);
+  setValidationIcon(this,$("#pseudoError"), null);
+});
+$("#mail").keyup(function(event){
+	checkMailAJAX();
 });
 $("#mail").on("keypress", function(){
-  setValidationIcon(this, null);
+  setValidationIcon(this,$("#mailError"), null);
+});
+$("#password").keyup(function(event){
+	checkPasswordAJAX();
+});
+$("#password").on("keypress", function(){
+	setValidationIcon(this,$("#passwordError"), null);
 });
 $("#password").on("focus", function(event){ // clear input
 	$(this).attr("placeholder", "");

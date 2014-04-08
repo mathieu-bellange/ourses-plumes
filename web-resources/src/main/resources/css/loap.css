@@ -196,6 +196,26 @@ cite.author { /* TEMP */
 /* ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ */
+/* # Validation */
+/* ------------------------------------------------------------------ */
+
+small.error{
+ 	display: block;
+	padding: 0.33333rem 0.5rem 0.5rem;
+	margin-top: -1px;
+	margin-bottom: 0.88889rem;
+	font-size: 0.66667rem;
+	font-weight: normal;
+	font-style: italic;
+	background: #f04124;
+	color: #fff;
+ }
+ 
+ label.error{
+ 	color: #f04124;
+ }
+
+/* ------------------------------------------------------------------ */
 /* # Inputs */
 /* ------------------------------------------------------------------ */
 
@@ -363,6 +383,7 @@ input.validation-icon.wrong,
 input.validation-icon.wrong:hover,
 input.validation-icon.wrong:focus {
   background-image: url('../img/ui/icon-wrong-24x24.png');
+  margin-bottom: 0;
 }
 input.validation-icon.valid,
 input.validation-icon.valid:hover,
