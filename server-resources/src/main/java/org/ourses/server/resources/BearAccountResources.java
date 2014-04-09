@@ -106,7 +106,7 @@ public class BearAccountResources {
         BearAccount bearAccount = BearAccount.find(id);
         bearAccount.setAuthzInfo(role.toOursesAuthorizationInfo());
         bearAccount.update(Sets.newHashSet("authzInfo"));
-        return Response.ok().build();
+        return Response.status(Status.NO_CONTENT).build();
     }
 
     @GET
