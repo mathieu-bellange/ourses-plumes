@@ -118,14 +118,17 @@ var xhr = (function() {
 function loadfile(file, async, method, send, response) {
 
 //default param
-method = (typeof method === "undefined") ? "GET" : method;
-send = (typeof send === "undefined") ? null : send;
-response = (typeof response === "undefined") ? "text" : response;
-async = (typeof async === "undefined") ? false : async;
+// method = (typeof method === "undefined") ? "GET" : method;
+// send = (typeof send === "undefined") ? null : send;
+// response = (typeof response === "undefined") ? "text" : response;
+// async = (typeof async === "undefined") ? false : async;
+
+// shorthanded default function arguments * TEST
+var async = async || false, method = method || "GET", send = send || null, response = response || "text";
 
   if (typeof xhr !== "undefined") {
     xhr.open(method, file, async); // define request arguments
-    xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
+    xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type * USELESS
     xhr.overrideMimeType("text/plain"); // override response MIME type
     xhr.send(send); // send request to server
     if (response == "xml") {
@@ -149,16 +152,24 @@ function p_char(n, c) { // Print Character (n.b. for local use only)
 }
 
 function tb(n, c) { // Tabulation (alias)
-	//default param
-n = (typeof n === "undefined") ? 1 : n;
-c = (typeof c === "undefined") ? "\t" : c;
+
+//default param
+// n = (typeof n === "undefined") ? 1 : n;
+// c = (typeof c === "undefined") ? "\t" : c;
+
+// shorthanded default function arguments * TEST
+  var n = n || 1, c = c || "\t";
   return p_char(n, c);
 }
 
 function lb(n, c) { // Line Break (alias)
+
 //default param
-n = (typeof n === "undefined") ? 1 : n;
-c = (typeof c === "undefined") ? "\t" : c;
+// n = (typeof n === "undefined") ? 1 : n;
+// c = (typeof c === "undefined") ? "\t" : c;
+
+// shorthanded default function arguments * TEST
+  var n = n || 1, c = c || "\n";
   return p_char(n, c);
 }
 
