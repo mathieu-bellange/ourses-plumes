@@ -20,25 +20,26 @@ function isFormValid(){
 }
 
 /* DOM manipulation */
-
-function setValidationIcon(selector,labelSelector, isValid) {
+function setValidationIcon(selector, labelSelector, isValid) {
 	if (isValid == true) {
 		$(selector).addClass("valid");
 		$(selector).removeAttr("data-invalid");
 		$(selector).removeClass("wrong");
 		$(selector).removeClass("loading");
-		$(labelSelector).hide();
+		$("[for='" + selector.attr("id") + "']").removeClass("error");
+		$(labelSelector).addClass("hide");
 	} else if (isValid == false) {
 		$(selector).removeClass("valid");
 		$(selector).attr("data-invalid",true);
 		$(selector).addClass("wrong");
 		$(selector).removeClass("loading");
-		$(labelSelector).show();
+		$("[for='" + selector.attr("id") + "']").addClass("error");
+		$(labelSelector).removeClass("hide");
 	} else {
 		$(selector).removeClass("valid");
 		$(selector).removeClass("wrong");
 		$(selector).addClass("loading");
-		$(labelSelector).hide();
+		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
 	}
 }
 
@@ -61,7 +62,7 @@ function checkPseudoAJAX(){
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 403){
-				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#pseudoError"), false)}, 500);
+				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#pseudoError"), false)}, 500);
 			}
 		},
 		dataType : "json"
@@ -81,11 +82,11 @@ function checkPasswordAJAX(){
 		contentType : "application/json; charset=utf-8",
 		data : pseudo,
 		success : function(data, textStatus, jqXHR) {
-			passwordTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#passwordError"), true)}, 500);
+			passwordTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#passwordError"), true)}, 500);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 403){
-				passwordTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#passwordError"), false)}, 500);
+				passwordTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#passwordError"), false)}, 500);
 			}
 		},
 		dataType : "json"
@@ -105,11 +106,11 @@ function checkMailAJAX(){
 		contentType : "application/json; charset=utf-8",
 		data : mail,
 		success : function(data, textStatus, jqXHR) {
-			mailTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#mailError"), true)}, 500);
+			mailTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#mailError"), true)}, 500);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 403){
-				mailTimeoutValid = setTimeout(function(){setValidationIcon(selector,$("#mailError"), false)}, 500);
+				mailTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#mailError"), false)}, 500);
 			}
 		},
 		dataType : "json"
@@ -142,7 +143,6 @@ function submitAccountAJAX(){
 	});
 }
 
-
 /* Events */
 $("#bearAccount").submit(function(event){
 	if (isFormValid()){
@@ -167,9 +167,9 @@ $("#password").keyup(function(event){
 $("#password").on("keypress", function(){
 	setValidationIcon(this,$("#passwordError"), null);
 });
-$("#password").on("focus", function(event){ // clear input
+$("#password").on("focus", function(event){
 	$(this).attr("placeholder", "");
 });
-$("#compte-alert .close").on('click', function(event) { // fadeout alert box
+$("#compte-alert .close").on('click', function(event) {
 	$("#compte-alert").fadeOut(500);
 });

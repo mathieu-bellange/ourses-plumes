@@ -13,25 +13,32 @@
 						<a href="javascript:void(0)" class="close"></a>
 					</div>
 					<form id="bearAccount" onsubmit="return false;">
+
 						<div class="row">
-							<div class="column small-12 large-offset-2 large-8">
+							<div class="column medium-4 large-push-2 large-2">
 								<label for="pseudo">Pseudo&nbsp;<sup class="medium red">*</sup></label>
+							</div>
+							<div class="column medium-8 large-pull-2 large-6">
 								<input id="pseudo" class="validation-icon" maxlength="50" type="text" />
-								<small id="pseudoError" class="error" style="display:none;">Pseudo invalide ou d&eacute;j&agrave; pris</small>
+								<small id="pseudoError" class="error hide">Pseudo invalide ou d&eacute;j&agrave; pris</small>
 							</div>
 						</div>
 						<div class="row">
-							<div class="column small-12 large-offset-2 large-8">
+							<div class="column medium-4 large-push-2 large-2">
 								<label for="mail">Adresse mail&nbsp;<sup class="medium red">*</sup></label>
-								<input id="mail" class="validation-icon" type="text" maxlength="100"/>
-								<small id="mailError" class="error" style="display:none;">Mail invalide ou d&eacute;j&agrave; pris</small>
+							</div>
+							<div class="column medium-8 large-pull-2 large-6">
+								<input id="mail" class="validation-icon" type="text" maxlength="100" />
+								<small id="mailError" class="error hide">Mail invalide ou d&eacute;j&agrave; pris</small>
 							</div>
 						</div>
 						<div class="row">
-							<div class="column small-12 large-offset-2 large-8">
-								<label for="password">Mot de passe&nbsp;<sup	class="medium red">*</sup></label>
-								<input id="password" class="validation-icon" type="password" maxlength="20" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre"/>
-								<small id="passwordError" class="error" style="display:none;">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
+							<div class="column medium-4 large-push-2 large-2">
+								<label for="password">Mot de passe&nbsp;<sup class="medium red">*</sup></label>
+							</div>
+							<div class="column medium-8 large-pull-2 large-6">
+								<input id="password" class="validation-icon" type="password" maxlength="20" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" />
+								<small id="passwordError" class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
 							</div>
 						</div>
 						<div class="row">
@@ -39,6 +46,36 @@
 								<input class="button" id="confirm" type="submit" value="Valider" />
 							</div>
 						</div>
+
+					<!--
+						<div class="row">
+							<div class="column small-12 large-offset-2 large-8">
+								<label for="pseudo">Pseudo&nbsp;<sup class="medium red">*</sup></label>
+								<input id="pseudo" class="validation-icon" maxlength="50" type="text" />
+								<small id="pseudoError" class="error hide">Pseudo invalide ou d&eacute;j&agrave; pris</small>
+							</div>
+						</div>
+						<div class="row">
+							<div class="column small-12 large-offset-2 large-8">
+								<label for="mail">Adresse mail&nbsp;<sup class="medium red">*</sup></label>
+								<input id="mail" class="validation-icon" type="text" maxlength="100"/>
+								<small id="mailError" class="error hide">Mail invalide ou d&eacute;j&agrave; pris</small>
+							</div>
+						</div>
+						<div class="row">
+							<div class="column small-12 large-offset-2 large-8">
+								<label for="password">Mot de passe&nbsp;<sup	class="medium red">*</sup></label>
+								<input id="password" class="validation-icon" type="password" maxlength="20" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre"/>
+								<small id="passwordError" class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
+							</div>
+						</div>
+						<div class="row">
+							<div class="column small-12 large-offset-2 large-8 text-right">
+								<input class="button" id="confirm" type="submit" value="Valider" />
+							</div>
+						</div>
+						-->
+
 					</form>
 				</section>
 			</div>

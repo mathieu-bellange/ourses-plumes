@@ -196,26 +196,6 @@ cite.author { /* TEMP */
 /* ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ */
-/* # Validation */
-/* ------------------------------------------------------------------ */
-
-small.error{
- 	display: block;
-	padding: 0.33333rem 0.5rem 0.5rem;
-	margin-top: -1px;
-	margin-bottom: 0.88889rem;
-	font-size: 0.66667rem;
-	font-weight: normal;
-	font-style: italic;
-	background: #f04124;
-	color: #fff;
- }
- 
- label.error{
- 	color: #f04124;
- }
-
-/* ------------------------------------------------------------------ */
 /* # Inputs */
 /* ------------------------------------------------------------------ */
 
@@ -254,6 +234,58 @@ textarea:focus {
   -webkit-box-shadow: none; /* Foundation override */
      -moz-box-shadow: none; /* Foundation override */
           box-shadow: none; /* Foundation override */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Validation */
+/* ------------------------------------------------------------------ */
+
+input.validation-icon,
+input.validation-icon:hover,
+input.validation-icon:focus {
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+}
+input.validation-icon.wrong,
+input.validation-icon.wrong:hover,
+input.validation-icon.wrong:focus {
+  background-image: url('../img/ui/icon-wrong-24x24.png');
+}
+input.validation-icon.valid,
+input.validation-icon.valid:hover,
+input.validation-icon.valid:focus {
+  background-image: url('../img/ui/icon-valid-24x24.png');
+}
+input.validation-icon.loading,
+input.validation-icon.loading:hover,
+input.validation-icon.loading:focus {
+  background-image: url('../img/ui/icon-loading-24x24.gif');
+}
+
+input.validation-icon + small.error { /* Position fix */
+  position: relative;
+  top: -1rem;
+}
+
+small.error {
+  display: block;
+  padding: 0.33333rem 0.5rem 0.5rem;
+  margin-top: -1px;
+  margin-bottom: 0.88889rem;
+  font-size: 0.66667rem;
+  font-weight: normal;
+  font-style: italic;
+  background: #c33;
+  color: #fff;
+}
+
+label.error {
+  color: #c33;
+}
+
+.error.hide {
+  display: none; /* Visibility fix */
 }
 
 /* ------------------------------------------------------------------ */
@@ -367,33 +399,6 @@ button.alert:focus, .button.alert:focus, button.error:focus, .button.error:focus
 }
 button.alert:active, .button.alert:active, button.error:active, .button.error:active {
   background-color: #930;
-}
-
-/* ------------------------------------------------------------------ */
-/* # Validation Icons */
-/* ------------------------------------------------------------------ */
-input.validation-icon,
-input.validation-icon:hover,
-input.validation-icon:focus {
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-origin: content-box;
-}
-input.validation-icon.wrong,
-input.validation-icon.wrong:hover,
-input.validation-icon.wrong:focus {
-  background-image: url('../img/ui/icon-wrong-24x24.png');
-  margin-bottom: 0;
-}
-input.validation-icon.valid,
-input.validation-icon.valid:hover,
-input.validation-icon.valid:focus {
-  background-image: url('../img/ui/icon-valid-24x24.png');
-}
-input.validation-icon.loading,
-input.validation-icon.loading:hover,
-input.validation-icon.loading:focus {
-  background-image: url('../img/ui/icon-loading-24x24.gif');
 }
 
 /* ------------------------------------------------------------------ */
@@ -2988,6 +2993,7 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 /* Inputs */
+.css-fx input + small.error,
 .css-fx input[type="text"],
 .css-fx input[type="password"],
 .css-fx input[type="date"],
@@ -3026,6 +3032,11 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
   -webkit-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
      -moz-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
           box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
+}
+.css-fx input:focus + small.error {
+  -webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+     -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+          box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
 }
 
 /* Buttons */
