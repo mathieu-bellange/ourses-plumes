@@ -3122,6 +3122,10 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
       -ms-transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
        -o-transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
           transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
+    transition-delay: .25s;
+		  transition-duration: .5s;
+transition-timing-function: ease-out;
+transition-property: inherit;
 }
 .logo a:hover {
   -webkit-box-shadow: 0 0 1rem .5rem rgba(255, 255, 255, .5), 0 0 1rem rgba(255, 255, 204, 1) inset;
