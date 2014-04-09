@@ -10,31 +10,17 @@
 /* ------------------------------------------------------------------ */
 
 /* ULR Parser */
-/*
 $(document).ready(function() {
   var url = window.location.pathname;
   var q = /[a-zA-Z-_]*\.(?:html|htm)/;
   var page = url.match(q);
-  var hash = location.hash
-  alert("page : " + page + "\nurl: " + hash);
-});
-*/
-
-/* Show active section on page load */
-
-/* ULR Parser */
-$(document).ready(function() {
-  var url = window.location.pathname;
-  var q = /[a-zA-Z-_]*\.(?:html|htm)/;
-  var page = url.match(q);
-  var selector = location.hash
-  if ($(selector).hasClass("hide")) {
-    // Display section
+  var selector = location.hash // assumed it's section id
+  // pathing ; need to split url tree
+  if ($(selector).hasClass("hide")) { // Show active section on page loaded
     $(".main-pane > section").addClass("hide");
     $(selector).removeClass("hide");
   }
 });
-
 
 /* ------------------------------------------------------------------ */
 /* # Object */
@@ -49,7 +35,7 @@ $(document).ready(function() {
  * to a parent element (i.e. with 'on' or 'live' jQuery methods).
  */
 
-var self = (function() {
+var core = (function() {
   return {
     init: function() {},
     update: function() {
@@ -62,7 +48,7 @@ var self = (function() {
     }
   };
 }());
-$(document).ready(self.update()); // TEMP : Launch after loading ; can't make a named function self-executing and reusable
+$(document).ready(core.update()); // TEMP : Launch after loading ; can't make a named function self-executing and reusable
 
 /* ------------------------------------------------------------------ */
 /* # Toolbar */
@@ -212,7 +198,7 @@ function connect() {
       // Build User Navigation
       $(".nav-pane hr").first().before(build_user_nav());
       $(".user-nav").foundation();
-      self.update(); // TEMP TEST
+      core.update(); // TEMP TEST
     }
   }
 /* ================================================================== */
