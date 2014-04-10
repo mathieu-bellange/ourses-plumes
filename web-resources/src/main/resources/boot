@@ -23,7 +23,7 @@ $app_ver          = "0.0.3";               				// String.  Set application versi
 $app_kwd          = ["Webzine", "F&eacute;minisme"];    // Array.   Set application keywords.
 $app_desc         = "Un webzine f&eacute;ministe.";     // String.  Set application keywords.
 $app_genr         = null;                               // String.  Set application generator (i.e. the software used for dev).
-$app_path         = {js_own: "js/", js_lib: "js/"};     // Object.  Set application path to files.
+$app_path         = {js_own: "/js/", js_lib: "/js/"};     // Object.  Set application path to files.
 
 /* TEMP */
 $boot             = true;                               // Boolean. Flag for this file setup.
@@ -36,9 +36,9 @@ $page_title       = null;                               // String.  Register pag
 /* # TEMP : Reloc Path for serverless edits */
 /* ------------------------------------------------------------------ */
 
-if (window.location.href.split("/")[0].slice(0,4) == "file") {
-  $app_path.js_own = "../js/", $app_path.js_lib = "../lib/";
-}
+/*if (window.location.href.split("/")[0].slice(0,4) == "file") {*/
+/*  $app_path.js_own = "../js/", $app_path.js_lib = "../lib/";*/
+/*}*/
 
 /* ------------------------------------------------------------------ */
 /* # Private Variables */
@@ -77,10 +77,10 @@ var head_tags = [
   {elem: "meta", attr: {name: "keywords", content: $app_kwd.toString()}},
   {elem: "meta", attr: {name: "description", content: $app_desc}},
   {elem: "meta", attr: {name: "generator", content: $app_genr}},
-  {elem: "link", attr: {href: "img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
-  {elem: "link", attr: {href: "css/normalize.css", rel: "stylesheet"}},
-  {elem: "link", attr: {href: "css/foundation.css", rel: "stylesheet"}},
-  {elem: "link", attr: {href: "css/loap.css", rel: "stylesheet"}},
+  {elem: "link", attr: {href: "/img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
+  {elem: "link", attr: {href: "/css/normalize.css", rel: "stylesheet"}},
+  {elem: "link", attr: {href: "/css/foundation.css", rel: "stylesheet"}},
+  {elem: "link", attr: {href: "/css/loap.css", rel: "stylesheet"}},
   {elem: "script", attr: {src: $app_path.js_lib + "modernizr/modernizr" + $lib_ext +".js"}},
   {elem: "script", attr: {src: $app_path.js_lib + "jquery/jquery" + $lib_ext + ".js"}},
   {elem: "script", attr: {src: $app_path.js_lib + "dot/dot" + $lib_ext + ".js"}},
