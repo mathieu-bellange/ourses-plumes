@@ -9,8 +9,8 @@
 
 	<properties>
 		<!-- project configuration -->
-		<js.sourceDirectory>src/main/js</js.sourceDirectory>
-		<js.testSourceDirectory>src/test/js</js.testSourceDirectory>
+		<js.sourceDirectory>src/main/resources/js</js.sourceDirectory>
+		<js.testSourceDirectory>src/test/resources/js</js.testSourceDirectory>
 		<testDriver.config>jsTestDriver.conf</testDriver.config>
 		<testDriver.report.path>target/jsTestDriver</testDriver.report.path>
 		<testDriver.report.coverage>target/jsTestDriver/jsTestDriver.conf-coverage.dat</testDriver.report.coverage>
@@ -28,28 +28,11 @@
 		<!-- plugin maven -->
 		<assembly-plugin-version>2.4</assembly-plugin-version>
 	</properties>
+	
 
 	<build>
 		<sourceDirectory>${js.sourceDirectory}</sourceDirectory>
 		<testSourceDirectory>${js.testSourceDirectory}</testSourceDirectory>
-		
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<filtering>false</filtering>
-				<targetPath>${project.build.directory}/${project.build.finalName}</targetPath>
-			</resource>
-			<resource>
-				<directory>${js.sourceDirectory}</directory>
-				<filtering>false</filtering>
-				<targetPath>${project.build.directory}/${project.build.finalName}/js</targetPath>
-			</resource>
-			<resource>
-				<directory>${basedir}/src/main/lib</directory>
-				<filtering>false</filtering>
-				<targetPath>${project.build.directory}/${project.build.finalName}/js</targetPath>
-			</resource>
-		</resources>
 
 		<plugins>
 			<!-- configuration du projet -->

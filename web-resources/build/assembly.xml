@@ -10,17 +10,6 @@
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
-		<fileSet>	
-			<directory>src/main/js/</directory>
-			<outputDirectory>/js</outputDirectory>
-			<includes>
-				<include>**/*.js</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>src/main/lib/</directory>
-			<outputDirectory>/js</outputDirectory>
-		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/</directory>
 			<outputDirectory>/</outputDirectory>
