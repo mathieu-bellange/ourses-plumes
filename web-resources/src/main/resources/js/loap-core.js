@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Core
  * Require jQuery Library
- * ver. 0.0.2
+ * ver. 0.0.3
  */
 
 /* ------------------------------------------------------------------ */
@@ -42,7 +42,7 @@ var core = (function() {
       /* User Pictures Displayer */
       $("[data-image]").each(function() {
         var file = $(this).attr("data-image");
-        var dir = "img/";
+        var dir = "/img/";
         $(this).css("background-image", "url('" + dir + file + "')")
       });
     }
