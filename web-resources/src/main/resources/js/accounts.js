@@ -1,4 +1,21 @@
-/* Domain */
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
+
+function createAlertBox(err, msg) {
+	var err = err || "error", msg = msg || "";
+	if ($("#comptes-alert").length == 0) {
+		$("#accountsTable").before(alert_box_template({id: "comptes-alert", class: err, text: msg}));
+		if (document.readyState === "complete") {
+			$("#accounts").foundation("alert");
+		}
+		$("#comptes-alert").fadeIn(300);
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* # Domain */
+/* ------------------------------------------------------------------ */
 
 roles = null;
 
@@ -10,15 +27,18 @@ function OurseAuthzInfo(id,role){
 	};
 };
 
-/* AJAX */
+/* ------------------------------------------------------------------ */
+/* # AJAX */
+/* ------------------------------------------------------------------ */
 
 $.getJSON("/rest/role", function(rolesBdd) {
 	roles = rolesBdd;
 	getAccount();
 }).fail(function(){
-	$("#comptes-alert").addClass("error");
-	$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-	$("#comptes-alert").fadeIn(500);
+	// $("#comptes-alert").addClass("error");
+	// $("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+	// $("#comptes-alert").fadeIn(500);
+	createAlertBox();
 });
 
 function getAccount(){
@@ -65,15 +85,18 @@ function getAccount(){
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
-			$("#comptes-alert").addClass("error");
-			$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-			$("#comptes-alert").fadeIn(500);
+			// $("#comptes-alert").addClass("error");
+			// $("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+			// $("#comptes-alert").fadeIn(500);
+			createAlertBox();
 		},
 		dataType : "json"
 	});
 };
 
-/* Event */
+/* ------------------------------------------------------------------ */
+/* # Event */
+/* ------------------------------------------------------------------ */
 
 function updateEvent(event) {
 	// compte dans l'event
@@ -88,9 +111,10 @@ function updateEvent(event) {
 		success : function(data, status, jqxhr) {
 		},
 		error : function(jqXHR, status, errorThrown) {
-			$("#comptes-alert").addClass("error");
-			$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-			$("#comptes-alert").fadeIn(500);
+			// $("#comptes-alert").addClass("error");
+			// $("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+			// $("#comptes-alert").fadeIn(500);
+			createAlertBox();
 		},
 		dataType : "json"
 	});
@@ -106,13 +130,17 @@ function deleteEvent(event){
 			$("#accountsTable tr[data-account-id="+id+"]").remove();
 		},
 		error : function(jqXHR, status, errorThrown) {
-			$("#comptes-alert").addClass("error");
-			$("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-			$("#comptes-alert").fadeIn(500);
+			// $("#comptes-alert").addClass("error");
+			// $("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+			// $("#comptes-alert").fadeIn(500);
+			createAlertBox();
 		}
 	});
 };
 
+/* UNUSED : 'data-alert' was missing on alert-box */
+/*
 $("#comptes-alert .close").on('click', function(event) {
 	$("#comptes-alert").fadeOut(500);
 });
+*/

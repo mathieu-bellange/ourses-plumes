@@ -45,6 +45,14 @@ $user_name        = "Nadejda";                          // String.  Register use
 $user_picture     = "usr-nadejda.jpg";                  // String.  Register user picture file.
 $page_title       = null;                               // String.  Register page title.
 
+$err_msg          = {                                   // Object.  Define generic error messages.
+	default: "Une erreur technique s’est produite. Veuillez prévenir l’administateur du site.",
+	form_invalid: "Le formulaire que vous avez soumis est invalide et n’a pas pu être envoyé.",
+	form_incomplete: "Le formulaire que vous avez soumis est incomplet et n’a pas été envoyé.",
+	something_weird_happened: "Un truc vraiment chelou s’est produit. Veuillez éteindre votre ordinateur et faire le poirier en attendant les secours."
+}
+
+
 /* ------------------------------------------------------------------ */
 /* # Reloc path */
 /* ------------------------------------------------------------------ */

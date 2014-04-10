@@ -1,16 +1,5 @@
 /* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED for now */
-/*
-var alert_box_data = {"class" : "error", "text" : "Ceci est un message d&rsquo;erreur"};
-var alert_box_template = doT.compile(loadfile("tmpl/alert_box.tmpl"));
-$("section#account h2").after(alert_box_template(alert_box_data));
-*/
-
-/* ------------------------------------------------------------------ */
-/* Domain */
+/* # Domain */
 /* ------------------------------------------------------------------ */
 
 function BearAccount(mail,password,profile) {
@@ -34,7 +23,7 @@ function isFormValid(){
 }
 
 /* ------------------------------------------------------------------ */
-/* DOM manipulation */
+/* # DOM manipulation */
 /* ------------------------------------------------------------------ */
 
 function setValidationIcon(selector, labelSelector, isValid) {
@@ -61,7 +50,7 @@ function setValidationIcon(selector, labelSelector, isValid) {
 }
 
 /* ------------------------------------------------------------------ */
-/* AJAX */
+/* # AJAX */
 /* ------------------------------------------------------------------ */
 
 function checkPseudoAJAX(){
@@ -154,16 +143,27 @@ function submitAccountAJAX(){
 				checkPasswordAJAX();
 				checkMailAJAX();
 			}else{
-				$("#compte-alert").addClass("error");
-				$("#compte-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-				$("#compte-alert").fadeIn(500);
+				if ($("#compte-alert").length == 0) { // The element whose id is 'compte-alert' doesn't exist ; so we create it
+					$("#bearAccount").prepend(alert_box_template({id: "compte-alert", class: "error"})); // Create error alert box with id without setting message (default will be used)
+					$("#bearAccount").foundation("alert"); // Reload Foundation fucky stuff (i.e. reinitialize Foundation alert plugin methods for elements created after page loading) ; this for closing button
+					$("#compte-alert").fadeIn(300); // Show alert box with default Foundation value for fading
+				} else { // The element whose id is 'compte-alert' exists ; we don't want to create another one here, but we want to display a funky message instead of the previous one ini its text area (the 'span')
+					if ($("#compte-alert > span").text() == $err_msg.something_weird_happened) { // The funky message is set ; we want now to create another alert box with a custom message each time an error occured while the funky message is displayed
+						$("#bearAccount").prepend(alert_box_template({"class" : "warning", "text" : "Don't mess with Texas thou fucka^@ !!!"})); // Create alert box without id with a custom message
+					} else { // The funky message isn't set ; we replace initial error message by it
+						$("#compte-alert > span").html($err_msg.something_weird_happened);
+					}
+				}
 			}
 		},
 		dataType : "json"
 	});
 }
 
-/* Events */
+/* ------------------------------------------------------------------ */
+/* # Events */
+/* ------------------------------------------------------------------ */
+
 $("#bearAccount").submit(function(event){
 	if (isFormValid()){
 		submitAccountAJAX();
@@ -190,6 +190,10 @@ $("#password").on("keypress", function(){
 $("#password").on("focus", function(event){
 	$(this).attr("placeholder", "");
 });
+
+/* UNUSED : 'data-alert' was missing on alert-box */
+/*
 $("#compte-alert .close").on('click', function(event) {
 	$("#compte-alert").fadeOut(500);
 });
+*/
