@@ -19,11 +19,24 @@ $null_link        = "javascript:void(0)";               // String.  Set null lin
 /* Whois */
 $org_name         = "Les Ourses &agrave; plumes";       // String.  Set organization name.
 $app_name         = "Webzine f&eacute;ministe";         // String.  Set application name.
-$app_ver          = "0.0.3";               				// String.  Set application version.
+$app_ver          = "0.0.3";                            // String.  Set application version.
 $app_kwd          = ["Webzine", "F&eacute;minisme"];    // Array.   Set application keywords.
 $app_desc         = "Un webzine f&eacute;ministe.";     // String.  Set application keywords.
 $app_genr         = null;                               // String.  Set application generator (i.e. the software used for dev).
-$app_path         = {js_own: "/js/", js_lib: "/js/"};     // Object.  Set application path to files.
+
+$app_root         = "/";                                // String.  Set application base URL. Default = "/"
+
+/* UNUSED for now */
+/*
+$app_path = { // Object.  Set application path to files.
+	js: "js/",
+	css: "css/",
+	img: "img/",
+	fnt: "fnt/",
+	tmpl: "tmpl/",
+	json: "json/"
+};
+*/
 
 /* TEMP */
 $boot             = true;                               // Boolean. Flag for this file setup.
@@ -33,12 +46,12 @@ $user_picture     = "usr-nadejda.jpg";                  // String.  Register use
 $page_title       = null;                               // String.  Register page title.
 
 /* ------------------------------------------------------------------ */
-/* # TEMP : Reloc Path for serverless edits */
+/* # Reloc path */
 /* ------------------------------------------------------------------ */
 
-/*if (window.location.href.split("/")[0].slice(0,4) == "file") {*/
-/*  $app_path.js_own = "../js/", $app_path.js_lib = "../lib/";*/
-/*}*/
+if (window.location.href.split("/")[0].slice(0,4) == "file") {
+	$app_root = ""; // Set relative base URL while serverless
+}
 
 /* ------------------------------------------------------------------ */
 /* # Private Variables */
@@ -46,63 +59,65 @@ $page_title       = null;                               // String.  Register pag
 
 /**
 doT.templateSettings = {
-  evaluate: regexp,      // parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)
-  interpolate: regexp,   // parse a string as a javascript instruction and append it to the result function (n.b. this is default behaviour)
-  encode: regexp,        // replace illegal characters by html numeric entities
-  use: regexp,           // call partial template
-  define: regexp,        // set partial template
-  conditional: regexp,   // execute 'if-else if-else' structure
-  iterate: regexp,       // loop an array
-  varname: string,       // define the name of result function argument (i.e. the variable used for templating)
-  strip: boolean,        // erase whitespaces in result output (including tabulations and line breaks -- minify/compress)
-  append: boolean,       // define concatenated output result in a single line variable (i.e. use '+' operand instead of '+=' operand for 'out' var)
-  selfcontained: boolean // include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)
+	evaluate: regexp,      // parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)
+	interpolate: regexp,   // parse a string as a javascript instruction and append it to the result function (n.b. this is default behaviour)
+	encode: regexp,        // replace illegal characters by html numeric entities
+	use: regexp,           // call partial template
+	define: regexp,        // set partial template
+	conditional: regexp,   // execute 'if-else if-else' structure
+	iterate: regexp,       // loop an array
+	varname: string,       // define the name of result function argument (i.e. the variable used for templating)
+	strip: boolean,        // erase whitespaces in result output (including tabulations and line breaks -- minify/compress)
+	append: boolean,       // define concatenated output result in a single line variable (i.e. use '+' operand instead of '+=' operand for 'out' var)
+	selfcontained: boolean // include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)
 };
 */
 
 var doT_custom_settings =
-  lb() + tb(3) + "doT.templateSettings.varname = 'data';" +
-  lb() + tb(3) + "doT.templateSettings.strip = false;" +
-  lb() + tb(2);
+	lb() + tb(3) + "doT.templateSettings.varname = 'data';" +
+	lb() + tb(3) + "doT.templateSettings.strip = false;" +
+	lb() + tb(2);
 
 var IE_conditional_comments = [
-  lb() + tb(3) + "<script src='//html5shim.googlecode.com/svn/trunk/html5.js'></script>",
-  lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
+	lb() + tb(3) + "<html data-msie='true'>",
+	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>",
+	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
 ];
 
 var head_tags = [
-  {elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
-  {elem: "meta", attr: {name: "author", content: $org_name}},
-  {elem: "meta", attr: {name: "application-name", content: $app_name}},
-  {elem: "meta", attr: {name: "keywords", content: $app_kwd.toString()}},
-  {elem: "meta", attr: {name: "description", content: $app_desc}},
-  {elem: "meta", attr: {name: "generator", content: $app_genr}},
-  {elem: "link", attr: {href: "/img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
-  {elem: "link", attr: {href: "/css/normalize.css", rel: "stylesheet"}},
-  {elem: "link", attr: {href: "/css/foundation.css", rel: "stylesheet"}},
-  {elem: "link", attr: {href: "/css/loap.css", rel: "stylesheet"}},
-  {elem: "script", attr: {src: $app_path.js_lib + "modernizr/modernizr" + $lib_ext +".js"}},
-  {elem: "script", attr: {src: $app_path.js_lib + "jquery/jquery" + $lib_ext + ".js"}},
-  {elem: "script", attr: {src: $app_path.js_lib + "dot/dot" + $lib_ext + ".js"}},
-  {elem: "script", text: doT_custom_settings},
-  {elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"},
-  {elem: "!--[gt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"}
+	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
+	{elem: "meta", attr: {name: "author", content: $org_name}},
+	{elem: "meta", attr: {name: "application-name", content: $app_name}},
+	{elem: "meta", attr: {name: "keywords", content: $app_kwd.toString()}},
+	{elem: "meta", attr: {name: "description", content: $app_desc}},
+	{elem: "meta", attr: {name: "generator", content: $app_genr}},
+	{elem: "link", attr: {href: $app_root + "img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
+	{elem: "link", attr: {href: $app_root + "css/normalize.css", rel: "stylesheet"}},
+	{elem: "link", attr: {href: $app_root + "css/foundation.css", rel: "stylesheet"}},
+	{elem: "link", attr: {href: $app_root + "css/loap.css", rel: "stylesheet"}},
+	{elem: "script", attr: {src: $app_root + "js/modernizr/modernizr" + $lib_ext +".js"}},
+	{elem: "script", attr: {src: $app_root + "js/jquery/jquery" + $lib_ext + ".js"}},
+	{elem: "script", attr: {src: $app_root + "js/dot/dot" + $lib_ext + ".js"}},
+	{elem: "script", text: doT_custom_settings},
+	{elem: "!--[IE]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"},
+	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
+	{elem: "!--[gt IE 9]", text: IE_conditional_comments[2] + lb() + tb(2) + "<![endif]-->"}
 ];
 
 var body_tags = [
-  {elem: "script", attr: {src: $app_path.js_own + "loap-build.js"}},
-  {elem: "script", attr: {src: $app_path.js_own + "loap-core.js"}},
-  {elem: "script", attr: {src: $app_path.js_lib + "foundation/foundation.lib.js"}}
+	{elem: "script", attr: {src: $app_root + "js/loap-build.js"}},
+	{elem: "script", attr: {src: $app_root + "js/loap-core.js"}},
+	{elem: "script", attr: {src: $app_root + "js/foundation/foundation.lib.js"}}
 ];
 
 var xhr = (function() {
-  if (typeof XMLHttpRequest !== "undefined") {
-    return new XMLHttpRequest();// IE7+, Firefox, Chrome, Opera, Safari
-  } else if (typeof ActiveXObject !== "undefined") {
-    return new ActiveXObject("Microsoft.XMLHTTP"); // IE5, IE6
-  } else {
-    return;
-  }
+	if (typeof XMLHttpRequest !== "undefined") {
+		return new XMLHttpRequest();// IE7+, Firefox, Chrome, Opera, Safari
+	} else if (typeof ActiveXObject !== "undefined") {
+		return new ActiveXObject("Microsoft.XMLHTTP"); // IE5, IE6
+	} else {
+		return;
+	}
 }());
 
 /* ------------------------------------------------------------------ */
@@ -118,37 +133,47 @@ var xhr = (function() {
 function loadfile(file, async, method, send, response) {
 
 //default param
-// method = (typeof method === "undefined") ? "GET" : method;
-// send = (typeof send === "undefined") ? null : send;
-// response = (typeof response === "undefined") ? "text" : response;
-// async = (typeof async === "undefined") ? false : async;
+// var method = (typeof method === "undefined") ? "GET" : method;
+// var send = (typeof send === "undefined") ? null : send;
+// var response = (typeof response === "undefined") ? "text" : response;
+// var async = (typeof async === "undefined") ? false : async;
 
 // shorthanded default function arguments * TEST
 var async = async || false, method = method || "GET", send = send || null, response = response || "text";
 
-  if (typeof xhr !== "undefined") {
-    xhr.open(method, file, async); // define request arguments
-    xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type * USELESS
-    xhr.overrideMimeType("text/plain"); // override response MIME type
-    xhr.send(send); // send request to server
-    if (response == "xml") {
-      return xhr.responseXML; // return XML response from server
-    } else {
-      return xhr.responseText; // return Plain Text response from server
-    }
-  } else {
-    console.log(file + " loading failed. XMLHttpRequest not supported.");
-  }
+	if (typeof xhr !== "undefined") {
+		xhr.open(method, file, async); // define request arguments
+		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type * USELESS
+
+		/* UNUSED for now -- TO BE EDIT LATER */
+		/*
+		if (document.getElementsByTagName("html").hasAttributes("data-msie")) {
+			alert("Warning ! This is Internet Explorer !"); // TEMP
+		} else {
+			xhr.overrideMimeType("text/plain"); // override response MIME type
+		}
+		*/
+		xhr.overrideMimeType("text/plain"); // BUG : don't work in IE !!!
+
+		xhr.send(send); // send request to server
+		if (response == "xml") {
+			return xhr.responseXML; // return XML response from server
+		} else {
+			return xhr.responseText; // return Plain Text response from server
+		}
+	} else {
+		console.log(file + " loading failed. XMLHttpRequest not supported.");
+	}
 }
 
 function p_char(n, c) { // Print Character (n.b. for local use only)
-  var s = "";
-  if ($build_compress == false) {
-    for (var i = 0; i < n; i++) {
-      s += c;
-    }
-  }
-  return s;
+	var s = "";
+	if ($build_compress == false) {
+		for (var i = 0; i < n; i++) {
+			s += c;
+		}
+	}
+	return s;
 }
 
 function tb(n, c) { // Tabulation (alias)
@@ -158,8 +183,8 @@ function tb(n, c) { // Tabulation (alias)
 // c = (typeof c === "undefined") ? "\t" : c;
 
 // shorthanded default function arguments * TEST
-  var n = n || 1, c = c || "\t";
-  return p_char(n, c);
+	var n = n || 1, c = c || "\t";
+	return p_char(n, c);
 }
 
 function lb(n, c) { // Line Break (alias)
@@ -169,32 +194,32 @@ function lb(n, c) { // Line Break (alias)
 // c = (typeof c === "undefined") ? "\t" : c;
 
 // shorthanded default function arguments * TEST
-  var n = n || 1, c = c || "\n";
-  return p_char(n, c);
+	var n = n || 1, c = c || "\n";
+	return p_char(n, c);
 }
 
 function mk_tags(array) { // Make Tags
-  var str = "";
-  for (index in array) {
-    str += lb() + tb(2) + "<" + array[index].elem;
-    for (param in array[index].attr) {
-      if (array[index].attr[param] != null) {
-        str += " " + param + "='" + array[index].attr[param] + "'";
-      }
-    }
-    str += ">";
-    if (typeof array[index].text !== "undefined") {
-      str += array[index].text;
-    }
-    if (array[index].elem == "script") {
-      str += "</script>";
-    }
-  }
-  return str;
+	var str = "";
+	for (index in array) {
+		str += lb() + tb(2) + "<" + array[index].elem;
+		for (param in array[index].attr) {
+			if (array[index].attr[param] != null) {
+				str += " " + param + "='" + array[index].attr[param] + "'";
+			}
+		}
+		str += ">";
+		if (typeof array[index].text !== "undefined") {
+			str += array[index].text;
+		}
+		if (array[index].elem == "script") {
+			str += "</script>";
+		}
+	}
+	return str;
 }
 
 function loap() { // Postbuild Processing
-  document.write(mk_tags(body_tags));
+	document.write(mk_tags(body_tags));
 }
 
 /* ------------------------------------------------------------------ */

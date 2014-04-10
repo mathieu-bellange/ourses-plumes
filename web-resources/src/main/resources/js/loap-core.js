@@ -42,7 +42,7 @@ var core = (function() {
       /* User Pictures Displayer */
       $("[data-image]").each(function() {
         var file = $(this).attr("data-image");
-        var dir = "/img/";
+        var dir = $app_root + "img/";
         $(this).css("background-image", "url('" + dir + file + "')")
       });
     }

@@ -17,7 +17,7 @@
 				</div>
 				<!--Logo-->
 				<div class="logo">
-					<a href="index.html#main"><span></span></a>
+					<a href="{{= $app_root + 'index.html#main' }}"><span></span></a>
 				</div>
 				<!--Connect Launcher-->
 				<h4 class="connect-launcher"><a href="javascript:void(0);" data-reveal-id="_connect_modal" data-reveal>Connexion</a></h4>
@@ -32,9 +32,9 @@
 				<h4 class="hide">Sections</h4>
 				<nav class="main-nav">
 					<ul>
-						<li><a href="home.html">&Eacute;dito</a></li>
-						<li><a href="latest.html">&Agrave; la une</a></li>
-						<li><a href="articles.html" data-roll="sub-list">Articles</a></li>
+						<li><a href="{{= $app_root + 'home.html' }}">&Eacute;dito</a></li>
+						<li><a href="{{= $app_root + 'latest.html' }}">&Agrave; la une</a></li>
+						<li><a href="{{= $app_root + 'articles.html' }}" data-roll="sub-list">Articles</a></li>
 						<li class="sub-list">
 							<h5 class="hide">Cat&eacute;gories</h5>
 							<ul class="hide">
@@ -47,7 +47,7 @@
 								<li><a href="javascript:void(0)" class="disabled">Revues du web</a></li>
 							</ul>
 						</li>
-						<li><a href="agenda.html">Agenda</a></li>
+						<li><a href="{{= $app_root + 'agenda.html' }}">Agenda</a></li>
 						<li><a href="javascript:void(0)" class="disabled" >Nos amies</a></li>
 						<li><a href="mailto:oursesaplumes@gmail.com" class="no-current">Contact</a></li>
 					</ul>

@@ -2,7 +2,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8">
-		<script src="/boot"></script>
+		<script src="boot"></script>
 		<!--Define Internal Template -->
 		<script id="_template" type="text/x-dot-template">
 			<h2>{{= data.title }}</h2>
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 		<script>
-			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_path.js_own + "loap-dev_templating.js"}});
+			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_root + "js/loap-dev_templating.js"}});
 			loap();
 		</script>
 		<script>

@@ -2,7 +2,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8">
-		<script src="/boot"></script>
+		<script src="boot"></script>
 	</head>
 	<body>
 		<div>
@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<script>
-			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_path.js_own + "loap-dev_test.js"}});
+			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_root + "js/loap-dev_test.js"}});
 			loap();
 		</script>
 		<script>

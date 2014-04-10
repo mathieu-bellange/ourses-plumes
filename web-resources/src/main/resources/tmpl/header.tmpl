@@ -1,11 +1,11 @@
 ﻿<!--Include External Template-->
-{{#def["/tmpl/main.tmpl"] || (def["/tmpl/main.tmpl"] = loadfile("/tmpl/main.tmpl"))}}
+{{#def["tmpl/main.tmpl"] || (def["tmpl/main.tmpl"] = loadfile($app_root + "tmpl/main.tmpl"))}}
 
 <!--Define Partial for News List-->
 {{## def.news_list_item :
 {{? typeof item.image !== "undefined" }}
 								<div class="orbit-image">
-									<img src="{{= item.image.src }}" alt="{{= item.image.alt }}">
+									<img src="{{= $app_root + item.image.src }}" alt="{{= item.image.alt }}">
 								</div>
 {{? typeof item.image.caption !== "undefined" }}
 								<div class="orbit-caption">

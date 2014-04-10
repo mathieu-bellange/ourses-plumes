@@ -1,4 +1,18 @@
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
+
+/* UNUSED for now */
+/*
+var alert_box_data = {"class" : "error", "text" : "Ceci est un message d&rsquo;erreur"};
+var alert_box_template = doT.compile(loadfile("tmpl/alert_box.tmpl"));
+$("section#account h2").after(alert_box_template(alert_box_data));
+*/
+
+/* ------------------------------------------------------------------ */
 /* Domain */
+/* ------------------------------------------------------------------ */
+
 function BearAccount(mail,password,profile) {
 	this.profile = profile;
 	this.mail = mail;
@@ -19,7 +33,10 @@ function isFormValid(){
 	return isPseudoValid && isMailValid && isPasswordValid;
 }
 
+/* ------------------------------------------------------------------ */
 /* DOM manipulation */
+/* ------------------------------------------------------------------ */
+
 function setValidationIcon(selector, labelSelector, isValid) {
 	if (isValid == true) {
 		$(selector).addClass("valid");
@@ -43,7 +60,10 @@ function setValidationIcon(selector, labelSelector, isValid) {
 	}
 }
 
+/* ------------------------------------------------------------------ */
 /* AJAX */
+/* ------------------------------------------------------------------ */
+
 function checkPseudoAJAX(){
 	if (typeof pseudoTimeoutValid !== "undefined") {
 		clearTimeout(pseudoTimeoutValid);
@@ -159,7 +179,7 @@ $("#mail").keyup(function(event){
 	checkMailAJAX();
 });
 $("#mail").on("keypress", function(){
-  setValidationIcon(this,$("#mailError"), null);
+	setValidationIcon(this,$("#mailError"), null);
 });
 $("#password").keyup(function(event){
 	checkPasswordAJAX();

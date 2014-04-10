@@ -2,16 +2,21 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8">
-		<script src="/boot"></script>
+		<script src="boot"></script>
 	</head>
 	<body>
 		<div>
 			<div>
 				<section id="accounts">
+
+					<h2>Liste des comptes</h2>
+
+					<!--To be templated-->
 					<div id="comptes-alert" data-alert style="display: none;" class="alert-box radius text-center">
 						<span id="comptes-alert-message"></span>
 						<a href="javascript:void(0)" class="close"></a>
 					</div>
+
 					<a href="/comptes/nouveau" class="button">Ajouter nouvelle
 						contributrice</a>
 					<table class="users-table" id="accountsTable">
@@ -26,11 +31,12 @@
 						<tbody>
 						</tbody>
 					</table>
+
 				</section>
 			</div>
 		</div>
 		<script>
-			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_path.js_own + "loap-accounts.js"}});
+			body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_root + "js/loap-accounts.js"}});
 			loap();
 		</script>
 		<script>

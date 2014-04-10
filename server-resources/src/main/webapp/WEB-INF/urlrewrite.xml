@@ -3,26 +3,31 @@
         "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 
 <urlrewrite>
-    
-    <!-- redirection html -->
 
-    <rule>
-        <note>redirection vers la page d'ajout d'un bug github</note>
-        <from>^/bug-tracker$</from>
-        <to>/bug-tracker.html</to>
-    </rule>
-    
-    <rule>
-        <note>redirection vers la page du compte</note>
-        <from>^/comptes/nouveau$</from>
-        <to>/account.html</to>
-    </rule>
-    
-    <rule>
-        <note>redirection vers la page des listes de comptes</note>
-        <from>^/comptes$</from>
-        <to>/accounts.html</to>
-    </rule>
-    
+	<!--Redirections JS-->
+	<rule>
+		<note>redirection du boot</note>
+		<from>^(.*)boot$</from>
+		<to>/boot</to>
+	</rule>
+
+	<!--Redirections HTML-->
+	<rule>
+		<note>redirection vers la page d'ajout d'un bug github</note>
+		<from>^/bug-tracker$</from>
+		<to>/bug-tracker.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page du compte</note>
+		<from>^/comptes/nouveau$</from>
+		<to>/account.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page des listes de comptes</note>
+		<from>^/comptes$</from>
+		<to>/accounts.html</to>
+	</rule>
 
 </urlrewrite>

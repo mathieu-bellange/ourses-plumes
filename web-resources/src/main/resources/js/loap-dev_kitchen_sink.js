@@ -10,7 +10,7 @@
 /* ------------------------------------------------------------------ */
 
 // process templates
-$("section#kitchen_sink").append(doT.compile(loadfile("tmpl/dev_kitchen_sink.tmpl")));
+$("section#kitchen_sink").append(doT.compile(loadfile($app_root + "tmpl/dev_kitchen_sink.tmpl")));
 
 // update core
 core.update();
