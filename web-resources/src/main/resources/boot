@@ -105,8 +105,8 @@ var head_tags = [
 ];
 
 var body_tags = [
-	{elem: "script", attr: {src: $app_root + "js/loap-build.js"}},
-	{elem: "script", attr: {src: $app_root + "js/loap-core.js"}},
+	{elem: "script", attr: {src: $app_root + "js/build.js"}},
+	{elem: "script", attr: {src: $app_root + "js/core.js"}},
 	{elem: "script", attr: {src: $app_root + "js/foundation/foundation.lib.js"}}
 ];
 
