@@ -31,31 +31,25 @@ function OurseAuthzInfo(id,role){
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
-$.getJSON("/rest/role", function(rolesBdd) {
-	roles = rolesBdd;
-	getAccount();
-}).fail(function(){
-	// $("#comptes-alert").addClass("error");
-	// $("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-	// $("#comptes-alert").fadeIn(500);
-	createAlertBox();
-});
-
 function getAccount(){
 	$.ajax({
 		type : "GET",
 		url : "/rest/account",
 		contentType : "application/json; charset=utf-8",
 		success : function(accounts, status, jqxhr) {
+			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
+			$("section#accounts").append(accounts_template(accounts)); // process template
+/* UNUSED */
+/*
 			$.each(accounts, function(index, value) {
-				//création de la ligne tr
+				// création de la ligne tr
 				var ligne = $("<tr>").attr("data-account-id",value.id);
-				//création des colonnes
+				// création des colonnes
 				var pseudoCol = $("<td>");
 				var mailCol = $("<td>");
 				var roleCol = $("<td>");
 				var delCol = $("<td>");
-				//création et config des composants dans les colonnes
+				// création et config des composants dans les colonnes
 				var pseudo = $("<label>").text(value.profile.pseudo);
 				var mail = $("<label>").text(value.mail);
 				var comboRole = $("<select>");
@@ -70,19 +64,20 @@ function getAccount(){
 				// creer le bouton delete
 				var buttonDel = $( "<button>" ).text("Delete");
 				buttonDel.on("click",value.id,deleteEvent);
-				//ajoute les composants aux colonnes
+				// ajoute les composants aux colonnes
 				pseudoCol.append(pseudo);
 				mailCol.append(mail);
 				roleCol.append(comboRole);
 				delCol.append(buttonDel);
-				//ajoute les colonnes à la ligne
+				// ajoute les colonnes à la ligne
 				ligne.append(pseudoCol);
 				ligne.append(mailCol);
 				ligne.append(roleCol);
 				ligne.append(delCol);
-				//ajoute la ligne au tableau
+				// ajoute la ligne au tableau
 				$("#accountsTable tbody").append(ligne);
 			});
+*/
 		},
 		error : function(jqXHR, status, errorThrown) {
 			// $("#comptes-alert").addClass("error");
@@ -98,11 +93,14 @@ function getAccount(){
 /* # Event */
 /* ------------------------------------------------------------------ */
 
-function updateEvent(event) {
+function updateEvent(id) { // EDIT : function updateEvent(event)
+	alert("id : " + id);
 	// compte dans l'event
-	var value = event.data;
-	var roleUrl = "/rest/account/"+value.id+"/role";
-	var role = new OurseAuthzInfo($("#accountsTable tr[data-account-id="+value.id+"] select").val(),$("#accountsTable tr[data-account-id="+value.id+"] select option:selected").text());
+	// var value = event.data;
+	// var roleUrl = "/rest/account/"+value.id+"/role";
+	var roleUrl = "/rest/account/"+id+"/role";
+	// var role = new OurseAuthzInfo($("#accountsTable tr[data-account-id="+value.id+"] select").val(),$("#accountsTable tr[data-account-id="+value.id+"] select option:selected").text());
+	var role = new OurseAuthzInfo($("#accountsTable tr[data-account-id="+id+"] select").val(),$("#accountsTable tr[data-account-id="+id+"] select option:selected").text());
 	$.ajax({
 		type : "PUT",
 		url : roleUrl,
@@ -120,8 +118,9 @@ function updateEvent(event) {
 	});
 };
 
-function deleteEvent(event){
-	var id = event.data;
+function deleteEvent(id){ // EDIT : function deleteEvent(event)
+	alert("id : " + id);
+	// var id = event.data;
 	$.ajax({
 		type : "DELETE",
 		url : "/rest/account/"+id,
@@ -144,3 +143,30 @@ $("#comptes-alert .close").on('click', function(event) {
 	$("#comptes-alert").fadeOut(500);
 });
 */
+
+$("#accounts").on("click", "#accountsTable [data-account-id] button", function() {
+	var id = $(this).parents("tr").attr("data-account-id");
+	deleteEvent(id);
+});
+
+$("#accounts").on("change", "#accountsTable [data-account-id] select", function() {
+	var id = $(this).parents("tr").attr("data-account-id");
+	updateEvent(id);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Build */
+/* ------------------------------------------------------------------ */
+
+// TEMP : should be better to delay this block after page loading
+$(document).ready(function() {
+	$.getJSON("/rest/role", function(rolesBdd) {
+		roles = rolesBdd;
+		getAccount();
+	}).fail(function(){
+		// $("#comptes-alert").addClass("error");
+		// $("#comptes-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
+		// $("#comptes-alert").fadeIn(500);
+		createAlertBox();
+	});
+});

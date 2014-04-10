@@ -1,0 +1,29 @@
+﻿					<!--Accounts List-->
+					<h2>Liste des comptes</h2>
+					<table id="accountsTable" class="users-table">
+						<thead>
+							<tr>
+								<th>Login</th>
+								<th>Mail</th>
+								<th>R&ocirc;le</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						{{~ data :account }}
+							<tr data-account-id="{{= account.id }}">
+								<td><label>{{= account.profile.pseudo }}</label></td>
+								<td><label>{{= account.mail }}</label></td>
+								<td>
+									<select>
+									{{~ roles :item }}
+										<option value="{{= item.id }}"{{ if (account.role.id == item.id) { out+=' selected'; } }}>{{= item.role }}</option>
+									{{~}}
+									</select>
+								</td>
+								<td class="text-right"><button class="alert small">Supprimer</button></td>
+							</tr>
+						{{~}}
+						</tbody>
+					</table>
+					<p class="text-center"><a href="/comptes/nouveau" class="button">Ajouter nouvelle contributrice</a></p>
