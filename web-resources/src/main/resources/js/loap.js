@@ -63,20 +63,18 @@ $("body").prepend("<div id='main' class='frame'>");
 $("#main").append("<div class='main-pane'>");
 $(".main-pane").append("<hr>");
 
-// define data
-var header_data = JSON.parse(loadfile($app_root + "json/header.json"));
-
-// define templates
-var toolbar_template = doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")),
-		sidebar_template = doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")),
-		header_template = doT.compile(loadfile($app_root + "tmpl/header.tmpl")),
-		footer_template = doT.compile(loadfile($app_root + "tmpl/footer.tmpl"));
-
 // process templates
-if ($dev_toolbar == true) {$("body").prepend(toolbar_template);}
-$("#main").prepend(sidebar_template);
-$(".main-pane").prepend(header_template(header_data));
-$(".main-pane").append(footer_template);
+if ($dev_toolbar == true) {$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));}
+$("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
+$(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
+$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
+
+// process slider template -- this is the tricky part
+$(document).ready(function() {
+	$(".fast-nav + hr").after(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
+	$(".news-list").foundation("orbit"); // reload foundation ; Foundation need to be loaded one time before that for the list to appear inline
+	$(window).resize(); // just a dummy instruction for getting the proper height
+});
 
 /* ------------------------------------------------------------------ */
 /* # Active Section Toggler */

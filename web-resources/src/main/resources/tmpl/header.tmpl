@@ -1,76 +1,31 @@
-﻿<!--Include External Template-->
-{{#def["tmpl/main.tmpl"] || (def["tmpl/main.tmpl"] = loadfile($app_root + "tmpl/main.tmpl"))}}
-
-<!--Define Partial for News List-->
-{{## def.news_list_item :
-{{? typeof item.image !== "undefined" }}
-								<div class="orbit-image">
-									<img src="{{= $app_root + item.image.src }}" alt="{{= item.image.alt }}">
-								</div>
-{{? typeof item.image.caption !== "undefined" }}
-								<div class="orbit-caption">
-									{{= item.image.caption }}
-								</div>
-{{?}}
-{{?? typeof item.quote !== "undefined" }}
-								<div class="orbit-headline text-center">
-									<blockquote class="text-large">
-										{{= item.quote.text }}
-										<cite>{{= item.quote.cite }}</cite>
-									</blockquote>
-								</div>
-{{?}}
-#}}
-
-				<!--Header-->
+﻿				<!--Header-->
 				<header class="header text-center hide-for-print">
 					<!--Fast Nav-->
 					<h5 class="hide">Rubriques</h5>
 					<nav class="fast-nav">
 						<ul class="inline-list">
-							{{~ data.fast_nav : item }}
-							<li{{# def.attr : item.attr }}>{{# def.list_item : item }}</li>
-							{{~}}
+							<li class="orange"><a href="javascript:void(0)" class="disabled">Luttes</a></li>
+							<li class="magenta"><a href="javascript:void(0)" class="disabled">Nos corps, nous-m&ecirc;mes</a></li>
+							<li class="red"><a href="javascript:void(0)" class="disabled">Intersectionnalit&eacute;</a></li>
+							<li class="blue"><a href="javascript:void(0)" class="disabled">International</a></li>
+							<li class="cyan"><a href="javascript:void(0)" class="disabled">&Eacute;ducation &amp; Culture</a></li>
+							<li class="yellow"><a href="javascript:void(0)" class="disabled">Id&eacute;es</a></li>
 						</ul>
 					</nav>
 					<hr class="hide">
-					<!--News List-->
-					<h2 class="hide">Actualit&eacute;s</h2>
-					<div class="news-list hide-for-small">
-						<ul data-orbit data-options="
-							animation_speed: 375;
-							slide_number_text: sur;
-							slide_number: false;
-							bullets: false;
-							timer: false;
-							">
-							<li class="">
-								<div class="orbit-headline text-center">
-									<h1>{{= $org_name }}</h1>
-									<h6>{{= $app_name + " " + $app_ver }}</h6>
-								</div>
-							</li>
-							{{~ data.news_list :item }}
-							<li{{= typeof item.class !== "undefined" ? " class=" + item.class : "" }}>
-								{{# def.news_list_item }}
-							</li>
-							{{~}}
-						</ul>
-					</div>
 					<hr class="hide">
 					<!--Breadcrumbs-->
 					<h4 class="hide">Fil d&rsquo;Ariane</h4>
 					<ul class="breadcrumbs">
 						<li class="unavailable">Les Ourses &agrave; plumes</li>
-						<!--NOT YET IMPLEMENTED-->
 					</ul>
 					<!--Accessibility-->
 					<h4 class="hide">Accessibilit&eacute;</h4>
 					<div class="accessibility">
 						<ul class="inline-list">
-							{{~ data.accessibility : item }}
-							<li{{# def.attr : item.attr }}>{{# def.list_item : item }}</li>
-							{{~}}
+							<li><a href="javascript:void(0)" class="icon-textinc small">Plus grand</a></li>
+							<li><a href="javascript:void(0)" class="icon-textdec small">Plus petit</a></li>
+							<li><a href="javascript:print()"><span class="icon-print small">Imprimer</span></a></li>
 						</ul>
 					</div>
 				</header>
