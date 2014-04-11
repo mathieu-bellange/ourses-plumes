@@ -17,6 +17,7 @@ $lib_ext          = ".min";                             // String.  JS libraries
 $null_link        = "javascript:void(0)";               // String.  Set null link value. Default = "javascript:void(0)"
 
 /* Whois */
+$org_url          = "http://www.ourses-plumes.org/"     // String.  Set organization URL.
 $org_name         = "Les Ourses &agrave; plumes";       // String.  Set organization name.
 $app_name         = "Webzine f&eacute;ministe";         // String.  Set application name.
 $app_ver          = "0.0.3";                            // String.  Set application version.
@@ -25,6 +26,7 @@ $app_desc         = "Un webzine f&eacute;ministe.";     // String.  Set applicat
 $app_genr         = null;                               // String.  Set application generator (i.e. the software used for dev).
 
 $app_root         = "/";                                // String.  Set application base URL. Default = "/"
+
 
 /* UNUSED for now */
 /*
