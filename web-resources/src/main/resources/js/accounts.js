@@ -38,7 +38,8 @@ function getAccount(){
 		contentType : "application/json; charset=utf-8",
 		success : function(accounts, status, jqxhr) {
 			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
-			$("section#accounts").append(accounts_template(accounts)); // process template
+			// $("section#accounts").append(accounts_template(accounts)); // process template
+			$("header + hr").after(accounts_template(accounts));
 /* UNUSED */
 /*
 			$.each(accounts, function(index, value) {

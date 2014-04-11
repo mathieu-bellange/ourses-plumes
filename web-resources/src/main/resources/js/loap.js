@@ -58,10 +58,10 @@ if ($css_fx == true) {$("body").addClass("css-fx");}
  * prevent indent issues. The script seems to work properly that way.
  */
 
-// add classes and attributes to static elements
-$("body > div").addClass("frame");
-$("body > div").attr("id", "main");
-$("body > div > div").addClass("main-pane");
+// create HTML skeleton
+$("body").prepend("<div id='main' class='frame'>");
+$("#main").append("<div class='main-pane'>");
+$(".main-pane").append("<hr>");
 
 // define data
 var header_data = JSON.parse(loadfile($app_root + "json/header.json"));
@@ -79,7 +79,7 @@ $(".main-pane").prepend(header_template(header_data));
 $(".main-pane").append(footer_template);
 
 /* ------------------------------------------------------------------ */
-/* # ULR Parser */
+/* # Active Section Toggler */
 /* ------------------------------------------------------------------ */
 
 $(document).ready(function() {
@@ -87,10 +87,19 @@ $(document).ready(function() {
 	var q = /[a-zA-Z-_]*\.(?:html|htm)/;
 	var page = url.match(q);
 	var selector = location.hash // assumed it's section id
-	if ($(selector).hasClass("hide")) { // Show active section on page loaded
+	if ($(selector).hasClass("hide")) { // Show active section
 		$(".main-pane > section").addClass("hide");
 		$(selector).removeClass("hide");
 	}
+});
+
+$("html").on("click", "[href*='#']", function() { // Handle inner anchor click event ; need to check history.back() for inner anchors
+	var arr = $(this).attr("href").split("#");
+	var selector = "#" + arr[1];
+	if ($(selector).hasClass("hide")) { // Show active section
+		$(".main-pane > section").addClass("hide");
+		$(selector).removeClass("hide");
+}
 });
 
 /* ------------------------------------------------------------------ */

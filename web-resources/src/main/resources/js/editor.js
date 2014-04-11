@@ -1,3 +1,13 @@
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
+
+// EMPTY for now
+
+/* ------------------------------------------------------------------ */
+/* # Editor */
+/* ------------------------------------------------------------------ */
+
 function Article(){
 		this.title = $('#title').val();
 		this.body = $('#editor').val();
@@ -25,29 +35,28 @@ function Category(){
 function processCategory(json){
 	$.each(json, function(i, obj) {
 		$('#category').append($("<option/>", {
-	        value: obj.id,
-	        text: obj.category
-	    }));
+			value: obj.id,
+			text: obj.category
+		}));
 	});
 }
 
-
 function  sendArticle(){
 	var article = new Article();
-//	$.ajax({
-//		  type: "POST",
-//		  url: "http://localhost:8080/rest/article",
-//		  contentType: "application/json; charset=utf-8",
-//		  data : JSON.stringify(data),
-//		  success: function(jqXHR, status, errorThrown) {
-//				 alert(status);
-//			},
-//		  error: function(jqXHR, status, errorThrown) {
-//				 alert(status);
-//			},
-//		  dataType: "json"
-//		});
-//	return true;
+	// $.ajax({
+		// type: "POST",
+		// url: "http://localhost:8080/rest/article",
+		// contentType: "application/json; charset=utf-8",
+		// data : JSON.stringify(data),
+		// success: function(jqXHR, status, errorThrown) {
+			// alert(status);
+		// },
+		// error: function(jqXHR, status, errorThrown) {
+			// alert(status);
+		// },
+		// dataType: "json"
+		// });
+	return true;
 };
 
 $.getJSON("http://localhost:8080/rest/category", function(json){

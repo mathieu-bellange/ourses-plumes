@@ -24,28 +24,24 @@
 		</script>
 	</head>
 	<body>
-		<div>
-			<div>
-				<section id="dev_templating">
-					<!--Process Internal Template-->
-					<script>
-						var users_list = { // set data
-								title: "Internal template",
-								caption: "Liste des utilisateurs",
-								users: [
-									{login: "Polluxette", mail: "polluxette@hotmail.com"},
-									{login: "Casperine", mail: "casperine@gmail.com", password: "195033F0"},
-									{login: "Sigmunda", password: "PAL0A983"}
-								]},
-								template = document.getElementById("_template").text, // retrieve template
-								compiled = doT.compile(template); // compile template to var
-						document.write(compiled(users_list)); // write templated data
-					</script>
-					<hr>
-					<!--Processed External Template will be put here-->
-				</section>
-			</div>
-		</div>
+		<section id="dev_templating">
+			<!--Process Internal Template-->
+			<script>
+				var users_list = { // set data
+						title: "Internal template",
+						caption: "Liste des utilisateurs",
+						users: [
+							{login: "Polluxette", mail: "polluxette@hotmail.com"},
+							{login: "Casperine", mail: "casperine@gmail.com", password: "195033F0"},
+							{login: "Sigmunda", password: "PAL0A983"}
+						]},
+						template = document.getElementById("_template").text, // retrieve template
+						compiled = doT.compile(template); // compile template to var
+				document.write(compiled(users_list)); // write templated data
+			</script>
+			<hr>
+			<!--Processed External Template will be put here-->
+		</section>
 		<script>
 			load("dev_templating.js");
 		</script>

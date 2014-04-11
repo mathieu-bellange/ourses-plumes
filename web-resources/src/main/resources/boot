@@ -225,18 +225,6 @@ function mk_tags(array) { // Make Tags
 	return str;
 }
 
-// var loap = (function() {
-	// return {
-		// load: function(script) {
-			// var script = script || "";
-			// if (typeof script !== "undefined") {
-				// body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_root + "js/" + script}});
-			// }
-			// document.write(mk_tags(body_tags));
-		// }
-	// };
-// }());
-
 function load(script) { // Postbuild Processing
 	if (typeof script !== "undefined") {
 		body_tags.splice(-1, 0, {elem: "script", attr: {src: $app_root + "js/" + script}});

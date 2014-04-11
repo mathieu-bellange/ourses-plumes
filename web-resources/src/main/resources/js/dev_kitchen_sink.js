@@ -1,16 +1,8 @@
-﻿/**
- * Les Ourses à plumes
- * Javascript File for test.html
- * Require boot, core and build
- * ver. 0.0.2
- */
-
-/* ------------------------------------------------------------------ */
-/* # Build */
+﻿/* ------------------------------------------------------------------ */
+/* # Templating */
 /* ------------------------------------------------------------------ */
 
-// process templates
-$("section#kitchen_sink").append(doT.compile(loadfile($app_root + "tmpl/dev_kitchen_sink.tmpl")));
+$("header + hr").after(loadfile($app_root + "tmpl/dev_kitchen_sink.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

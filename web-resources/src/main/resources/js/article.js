@@ -2,10 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var test_data = JSON.parse(loadfile($app_root + "json/dev_templating.json")), // define data
-		test_template = loadfile($app_root + "tmpl/dev_templating.tmpl"), // define template
-		test_compile = doT.compile(test_template); // compile template
-$("header + hr").after(test_compile(test_data)); // apply compiled data to DOM
+$("header + hr").after(loadfile($app_root + "tmpl/article.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
