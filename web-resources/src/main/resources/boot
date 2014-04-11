@@ -164,7 +164,12 @@ var async = async || false, method = method || "GET", send = send || null, respo
 		*/
 		xhr.overrideMimeType("text/plain"); // BUG : don't work in IE !!!
 
-		xhr.send(send); // send request to server
+		try {
+			xhr.send(send); // send request to server
+		} catch(err) {
+			console.log(file + " not found.\n " + err);
+		}
+
 		if (response == "xml") {
 			return xhr.responseXML; // return XML response from server
 		} else {
