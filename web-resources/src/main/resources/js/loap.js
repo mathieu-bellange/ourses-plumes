@@ -91,7 +91,8 @@ $(document).ready(function() {
 	}
 });
 
-$("html").on("click", "[href*='#']", function() { // Handle inner anchor click event ; need to check history.back() for inner anchors
+// Handle inner anchor click event ; need to check history.back() for inner anchors
+$("html").on("click", "[href*='#']", function() {
 	var arr = $(this).attr("href").split("#");
 	var selector = "#" + arr[1];
 	if ($(selector).hasClass("hide")) { // Show active section
@@ -318,6 +319,7 @@ if (typeof $boot !== "undefined") { // TEMP
 /* ------------------------------------------------------------------ */
 
 /* Main Navigation Sub List Visibility Toggler */
+/*
 $(".main-nav [data-roll='sub-list']").mouseenter(function() {
 	var handler = $(this);
 	handler.data("hover", true);
@@ -347,6 +349,7 @@ $(".main-nav [data-roll='sub-list']").mouseleave(function() {
 $(".main-nav .sub-list ul").mouseleave(function() {
 	$(this).data("hover", false);
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Breadcrumbs */
@@ -519,48 +522,30 @@ $(".pagination li a").click(function() {
 });
 
 /* ------------------------------------------------------------------ */
-/* # Date List */
-/* ------------------------------------------------------------------ */
-
-/* Date List Filters */
-$("#_date_list_filter_all").click(function() {
-	$(this).parent("dd").addClass("active");
-	$(this).parent("dd").siblings().removeClass("active");
-	$(".date-list li").children().parent("li").fadeIn("slow");
-});
-$("#_date_list_filter_event_only").click(function() {
-	$(this).parent("dd").addClass("active");
-	$(this).parent("dd").siblings().removeClass("active");
-	$(".date-list li").children().not(".has-event").parent("li").fadeOut("slow");
-});
-
-/* ------------------------------------------------------------------ */
 /* # Date Table */
 /* ------------------------------------------------------------------ */
 
-/* Date Table Event Slider */
-$(".date-table .href-block.has-event")
-	.mouseenter(function() {
-		$(this).addClass("mouseenter");
-		var handler = $(this);
-		handler.data("hover", true);
-		setTimeout(function() {
-			if (handler.data("hover") == true) {
-				handler.css("width", handler.outerWidth());
-				handler.css("position", "absolute");
-				handler.css("z-index", "10");
-				handler.children(".event-list").slideDown("fast");
-			}
-		}, 400);
-	})
-	.mouseleave(function() {
-		$(this).data("hover", false);
-		$(this).removeClass("mouseenter");
-		$(this).children(".event-list").slideUp("slow", function() {
-			$(this).css("position", "relative");
-			$(this).css("z-index", "auto");
-		});
+$("html").on("mouseenter", ".date-table .href-block.has-event", function() {
+	$(this).addClass("mouseenter");
+	var handler = $(this);
+	handler.data("hover", true);
+	setTimeout(function() {
+		if (handler.data("hover") == true) {
+			handler.css("width", handler.outerWidth());
+			handler.css("position", "absolute");
+			handler.css("z-index", "10");
+			handler.children(".event-list").slideDown("fast");
+		}
+	}, 400);
+});
+$("html").on("mouseleave", ".date-table .href-block.has-event", function() {
+	$(this).data("hover", false);
+	$(this).removeClass("mouseenter");
+	$(this).children(".event-list").slideUp("slow", function() {
+		$(this).css("position", "relative");
+		$(this).css("z-index", "auto");
 	});
+});
 
 /* ------------------------------------------------------------------ */
 /* # Comments */
