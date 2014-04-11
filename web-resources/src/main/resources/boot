@@ -1,7 +1,7 @@
 ﻿/**
  * Les Ourses à plumes
- * Javascript Boot
- * Require Javascript
+ * Javascript Loader
+ * No dependency
  * ver. 0.0.3
  */
 
@@ -113,8 +113,7 @@ var head_tags = [
 ];
 
 var body_tags = [
-	{elem: "script", attr: {src: $app_root + "js/build.js"}},
-	{elem: "script", attr: {src: $app_root + "js/core.js"}},
+	{elem: "script", attr: {src: $app_root + "js/loap.js"}},
 	{elem: "script", attr: {src: $app_root + "js/foundation/foundation.lib.js"}}
 ];
 
@@ -226,7 +225,22 @@ function mk_tags(array) { // Make Tags
 	return str;
 }
 
-function loap() { // Postbuild Processing
+// var loap = (function() {
+	// return {
+		// load: function(script) {
+			// var script = script || "";
+			// if (typeof script !== "undefined") {
+				// body_tags.splice(-1, 0,{elem: "script", attr: {src: $app_root + "js/" + script}});
+			// }
+			// document.write(mk_tags(body_tags));
+		// }
+	// };
+// }());
+
+function load(script) { // Postbuild Processing
+	if (typeof script !== "undefined") {
+		body_tags.splice(-1, 0, {elem: "script", attr: {src: $app_root + "js/" + script}});
+	}
 	document.write(mk_tags(body_tags));
 }
 
