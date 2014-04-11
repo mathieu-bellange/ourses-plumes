@@ -94,7 +94,6 @@ function getAccount(){
 /* ------------------------------------------------------------------ */
 
 function updateEvent(id) { // EDIT : function updateEvent(event)
-	alert("id : " + id);
 	// compte dans l'event
 	// var value = event.data;
 	// var roleUrl = "/rest/account/"+value.id+"/role";
@@ -119,7 +118,6 @@ function updateEvent(id) { // EDIT : function updateEvent(event)
 };
 
 function deleteEvent(id){ // EDIT : function deleteEvent(event)
-	alert("id : " + id);
 	// var id = event.data;
 	$.ajax({
 		type : "DELETE",
