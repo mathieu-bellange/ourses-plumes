@@ -76,6 +76,8 @@ $(document).ready(function() {
 	$(window).resize(); // just a dummy instruction for getting the proper height
 });
 
+$("html").addClass(""); // TEMP
+
 /* ------------------------------------------------------------------ */
 /* # Active Section Toggler */
 /* ------------------------------------------------------------------ */
@@ -117,6 +119,11 @@ if (typeof $boot !== "undefined") { // TEMP
 }
 /* ================================================================== */
 
+/* Toolbar Crystal Scheme Toggler */
+$("#_crystal_scheme_toggle").click(function() {
+	$(this).toggleClass("active");
+	$("html").toggleClass("crystal");
+});
 
 /* Toolbar Null Links Toggler */
 $("#_null_links_toggle").click(function() {
@@ -156,6 +163,12 @@ $("#_null_links_toggle").click(function() {
 		$(".pagination li .not-disabled").removeClass("not-disabled");
 	}
 	$(this).toggleClass("active");
+});
+
+/* Toolbar CSS Effects Toggler */
+$("#_css_fx_toggle").click(function() {
+	$(this).toggleClass("active");
+	$("body").toggleClass("css-fx");
 });
 
 /* Toolbar CSS Debug Toggler */
@@ -202,12 +215,6 @@ $("#_css_debug_articles_list_toggle").click(function() {
 $("#_css_debug_comment_list_toggle").click(function() {
 	$(this).toggleClass("active");
 	$(".comment-list").toggleClass("css-debug");
-});
-
-/* Toolbar CSS Effects Toggler */
-$("#_css_fx_toggle").click(function() {
-	$(this).toggleClass("active");
-	$("body").toggleClass("css-fx");
 });
 
 /* Toolbar Stick Toggler */

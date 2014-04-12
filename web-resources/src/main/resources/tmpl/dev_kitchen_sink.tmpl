@@ -30,12 +30,12 @@
 					<p>Ceci est un <a href="#">hyperlien</a></p>
 					<p>Ceci est un hyperlien vers la rubrique <a href="#" class="red">Intersectionnalit&eacute;</a><br>
 					Ceci est un hyperlien vers la rubrique <a href="#" class="orange">Luttes</a><br>
-					Ceci est un hyperlien vers la rubrique <a href="#" class="yellow">&lt;inutilis&eacute;&gt;</a><br>
+					Ceci est un hyperlien vers la rubrique <a href="#" class="yellow">Id&eacute;&eacute;s</a><br>
 					Ceci est un hyperlien vers la rubrique <a href="#" class="green">&lt;inutilis&eacute;&gt;</a><br>
 					Ceci est un hyperlien vers la rubrique <a href="#" class="cyan">&Eacute;ducation &amp; Culture</a><br>
 					Ceci est un hyperlien vers la rubrique <a href="#" class="blue">International</a><br>
 					Ceci est un hyperlien vers la rubrique <a href="#" class="magenta">Nos corps, nous-m&ecirc;mes</a><br>
-					Ceci est un hyperlien vers la rubrique <a href="#" class="purple">Id&eacute;&eacute;s</a></p>
+					Ceci est un hyperlien vers la rubrique <a href="#" class="purple">&lt;r&eacute;serv&eacute;&gt;</a></p>
 					<!--Quotations-->
 					<h4 class="subheader">Citations</h4>
 					<blockquote>Sous le patriarcat capitaliste, le d&eacute;veloppement technologique [&hellip;] progresse sans r&eacute;pit de ce qu&rsquo;il a transform&eacute; et &eacute;puis&eacute; vers ce qu&rsquo;il a n&rsquo;a pas encore consomm&eacute; <cite class="author">Vandana Shiva</cite></blockquote>
@@ -90,6 +90,60 @@ def helloworld (universe) {
 						<span class="label alert">Alerte</span>
 						<span class="label error">Erreur</span>
 					</p>
+					<!--Buttons-->
+					<h3>Boutons <small>.button</small></h3>
+					<h4 class="subheader">Position</h4>
+					<div>
+						<span class="button expand">&Eacute;tendu</span>
+					</div>
+					<div>
+						<span class="button left-align">&Agrave; gauche</span>
+						<span style="margin-left: .5rem; font-weight: bold; color: darkred;">BUG</span> &rarr; Not to be used &hellip; Use .left class or float property instead.
+					</div>
+					<div>
+						<span class="button right-align">&Agrave; droite</span>
+						<span style="margin-left: .5rem; font-weight: bold; color: darkred;">BUG</span> &rarr; Not to be used &hellip; Use .right class or float property instead.
+					</div>
+					<h4 class="subheader">Types</h4>
+					<div class="column small-8">
+						<ul class="button-group">
+							<li class="button">D&eacute;faut</li>
+							<li class="button secondary">Secondaire</li>
+							<li class="button success">Succ&egrave;s</li>
+							<li class="button alert">Alerte</li>
+							<li class="button error">Erreur</li>
+						</ul>
+					</div>
+					<div class="column small-4 text-center">
+							<span class="button disabled">D&eacute;sactiv&eacute;</span>
+					</div>
+					<h4 class="subheader">Taille</h4>
+					<div class="row text-center">
+						<div class="column small-3">
+							<span class="button tiny">Minuscule</span>
+						</div>
+						<div class="column small-3">
+							<span class="button small">Petit</span>
+						</div>
+						<div class="column small-3">
+							<span class="button">D&eacute;faut</span>
+						</div>
+						<div class="column small-3">
+							<span class="button large">Grand</span>
+						</div>
+					</div>
+					<h4 class="subheader">Forme</h4>
+					<div class="row text-center">
+						<div class="column small-4">
+							<span class="button">D&eacute;faut</span>
+						</div>
+						<div class="column small-4">
+							<span class="button radius">Arrondi</span>
+						</div>
+						<div class="column small-4">
+							<span class="button round">Rond</span>
+						</div>
+					</div>
 					<!--Forms-->
 					<h3>Formulaires</h3>
 					<h4 class="subheader">Standard</h4>
@@ -160,60 +214,6 @@ def helloworld (universe) {
 							</div>
 						</fieldset>
 					</form>
-					<!--Buttons-->
-					<h3>Boutons <small>.button</small></h3>
-					<h4 class="subheader">Position</h4>
-					<div>
-						<span class="button expand">&Eacute;tendu</span>
-					</div>
-					<div>
-						<span class="button left-align">&Agrave; gauche</span>
-						<span style="margin-left: .5rem; font-weight: bold; color: darkred;">BUG</span> &rarr; Not to be used &hellip; Use .left class or float property instead.
-					</div>
-					<div>
-						<span class="button right-align">&Agrave; droite</span>
-						<span style="margin-left: .5rem; font-weight: bold; color: darkred;">BUG</span> &rarr; Not to be used &hellip; Use .right class or float property instead.
-					</div>
-					<h4 class="subheader">Types</h4>
-					<div class="column small-8">
-						<ul class="button-group">
-							<li class="button">D&eacute;faut</li>
-							<li class="button secondary">Secondaire</li>
-							<li class="button success">Succ&egrave;s</li>
-							<li class="button alert">Alerte</li>
-							<li class="button error">Erreur</li>
-						</ul>
-					</div>
-					<div class="column small-4 text-center">
-							<span class="button disabled">D&eacute;sactiv&eacute;</span>
-					</div>
-					<h4 class="subheader">Taille</h4>
-					<div class="row text-center">
-						<div class="column small-3">
-							<span class="button tiny">Minuscule</span>
-						</div>
-						<div class="column small-3">
-							<span class="button small">Petit</span>
-						</div>
-						<div class="column small-3">
-							<span class="button">D&eacute;faut</span>
-						</div>
-						<div class="column small-3">
-							<span class="button large">Grand</span>
-						</div>
-					</div>
-					<h4 class="subheader">Forme</h4>
-					<div class="row text-center">
-						<div class="column small-4">
-							<span class="button">D&eacute;faut</span>
-						</div>
-						<div class="column small-4">
-							<span class="button radius">Arrondi</span>
-						</div>
-						<div class="column small-4">
-							<span class="button round">Rond</span>
-						</div>
-					</div>
 					<!--Icons-->
 					<h3>Ic&ocirc;nes <small>.icon-*</small></h3>
 					<h4 class="subheader">Taille<h4>

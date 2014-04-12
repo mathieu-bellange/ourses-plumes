@@ -192,10 +192,6 @@ cite.author { /* TEMP */
 .date {color: darkgray;} /* TEMP */
 
 /* ------------------------------------------------------------------ */
-/* # Forms */
-/* ------------------------------------------------------------------ */
-
-/* ------------------------------------------------------------------ */
 /* # Inputs */
 /* ------------------------------------------------------------------ */
 
@@ -324,6 +320,26 @@ button.tiny, .button.tiny {
 
 /* Buttons Coloring ------------------------------------------------- */
 
+/* TEMP : Crystal Scheme for primary buttons */
+.crystal button, .crystal .button,
+.crystal .prefix.button, .crystal .postfix.button,
+.crystal button.disabled, .crystal .button.disabled,
+.crystal button[disabled], .crystal .button[disabled],
+.crystal button.disabled:hover, .crystal .button.disabled:hover,
+.crystal button[disabled]:hover, .crystal .button[disabled]:hover,
+.crystal button.disabled:focus, .crystal .button.disabled:focus,
+.crystal button[disabled]:focus, .crystal .button[disabled]:focus {
+  background-color: #5cc;
+  border-color: #399;
+}
+.crystal button:hover, .crystal .button:hover,
+.crystal button:focus, .crystal .button:focus {
+  background-color: #4bb;
+}
+.crystal button:active, .crystal .button:active {
+  background-color: #399;
+}
+
 /* Primary */
 button, .button,
 .prefix.button, .postfix.button,
@@ -333,15 +349,15 @@ button.disabled:hover, .button.disabled:hover,
 button[disabled]:hover, .button[disabled]:hover,
 button.disabled:focus, .button.disabled:focus,
 button[disabled]:focus, .button[disabled]:focus {
-  background-color: #bb5;
-  border-color: #883;
+  background-color: #a8c;
+  border-color: #759;
 }
 button:hover, .button:hover,
 button:focus, .button:focus {
-  background-color: #aa4;
+  background-color: #97b;
 }
 button:active, .button:active {
-  background-color: #883;
+  background-color: #759;
 }
 
 /* Secondary */
@@ -361,6 +377,25 @@ button.secondary:focus, .button.secondary:focus {
 }
 button.secondary:active, .button.secondary:active {
   background-color: #999;
+}
+
+/* TEMP : Crystal Scheme for primary buttons */
+.crystal button.success, .crystal .button.success,
+.crystal button.success.disabled, .crystal .button.success.disabled,
+.crystal button.success[disabled], .crystal .button.success[disabled],
+.crystal button.success.disabled:hover, .crystal .button.success.disabled:hover,
+.crystal button.success[disabled]:hover, .crystal .button.success[disabled]:hover,
+.crystal button.success.disabled:focus, .crystal .button.success.disabled:focus,
+.crystal button.success[disabled]:focus, .crystal .button.success[disabled]:focus {
+  background-color: #8c4;
+  border-color: #591;
+}
+.crystal button.success:hover, .crystal .button.success:hover,
+.crystal button.success:focus, .crystal .button.success:focus {
+  background-color: #7b3;
+}
+.crystal button.success:active, .crystal .button.success:active {
+  background-color: #591;
 }
 
 /* Success */
@@ -400,6 +435,10 @@ button.alert:focus, .button.alert:focus, button.error:focus, .button.error:focus
 button.alert:active, .button.alert:active, button.error:active, .button.error:active {
   background-color: #930;
 }
+
+/* ------------------------------------------------------------------ */
+/* # Forms */
+/* ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ */
 /* # Disabled */
@@ -1923,9 +1962,9 @@ a.icon-stumbleupon.small.white:active, a > .icon-stumbleupon.small.white:active,
 .sub-nav dt a:hover, .sub-nav dd a:hover, .sub-nav li a:hover {}
 .sub-nav dt.active a, .sub-nav dd.active a, .sub-nav li.active a {
   padding: .35rem .5rem;
-  background-color: #bb5;
+  background-color: #a8c;
 }
-.sub-nav dt.active a:hover, .sub-nav dd.active a:hover, .sub-nav li.active a:hover {background-color: #bb5;}
+.sub-nav dt.active a:hover, .sub-nav dd.active a:hover, .sub-nav li.active a:hover {background-color: #a8c;}
 .sub-nav dt a.disabled:hover, .sub-nav dd a.disabled:hover, .sub-nav li a.disabled:hover {color: inherit;}
 .sub-nav dt.active a.disabled:hover, .sub-nav dd.active a.disabled:hover, .sub-nav li.active a.disabled:hover {color: white;}
 
@@ -1941,8 +1980,8 @@ ul.pagination li a:focus {background-color: gainsboro;}
 ul.pagination li.unavailable a {}
 ul.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {}
 ul.pagination li a.disabled:hover, ul.pagination li a.disabled:focus {background-color: transparent;}
-ul.pagination li.current a {background-color: #bb5;}
-ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-color: #bb5; }
+ul.pagination li.current a {background-color: #a8c;}
+ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-color: #a8c; }
 
 /* ------------------------------------------------------------------ */
 /* # User Pictures */
@@ -2089,8 +2128,8 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .alert-box > *:last-child {margin-bottom: 0;}
 
 .alert-box {
-  border: .15rem solid lightgray;
-  background-color: #ffc;
+  background-color: #a8c;
+  border: .15rem solid #759;
 }
 .alert-box .has-tip {
   display: inline-block;
@@ -2102,43 +2141,49 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   margin: 0; /* Foundation Override */
   padding: 0; /* Foundation Override */
   line-height: inherit; /* Foundation Override */
+  text-decoration: none;
 }
 .alert-box .close:after {
   margin-top: .625rem;
   margin-right: .625rem;
   display: block;
 }
-.alert-box a {text-decoration: none;}
-.alert-box,
-.alert-box a,
-.alert-box .close {
+.crystal .alert-box { /* TEMP : Crystal Scheme for alerts */
+  background-color: #5cc;
+  border-color: #399;
+}
+.alert-box.info a {text-decoration: none;}
+.alert-box.info,
+.alert-box.info a,
+.alert-box.info .close {
   color: gray;
 }
+.alert-box,
 .alert-box.secondary,
 .alert-box.success,
 .alert-box.alert,
 .alert-box.error,
 .alert-box.warning,
-.alert-box.info,
+.alert-box a,
 .alert-box.secondary a,
 .alert-box.success a,
 .alert-box.alert a,
 .alert-box.error a,
 .alert-box.warning a,
-.alert-box.info a,
+.alert-box .close,
 .alert-box.secondary .close,
 .alert-box.success .close,
 .alert-box.alert .close,
 .alert-box.error .close,
-.alert-box.warning .close,
-.alert-box.info .close {
+.alert-box.warning .close {
   color: white;
 }
+.crystal .alert-box.success {background-color: #8c4; border-color: #591;} /* TEMP : Crystal Scheme for alerts */
 .alert-box.secondary {background-color: silver; border-color: darkgray;}
 .alert-box.success {background-color: #3a6; border-color: #274;}
 .alert-box.alert, .alert-box.error {background-color: #d52; border-color: #930;}
 .alert-box.warning {background-color: #fa0; border-color: #b70;}
-.alert-box.info {background-color: #6bb; border-color: #388;}
+.alert-box.info {background-color: #ffc; border-color: lightgray;}
 
 /* ------------------------------------------------------------------ */
 /* # Labels */
@@ -2151,13 +2196,17 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   font-size: 85%;
   font-weight: bold;
   font-style: normal;
-  background-color: #bb5;
+  background-color: #a8c;
 }
-a.label:hover, a.label:focus {color: white; background-color: #884;}
+.crystal .label, .crystal a.label {background-color: #5cc;} /* TEMP : Crystal Scheme for labels */
+.crystal a.label:hover, .crystal a.label:focus {background-color: #884;} /* TEMP : Crystal Scheme for labels */
+.crystal .label.success {background-color: #8c4;} /* TEMP : Crystal Scheme for labels */
+.crystal a.label.success:hover, .crystal a.label.success:focus {background-color: #7b3;} /* TEMP : Crystal Scheme for labels */
+a.label:hover, a.label:focus {color: white; background-color: #97b;}
 .label.secondary {color: white; background-color: silver;}
 a.label.secondary:hover, a.label.secondary:focus {background-color: darkgray;}
 .label.success {background-color: #3a6;}
-a.label.success:hover, a.label.success:focus {background-color: #274;}
+a.label.success:hover, a.label.success:focus {background-color: #295;}
 .label.alert, .label.error {background-color: #d52;}
 a.label.alert:hover, a.label.alert:focus, a.label.error:hover, a.label.error:focus {background-color: #930;}
 .label.inverse {background-color: #444;}
@@ -2288,11 +2337,19 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
   height: 11.76470588235294rem; /* Fixed Size */
 }
 .orbit-slides-container li {
-  background-color: #bb5;
-  border-top: .15rem solid #dd8;
-  border-bottom: .15rem solid #884;
+  background-color: darkgray;
+  border-top: .15rem solid silver;
+  border-bottom: .15rem solid gray;
 }
 
+.orbit-slides-container h1,
+.orbit-slides-container h2,
+.orbit-slides-container h3,
+.orbit-slides-container h4,
+.orbit-slides-container h5,
+.orbit-slides-container h6 {
+  margin: 0;
+}
 .orbit-slides-container blockquote, .orbit-slides-container h1, .orbit-slides-container h2, .orbit-slides-container h3 {
   color: white;
 }
@@ -2314,7 +2371,7 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .orbit-slides-container .orange {background-color: #f83; border-top-color: #fb7; border-bottom-color: #c50;}
 .orbit-slides-container .yellow {background-color: #fd3; border-top-color: #fe9; border-bottom-color: #ca0;}
 .orbit-slides-container .green {background-color: #7c6; border-top-color: #8d7; border-bottom-color: #493;}
-.orbit-slides-container .cyan {background-color: #6dd; border-top-color: #bee; border-bottom-color: #399;}
+.orbit-slides-container .cyan {background-color: #5cc; border-top-color: #9ee; border-bottom-color: #399;}
 .orbit-slides-container .blue {background-color: #5af; border-top-color: #7bf; border-bottom-color: #17d;}
 .orbit-slides-container .purple {background-color: #b5e; border-top-color: #c8e; border-bottom-color: #82b;}
 .orbit-slides-container .magenta {background-color: #f4b; border-top-color: #f9d; border-bottom-color: #b28;}
@@ -2804,12 +2861,14 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 
 /* Dev Toolbar */
 #toolbar a:focus {outline-offset: -.5rem;}
+#_crystal_scheme_toggle:before {content: 'Enable ';}
+#_crystal_scheme_toggle.active:before {content: 'Disable ';}
 #_null_links_toggle:before {content: 'Enable ';}
 #_null_links_toggle.active:before {content: 'Disable ';}
-#toolbar [id*="_css_debug_"]:before {content: 'Markup ';}
-#toolbar [id*="_css_debug_"].active:before {content: 'Unmark ';}
 #_css_fx_toggle:before {content: 'Hide ';}
 #_css_fx_toggle.active:before {content: 'Show ';}
+#toolbar [id*="_css_debug_"]:before {content: 'Markup ';}
+#toolbar [id*="_css_debug_"].active:before {content: 'Unmark ';}
 #_toolbar_stick_toggle:before {content: 'Undock ';}
 #_toolbar_stick_toggle.active:before {content: 'Dock ';}
 

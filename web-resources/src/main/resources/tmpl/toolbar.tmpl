@@ -9,10 +9,22 @@
 				<section class="top-bar-section">
 					<nav class="toolbar-nav">
 						<ul class="right">
-							<li><a href="{{= $app_root + 'dev_test.html'}}">TEST</a></li>
-							<li><a href="{{= $app_root + 'dev_templating.html'}}">Templating</a></li>
-							<li><a href="{{= $app_root + 'dev_kitchen_sink.html'}}">Kitchen Sink</a></li>
-							<li><a href="javascript:void(0)" id="_null_links_toggle">Null Links</a></li>
+							<li class="has-dropdown">
+								<a href="javascript:void(0)">Dev Pages</a>
+								<ul class="dropdown">
+									<li><a href="{{= $app_root + 'dev_test.html'}}">TEST</a></li>
+									<li><a href="{{= $app_root + 'dev_templating.html'}}">Templating</a></li>
+									<li><a href="{{= $app_root + 'dev_kitchen_sink.html'}}">Kitchen Sink</a></li>
+								</ul>
+							</li>
+							<li class="has-dropdown">
+								<a href="javascript:void(0)">Dev Features</a>
+								<ul class="dropdown">
+									<li><a href="javascript:void(0)" id="_crystal_scheme_toggle">Crystal Scheme</a></li>
+									<li><a href="javascript:void(0)" id="_null_links_toggle">Null Links</a></li>
+									<li><a href="javascript:void(0)" id="_css_fx_toggle">CSS effects</a></li>
+								</ul>
+							</li>
 							<li class="has-dropdown">
 								<a href="javascript:void(0)">CSS Debug</a>
 								<ul class="dropdown">
@@ -29,7 +41,6 @@
 									<li><a href="javascript:void(0)" id="_css_debug_comment_list_toggle">Comments</a></li>
 								</ul>
 							</li>
-							<li><a href="javascript:void(0)" id="_css_fx_toggle">CSS effects</a></li>
 							<li><a href="javascript:void(0)" id="_toolbar_stick_toggle">Toolbar</a></li>
 							<li><span class="hide">Close</span><a href="javascript:void(0)" class="close"></a></li>
 						</ul>
