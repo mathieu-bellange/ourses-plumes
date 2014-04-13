@@ -56,6 +56,7 @@
 		<property name="name" value="test"/>
 		<property name="classes">
 			<list>
+				<value>org.ourses.server.domain.entities.security.OurseAuthcToken</value>
 				<value>org.ourses.server.domain.entities.administration.OursesAuthorizationInfo</value>
 				<value>org.ourses.server.domain.entities.administration.OursesAuthenticationInfo</value>
 				<value>org.ourses.server.domain.entities.administration.Profile</value>
