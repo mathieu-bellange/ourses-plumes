@@ -5,7 +5,7 @@
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#comptes-alert").length == 0) {
-		$("#accountsTable").before(alert_box_template({id: "comptes-alert", class: err, text: msg}));
+		$("#accountsTable").before(alert_box_template({"id" : "comptes-alert", "class" : err, "text" : msg}));
 		if (document.readyState === "complete") {
 			$("#accounts").foundation("alert");
 		}
@@ -38,8 +38,7 @@ function getAccount(){
 		contentType : "application/json; charset=utf-8",
 		success : function(accounts, status, jqxhr) {
 			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
-			// $("section#accounts").append(accounts_template(accounts)); // process template
-			$("header + hr").after(accounts_template(accounts));
+			$("header + hr").after(accounts_template(accounts)); // process template
 /* UNUSED */
 /*
 			$.each(accounts, function(index, value) {

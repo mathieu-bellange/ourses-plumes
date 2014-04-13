@@ -1,5 +1,5 @@
 ﻿					<!--Alert Box-->
 					<div{{= typeof data.id !== "undefined" ? " id=" + data.id : "" }} class="alert-box radius text-center hide{{= typeof data.class !== 'undefined' ? ' ' + data.class : '' }}" data-alert>
-						<span>{{! data.text || $err_msg.default }}</span>
+						<span>{{! data.text || $err_msg.err_default }}</span>
 						<a href="javascript:void(0)" class="close"></a>
 					</div>

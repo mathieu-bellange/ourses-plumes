@@ -27,10 +27,10 @@ $app_genr         = null;                               // String.  Set applicat
 
 $app_root         = "/";                                // String.  Set application base URL. Default = "/"
 
-
 /* UNUSED for now */
 /*
-$app_path = { // Object.  Set application path to files.
+$app_path         = {                                   // Object.  Set application path to files.
+	root: "/",
 	js: "js/",
 	css: "css/",
 	img: "img/",
@@ -48,12 +48,11 @@ $user_picture     = "usr-nadejda.jpg";                  // String.  Register use
 $page_title       = null;                               // String.  Register page title.
 
 $err_msg          = {                                   // Object.  Define generic error messages.
-	default: "Une erreur technique s’est produite. Veuillez prévenir l’administateur du site.",
-	form_invalid: "Le formulaire que vous avez soumis est invalide et n’a pas pu être envoyé.",
-	form_incomplete: "Le formulaire que vous avez soumis est incomplet et n’a pas été envoyé.",
-	something_weird_happened: "Un truc vraiment chelou s’est produit. Veuillez éteindre votre ordinateur et faire le poirier en attendant les secours."
+	"err_default" : "Une erreur technique s’est produite. Veuillez prévenir l’administateur du site.",
+	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n’a pas pu être envoyé.",
+	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n’a pas été envoyé.",
+	"something_weird_happened" : "Un truc vraiment chelou s’est produit. Veuillez éteindre votre ordinateur et faire le poirier en attendant les secours."
 }
-
 
 /* ------------------------------------------------------------------ */
 /* # Reloc path */
@@ -67,29 +66,7 @@ if (window.location.href.split("/")[0].slice(0,4) == "file") {
 /* # Private Variables */
 /* ------------------------------------------------------------------ */
 
-/**
-doT.templateSettings = {
-	evaluate: regexp,      // parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)
-	interpolate: regexp,   // parse a string as a javascript instruction and append it to the result function (n.b. this is default behaviour)
-	encode: regexp,        // replace illegal characters by html numeric entities
-	use: regexp,           // call partial template
-	define: regexp,        // set partial template
-	conditional: regexp,   // execute 'if-else if-else' structure
-	iterate: regexp,       // loop an array
-	varname: string,       // define the name of result function argument (i.e. the variable used for templating)
-	strip: boolean,        // erase whitespaces in result output (including tabulations and line breaks -- minify/compress)
-	append: boolean,       // define concatenated output result in a single line variable (i.e. use '+' operand instead of '+=' operand for 'out' var)
-	selfcontained: boolean // include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)
-};
-*/
-
-var doT_custom_settings =
-	lb() + tb(3) + "doT.templateSettings.varname = 'data';" +
-	lb() + tb(3) + "doT.templateSettings.strip = false;" +
-	lb() + tb(2);
-
 var IE_conditional_comments = [
-	lb() + tb(3) + "<html data-msie='true'>",
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>",
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
 ];
@@ -106,10 +83,10 @@ var head_tags = [
 	{elem: "link", attr: {href: $app_root + "css/foundation.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $app_root + "css/loap.css", rel: "stylesheet"}},
 	{elem: "script", attr: {src: $app_root + "js/modernizr/modernizr" + $lib_ext +".js"}},
-	{elem: "script", attr: {src: $app_root + "js/jquery/jquery" + $lib_ext + ".js"}},
+	// {elem: "script", attr: {src: $app_root + "js/jquery/jquery-1.x" + $lib_ext + ".js"}}, // IE7-IE8
+	{elem: "script", attr: {src: $app_root + "js/jquery/jquery-2.x" + $lib_ext + ".js"}}, // IE9-IE10
 	{elem: "script", attr: {src: $app_root + "js/dot/dot" + $lib_ext + ".js"}},
-	{elem: "script", text: doT_custom_settings},
-	{elem: "!--[IE]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"},
+	{elem: "script", attr: {src: $app_root + "js/dot/dot.settings.js"}},
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
 	{elem: "!--[gt IE 9]", text: IE_conditional_comments[2] + lb() + tb(2) + "<![endif]-->"}
 ];
@@ -121,11 +98,11 @@ var body_tags = [
 
 var xhr = (function() {
 	if (typeof XMLHttpRequest !== "undefined") {
-		return new XMLHttpRequest();// IE7+, Firefox, Chrome, Opera, Safari
+		return new XMLHttpRequest();// Firefox, Chrome, Opera
 	} else if (typeof ActiveXObject !== "undefined") {
-		return new ActiveXObject("Microsoft.XMLHTTP"); // IE5, IE6
+		return new ActiveXObject("Microsoft.XMLHTTP"); // Internet Explorer
 	} else {
-		return;
+		console.log("File loading failed. XMLHttpRequest and ActiveXObject deactivated or not supported.");
 	}
 }());
 
@@ -140,43 +117,25 @@ var xhr = (function() {
  */
 
 function loadfile(file, async, method, send, response) {
-
-//default param
-// var method = (typeof method === "undefined") ? "GET" : method;
-// var send = (typeof send === "undefined") ? null : send;
-// var response = (typeof response === "undefined") ? "text" : response;
-// var async = (typeof async === "undefined") ? false : async;
-
-// shorthanded default function arguments * TEST
-var async = async || false, method = method || "GET", send = send || null, response = response || "text";
-
+var async = async || false, method = method || "GET", send = send || null, response = response || "text"; // default params
 	if (typeof xhr !== "undefined") {
 		xhr.open(method, file, async); // define request arguments
-		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type * USELESS
-
-		/* UNUSED for now -- TO BE EDIT LATER */
-		/*
-		if (document.getElementsByTagName("html").hasAttributes("data-msie")) {
-			alert("Warning ! This is Internet Explorer !"); // TEMP
-		} else {
-			xhr.overrideMimeType("text/plain"); // override response MIME type
+		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
+		if (navigator.appName != "Microsoft Internet Explorer") {
+			xhr.overrideMimeType("text/plain"); // prevent request header bugs
 		}
-		*/
-		xhr.overrideMimeType("text/plain"); // BUG : don't work in IE !!!
-
 		try {
 			xhr.send(send); // send request to server
 		} catch(err) {
-			console.log(file + " not found.\n " + err);
+			console.log(file + " not found.\n " + err); // log server error
 		}
-
 		if (response == "xml") {
 			return xhr.responseXML; // return XML response from server
 		} else {
 			return xhr.responseText; // return Plain Text response from server
 		}
 	} else {
-		console.log(file + " loading failed. XMLHttpRequest not supported.");
+		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
 	}
 }
 
@@ -191,24 +150,12 @@ function p_char(n, c) { // Print Character (n.b. for local use only)
 }
 
 function tb(n, c) { // Tabulation (alias)
-
-//default param
-// n = (typeof n === "undefined") ? 1 : n;
-// c = (typeof c === "undefined") ? "\t" : c;
-
-// shorthanded default function arguments * TEST
-	var n = n || 1, c = c || "\t";
+	var n = n || 1, c = c || "\t"; // default params
 	return p_char(n, c);
 }
 
 function lb(n, c) { // Line Break (alias)
-
-//default param
-// n = (typeof n === "undefined") ? 1 : n;
-// c = (typeof c === "undefined") ? "\t" : c;
-
-// shorthanded default function arguments * TEST
-	var n = n || 1, c = c || "\n";
+	var n = n || 1, c = c || "\n"; // default params
 	return p_char(n, c);
 }
 
