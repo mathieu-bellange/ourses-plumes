@@ -12,52 +12,56 @@ import com.avaje.ebean.Ebean;
 @Entity
 public class OurseAuthcToken {
 
-	private String token;
-	private Date expirationDate;
-	@Id
-	private String login;
+    private String token;
+    private Date expirationDate;
+    @Id
+    private String login;
 
-	public OurseAuthcToken(){
-		
-	}
-	
-	public OurseAuthcToken(String login, AuthcToken authcToken) {
-		this.login = login;
-		this.token = authcToken.getToken();
-		this.expirationDate = authcToken.getExpirationDate();
-	}
-	
-	public OurseAuthcToken(String login, String token, Date expirationDate) {
-		this.login = login;
-		this.token = token;
-		this.expirationDate = expirationDate;
-	}
+    public OurseAuthcToken() {
 
-	public String getToken() {
-		return token;
-	}
+    }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public OurseAuthcToken(String login, AuthcToken authcToken) {
+        this.login = login;
+        this.token = authcToken.getToken();
+        this.expirationDate = authcToken.getExpirationDate();
+    }
 
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
+    public OurseAuthcToken(String login, String token, Date expirationDate) {
+        this.login = login;
+        this.token = token;
+        this.expirationDate = expirationDate;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public String getToken() {
+        return token;
+    }
 
-	public String getLogin() {
-		return login;
-	}
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	
-	public void save(){
-		Ebean.save(this);
-	}
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void save() {
+        Ebean.save(this);
+    }
+
+    public static OurseAuthcToken find(String token) {
+        return Ebean.find(OurseAuthcToken.class).where().eq("token", token).findUnique();
+    }
 }
