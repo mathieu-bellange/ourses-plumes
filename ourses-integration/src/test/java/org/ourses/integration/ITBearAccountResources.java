@@ -221,7 +221,7 @@ public class ITBearAccountResources {
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.ADMINISTRATRICE)));
-        //status attendu
+        // status attendu
         assertThat(clientResponse.getStatus()).isEqualTo(204);
         ClientResponse clientResponseGet = TestHelper.webResource(UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(
                 ClientResponse.class);

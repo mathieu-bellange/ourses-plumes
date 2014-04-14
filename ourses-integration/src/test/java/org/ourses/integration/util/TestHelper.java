@@ -8,14 +8,23 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public final class TestHelper {
 
     public static WebResource webResource(URI uri) {
-        ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
-        WebResource webResource = Client.create(cc).resource("http://localhost:8080").path(uri.getPath());
+        return getWebResource(Client.create(new DefaultClientConfig(JacksonJsonProvider.class)), uri);
+    }
+
+    public static WebResource webResourceWithCredential(URI uri, String login, String password) {
+        Client client = Client.create(new DefaultClientConfig(JacksonJsonProvider.class));
+        client.addFilter(new HTTPBasicAuthFilter(login, password));
+        return getWebResource(client, uri);
+    }
+
+    private static WebResource getWebResource(Client client, URI uri) {
+        WebResource webResource = client.resource("http://localhost:8080").path(uri.getPath());
         webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);
         return webResource;
     }
