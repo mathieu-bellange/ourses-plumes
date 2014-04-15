@@ -1,3 +1,8 @@
+  Insert into ourse_authc_token
+   (login,token, expiration_date)
+ Values
+   ('mbellange@gmail.com', 'token','2077-01-01 00:00:00');
+   
   Insert into ourses_authorization_info
    (id, roles_for_db)
  Values

@@ -68,4 +68,16 @@ public class OursesAuthenticationFilterTest {
         when(helperRequest.getHeader(anyString())).thenReturn(httpEncodeToken);
         assertThat(filter.isAccessAllowed(helperRequest, null, null)).isFalse();
     }
+
+    @Test
+    public void shouldNotAllowedAccessWithoutBasicToken() throws Exception {
+        // prepare
+        // basic token null
+        String httpEncodeToken = null;
+        // token non trouvé en base
+        OurseAuthcToken authcToken = new OurseAuthcToken("mathieu", "token", DateTime.now().minus(1).toDate());
+        when(helperMock.find("token")).thenReturn(authcToken);
+        when(helperRequest.getHeader(anyString())).thenReturn(httpEncodeToken);
+        assertThat(filter.isAccessAllowed(helperRequest, null, null)).isFalse();
+    }
 }

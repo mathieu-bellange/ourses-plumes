@@ -1,3 +1,9 @@
+Insert into OURSE_AUTHC_TOKEN
+   (login, token, expiration_date)
+ Values
+   ('it_test_ok', 'token','2077-01-01 00:00:00'),
+   ('it_test_expired', 'token_bis','2010-01-01 00:00:00');
+   
 Insert into ourses_authorization_info
    (id, roles_for_db)
  Values

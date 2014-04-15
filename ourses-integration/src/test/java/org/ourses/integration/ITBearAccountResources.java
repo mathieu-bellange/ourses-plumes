@@ -39,7 +39,8 @@ public class ITBearAccountResources {
             ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri)
+                .header("Content-Type", "application/json")
                 .put(ClientResponse.class, mapper.writeValueAsString(dummyAccount()));
         // status attendu 201
         assertThat(clientResponse.getStatus()).as("Verif que le status est ok").isEqualTo(201);
@@ -58,7 +59,7 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "mdp",
@@ -73,7 +74,7 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "mdp", new ProfileDTO("jpetit",
@@ -88,7 +89,7 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, null, "mdp", new ProfileDTO("pseudo", null,
@@ -103,7 +104,7 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "toto", "mdp", new ProfileDTO("pseudo",
@@ -118,7 +119,7 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "jpetit@gmail.com", "mdp", new ProfileDTO(
@@ -133,7 +134,7 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "Julie", null, new ProfileDTO("pseudo",
@@ -148,7 +149,7 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new BearAccountDTO(null, "Julie", "aze", new ProfileDTO("pseudo",
@@ -163,9 +164,12 @@ public class ITBearAccountResources {
     public void shouldSeeListAccounts() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
         GenericType<Set<BearAccountDTO>> gt = new GenericType<Set<BearAccountDTO>>() {
         };
-        Set<BearAccountDTO> list = TestHelper.webResource(uri).get(gt);
+        Set<BearAccountDTO> list = clientResponse.getEntity(gt);
         assertThat(list).isNotEmpty();
         for (BearAccountDTO account : list) {
             assertThat(account.getId()).isNotNull();
@@ -181,7 +185,7 @@ public class ITBearAccountResources {
     @Test
     public void shouldDeleteAccount() {
         URI uri = UriBuilder.fromPath(PATH_DELETE).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).delete(ClientResponse.class);
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).delete(ClientResponse.class);
         // status attendu 204
         assertThat(clientResponse.getStatus()).as("Verif que le status est no-content").isEqualTo(204);
     }
@@ -195,7 +199,7 @@ public class ITBearAccountResources {
     @Test
     public void shouldGetAccount() {
         URI uri = UriBuilder.fromPath(PATH_GET_ACCOUNT).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).get(ClientResponse.class);
         BearAccountDTO bearAccountDTO = clientResponse.getEntity(BearAccountDTO.class);
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         assertThat(bearAccountDTO).isNotNull();
@@ -207,7 +211,7 @@ public class ITBearAccountResources {
     @Test
     public void shouldNotFindAccount() {
         URI uri = UriBuilder.fromPath(PATH_GET_FALSE_ACCOUNT).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).get(ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(500);
     }
 
@@ -217,14 +221,14 @@ public class ITBearAccountResources {
         URI uri = UriBuilder.fromPath(PATH_UPDATE_ROLE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
-                .webResource(uri)
+                .webResourceWithAuthcToken(uri)
                 .header("Content-Type", "application/json")
                 .put(ClientResponse.class,
                         mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.ADMINISTRATRICE)));
         // status attendu
         assertThat(clientResponse.getStatus()).isEqualTo(204);
-        ClientResponse clientResponseGet = TestHelper.webResource(UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(
-                ClientResponse.class);
+        ClientResponse clientResponseGet = TestHelper.webResourceWithAuthcToken(
+                UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(ClientResponse.class);
         BearAccountDTO bearAccountDTO = clientResponseGet.getEntity(BearAccountDTO.class);
         assertThat(bearAccountDTO.getRole().getRole()).isEqualTo(RolesUtil.ADMINISTRATRICE);
     }

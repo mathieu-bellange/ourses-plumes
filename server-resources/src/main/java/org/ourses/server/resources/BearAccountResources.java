@@ -43,7 +43,6 @@ public class BearAccountResources {
 
     @PUT
     @Path("/create")
-    // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response createAccount(BearAccountDTO bearAccountDTO) {
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
         String pseudo = null;
@@ -75,7 +74,6 @@ public class BearAccountResources {
 
     @PUT
     @Path("/update")
-    // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     // TODO gérer l'update
     public Response updateAccount(BearAccountDTO bearAccountDTO) {
         // on créé par défaut un compte en rédactrice
@@ -126,7 +124,6 @@ public class BearAccountResources {
 
     @DELETE
     @Path("/{id}")
-    // @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response deleteAccount(@PathParam("id")
     long id) {
         BearAccount bearAccount = new BearAccount();
@@ -136,8 +133,7 @@ public class BearAccountResources {
     }
 
     @GET
-    // @RequiresRoles(RolesUtil.ADMINISTRATRICE)
-    public List<BearAccountDTO> findAllBearAccounts() {
+    public Response findAllBearAccounts() {
         List<BearAccount> listBearAccount = BearAccount.findAllAdministrationBearAccounts();
         List<BearAccountDTO> listBearAccountDTO = Lists.transform(listBearAccount,
                 new Function<BearAccount, BearAccountDTO>() {
@@ -149,6 +145,6 @@ public class BearAccountResources {
                         return bearAccount.toBearAccountDTO();
                     }
                 });
-        return listBearAccountDTO;
+        return Response.ok().entity(listBearAccountDTO).build();
     }
 }

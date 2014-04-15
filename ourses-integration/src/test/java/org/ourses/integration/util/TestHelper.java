@@ -23,6 +23,16 @@ public final class TestHelper {
         return getWebResource(client, uri);
     }
 
+    public static WebResource webResourceWithAuthcToken(URI uri) {
+        return webResourceWithAuthcToken(uri, "token");
+    }
+
+    public static WebResource webResourceWithAuthcToken(URI uri, String token) {
+        Client client = Client.create(new DefaultClientConfig(JacksonJsonProvider.class));
+        client.addFilter(new HTTPBasicAuthFilter(token, ""));
+        return getWebResource(client, uri);
+    }
+
     private static WebResource getWebResource(Client client, URI uri) {
         WebResource webResource = client.resource("http://localhost:8080").path(uri.getPath());
         webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);

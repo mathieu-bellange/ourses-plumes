@@ -9,7 +9,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.security.authentication.AuthcToken;
@@ -36,9 +35,8 @@ public class AuthenticationResources {
     public Response authentication(@HeaderParam(HttpHeaders.AUTHORIZATION)
     String authorization) {
         logger.info(authorization);
-        ResponseBuilder builder = Response.status(Status.UNAUTHORIZED).header("WWW-Authenticate",
-                "Basic realm=\"oursesRealm\" ");
-        // authentication
+        ResponseBuilder builder;
+        // basic authentication
         try {
             String[] authorizationDecode = SecurityUtil.decodeBasicAuthorization(authorization);
             securityHelper.doCredentialsMatch(authorizationDecode[0], authorizationDecode[1]);
@@ -49,8 +47,8 @@ public class AuthenticationResources {
         }
         catch (AuthenticationException e) {
             logger.debug("Erreur d'authentification : login ou mot de passe invalide");
+            builder = securityHelper.sendChallenge();
         }
         return builder.build();
     }
-
 }

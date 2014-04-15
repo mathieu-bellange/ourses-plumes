@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS OURSE_AUTHC_TOKEN
 create table OURSE_AUTHC_TOKEN (
   login                     varchar(255)  not null,
   token             		varchar(255) not null,
-  expiration_date					date not null,
+  expiration_date					timestamp not null,
   constraint pk_OURSE_AUTHC_TOKEN primary key (login))
 ;
 

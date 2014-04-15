@@ -9,6 +9,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.joda.time.DateTime;
 import org.ourses.server.authentication.helpers.OursesAuthenticationHelper;
 import org.ourses.server.domain.entities.security.OurseAuthcToken;
+import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,24 +20,29 @@ public class OursesAuthenticationFilter extends AccessControlFilter {
 
     @Autowired
     private OursesAuthenticationHelper helper;
+    @Autowired
+    private SecurityHelper securityHelper;
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
             throws Exception {
         boolean isAuthenticated = false;
         // token est dans la partie login de l'auth Basic
-        String token = SecurityUtil.decodeBasicAuthorization(getAuthzHeader(request))[0];
-        // recherche si le token en base existe bien
-        OurseAuthcToken authToken = helper.find(token);
-        if (authToken != null && new DateTime(authToken.getExpirationDate()).isAfterNow()) {
-            isAuthenticated = true;
+        String basicToken = getAuthzHeader(request);
+        if (basicToken != null) {
+            String token = SecurityUtil.decodeBasicAuthorization(getAuthzHeader(request))[0];
+            // recherche si le token en base existe bien
+            OurseAuthcToken authToken = helper.find(token);
+            if (authToken != null && new DateTime(authToken.getExpirationDate()).isAfterNow()) {
+                isAuthenticated = true;
+            }
         }
         return isAuthenticated;
     }
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
+        securityHelper.sendChallenge(response);
         return false;
     }
 

@@ -10,15 +10,15 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
 
+	<bean id="oursesAuthc" class="org.ourses.server.authentication.filter.OursesAuthenticationFilter"/>
+
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/login"/>
-<!-- 		<property name="successUrl" value="/logout.html"/>  -->
-<!-- 		<property name="unauthorizedUrl" value="/rien.html"/> -->
 		<property name="filterChainDefinitions">
 			<value>
-				/rest/account/** = anon
+				/rest/authc = anon
+				/rest/account/** = oursesAuthc
 				/bug-tracker.html = anon
 				/logout = logout
 				/** = anon
