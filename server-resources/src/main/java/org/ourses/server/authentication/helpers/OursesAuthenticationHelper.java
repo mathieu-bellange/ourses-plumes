@@ -4,5 +4,5 @@ import org.ourses.server.domain.entities.security.OurseAuthcToken;
 
 public interface OursesAuthenticationHelper {
 
-    OurseAuthcToken find(String token);
+    OurseAuthcToken findByToken(String token);
 }

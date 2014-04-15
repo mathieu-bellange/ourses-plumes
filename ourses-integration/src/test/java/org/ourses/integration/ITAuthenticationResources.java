@@ -34,6 +34,13 @@ public class ITAuthenticationResources {
         assertThat(token).isNotNull();
         assertThat(token.getExpirationDate()).isNotNull();
         assertThat(token.getToken()).isNotNull();
+        // second authc test de la maj du token
+        clientResponse = clientResource.post(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
+        AuthcTokenTest tokenBis = clientResponse.getEntity(AuthcTokenTest.class);
+        assertThat(tokenBis).isNotNull();
+        assertThat(tokenBis.getExpirationDate().after(token.getExpirationDate())).isTrue();
+        assertThat(tokenBis.getToken()).isNotEqualTo(token.getToken());
     }
 
     @Test

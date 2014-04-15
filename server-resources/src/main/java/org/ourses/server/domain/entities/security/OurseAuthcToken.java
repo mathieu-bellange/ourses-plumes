@@ -61,7 +61,11 @@ public class OurseAuthcToken {
         Ebean.save(this);
     }
 
-    public static OurseAuthcToken find(String token) {
+    public static OurseAuthcToken findByToken(String token) {
         return Ebean.find(OurseAuthcToken.class).where().eq("token", token).findUnique();
+    }
+
+    public static OurseAuthcToken findByLogin(String login) {
+        return Ebean.find(OurseAuthcToken.class).where().eq("login", login).findUnique();
     }
 }

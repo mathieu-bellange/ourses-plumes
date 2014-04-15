@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 public class OursesAuthenticationHelperImpl implements OursesAuthenticationHelper {
 
     @Override
-    public OurseAuthcToken find(String token) {
-        return OurseAuthcToken.find(token);
+    public OurseAuthcToken findByToken(String token) {
+        return OurseAuthcToken.findByToken(token);
     }
 
 }

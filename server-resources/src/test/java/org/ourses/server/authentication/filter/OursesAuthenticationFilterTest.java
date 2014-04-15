@@ -36,7 +36,7 @@ public class OursesAuthenticationFilterTest {
         String httpEncodeToken = "Basic " + encodeToken;
         // token renvoyé de la base avec login et uen date d'expiratin de 4 jours
         OurseAuthcToken authcToken = new OurseAuthcToken("mathieu", "token", DateTime.now().plusDays(4).toDate());
-        when(helperMock.find("token")).thenReturn(authcToken);
+        when(helperMock.findByToken("token")).thenReturn(authcToken);
         when(helperRequest.getHeader(anyString())).thenReturn(httpEncodeToken);
         assertThat(filter.isAccessAllowed(helperRequest, null, null)).isTrue();
     }
@@ -50,7 +50,7 @@ public class OursesAuthenticationFilterTest {
         String httpEncodeToken = "Basic " + encodeToken;
         // token renvoyé de la base avec login et une date d'expiration passée
         OurseAuthcToken authcToken = new OurseAuthcToken("mathieu", "token", DateTime.now().minus(1).toDate());
-        when(helperMock.find("token")).thenReturn(authcToken);
+        when(helperMock.findByToken("token")).thenReturn(authcToken);
         when(helperRequest.getHeader(anyString())).thenReturn(httpEncodeToken);
         assertThat(filter.isAccessAllowed(helperRequest, null, null)).isFalse();
     }
@@ -64,7 +64,7 @@ public class OursesAuthenticationFilterTest {
         String httpEncodeToken = "Basic " + encodeToken;
         // token non trouvé en base
         OurseAuthcToken authcToken = null;
-        when(helperMock.find("token")).thenReturn(authcToken);
+        when(helperMock.findByToken("token")).thenReturn(authcToken);
         when(helperRequest.getHeader(anyString())).thenReturn(httpEncodeToken);
         assertThat(filter.isAccessAllowed(helperRequest, null, null)).isFalse();
     }
@@ -76,7 +76,7 @@ public class OursesAuthenticationFilterTest {
         String httpEncodeToken = null;
         // token non trouvé en base
         OurseAuthcToken authcToken = new OurseAuthcToken("mathieu", "token", DateTime.now().minus(1).toDate());
-        when(helperMock.find("token")).thenReturn(authcToken);
+        when(helperMock.findByToken("token")).thenReturn(authcToken);
         when(helperRequest.getHeader(anyString())).thenReturn(httpEncodeToken);
         assertThat(filter.isAccessAllowed(helperRequest, null, null)).isFalse();
     }

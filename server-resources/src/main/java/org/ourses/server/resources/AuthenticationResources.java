@@ -41,7 +41,14 @@ public class AuthenticationResources {
             String[] authorizationDecode = SecurityUtil.decodeBasicAuthorization(authorization);
             securityHelper.doCredentialsMatch(authorizationDecode[0], authorizationDecode[1]);
             AuthcToken authcToken = AuthcTokenUtil.generateAuthcToken(authorizationDecode[0], authorizationDecode[1]);
-            OurseAuthcToken ourseAuthcToken = new OurseAuthcToken(authorizationDecode[0], authcToken);
+            OurseAuthcToken ourseAuthcToken = OurseAuthcToken.findByLogin(authorizationDecode[0]);
+            if (ourseAuthcToken != null) {
+                ourseAuthcToken.setToken(authcToken.getToken());
+                ourseAuthcToken.setExpirationDate(authcToken.getExpirationDate());
+            }
+            else {
+                ourseAuthcToken = new OurseAuthcToken(authorizationDecode[0], authcToken);
+            }
             ourseAuthcToken.save();
             builder = Response.ok(authcToken);
         }

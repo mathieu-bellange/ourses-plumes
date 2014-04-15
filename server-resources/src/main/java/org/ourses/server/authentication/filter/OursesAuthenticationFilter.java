@@ -32,7 +32,7 @@ public class OursesAuthenticationFilter extends AccessControlFilter {
         if (basicToken != null) {
             String token = SecurityUtil.decodeBasicAuthorization(getAuthzHeader(request))[0];
             // recherche si le token en base existe bien
-            OurseAuthcToken authToken = helper.find(token);
+            OurseAuthcToken authToken = helper.findByToken(token);
             if (authToken != null && new DateTime(authToken.getExpirationDate()).isAfterNow()) {
                 isAuthenticated = true;
             }
