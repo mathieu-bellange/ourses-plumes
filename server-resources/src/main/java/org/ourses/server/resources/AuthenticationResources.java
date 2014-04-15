@@ -9,6 +9,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.security.authentication.AuthcToken;
@@ -34,7 +35,6 @@ public class AuthenticationResources {
     @POST
     public Response authentication(@HeaderParam(HttpHeaders.AUTHORIZATION)
     String authorization) {
-        logger.info(authorization);
         ResponseBuilder builder;
         // basic authentication
         try {
@@ -54,7 +54,7 @@ public class AuthenticationResources {
         }
         catch (AuthenticationException e) {
             logger.debug("Erreur d'authentification : login ou mot de passe invalide");
-            builder = securityHelper.sendChallenge();
+            builder = Response.status(Status.UNAUTHORIZED);
         }
         return builder.build();
     }

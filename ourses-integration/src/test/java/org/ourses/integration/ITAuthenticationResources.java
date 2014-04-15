@@ -25,7 +25,7 @@ public class ITAuthenticationResources {
 
     @Test
     public void shouldAuthc() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
-            ClientHandlerException, IOException {
+            ClientHandlerException, IOException, InterruptedException {
         URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
         WebResource clientResource = TestHelper.webResourceWithCredential(uri, "mbellange@gmail.com", "Bellange");
         ClientResponse clientResponse = clientResource.post(ClientResponse.class);
@@ -35,6 +35,7 @@ public class ITAuthenticationResources {
         assertThat(token.getExpirationDate()).isNotNull();
         assertThat(token.getToken()).isNotNull();
         // second authc test de la maj du token
+        Thread.sleep(1000);
         clientResponse = clientResource.post(ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
         AuthcTokenTest tokenBis = clientResponse.getEntity(AuthcTokenTest.class);

@@ -14,12 +14,15 @@
 
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="loginUrl" value="/#login"/>
 		<property name="securityManager" ref="securityManager" />
 		<property name="filterChainDefinitions">
 			<value>
 				/rest/authc = anon
 				/rest/account/** = oursesAuthc
-				/bug-tracker.html = anon
+				/comptes = oursesAuthc
+				/comptes/nouveau = oursesAuthc
+				/bug-tracker = oursesAuthc
 				/logout = logout
 				/** = anon
 	        </value>

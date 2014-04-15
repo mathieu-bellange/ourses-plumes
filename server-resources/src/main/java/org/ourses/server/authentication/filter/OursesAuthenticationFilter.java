@@ -9,7 +9,6 @@ import org.apache.shiro.web.util.WebUtils;
 import org.joda.time.DateTime;
 import org.ourses.server.authentication.helpers.OursesAuthenticationHelper;
 import org.ourses.server.domain.entities.security.OurseAuthcToken;
-import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,8 +19,6 @@ public class OursesAuthenticationFilter extends AccessControlFilter {
 
     @Autowired
     private OursesAuthenticationHelper helper;
-    @Autowired
-    private SecurityHelper securityHelper;
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
@@ -42,7 +39,7 @@ public class OursesAuthenticationFilter extends AccessControlFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        securityHelper.sendChallenge(response);
+        saveRequestAndRedirectToLogin(request, response);
         return false;
     }
 
