@@ -14,7 +14,7 @@
 
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<property name="loginUrl" value="/#login"/>
+		<property name="loginUrl" value="/connexion"/>
 		<property name="securityManager" ref="securityManager" />
 		<property name="filterChainDefinitions">
 			<value>

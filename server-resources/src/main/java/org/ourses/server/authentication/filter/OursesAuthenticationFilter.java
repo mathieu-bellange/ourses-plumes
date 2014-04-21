@@ -39,7 +39,7 @@ public class OursesAuthenticationFilter extends AccessControlFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        saveRequestAndRedirectToLogin(request, response);
+    	redirectToLogin(request, response);
         return false;
     }
 

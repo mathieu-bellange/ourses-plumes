@@ -29,5 +29,11 @@
 		<from>^/comptes$</from>
 		<to>/accounts.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers la page de connexion</note>
+		<from>^/connexion$</from>
+		<to>/login.html</to>
+	</rule>
 
 </urlrewrite>
