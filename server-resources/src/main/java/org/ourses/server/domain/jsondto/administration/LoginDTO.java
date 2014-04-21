@@ -30,7 +30,7 @@ public class LoginDTO {
 		this.password = password;
 	}
 
-	@JsonProperty("mail")
+	@JsonProperty("login")
 	public String getMail() {
 		return mail;
 	}

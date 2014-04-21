@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 import org.ourses.integration.util.AuthcTokenTest;
 import org.ourses.integration.util.TestHelper;
+import org.ourses.server.domain.jsondto.administration.LoginDTO;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -27,29 +28,21 @@ public class ITAuthenticationResources {
     public void shouldAuthc() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
             ClientHandlerException, IOException, InterruptedException {
         URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
-        WebResource clientResource = TestHelper.webResourceWithCredential(uri, "mbellange@gmail.com", "Bellange");
-        ClientResponse clientResponse = clientResource.post(ClientResponse.class);
+        WebResource clientResource = TestHelper.webResource(uri);
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(ClientResponse.class, new LoginDTO("mbellange@gmail.com", "Bellange"));
         assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
         AuthcTokenTest token = clientResponse.getEntity(AuthcTokenTest.class);
         assertThat(token).isNotNull();
         assertThat(token.getExpirationDate()).isNotNull();
         assertThat(token.getToken()).isNotNull();
-        // second authc test de la maj du token
-        Thread.sleep(1000);
-        clientResponse = clientResource.post(ClientResponse.class);
-        assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
-        AuthcTokenTest tokenBis = clientResponse.getEntity(AuthcTokenTest.class);
-        assertThat(tokenBis).isNotNull();
-        assertThat(tokenBis.getExpirationDate().after(token.getExpirationDate())).isTrue();
-        assertThat(tokenBis.getToken()).isNotEqualTo(token.getToken());
     }
 
     @Test
     public void shouldNotAuthc() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
             ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
-        WebResource clientResource = TestHelper.webResourceWithCredential(uri, "mbellange@gmail.com", "Bellang");
-        ClientResponse clientResponse = clientResource.post(ClientResponse.class);
+        WebResource clientResource = TestHelper.webResource(uri);
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(ClientResponse.class,new LoginDTO("mbellange@gmail.com", "Bellang"));
         assertThat(clientResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
     }
 }

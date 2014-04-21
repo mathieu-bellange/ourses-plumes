@@ -37,7 +37,7 @@ public class ITOursesAuthenticationFilter {
         ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
         // status attendu 200 redirection
         assertThat(clientResponse.getStatus()).isEqualTo(200);
-        assertThat(clientResponse.getEntity(String.class)).contains("load(\"index.js\");");
+        assertThat(clientResponse.getEntity(String.class)).contains("load(\"login.js\");");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ITOursesAuthenticationFilter {
                 ClientResponse.class);
         // status attendu 200 redirection
         assertThat(clientResponse.getStatus()).isEqualTo(200);
-        assertThat(clientResponse.getEntity(String.class)).contains("load(\"index.js\");");
+        assertThat(clientResponse.getEntity(String.class)).contains("load(\"login.js\");");
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ITOursesAuthenticationFilter {
                 .get(ClientResponse.class);
         // status attendu 200 redirection
         assertThat(clientResponse.getStatus()).isEqualTo(200);
-        assertThat(clientResponse.getEntity(String.class)).contains("load(\"index.js\");");
+        assertThat(clientResponse.getEntity(String.class)).contains("load(\"login.js\");");
     }
 
 }

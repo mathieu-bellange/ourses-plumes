@@ -15,6 +15,7 @@ $dev_toolbar      = true;                               // Boolean. Create dev t
 $css_fx           = true;                               // Boolean. Enable CSS effects. Default = true
 $lib_ext          = ".min";                             // String.  JS libraries additional extension. Default = ".min"
 $null_link        = "javascript:void(0)";               // String.  Set null link value. Default = "javascript:void(0)"
+$oursesAuthcToken = "oursesAuthcToken"                  // String.  Key of the authentication token
 
 /* Whois */
 $org_url          = "http://www.ourses-plumes.org/"     // String.  Set organization URL.

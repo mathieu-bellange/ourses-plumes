@@ -17,12 +17,6 @@ public final class TestHelper {
         return getWebResource(Client.create(new DefaultClientConfig(JacksonJsonProvider.class)), uri);
     }
 
-    public static WebResource webResourceWithCredential(URI uri, String login, String password) {
-        Client client = Client.create(new DefaultClientConfig(JacksonJsonProvider.class));
-        client.addFilter(new HTTPBasicAuthFilter(login, password));
-        return getWebResource(client, uri);
-    }
-
     public static WebResource webResourceWithAuthcToken(URI uri) {
         return webResourceWithAuthcToken(uri, "token");
     }
