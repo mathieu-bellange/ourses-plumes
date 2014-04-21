@@ -12,7 +12,7 @@ create table OURSE_AUTHC_TOKEN (
   login                     varchar(255)  not null,
   token             		varchar(255) not null,
   expiration_date					timestamp not null,
-  constraint pk_OURSE_AUTHC_TOKEN primary key (login))
+  constraint pk_OURSE_AUTHC_TOKEN primary key (token))
 ;
 
 create table bear_account (

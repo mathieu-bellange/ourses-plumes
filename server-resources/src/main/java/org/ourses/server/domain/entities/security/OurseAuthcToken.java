@@ -12,9 +12,9 @@ import com.avaje.ebean.Ebean;
 @Entity
 public class OurseAuthcToken {
 
+	@Id
     private String token;
     private Date expirationDate;
-    @Id
     private String login;
 
     public OurseAuthcToken() {
