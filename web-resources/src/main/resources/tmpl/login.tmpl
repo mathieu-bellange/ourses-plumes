@@ -1,4 +1,4 @@
-﻿					<form{{= $free_log == true ? "" : " data-abide" }}>
+﻿					<form{{= $free_log == true ? "" : " data-abide" }} onsubmit="return false;">
 						<fieldset>
 							<legend>Authentification</legend>
 							<div id="loginForm" class="row collapse">
@@ -15,7 +15,7 @@
 									{{?}}
 								</div>
 								<div class="column small-4">
-									<input id="user_connection" type="button" class="connect-switch button small postfix" value="Connexion">
+									<input id="user_connection" type="submit" class="connect-switch button small postfix" value="Connexion">
 								</div>
 							</div>
 						</fieldset>
