@@ -20,8 +20,8 @@
 			<value>
 				/rest/authc = anon
 				/rest/account/** = oursesAuthc
-				/comptes = oursesAuthc
-				/comptes/nouveau = oursesAuthc
+				/js/account.js = oursesAuthc
+				/js/accounts.js = oursesAuthc
 				/bug-tracker = oursesAuthc
 				/logout = logout
 				/** = anon

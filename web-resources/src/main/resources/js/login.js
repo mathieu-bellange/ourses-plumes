@@ -8,6 +8,8 @@ $("header + hr").after(doT.compile(loadfile($app_root + "tmpl/login.tmpl")));
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
+var $accounts_redirection = "accounts";
+
 function Authentication(login,password){
 	this.login = login;
 	this.password = password;
@@ -29,6 +31,12 @@ function connection(){
 		data : authc.json(),
 		success : function(token, textStatus, jqXHR) {
 			window.localStorage.setItem($oursesAuthcToken, token.token);
+			if (window.location.search !== undefined){
+				var redirection = window.location.search.replace($redir_param,"");
+				if (redirection == $accounts_redirection){
+					window.location.href = $accounts_page;
+				}
+			}
 		},
 		error : function(jqXHR, status, errorThrown) {
 			

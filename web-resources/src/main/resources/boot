@@ -15,10 +15,9 @@ $dev_toolbar      = true;                               // Boolean. Create dev t
 $css_fx           = true;                               // Boolean. Enable CSS effects. Default = true
 $lib_ext          = ".min";                             // String.  JS libraries additional extension. Default = ".min"
 $null_link        = "javascript:void(0)";               // String.  Set null link value. Default = "javascript:void(0)"
-$oursesAuthcToken = "oursesAuthcToken"                  // String.  Key of the authentication token
 
 /* Whois */
-$org_url          = "http://www.ourses-plumes.org/"     // String.  Set organization URL.
+$org_url          = "http://www.ourses-plumes.org/";    // String.  Set organization URL.
 $org_name         = "Les Ourses &agrave; plumes";       // String.  Set organization name.
 $app_name         = "Webzine f&eacute;ministe";         // String.  Set application name.
 $app_ver          = "0.0.3";                            // String.  Set application version.
@@ -27,6 +26,7 @@ $app_desc         = "Un webzine f&eacute;ministe.";     // String.  Set applicat
 $app_genr         = null;                               // String.  Set application generator (i.e. the software used for dev).
 
 $app_root         = "/";                                // String.  Set application base URL. Default = "/"
+$js_root          = $app_root + "js/";                  // String.  Set js root. Default = "/js/"
 
 /* UNUSED for now */
 /*
@@ -40,6 +40,15 @@ $app_path         = {                                   // Object.  Set applicat
 	json: "json/"
 };
 */
+
+/* Variable d'application */
+$oursesAuthcToken = "oursesAuthcToken";                 // String.  Key of the authentication token
+$redir_param      = "?redirection=";                    // String.  url param in the login page. use for the redirection
+
+/* navigation map */
+$login_page       = "/connexion";                       // String.  url of the login page
+$accounts_page    = "/comptes";                         // String.  url of the accounts page
+
 
 /* TEMP */
 $boot             = true;                               // Boolean. Flag for this file setup.
@@ -182,9 +191,40 @@ function mk_tags(array) { // Make Tags
 
 function load(script) { // Postbuild Processing
 	if (typeof script !== "undefined") {
-		body_tags.splice(-1, 0, {elem: "script", attr: {src: $app_root + "js/" + script}});
+		var async = async || false, method = method || "GET", send = send || null, response = response || "text"; // default params
+		if (typeof xhr !== "undefined") {
+			xhr.open(method, $js_root + script, async); // define request arguments
+			xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
+			if (navigator.appName != "Microsoft Internet Explorer") {
+				xhr.overrideMimeType("text/plain"); // prevent request header bugs
+			}
+			try {
+				xhr.send(send); // send request to server
+				if(xhr.status == 200){
+					body_tags.splice(-1, 0, {elem: "script", attr: {src: $js_root + script}})
+					document.write(mk_tags(body_tags));
+				}else if (xhr.status == 401){
+					console.log("unautorized - redirection to the login page"); // unauthorized
+					var redirection = xhr.getResponseHeader("resource-requested");
+					var loginParam = "";
+					if (redirection !== undefined){
+						//suppression des notions de JS dans le path
+						redirection = redirection.replace($js_root,"").replace(".js","");
+						loginParam = $redir_param + redirection;
+					}
+					window.location.href = $login_page + loginParam;
+				}else if (xhr.status == 404){
+					console.log(script + " not found.\n " + err); // log server error
+				}else{
+					console.log(script + " unexpected error.\n " + err); // log server error
+				}
+			} catch(err) {
+				console.log(script + " not found.\n " + err); // log server error
+			}
+		} else {
+			console.log(script + " loading failed. XMLHttpRequest not supported."); // log client error
+		}
 	}
-	document.write(mk_tags(body_tags));
 }
 
 /* ------------------------------------------------------------------ */

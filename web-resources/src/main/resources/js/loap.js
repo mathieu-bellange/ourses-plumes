@@ -45,10 +45,6 @@ function build_user_nav() {
 	return doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"));
 }
 
-function build_connect_form() {
-	return doT.compile(loadfile($app_root + "tmpl/connect_form.tmpl"));
-}
-
 // Process build
 if ($css_fx == true) {$("body").addClass("css-fx");}
 
@@ -240,85 +236,64 @@ $("#toolbar .close").click(function() {
 /* # Connect */
 /* ------------------------------------------------------------------ */
 
-/* Connect Visibility Switcher */
-function connect() {
-
-	// Toggle Launcher Visibility
-	$(".connect-launcher").toggleClass("hide");
-
-
-/* ================================================================== */
-	if (typeof $boot !== "undefined") { // TEMP
-		if ($("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
-			// Destroy User Navigation
-			$(".user-nav").detach();
-		} else {
-			// Build User Navigation
-			$(".nav-pane hr").first().before(build_user_nav());
-			$(".user-nav").foundation();
-			loap.update(); // TEMP TEST
-		}
-	}
-/* ================================================================== */
-
-	// Toggle User Navigation Visibility
-	$(".user-nav").toggleClass("hide"); // UNUSED : but provides old visibility toogle method compatibility
-
-	// Set Connect Class
-	$("#main").toggleClass("connect"); // Connection tag -- rather ugly ... better store data or variable
-
-	// Toggle Comment List Editing Features Visibility
-	$(".comment-list .connect").toggleClass("hide");
-	$(".comment-list .reply").toggleClass("hide");
-	if ($(".comment-list .comment .column:nth-child(2)").hasClass("medium-8")) {
-		$(".comment-list .comment .column:nth-child(2)").removeClass("medium-8");
-		$(".comment-list .comment .column:nth-child(2)").addClass("medium-11");
-	} else {
-		$(".comment-list .comment .column:nth-child(2)").removeClass("medium-11");
-		$(".comment-list .comment .column:nth-child(2)").addClass("medium-8");
-	}
-	$(".comment-list .comment .column:nth-child(3)").toggleClass("hide");
-	$(".comment-list .warning").toggleClass("hide");
-
-	// Hide User Connected Sections
-	if (!$("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
-		$("[id^='user-']").addClass("hide"); // Hide any user-* section
-		$(".user-nav a").removeClass("current"); // Remove current tag for all anchors in user-nav
-		$(".breadcrumbs").empty(); // Clean Breadcrumbs
-		// $("#home").removeClass("hide"); // Show Home
-		// $(".breadcrumbs").append("<li class='unavailable'><a href='javascript:void(0)' data-show='home'>&Eacute;dito</a></li>"); // Append home level 1
-	}
-
-	// Close Auth Modal
-	$("#_connect_modal").foundation("reveal", "close");
-
-}
+///* Connect Visibility Switcher */
+//function connect() {
+//
+//	// Toggle Launcher Visibility
+//	$(".connect-launcher").toggleClass("hide");
+//
+//
+///* ================================================================== */
+//	if (typeof $boot !== "undefined") { // TEMP
+//		if ($("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
+//			// Destroy User Navigation
+//			$(".user-nav").detach();
+//		} else {
+//			// Build User Navigation
+//			$(".nav-pane hr").first().before(build_user_nav());
+//			$(".user-nav").foundation();
+//			loap.update(); // TEMP TEST
+//		}
+//	}
+///* ================================================================== */
+//
+//	// Toggle User Navigation Visibility
+//	$(".user-nav").toggleClass("hide"); // UNUSED : but provides old visibility toogle method compatibility
+//
+//	// Set Connect Class
+//	$("#main").toggleClass("connect"); // Connection tag -- rather ugly ... better store data or variable
+//
+//	// Toggle Comment List Editing Features Visibility
+//	$(".comment-list .connect").toggleClass("hide");
+//	$(".comment-list .reply").toggleClass("hide");
+//	if ($(".comment-list .comment .column:nth-child(2)").hasClass("medium-8")) {
+//		$(".comment-list .comment .column:nth-child(2)").removeClass("medium-8");
+//		$(".comment-list .comment .column:nth-child(2)").addClass("medium-11");
+//	} else {
+//		$(".comment-list .comment .column:nth-child(2)").removeClass("medium-11");
+//		$(".comment-list .comment .column:nth-child(2)").addClass("medium-8");
+//	}
+//	$(".comment-list .comment .column:nth-child(3)").toggleClass("hide");
+//	$(".comment-list .warning").toggleClass("hide");
+//
+//	// Hide User Connected Sections
+//	if (!$("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
+//		$("[id^='user-']").addClass("hide"); // Hide any user-* section
+//		$(".user-nav a").removeClass("current"); // Remove current tag for all anchors in user-nav
+//		$(".breadcrumbs").empty(); // Clean Breadcrumbs
+//		// $("#home").removeClass("hide"); // Show Home
+//		// $(".breadcrumbs").append("<li class='unavailable'><a href='javascript:void(0)' data-show='home'>&Eacute;dito</a></li>"); // Append home level 1
+//	}
+//}
 
 /* Connect Switcher Click Event */
 // $(".connect-switch").click(connect); // UNUSED
 $("html").on("click", ".connect-switch", connect); // Attach event to html for future elements
 
-/* Connect Modal Opened Event */
-$("#_connect_modal").on("opened", function(){
-	$("#_connect_modal input:first").focus(); // Set browser focus on first input
+/* Connect click Event */
+$("#_connect_modal").on("click", function(){
+	window.location.href="/connexion";
 });
-
-
-/* ================================================================== */
-if (typeof $boot !== "undefined") { // TEMP
-
-	/* Connect Modal Open Event */
-	$("#_connect_modal").on("open", function() {
-		$("#_connect_modal").append(build_connect_form());
-		$("#_connect_modal").foundation();
-	});
-
-	/* Connect Modal Closed Event */
-	$("#_connect_modal").on("closed", function(){
-		$("#_connect_modal form").detach();
-	});
-}
-/* ================================================================== */
 
 
 /* ------------------------------------------------------------------ */

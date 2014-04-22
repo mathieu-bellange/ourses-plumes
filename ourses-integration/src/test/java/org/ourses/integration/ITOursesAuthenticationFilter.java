@@ -35,9 +35,9 @@ public class ITOursesAuthenticationFilter {
         // pas de token dans la requête
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
-        // status attendu 200 redirection
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        assertThat(clientResponse.getEntity(String.class)).contains("load(\"login.js\");");
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        assertThat(clientResponse.getHeaders().getFirst("resource-requested")).isEqualTo(PATH_GET_ALL);
     }
 
     @Test
@@ -48,8 +48,8 @@ public class ITOursesAuthenticationFilter {
         ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri, "wrong_token").get(
                 ClientResponse.class);
         // status attendu 200 redirection
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        assertThat(clientResponse.getEntity(String.class)).contains("load(\"login.js\");");
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        assertThat(clientResponse.getHeaders().getFirst("resource-requested")).isEqualTo(PATH_GET_ALL);
     }
 
     @Test
@@ -60,8 +60,8 @@ public class ITOursesAuthenticationFilter {
         ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri, "token_bis")
                 .get(ClientResponse.class);
         // status attendu 200 redirection
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        assertThat(clientResponse.getEntity(String.class)).contains("load(\"login.js\");");
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        assertThat(clientResponse.getHeaders().getFirst("resource-requested")).isEqualTo(PATH_GET_ALL);
     }
 
 }
