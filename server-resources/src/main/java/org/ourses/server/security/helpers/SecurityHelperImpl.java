@@ -27,7 +27,7 @@ public class SecurityHelperImpl implements SecurityHelper {
         checkNotNull(password, "No account found for user [" + login + "]");
 
         String username_password = accountDao.getPassword(login);
-        if (!username_password.equals(SecurityUtility.encryptedPassword(password))) {
+        if (username_password == null || !username_password.equals(SecurityUtility.encryptedPassword(password))) {
             throw new AuthenticationException();
         }
     }

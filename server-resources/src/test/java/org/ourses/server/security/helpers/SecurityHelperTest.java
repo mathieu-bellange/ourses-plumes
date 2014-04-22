@@ -60,4 +60,12 @@ public class SecurityHelperTest {
         undertest.doCredentialsMatch("mathieu", null);
     }
 
+    @Test(expected = AuthenticationException.class)
+    public void shouldCredentialNotMatchWithNullPasswordInBDD() {
+        // prepare
+        Mockito.when(mockHelper.getPassword(Mockito.anyString())).thenReturn(null);
+        // verify
+        undertest.doCredentialsMatch("mathieu", "Bellange");
+    }
+
 }

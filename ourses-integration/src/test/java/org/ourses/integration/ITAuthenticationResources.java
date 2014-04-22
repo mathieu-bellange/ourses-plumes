@@ -29,7 +29,8 @@ public class ITAuthenticationResources {
             ClientHandlerException, IOException, InterruptedException {
         URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
         WebResource clientResource = TestHelper.webResource(uri);
-        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(ClientResponse.class, new LoginDTO("mbellange@gmail.com", "Bellange"));
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
+                ClientResponse.class, new LoginDTO("mbellange@gmail.com", "Bellange"));
         assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
         AuthcTokenTest token = clientResponse.getEntity(AuthcTokenTest.class);
         assertThat(token).isNotNull();
@@ -38,11 +39,22 @@ public class ITAuthenticationResources {
     }
 
     @Test
-    public void shouldNotAuthc() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
-            ClientHandlerException, IOException {
+    public void shouldNotAuthcWIthWrongPassword() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
         WebResource clientResource = TestHelper.webResource(uri);
-        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(ClientResponse.class,new LoginDTO("mbellange@gmail.com", "Bellang"));
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
+                ClientResponse.class, new LoginDTO("mbellange@gmail.com", "Bellang"));
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
+    public void shouldNotAuthcWIthWrongLogin() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
+        WebResource clientResource = TestHelper.webResource(uri);
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
+                ClientResponse.class, new LoginDTO("mbellang", "Bellange"));
         assertThat(clientResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
     }
 }

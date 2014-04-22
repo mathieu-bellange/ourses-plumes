@@ -248,7 +248,8 @@ public class BearAccount implements Account {
     }
 
     public static BearAccount find(Long id) {
-        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").where().eq("id", id).findUnique();
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").where()
+                .eq("id", id).findUnique();
     }
 
     /**
@@ -267,8 +268,13 @@ public class BearAccount implements Account {
      * @return
      */
     public static String getBearAccountCredentials(String mail) {
-        return Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("authcInfo.mail", mail).findUnique()
-                .getAuthcInfo().getCredentials();
+        String password = null;
+        BearAccount account = Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("authcInfo.mail", mail)
+                .findUnique();
+        if (account != null) {
+            password = account.getAuthcInfo().getCredentials();
+        }
+        return password;
     }
 
     /**

@@ -1,7 +1,7 @@
 ﻿					<form{{= $free_log == true ? "" : " data-abide" }}>
 						<fieldset>
 							<legend>Authentification</legend>
-							<div class="row collapse">
+							<div id="loginForm" class="row collapse">
 								<div class="column small-12">
 									<input id="user_login" type="text" placeholder="Nom d&rsquo;utilisatrice ou adresse e-mail"{{= $free_log ? "" : " required pattern='alpha'" }}>
 									{{? $free_log == false }}

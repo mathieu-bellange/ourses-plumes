@@ -39,7 +39,19 @@ function connection(){
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
-			
+			var msg;
+			if (jqXHR.status == 401){
+				msg = "Login ou mot de passe incorrect";
+			}else{
+				msg = $err_msg.err_default;
+			}
+			if ($("#login-alert").length == 0) {
+				$("#loginForm").prepend(alert_box_template({id: "login-alert", class: "error", text: msg}));
+				$("#loginForm").foundation("alert");
+				$("#login-alert").fadeIn(300);
+			} else {
+				$("#login-alert > span").html(msg);
+			}
 		},
 		dataType : "json"
 	});
