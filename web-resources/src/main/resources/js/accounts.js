@@ -36,6 +36,7 @@ function getAccount(){
 		type : "GET",
 		url : "/rest/account",
 		contentType : "application/json; charset=utf-8",
+		beforeSend: header_authentication(xhr),
 		success : function(accounts, status, jqxhr) {
 			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
 			$("header + hr").after(accounts_template(accounts)); // process template

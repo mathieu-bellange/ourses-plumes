@@ -44,6 +44,7 @@ $app_path         = {                                   // Object.  Set applicat
 /* Variable d'application */
 $oursesAuthcToken = "oursesAuthcToken";                 // String.  Key of the authentication token
 $redir_param      = "?redirection=";                    // String.  url param in the login page. use for the redirection
+$accounts_script  = "accounts";
 
 /* navigation map */
 $login_page       = "/connexion";                       // String.  url of the login page
@@ -194,8 +195,12 @@ function load(script) { // Postbuild Processing
 	if (typeof script !== "undefined") {
 		var async = async || false, method = method || "GET", send = send || null, response = response || "text"; // default params
 		if (typeof xhr !== "undefined") {
+			var redirection = script.replace(".js","");
 			xhr.open(method, $js_root + script, async); // define request arguments
 			xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
+			if (redirection == $accounts_script){
+				xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+			}
 			if (navigator.appName != "Microsoft Internet Explorer") {
 				xhr.overrideMimeType("text/plain"); // prevent request header bugs
 			}
@@ -206,13 +211,8 @@ function load(script) { // Postbuild Processing
 					document.write(mk_tags(body_tags));
 				}else if (xhr.status == 401){
 					console.log("unautorized - redirection to the login page"); // unauthorized
-					var redirection = xhr.getResponseHeader("resource-requested");
-					var loginParam = "";
-					if (redirection !== undefined){
-						//suppression des notions de JS dans le path
-						redirection = redirection.replace($js_root,"").replace(".js","");
-						loginParam = $redir_param + redirection;
-					}
+					//suppression des notions de JS dans le path
+					var loginParam = $redir_param + redirection;
 					window.location.href = $login_page + loginParam;
 				}else if (xhr.status == 404){
 					console.log(script + " not found.\n " + err); // log server error

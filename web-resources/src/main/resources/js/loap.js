@@ -45,6 +45,10 @@ function build_user_nav() {
 	return doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"));
 }
 
+function header_authentication(xhr){
+	xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+}
+
 // Process build
 if ($css_fx == true) {$("body").addClass("css-fx");}
 

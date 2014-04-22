@@ -6,10 +6,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
+import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public final class TestHelper {
 
@@ -17,14 +18,13 @@ public final class TestHelper {
         return getWebResource(Client.create(new DefaultClientConfig(JacksonJsonProvider.class)), uri);
     }
 
-    public static WebResource webResourceWithAuthcToken(URI uri) {
+    public static Builder webResourceWithAuthcToken(URI uri) {
         return webResourceWithAuthcToken(uri, "token");
     }
 
-    public static WebResource webResourceWithAuthcToken(URI uri, String token) {
+    public static Builder webResourceWithAuthcToken(URI uri, String token) {
         Client client = Client.create(new DefaultClientConfig(JacksonJsonProvider.class));
-        client.addFilter(new HTTPBasicAuthFilter(token, ""));
-        return getWebResource(client, uri);
+        return getWebResource(client, uri).header(HttpHeaders.AUTHORIZATION, token);
     }
 
     private static WebResource getWebResource(Client client, URI uri) {

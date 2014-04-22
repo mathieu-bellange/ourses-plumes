@@ -11,7 +11,6 @@ import org.apache.shiro.web.util.WebUtils;
 import org.joda.time.DateTime;
 import org.ourses.server.authentication.helpers.OursesAuthenticationHelper;
 import org.ourses.server.domain.entities.security.OurseAuthcToken;
-import org.ourses.server.security.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,9 @@ public class OursesAuthenticationFilter extends AccessControlFilter {
             throws Exception {
         boolean isAuthenticated = false;
         // token est dans la partie login de l'auth Basic
-        String basicToken = getAuthzHeader(request);
-        logger.info("Access token : {}", basicToken);
-        if (basicToken != null) {
-            String token = SecurityUtil.decodeBasicAuthorization(getAuthzHeader(request))[0];
+        String token = getAuthzHeader(request);
+        logger.info("Access token : {}", token);
+        if (token != null) {
             // recherche si le token en base existe bien
             OurseAuthcToken authToken = helper.findByToken(token);
             if (authToken != null && new DateTime(authToken.getExpirationDate()).isAfterNow()) {
