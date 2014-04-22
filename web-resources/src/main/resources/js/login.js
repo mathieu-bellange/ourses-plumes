@@ -31,11 +31,11 @@ function connection(){
 		data : authc.json(),
 		success : function(token, textStatus, jqXHR) {
 			window.localStorage.setItem($oursesAuthcToken, token.token);
-			if (window.location.search !== undefined){
-				var redirection = window.location.search.replace($redir_param,"");
-				if (redirection == $accounts_redirection){
-					window.location.href = $accounts_page;
-				}
+			var redirection = window.location.search.replace($redir_param,"");
+			if (redirection == $accounts_redirection){
+				window.location.href = $accounts_page;
+			}else if (redirection ==""){
+				window.location.href = $home_page;
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {

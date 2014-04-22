@@ -48,6 +48,7 @@ $redir_param      = "?redirection=";                    // String.  url param in
 /* navigation map */
 $login_page       = "/connexion";                       // String.  url of the login page
 $accounts_page    = "/comptes";                         // String.  url of the accounts page
+$home_page        = "/";                                // String.  url of the accounts page
 
 
 /* TEMP */
