@@ -42,6 +42,15 @@ function getAccount(){
 		success : function(accounts, status, jqxhr) {
 			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
 			$("header + hr").after(accounts_template(accounts)); // process template
+			$("#accounts").on("click", "#accountsTable [data-account-id] button", function() {
+				var id = $(this).parents("tr").attr("data-account-id");
+				deleteEvent(id);
+			});
+
+			$("#accounts").on("change", "#accountsTable [data-account-id] select", function() {
+				var id = $(this).parents("tr").attr("data-account-id");
+				updateEvent(id);
+			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -63,6 +72,9 @@ function updateEvent(id) {
 		type : "PUT",
 		url : roleUrl,
 		contentType : "application/json; charset=utf-8",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
 		data : role.json(),
 		success : function(data, status, jqxhr) {
 		},
@@ -79,6 +91,9 @@ function deleteEvent(id){
 		type : "DELETE",
 		url : "/rest/account/"+id,
 		contentType : "application/json; charset=utf-8",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
 		success : function(data, status, jqxhr) {
 			$("#accountsTable tr[data-account-id="+id+"]").remove();
 		},
@@ -89,28 +104,26 @@ function deleteEvent(id){
 	});
 };
 
-
-$("#accounts").on("click", "#accountsTable [data-account-id] button", function() {
-	var id = $(this).parents("tr").attr("data-account-id");
-	deleteEvent(id);
-});
-
-$("#accounts").on("change", "#accountsTable [data-account-id] select", function() {
-	var id = $(this).parents("tr").attr("data-account-id");
-	updateEvent(id);
-});
-
 /* ------------------------------------------------------------------ */
 /* # Build */
 /* ------------------------------------------------------------------ */
 
 // TEMP : should be better to delay this block after page loading
 $(document).ready(function() {
-	$.getJSON("/rest/role", function(rolesBdd) {
-		roles = rolesBdd;
-		getAccount();
-	}).fail(function(){
-		ajax_error(jqXHR, status, errorThrown);
-		createAlertBox();
+	$.ajax({
+		type : "GET",
+		url : "/rest/role",
+		contentType : "application/json; charset=utf-8",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		success : function(data, status, jqxhr) {
+			roles = data;
+			getAccount();
+		},
+		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			createAlertBox();
+		}
 	});
 });

@@ -21,7 +21,7 @@
 				/rest/authc = anon
 				/rest/authc/connected = oursesAuthc
 				/rest/account/** = oursesAuthc
-				/bug-tracker = oursesAuthc
+				/rest/role = oursesAuthc
 				/logout = logout
 				/** = anon
 	        </value>
