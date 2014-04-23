@@ -46,7 +46,15 @@ function build_user_nav() {
 }
 
 function header_authentication(xhr){
-	xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+	if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
+		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+	}
+}
+
+function ajax_error(jqXHR, textStatus, errorThrown){
+	if (jqXHR.status == 401){
+		window.location.href = $login_page;
+	}
 }
 
 // Process build

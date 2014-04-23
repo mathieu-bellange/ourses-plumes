@@ -19,9 +19,8 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/rest/authc = anon
+				/rest/authc/connected = oursesAuthc
 				/rest/account/** = oursesAuthc
-				/js/account.js = oursesAuthc
-				/js/accounts.js = oursesAuthc
 				/bug-tracker = oursesAuthc
 				/logout = logout
 				/** = anon

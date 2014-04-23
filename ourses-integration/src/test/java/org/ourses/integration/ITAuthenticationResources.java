@@ -19,10 +19,12 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.WebResource.Builder;
 
 public class ITAuthenticationResources {
 
     private static final String PATH_AUTHC = "/rest/authc";
+    private static final String PATH_AUTHC_CONNECTED = "/rest/authc/connected";
 
     @Test
     public void shouldAuthc() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
@@ -39,7 +41,7 @@ public class ITAuthenticationResources {
     }
 
     @Test
-    public void shouldNotAuthcWIthWrongPassword() throws JsonGenerationException, JsonMappingException,
+    public void shouldNotAuthcWithWrongPassword() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
         WebResource clientResource = TestHelper.webResource(uri);
@@ -49,12 +51,22 @@ public class ITAuthenticationResources {
     }
 
     @Test
-    public void shouldNotAuthcWIthWrongLogin() throws JsonGenerationException, JsonMappingException,
+    public void shouldAccessAuthenticatedResource() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
-        URI uri = UriBuilder.fromPath(PATH_AUTHC).build();
+        URI uri = UriBuilder.fromPath(PATH_AUTHC_CONNECTED).build();
+        Builder clientResource = TestHelper.webResourceWithAuthcToken(uri);
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
+                ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void shouldNotAccessAuthenticatedResource() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_AUTHC_CONNECTED).build();
         WebResource clientResource = TestHelper.webResource(uri);
-        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
-                ClientResponse.class, new LoginDTO("mbellang", "Bellange"));
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
+                ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
     }
 }

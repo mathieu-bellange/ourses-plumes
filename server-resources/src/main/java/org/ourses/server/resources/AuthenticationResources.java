@@ -1,6 +1,7 @@
 package org.ourses.server.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -45,5 +46,11 @@ public class AuthenticationResources {
             builder = Response.status(Status.UNAUTHORIZED);
         }
         return builder.build();
+    }
+
+    @GET
+    @Path("/connected")
+    public Response isAuthenticated() {
+        return Response.ok().build();
     }
 }
