@@ -32,6 +32,9 @@ $( "#new-bug" ).submit(function( event ) {
 			url: "/rest/github",
 			data: bug.json(),
 			contentType : "application/json; charset=utf-8",
+			beforeSend: function(request){
+				header_authentication(request);
+			},
 			success: function (data) {
 				$("#bug-alert").remove("error");
 				$("#bug-alert").addClass("success");
