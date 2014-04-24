@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.ourses.security.util.SecurityUtility;
-import org.ourses.server.authentication.helpers.BearAccountHelper;
+import org.ourses.server.administration.helpers.BearAccountHelper;
 
 public class SecurityHelperTest {
 

@@ -8,6 +8,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.ourses.server.external.domain.dto.GithubBug;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;

@@ -6,14 +6,14 @@ DROP TABLE IF EXISTS article
 DROP TABLE IF EXISTS profile
 DROP TABLE IF EXISTS tag
 DROP TABLE IF EXISTS category
-DROP TABLE IF EXISTS ourse_authc_token
+DROP TABLE IF EXISTS ourse_security_token
 
 
-create table ourse_authc_token (
+create table ourse_security_token (
   login                     varchar(255) not null,
   token             		varchar(255) not null,
   expiration_date			timestamp not null,
-  constraint pk_ourse_authc_tokent primary key (login))
+  constraint pk_ourse_security_token primary key (login))
 ;
 
 create table bear_account (

@@ -13,10 +13,10 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
-import org.ourses.server.authentication.util.RolesUtil;
-import org.ourses.server.domain.jsondto.administration.BearAccountDTO;
-import org.ourses.server.domain.jsondto.administration.OursesAuthzInfoDTO;
-import org.ourses.server.domain.jsondto.administration.ProfileDTO;
+import org.ourses.server.administration.domain.dto.BearAccountDTO;
+import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
+import org.ourses.server.administration.domain.dto.ProfileDTO;
+import org.ourses.server.security.util.RolesUtil;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;

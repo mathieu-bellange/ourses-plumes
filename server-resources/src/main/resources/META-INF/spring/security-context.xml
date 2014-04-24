@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
 
-	<bean id="oursesAuthc" class="org.ourses.server.authentication.filter.OursesAuthenticationFilter"/>
+	<bean id="oursesAuthc" class="org.ourses.server.security.filter.OursesAuthenticationFilter"/>
 
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">

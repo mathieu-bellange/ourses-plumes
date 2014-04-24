@@ -12,7 +12,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 import org.ourses.integration.util.AuthcTokenTest;
 import org.ourses.integration.util.TestHelper;
-import org.ourses.server.domain.jsondto.administration.LoginDTO;
+import org.ourses.server.security.domain.dto.LoginDTO;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;

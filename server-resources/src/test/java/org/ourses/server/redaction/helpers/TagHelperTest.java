@@ -5,7 +5,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.util.Set;
 
 import org.junit.Test;
-import org.ourses.server.domain.entities.redaction.Tag;
+import org.ourses.server.redaction.domain.entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;

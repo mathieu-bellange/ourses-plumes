@@ -2,7 +2,7 @@ package org.ourses.server.redaction.helpers;
 
 import java.util.Set;
 
-import org.ourses.server.domain.entities.redaction.Tag;
+import org.ourses.server.redaction.domain.entities.Tag;
 import org.springframework.stereotype.Service;
 
 import com.avaje.ebean.Ebean;

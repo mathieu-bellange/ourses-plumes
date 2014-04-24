@@ -5,6 +5,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.ourses.security.github.GithubInfoApi;
+import org.ourses.server.external.domain.dto.GithubBug;
 import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.Client;

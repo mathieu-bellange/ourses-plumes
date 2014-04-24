@@ -2,7 +2,8 @@ package org.ourses.server.security.helpers;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.security.util.SecurityUtility;
-import org.ourses.server.authentication.helpers.BearAccountHelper;
+import org.ourses.server.administration.helpers.BearAccountHelper;
+import org.ourses.server.security.domain.entities.OurseSecurityToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class SecurityHelperImpl implements SecurityHelper {
         if (Strings.isNullOrEmpty(reference)) {
             throw new AuthenticationException(message);
         }
+    }
+
+    @Override
+    public OurseSecurityToken findByToken(String token) {
+        return OurseSecurityToken.findByToken(token);
     }
 
     @VisibleForTesting

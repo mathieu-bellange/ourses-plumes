@@ -1,4 +1,4 @@
-  Insert into ourse_authc_token
+  Insert into ourse_security_token
    (login,token, expiration_date)
  Values
    ('mbellange@gmail.com', 'token','2077-01-01 00:00:00');

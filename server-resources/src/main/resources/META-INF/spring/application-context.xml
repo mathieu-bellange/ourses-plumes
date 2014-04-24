@@ -56,13 +56,13 @@
 		<property name="name" value="test"/>
 		<property name="classes">
 			<list>
-				<value>org.ourses.server.domain.entities.security.OurseAuthcToken</value>
-				<value>org.ourses.server.domain.entities.administration.OursesAuthorizationInfo</value>
-				<value>org.ourses.server.domain.entities.administration.OursesAuthenticationInfo</value>
-				<value>org.ourses.server.domain.entities.administration.Profile</value>
-				<value>org.ourses.server.domain.entities.administration.BearAccount</value>
-				<value>org.ourses.server.domain.entities.redaction.Tag</value>
-				<value>org.ourses.server.domain.entities.redaction.Category</value>
+				<value>org.ourses.server.security.domain.entities.OurseSecurityToken</value>
+				<value>org.ourses.server.administration.domain.entities.OursesAuthorizationInfo</value>
+				<value>org.ourses.server.administration.domain.entities.OursesAuthenticationInfo</value>
+				<value>org.ourses.server.administration.domain.entities.Profile</value>
+				<value>org.ourses.server.administration.domain.entities.BearAccount</value>
+				<value>org.ourses.server.redaction.domain.entities.Tag</value>
+				<value>org.ourses.server.redaction.domain.entities.Category</value>
 			</list>
 		</property>
 		<property name="dataSource" ref="dataSource"/>

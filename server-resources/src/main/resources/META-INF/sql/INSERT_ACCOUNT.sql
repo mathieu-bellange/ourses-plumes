@@ -1,4 +1,4 @@
-Insert into OURSE_AUTHC_TOKEN
+Insert into ourse_security_token
    (login, token, expiration_date)
  Values
    ('it_test_ok', 'token','2077-01-01 00:00:00'),

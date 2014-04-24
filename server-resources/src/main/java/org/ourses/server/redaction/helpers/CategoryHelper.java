@@ -2,7 +2,7 @@ package org.ourses.server.redaction.helpers;
 
 import java.util.Set;
 
-import org.ourses.server.domain.entities.redaction.Category;
+import org.ourses.server.redaction.domain.entities.Category;
 
 public interface CategoryHelper {
 
