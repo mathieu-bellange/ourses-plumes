@@ -32,9 +32,9 @@ function connection(){
 		success : function(token, textStatus, jqXHR) {
 			window.localStorage.setItem($oursesAuthcToken, token.token);
 			var redirection = window.location.search.replace($redir_param,"");
-			if (redirection == $accounts_page){
+			if (redirection != ""){
 				window.location.href = redirection;
-			}else if (redirection ==""){
+			}else{
 				window.location.href = $home_page;
 			}
 		},

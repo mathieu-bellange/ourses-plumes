@@ -4,6 +4,17 @@
 
 $("header + hr").after(loadfile($app_root + "tmpl/account.tmpl"));
 
+function createAlertBox(err, msg) {
+	var err = err || "error", msg = msg || "";
+	if ($("#compte-alert").length == 0) {
+		$("#bearAccount").before(alert_box_template({"id" : "compte-alert", "class" : err, "text" : msg}));
+		if (document.readyState === "complete") {
+			$("#account").foundation("alert");
+		}
+		$("#compte-alert").fadeIn(300);
+	}
+}
+
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
@@ -140,26 +151,20 @@ function submitAccountAJAX(){
 		url : "/rest/account/create",
 		contentType : "application/json; charset=utf-8",
 		data : bearAccount.json(),
+		beforeSend: function(request){
+			header_authentication(request);
+		},
 		success : function(jqXHR, status, errorThrown) {
 			window.location.href = "/comptes";
 		},
 		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 403){
 				checkPseudoAJAX();
 				checkPasswordAJAX();
 				checkMailAJAX();
 			}else{
-				if ($("#compte-alert").length == 0) { // The element whose id is 'compte-alert' doesn't exist ; so we create it
-					$("#bearAccount").prepend(alert_box_template({id: "compte-alert", class: "error"})); // Create error alert box with id without setting message (default will be used)
-					$("#bearAccount").foundation("alert"); // Reload Foundation fucky stuff (i.e. reinitialize Foundation alert plugin methods for elements created after page loading) ; this for closing button
-					$("#compte-alert").fadeIn(300); // Show alert box with default Foundation value for fading
-				} else { // The element whose id is 'compte-alert' exists ; we don't want to create another one here, but we want to display a funky message instead of the previous one ini its text area (the 'span')
-					if ($("#compte-alert > span").text() == $err_msg.something_weird_happened) { // The funky message is set ; we want now to create another alert box with a custom message each time an error occured while the funky message is displayed
-						$("#bearAccount").prepend(alert_box_template({"class" : "warning", "text" : "Don't mess with Texas thou fucka^@ !!!"})); // Create alert box without id with a custom message
-					} else { // The funky message isn't set ; we replace initial error message by it
-						$("#compte-alert > span").html($err_msg.something_weird_happened);
-					}
-				}
+				createAlertBox();
 			}
 		},
 		dataType : "json"
@@ -196,10 +201,3 @@ $("#password").on("keypress", function(){
 $("#password").on("focus", function(event){
 	$(this).attr("placeholder", "");
 });
-
-/* UNUSED : 'data-alert' was missing on alert-box */
-/*
-$("#compte-alert .close").on('click', function(event) {
-	$("#compte-alert").fadeOut(500);
-});
-*/
