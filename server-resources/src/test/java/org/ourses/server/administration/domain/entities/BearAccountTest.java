@@ -112,7 +112,7 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
     public void shouldRetrieveListOfAdministrationAccounts() {
         List<BearAccount> listBearAccounts = BearAccount.findAllAdministrationBearAccounts();
         // il y a 2 BearAccount en base insérés par INSERT_ACCOUNT (src/main/resources/META-INF/sql)
-        assertThat(listBearAccounts).hasSize(2);
+        assertThat(listBearAccounts).hasSize(4);
         // vérifie que l'on a bien les informations du comptes id, authorizationInfo et AuthenticationInfo
         assertThat(listBearAccounts).onProperty("id").isNotNull();
         assertThat(listBearAccounts).onProperty("authcInfo").isNotNull();

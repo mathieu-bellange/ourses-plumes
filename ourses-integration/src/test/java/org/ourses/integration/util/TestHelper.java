@@ -18,6 +18,10 @@ public final class TestHelper {
         return getWebResource(Client.create(new DefaultClientConfig(JacksonJsonProvider.class)), uri);
     }
 
+    public static Builder webResourceWithAdminRole(URI uri) {
+    	return webResourceWithAuthcToken(uri, "admin");
+    }
+    
     public static Builder webResourceWithAuthcToken(URI uri) {
         return webResourceWithAuthcToken(uri, "token");
     }

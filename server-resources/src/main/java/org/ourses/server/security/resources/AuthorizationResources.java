@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
 import org.ourses.server.administration.domain.entities.OursesAuthorizationInfo;
@@ -16,12 +17,13 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
 
 @Controller
-@Path("/role")
-public class OursesAuthzInfoResources {
+@Path("/authz")
+public class AuthorizationResources {
 
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Set<OursesAuthzInfoDTO> findAllRoles() {
+	@Path("/roles")
+    public Response findAllRoles() {
         Set<OursesAuthorizationInfo> oursesAuthorizationInfos = OursesAuthorizationInfo.findAllRoles();
         Set<OursesAuthzInfoDTO> oursesAuthzInfoToReturn = Sets.newHashSet(Collections2.transform(oursesAuthorizationInfos,
                 new Function<OursesAuthorizationInfo, OursesAuthzInfoDTO>() {
@@ -31,6 +33,12 @@ public class OursesAuthzInfoResources {
                         return input.toOursesAuthzInfoDTO();
                     }
                 }).iterator());
-        return oursesAuthzInfoToReturn;
+        return Response.ok(oursesAuthzInfoToReturn).build();
+    }
+	
+	@GET
+    @Path("/isadmin")
+    public Response isAdmin() {
+        return Response.ok().build();
     }
 }

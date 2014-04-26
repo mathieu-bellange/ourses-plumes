@@ -1,7 +1,8 @@
 Insert into ourse_security_token
    (login, token, expiration_date)
  Values
-   ('it_test_ok', 'token','2077-01-01 00:00:00'),
+   ('jpetit@gmail.com', 'token','2077-01-01 00:00:00'),
+   ('mbellange@gmail.com', 'admin','2077-01-01 00:00:00'),
    ('it_test_expired', 'token_bis','2010-01-01 00:00:00');
    
 Insert into ourses_authorization_info
@@ -30,7 +31,7 @@ Insert into bear_account
    (id, authc_info_id, authz_info_id, profile_id, version)
  Values
    (1, 1, 1, 1, 1),
-   (2, 2, 1, 2, 1),
+   (2, 2, 2, 2, 1),
    (3, 3, 1, 3, 1),
    (4, 4, 2, 4, 1);
 COMMIT;

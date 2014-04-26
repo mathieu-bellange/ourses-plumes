@@ -112,7 +112,7 @@ function deleteEvent(id){
 $(document).ready(function() {
 	$.ajax({
 		type : "GET",
-		url : "/rest/role",
+		url : "/rest/authz/roles",
 		contentType : "application/json; charset=utf-8",
 		beforeSend: function(request){
 			header_authentication(request);

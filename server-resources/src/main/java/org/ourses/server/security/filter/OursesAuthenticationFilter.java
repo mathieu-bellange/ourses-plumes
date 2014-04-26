@@ -48,18 +48,12 @@ public class OursesAuthenticationFilter extends AccessControlFilter {
         logger.info("envoi une erreur 401");
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
         httpResponse.setStatus(Status.UNAUTHORIZED.getStatusCode());
-        httpResponse.setHeader("resource-requested", getResourceRequested(request));
         return false;
     }
 
     private String getAuthzHeader(ServletRequest request) {
         HttpServletRequest httpRequest = WebUtils.toHttp(request);
         return httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
-    }
-
-    private String getResourceRequested(ServletRequest request) {
-        HttpServletRequest httpRequest = WebUtils.toHttp(request);
-        return httpRequest.getRequestURI();
     }
 
     @VisibleForTesting

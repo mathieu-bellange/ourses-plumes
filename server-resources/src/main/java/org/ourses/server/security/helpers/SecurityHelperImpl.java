@@ -1,5 +1,7 @@
 package org.ourses.server.security.helpers;
 
+import java.util.Set;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.security.util.SecurityUtility;
 import org.ourses.server.administration.helpers.BearAccountHelper;
@@ -17,7 +19,7 @@ public class SecurityHelperImpl implements SecurityHelper {
 
     Logger logger = LoggerFactory.getLogger(SecurityHelperImpl.class);
     @Autowired
-    private BearAccountHelper accountDao;
+    private BearAccountHelper bearAccountHelper;
 
     @Override
     public void doCredentialsMatch(String login, String password) throws AuthenticationException {
@@ -27,10 +29,24 @@ public class SecurityHelperImpl implements SecurityHelper {
         // vérification du password
         checkNotNull(password, "No account found for user [" + login + "]");
 
-        String username_password = accountDao.getPassword(login);
+        String username_password = bearAccountHelper.getPassword(login);
         if (username_password == null || !username_password.equals(SecurityUtility.encryptedPassword(password))) {
             throw new AuthenticationException();
         }
+    }
+    
+    @Override
+    public boolean hasRoles(OurseSecurityToken securityToken, Set<String> rolesArray) {
+    	boolean isAuthorized = false;
+    	if (securityToken != null){
+    		//recherche du rôle de l'utilisateur
+    		Set<String> roles = bearAccountHelper.getRoles(securityToken.getLogin());
+    		for (String role : roles){
+    			logger.info(role);
+    		}
+    		isAuthorized = roles.containsAll(rolesArray);
+    	}
+    	return isAuthorized;
     }
 
     private void checkNotNull(String reference, String message) {
@@ -38,7 +54,7 @@ public class SecurityHelperImpl implements SecurityHelper {
             throw new AuthenticationException(message);
         }
     }
-
+    
     @Override
     public OurseSecurityToken findByToken(String token) {
         return OurseSecurityToken.findByToken(token);
@@ -46,7 +62,8 @@ public class SecurityHelperImpl implements SecurityHelper {
 
     @VisibleForTesting
     protected void setAccountDao(BearAccountHelper accountDao) {
-        this.accountDao = accountDao;
+        this.bearAccountHelper = accountDao;
     }
+
 
 }

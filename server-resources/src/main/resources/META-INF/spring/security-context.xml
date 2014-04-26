@@ -11,6 +11,7 @@
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
 
 	<bean id="oursesAuthc" class="org.ourses.server.security.filter.OursesAuthenticationFilter"/>
+	<bean id="oursesAuthz" class="org.ourses.server.security.filter.OursesAuthorizationFilter"/>
 
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -20,9 +21,10 @@
 			<value>
 				/rest/authc = anon
 				/rest/authc/connected = oursesAuthc
-				/rest/account/** = oursesAuthc
-				/rest/role = oursesAuthc
-				/rest/github = oursesAuthc
+				/rest/authz/isadmin = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/account/** = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/authz/roles = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/github = oursesAuthc, oursesAuthz[Administratrice]
 				/logout = logout
 				/** = anon
 	        </value>
