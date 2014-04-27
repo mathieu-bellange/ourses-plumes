@@ -1,16 +1,23 @@
 ﻿				<!--User Nav-->
-				<nav class="user-nav hide">
+				<nav class="user-nav">
 					<h3 class="hide">Menu utilisateur</h3>
-					<h4 class="user-name">{{= $user_name }}</h4>
+					<h4 class="user-name">{{= window.localStorage.getItem($oursesUserPseudo) }}</h4>
 					<ul class="clearfix">
-						<li><span class="picture medium" data-image="usr/{{= $user_picture }}">Image</span></li>
+						<!-- <li><span class="picture medium" data-image="usr/{{= $user_picture }}">Image</span></li> -->
 						<li><a href="{{= $app_root + 'profile.html#user-profile' }}">Mon profil</a></li>
-						<li><a href="javascript:void(0)" class="disabled">R&eacute;diger un article</a></li>
-						<li><a href="javascript:void(0)" class="disabled">Publier un article</a></li>
-						<li class="small"><a href="javascript:void(0)" class="disabled"><s>Modifier les cat&eacute;gories</s></a></li>
-						<li class="small"><a href="javascript:void(0)" class="disabled"><s>Modifier les rubriques</s></a></li>
-						<li><a href="{{= $app_root + 'accounts.html' }}">Lister les comptes</a></li>
-						<li><a href="{{= $app_root + 'bug-tracker.html' }}">Signaler un bug</a></li>
+						
+						{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac  }}
+							<li><a href="javascript:void(0)" class="disabled">R&eacute;diger un article</a></li>
+							<li><a href="javascript:void(0)" class="disabled">Publier un article</a></li>
+						{{?}}
+						
+						<!-- <li class="small"><a href="javascript:void(0)" class="disabled"><s>Modifier les cat&eacute;gories</s></a></li> -->
+						<!-- <li class="small"><a href="javascript:void(0)" class="disabled"><s>Modifier les rubriques</s></a></li> -->
+						
+						{{? window.localStorage.getItem($oursesUserRole) == $role_admin }}
+							<li><a href="{{= $app_root + 'accounts.html' }}">Lister les comptes</a></li>
+							<li><a href="{{= $app_root + 'bug-tracker.html' }}">Signaler un bug</a></li>
+                		{{?}}
 						<li class="text-large"><a href="javascript:void(0)" class="connect-switch no-current red">D&eacute;connexion</a></li>
 					</ul>
 				</nav>

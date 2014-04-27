@@ -74,6 +74,11 @@ $(".main-pane").append("<hr>");
 // process templates
 if ($dev_toolbar == true) {$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));}
 $("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
+//Si l'utilisateur est dans le navigateur alors on affiche user-nav
+if(window.localStorage.getItem($oursesUserPseudo)!== undefined){
+	$(".connect-launcher").remove();
+	$(".logo").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
+}
 $(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
 $(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
 
@@ -297,10 +302,6 @@ $("#toolbar .close").click(function() {
 //		// $(".breadcrumbs").append("<li class='unavailable'><a href='javascript:void(0)' data-show='home'>&Eacute;dito</a></li>"); // Append home level 1
 //	}
 //}
-
-/* Connect Switcher Click Event */
-// $(".connect-switch").click(connect); // UNUSED
-$("html").on("click", ".connect-switch", connect); // Attach event to html for future elements
 
 /* Connect click Event */
 $("#_connect_modal").on("click", function(){

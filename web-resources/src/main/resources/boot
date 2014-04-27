@@ -43,7 +43,11 @@ $app_path         = {                                   // Object.  Set applicat
 
 /* Variable d'application */
 $oursesAuthcToken = "oursesAuthcToken";                 // String.  Key of the authentication token
+$oursesUserPseudo = "oursesUserPseudo";                 // String.  Key of the User pseudo
+$oursesUserRole   = "oursesUserRole";                   // String.  Key of the User role
 $redir_param      = "?redirection=";                    // String.  url param in the login page. use for the redirection
+$role_admin 	  = "Administratrice"					// String.	Admin role
+$role_redac 	  = "Rédactrice"						// String.	Redacter role
 
 /* navigation map */
 $login_page       = "/connexion";                       // String.  url of the login page
@@ -54,7 +58,6 @@ $home_page        = "/";                                // String.  url of the a
 /* TEMP */
 $boot             = true;                               // Boolean. Flag for this file setup.
 $free_log         = true;                               // Boolean. Disable abide validation for logger.
-$user_name        = "Nadejda";                          // String.  Register user name (short).
 $user_picture     = "usr-nadejda.jpg";                  // String.  Register user picture file.
 $page_title       = null;                               // String.  Register page title.
 

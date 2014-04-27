@@ -29,8 +29,10 @@ function connection(){
 		url : "/rest/authc",
 		contentType : "application/json; charset=utf-8",
 		data : authc.json(),
-		success : function(token, textStatus, jqXHR) {
-			window.localStorage.setItem($oursesAuthcToken, token.token);
+		success : function(authcUser, textStatus, jqXHR) {
+			window.localStorage.setItem($oursesAuthcToken, authcUser.token);
+			window.localStorage.setItem($oursesUserPseudo, authcUser.pseudo);
+			window.localStorage.setItem($oursesUserRole, authcUser.role);
 			var redirection = window.location.search.replace($redir_param,"");
 			if (redirection != ""){
 				window.location.href = redirection;
