@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 import org.ourses.integration.util.AuthcTokenTest;
 import org.ourses.integration.util.TestHelper;
+import org.ourses.server.security.domain.dto.AuthenticatedUserDTO;
 import org.ourses.server.security.domain.dto.LoginDTO;
 
 import com.sun.jersey.api.client.ClientHandlerException;
@@ -34,10 +35,11 @@ public class ITAuthenticationResources {
         ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
                 ClientResponse.class, new LoginDTO("mbellange@gmail.com", "Bellange"));
         assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
-        AuthcTokenTest token = clientResponse.getEntity(AuthcTokenTest.class);
-        assertThat(token).isNotNull();
-        assertThat(token.getExpirationDate()).isNotNull();
-        assertThat(token.getToken()).isNotNull();
+        AuthenticatedUserDTO authcUser = clientResponse.getEntity(AuthenticatedUserDTO.class);
+        assertThat(authcUser).isNotNull();
+        assertThat(authcUser.getPseudo()).isNotNull();
+        assertThat(authcUser.getToken()).isNotNull();
+        assertThat(authcUser.getRole()).isNotNull();
     }
 
     @Test

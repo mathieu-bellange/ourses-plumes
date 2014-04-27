@@ -289,6 +289,15 @@ public class BearAccount implements Account {
     }
 
     /**
+     * Récupère un compte par son login
+     * 
+     * @param mail
+     * @return
+     */
+    public static BearAccount findAuthcUserProperties(String mail) {
+		return Ebean.find(BearAccount.class).fetch("authzInfo", "mainRole").fetch("profile", "pseudo").where().eq("authcInfo.mail", mail).findUnique();
+	}
+    /**
      * Transforme un bear account en bear account DTO. Attention ebean ne récupère pas l'ensemble des données du bean,
      * il ne le fait que sur demande. On ne doit pas copier le mdp dans le dto, il reste côté serveur
      * 
@@ -311,4 +320,6 @@ public class BearAccount implements Account {
         bearAccountDTO.setRole(role);
         return bearAccountDTO;
     }
+
+	
 }

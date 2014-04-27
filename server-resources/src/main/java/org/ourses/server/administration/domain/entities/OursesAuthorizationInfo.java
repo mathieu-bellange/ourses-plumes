@@ -49,15 +49,15 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
    
 
     @Column(name = "roles_for_db")
-    private String rolesForDb;
+    private String mainRole;
 
-    public String getRolesForDb() {
-        return rolesForDb;
+    public String getMainRole() {
+        return mainRole;
     }
 
-    public void setRolesForDb(String rolesForDb) {
-        this.rolesForDb = rolesForDb;
-        this.roles = RolesUtil.rolesForShiro(rolesForDb);
+    public void setMainRole(String mainRole) {
+        this.mainRole = mainRole;
+        this.roles = RolesUtil.rolesForShiro(mainRole);
     }
 
     /**
@@ -83,11 +83,11 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     }
     
     public OursesAuthorizationInfo(String role) {
-        this.setRolesForDb(role);
+        this.setMainRole(role);
     }
     public OursesAuthorizationInfo(Long id, String role) {
     	this.id = id;
-    	this.setRolesForDb(role);
+    	this.setMainRole(role);
     }
 
 	/**
@@ -98,7 +98,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
      */
     public void setRoles(Set<String> roles) {
         this.roles = roles;
-        this.rolesForDb = RolesUtil.rolesForDb(roles);
+        this.mainRole = RolesUtil.rolesForDb(roles);
     }
 
     /**
@@ -156,7 +156,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     }
     
     public OursesAuthzInfoDTO toOursesAuthzInfoDTO(){
-    	OursesAuthzInfoDTO oursesAuthzInfoDTO = new OursesAuthzInfoDTO(rolesForDb);
+    	OursesAuthzInfoDTO oursesAuthzInfoDTO = new OursesAuthzInfoDTO(mainRole);
     	oursesAuthzInfoDTO.setId(id);
     	return oursesAuthzInfoDTO;
     }

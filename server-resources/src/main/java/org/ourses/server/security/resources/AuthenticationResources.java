@@ -13,6 +13,8 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.security.authentication.AuthcToken;
 import org.ourses.security.authentication.AuthcTokenUtil;
+import org.ourses.server.administration.domain.entities.BearAccount;
+import org.ourses.server.security.domain.dto.AuthenticatedUserDTO;
 import org.ourses.server.security.domain.dto.LoginDTO;
 import org.ourses.server.security.domain.entities.OurseSecurityToken;
 import org.ourses.server.security.helpers.SecurityHelper;
@@ -39,7 +41,10 @@ public class AuthenticationResources {
             AuthcToken authcToken = AuthcTokenUtil.generateAuthcToken(loginDto.getMail(), loginDto.getPassword());
             OurseSecurityToken ourseAuthcToken = new OurseSecurityToken(loginDto.getMail(), authcToken);
             ourseAuthcToken.save();
-            builder = Response.ok(authcToken);
+            //On renvoie à l'utilisateur un DTO comprenant les informations de profil et le token d'authentification
+            BearAccount bearAccount = BearAccount.findAuthcUserProperties(loginDto.getMail());
+            AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(authcToken.getToken(), bearAccount.getProfile().getPseudo() , bearAccount.getAuthzInfo().getMainRole()); 
+            builder = Response.ok(authcUserDTO);
         }
         catch (AuthenticationException e) {
             logger.debug("Erreur d'authentification : login ou mot de passe invalide");

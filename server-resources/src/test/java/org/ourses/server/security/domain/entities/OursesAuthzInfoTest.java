@@ -19,17 +19,17 @@ public class OursesAuthzInfoTest {
     @Test
     public void shouldGetOursesAuthzInfoDTO() {
         OursesAuthorizationInfo oursesAuthorizationInfo = new OursesAuthorizationInfo();
-        oursesAuthorizationInfo.setRolesForDb(RolesUtil.ADMINISTRATRICE);
+        oursesAuthorizationInfo.setMainRole(RolesUtil.ADMINISTRATRICE);
         oursesAuthorizationInfo.setId(1L);
         OursesAuthzInfoDTO oursesAuthzInfoToVerify = oursesAuthorizationInfo.toOursesAuthzInfoDTO();
         // Un role ne peut pas être en double
-        assertThat(oursesAuthzInfoToVerify.getRole()).isEqualTo(oursesAuthorizationInfo.getRolesForDb());
+        assertThat(oursesAuthzInfoToVerify.getRole()).isEqualTo(oursesAuthorizationInfo.getMainRole());
     }
 
     @Test
     public void shouldRetrieveSetsOfOursesAuthorizationInfo() {
         Set<OursesAuthorizationInfo> roles = OursesAuthorizationInfo.findAllRoles();
         // ATTENTION données en base
-        assertThat(roles).onProperty("rolesForDb").containsOnly(RolesUtil.ADMINISTRATRICE, RolesUtil.REDACTRICE);
+        assertThat(roles).onProperty("mainRole").containsOnly(RolesUtil.ADMINISTRATRICE, RolesUtil.REDACTRICE);
     }
 }
