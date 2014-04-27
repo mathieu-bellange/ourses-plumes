@@ -75,7 +75,7 @@ $(".main-pane").append("<hr>");
 if ($dev_toolbar == true) {$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));}
 $("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
 //Si l'utilisateur est dans le navigateur alors on affiche user-nav
-if(window.localStorage.getItem($oursesUserPseudo)!== undefined){
+if(window.localStorage.getItem($oursesUserPseudo)!== undefined && window.localStorage.getItem($oursesUserPseudo)!== null){
 	$(".connect-launcher").remove();
 	$(".logo").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
 }
@@ -253,59 +253,26 @@ $("#toolbar .close").click(function() {
 /* # Connect */
 /* ------------------------------------------------------------------ */
 
-///* Connect Visibility Switcher */
-//function connect() {
-//
-//	// Toggle Launcher Visibility
-//	$(".connect-launcher").toggleClass("hide");
-//
-//
-///* ================================================================== */
-//	if (typeof $boot !== "undefined") { // TEMP
-//		if ($("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
-//			// Destroy User Navigation
-//			$(".user-nav").detach();
-//		} else {
-//			// Build User Navigation
-//			$(".nav-pane hr").first().before(build_user_nav());
-//			$(".user-nav").foundation();
-//			loap.update(); // TEMP TEST
-//		}
-//	}
-///* ================================================================== */
-//
-//	// Toggle User Navigation Visibility
-//	$(".user-nav").toggleClass("hide"); // UNUSED : but provides old visibility toogle method compatibility
-//
-//	// Set Connect Class
-//	$("#main").toggleClass("connect"); // Connection tag -- rather ugly ... better store data or variable
-//
-//	// Toggle Comment List Editing Features Visibility
-//	$(".comment-list .connect").toggleClass("hide");
-//	$(".comment-list .reply").toggleClass("hide");
-//	if ($(".comment-list .comment .column:nth-child(2)").hasClass("medium-8")) {
-//		$(".comment-list .comment .column:nth-child(2)").removeClass("medium-8");
-//		$(".comment-list .comment .column:nth-child(2)").addClass("medium-11");
-//	} else {
-//		$(".comment-list .comment .column:nth-child(2)").removeClass("medium-11");
-//		$(".comment-list .comment .column:nth-child(2)").addClass("medium-8");
-//	}
-//	$(".comment-list .comment .column:nth-child(3)").toggleClass("hide");
-//	$(".comment-list .warning").toggleClass("hide");
-//
-//	// Hide User Connected Sections
-//	if (!$("#main").hasClass("connect")) { // TEMP : Temporary way of holding disconnection ; should delete content and redirect
-//		$("[id^='user-']").addClass("hide"); // Hide any user-* section
-//		$(".user-nav a").removeClass("current"); // Remove current tag for all anchors in user-nav
-//		$(".breadcrumbs").empty(); // Clean Breadcrumbs
-//		// $("#home").removeClass("hide"); // Show Home
-//		// $(".breadcrumbs").append("<li class='unavailable'><a href='javascript:void(0)' data-show='home'>&Eacute;dito</a></li>"); // Append home level 1
-//	}
-//}
-
 /* Connect click Event */
 $("#_connect_modal").on("click", function(){
 	window.location.href="/connexion";
+});
+$(".disconnect").on("click", function(){
+	$.ajax({
+		type : "POST",
+		url : "/rest/authc/logout",
+		contentType : "application/json; charset=utf-8",
+		data : window.localStorage.getItem($oursesAuthcToken),
+		success : function(data, status, jqxhr) {
+			window.localStorage.removeItem($oursesAuthcToken);
+			window.localStorage.removeItem($oursesUserPseudo);
+			window.localStorage.removeItem($oursesUserRole);
+			window.location.href = $home_page;
+		},
+		error : function(jqXHR, status, errorThrown) {
+		},
+		dataType : "json"
+	});
 });
 
 

@@ -10,7 +10,6 @@ import javax.ws.rs.core.UriBuilder;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
-import org.ourses.integration.util.AuthcTokenTest;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.security.domain.dto.AuthenticatedUserDTO;
 import org.ourses.server.security.domain.dto.LoginDTO;
@@ -26,6 +25,7 @@ public class ITAuthenticationResources {
 
     private static final String PATH_AUTHC = "/rest/authc";
     private static final String PATH_AUTHC_CONNECTED = "/rest/authc/connected";
+	private static final String PATH_LOGOUT = "/rest/authc/logout";
 
     @Test
     public void shouldAuthc() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
@@ -70,5 +70,23 @@ public class ITAuthenticationResources {
         ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
                 ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
+    }
+    
+    @Test
+    public void shouldLogout(){
+    	URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
+        WebResource clientResource = TestHelper.webResource(uri);
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
+                ClientResponse.class, "token_to_delete");
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
+    }
+    
+    @Test
+    public void shouldLogoutWithBadToken(){
+    	URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
+        WebResource clientResource = TestHelper.webResource(uri);
+        ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
+                ClientResponse.class, "bad_token");
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
     }
 }

@@ -15,7 +15,6 @@
 
 	<!-- le filtre de sécurité de shiro -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<property name="loginUrl" value="/connexion"/>
 		<property name="securityManager" ref="securityManager" />
 		<property name="filterChainDefinitions">
 			<value>
@@ -25,7 +24,6 @@
 				/rest/account/** = oursesAuthc, oursesAuthz[Administratrice]
 				/rest/authz/roles = oursesAuthc, oursesAuthz[Administratrice]
 				/rest/github = oursesAuthc, oursesAuthz[Administratrice]
-				/logout = logout
 				/** = anon
 	        </value>
 		</property>

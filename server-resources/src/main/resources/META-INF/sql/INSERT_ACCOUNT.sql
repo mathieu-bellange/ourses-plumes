@@ -3,7 +3,8 @@ Insert into ourse_security_token
  Values
    ('jpetit@gmail.com', 'token','2077-01-01 00:00:00'),
    ('mbellange@gmail.com', 'admin','2077-01-01 00:00:00'),
-   ('it_test_expired', 'token_bis','2010-01-01 00:00:00');
+   ('it_test_expired', 'token_bis','2010-01-01 00:00:00'),
+   ('yoda@gmail.com', 'token_to_delete','2018-01-01 00:00:00');
    
 Insert into ourses_authorization_info
    (id, roles_for_db)

@@ -58,4 +58,14 @@ public class AuthenticationResources {
     public Response isAuthenticated() {
         return Response.ok().build();
     }
+    
+    @POST
+    @Path("/logout")
+    public Response logout(String token){
+    	OurseSecurityToken secToken = OurseSecurityToken.findByToken(token);
+    	if(secToken != null){
+    		secToken.deleteMe();
+    	}
+    	return Response.status(Status.NO_CONTENT).build();
+    }
 }

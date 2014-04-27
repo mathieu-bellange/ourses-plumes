@@ -68,4 +68,8 @@ public class OurseSecurityToken {
     public static OurseSecurityToken findByLogin(String login) {
         return Ebean.find(OurseSecurityToken.class).where().eq("login", login).findUnique();
     }
+    
+    public void deleteMe(){
+    	Ebean.delete(this);
+    }
 }
