@@ -9,7 +9,11 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
+		
+	<!-- class placée dans un jar non public -->
+	<bean id="oursesCredentialsMatcher"  class="org.ourses.security.authentication.OursesCredentialsMatcher"/>
 
+	<!-- filtre customisé pour l'authentication et l'authorization -->
 	<bean id="oursesAuthc" class="org.ourses.server.security.filter.OursesAuthenticationFilter"/>
 	<bean id="oursesAuthz" class="org.ourses.server.security.filter.OursesAuthorizationFilter"/>
 
@@ -29,39 +33,21 @@
 		</property>
 	</bean>
 
-	<!-- gestion du cache de shiro -->
-	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
-
-	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-		<property name="cacheManager" ref="ehCacheManager" />
+	<!-- surcharge du session management pour rester stateless -->
+	<bean id="noSessionStorage" class="org.apache.shiro.mgt.DefaultSessionStorageEvaluator">
+		<property name="sessionStorageEnabled" value="false"/>
 	</bean>
 	
-	<!-- gestion de la session de shiro -->
-	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
-
-	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<property name="sessionDAO" ref="sessionDAO" />
+	<bean id="noSessionSubject" class="org.apache.shiro.mgt.DefaultSubjectDAO">
+		<property name="sessionStorageEvaluator" ref="noSessionStorage"/>
 	</bean>
 	
-	<!-- class placée dans un jar non public -->
-	<bean id="oursesCredentialsMatcher"  class="org.ourses.security.authentication.OursesCredentialsMatcher"/>
+	<bean id="statelessSessionManager" class="org.ourses.server.security.session.StatelessSessionManager"/>
 	
-	<bean id="myRealm" class="org.ourses.server.authentication.StaticRealm" >
-		<property name="credentialsMatcher" ref="oursesCredentialsMatcher"/>
-	</bean>
 
 	<!-- security manager de shiro -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="myRealm" />
-	</bean>
-	
-	<!-- active les annotations de shiro -->
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-	
-	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
-		<property name="proxyTargetClass" value="true" />
-	</bean>
-	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-    	<property name="securityManager" ref="securityManager"/>
+		<property name="sessionManager" ref="statelessSessionManager"/>
+		<property name="subjectDAO" ref="noSessionSubject"/>
 	</bean>
 </beans>
