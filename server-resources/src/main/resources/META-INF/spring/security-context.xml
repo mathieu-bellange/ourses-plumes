@@ -40,7 +40,6 @@
 		</property>
 	</bean>
 
-	<!-- surcharge du session management pour rester stateless -->
 	<bean id="noSessionStorage" class="org.apache.shiro.mgt.DefaultSessionStorageEvaluator">
 		<property name="sessionStorageEnabled" value="false"/>
 	</bean>
@@ -49,12 +48,8 @@
 		<property name="sessionStorageEvaluator" ref="noSessionStorage"/>
 	</bean>
 	
-	<bean id="statelessSessionManager" class="org.ourses.server.security.session.StatelessSessionManager"/>
-	
-
 	<!-- security manager de shiro -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="sessionManager" ref="statelessSessionManager"/>
 		<property name="subjectDAO" ref="noSessionSubject"/>
 	</bean>
 </beans>
