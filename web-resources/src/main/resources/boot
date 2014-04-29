@@ -52,7 +52,9 @@ $role_redac 	  = "Rédactrice"						// String.	Redacter role
 /* navigation map */
 $login_page       = "/connexion";                       // String.  url of the login page
 $accounts_page    = "/comptes";                         // String.  url of the accounts page
-$home_page        = "/";                                // String.  url of the accounts page
+$bug_tracker_page = "/bug-tracker";                     // String.  url of the bug tracker page
+$home_page        = "/";                                // String.  url of the home page
+$my_account_page  = "/parametres/compte";               // String.  url of my account page
 
 
 /* TEMP */
