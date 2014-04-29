@@ -14,14 +14,18 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
+import org.ourses.server.administration.domain.dto.MergeBearAccountDTO;
 import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
+import org.ourses.server.security.domain.dto.LoginDTO;
 import org.ourses.server.security.util.RolesUtil;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
 
 public class ITBearAccountResources {
 
@@ -31,6 +35,8 @@ public class ITBearAccountResources {
     private static final String PATH_GET_ACCOUNT = "/rest/account/2";
     private static final String PATH_UPDATE_ROLE = "rest/account/3/role";
     private static final String PATH_GET_FALSE_ACCOUNT = "/rest/account/59";
+    private static final String PATH_UPDATE_ACCOUNT = "/rest/account/5";
+    private static final String PATH_AUTHC = "/rest/authc";
 
     /* Account création */
 
@@ -220,16 +226,64 @@ public class ITBearAccountResources {
             ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_UPDATE_ROLE).build();
         ObjectMapper mapper = new ObjectMapper();
-        ClientResponse clientResponse = TestHelper
-                .webResourceWithAdminRole(uri)
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json")
-                .put(ClientResponse.class,
-                        mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.REDACTRICE)));
-        // status attendu
+                .put(ClientResponse.class, mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.REDACTRICE)));
+        // status attendu 204
         assertThat(clientResponse.getStatus()).isEqualTo(204);
         ClientResponse clientResponseGet = TestHelper.webResourceWithAdminRole(
                 UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(ClientResponse.class);
         BearAccountDTO bearAccountDTO = clientResponseGet.getEntity(BearAccountDTO.class);
         assertThat(bearAccountDTO.getRole().getRole()).isEqualTo(RolesUtil.REDACTRICE);
+    }
+
+    @Test
+    public void shouldUpdateAccount() {
+        // l'update account ne marche que sur le mdp
+        URI uri = UriBuilder.fromPath(PATH_UPDATE_ACCOUNT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri, "token_account_update")
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class, new MergeBearAccountDTO("Bellange", "Yoda44Ouf", "Yoda44Ouf"));
+        // status attendu 204
+        assertThat(clientResponse.getStatus()).isEqualTo(204);
+        // vérifie que le mdp a bien changé
+        uri = UriBuilder.fromPath(PATH_AUTHC).build();
+        WebResource clientResource = TestHelper.webResource(uri);
+        clientResponse = clientResource.header("Content-Type", "application/json").post(ClientResponse.class,
+                new LoginDTO("account_to_update@gmail.com", "Yoda44Ouf"));
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void shouldNotUpdateAccountWithWrongOldPassword() {
+        // l'update account ne marche que sur le mdp
+        URI uri = UriBuilder.fromPath(PATH_UPDATE_ACCOUNT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri, "token_account_update")
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class, new MergeBearAccountDTO("Bellang", "Yoda44Ouf", "Yoda44Ouf"));
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldNotUpdateAccountWithWrongConfirmPassword() {
+        // l'update account ne marche que sur le mdp
+        URI uri = UriBuilder.fromPath(PATH_UPDATE_ACCOUNT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri, "token_account_update")
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class, new MergeBearAccountDTO("Bellange", "Yoda44Ouf", "Yoda44Ou"));
+        // status attendu 409
+        assertThat(clientResponse.getStatus()).isEqualTo(409);
+    }
+
+    @Test
+    public void shouldNotUpdateAccountWithInvalidNewPassword() {
+        // l'update account ne marche que sur le mdp
+        URI uri = UriBuilder.fromPath(PATH_UPDATE_ACCOUNT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri, "token_account_update")
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class, new MergeBearAccountDTO("Bellange", "Yoda", "Yoda"));
+        // status attendu 409
+        assertThat(clientResponse.getStatus()).isEqualTo(409);
     }
 }

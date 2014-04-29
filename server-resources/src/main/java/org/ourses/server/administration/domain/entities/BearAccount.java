@@ -16,7 +16,6 @@ import javax.persistence.Version;
 import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.ourses.security.util.SecurityUtility;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
 import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
@@ -234,8 +233,7 @@ public class BearAccount implements Account {
         if (authzInfo == null) {
             throw new AccountAuthzInfoNullException();
         }
-        authcInfo = new OursesAuthenticationInfo(authcInfo.getMail(), SecurityUtility.encryptedPassword(authcInfo
-                .getCredentials()));
+        authcInfo = new OursesAuthenticationInfo(authcInfo.getMail(), authcInfo.getCredentials());
         Ebean.save(this);
     }
 
@@ -295,8 +293,10 @@ public class BearAccount implements Account {
      * @return
      */
     public static BearAccount findAuthcUserProperties(String mail) {
-		return Ebean.find(BearAccount.class).fetch("authzInfo", "mainRole").fetch("profile", "pseudo").where().eq("authcInfo.mail", mail).findUnique();
-	}
+        return Ebean.find(BearAccount.class).fetch("authzInfo", "mainRole").fetch("profile", "pseudo").where()
+                .eq("authcInfo.mail", mail).findUnique();
+    }
+
     /**
      * Transforme un bear account en bear account DTO. Attention ebean ne récupère pas l'ensemble des données du bean,
      * il ne le fait que sur demande. On ne doit pas copier le mdp dans le dto, il reste côté serveur
@@ -321,5 +321,8 @@ public class BearAccount implements Account {
         return bearAccountDTO;
     }
 
-	
+    public void updateCredentials() {
+        this.authcInfo.update(Sets.newHashSet("credentials"));
+    }
+
 }

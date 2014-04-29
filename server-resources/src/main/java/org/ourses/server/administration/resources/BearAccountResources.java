@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,7 +16,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
+import org.ourses.server.administration.domain.dto.MergeBearAccountDTO;
 import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.OursesAuthorizationInfo;
@@ -23,6 +26,7 @@ import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullExc
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
 import org.ourses.server.administration.helpers.BearAccountHelper;
+import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +34,7 @@ import org.springframework.stereotype.Controller;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.net.HttpHeaders;
 
 @Controller
 @Path("/account")
@@ -39,6 +44,8 @@ public class BearAccountResources {
 
     @Autowired
     private BearAccountHelper helper;
+    @Autowired
+    private SecurityHelper securityHelper;
 
     @PUT
     @Path("/create")
@@ -55,8 +62,8 @@ public class BearAccountResources {
                     && helper.isPasswordValid(bearAccountDTO.getPassword())) {
                 // on créé par défaut un compte en rédactrice
                 BearAccount account = bearAccountDTO.toBearAccount();
+                account.setCredentials(securityHelper.encryptedPassword((String) account.getCredentials()));
                 account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
-
                 account.save();
                 responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
             }
@@ -71,27 +78,37 @@ public class BearAccountResources {
     }
 
     @PUT
-    @Path("/update")
-    // TODO gérer l'update
-    public Response updateAccount(BearAccountDTO bearAccountDTO) {
-        // on créé par défaut un compte en rédactrice
-        BearAccount account = bearAccountDTO.toBearAccount();
-        ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
-        boolean isNew = account.getId() == null;
-        if (isNew) {
-            account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
-            responseBuilder = Response.status(Status.CREATED);
-        }
+    @Path("/{id}")
+    public Response updateAccount(@PathParam("id")
+    Long id, MergeBearAccountDTO mergeBearAccountDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token) {
+        ResponseBuilder builder = null;
         try {
-            account.save();
-            if (isNew) {
-                responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
+            BearAccount bearAccount = BearAccount.find(id);
+            // vérification que le compte a modifié est bien réalisé par l'utilisateur authentifié
+            securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
+            // vérification que le mdp est correct
+            securityHelper.doCredentialsMatch(bearAccount.getAuthcInfo().getMail(),
+                    mergeBearAccountDTO.getOldPassword());
+            // vérifie que le path est le bon
+            // vérification que le nouveau mdp respect la sécurité demandé
+            // vérification que le password confirm est bien le même que le new
+            if (helper.isPasswordValid(mergeBearAccountDTO.getNewPassword())
+                    && mergeBearAccountDTO.getConfirmPassword().equals(mergeBearAccountDTO.getNewPassword())) {
+                // encrypte le password avant de le sauver
+                bearAccount.setCredentials(securityHelper.encryptedPassword(mergeBearAccountDTO.getNewPassword()));
+                bearAccount.updateCredentials();
+                builder = Response.status(Status.NO_CONTENT);
             }
+            else {
+                builder = Response.status(Status.CONFLICT);
+            }
+
         }
-        catch (AccountProfileNullException | AccountAuthcInfoNullException | AccountAuthzInfoNullException e) {
-            responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR);
+        catch (AuthenticationException ae) {
+            builder = Response.status(Status.UNAUTHORIZED);
         }
-        return responseBuilder.build();
+        return builder.build();
     }
 
     @PUT

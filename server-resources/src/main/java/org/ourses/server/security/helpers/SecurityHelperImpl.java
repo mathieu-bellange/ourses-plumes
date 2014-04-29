@@ -34,19 +34,19 @@ public class SecurityHelperImpl implements SecurityHelper {
             throw new AuthenticationException();
         }
     }
-    
+
     @Override
     public boolean hasRoles(OurseSecurityToken securityToken, Set<String> rolesArray) {
-    	boolean isAuthorized = false;
-    	if (securityToken != null){
-    		//recherche du rôle de l'utilisateur
-    		Set<String> roles = bearAccountHelper.getRoles(securityToken.getLogin());
-    		for (String role : roles){
-    			logger.info(role);
-    		}
-    		isAuthorized = roles.containsAll(rolesArray);
-    	}
-    	return isAuthorized;
+        boolean isAuthorized = false;
+        if (securityToken != null) {
+            // recherche du rôle de l'utilisateur
+            Set<String> roles = bearAccountHelper.getRoles(securityToken.getLogin());
+            for (String role : roles) {
+                logger.info(role);
+            }
+            isAuthorized = roles.containsAll(rolesArray);
+        }
+        return isAuthorized;
     }
 
     private void checkNotNull(String reference, String message) {
@@ -54,7 +54,7 @@ public class SecurityHelperImpl implements SecurityHelper {
             throw new AuthenticationException(message);
         }
     }
-    
+
     @Override
     public OurseSecurityToken findByToken(String token) {
         return OurseSecurityToken.findByToken(token);
@@ -65,5 +65,17 @@ public class SecurityHelperImpl implements SecurityHelper {
         this.bearAccountHelper = accountDao;
     }
 
+    @Override
+    public String encryptedPassword(String newPassword) {
+        return SecurityUtility.encryptedPassword(newPassword);
+    }
+
+    @Override
+    public void checkAuthenticatedUser(String login, String token) throws AuthenticationException {
+        OurseSecurityToken ourseToken = findByToken(token);
+        if (!ourseToken.getLogin().equals(login)) {
+            throw new AuthenticationException();
+        }
+    }
 
 }

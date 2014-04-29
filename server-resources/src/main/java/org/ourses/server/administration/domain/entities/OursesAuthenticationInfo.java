@@ -1,5 +1,7 @@
 package org.ourses.server.administration.domain.entities;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -95,5 +97,9 @@ public class OursesAuthenticationInfo implements AuthenticationInfo {
 
     public static int countMail(String mail) {
         return Ebean.find(OursesAuthenticationInfo.class).where().eq("mail", mail).findRowCount();
+    }
+
+    public void update(Set<String> propsToUpdate) {
+        Ebean.update(this, propsToUpdate);
     }
 }

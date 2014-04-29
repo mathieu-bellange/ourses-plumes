@@ -7,11 +7,7 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.Test;
-import org.ourses.security.util.SecurityUtility;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
-import org.ourses.server.administration.domain.entities.BearAccount;
-import org.ourses.server.administration.domain.entities.OursesAuthorizationInfo;
-import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
@@ -58,7 +54,7 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
         bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, RolesUtil.ADMINISTRATRICE));
         bearAccount.save();
         assertThat(bearAccount.getId()).isNotNull();
-        assertThat(bearAccount.getAuthcInfo().getCredentials()).isEqualTo(SecurityUtility.encryptedPassword("Julie"));
+        assertThat(bearAccount.getAuthcInfo().getCredentials()).isEqualTo("Julie");
     }
 
     @Test(expected = AccountProfileNullException.class)
@@ -111,8 +107,7 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     public void shouldRetrieveListOfAdministrationAccounts() {
         List<BearAccount> listBearAccounts = BearAccount.findAllAdministrationBearAccounts();
-        // il y a 2 BearAccount en base insérés par INSERT_ACCOUNT (src/main/resources/META-INF/sql)
-        assertThat(listBearAccounts).hasSize(4);
+        assertThat(listBearAccounts).isNotEmpty();
         // vérifie que l'on a bien les informations du comptes id, authorizationInfo et AuthenticationInfo
         assertThat(listBearAccounts).onProperty("id").isNotNull();
         assertThat(listBearAccounts).onProperty("authcInfo").isNotNull();

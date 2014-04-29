@@ -24,11 +24,18 @@
 			<value>
 				/rest/authc = anon
 				/rest/authc/connected = oursesAuthc
+				
 				/rest/authz/isadmin = oursesAuthc, oursesAuthz[Administratrice]
-				/rest/account/** = oursesAuthc, oursesAuthz[Administratrice]
 				/rest/authz/roles = oursesAuthc, oursesAuthz[Administratrice]
+				
+				/rest/account = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/account/create = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/account/*/role = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/account/* = oursesAuthc
+				
 				/rest/github = oursesAuthc, oursesAuthz[Administratrice]
-				/** = anon
+				
+				/** = noSessionCreation
 	        </value>
 		</property>
 	</bean>

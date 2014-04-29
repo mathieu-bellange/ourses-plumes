@@ -11,8 +11,10 @@ public interface SecurityHelper {
 
     void doCredentialsMatch(String login, String password) throws AuthenticationException;
 
-	boolean hasRoles(OurseSecurityToken token, Set<String> rolesArray);
-    
-    
+    boolean hasRoles(OurseSecurityToken token, Set<String> rolesArray);
+
+    String encryptedPassword(String newPassword);
+
+    void checkAuthenticatedUser(String login, String token) throws AuthenticationException;
 
 }
