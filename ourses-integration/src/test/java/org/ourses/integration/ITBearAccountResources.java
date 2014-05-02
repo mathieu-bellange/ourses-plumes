@@ -17,6 +17,7 @@ import org.ourses.server.administration.domain.dto.BearAccountDTO;
 import org.ourses.server.administration.domain.dto.MergeBearAccountDTO;
 import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
+import org.ourses.server.security.domain.dto.AuthenticatedUserDTO;
 import org.ourses.server.security.domain.dto.LoginDTO;
 import org.ourses.server.security.util.RolesUtil;
 
@@ -32,7 +33,7 @@ public class ITBearAccountResources {
     private static final String PATH_CREATE = "/rest/account/create";
     private static final String PATH_GET_ALL = "/rest/account";
     private static final String PATH_DELETE = "/rest/account/3";
-    private static final String PATH_GET_ACCOUNT = "/rest/account/2";
+    private static final String PATH_GET_ACCOUNT = "/rest/account/1";
     private static final String PATH_UPDATE_ROLE = "rest/account/3/role";
     private static final String PATH_GET_FALSE_ACCOUNT = "/rest/account/59";
     private static final String PATH_UPDATE_ACCOUNT = "/rest/account/5";
@@ -200,17 +201,18 @@ public class ITBearAccountResources {
         return new BearAccountDTO(null, "mail@gmail.com", "mdp789654azerr", new ProfileDTO("pseudo", null, 0), null, 0);
     }
 
-    /* TODO Patch du rôle par l'admin */
-
     @Test
     public void shouldGetAccount() {
         URI uri = UriBuilder.fromPath(PATH_GET_ACCOUNT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
-        BearAccountDTO bearAccountDTO = clientResponse.getEntity(BearAccountDTO.class);
         assertThat(clientResponse.getStatus()).isEqualTo(200);
+        BearAccountDTO bearAccountDTO = clientResponse.getEntity(BearAccountDTO.class);
         assertThat(bearAccountDTO).isNotNull();
-        assertThat(bearAccountDTO.getId()).isEqualTo(2);
+        assertThat(bearAccountDTO.getId()).isEqualTo(1);
+        assertThat(bearAccountDTO.getMail()).isEqualTo("mbellange@gmail.com");
         assertThat(bearAccountDTO.getPassword()).isNull();
+        assertThat(bearAccountDTO.getProfile()).isNull();
+        assertThat(bearAccountDTO.getRole()).isNull();
 
     }
 
@@ -225,16 +227,16 @@ public class ITBearAccountResources {
     public void updateRoleAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
             ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_UPDATE_ROLE).build();
-        ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json")
-                .put(ClientResponse.class, mapper.writeValueAsString(new OursesAuthzInfoDTO(1L, RolesUtil.REDACTRICE)));
+                .put(ClientResponse.class, new OursesAuthzInfoDTO(2L, RolesUtil.REDACTRICE));
         // status attendu 204
         assertThat(clientResponse.getStatus()).isEqualTo(204);
-        ClientResponse clientResponseGet = TestHelper.webResourceWithAdminRole(
-                UriBuilder.fromPath(PATH_GET_ACCOUNT).build()).get(ClientResponse.class);
-        BearAccountDTO bearAccountDTO = clientResponseGet.getEntity(BearAccountDTO.class);
-        assertThat(bearAccountDTO.getRole().getRole()).isEqualTo(RolesUtil.REDACTRICE);
+        ClientResponse clientResponseGet = TestHelper.webResourceWithAdminRole(UriBuilder.fromPath(PATH_AUTHC).build())
+                .header("Content-Type", "application/json")
+                .post(ClientResponse.class, new LoginDTO("yoda@gmail.com", "Bellange"));
+        AuthenticatedUserDTO userDTO = clientResponseGet.getEntity(AuthenticatedUserDTO.class);
+        assertThat(userDTO.getRole()).isEqualTo(RolesUtil.REDACTRICE);
     }
 
     @Test

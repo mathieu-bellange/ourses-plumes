@@ -251,6 +251,16 @@ public class BearAccount implements Account {
     }
 
     /**
+     * Récupère que les infos administrative du compte
+     * 
+     * @param id
+     * @return
+     */
+    public static BearAccount findAdminAccount(Long id) {
+        return Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("id", id).findUnique();
+    }
+
+    /**
      * Récupère la liste des comptes avec leurs informations administratives
      * 
      * @return
@@ -317,7 +327,6 @@ public class BearAccount implements Account {
             profileDTO = profile.toProfileDTO();
         }
         BearAccountDTO bearAccountDTO = new BearAccountDTO(this.id, mail, null, profileDTO, role, version);
-        bearAccountDTO.setRole(role);
         return bearAccountDTO;
     }
 

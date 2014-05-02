@@ -134,7 +134,7 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     @Rollback
     public void shouldUpdateAccount() {
-        BearAccount account = BearAccount.find(1l);
+        BearAccount account = BearAccount.findAdminAccount(1l);
         assertThat(account.getProfile()).isNotNull();
     }
 }

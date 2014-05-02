@@ -84,7 +84,7 @@ public class BearAccountResources {
     String token) {
         ResponseBuilder builder = null;
         try {
-            BearAccount bearAccount = BearAccount.find(id);
+            BearAccount bearAccount = BearAccount.findAdminAccount(id);
             // vérification que le compte a modifié est bien réalisé par l'utilisateur authentifié
             securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
             // vérification que le mdp est correct
@@ -124,14 +124,24 @@ public class BearAccountResources {
     @GET
     @Path("/{id}")
     public Response getAccount(@PathParam("id")
-    long id) {
-        BearAccount bearAccount = BearAccount.find(id);
+    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token) {
+        BearAccount bearAccount = BearAccount.findAdminAccount(id);
+
         ResponseBuilder builder;
         if (bearAccount == null) {
             builder = Response.serverError();
         }
         else {
-            builder = Response.ok().entity(bearAccount.toBearAccountDTO());
+            try {
+                // vérification que le compte a récupéré est bien réalisé par l'utilisateur authentifié
+                securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
+
+                builder = Response.ok().entity(bearAccount.toBearAccountDTO());
+            }
+            catch (AuthenticationException ae) {
+                builder = Response.status(Status.UNAUTHORIZED);
+            }
         }
         return builder.build();
     }
