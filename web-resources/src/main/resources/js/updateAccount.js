@@ -6,6 +6,15 @@
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
+function BearAccount(oldPassword,newPassword,confirmPassword) {
+	this.oldPassword = oldPassword;
+	this.newPassword = newPassword;
+	this.confirmPassword = confirmPassword;
+	this.json = function() {
+		return JSON.stringify(this);
+	};
+}
+
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#compte-alert").length == 0) {
@@ -54,6 +63,23 @@ function checkConfirmPassword(){
 	}else{
 		setValidationIcon($("#confirmPassword"),$("#confirmPasswordError"),true);
 	}
+}
+
+function isFormValid(){
+	var isOldPasswordValid = !$("#oldPassword").attr("data-invalid");
+	var isnewPasswordValid = !$("#newPassword").attr("data-invalid");
+	var isConfirmPasswordValid = !$("#confirmPassword").attr("data-invalid");
+	return isOldPasswordValid && isnewPasswordValid && isConfirmPasswordValid;
+}
+
+function clearForm(){
+	$("#oldPassword").removeClass("valid");
+	$("#oldPassword").val("");
+	$("#newPassword").removeClass("valid");
+	$("#newPassword").val("");
+	$("#newPassword").attr("placeholder","Minimum 7 caractères, une minuscule et un chiffre");
+	$("#confirmPassword").removeClass("valid");
+	$("#confirmPassword").val("");
 }
 
 /* ------------------------------------------------------------------ */
@@ -108,12 +134,49 @@ function checkPasswordAJAX(){
 	});
 }
 
+function submitAccountAJAX(){
+	var bearAccount = new BearAccount($("#oldPassword").val(),$("#newPassword").val(),$("#confirmPassword").val());
+	$.ajax({
+		type : "PUT",
+		url : "/rest/account/" + window.localStorage.getItem($oursesAccountId),
+		contentType : "application/json; charset=utf-8",
+		data : bearAccount.json(),
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		success : function(jqXHR, status, errorThrown) {
+			createAlertBox("success","Compte mis à jour avec succès");
+			clearForm();
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 403 || jqXHR.status == 409){
+				checkOldPassword();
+				checkConfirmPassword();
+				checkPasswordAJAX();
+			}else if(jqXHR.status == 401){
+				setValidationIcon($("#oldPassword"),$("#oldPasswordError"),false);
+				$("#oldPasswordError").html("Mot de passe incorrect");
+				checkConfirmPassword();
+				checkPasswordAJAX();
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
+}
+
 /* ------------------------------------------------------------------ */
 /* # Events */
 /* ------------------------------------------------------------------ */
 
 $(document).ready(function() {
 	getAccount();
+});
+$("html").on("submit","#updateBearAccount",function(event){
+	if (isFormValid()){
+		submitAccountAJAX();
+	}
 });
 $("html").on("keyup","#oldPassword",function(event){
 	checkOldPassword();
@@ -130,6 +193,11 @@ $("html").on("keypress","#newPassword", function(){
 });
 $("html").on("focus","#newPassword", function(event){
 	$(this).attr("placeholder", "");
+});
+$("html").on("blur","#newPassword", function(event){
+	if ($(this).val().length==0){
+		$(this).attr("placeholder","Minimum 7 caractères, une minuscule et un chiffre");
+	}
 });
 
 $("html").on("keyup","#confirmPassword",function(event){

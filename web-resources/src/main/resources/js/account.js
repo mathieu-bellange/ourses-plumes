@@ -201,3 +201,8 @@ $("#password").on("keypress", function(){
 $("#password").on("focus", function(event){
 	$(this).attr("placeholder", "");
 });
+$("html").on("blur","#password", function(event){
+	if ($(this).val().length==0){
+		$(this).attr("placeholder","Minimum 7 caractères, une minuscule et un chiffre");
+	}
+});
