@@ -17,6 +17,45 @@ function createAlertBox(err, msg) {
 	}
 }
 
+function setValidationIcon(selector, labelSelector, isValid) {
+	if (isValid == true) {
+		$(selector).addClass("valid");
+		$(selector).removeAttr("data-invalid");
+		$(selector).removeClass("wrong");
+		$(selector).removeClass("loading");
+		$("[for='" + selector.attr("id") + "']").removeClass("error");
+		$(labelSelector).addClass("hide");
+	} else if (isValid == false) {
+		$(selector).removeClass("valid");
+		$(selector).attr("data-invalid",true);
+		$(selector).addClass("wrong");
+		$(selector).removeClass("loading");
+		$("[for='" + selector.attr("id") + "']").addClass("error");
+		$(labelSelector).removeClass("hide");
+	} else {
+		$(selector).removeClass("valid");
+		$(selector).removeClass("wrong");
+		$(selector).addClass("loading");
+		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
+	}
+}
+
+function checkOldPassword(){
+	if ($("#oldPassword").val().length == 0){
+		setValidationIcon($("#oldPassword"),$("#oldPasswordError"),false);
+	}else{
+		setValidationIcon($("#oldPassword"),$("#oldPasswordError"),true);
+	}
+}
+
+function checkConfirmPassword(){
+	if ($("#confirmPassword").val().length == 0 || $("#confirmPassword").val() !== $("#newPassword").val()){
+		setValidationIcon($("#confirmPassword"),$("#confirmPasswordError"),false);
+	}else{
+		setValidationIcon($("#confirmPassword"),$("#confirmPasswordError"),true);
+	}
+}
+
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
@@ -45,10 +84,57 @@ function getAccount(){
 	}
 };
 
+function checkPasswordAJAX(){
+	if (typeof newPasswordTimeoutValid !== "undefined") {
+		clearTimeout(newPasswordTimeoutValid);
+	}
+	var selector = $("#newPassword");
+	setValidationIcon(selector,$("#passwordError"), null);
+	var pseudo = selector.val();
+	$.ajax({
+		type : "POST",
+		url : "/rest/signup_check/password",
+		contentType : "application/json; charset=utf-8",
+		data : pseudo,
+		success : function(data, textStatus, jqXHR) {
+			newPasswordTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#newPasswordError"), true)}, 500);
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 403){
+				newPasswordTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#newPasswordError"), false)}, 500);
+			}
+		},
+		dataType : "json"
+	});
+}
+
 /* ------------------------------------------------------------------ */
 /* # Events */
 /* ------------------------------------------------------------------ */
 
 $(document).ready(function() {
 	getAccount();
+});
+$("html").on("keyup","#oldPassword",function(event){
+	checkOldPassword();
+});
+$("html").on("keypress","#oldPassword", function(){
+	setValidationIcon(this,$("#oldPasswordError"), null);
+});
+
+$("html").on("keyup","#newPassword",function(event){
+	checkPasswordAJAX();
+});
+$("html").on("keypress","#newPassword", function(){
+	setValidationIcon(this,$("#newPasswordError"), null);
+});
+$("html").on("focus","#newPassword", function(event){
+	$(this).attr("placeholder", "");
+});
+
+$("html").on("keyup","#confirmPassword",function(event){
+	checkConfirmPassword();
+});
+$("html").on("keypress","#confirmPassword", function(){
+	setValidationIcon(this,$("#confirmPasswordError"), null);
 });

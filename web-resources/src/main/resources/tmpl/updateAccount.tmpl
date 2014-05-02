@@ -14,13 +14,14 @@
 							<div class="row">
 								<div class="column small-12 large-offset-2 large-8">
 									<label for="oldPassword">Ancien mot de passe&nbsp;<sup class="medium red">*</sup></label>
-									<input id="oldPassword" maxlength="20" type="text" autocomplete="off"/>
+									<input id="oldPassword" class="validation-icon" maxlength="20" type="password" autocomplete="off"/>
+									<small id="oldPasswordError" class="error hide">Ancien mot de passe requis</small>
 								</div>
 							</div>
 							<div class="row">
 								<div class="column small-12 large-offset-2 large-8">
 									<label for="newPassword">Nouveau mot de passe&nbsp;<sup class="medium red">*</sup></label>
-									<input id="newPassword" class="validation-icon" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" type="text" maxlength="20" autocomplete="off"/>
+									<input id="newPassword" class="validation-icon" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" type="password" maxlength="20" autocomplete="off"/>
 									<small id="newPasswordError" class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
 								</div>
 							</div>
