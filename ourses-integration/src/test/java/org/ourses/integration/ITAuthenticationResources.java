@@ -37,6 +37,7 @@ public class ITAuthenticationResources {
         assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
         AuthenticatedUserDTO authcUser = clientResponse.getEntity(AuthenticatedUserDTO.class);
         assertThat(authcUser).isNotNull();
+        assertThat(authcUser.getAccountId()).isNotNull();
         assertThat(authcUser.getPseudo()).isNotNull();
         assertThat(authcUser.getToken()).isNotNull();
         assertThat(authcUser.getRole()).isNotNull();

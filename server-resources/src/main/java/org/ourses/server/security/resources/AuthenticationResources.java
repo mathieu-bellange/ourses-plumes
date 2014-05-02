@@ -41,9 +41,10 @@ public class AuthenticationResources {
             AuthcToken authcToken = AuthcTokenUtil.generateAuthcToken(loginDto.getMail(), loginDto.getPassword());
             OurseSecurityToken ourseAuthcToken = new OurseSecurityToken(loginDto.getMail(), authcToken);
             ourseAuthcToken.save();
-            //On renvoie à l'utilisateur un DTO comprenant les informations de profil et le token d'authentification
+            // On renvoie à l'utilisateur un DTO comprenant les informations de profil et le token d'authentification
             BearAccount bearAccount = BearAccount.findAuthcUserProperties(loginDto.getMail());
-            AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(authcToken.getToken(), bearAccount.getProfile().getPseudo() , bearAccount.getAuthzInfo().getMainRole()); 
+            AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(bearAccount.getId(), authcToken.getToken(),
+                    bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo().getMainRole());
             builder = Response.ok(authcUserDTO);
         }
         catch (AuthenticationException e) {
@@ -58,14 +59,14 @@ public class AuthenticationResources {
     public Response isAuthenticated() {
         return Response.ok().build();
     }
-    
+
     @POST
     @Path("/logout")
-    public Response logout(String token){
-    	OurseSecurityToken secToken = OurseSecurityToken.findByToken(token);
-    	if(secToken != null){
-    		secToken.deleteMe();
-    	}
-    	return Response.status(Status.NO_CONTENT).build();
+    public Response logout(String token) {
+        OurseSecurityToken secToken = OurseSecurityToken.findByToken(token);
+        if (secToken != null) {
+            secToken.deleteMe();
+        }
+        return Response.status(Status.NO_CONTENT).build();
     }
 }

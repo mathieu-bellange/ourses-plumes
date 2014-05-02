@@ -6,46 +6,61 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class AuthenticatedUserDTO {
 
-	@JsonProperty("token")
-	private String token;
-	@JsonProperty("pseudo")
-	private String pseudo;
-	@JsonProperty("role")
-	private String role;
-	
-	public AuthenticatedUserDTO() {
+    @JsonProperty("accountId")
+    private Long accountId;
 
-	}
-	
-	
-	public AuthenticatedUserDTO(String token, String pseudo, String role) {
-		this.token = token;
-		this.pseudo = pseudo;
-		this.role = role;
-	}
-	
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-	public String getPseudo() {
-		return pseudo;
-	}
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,
-				ToStringStyle.MULTI_LINE_STYLE);
-	}
+    @JsonProperty("token")
+    private String token;
+    @JsonProperty("pseudo")
+    private String pseudo;
+    @JsonProperty("role")
+    private String role;
+
+    public AuthenticatedUserDTO() {
+
+    }
+
+    public AuthenticatedUserDTO(Long accountId, String token, String pseudo, String role) {
+        this.accountId = accountId;
+        this.token = token;
+        this.pseudo = pseudo;
+        this.role = role;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
 }
