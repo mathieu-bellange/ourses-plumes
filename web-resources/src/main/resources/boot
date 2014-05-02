@@ -56,6 +56,7 @@ $accounts_page    = "/comptes";                         // String.  url of the a
 $bug_tracker_page = "/bug-tracker";                     // String.  url of the bug tracker page
 $home_page        = "/";                                // String.  url of the home page
 $my_account_page  = "/parametres/compte";               // String.  url of my account page
+$my_profile_page  = "/parametres/profil";               // String.  url of my profile page
 
 
 /* TEMP */

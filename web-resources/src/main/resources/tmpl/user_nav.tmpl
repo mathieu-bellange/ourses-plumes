@@ -5,7 +5,7 @@
 					<ul class="clearfix">
 						<!-- <li><span class="picture medium" data-image="usr/{{= $user_picture }}">Image</span></li> -->
 						<li><a href="{{= $my_account_page }}">Mon compte</a></li>
-						<li><a href="{{= $app_root + 'profile.html#user-profile' }}">Mon profil</a></li>
+						<li><a href="{{= $my_profile_page }}">Mon profil</a></li>
 						
 						{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac  }}
 							<li><a href="javascript:void(0)" class="disabled">R&eacute;diger un article</a></li>

@@ -29,6 +29,12 @@
 		<from>^/parametres/compte$</from>
 		<to>/updateAccount.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers la page de modification de mon profil</note>
+		<from>^/parametres/profil$</from>
+		<to>/updateProfile.html</to>
+	</rule>
 
 	<rule>
 		<note>redirection vers la page des listes de comptes</note>
