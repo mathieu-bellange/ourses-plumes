@@ -42,15 +42,6 @@ function getAccount(){
 		success : function(accounts, status, jqxhr) {
 			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
 			$("header + hr").after(accounts_template(accounts)); // process template
-			$("#accounts").on("click", "#accountsTable [data-account-id] button", function() {
-				var id = $(this).parents("tr").attr("data-account-id");
-				deleteEvent(id);
-			});
-
-			$("#accounts").on("change", "#accountsTable [data-account-id] select", function() {
-				var id = $(this).parents("tr").attr("data-account-id");
-				updateEvent(id);
-			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -103,6 +94,16 @@ function deleteEvent(id){
 		}
 	});
 };
+
+$("html").on("click", "#accountsTable [data-account-id] button", function() {
+	var id = $(this).parents("tr").attr("data-account-id");
+	deleteEvent(id);
+});
+
+$("html").on("change", "#accountsTable [data-account-id] select", function() {
+	var id = $(this).parents("tr").attr("data-account-id");
+	updateEvent(id);
+});
 
 /* ------------------------------------------------------------------ */
 /* # Build */

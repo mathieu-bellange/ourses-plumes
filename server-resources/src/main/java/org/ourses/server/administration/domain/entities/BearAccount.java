@@ -292,8 +292,13 @@ public class BearAccount implements Account {
      * @return
      */
     public static Set<String> getBearAccountRoles(String mail) {
-        return Ebean.find(BearAccount.class).fetch("authzInfo").where().eq("authcInfo.mail", mail).findUnique()
-                .getAuthzInfo().getRoles();
+        BearAccount account = Ebean.find(BearAccount.class).fetch("authzInfo").where().eq("authcInfo.mail", mail)
+                .findUnique();
+        Set<String> roles = Sets.newHashSet();
+        if (account != null) {
+            roles.addAll(account.getAuthzInfo().getRoles());
+        }
+        return roles;
     }
 
     /**
