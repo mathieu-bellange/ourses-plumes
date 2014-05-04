@@ -18,9 +18,6 @@ import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 @Service
 public class GithubRequest {
 
-    public static final String ACCESS_TOKEN = "token ";
-    public static final String AUTHORIZATION = "Authorization";
-
     public ClientResponse addIssue(GithubBug bug) {
         ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
         Client client = Client.create(cc);
@@ -30,7 +27,7 @@ public class GithubRequest {
         // Basic authentication
         WebResource webResource = client.resource(UriBuilder.fromUri(GithubInfoApi.BUG_TRACKING_URI).build());
         webResource.addFilter(new HTTPBasicAuthFilter(GithubInfoApi.ACCESS_TOKEN, ""));
-        return webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+        return webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header("accept", "application/vnd.github.v3+json")
                 .post(ClientResponse.class, bug);
 
     }
