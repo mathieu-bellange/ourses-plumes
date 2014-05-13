@@ -100,9 +100,10 @@ var head_tags = [
 	{elem: "link", attr: {href: $app_root + "img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
 	{elem: "link", attr: {href: $app_root + "css/normalize.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $app_root + "css/foundation.css", rel: "stylesheet"}},
-	{elem: "link", attr: {href: $app_root + "css/loap.css", rel: "stylesheet"}},
+	{elem: "link", attr: {href: $app_root + "css/loap-main.css", rel: "stylesheet"}},
+	{elem: "link", attr: {href: $app_root + "css/loap-icons.css", rel: "stylesheet"}},
 	{elem: "script", attr: {src: $app_root + "js/modernizr/modernizr" + $lib_ext +".js"}},
-	// {elem: "script", attr: {src: $app_root + "js/jquery/jquery-1.x" + $lib_ext + ".js"}}, // IE7-IE8
+	// {elem: "script", attr: {src: $app_root + "js/jquery/jquery-1.x" + $lib_ext + ".js"}}, // IE7-IE8 * UNUSED
 	{elem: "script", attr: {src: $app_root + "js/jquery/jquery-2.x" + $lib_ext + ".js"}}, // IE9-IE10
 	{elem: "script", attr: {src: $app_root + "js/dot/dot" + $lib_ext + ".js"}},
 	{elem: "script", attr: {src: $app_root + "js/dot/dot.settings.js"}},
