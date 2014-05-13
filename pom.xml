@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ourses</groupId>
 	<artifactId>ourses-plumes</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -42,7 +42,7 @@
 		<developerConnection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</developerConnection>
 		<connection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</connection>
 		<url>git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</url>
-	  <tag>ourses-plumes-0.0.3</tag>
+	  <tag>HEAD</tag>
   </scm>
 	
 	<dependencyManagement>
