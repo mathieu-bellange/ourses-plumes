@@ -73,11 +73,12 @@ $err_msg          = {                                   // Object.  Define gener
 }
 
 /* ------------------------------------------------------------------ */
-/* # Reloc path */
+/* # TEMP : Frontend Reloc path */
 /* ------------------------------------------------------------------ */
 
 if (window.location.href.split("/")[0].slice(0,4) == "file") {
 	$app_root = ""; // Set relative base URL while serverless
+	$js_root = $app_root + "js/"; // Redefine js files location while serverless
 }
 
 /* ------------------------------------------------------------------ */
@@ -139,7 +140,7 @@ var async = async || false, method = method || "GET", send = send || null, respo
 	if (typeof xhr !== "undefined") {
 		xhr.open(method, file, async); // define request arguments
 		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
-		if (navigator.appName != "Microsoft Internet Explorer") {
+		if (navigator.appName != "Microsoft Internet Explorer") { // request plain text for any browser except IE
 			xhr.overrideMimeType("text/plain"); // prevent request header bugs
 		}
 		try {
