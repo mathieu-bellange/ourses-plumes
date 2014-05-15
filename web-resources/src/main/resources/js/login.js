@@ -49,8 +49,8 @@ function connection(){
 				msg = $err_msg.err_default;
 			}
 			if ($("#login-alert").length == 0) {
-				$("#loginForm").prepend(alert_box_template({id: "login-alert", class: "error", text: msg}));
-				$("#loginForm").foundation("alert");
+				$("#login_form").prepend(alert_box_template({id: "login-alert", class: "error", text: msg}));
+				$("#login_form").foundation("alert");
 				$("#login-alert").fadeIn(300);
 			} else {
 				$("#login-alert > span").html(msg);
