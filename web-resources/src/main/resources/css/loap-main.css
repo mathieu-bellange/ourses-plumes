@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Main Cascading Style Sheet
  * Includes Basics, Responsive Design, CSS Effects, CSS Debug
- * ver. 0.0.3
+ * ver. 0.0.4
  */
 
 /* ------------------------------------------------------------------ */
@@ -14,7 +14,6 @@
   src: url('../fnt/oswald.eot');
   src: url('../fnt/oswald.eot?#iefix') format('embedded-opentype'),
   url('../fnt/oswald.woff') format('woff'),
-  url('../fnt/oswald.ttf') format('truetype'),
   url('../fnt/oswald.svg') format('svg');
   font-weight: normal;
   font-style: normal;
@@ -157,16 +156,39 @@ del {
 hr {border-style: dashed; border-color: lightgray;}
 
 /* Forms */
+label {
+  display: inline-block;
+}
 fieldset {
-  padding-bottom: 0; /* Foundation override */
+  position: relative;
+  padding: 1rem;
+  padding-top: 3em;
+  background-color: whitesmoke;
+  border: 1px solid gainsboro;
+  border-radius: .5rem;
+}
+fieldset legend {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  margin-left: -1rem;
+  padding: .5rem 1rem;
+  color: darkgrey;
+  font-size: 125%;
+  font-weight: normal;
+  font-family: "Oswald", sans-serif;
+  line-height: 1.5em;
+  background-color: transparent; /* Foundation override */
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
-fieldset legend {
-  font-family: "Oswald", sans-serif;
-  font-weight: normal;
-  padding: 0 .5rem;
-  color: gray;
-  background-color: transparent; /* Foundation override */
+fieldset.callout {background-color: lightyellow; border-color: lightgrey;}
+
+fieldset > *:last-child, /* TEMP : Remove bottom margin for last fieldset element */
+fieldset > div[class*=row]:last-child > *, /* TEMP : Remove bottom margin for last row elements */
+fieldset > div[class*=row]:last-child > div[class*=column] > * { /* TEMP : Remove bottom margin for all columns childs of last row */
+  margin-bottom: 0;
 }
 
 /* Figures */
@@ -185,7 +207,7 @@ figure figcaption {
 
 /* Author */
 cite {
-  font-style: oblique;
+  font-style: normal;
 }
 cite.author { /* TEMP */
   font-family: Liberation Serif, Droid Serif, Tinos, Times New Roman, serif;
@@ -235,6 +257,27 @@ textarea:focus {
   -webkit-box-shadow: none; /* Foundation override */
      -moz-box-shadow: none; /* Foundation override */
           box-shadow: none; /* Foundation override */
+}
+
+/* Text Areas */
+textarea {
+  min-height: 6.25rem; /* 4 x line height + padding + scrollbar spacing (.25rem) */
+  line-height: 1.25rem;
+  resize: vertical;
+}
+textarea.tiny {
+  min-height: 3.75rem; /* 2 x line height + padding + scrollbar spacing (.25rem) */
+}
+textarea.small {
+  min-height: 6.25rem; /* 4 x line height + padding + scrollbar spacing (.25rem) */
+}
+textarea.medium {
+  min-height: 11.25rem; /* 8 x line height + padding + scrollbar spacing (.25rem) */
+  min-height: 11.33rem\9; /* IE Fix : scrollbar spacing (.33rem) */
+}
+textarea.large {
+  min-height: 16.25rem; /* 12 x line height + padding + scrollbar spacing (.25rem) */
+  min-height: 16.5rem\9; /* IE Fix : scrollbar spacing (.5rem)*/
 }
 
 /* ------------------------------------------------------------------ */
@@ -2045,7 +2088,6 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 /* Inputs */
-.css-fx input + small.error,
 .css-fx input[type="text"],
 .css-fx input[type="password"],
 .css-fx input[type="date"],
@@ -2085,7 +2127,8 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
      -moz-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
           box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
 }
-.css-fx input:focus + small.error {
+.css-fx input:focus + small.error,
+.css-fx textarea:focus + small.error {
   -webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
      -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
           box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
