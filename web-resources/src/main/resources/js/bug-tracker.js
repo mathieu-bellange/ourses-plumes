@@ -20,13 +20,21 @@ function GithubBug(title,body) {
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-$("#bug-alert .close").on('click', function(event) {
-	$("#bug-alert").fadeOut(500);
+/* TEMP : to be removed */
+$(".alert-box .close").on('click', function(event) {
+	$(this).fadeOut(500);
 });
 
 $( "#new-bug" ).submit(function( event ) {
 	if (document.getElementById("new-bug").checkValidity()){
-		var bug = new GithubBug($("#bug-title").val(),$("#bug-body").val());
+		var clientBrowserLog = "\n--------------------------------\n" +
+		"appName : " + navigator.appName + "\n" +
+		"appCodeName : " + navigator.appCodeName + "\n" +
+		"userAgent : " + navigator.userAgent + "\n" +
+		"platform : " + navigator.platform + "\n" +
+		"outerWidth : " + window.outerWidth + "\n" +
+		"innerWidth : " + window.innerWidth,
+		bug = new GithubBug($("#bug-title").val(),$("#bug-body").val() + clientBrowserLog);
 		$.ajax({
 			type: "POST",
 			url: "/rest/github",
@@ -52,5 +60,4 @@ $( "#new-bug" ).submit(function( event ) {
 			dataType : "json"
 		});
 	}
-	
 });
