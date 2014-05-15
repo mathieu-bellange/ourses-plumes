@@ -1,33 +1,23 @@
 ﻿				<section id="account">
-					<h2>Ajout d&rsquo;un compte</h2>
-					<div class="panel radius">
-						<form id="bearAccount" onsubmit="return false;">
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8">
-									<label for="pseudo">Pseudo&nbsp;<sup class="medium red">*</sup></label>
-									<input id="pseudo" class="validation-icon" maxlength="50" type="text" autocomplete="off"/>
-									<small id="pseudoError" class="error hide">Pseudo invalide ou d&eacute;j&agrave; pris</small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8">
-									<label for="mail">Adresse mail&nbsp;<sup class="medium red">*</sup></label>
-									<input id="mail" class="validation-icon" type="text" maxlength="100" autocomplete="off"/>
-									<small id="mailError" class="error hide">Mail invalide ou d&eacute;j&agrave; pris</small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8">
-									<label for="password">Mot de passe&nbsp;<sup	class="medium red">*</sup></label>
-									<input id="password" class="validation-icon" type="password" maxlength="20" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" autocomplete="off"/>
-									<small id="passwordError" class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8 text-right">
-									<input class="button" id="confirm" type="submit" value="Valider" />
-								</div>
-							</div>
+						<form id="bearAccount" class="small-10 small-offset-1 medium-8 medium-offset-2 large-6 large-offset-3" onsubmit="return false;">
+							<fieldset>
+								<legend>Ajouter un compte</legend>
+									<div>
+										<label for="pseudo">Pseudo&nbsp;<sup class="medium red">*</sup></label>
+										<input id="pseudo" class="validation-icon" maxlength="50" type="text" autocomplete="off"/>
+										<small id="pseudoError" class="error hide">Pseudo invalide ou d&eacute;j&agrave; pris</small>
+									</div>
+									<div>
+										<label for="mail">Adresse mail&nbsp;<sup class="medium red">*</sup></label>
+										<input id="mail" class="validation-icon" type="text" maxlength="100" autocomplete="off"/>
+										<small id="mailError" class="error hide">Mail invalide ou d&eacute;j&agrave; pris</small>
+									</div>
+									<div>
+										<label for="password">Mot de passe&nbsp;<sup	class="medium red">*</sup></label>
+										<input id="password" class="validation-icon" type="password" maxlength="20" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" autocomplete="off"/>
+										<small id="passwordError" class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
+									</div>
+									<input class="button right" id="confirm" type="submit" value="Valider" />
+							</fieldset>
 						</form>
-					</div>
 				</section>

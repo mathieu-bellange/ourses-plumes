@@ -1,42 +1,27 @@
 ﻿				<section id="updateAccount">
-					<h2>Mon compte</h2>
-					<div class="panel radius">
-						<h6>L&acute;adresse mail li&eacute;e &agrave; mon compte</h6>
-						<div class="row">
-							<div class="column small-12 large-offset-2 large-8">
-								<input id="mail" type="text" value="{{= data.mail }}" disabled/>
+					<form id="updateBearAccount" class="small-10 small-offset-1 medium-8 medium-offset-2 large-6 large-offset-3" onsubmit="return false;">
+						<fieldset>
+							<legend>L&acute;adresse mail li&eacute;e &agrave; mon compte</legend>
+							<input id="mail" type="text" value="{{= data.mail }}" disabled/>
+						</fieldset>
+						<fieldset class="callout">
+							<legend>Changer mon mot de passe</legend>
+							<div>
+								<label for="oldPassword">Ancien mot de passe&nbsp;<sup class="medium red">*</sup></label>
+								<input id="oldPassword" class="validation-icon" maxlength="20" type="password" autocomplete="off"/>
+								<small id="oldPasswordError" class="error hide">Ancien mot de passe requis</small>
 							</div>
-						</div>
-					</div>
-					<div class="panel radius">
-						<h6>Changer mon mot de passe</h6>
-						<form id="updateBearAccount" onsubmit="return false;">
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8">
-									<label for="oldPassword">Ancien mot de passe&nbsp;<sup class="medium red">*</sup></label>
-									<input id="oldPassword" class="validation-icon" maxlength="20" type="password" autocomplete="off"/>
-									<small id="oldPasswordError" class="error hide">Ancien mot de passe requis</small>
-								</div>
+							<div>
+								<label for="newPassword">Nouveau mot de passe&nbsp;<sup class="medium red">*</sup></label>
+								<input id="newPassword" class="validation-icon" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" type="password" maxlength="20" autocomplete="off"/>
+								<small id="newPasswordError" class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
 							</div>
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8">
-									<label for="newPassword">Nouveau mot de passe&nbsp;<sup class="medium red">*</sup></label>
-									<input id="newPassword" class="validation-icon" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre" type="password" maxlength="20" autocomplete="off"/>
-									<small id="newPasswordError" class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
-								</div>
+							<div>
+								<label for="confirmPassword">Confirmation du mot de passe&nbsp;<sup	class="medium red">*</sup></label>
+								<input id="confirmPassword" class="validation-icon" type="password" maxlength="20" autocomplete="off"/>
+								<small id="confirmPasswordError" class="error hide">Confirmation du mot de passe incorrect</small>
 							</div>
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8">
-									<label for="confirmPassword">Confirmation du mot de passe&nbsp;<sup	class="medium red">*</sup></label>
-									<input id="confirmPassword" class="validation-icon" type="password" maxlength="20" autocomplete="off"/>
-									<small id="confirmPasswordError" class="error hide">Confirmation du mot de passe incorrect</small>
-								</div>
-							</div>
-							<div class="row">
-								<div class="column small-12 large-offset-2 large-8 text-right">
-									<input class="button" id="confirm" type="submit" value="Valider" />
-								</div>
-							</div>
-						</form>
-					</div>
+							<input class="button right" id="confirm" type="submit" value="Valider" />
+						</fieldset>
+					</form>
 				</section>

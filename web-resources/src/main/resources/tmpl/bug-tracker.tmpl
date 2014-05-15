@@ -1,32 +1,26 @@
-﻿				<!--Rapporteur de bugs-->
-				<section id="bug-tracker">
-					<div id="bug-alert" class="alert-box radius text-center" style="display:none;" data-alert>
-						<span id="bug-alert-message"></span>
-						<a href="javascript:void(0)" class="close"></a>
-					</div>
-					<form id="new-bug" onsubmit="return false;" data-abide>
-						<div class="row" style="margin-bottom: 1rem;">
-							<div class="column medium-4 large-push-2 large-2">
+﻿				<section id="bug-tracker">
+					<form id="new-bug" class="small-12 medium-10 medium-offset-1 large-8 large-offset-2" onsubmit="return false;" data-abide>
+						<div id="bug-alert" class="alert-box radius text-center" style="display:none;" data-alert>
+							<span id="bug-alert-message"></span>
+							<a href="javascript:void(0)" class="close"></a>
+						</div>
+						<fieldset>
+							<legend>Signaler un bug</legend>
+							<div>
 								<label for="bug-title">Intitul&eacute; <sup class="medium red">*</sup></label>
-							</div>
-							<div class="column medium-8 large-pull-2 large-6">
-								<input id="bug-title" type="text" maxlength="50" style="margin-bottom: 0;" placeholder="Intitul&eacute; du bug" required />
+								<input id="bug-title" type="text" maxlength="50" placeholder="Un titre explicite pour le bug rapport&eacute; (p. ex. &ldquo;D&eacute;filement du bandeau d&rsquo;annonces&rdquo;)." required />
 								<small class="error">Veuillez intituler le bug rapport&eacute;</small>
 							</div>
-						</div>
-						<div class="row" style="margin-bottom: 1rem;">
-							<div class="column medium-4 large-push-2 large-2">
+							<div>
 								<label for="bug-body">Description <sup class="medium red">*</sup></label>
-							</div>
-							<div class="column medium-8 large-pull-2 large-6">
-								<textarea id="bug-body" maxlength="2000" style="margin-bottom: 0; max-width: 100%; min-width: 100%; min-height: 10rem;" placeholder="Description du bug" required></textarea>
+								<textarea id="bug-body" class="tiny" maxlength="2000" placeholder="Une explication d&eacute;taill&eacute;e du probl&egrave;me signal&eacute; (p. ex. &ldquo;Le bandeau d&rsquo;annonces en haut du site ne d&eacute;file plus lorsqu&rsquo;on clique sur la fl&egrave;che &agrave; droite.&rdquo;)." required></textarea>
 								<small class="error">Veuillez d&eacute;crire le bug rapport&eacute;</small>
 							</div>
-						</div>
-						<div class="row" style="margin-bottom: 1rem;">
-							<div class="column small-12 medium-push-4 medium-8 large-push-4 medium-pull-2 large-6">
-								<button type="submit" class="right" style="margin-bottom: 0;">Valider</button>
-							</div>
+							<button type="submit" class="right">Valider</button>
+						</fieldset>
+						<div class="alert-box radius info text-small" data-alert>
+							<a class="close" href="javascript:void(0)"></a>
+							<p>Des informations concernant votre <span class="has-tip" title="Navigateur, syst&egrave;me d&rsquo;exploitation et taille de la fen&ecirc;tre." data-tooltip >configuration mat&eacute;rielle</span> vont &ecirc;tre envoy&eacute;es automatiquement lors de la validation de ce formulaire. Ces donn&eacute;es ne seront exploit&eacute;es que dans le cadre strict du d&eacute;veloppement de la pr&eacute;sente application et ne seront divulgu&eacute;es &agrave; aucune personne morale ou physique de droit priv&eacute; ou public hors instruction judiciaire. En validant l&rsquo;envoi de ce formulaire vous acceptez les conditions d&rsquo;utilisation susmentionn&eacute;es. <a href="javascript:void(0)"><u>En savoir plus sur la politique de confidentialit&eacute;</u></a>.</p>
 						</div>
 					</form>
 				</section>
