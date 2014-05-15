@@ -27,14 +27,14 @@ $(".alert-box .close").on('click', function(event) {
 
 $( "#new-bug" ).submit(function( event ) {
 	if (document.getElementById("new-bug").checkValidity()){
-		var clientBrowserLog = "\n--------------------------------\n" +
-		"appName : " + navigator.appName + "\n" +
-		"appCodeName : " + navigator.appCodeName + "\n" +
-		"userAgent : " + navigator.userAgent + "\n" +
-		"platform : " + navigator.platform + "\n" +
-		"outerWidth : " + window.outerWidth + "\n" +
-		"innerWidth : " + window.innerWidth,
-		bug = new GithubBug($("#bug-title").val(),$("#bug-body").val() + clientBrowserLog);
+		var clientBrowserInfos = "\n***\n" +
+		"- appName : *" + navigator.appName + "*\n" +
+		"- appCodeName : *" + navigator.appCodeName + "*\n" +
+		"- userAgent : *" + navigator.userAgent + "*\n" +
+		"- platform : *" + navigator.platform + "*\n" +
+		"- outerWidth : *" + window.outerWidth + "*\n" +
+		"- innerWidth : *" + window.innerWidth + "*",
+		bug = new GithubBug($("#bug-title").val(),$("#bug-body").val() + clientBrowserInfos);
 		$.ajax({
 			type: "POST",
 			url: "/rest/github",
