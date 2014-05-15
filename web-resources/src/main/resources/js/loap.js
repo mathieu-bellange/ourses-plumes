@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Main File
  * Require jQuery Library, Includes Build and Core
- * ver. 0.0.3
+ * ver. 0.0.4
  */
 
 /* ------------------------------------------------------------------ */
@@ -593,7 +593,10 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 /* # Initialize */
 /* ------------------------------------------------------------------ */
 
-/* TEMP : Empty for now */
+/* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */
+$(document).ready(function(){
+	$('textarea').autosize({append: ""}); // TEMP : compatibility need to be checked on IE10
+});
 
 /* ================================================================== */
 /* Trying to hide the slider display ol/ul to bar ...
