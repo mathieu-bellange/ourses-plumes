@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Loader
  * No dependency
- * ver. 0.0.3
+ * ver. 0.0.4
  */
 
 /* ------------------------------------------------------------------ */
@@ -13,7 +13,7 @@
 $build_compress   = false;                              // Boolean. Compress generated content (i.e. remove tabs and line ends). Default = false
 $dev_toolbar      = true;                               // Boolean. Create dev toolbar. Default = false
 $css_fx           = true;                               // Boolean. Enable CSS effects. Default = true
-$lib_ext          = ".min";                             // String.  JS libraries additional extension. Default = ".min"
+$lib_ext          = "";                                 // String.  JS libraries additional extension. Default = ".min"
 $null_link        = "javascript:void(0)";               // String.  Set null link value. Default = "javascript:void(0)"
 
 /* Whois */
@@ -103,8 +103,8 @@ var head_tags = [
 	{elem: "link", attr: {href: $app_root + "css/loap-main.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $app_root + "css/loap-icons.css", rel: "stylesheet"}},
 	{elem: "script", attr: {src: $app_root + "js/modernizr/modernizr" + $lib_ext +".js"}},
-	// {elem: "script", attr: {src: $app_root + "js/jquery/jquery-1.x" + $lib_ext + ".js"}}, // IE7-IE8 * UNUSED
-	{elem: "script", attr: {src: $app_root + "js/jquery/jquery-2.x" + $lib_ext + ".js"}}, // IE9-IE10
+	{elem: "script", attr: {src: $app_root + "js/jquery/jquery-2.x" + $lib_ext + ".js"}},
+	{elem: "script", attr: {src: $app_root + "js/jquery/jquery.autosize" + $lib_ext + ".js"}},
 	{elem: "script", attr: {src: $app_root + "js/dot/dot" + $lib_ext + ".js"}},
 	{elem: "script", attr: {src: $app_root + "js/dot/dot.settings.js"}},
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
