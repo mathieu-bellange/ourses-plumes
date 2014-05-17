@@ -15,6 +15,8 @@ function BearAccount(oldPassword,newPassword,confirmPassword) {
 	};
 }
 
+var newPassword ="";
+
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#compte-alert").length == 0) {
@@ -186,18 +188,25 @@ $("html").on("keypress","#oldPassword", function(){
 });
 
 $("html").on("keyup","#newPassword",function(event){
-	checkPasswordAJAX();
+	if ($(this).val() != newPassword){
+		checkPasswordAJAX();
+		newPassword = $(this).val();
+	}
 });
 $("html").on("keypress","#newPassword", function(){
 	setValidationIcon(this,$("#newPasswordError"), null);
 });
 $("html").on("focus","#newPassword", function(event){
 	$(this).attr("placeholder", "");
+	newPassword = $(this).val();
 });
 $("html").on("blur","#newPassword", function(event){
 	if ($(this).val().length==0){
 		$(this).attr("placeholder","Minimum 7 caractères, une minuscule et un chiffre");
 	}
+});
+$("html").on("change","#newPassword", function(event){
+	checkConfirmPassword();
 });
 
 $("html").on("keyup","#confirmPassword",function(event){
