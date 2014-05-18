@@ -1,8 +1,12 @@
 package org.ourses.server.administration.domain.entities;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import org.ourses.server.administration.domain.dto.ProfileDTO;
@@ -23,6 +27,9 @@ public class Profile {
     private String pseudo;
 
     private String description;
+    @OneToMany
+    @JoinColumn(name="profile_id")
+    private Set<SocialLink> socialLinks;
 
     @Version
     private Integer version;

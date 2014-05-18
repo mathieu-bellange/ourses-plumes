@@ -9,7 +9,7 @@ import org.ourses.server.security.util.RolesUtil;
 
 import com.google.common.collect.Sets;
 
-
+//TODO deplacer jar security
 public class ConstantsUtilTest {
 
 	@Test
