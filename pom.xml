@@ -19,6 +19,9 @@
 		<!-- spring -->
 		<spring-version>3.2.0.RELEASE</spring-version>
 		
+		<!-- security -->
+		<ourses-security-version>0.0.2</ourses-security-version>
+		
 		<!-- test -->
 		<junit-version>4.11</junit-version>
 		<fest-assert-version>1.4</fest-assert-version>
@@ -42,8 +45,22 @@
 		<developerConnection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</developerConnection>
 		<connection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</connection>
 		<url>git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
+
+	<!-- private repository cloudbees -->
+	<distributionManagement>
+		<repository>
+			<id>ourses-plumes-release</id>
+			<name>ourses-plumes-release</name>
+			<url>dav:https://repository-ourses-plumes.forge.cloudbees.com/release/</url>
+		</repository>
+		<snapshotRepository>
+			<id>ourses-plumes-snapshot</id>
+			<name>ourses-plumes-snapshot</name>
+			<url>dav:https://repository-ourses-plumes.forge.cloudbees.com/snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	
 	<dependencyManagement>
 		<dependencies>
@@ -62,6 +79,12 @@
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-xc</artifactId>
 				<version>${jackson-version}</version>
+			</dependency>
+			<!-- security -->
+			<dependency>
+				<groupId>org.ourses</groupId>
+				<artifactId>ourses-security</artifactId>
+				<version>${ourses-security-version}</version>
 			</dependency>
 	  		<!-- test -->
 			<dependency>
@@ -93,6 +116,7 @@
 	</dependencyManagement>
 	
 	<build>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

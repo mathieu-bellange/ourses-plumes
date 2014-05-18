@@ -27,7 +27,6 @@
 
 		<!-- security -->
 		<shiro-version>1.2.2</shiro-version>
-		<ourses-security-version>0.0.2</ourses-security-version>
 
 		<!-- log -->
 		<slf4j-version>1.6.6</slf4j-version>
@@ -119,7 +118,6 @@
 		<dependency>
 			<groupId>org.ourses</groupId>
 			<artifactId>ourses-security</artifactId>
-			<version>${ourses-security-version}</version>
 		</dependency>
 
 		<!-- test -->
@@ -253,6 +251,7 @@
 			<version>${spring-ebean-version}</version>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<resources>
 			<resource>
