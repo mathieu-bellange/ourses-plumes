@@ -18,37 +18,55 @@ import org.springframework.stereotype.Component;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SocialLink {
 
-	@Id
-	@GeneratedValue
-	private Long id;
-	private String network;
-	@Column(name="social_user")
-	private String socialUser;
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String network;
+    @Column(name = "social_user")
+    private String socialUser;
 
-	public String getNetwork() {
-		return network;
-	}
+    public SocialLink() {
 
-	public void setNetwork(String network) {
-		this.network = network;
-	}
+    }
 
-	public String getSocialUser() {
-		return socialUser;
-	}
+    public SocialLink(Long id, String network, String socialUser) {
+        this.id = id;
+        this.network = network;
+        this.socialUser = socialUser;
+    }
 
-	public void setSocialUser(String socialUser) {
-		this.socialUser = socialUser;
-	}
-	
-	public SocialLinkDTO toSocialLinkDTO(){
-		SocialLinkDTO socialLink = new SocialLinkDTO();
-		BeanUtils.copyProperties(this, socialLink);
-		return socialLink;
-		
-	}
-	
-	@Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(String network) {
+        this.network = network;
+    }
+
+    public String getSocialUser() {
+        return socialUser;
+    }
+
+    public void setSocialUser(String socialUser) {
+        this.socialUser = socialUser;
+    }
+
+    public SocialLinkDTO toSocialLinkDTO() {
+        SocialLinkDTO socialLink = new SocialLinkDTO();
+        BeanUtils.copyProperties(this, socialLink);
+        return socialLink;
+
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }

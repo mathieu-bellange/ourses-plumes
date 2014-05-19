@@ -30,6 +30,13 @@ Insert into profile
    (3, 'yoda', 'trop zen', 1),
    (4, 'to_delete', 'Ce compte est supprimé pendant les tests', 1),
    (5, 'to_update', 'Ce compte est update pendant les tests', 1);
+Insert into social_link
+	(id,network,social_user,profile_id)
+values
+	(1,'facebook','user_facebook_1',1),
+	(2,'twitter','user_twitter_1',1),
+	(3,'facebook','user_facebook_2',1),
+	(4,'twitter','user_twitter_2',1);
 
 Insert into bear_account
    (id, authc_info_id, authz_info_id, profile_id, version)

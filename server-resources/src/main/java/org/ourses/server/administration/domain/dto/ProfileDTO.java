@@ -1,5 +1,7 @@
 package org.ourses.server.administration.domain.dto;
 
+import java.util.Set;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -9,12 +11,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.springframework.beans.BeanUtils;
 
+import com.google.common.collect.Sets;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileDTO {
 
     private String description;
     private String pseudo;
-	private Integer version;
+    private Integer version;
+    private Set<SocialLinkDTO> socialLinks = Sets.newHashSet();
 
     public ProfileDTO() {
 
@@ -43,15 +48,23 @@ public class ProfileDTO {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
-    
+
     public void setVersion(Integer version) {
-		this.version = version;
-	}
-	
+        this.version = version;
+    }
+
     @JsonProperty("version")
-	public Integer getVersion() {
-		return version;
-	}
+    public Integer getVersion() {
+        return version;
+    }
+
+    public Set<SocialLinkDTO> getSocialLinks() {
+        return socialLinks;
+    }
+
+    public void setSocialLinks(Set<SocialLinkDTO> socialLinks) {
+        this.socialLinks = socialLinks;
+    }
 
     public Profile toProfile() {
         Profile profile = new Profile();
@@ -73,4 +86,5 @@ public class ProfileDTO {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj, true);
     }
+
 }
