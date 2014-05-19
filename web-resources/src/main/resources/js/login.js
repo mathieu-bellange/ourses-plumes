@@ -31,6 +31,7 @@ function connection(){
 		data : authc.json(),
 		success : function(authcUser, textStatus, jqXHR) {
 			window.localStorage.setItem($oursesAccountId, authcUser.accountId);
+			window.localStorage.setItem($oursesProfileId, authcUser.profileId);
 			window.localStorage.setItem($oursesAuthcToken, authcUser.token);
 			window.localStorage.setItem($oursesUserPseudo, authcUser.pseudo);
 			window.localStorage.setItem($oursesUserRole, authcUser.role);

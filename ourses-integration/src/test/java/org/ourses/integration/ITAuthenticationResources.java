@@ -25,7 +25,7 @@ public class ITAuthenticationResources {
 
     private static final String PATH_AUTHC = "/rest/authc";
     private static final String PATH_AUTHC_CONNECTED = "/rest/authc/connected";
-	private static final String PATH_LOGOUT = "/rest/authc/logout";
+    private static final String PATH_LOGOUT = "/rest/authc/logout";
 
     @Test
     public void shouldAuthc() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
@@ -38,6 +38,7 @@ public class ITAuthenticationResources {
         AuthenticatedUserDTO authcUser = clientResponse.getEntity(AuthenticatedUserDTO.class);
         assertThat(authcUser).isNotNull();
         assertThat(authcUser.getAccountId()).isNotNull();
+        assertThat(authcUser.getProfileId()).isNotNull();
         assertThat(authcUser.getPseudo()).isNotNull();
         assertThat(authcUser.getToken()).isNotNull();
         assertThat(authcUser.getRole()).isNotNull();
@@ -72,19 +73,19 @@ public class ITAuthenticationResources {
                 ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
     }
-    
+
     @Test
-    public void shouldLogout(){
-    	URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
+    public void shouldLogout() {
+        URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
         WebResource clientResource = TestHelper.webResource(uri);
         ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
                 ClientResponse.class, "token_to_delete");
         assertThat(clientResponse.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
     }
-    
+
     @Test
-    public void shouldLogoutWithBadToken(){
-    	URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
+    public void shouldLogoutWithBadToken() {
+        URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
         WebResource clientResource = TestHelper.webResource(uri);
         ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
                 ClientResponse.class, "bad_token");

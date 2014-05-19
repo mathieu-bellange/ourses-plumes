@@ -43,8 +43,9 @@ public class AuthenticationResources {
             ourseAuthcToken.save();
             // On renvoie à l'utilisateur un DTO comprenant les informations de profil et le token d'authentification
             BearAccount bearAccount = BearAccount.findAuthcUserProperties(loginDto.getMail());
-            AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(bearAccount.getId(), authcToken.getToken(),
-                    bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo().getMainRole());
+            AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(bearAccount.getId(), bearAccount.getProfile()
+                    .getId(), authcToken.getToken(), bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo()
+                    .getMainRole());
             builder = Response.ok(authcUserDTO);
         }
         catch (AuthenticationException e) {

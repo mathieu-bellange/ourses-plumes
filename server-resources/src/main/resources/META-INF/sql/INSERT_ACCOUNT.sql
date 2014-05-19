@@ -35,8 +35,8 @@ Insert into social_link
 values
 	(1,'facebook','user_facebook_1',1),
 	(2,'twitter','user_twitter_1',1),
-	(3,'facebook','user_facebook_2',1),
-	(4,'twitter','user_twitter_2',1);
+	(3,'facebook','user_facebook_2',2),
+	(4,'twitter','user_twitter_2',2);
 
 Insert into bear_account
    (id, authc_info_id, authz_info_id, profile_id, version)

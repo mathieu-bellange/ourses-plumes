@@ -267,6 +267,8 @@ $(".disconnect").on("click", function(){
 			window.localStorage.removeItem($oursesAuthcToken);
 			window.localStorage.removeItem($oursesUserPseudo);
 			window.localStorage.removeItem($oursesUserRole);
+			window.localStorage.removeItem($oursesAccountId);
+			window.localStorage.removeItem($oursesProfileId);
 			window.location.href = $home_page;
 		},
 		error : function(jqXHR, status, errorThrown) {

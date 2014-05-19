@@ -318,8 +318,8 @@ public class BearAccount implements Account {
      * @return
      */
     public static BearAccount findAuthcUserProperties(String mail) {
-        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo", "mainRole")
-                .fetch("profile", "pseudo").where().eq("authcInfo.mail", mail).findUnique();
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo", "mainRole").fetch("profile").where()
+                .eq("authcInfo.mail", mail).findUnique();
     }
 
     /**

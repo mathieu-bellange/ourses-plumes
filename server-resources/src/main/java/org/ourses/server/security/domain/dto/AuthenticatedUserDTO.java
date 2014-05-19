@@ -8,7 +8,8 @@ public class AuthenticatedUserDTO {
 
     @JsonProperty("accountId")
     private Long accountId;
-
+    @JsonProperty("profileId")
+    private Long profileId;
     @JsonProperty("token")
     private String token;
     @JsonProperty("pseudo")
@@ -20,7 +21,8 @@ public class AuthenticatedUserDTO {
 
     }
 
-    public AuthenticatedUserDTO(Long accountId, String token, String pseudo, String role) {
+    public AuthenticatedUserDTO(Long accountId, Long profileId, String token, String pseudo, String role) {
+        this.profileId = profileId;
         this.accountId = accountId;
         this.token = token;
         this.pseudo = pseudo;
@@ -33,6 +35,14 @@ public class AuthenticatedUserDTO {
 
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
+    }
+
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
     }
 
     public String getToken() {
