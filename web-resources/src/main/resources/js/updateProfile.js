@@ -1,10 +1,4 @@
 /* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-$("header + hr").after(loadfile($app_root + "tmpl/updateProfile.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
@@ -19,11 +13,46 @@ function Couple(property,value){
 var memoryCouple = new Couple("","");
 var pseudoProperty = "pseudo";
 var descriptionProperty = "description";
-var twitterProperty = "twitter";
+var social_links = ["twitter","facebook","googleplus","linkedin"];
+var user_links = ["home","mail","link"];
+
+
 
 function modifiyCouple(couple){
-	if (couple.property == memoryCouple.property && couple.value != memoryCouple.value){
+	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value){
 		save(couple);
+	}
+}
+
+function createAlertBox(err, msg) {
+	var err = err || "error", msg = msg || "";
+	if ($("#profile-alert").length == 0) {
+		$("header + hr").after(alert_box_template({"id" : "profile-alert", "class" : err, "text" : msg}));
+		if (document.readyState === "complete") {
+			$("header + hr").foundation("alert");
+		}
+		$("#profile-alert").fadeIn(300);
+	}
+}
+
+function selectorSocialLink(network){
+	return ".icon-"+network;
+}
+
+function processSocialLinks(socialLinks){
+	for (var i = 0; i < socialLinks.length; i ++){
+		//social network like facebook, twitter googpleplus and linkedin
+		var indexSocialNetwork = $.inArray(socialLinks[i].network,social_links);
+		if (indexSocialNetwork != -1){
+			$(selectorSocialLink(socialLinks[i].network)).addClass("social-active");
+			$(selectorSocialLink(socialLinks[i].network)).attr("data-social-user",socialLinks[i].socialUser)
+		}
+		//user network like web site mail and other link
+		var indexUserNetwork = $.inArray(socialLinks[i].network,user_links);
+		if (indexUserNetwork != -1){
+			$(selectorSocialLink(socialLinks[i].network)).addClass("social-active");
+			$(selectorSocialLink(socialLinks[i].network)).attr("data-social-user",socialLinks[i].socialUser)
+		}
 	}
 }
 
@@ -31,6 +60,27 @@ function modifiyCouple(couple){
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
+function getProfile(){
+	var profileId = window.localStorage.getItem($oursesProfileId);
+	if(profileId != null){
+		$.ajax({
+			type : "GET",
+			url : "/rest/profile/" + profileId,
+			contentType : "application/json; charset=utf-8",
+			success : function(profile, status, jqxhr) {
+				var profile_template = doT.compile(loadfile($app_root + "tmpl/updateProfile.tmpl")); // create template
+				$("header + hr").after(profile_template(profile)); // process template
+				processSocialLinks(profile.socialLinks);
+			},
+			error : function(jqXHR, status, errorThrown) {
+				createAlertBox();
+			},
+			dataType : "json"
+		});
+	}else{
+		createAlertBox();
+	}
+};
 
 function save(couple){
 	alert("save couple" + couple.json());
@@ -39,65 +89,165 @@ function save(couple){
 /* ------------------------------------------------------------------ */
 /* # Events */
 /* ------------------------------------------------------------------ */
-
+$(document).ready(function() {
+	getProfile();
+});
+// champ pseudo
 $("html").on("mouseover","#pseudo", function(event){
-	$("#pseudo").addClass("editable");
+	$(this).addClass("editable");
 });
 $("html").on("mouseout","#pseudo", function(event){
-	$("#pseudo").removeClass("editable");
+	$(this).removeClass("editable");
 });
 $("html").on("focus","#pseudo", function(event){
-	$("#pseudo").removeClass("disable");
-	$("#pseudo").addClass("editing");
-	memoryCouple = new Couple(pseudoProperty,$("#pseudo").val());
+	$(this).removeClass("disable");
+	$(this).addClass("editing");
+	memoryCouple = new Couple(pseudoProperty,$(this).val());
 });
 $("html").on("keypress","#pseudo", function(event){
 	if(event.which == 13) {
-        $("#pseudo").blur();
+        $(this).blur();
     }
 });
 $("html").on("blur","#pseudo", function(event){
-	$("#pseudo").addClass("disable");
-	$("#pseudo").removeClass("editing");
+	$(this).addClass("disable");
+	$(this).removeClass("editing");
 	var couple = new Couple(pseudoProperty,$("#pseudo").val());
 	modifiyCouple(couple);
 });
 
+//champ description
 $("html").on("mouseover","#description", function(event){
-	$("#description").addClass("editable");
+	$(this).addClass("editable");
 });
 $("html").on("mouseout","#description", function(event){
-	$("#description").removeClass("editable");
+	$(this).removeClass("editable");
 });
 $("html").on("focus","#description", function(event){
-	$("#description").removeClass("disable");
-	$("#description").addClass("editing");
+	$(this).removeClass("disable");
+	$(this).addClass("editing");
 	memoryCouple = new Couple(descriptionProperty,$("#description").val());
 });
 $("html").on("keypress","#description", function(event){
 	if(event.which == 13) {
-        $("#description").blur();
+        $(this).blur();
     }
 });
 $("html").on("blur","#description", function(event){
-	$("#description").addClass("disable");
-	$("#description").removeClass("editing");
-	var couple = new Couple(descriptionProperty,$("#description").val());
+	$(this).addClass("disable");
+	$(this).removeClass("editing");
+	var couple = new Couple(descriptionProperty,$(this).val());
 	modifiyCouple(couple);
 });
 
+//twitter
 $("html").on("click",".icon-twitter", function(event){
 	$("#social-link").removeClass("hide");
-	$("#social-link span").html("Link Twitter");
+	$("#social-link").attr("data-social-network",social_links[0]);
+	$("#social-link span").html("https://twitter.com/");
+	$("#social-link input").val($(this).attr("data-social-user"));
 	$("#social-link input").focus();
+	var network = "";
+	if ($(this).attr("data-social-user") != undefined){
+		network = $(this).attr("data-social-user");
+	}
+	memoryCouple = new Couple(social_links[0],network);
 });
-
+//facebook
+$("html").on("click",".icon-facebook", function(event){
+	$("#social-link").removeClass("hide");
+	$("#social-link").attr("data-social-network",social_links[1]);
+	$("#social-link span").html("https://facebook.com/");
+	$("#social-link input").val($(this).attr("data-social-user"));
+	$("#social-link input").focus();
+	var network = "";
+	if ($(this).attr("data-social-user") != undefined){
+		network = $(this).attr("data-social-user");
+	}
+	memoryCouple = new Couple(social_links[1],network);
+});
+//google plus
+$("html").on("click",".icon-googleplus", function(event){
+	$("#social-link").removeClass("hide");
+	$("#social-link").attr("data-social-network",social_links[2]);
+	$("#social-link span").html("https://plus.google.com/");
+	$("#social-link input").val($(this).attr("data-social-user"));
+	$("#social-link input").focus();
+	var network = "";
+	if ($(this).attr("data-social-user") != undefined){
+		network = $(this).attr("data-social-user");
+	}
+	memoryCouple = new Couple(social_links[2],network);
+});
+//linkedin
+$("html").on("click",".icon-linkedin", function(event){
+	$("#social-link").removeClass("hide");
+	$("#social-link").attr("data-social-network",social_links[3]);
+	$("#social-link span").html("https://linkedin.com/");
+	$("#social-link input").val($(this).attr("data-social-user"));
+	$("#social-link input").focus();
+	var network = "";
+	if ($(this).attr("data-social-user") != undefined){
+		network = $(this).attr("data-social-user");
+	}
+	memoryCouple = new Couple(social_links[3],network);
+});
+//social link
 $("html").on("blur","#social-link", function(event){
-	$("#social-link").addClass("hide");
+	$(this).addClass("hide");
+	var couple = new Couple($(this).attr("data-social-network"),$("#social-link input").val());
+	modifiyCouple(couple);
 });
 $("html").on("keypress","#social-link", function(event){
 	if(event.which == 13) {
-        $("#social-link").blur();
+        $(this).blur();
+    }
+});
+//home
+$("html").on("click",".icon-home", function(event){
+	$("#user-link").removeClass("hide");
+	$("#user-link").attr("data-user-network",user_links[0]);
+	$("#user-link input").val($(this).attr("data-social-user"));
+	$("#user-link input").focus();
+	var network = "";
+	if ($(this).attr("data-social-user") != undefined){
+		network = $(this).attr("data-social-user");
+	}
+	memoryCouple = new Couple(user_links[0],network);
+});
+//mail
+$("html").on("click",".icon-mail", function(event){
+	$("#user-link").removeClass("hide");
+	$("#user-link").attr("data-user-network",user_links[1]);
+	$("#user-link input").val($(this).attr("data-social-user"));
+	$("#user-link input").focus();
+	var network = "";
+	if ($(this).attr("data-social-user") != undefined){
+		network = $(this).attr("data-social-user");
+	}
+	memoryCouple = new Couple(user_links[1],network);
+});
+//link
+$("html").on("click",".icon-link", function(event){
+	$("#user-link").removeClass("hide");
+	$("#user-link").attr("data-user-network",user_links[2]);
+	$("#user-link input").val($(this).attr("data-social-user"));
+	$("#user-link input").focus();
+	var network = "";
+	if ($(this).attr("data-social-user") != undefined){
+		network = $(this).attr("data-social-user");
+	}
+	memoryCouple = new Couple(user_links[2],network);
+});
+//user link
+$("html").on("blur","#user-link", function(event){
+	$(this).addClass("hide");
+	var couple = new Couple($(this).attr("data-user-network"),$("#user-link input").val());
+	modifiyCouple(couple);
+});
+$("html").on("keypress","#user-link", function(event){
+	if(event.which == 13) {
+        $(this).blur();
     }
 });
 

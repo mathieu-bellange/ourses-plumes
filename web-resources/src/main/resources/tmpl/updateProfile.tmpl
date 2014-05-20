@@ -9,9 +9,12 @@
 								<li><a href="javascript:void(0)" class="icon-home medium">Home</a></li>
 								<li><a href="javascript:void(0)" class="icon-link medium">Link</a></li>
 							</ul>
+							<div id="user-link" class="hide">
+								<input type="text" placeholder="Enter your URL...">
+							</div>
 						</div>
 						<div class="column small-12 medium-7 large-8 text-right">
-							<input id="pseudo" type="text" value="Mon pseudo" class="disable"/>
+							<input id="pseudo" type="text" value="{{= data.pseudo }}" class="disable"/>
 							<ul class="inline-list">
 								<li><a href="javascript:void(0)" class="icon-twitter medium" >Twitter</a></li>
 								<li><a href="javascript:void(0)" class="icon-facebook medium" >Facebook</a></li>
@@ -19,15 +22,15 @@
 								<li><a href="javascript:void(0)" class="icon-linkedin medium" >LinkedIn</a></li>
 							</ul>
 							<div id="social-link" class="row collapse hide">
-							    <div class="small-3 large-2 columns">
+							    <div class="small-5 large-4 columns">
 							    	<span class="prefix">Link prefix</span>
 							    </div>
-							    <div class="small-9 large-10 columns">
+							    <div class="small-7 large-8 columns">
 							    	<input type="text" placeholder="Enter your URL...">
 							    </div>
 							</div>
 							<div class="clearfix" style="line-height: 2rem;">
-								<h4 class="left">R&eacute;dactrice</h4>
+								<h4 class="left">{{= window.localStorage.getItem($oursesUserRole) }}</h4>
 								<time datetime="2014-07-23" class="right text-steel"><small>Depuis le 23 juillet 2014</small></time>
 							</div>
 							<textarea id="description" class="disable" max="1000"><p>Ma description<p></textarea>
