@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.dto.SocialLinkDTO;
 import org.springframework.beans.BeanUtils;
@@ -108,5 +110,14 @@ public class Profile {
 
     public static int countPseudo(String pseudo) {
         return Ebean.find(Profile.class).where().eq("pseudo", pseudo).findRowCount();
+    }
+
+    public void updateProfileProperty(String propertyToUpdate) {
+        Ebean.update(this, Sets.newHashSet(propertyToUpdate));
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }

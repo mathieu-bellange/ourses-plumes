@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -24,6 +25,9 @@ public class SocialLink {
     private String network;
     @Column(name = "social_user")
     private String socialUser;
+    @ManyToOne
+    @Column(name = "profile_id")
+    private Profile profile;
 
     public SocialLink() {
 
@@ -57,6 +61,14 @@ public class SocialLink {
 
     public void setSocialUser(String socialUser) {
         this.socialUser = socialUser;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public SocialLinkDTO toSocialLinkDTO() {
