@@ -16,6 +16,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
+import org.ourses.server.administration.helpers.BearAccountHelper;
 import org.ourses.server.administration.helpers.ProfileHelper;
 import org.ourses.server.administration.util.SocialLinkUtil;
 import org.ourses.server.security.helpers.SecurityHelper;
@@ -32,6 +33,8 @@ public class ProfileResources {
 
     @Autowired
     private SecurityHelper securityHelper;
+    @Autowired
+    BearAccountHelper accountHelper;
     @Autowired
     private ProfileHelper profileHelper;
 
@@ -65,21 +68,28 @@ public class ProfileResources {
             try {
                 // vérification que le compte a récupéré est bien réalisé par l'utilisateur authentifié
                 securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
-
-                Profile profile = Profile.findProfileWithSocialLinks(id);
-                if (profileHelper.updateProfileProperty(profile, coupleDTO)) {
-                    // maj des liens sociaux
-                    if (SocialLinkUtil.NETWORK.contains(coupleDTO.getProperty())) {
-                        System.out.println(profile.toString());
-                        profile.updateProfileProperty("socialLink");
-                        System.out.println(profile.toString());
-                    }
-                    // maj d'une propriété du profil
-                    else {
-                        profile.updateProfileProperty(coupleDTO.getProperty());
-                    }
+                // vérificatin que le pseudo n'est pas déjà pris ou vide
+                if (Profile.PSEUDO.equals(coupleDTO.getProperty())
+                        && (!accountHelper.isNewPseudo(coupleDTO.getValue()) || !accountHelper.isPseudoValid(coupleDTO
+                                .getValue()))) {
+                    builder = Response.status(Status.FORBIDDEN);
                 }
-                builder = Response.status(Status.NO_CONTENT);
+                else {
+                    Profile profile = Profile.findProfileWithSocialLinks(id);
+                    if (profileHelper.updateProfileProperty(profile, coupleDTO)) {
+                        // maj des liens sociaux
+                        if (SocialLinkUtil.NETWORK.contains(coupleDTO.getProperty())) {
+                            System.out.println(profile.toString());
+                            profile.updateProfileProperty("socialLink");
+                            System.out.println(profile.toString());
+                        }
+                        // maj d'une propriété du profil
+                        else {
+                            profile.updateProfileProperty(coupleDTO.getProperty());
+                        }
+                    }
+                    builder = Response.status(Status.NO_CONTENT);
+                }
             }
             catch (AuthenticationException ae) {
                 builder = Response.status(Status.UNAUTHORIZED);
@@ -87,5 +97,4 @@ public class ProfileResources {
         }
         return builder.build();
     }
-
 }

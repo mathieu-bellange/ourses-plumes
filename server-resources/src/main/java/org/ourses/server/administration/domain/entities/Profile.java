@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Profile {
 
+    public static final String PSEUDO = "pseudo";
     @Id
     @GeneratedValue
     private Long id;
