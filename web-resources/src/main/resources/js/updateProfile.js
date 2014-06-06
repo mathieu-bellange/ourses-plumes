@@ -20,7 +20,11 @@ var user_links = ["home","mail","link"];
 
 function modifiyCouple(couple){
 	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value){
-		save(couple);
+		if (pseudoProperty == couple.property){
+			checkPseudoAJAX(couple);
+		}else{
+			save(couple);
+		}
 	}
 }
 
@@ -56,10 +60,98 @@ function processSocialLinks(socialLinks){
 	}
 }
 
+/* ------------------------------------------------------------------ */
+/* # DOM manipulation */
+/* ------------------------------------------------------------------ */
+
+function setValidationIcon(selector, labelSelector, isValid) {
+	if (isValid == true) {
+		$(selector).removeAttr("data-invalid");
+		$(selector).removeClass("wrong");
+		$(labelSelector).addClass("hide");
+	} else if (isValid == false) {
+		$(selector).attr("data-invalid",true);
+		$(selector).addClass("wrong");
+		$(labelSelector).removeClass("hide");
+	} else {
+		$(selector).removeClass("wrong");
+	}
+}
+
+function majView(couple,updateInError){
+	//en cas d'erreur, rollback les données à l'écran
+	if(updateInError){
+		if (memoryCouple.property == pseudoProperty){
+			$("#pseudo").val(memoryCouple.value);
+		}else if(memoryCouple.property == descriptionProperty){
+			$("#description").val(memoryCouple.value);
+		}
+	//sinon mise à jour des attributs pour les socials links
+	}else{
+		switch (couple.property) {
+		case social_links[0]:
+			$(".icon-twitter").attr("data-social-user",couple.value);
+			break;
+		case social_links[1]:
+			$(".icon-facebook").attr("data-social-user",couple.value);
+			break;
+		case social_links[2]:
+			$(".icon-googleplus").attr("data-social-user",couple.value);
+			break;
+		case social_links[3]:
+			$(".icon-linkedin").attr("data-social-user",couple.value);
+			break;
+		case user_links[0]:
+			$(".icon-home").attr("data-social-user",couple.value);
+			break;
+		case user_links[1]:
+			$(".icon-mail").attr("data-social-user",couple.value);
+			break;
+		case user_links[2]:
+			$(".icon-link").attr("data-social-user",couple.value);
+			break;
+		default:
+			break;
+		}
+	}
+}
 
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
+
+function checkPseudoAJAX(couple){
+	if (typeof pseudoTimeoutValid !== "undefined") {
+		clearTimeout(pseudoTimeoutValid);
+	}
+	var selector = $("#pseudo");
+	setValidationIcon(selector,$("#pseudoError"), null);
+	var pseudo = selector.val();
+	$.ajax({
+		type : "POST",
+		url : "/rest/signup_check/pseudo",
+		contentType : "application/json; charset=utf-8",
+		data : pseudo,
+		success : function(data, textStatus, jqXHR) {
+			pseudoTimeoutValid = setTimeout(function(){
+				setValidationIcon(selector,$("#pseudoError"), true)}, 500);
+			save(couple);
+		},
+		error : function(jqXHR, status, errorThrown) {
+			//erreur 403, normal le pseudo est soit vide soit déjà pris
+			if (jqXHR.status == 403){
+				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#pseudoError"), false)}, 500);
+			}
+			//autre erreur rollback du pseudo et affichage d'un alerte générique
+			else{
+				createAlertBox();
+				majView(couple,true);
+			}
+		},
+		dataType : "json"
+	});
+}
+
 function getProfile(){
 	var profileId = window.localStorage.getItem($oursesProfileId);
 	if(profileId != null){
@@ -83,7 +175,28 @@ function getProfile(){
 };
 
 function save(couple){
-	alert("save couple" + couple.json());
+	var profileId = window.localStorage.getItem($oursesProfileId);
+	if(profileId != null){
+		$.ajax({
+			type : "PUT",
+			url : "/rest/profile/" + profileId,
+			contentType : "application/json; charset=utf-8",
+			beforeSend: function(request){
+				header_authentication(request);
+			},
+			data : couple.json(),
+			success : function(profile, status, jqxhr) {
+				majView(couple,false);
+			},
+			error : function(jqXHR, status, errorThrown) {
+				majView(couple,true);
+				createAlertBox();
+			},
+			dataType : "json"
+		});
+	}else{
+		createAlertBox();
+	}
 }
 
 /* ------------------------------------------------------------------ */
