@@ -21,7 +21,14 @@ var user_links = ["home","mail","link"];
 function modifiyCouple(couple){
 	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value){
 		if (pseudoProperty == couple.property){
-			checkPseudoAJAX(couple);
+			// vérifie qu'il a pas resaisi son pseudo après une éventuelle erreur
+			if (couple.value != window.localStorage.getItem($oursesUserPseudo)){
+				checkPseudoAJAX(couple);
+			}
+			// si c'est son pseudo, on se contente de virer l'erreur
+			else{
+				setValidationIcon($("#pseudo"), $("#pseudoError"), true);
+			}
 		}else{
 			save(couple);
 		}
