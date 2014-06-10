@@ -45,6 +45,11 @@ function build_user_nav() {
 	return doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"));
 }
 
+function update_user_pseudo(pseudo){
+	window.localStorage.setItem($oursesUserPseudo,pseudo);
+	$(".user-name").html(pseudo);
+}
+
 function header_authentication(xhr){
 	if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token

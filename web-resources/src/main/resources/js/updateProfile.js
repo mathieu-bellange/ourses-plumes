@@ -110,6 +110,10 @@ function majView(couple,updateInError){
 		case user_links[2]:
 			$(".icon-link").attr("data-social-user",couple.value);
 			break;
+		case pseudoProperty :
+			//loap.js method
+			update_user_pseudo(couple.value);
+			break;
 		default:
 			break;
 		}
