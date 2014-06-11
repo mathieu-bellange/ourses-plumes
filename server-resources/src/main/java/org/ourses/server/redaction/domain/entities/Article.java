@@ -23,74 +23,69 @@ import org.springframework.stereotype.Component;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Article implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -6748991147610491255L;
+    private static final long serialVersionUID = -6748991147610491255L;
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String title;
+    private Date publishedDate;
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    private Category category;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ARTICLE_TAG", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
+    private Set<Tag> tags;
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    private Profile profile;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	private String title;
+    public String getTitle() {
+        return title;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
 
-	private Date publishedDate;
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
 
-	public Date getPublishedDate() {
-		return publishedDate;
-	}
+    public Category getCategory() {
+        return category;
+    }
 
-	public void setPublishedDate(Date publishedDate) {
-		this.publishedDate = publishedDate;
-	}
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-	@OneToOne(optional = false, fetch = FetchType.LAZY)
-	private Category category;
+    public Set<Tag> getTags() {
+        return tags;
+    }
 
-	public Category getCategory() {
-		return category;
-	}
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    public Profile getProfile() {
+        return profile;
+    }
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ARTICLE_TAG", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
-	private Set<Tag> tags;
-
-	public Set<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(Set<Tag> tags) {
-		this.tags = tags;
-	}
-
-	@OneToOne(optional = false, fetch = FetchType.LAZY)
-	private Profile profile;
-
-	public Profile getProfile() {
-		return profile;
-	}
-
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 }

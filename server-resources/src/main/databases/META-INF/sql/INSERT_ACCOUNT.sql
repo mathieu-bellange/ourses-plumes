@@ -2,6 +2,7 @@ Insert into ourse_security_token
    (login, token, expiration_date)
  Values
    ('jpetit@gmail.com', 'token','2077-01-01 00:00:00'),
+   ('jpetit@gmail.com', 'redac','2077-01-01 00:00:00'),
    ('mbellange@gmail.com', 'admin','2077-01-01 00:00:00'),
    ('mbellange@gmail.com', 'profile_to_update','2077-01-01 00:00:00'),
    ('it_test_expired', 'token_bis','2010-01-01 00:00:00'),

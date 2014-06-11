@@ -19,9 +19,13 @@ public final class TestHelper {
     }
 
     public static Builder webResourceWithAdminRole(URI uri) {
-    	return webResourceWithAuthcToken(uri, "admin");
+        return webResourceWithAuthcToken(uri, "admin");
     }
-    
+
+    public static Builder webResourceWithRedacRole(URI uri) {
+        return webResourceWithAuthcToken(uri, "redac");
+    }
+
     public static Builder webResourceWithAuthcToken(URI uri) {
         return webResourceWithAuthcToken(uri, "token");
     }
