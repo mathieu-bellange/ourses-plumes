@@ -1,6 +1,7 @@
 package org.ourses.server.redaction.domain.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import com.avaje.ebean.Ebean;
 
 @Entity
 @Component
@@ -55,6 +58,10 @@ public class Tag implements Serializable {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public static Set<Tag> findAllTag() {
+        return Ebean.find(Tag.class).findSet();
     }
 
     public TagDTO toTagDTO() {
