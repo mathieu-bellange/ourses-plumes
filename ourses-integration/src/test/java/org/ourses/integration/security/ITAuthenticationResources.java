@@ -1,4 +1,4 @@
-package org.ourses.integration;
+package org.ourses.integration.security;
 
 import static org.fest.assertions.Assertions.assertThat;
 
