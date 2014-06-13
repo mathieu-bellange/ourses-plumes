@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.ourses.server.redaction.domain.dto.TagDTO;
@@ -73,18 +71,6 @@ public class Tag implements Serializable {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }
-
-    /* un tag ne peut pas être présent deux fois en base donc le hash code et le equals ne tiennent compte que du tag */
-
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this, "id");
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
 
 }

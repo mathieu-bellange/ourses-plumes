@@ -7,4 +7,6 @@ public interface ProfileHelper {
 
     boolean updateProfileProperty(Profile profile, CoupleDTO coupleDTO);
 
+    Profile findProfileByAuthcToken(String token);
+
 }

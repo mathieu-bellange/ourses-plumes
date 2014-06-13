@@ -8,11 +8,15 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import org.ourses.server.administration.domain.dto.CoupleDTO;
+import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.domain.entities.SocialLink;
 import org.ourses.server.administration.util.SocialLinkUtil;
+import org.ourses.server.security.domain.entities.OurseSecurityToken;
+import org.ourses.server.security.helpers.SecurityHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
@@ -21,6 +25,9 @@ import com.google.common.base.Strings;
 public class ProfileHelperImpl implements ProfileHelper {
 
     Logger logger = LoggerFactory.getLogger(ProfileHelperImpl.class);
+
+    @Autowired
+    private SecurityHelper securityHelper;
 
     @Override
     public boolean updateProfileProperty(Profile profile, CoupleDTO coupleDTO) {
@@ -76,5 +83,16 @@ public class ProfileHelperImpl implements ProfileHelper {
             logger.debug("Introspection error {}", e.getMessage());
         }
         return updated;
+    }
+
+    @Override
+    public Profile findProfileByAuthcToken(String token) {
+        OurseSecurityToken authcToken = securityHelper.findByToken(token);
+        BearAccount account = BearAccount.findAuthcUserProperties(authcToken.getLogin());
+        Profile profile = null;
+        if (account != null) {
+            profile = account.getProfile();
+        }
+        return profile;
     }
 }

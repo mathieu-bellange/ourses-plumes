@@ -12,6 +12,14 @@ public class RubriqueDTO {
 
     private Long id;
 
+    public RubriqueDTO() {
+    }
+
+    public RubriqueDTO(Long id, String rubrique) {
+        this.id = id;
+        this.rubrique = rubrique;
+    }
+
     @JsonProperty("id")
     public Long getId() {
         return id;

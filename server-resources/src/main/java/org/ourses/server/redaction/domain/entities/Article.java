@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,10 +14,19 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.Profile;
+import org.ourses.server.redaction.domain.dto.ArticleDTO;
+import org.ourses.server.redaction.domain.dto.CategoryDTO;
+import org.ourses.server.redaction.domain.dto.RubriqueDTO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import com.avaje.ebean.Ebean;
 
 @Entity
 @Component
@@ -32,13 +42,17 @@ public class Article implements Serializable {
     @GeneratedValue
     private Long id;
     private String title;
+    private String description;
+    private String body;
     private Date publishedDate;
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Category category;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    private Rubrique rubrique;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "ARTICLE_TAG", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
     private Set<Tag> tags;
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Profile profile;
 
     public Long getId() {
@@ -57,6 +71,22 @@ public class Article implements Serializable {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     public Date getPublishedDate() {
         return publishedDate;
     }
@@ -71,6 +101,14 @@ public class Article implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Rubrique getRubrique() {
+        return rubrique;
+    }
+
+    public void setRubrique(Rubrique rubrique) {
+        this.rubrique = rubrique;
     }
 
     public Set<Tag> getTags() {
@@ -88,4 +126,29 @@ public class Article implements Serializable {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+    public void save() {
+        Ebean.save(this);
+    }
+
+    public ArticleDTO toArticleDTO() {
+        ArticleDTO articleDTO = new ArticleDTO();
+        BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile" });
+        // category ne peut pas être null
+        CategoryDTO categoryDTO = this.category.toCategoryDTO();
+        articleDTO.setCategory(categoryDTO);
+        // rubrique ne peut pas être null
+        RubriqueDTO rubriqueDTO = this.rubrique.toRubriqueDTO();
+        articleDTO.setRubrique(rubriqueDTO);
+        // profile ne peut pas être null
+        ProfileDTO profileDTO = this.profile.toProfileDTO();
+        articleDTO.setProfile(profileDTO);
+        return articleDTO;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
 }

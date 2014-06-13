@@ -4,8 +4,6 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.junit.Test;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
 import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullException;
@@ -15,8 +13,6 @@ import org.ourses.server.security.util.RolesUtil;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-
-import com.avaje.ebean.Ebean;
 
 @ContextConfiguration("classpath:META-INF/spring/application-context.xml")
 public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTests {
@@ -113,22 +109,6 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
         assertThat(listBearAccounts).onProperty("authcInfo").isNotNull();
         assertThat(listBearAccounts).onProperty("authzInfo").isNotNull();
         assertThat(listBearAccounts).onProperty("profile").isNotNull();
-    }
-
-    /**
-     * Ebean possède un cache transactionnel qui renvoie la même instance tant que la transaction n'est pas finie. Test
-     * la nullité du bean avec un Ebean.refresh
-     * 
-     * @throws EntityIdNullException
-     */
-    @Test(expected = EntityNotFoundException.class)
-    @Rollback
-    public void shouldDeleteAccount() {
-        BearAccount bearAccount = new BearAccount(null, "julie.marie@gmil.com", "SexyJulie", new Profile(), 0);
-        bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, RolesUtil.ADMINISTRATRICE));
-        Ebean.save(bearAccount);
-        bearAccount.delete();
-        Ebean.refresh(bearAccount);
     }
 
     @Test
