@@ -1,0 +1,133 @@
+﻿				<section id="article_editor">
+					<h2>R&eacute;diger un article</h2>
+
+					<!--
+					<form method="get" accept-charset="UTF-8" autocomplete="off" novalidate>
+						<fieldset class="fieldset-test">
+							<legend><span>fdsq</span></legend>
+							<input type="text">
+						</fieldset>
+					</form>
+					-->
+
+					<fieldset class="important">
+						<legend>Publication</legend>
+						<label for="title">Titre de l&rsquo;article</label>
+						<input id="title" type="text" placeholder="Titre" />
+						<label for="author">R&eacute;dactrice</label>
+						<input id="author" type="text" disabled value="{{= typeof $user_name !== 'undefined' ? $user_name : 'Les Ourses &agrave; plumes' }}" >
+						<label for="date">Date de publication</label>
+						<div class="row collapse">
+							<div class="column small-5 medium-4 large-3">
+								<span class="prefix">1<sup>er</sup> septembre 2014</span>
+							</div>
+							<div class="column small-4 medium-3 large-2 end">
+								<input id="date" type="text" disabled value="01/09/2014" >
+							</div>
+						</div>
+						<label for="status">Statut</label>
+						<select id="status">
+							<option>Brouillon</option>
+							<option>&Agrave; v&eacute;rifier</option>
+							<option>En ligne</option>
+						</select>
+					</fieldset>
+
+					<fieldset>
+						<legend>Ind&eacute;xation</legend>
+						
+						<h4>Select / Option</h4>
+						<div class="row collapse">
+							<div class="column small-12 medium-5">
+								<label for="rubric">Rubrique</label>
+								<select id="rubric">
+									<option disabled selected>Ind&eacute;fini</option>
+									<option>Luttes</option>
+									<option>Nos corps, nous-m&ecirc;mes</option>
+									<option>Intersectionnalit&eacute;</option>
+									<option>International</option>
+									<option>&Eacute;ducation & Culture</option>
+									<option>Id&eacute;es</option>
+									<option>Revue du web</option>
+								</select>
+							</div>
+							<div class="column small-12 medium-5 medium-pull-1">
+								<label for="category">Cat&eacute;gorie</label>
+								<select id="category">
+									<option label="fdqs" disabled selected>&Agrave; d&eacute;finir</option>
+									<option>Br&egrave;ve</option>
+									<option>Reportage</option>
+									<option>Dossier</option>
+									<option>Spotlight</option>
+									<option>Interview</option>
+									<option>Tribune</option>
+									<option>Revue du web</option>
+								</select>
+							</div>
+						</div>
+
+						<h4>Custom Select</h4>
+
+						<label>Liste de choix</label>
+						<div class="select" tabindex="0">
+							<span class="value"></span>
+							<ul class="options hide">
+								<li>Selected option</li>
+								<li class="selected">Option 1</li>
+								<li>Option 2</li>
+								<li class="disabled">Disabled option</li>
+								<li>Option 3</li>
+							</ul>
+						</div>
+
+						<label>Liste de choix</label>
+						<div class="select" tabindex="0">
+							<span class="value"></span>
+							<ul class="options hide">
+								<li class="disabled">Option 1</li>
+								<li>Option 2</li>
+								<li>Option 3</li>
+								<li class="disabled">Option 4</li>
+								<li class="disabled">Option 5</li>
+							</ul>
+						</div>
+
+
+						<div class="row collapse">
+							<div>
+								<label for="tag">Tags</label>
+							</div>
+							<div class="column small-4">
+								<input id="tag" type="text" placeholder="YourTag" data-invalid="true" maxlength="32">
+							</div>
+							<div class="column small-3 end">
+								<input id="tag_add" type="button" value="Ajouter un tag" href="javascript:void(0)" class="button postfix">
+							</div>
+						</div>
+
+
+
+							<dl id="tag_holder" class="tags inline-list clearfix">
+								<dt><span title="Tags" class="icon-tag small">Tags</span></dt>
+								<dd><span class="label radius cyan">&Eacute;ducation &amp; Culture</span></dd>
+								<dd><span class="label radius inverse">Article</span></dd>
+								<dd><span class="label radius" data-alert>Ind&eacute;fini<a href='javascript:void(0)' class='close'></a></span></dd>
+								<dd><span class="label radius" data-alert>Ind&eacute;fini<a href='javascript:void(0)' class='close'></a></span></dd>
+							</dl>
+
+
+
+
+						<div>
+							<label for="summary">R&eacute;sum&eacute;</label>
+							<textarea id="summary" style="min-width: 100%; max-width: 100%; min-height: 5rem;"></textarea>
+						</div>
+
+					</fieldset>
+
+					<label for="editor">Corps de texte</label>
+					<textarea id="editor"></textarea>
+
+					<input class="button" type="button" value="Valider" />
+
+				</section>
