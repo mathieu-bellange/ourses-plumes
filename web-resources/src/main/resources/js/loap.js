@@ -71,30 +71,30 @@ if ($css_fx == true) {$("body").addClass("css-fx");}
  * prevent indent issues. The script seems to work properly that way.
  */
 
-// create HTML skeleton
-$("body").prepend("<div id='main' class='frame'>");
-$("#main").append("<div class='main-pane'>");
-$(".main-pane").append("<hr>");
+if ($build_container == true) {
+	// create HTML skeleton
+	$("body").prepend("<div id='main' class='frame'>");
+	$("#main").append("<div class='main-pane'>");
+	$(".main-pane").append("<hr>");
 
-// process templates
-if ($dev_toolbar == true) {$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));}
-$("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
-//Si l'utilisateur est dans le navigateur alors on affiche user-nav
-if(window.localStorage.getItem($oursesUserPseudo)!== undefined && window.localStorage.getItem($oursesUserPseudo)!== null){
-	$(".connect-launcher").remove();
-	$(".logo").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
+	// process templates
+	if ($dev_toolbar == true) {$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));}
+	$("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
+	// Si l'utilisateur est dans le navigateur alors on affiche user-nav
+	if (window.localStorage.getItem($oursesUserPseudo)!== undefined && window.localStorage.getItem($oursesUserPseudo)!== null) {
+		$(".connect-launcher").remove();
+		$(".logo").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
+	}
+	$(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
+	$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
+
+	// process slider template -- this is the tricky part
+	$(document).ready(function() {
+		$(".fast-nav + hr").after(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
+		$(".news-list").foundation("orbit"); // reload foundation ; Foundation need to be loaded one time before that for the list to appear inline
+		$(window).resize(); // just a dummy instruction for getting the proper height
+	});
 }
-$(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
-$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
-
-// process slider template -- this is the tricky part
-$(document).ready(function() {
-	$(".fast-nav + hr").after(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
-	$(".news-list").foundation("orbit"); // reload foundation ; Foundation need to be loaded one time before that for the list to appear inline
-	$(window).resize(); // just a dummy instruction for getting the proper height
-});
-
-$("html").addClass(""); // TEMP
 
 /* ------------------------------------------------------------------ */
 /* # Active Section Toggler */
@@ -602,7 +602,7 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 
 /* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */
 $(document).ready(function(){
-	$('textarea').autosize({append: ""}); // TEMP : compatibility need to be checked on IE10
+	$('textarea').autosize({append: ""}); // WARNING : compatibility need to be checked on IE10
 });
 
 /* ================================================================== */
