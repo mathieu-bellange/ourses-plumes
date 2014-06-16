@@ -22,7 +22,15 @@ function createAlertBox(err, msg) {
 	if ($("#compte-alert").length == 0) {
 		$("header + hr").after(alert_box_template({"id" : "compte-alert", "class" : err, "text" : msg}));
 		if (document.readyState === "complete") {
-			$("header + hr").foundation("alert");
+			// BUG -- the error alert box cannot be closed
+			// The Foundation alert box is reloaded only for the selector "header + hr".
+			// But the alert box has been put under "header + hr" with the jQuery method ".after()" (precisely between header and section).
+			// So the method foundation("alert") won't reload the newly created box because the scope is wrong.
+			// For it to work, this method should be placed on the parent element that contain the alert box.
+			// It can also be placed on the top most element of the node if any doubt remain.
+			// Let's append it to the whole document for now considering its actual position ;)
+			// $("header + hr").foundation("alert");
+			$(document).foundation("alert");
 		}
 		$("#compte-alert").fadeIn(300);
 	}
