@@ -10,6 +10,7 @@
 /* ------------------------------------------------------------------ */
 
 /* Utility */
+$build_container  = true;                               // Boolean. Generate templated container (i.e. sidebar, header, footer). Default = true
 $build_compress   = false;                              // Boolean. Compress generated content (i.e. remove tabs and line ends). Default = false
 $dev_toolbar      = true;                               // Boolean. Create dev toolbar. Default = false
 $css_fx           = true;                               // Boolean. Enable CSS effects. Default = true
@@ -24,7 +25,6 @@ $app_ver          = "0.0.3";                            // String.  Set applicat
 $app_kwd          = ["Webzine", "F&eacute;minisme"];    // Array.   Set application keywords.
 $app_desc         = "Un webzine f&eacute;ministe.";     // String.  Set application keywords.
 $app_genr         = null;                               // String.  Set application generator (i.e. the software used for dev).
-
 $app_root         = "/";                                // String.  Set application base URL. Default = "/"
 $js_root          = $app_root + "js/";                  // String.  Set js root. Default = "/js/"
 
@@ -41,24 +41,23 @@ $app_path         = {                                   // Object.  Set applicat
 };
 */
 
-/* Variable d'application */
+/* Application variables */
 $oursesAuthcToken = "oursesAuthcToken";                 // String.  Key of the authentication token
 $oursesUserPseudo = "oursesUserPseudo";                 // String.  Key of the User pseudo
 $oursesUserRole   = "oursesUserRole";                   // String.  Key of the User role
-$oursesAccountId  = "oursesAccountId";                	// String.  Key of the User account id
-$oursesProfileId  = "oursesProfileId";                	// String.  Key of the User account id
+$oursesAccountId  = "oursesAccountId";                  // String.  Key of the User account id
+$oursesProfileId  = "oursesProfileId";                  // String.  Key of the User account id
 $redir_param      = "?redirection=";                    // String.  url param in the login page. use for the redirection
-$role_admin 	  = "Administratrice"					// String.	Admin role
-$role_redac 	  = "Rédactrice"						// String.	Redacter role
+$role_admin 	  = "Administratrice"                     // String.  Admin role
+$role_redac 	  = "Rédactrice"                          // String.  Redacter role
 
-/* navigation map */
+/* Navigation map */
 $login_page       = "/connexion";                       // String.  url of the login page
 $accounts_page    = "/comptes";                         // String.  url of the accounts page
 $bug_tracker_page = "/bug-tracker";                     // String.  url of the bug tracker page
 $home_page        = "/";                                // String.  url of the home page
 $my_account_page  = "/parametres/compte";               // String.  url of my account page
 $my_profile_page  = "/parametres/profil";               // String.  url of my profile page
-
 
 /* TEMP */
 $boot             = true;                               // Boolean. Flag for this file setup.
