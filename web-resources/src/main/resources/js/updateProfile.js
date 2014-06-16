@@ -16,8 +16,6 @@ var descriptionProperty = "description";
 var social_links = ["twitter","facebook","googleplus","linkedin"];
 var user_links = ["home","mail","link"];
 
-
-
 function modifiyCouple(couple){
 	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value){
 		if (pseudoProperty == couple.property){
@@ -26,10 +24,10 @@ function modifiyCouple(couple){
 				checkPseudoAJAX(couple);
 			}
 			// si c'est son pseudo, on se contente de virer l'erreur
-			else{
+			else {
 				setValidationIcon($("#pseudo"), $("#pseudoError"), true);
 			}
-		}else{
+		} else {
 			save(couple);
 		}
 	}
@@ -40,7 +38,15 @@ function createAlertBox(err, msg) {
 	if ($("#profile-alert").length == 0) {
 		$("header + hr").after(alert_box_template({"id" : "profile-alert", "class" : err, "text" : msg}));
 		if (document.readyState === "complete") {
-			$("header + hr").foundation("alert");
+			// BUG -- the error alert box cannot be closed
+			// The Foundation alert box is reloaded only for the selector "header + hr".
+			// But the alert box has been put under "header + hr" with the jQuery method ".after()" (precisely between header and section).
+			// So the method foundation("alert") won't reload the newly created box because the scope is wrong.
+			// For it to work, this method should be placed on the parent element that contain the alert box.
+			// It can also be placed on the top most element of the node if any doubt remain.
+			// Let's append it to the whole document for now considering its actual position ;)
+			// $("header + hr").foundation("alert");
+			$(document).foundation("alert");
 		}
 		$("#profile-alert").fadeIn(300);
 	}
@@ -173,6 +179,10 @@ function getProfile(){
 			success : function(profile, status, jqxhr) {
 				var profile_template = doT.compile(loadfile($app_root + "tmpl/updateProfile.tmpl")); // create template
 				$("header + hr").after(profile_template(profile)); // process template
+				// Begin EDIT
+				$('textarea').autosize({append: ""}); // reinitialize autosize plugin for all textareas
+				loap.update(); // update loap for user picture
+				// End EDIT
 				processSocialLinks(profile.socialLinks);
 			},
 			error : function(jqXHR, status, errorThrown) {
@@ -213,6 +223,7 @@ function save(couple){
 /* ------------------------------------------------------------------ */
 /* # Events */
 /* ------------------------------------------------------------------ */
+
 $(document).ready(function() {
 	getProfile();
 });
@@ -230,8 +241,8 @@ $("html").on("focus","#pseudo", function(event){
 });
 $("html").on("keypress","#pseudo", function(event){
 	if(event.which == 13) {
-        $(this).blur();
-    }
+		$(this).blur();
+	}
 });
 $("html").on("blur","#pseudo", function(event){
 	$(this).addClass("disable");
@@ -254,8 +265,8 @@ $("html").on("focus","#description", function(event){
 });
 $("html").on("keypress","#description", function(event){
 	if(event.which == 13) {
-        $(this).blur();
-    }
+		$(this).blur();
+	}
 });
 $("html").on("blur","#description", function(event){
 	$(this).addClass("disable");
@@ -324,8 +335,8 @@ $("html").on("blur","#social-link", function(event){
 });
 $("html").on("keypress","#social-link", function(event){
 	if(event.which == 13) {
-        $(this).blur();
-    }
+		$(this).blur();
+	}
 });
 //home
 $("html").on("click",".icon-home", function(event){
@@ -371,7 +382,6 @@ $("html").on("blur","#user-link", function(event){
 });
 $("html").on("keypress","#user-link", function(event){
 	if(event.which == 13) {
-        $(this).blur();
-    }
+		$(this).blur();
+	}
 });
-

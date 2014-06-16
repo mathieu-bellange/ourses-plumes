@@ -161,11 +161,18 @@ label {
 }
 fieldset {
   position: relative;
+  min-height: 3.25rem;
   padding: 1rem;
-  padding-top: 3em;
+  padding-top: 0;
+  padding: 1rem;
   background-color: whitesmoke;
-  border: 1px solid gainsboro;
+  border: .125rem solid gainsboro;
   border-radius: .5rem;
+}
+fieldset > *:last-child, /* TEMP : Remove bottom margin for last fieldset element */
+fieldset > div[class*=row]:last-child > *, /* TEMP : Remove bottom margin for last row elements */
+fieldset > div[class*=row]:last-child > div[class*=column] > * { /* TEMP : Remove bottom margin for all columns childs of last row */
+  margin-bottom: 0;
 }
 fieldset legend {
   top: 0;
@@ -177,18 +184,29 @@ fieldset legend {
   font-size: 125%;
   font-weight: normal;
   font-family: "Oswald", sans-serif;
-  line-height: 1.5em;
+  line-height: 1.5rem;
+  line-height: 2rem;
   background-color: transparent; /* Foundation override */
-  border-top-left-radius: inherit;
-  border-top-right-radius: inherit;
+  border-top-left-radius: .375rem;
+  border-top-right-radius: .375rem;
+}
+fieldset legend + *,
+fieldset legend + [type],
+fieldset legend + [class] {
+  margin-top: 2rem;
+}
+fieldset legend:only-child {
+  border-radius: .375rem;
 }
 
-fieldset.callout {background-color: lightyellow; border-color: lightgrey;}
-
-fieldset > *:last-child, /* TEMP : Remove bottom margin for last fieldset element */
-fieldset > div[class*=row]:last-child > *, /* TEMP : Remove bottom margin for last row elements */
-fieldset > div[class*=row]:last-child > div[class*=column] > * { /* TEMP : Remove bottom margin for all columns childs of last row */
-  margin-bottom: 0;
+/* Coloring */
+fieldset.transparent {
+  background-color: transparent;
+  border-color: transparent;
+}
+fieldset.important {
+  background-color: lightyellow;
+  border-color: lightgrey;
 }
 
 /* Figures */
@@ -264,6 +282,9 @@ textarea {
   min-height: 6.25rem; /* 4 x line height + padding + scrollbar spacing (.25rem) */
   line-height: 1.25rem;
   resize: vertical;
+}
+textarea.min {
+  min-height: 2.25rem; /* 1 x line height + padding + scrollbar spacing (.25rem) */
 }
 textarea.tiny {
   min-height: 3.75rem; /* 2 x line height + padding + scrollbar spacing (.25rem) */
@@ -1741,28 +1762,100 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .users-table td button, .users-table td select {margin:0;}
 
 /* ------------------------------------------------------------------ */
-/* # User Account */
+/* # User Profile */
 /* ------------------------------------------------------------------ */
 
-.user-profile {}
-.user-infos {background-color: gainsboro;}
-.user-infos h3 {
+/* Below are default classes for user profile using display HTML tags */
+.user-profile {background-color: gainsboro;}
+.user-profile h3 {
   padding: .5rem;
   color: white;
   background-color: #333;
 }
-.user-infos hr {
+.user-profile hr {
+  margin: .5rem 0;
   border-top-width: 2px;
   border-bottom-width: 0;
   border-style: solid;
   border-color: silver;
 }
-.user-infos ul {margin-bottom: 0;}
-.user-infos blockquote {
+.user-profile ul {margin-bottom: 0;}
+.user-profile blockquote {
   border-left: none;
   margin: 1rem 0;
   padding: 0;
   font-style: oblique;
+}
+.user-profile time {line-height: 2rem;}
+.user-profile .picture {margin-bottom: .5rem;}
+
+/* Below are classes for user profile using HTML input mimics */
+.user-profile input#pseudo {
+  height: auto;
+  margin-bottom: 0;
+  padding: 0 .5rem;
+  font-family: "Oswald", sans-serif;
+  font-size: 2em;
+  line-height: 150%;
+  color: white;
+  border-color: transparent;
+  background-color: #333;
+}
+.user-profile textarea#description {
+  position: relative;
+  left: -.25rem;
+  top: -.25rem;
+  margin-bottom: 0;
+  padding: .25rem;
+  font-size: 1em;
+  line-height: 133%;
+  color: #222;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+/* Below are shared styles for user profile using HTML input mimics */
+.user-profile input#pseudo[disabled],
+.user-profile textarea#description[disabled] {
+  cursor: default;
+  color: grey;
+  background-color: transparent;
+  text-shadow: 1px 1px white;
+}
+.user-profile input#pseudo[readonly],
+.user-profile textarea#description[readonly]{
+  box-shadow: none;
+}
+.user-profile input#pseudo:hover:not([disabled]):not([readonly]),
+.user-profile textarea#description:hover:not([disabled]):not([readonly]) {
+  cursor: pointer;
+  color: rgba(0, 0, 0, .75); /* Foundation default value */
+  border-color: darkgray;
+  border-style: dotted;
+  background-color: rgba(255, 255, 255, .5);
+}
+.user-profile input#pseudo:focus:not([disabled]):not([readonly]),
+.user-profile textarea#description:focus:not([disabled]):not([readonly]),
+.user-profile input#pseudo.wrong,
+.user-profile textarea#description.wrong {
+  cursor: text;
+  color: rgba(0, 0, 0, .75); /* Foundation default value */
+  border-color: darkgray;
+  border-style: solid;
+  background-color: white;
+}
+/* Below are specific mimic styles for user name */
+.user-profile input#pseudo[disabled] {
+  padding: 0;
+}
+/* Below are specific mimic styles for user description */
+.user-profile textarea#description:hover:not([disabled]):not([readonly]),
+.user-profile textarea#description:focus:not([disabled]):not([readonly]) {
+  left: 0;
+  top: 0;
+}
+.user-profile textarea#description + hr {
+  margin-top: 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -2105,9 +2198,9 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .css-fx input[type="time"],
 .css-fx input[type="url"],
 .css-fx textarea {
-  -webkit-transition: -webkit-box-shadow .5s ease-in, border-color .25s ease-out, background-color .125s linear;
-     -moz-transition:     moz-box-shadow .5s ease-in, border-color .25s ease-out, background-color .125s linear;
-          transition:         box-shadow .5s ease-in, border-color .25s ease-out, background-color .125s linear;
+  -webkit-transition: -webkit-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear, top .125s linear, left .125s linear;
+     -moz-transition:     moz-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear, top .125s linear, left .125s linear;
+          transition:         box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear, top .125s linear, left .125s linear;
   -webkit-box-shadow: 0 0 .125rem rgba(0, 0, 0, 0);
      -moz-box-shadow: 0 0 .125rem rgba(0, 0, 0, 0);
           box-shadow: 0 0 .125rem rgba(0, 0, 0, 0);
@@ -2277,7 +2370,7 @@ body.css-fx {background-image: url('../img/ui/background-noise.png'), url('../im
 .css-fx .button,
 .css-fx .site-nav,
 .css-fx .orbit-slides-container li:not(.black),
-.css-fx .user-infos {background-image: url('../img/ui/background-noise.png');}
+.css-fx .user-profile {background-image: url('../img/ui/background-noise.png');}
 .css-fx .nav-pane {background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png'), url('../img/ui/background-grains.png');}
 
 /* Ribbons Effect */
@@ -2397,14 +2490,14 @@ body.css-fx {background-image: url('../img/ui/background-noise.png'), url('../im
 .css-debug.orbit-container blockquote cite {background-color: rgba(0, 255, 255, .25);}
 
 /* User Infos */
-.css-debug .user-infos .column:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
-.css-debug .user-infos .column:nth-child(even) {background-color: rgba(0, 255, 0, .25);}
-.css-debug .user-infos .column h4 {background-color: rgba(255, 0, 0, .25);}
-.css-debug .user-infos .column p {background-color: rgba(255, 255, 0, .25);}
-.css-debug .user-infos .column ul {background-color: rgba(255, 0, 0, .25);}
-.css-debug .user-infos .column li {background-color: rgba(0, 255, 255, .25);}
-.css-debug .user-infos .column time {background-color: rgba(0, 0, 255, .25);}
-.css-debug .user-infos .column blockquote {background-color: rgba(255, 0, 255, .25);}
+.css-debug .user-profile .column:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
+.css-debug .user-profile .column:nth-child(even) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .user-profile .column h4 {background-color: rgba(255, 0, 0, .25);}
+.css-debug .user-profile .column p {background-color: rgba(255, 255, 0, .25);}
+.css-debug .user-profile .column ul {background-color: rgba(255, 0, 0, .25);}
+.css-debug .user-profile .column li {background-color: rgba(0, 255, 255, .25);}
+.css-debug .user-profile .column time {background-color: rgba(0, 0, 255, .25);}
+.css-debug .user-profile .column blockquote {background-color: rgba(255, 0, 255, .25);}
 
 /* Articles */
 .css-debug [class*='icon-'] {background-color: rgba(255, 0, 255, .5);}
@@ -2443,3 +2536,137 @@ body.css-fx {background-image: url('../img/ui/background-noise.png'), url('../im
 .css-debug.comment-list .topic {background-color: rgba(0, 0, 255, .25);}
 .css-debug.comment-list .date {background-color: rgba(255, 255, 0, .25);}
 .css-debug.comment-list .post {background-color: rgba(255, 0, 255, .25);}
+
+/* ------------------------------------------------------------------ */
+/* # TEMP */
+/* ------------------------------------------------------------------ */
+
+#custom_select {
+  position: relative;
+  padding: 0;
+}
+#custom_select_value,
+#custom_select_options {
+  padding: .5rem;
+  background-color: white;
+  border: 1px solid silver;
+}
+#custom_select_value {
+  display: block;
+  min-height: 2rem;
+}
+#custom_select_value:after {
+  content: "";
+  float: right;
+  display: inline-block;
+  margin-top: .25em;
+  border: .5rem solid transparent;
+  border-bottom-width: 0;
+  border-top-color: silver;
+}
+#custom_select_value:hover:after {
+  border-top-color: darkgray;
+}
+#custom_select_value:hover,
+#custom_select_options > li:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+  border-color: darkgray;
+}
+#custom_select_options {
+  position: absolute;
+  width: 100%;
+  padding: 0;
+  margin-left: 0;
+  list-style: none;
+  border-top: 0;
+  z-index: 100;
+}
+#custom_select_options > li {
+  padding: 0 .5rem;
+}
+#custom_select_options > li:hover {
+  color: HighlightText;
+  background-color: Highlight;
+}
+#custom_select_options > li.selected {
+  font-weight: bold;
+  color: inherit;
+  background-color: lightgrey;
+}
+#custom_select_options > li.disabled {
+  cursor: default;
+  opacity: .5;
+}
+#custom_select_options > li.disabled,
+#custom_select_options > li.disabled:hover {
+  color: inherit;
+  background-color: inherit;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Selects */
+/* ------------------------------------------------------------------ */
+
+.select {
+  position: relative;
+  padding: 0;
+}
+.select > .value,
+.select > .options {
+  padding: .5rem;
+  background-color: white;
+  border: 1px solid silver;
+}
+.select > .value {
+  display: block;
+  min-height: 2rem;
+}
+.select > .value:after {
+  content: "";
+  float: right;
+  display: inline-block;
+  margin-top: .25em;
+  border: .5rem solid transparent;
+  border-bottom-width: 0;
+  border-top-color: silver;
+}
+.select > .value:hover:after {
+  border-top-color: darkgray;
+}
+.select > .value:hover,
+.select > .options > li:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+  border-color: darkgray;
+}
+.select > .options {
+  position: absolute;
+  width: 100%;
+  padding: 0;
+  margin-left: 0;
+  list-style: none;
+  border-top: 0;
+  z-index: 100;
+}
+.select > .options > li {
+  padding: 0 .5rem;
+}
+.select > .options > li:hover {
+  color: HighlightText;
+  background-color: Highlight;
+}
+.select > .options > li.selected {
+  font-weight: bold;
+  color: inherit;
+  background-color: lightgrey;
+}
+.select > .options > li.disabled {
+  cursor: default;
+  opacity: .5;
+}
+.select > .options > li.disabled,
+.select > .options > li.disabled:hover {
+  color: inherit;
+  background-color: inherit;
+}
