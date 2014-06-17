@@ -10,6 +10,7 @@
 /* ------------------------------------------------------------------ */
 
 /* Utility */
+$build_container  = true;                               // Boolean. Generate container elements (i.e. sidebar, header, footer). Default = true
 $build_compress   = false;                              // Boolean. Compress generated content (i.e. remove tabs and line ends). Default = false
 $dev_toolbar      = true;                               // Boolean. Create dev toolbar. Default = false
 $css_fx           = true;                               // Boolean. Enable CSS effects. Default = true
@@ -45,11 +46,11 @@ $app_path         = {                                   // Object.  Set applicat
 $oursesAuthcToken = "oursesAuthcToken";                 // String.  Key of the authentication token
 $oursesUserPseudo = "oursesUserPseudo";                 // String.  Key of the User pseudo
 $oursesUserRole   = "oursesUserRole";                   // String.  Key of the User role
-$oursesAccountId  = "oursesAccountId";                	// String.  Key of the User account id
-$oursesProfileId  = "oursesProfileId";                	// String.  Key of the User account id
+$oursesAccountId  = "oursesAccountId";                  // String.  Key of the User account id
+$oursesProfileId  = "oursesProfileId";                  // String.  Key of the User account id
 $redir_param      = "?redirection=";                    // String.  url param in the login page. use for the redirection
-$role_admin 	  = "Administratrice"					// String.	Admin role
-$role_redac 	  = "Rédactrice"						// String.	Redacter role
+$role_admin       = "Administratrice"                     // String.  Admin role
+$role_redac       = "Rédactrice"                          // String.  Redacter role
 
 /* navigation map */
 $login_page       = "/connexion";                       // String.  url of the login page
