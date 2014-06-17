@@ -1812,6 +1812,9 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
   color: #222;
   border-color: transparent;
   background-color: transparent;
+  -webkit-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
+     -moz-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
+          transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
 }
 
 /* Below are shared styles for user profile using HTML input mimics */
@@ -1853,6 +1856,7 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .user-profile textarea#description:focus:not([disabled]):not([readonly]) {
   left: 0;
   top: 0;
+  margin-bottom: .5rem;
 }
 .user-profile textarea#description + hr {
   margin-top: 0;
@@ -2198,9 +2202,9 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .css-fx input[type="time"],
 .css-fx input[type="url"],
 .css-fx textarea {
-  -webkit-transition: -webkit-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear, top .125s linear, left .125s linear;
-     -moz-transition:     moz-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear, top .125s linear, left .125s linear;
-          transition:         box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear, top .125s linear, left .125s linear;
+  -webkit-transition: -webkit-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
+     -moz-transition:     moz-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
+          transition:         box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
   -webkit-box-shadow: 0 0 .125rem rgba(0, 0, 0, 0);
      -moz-box-shadow: 0 0 .125rem rgba(0, 0, 0, 0);
           box-shadow: 0 0 .125rem rgba(0, 0, 0, 0);
