@@ -6,6 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.redaction.domain.entities.Article;
+import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.domain.entities.Category;
 import org.ourses.server.redaction.domain.entities.Rubrique;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,8 @@ import org.springframework.beans.BeanUtils;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleDTO {
 
+    @JsonProperty("id")
+    private Long id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
@@ -25,6 +28,16 @@ public class ArticleDTO {
     private RubriqueDTO rubrique;
     @JsonProperty("profile")
     private ProfileDTO profile;
+    @JsonProperty("status")
+    private ArticleStatus status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -72,6 +85,14 @@ public class ArticleDTO {
 
     public void setProfile(ProfileDTO profile) {
         this.profile = profile;
+    }
+
+    public ArticleStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ArticleStatus status) {
+        this.status = status;
     }
 
     public Article toArticle() {

@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -54,6 +56,8 @@ public class Article implements Serializable {
     private Set<Tag> tags;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Profile profile;
+    @Enumerated(EnumType.ORDINAL)
+    private ArticleStatus status;
 
     public Long getId() {
         return id;
@@ -125,6 +129,14 @@ public class Article implements Serializable {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public ArticleStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ArticleStatus status) {
+        this.status = status;
     }
 
     public void save() {

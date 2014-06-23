@@ -93,6 +93,7 @@ create table article (
   profile_id                bigint not null,
   category_id                bigint,
   rubrique_id                bigint,
+  status             int,
   constraint pk_article primary key (id))
 ;
 
