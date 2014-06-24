@@ -24,3 +24,15 @@ Insert into tag
  Values
    (1, 'Tag 1'),
    (2, 'Tag 2');
+   
+Insert into article
+	(id,title,description,body,published_date,profile_id,category_id,rubrique_id,status)
+Values
+	(1,'titre','description','body','2077-01-01 00:00:00',2,1,1,0),
+	(2,'titre','description','body','2077-01-01 00:00:00',2,1,2,1),
+	(3,'titre','description','body','2077-01-01 00:00:00',1,2,3,0);
+	
+Insert into article_tag
+   (id, tag_id,article_id)
+ Values
+   (1, 1, 1);

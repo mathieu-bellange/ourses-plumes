@@ -10,6 +10,14 @@ import org.springframework.beans.BeanUtils;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TagDTO {
 
+    public TagDTO() {
+    }
+
+    public TagDTO(Long id, String tag) {
+        this.id = id;
+        this.tag = tag;
+    }
+
     private Long id;
 
     @JsonProperty("id")

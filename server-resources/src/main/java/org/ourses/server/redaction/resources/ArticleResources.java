@@ -5,15 +5,18 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.helpers.ProfileHelper;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
+import org.ourses.server.redaction.helpers.ArticleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +32,8 @@ public class ArticleResources {
 
     @Autowired
     private ProfileHelper profileHelper;
+    @Autowired
+    private ArticleHelper articleHelper;
 
     @PUT
     @Path("/draft/create")
@@ -46,15 +51,23 @@ public class ArticleResources {
 
     @PUT
     @Path("/draft/{id}")
-    public Response updateDraft(@RequestParam("id")
+    public Response updateDraft(@PathParam("id")
     long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
-        // TODO vérification que l'article appartient au profil connecté
-        // TODO update de l'article passé en param
-        ResponseBuilder responseBuilder = Response.status(Status.OK);
-        Article article = articleDTO.toArticle();
-        article.save();
-        return responseBuilder.entity(article.toArticleDTO()).build();
+        ResponseBuilder responseBuilder;
+        Article article = Article.findArticle(id);
+        // vérification que l'article appartient au profil connecté
+        Profile profile = profileHelper.findProfileByAuthcToken(token);
+        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.BROUILLON)
+                && id == articleDTO.getId()) {
+            // update de l'article passé en param
+            articleHelper.updateFromDTO(article, articleDTO);
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.UNAUTHORIZED);
+        }
+        return responseBuilder.build();
     }
 
     @PUT
@@ -71,7 +84,7 @@ public class ArticleResources {
 
     @PUT
     @Path("/validate/{id}")
-    public Response updateValidate(@RequestParam("id")
+    public Response updateValidate(@PathParam("id")
     long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         // TODO vérification que l'action est fait pas une administratrice
@@ -96,7 +109,7 @@ public class ArticleResources {
     @DELETE
     @Path("/{id}")
     public Response deleteArticle(@RequestParam("id")
-    long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         // TODO vérification que l'action est fait pas une administratrice pour les articles à valider et par son
         // auteure pour les brouillons

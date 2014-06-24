@@ -1,5 +1,8 @@
 package org.ourses.server.redaction.domain.dto;
 
+import java.util.Date;
+import java.util.Set;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -9,7 +12,10 @@ import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.domain.entities.Category;
 import org.ourses.server.redaction.domain.entities.Rubrique;
+import org.ourses.server.redaction.domain.entities.Tag;
 import org.springframework.beans.BeanUtils;
+
+import com.google.common.collect.Sets;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleDTO {
@@ -22,6 +28,8 @@ public class ArticleDTO {
     private String description;
     @JsonProperty("body")
     private String body;
+    @JsonProperty("publishedDate")
+    private Date publishedDate;
     @JsonProperty("category")
     private CategoryDTO category;
     @JsonProperty("rubrique")
@@ -30,6 +38,8 @@ public class ArticleDTO {
     private ProfileDTO profile;
     @JsonProperty("status")
     private ArticleStatus status;
+    @JsonProperty("tags")
+    private Set<TagDTO> tags = Sets.newHashSet();
 
     public Long getId() {
         return id;
@@ -61,6 +71,14 @@ public class ArticleDTO {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
     public CategoryDTO getCategory() {
@@ -95,13 +113,26 @@ public class ArticleDTO {
         this.status = status;
     }
 
+    public Set<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<TagDTO> tags) {
+        this.tags = tags;
+    }
+
     public Article toArticle() {
         Article article = new Article();
-        BeanUtils.copyProperties(this, article, new String[] { "category", "rubrique", "profile" });
+        BeanUtils.copyProperties(this, article, new String[] { "category", "rubrique", "profile", "tags" });
         Category cat = this.category.toCategory();
         article.setCategory(cat);
         Rubrique rubrique = this.rubrique.toRubrique();
         article.setRubrique(rubrique);
+        Set<Tag> tags = Sets.newHashSet();
+        for (TagDTO tag : this.tags) {
+            tags.add(tag.toTag());
+        }
+        article.setTags(tags);
         // le profil ne transit pas depuis le client
         return article;
     }

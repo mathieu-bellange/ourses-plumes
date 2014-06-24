@@ -89,7 +89,7 @@ create table article (
   title                   varchar(255),
   description             varchar(255),
   body                   varchar(255),
-  published_date           DATE,
+  published_date           timestamp,
   profile_id                bigint not null,
   category_id                bigint,
   rubrique_id                bigint,

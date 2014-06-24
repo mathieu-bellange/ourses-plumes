@@ -109,6 +109,10 @@ public class Profile {
         return Ebean.find(Profile.class).fetch("socialLinks").setId(id).findUnique();
     }
 
+    public static Profile findProfile(long id) {
+        return Ebean.find(Profile.class, id);
+    }
+
     public static int countPseudo(String pseudo) {
         return Ebean.find(Profile.class).where().eq("pseudo", pseudo).findRowCount();
     }
@@ -121,4 +125,5 @@ public class Profile {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
+
 }

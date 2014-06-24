@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -23,12 +23,14 @@ import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.CategoryDTO;
 import org.ourses.server.redaction.domain.dto.RubriqueDTO;
+import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.google.common.collect.Sets;
 
 @Entity
 @Component
@@ -51,7 +53,7 @@ public class Article implements Serializable {
     private Category category;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Rubrique rubrique;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "ARTICLE_TAG", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
     private Set<Tag> tags;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
@@ -143,6 +145,20 @@ public class Article implements Serializable {
         Ebean.save(this);
     }
 
+    public static int countArticle(long idProfile, long idArticle, ArticleStatus status) {
+        return Ebean.find(Article.class).where().eq("profile.id", idProfile).eq("id", idArticle).eq("status", status)
+                .findRowCount();
+    }
+
+    public static Article findArticle(long id) {
+        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").where()
+                .eq("id", id).findUnique();
+    }
+
+    public void update(String... properties) {
+        Ebean.update(this, Sets.newHashSet(properties));
+    }
+
     public ArticleDTO toArticleDTO() {
         ArticleDTO articleDTO = new ArticleDTO();
         BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile" });
@@ -155,6 +171,11 @@ public class Article implements Serializable {
         // profile ne peut pas être null
         ProfileDTO profileDTO = this.profile.toProfileDTO();
         articleDTO.setProfile(profileDTO);
+        Set<TagDTO> tags = Sets.newHashSet();
+        for (Tag tag : this.tags) {
+            tags.add(tag.toTagDTO());
+        }
+        articleDTO.setTags(tags);
         return articleDTO;
     }
 
