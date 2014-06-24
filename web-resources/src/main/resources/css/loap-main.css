@@ -1480,6 +1480,17 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 }
 
 /* ------------------------------------------------------------------ */
+/* # Validation Bar */
+/* ------------------------------------------------------------------ */
+
+.validation-bar {
+  display: none;
+  position: relative;
+  top: -.5rem;
+  line-height: 1.5rem;
+}
+
+/* ------------------------------------------------------------------ */
 /* # Articles */
 /* ------------------------------------------------------------------ */
 
@@ -1869,7 +1880,7 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .user-profile textarea#description:focus:not([disabled]):not([readonly]) {
   left: 0;
   top: 0;
-  margin-bottom: .5rem;
+  margin-bottom: 1rem;
 }
 .user-profile textarea#description + hr {
   margin-top: 0;

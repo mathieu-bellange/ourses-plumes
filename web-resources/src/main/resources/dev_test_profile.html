@@ -63,9 +63,6 @@
 					<label for="description" class="left red">Enabled (default)</label>
 					<textarea id="description" class="min test-txtarea" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
 
-					<textarea id="test1" class="tiny" maxlength="255" placeholder="myPlaceHolder">id="test1"</textarea>
-					<textarea id="test2" class="tiny" maxlength="255" placeholder="myPlaceHolder">id="test2"</textarea>
-
 					<!--User description standard-->
 					<label for="description" class="left red">Standard</label>
 					<textarea id="" class="min" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
@@ -94,131 +91,57 @@
 		</div>
 		<script>
 
-			function Textarea(obj) {
-
-				// templates
-				var textarea_helper_template = doT.compile(loadfile($app_root + "tmpl/helper_textarea.tmpl")); // create template
-
-			//alert(obj.length);
-
-			$(obj).each(function() {
-
-				object = $(this);
-
-				//alert(object.length);
-
+			function Textarea(selector) {
 				// vars
 				var str = "";
 				var t = 0;
-
+				// template
+				var textarea_helper_template = doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl")); // create template
 				// methods
-				function cancel(obj) {
-					obj.blur();
-					obj.val(str);
-				}
-				function valid(obj) {
-					obj.blur();
-				}
-
-				// events
-				object.focus(function() {
-					alert($(this).val());
-				});
-				
-				
-				$("html").on("focus", object, function() {
-					str = $(this).val();
-				});
-
-				$("html").on("blur", object, function() {
-					clearTimeout(t);
-					$(".test-validbar").fadeOut("fast");
-					$(".test-validbar").remove();
-				});
-
-				$("html").on("keydown", object, function(event) {
-					if (event.which == 27) { // Escape
-						cancel(object);
-					} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
-						valid(object);
-					} else {
-						if ($(".test-validbar").length === 0) {
-							object.after(textarea_helper_template()); // process template
-							t = setTimeout(function() {
-								$(".test-validbar").fadeIn("slow");
-							}, 600);
-						}
-					}
-				});
-
-				$("html").on("click", ".icon-undefined", function() {
-					cancel(object);
-				});
-				$("html").on("click", ".icon-reply", function() {
-					valid(object);
-				});
-
-			});
-
-			}
-
-			//var test_textarea_i = new Textarea("#test111");
-			/*
-			Textarea($("#test1"));
-			Textarea($("#test2"));
-			*/
-			//Textarea($("textarea"));
-
-			
-			// global vars
-			var str = "";
-			var t = null;
-
-			// methods
-			function cancel(obj) {
-				obj.blur();
-				obj.val(str);
-			}
-			function valid(obj) {
-				obj.blur();
-			}
-
-			// templating
-			var textarea_helper_template = doT.compile(loadfile($app_root + "tmpl/helper_textarea.tmpl")); // create template
-
-			// events
-			$("html").on("focus", ".test-txtarea", function() {
-				str = $(this).val();
-			});
-
-			$("html").on("blur", ".test-txtarea", function() {
-				clearTimeout(t);
-				$(".test-validbar").fadeOut("fast");
-				$(".test-validbar").remove();
-			});
-
-			$("html").on("keydown", ".test-txtarea", function(event) {
-				if (event.which == 27) { // Escape
-					cancel($(".test-txtarea"));
-				} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
-					valid($(".test-txtarea"));
-				} else {
-					if ($(".test-validbar").length === 0) {
-						$(".test-txtarea").after(textarea_helper_template()); // process template
-						t = setTimeout(function() {
-							$(".test-validbar").fadeIn("slow");
-						}, 600);
+				function valid(obj, cancel) {
+					var cancel = cancel || false;
+					$(".validation-bar").fadeOut("fast");
+					$(".validation-bar").remove();
+					if (cancel) {
+						obj.val(str);
 					}
 				}
-			});
+				// loop
+				$(selector).each(function() {
+					var obj = $(this);
+					if (typeof obj.attr("disabled") === "undefined" && typeof obj.attr("readonly") === "undefined") {
+						// events
+						obj.bind({
+							focus: function() {
+								str = $(obj).val();
+							},
+							blur: function(event) {
+								if ($(".validation-bar [data-valid]").length > 0 && $(".validation-bar [data-cancel]").is(":hover")) {
+									valid(obj, true);
+								} else {
+									valid(obj);
+								}
+							},
+							keydown: function(event) {
+								if (event.which == 27) { // Escape
+									valid(obj, true);
+									obj.blur();
+								} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
+									valid(obj);
+									obj.blur();
+								} else if (event.which == 0 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or A-Z 0-9 ot Numpad or Punctuation Mark
+									if ($(".validation-bar").length === 0) {
+										$(this).after(textarea_helper_template()); // process template
+										$(".validation-bar").fadeIn("slow");
+									}
+								}
+							}
+						});
+					}
+				});
+			}
 
-			$("html").on("click", ".icon-undefined", function() {
-				cancel($(".test-txtarea"));
-			});
-			$("html").on("click", ".icon-reply", function() {
-				valid($(".test-txtarea"));
-			});
-			
+			Textarea("textarea"); // register validbar
 
 		</script>
 		<script>
