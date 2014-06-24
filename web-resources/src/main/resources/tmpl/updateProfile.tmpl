@@ -13,19 +13,19 @@
 							</div>
 						</div>
 						<div class="column small-12 medium-7 large-8 text-center">
-							<input id="pseudo" type="text" value="{{= data.pseudo }}" class="validation-icon disable">
-							<small id="pseudoError" class="error hide">Le pseudo ne peut pas &ecirc;tre vide</small>
+							<input id="pseudo" type="text" value="{{= data.pseudo }}" class="validation-icon disable" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+							<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
 							<div class="clearfix">
 								<h4 class="left">{{= window.localStorage.getItem($oursesUserRole) }}</h4>
 								<time datetime="2014-07-23" class="right text-steel"><small>Depuis le 23 juillet 2014</small></time>
 							</div>
-							<textarea id="description" class="min disable" maxlength="1000">{{= data.description }}</textarea>
+							<textarea id="description" class="min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description }}</textarea>
 							<hr>
 							<ul class="inline-list">
-								<li><a href="javascript:void(0)" class="icon-twitter medium" >Twitter</a></li>
-								<li><a href="javascript:void(0)" class="icon-facebook medium" >Facebook</a></li>
-								<li><a href="javascript:void(0)" class="icon-googleplus medium" >Google+</a></li>
-								<li><a href="javascript:void(0)" class="icon-linkedin medium" >LinkedIn</a></li>
+								<li><a href="javascript:void(0)" class="icon-twitter medium">Twitter</a></li>
+								<li><a href="javascript:void(0)" class="icon-facebook medium">Facebook</a></li>
+								<li><a href="javascript:void(0)" class="icon-googleplus medium">Google+</a></li>
+								<li><a href="javascript:void(0)" class="icon-linkedin medium">LinkedIn</a></li>
 							</ul>
 							<div id="social-link" class="row collapse hide">
 								<div class="small-5 large-4 columns">
