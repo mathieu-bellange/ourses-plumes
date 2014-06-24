@@ -929,6 +929,10 @@ kbd,
   vertical-align: middle;
 }
 
+.inline-list > dt.hide, .inline-list > dd.hide {
+  display: none; /* Visibility fix */
+}
+
 /* ------------------------------------------------------------------ */
 /* # Block Grids */
 /* ------------------------------------------------------------------ */
@@ -1290,6 +1294,15 @@ a.label.blue:hover, a.label.blue:focus {background-color: #248;}
 a.label.purple:hover, a.label.purple:focus {background-color: #517;}
 .label.magenta {background-color: #e2a;}
 a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
+
+.label.hide {display: none;} /* Visibility fix */
+
+.label .close {
+  text-decoration: none;
+  color: white;
+  opacity: .5;
+}
+.label .close:hover {opacity: .75;}
 
 /* ------------------------------------------------------------------ */
 /* # Pagination */
