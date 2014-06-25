@@ -1878,6 +1878,9 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .user-profile input#pseudo[disabled] {
   padding: 0;
 }
+.user-profile input#pseudo + small.error { /* Position fix */
+  top: 0;
+}
 /* Below are specific mimic styles for user description */
 .user-profile textarea#description:hover:not([disabled]):not([readonly]),
 .user-profile textarea#description:focus:not([disabled]):not([readonly]) {

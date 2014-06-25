@@ -2,22 +2,22 @@
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-function Couple(property,value){
+function Couple(property, value){
 	this.property = property;
-	this.value=value;
+	this.value = value;
 	this.json = function() {
 		return JSON.stringify(this);
 	};
 }
 
-var memoryCouple = new Couple("","");
+var memoryCouple = new Couple("", "");
 var pseudoProperty = "pseudo";
 var descriptionProperty = "description";
-var social_links = ["twitter","facebook","googleplus","linkedin"];
-var user_links = ["home","mail","link"];
+var social_links = ["twitter", "facebook", "googleplus", "linkedin"];
+var user_links = ["home", "mail", "link"];
 
 function modifiyCouple(couple){
-	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value){
+	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value) {
 		if (pseudoProperty == couple.property){
 			// vérifie qu'il a pas resaisi son pseudo après une éventuelle erreur
 			if (couple.value != window.localStorage.getItem($oursesUserPseudo)){
@@ -46,16 +46,16 @@ function createAlertBox(err, msg) {
 			// It can also be placed on the top most element of the node if any doubt remain.
 			// Let's append it to the whole document for now considering its actual position ;)
 			// $("header + hr").foundation("alert");
-			$(document).foundation("alert");
+			$(document).foundation("alert"); // EDIT
 		}
 		$("#profile-alert").fadeIn(300);
 	}
 }
 
+/*
 function selectorSocialLink(network){
-	return ".icon-"+network;
+	return ".icon-" + network;
 }
-
 function processSocialLinks(socialLinks){
 	for (var i = 0; i < socialLinks.length; i ++){
 		//social network like facebook, twitter googpleplus and linkedin
@@ -70,6 +70,13 @@ function processSocialLinks(socialLinks){
 			$(selectorSocialLink(socialLinks[i].network)).addClass("social-active");
 			$(selectorSocialLink(socialLinks[i].network)).attr("data-social-user",socialLinks[i].socialUser)
 		}
+	}
+}
+*/
+
+function processSocialLinks(socialLinks){
+	for (var i = 0; i < socialLinks.length; i++) {
+		$(".icon-" + socialLinks[i].network.toLowerCase()).attr("data-url", socialLinks[i].socialUser);
 	}
 }
 
@@ -91,37 +98,37 @@ function setValidationIcon(selector, labelSelector, isValid) {
 	}
 }
 
-function majView(couple,updateInError){
+function majView(couple, updateInError){
 	//en cas d'erreur, rollback les données à l'écran
-	if(updateInError){
-		if (memoryCouple.property == pseudoProperty){
+	if (updateInError) {
+		if (memoryCouple.property == pseudoProperty) {
 			$("#pseudo").val(memoryCouple.value);
-		}else if(memoryCouple.property == descriptionProperty){
+		} else if (memoryCouple.property == descriptionProperty) {
 			$("#description").val(memoryCouple.value);
 		}
 	//sinon mise à jour des attributs pour les socials links
-	}else{
+	} else {
 		switch (couple.property) {
 		case social_links[0]:
-			$(".icon-twitter").attr("data-social-user",couple.value);
+			$(".icon-twitter").attr("data-url", couple.value);
 			break;
 		case social_links[1]:
-			$(".icon-facebook").attr("data-social-user",couple.value);
+			$(".icon-facebook").attr("data-url", couple.value);
 			break;
 		case social_links[2]:
-			$(".icon-googleplus").attr("data-social-user",couple.value);
+			$(".icon-googleplus").attr("data-url", couple.value);
 			break;
 		case social_links[3]:
-			$(".icon-linkedin").attr("data-social-user",couple.value);
+			$(".icon-linkedin").attr("data-url", couple.value);
 			break;
 		case user_links[0]:
-			$(".icon-home").attr("data-social-user",couple.value);
+			$(".icon-home").attr("data-url", couple.value);
 			break;
 		case user_links[1]:
-			$(".icon-mail").attr("data-social-user",couple.value);
+			$(".icon-mail").attr("data-url", couple.value);
 			break;
 		case user_links[2]:
-			$(".icon-link").attr("data-social-user",couple.value);
+			$(".icon-link").attr("data-url", couple.value);
 			break;
 		case pseudoProperty :
 			//loap.js method
@@ -162,7 +169,7 @@ function checkPseudoAJAX(couple){
 			//autre erreur rollback du pseudo et affichage d'un alerte générique
 			else{
 				createAlertBox();
-				majView(couple,true);
+				majView(couple, true);
 			}
 		},
 		dataType : "json"
@@ -179,11 +186,14 @@ function getProfile(){
 			success : function(profile, status, jqxhr) {
 				var profile_template = doT.compile(loadfile($app_root + "tmpl/updateProfile.tmpl")); // create template
 				$("header + hr").after(profile_template(profile)); // process template
-				// Begin EDIT
+				processSocialLinks(profile.socialLinks); // process social links
+				// Begin EDIT --------------------------------------------------
 				$('textarea').autosize({append: ""}); // reinitialize autosize plugin for all textareas
-				loap.update(); // update loap for user picture
-				// End EDIT
-				processSocialLinks(profile.socialLinks);
+				$("textarea").validation_bar(); // initialize validation_bar plugin for all textareas
+				set_icons_input(social_links); // process icons input for social links
+				set_icons_input(user_links); // process icons input for user links
+				loap.update(); // re-update loap for user picture
+				// End EDIT ----------------------------------------------------
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -207,10 +217,10 @@ function save(couple){
 			},
 			data : couple.json(),
 			success : function(profile, status, jqxhr) {
-				majView(couple,false);
+				majView(couple, false);
 			},
 			error : function(jqXHR, status, errorThrown) {
-				majView(couple,true);
+				majView(couple, true);
 				createAlertBox();
 			},
 			dataType : "json"
@@ -227,31 +237,41 @@ function save(couple){
 $(document).ready(function() {
 	getProfile();
 });
+
 // champ pseudo
+/*
 $("html").on("mouseover","#pseudo", function(event){
-	$(this).addClass("editable");
+	 $(this).addClass("editable");
 });
 $("html").on("mouseout","#pseudo", function(event){
-	$(this).removeClass("editable");
+	 $(this).removeClass("editable");
 });
+*/
 $("html").on("focus","#pseudo", function(event){
-	$(this).removeClass("disable");
-	$(this).addClass("editing");
+	// $(this).removeClass("disable");
+	// $(this).addClass("editing");
 	memoryCouple = new Couple(pseudoProperty,$(this).val());
 });
 $("html").on("keypress","#pseudo", function(event){
-	if(event.which == 13) {
+	if (event.which == 13) { // Enter
+		$(this).blur();
+	}
+});
+$("html").on("keydown","#pseudo", function(event){
+	if (event.which == 27) { // Escape
+		$(this).val(memoryCouple.value); // recall initial value on cancel
 		$(this).blur();
 	}
 });
 $("html").on("blur","#pseudo", function(event){
-	$(this).addClass("disable");
-	$(this).removeClass("editing");
+	// $(this).addClass("disable"); // UNUSED for now ... do not remove
+	// $(this).removeClass("editing"); // UNUSED for now ... do not remove
 	var couple = new Couple(pseudoProperty,$("#pseudo").val());
 	modifiyCouple(couple);
 });
 
 //champ description
+/*
 $("html").on("mouseover","#description", function(event){
 	$(this).addClass("editable");
 });
@@ -268,13 +288,15 @@ $("html").on("keypress","#description", function(event){
 		$(this).blur();
 	}
 });
+*/
 $("html").on("blur","#description", function(event){
-	$(this).addClass("disable");
-	$(this).removeClass("editing");
+	// $(this).addClass("disable");
+	// $(this).removeClass("editing");
 	var couple = new Couple(descriptionProperty,$(this).val());
 	modifiyCouple(couple);
 });
 
+/*
 //twitter
 $("html").on("click",".icon-twitter", function(event){
 	$("#social-link").removeClass("hide");
@@ -333,11 +355,6 @@ $("html").on("blur","#social-link", function(event){
 	var couple = new Couple($(this).attr("data-social-network"),$("#social-link input").val());
 	modifiyCouple(couple);
 });
-$("html").on("keypress","#social-link", function(event){
-	if(event.which == 13) {
-		$(this).blur();
-	}
-});
 //home
 $("html").on("click",".icon-home", function(event){
 	$("#user-link").removeClass("hide");
@@ -385,3 +402,139 @@ $("html").on("keypress","#user-link", function(event){
 		$(this).blur();
 	}
 });
+*/
+
+// Social Links
+$("html").on("focus", "#social-link input", function() {
+	memoryCouple = new Couple($("#social_links_icons .active").text().toLowerCase(), $(this).val());
+});
+$("html").on("blur", "#social-link input", function() {
+	var couple = new Couple($("#social_links_icons .active").text().toLowerCase(), $(this).val());
+	modifiyCouple(couple);
+});
+// User Links
+$("html").on("focus", "#user-link input", function() {
+	memoryCouple = new Couple($("#user_links_icons .active").text().toLowerCase(), $(this).val());
+});
+$("html").on("blur", "#user-link input", function() {
+	var couple = new Couple($("#user_links_icons .active").text().toLowerCase(), $(this).val());
+	modifiyCouple(couple);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Set Icons Input */
+/* ------------------------------------------------------------------ */
+
+var user_links = {
+	"input_container" : "#user-link",
+	"icons_container" : "#user_links_icons",
+	"icons_title_prefix" : "Votre "
+};
+
+var social_links = {
+	"input_container" : "#social-link",
+	"icons_container" : "#social_links_icons",
+	"icons_title_prefix" : "Votre page "
+};
+
+function set_icons_input(options) {
+	var defaults = {
+		"input_container" : "",
+		"icons_container" : "",
+		"icons_selector" : "[class*='icon-']",
+		"icons_title_prefix" : "",
+		"icons_tooltip" : true,
+		"animation_delay" : 250
+	};
+	var options = $.extend({}, defaults, options);
+	function check_icons_enabling(obj) {
+		if (typeof obj.attr("data-url") === "undefined" || obj.attr("data-url") == "") {
+			obj.addClass("disabled");
+		} else {
+			obj.removeClass("disabled");
+		}
+	}
+	function hide_input_container() {
+		$(options.input_container).fadeOut(options.animation_delay);
+		check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
+		$(options.icons_container + " " + options.icons_selector).removeClass("active");
+		setTimeout(function() {
+			$(options.icons_container).css({"top" : "0", "margin-bottom" : "0"});
+		}, options.animation_delay);
+	}
+	var is_icon_hover = false;
+	var last_input_value = "";
+	$("html").on("mouseenter", options.icons_container + " " + options.icons_selector, function() {
+		is_icon_hover = true;
+		if (!$(this).hasClass("active") && $(this).hasClass("disabled")) {
+			$(this).css({
+				"cursor" : "pointer",
+				"outline" : "1px dotted gray",
+				"background-color" : "rgba(255, 255, 255, .5)",
+				"opacity" : "1"
+			});
+		}
+	});
+	$("html").on("mouseleave", options.icons_container + " " + options.icons_selector, function() {
+		is_icon_hover = false;
+		$(this).css({"cursor" : "", "outline" : "", "background-color" : "", "opacity" : ""});
+		if (!$(this).hasClass("active")) {
+			if (typeof $(this).attr("data-url") === "undefined" || $(this).attr("data-url") == "") {
+				$(this).addClass("disabled");
+			}
+		}
+	});
+	$("html").on("click", options.icons_container + " " + options.icons_selector, function() {
+		$(options.icons_container + " " + options.icons_selector).removeClass("active");
+		$(this).removeClass("disabled");
+		$(this).addClass("active");
+		var h = $(options.input_container).outerHeight(true);
+		var obj = $(options.input_container + " input");
+		var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
+		var url_prefix = typeof $(this).attr("data-url-prefix") === "undefined" ? "http://" : $(this).attr("data-url-prefix");
+		$(options.input_container + " .prefix").text(url_prefix);
+		setTimeout(function() {
+			$(options.input_container).fadeIn(options.animation_delay);
+			obj.val(url);
+			obj.cursor_position(0, obj.val().length);
+		}, options.animation_delay);
+		$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + "px"});
+	});
+	$("html").on("focus", options.input_container + " input", function() {
+		last_input_value = $(this).val();
+	});
+	$("html").on("blur", options.input_container + " input", function() {
+		$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
+		if (is_icon_hover == false) {
+			hide_input_container()
+		} else {
+			check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
+		}
+	});
+	$("html").on("keydown", options.input_container + " input", function(event) {
+		if (event.which == 13) { // Enter
+			$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
+			$(this).blur();
+			hide_input_container()
+		}
+		if (event.which == 27) { // Escape
+			$(this).val(last_input_value);
+			$(this).blur();
+			hide_input_container()
+		}
+	});
+	$(document).ready(function() {
+		$(options.input_container).wrap("<div style='position: relative;'></div>");
+		$(options.input_container).css({"position" : "absolute", "width" : "100%", "display" : "none"});
+		$(options.icons_container).css({"position" : "relative", "top" : "0", "margin-bottom" : "0", "transition" : "top " + options.animation_delay + "ms, margin-bottom " + options.animation_delay + "ms"});
+		$(options.icons_container + " " + options.icons_selector).each(function() {
+			var str = $(this).text();
+			$(this).attr("title", options.icons_title_prefix + str);
+			if (options.icons_tooltip) {
+				$(this).attr("data-tooltip", "");
+				$(options.icons_container).foundation("tooltip");
+			}
+			check_icons_enabling($(this));
+		});
+	});
+}

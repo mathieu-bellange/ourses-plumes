@@ -1,8 +1,14 @@
 ﻿				<!--User Profile-->
 				<section id="user-update-profile">
 					<div class="row panel radius user-profile">
+
 						<div class="column small-12 medium-5 large-4 text-center">
+
+							<!--User picture-->
 							<span class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</span>
+
+							<!--User links-->
+							<!--
 							<ul class="inline-list">
 								<li><a href="javascript:void(0)" class="icon-mail medium">Mail</a></li>
 								<li><a href="javascript:void(0)" class="icon-home medium">Home</a></li>
@@ -11,16 +17,34 @@
 							<div id="user-link" class="hide">
 								<input type="text" placeholder="Enter your URL...">
 							</div>
+							-->
+							<div id="user-link">
+								<input type="text" placeholder="L&rsquo;URL de votre lien (p. ex. http://marie.blogspot.fr/)">
+							</div>
+							<ul id="user_links_icons" class="inline-list">
+								<li><a href="javascript:void(0)" class="icon-mail medium">Mail</a></li>
+								<li><a href="javascript:void(0)" class="icon-home medium">Home</a></li>
+								<li><a href="javascript:void(0)" class="icon-link medium">Link</a></li>
+							</ul>
+
 						</div>
+
 						<div class="column small-12 medium-7 large-8 text-center">
+
+							<!--Pseudo-->
 							<input id="pseudo" type="text" value="{{= data.pseudo }}" class="validation-icon disable" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
 							<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
-							<div class="clearfix">
-								<h4 class="left">{{= window.localStorage.getItem($oursesUserRole) }}</h4>
-								<time datetime="2014-07-23" class="right text-steel"><small>Depuis le 23 juillet 2014</small></time>
-							</div>
+
+							<!--Role-->
+							<h4 class="text-left">{{= window.localStorage.getItem($oursesUserRole) }}</h4>
+
+							<!--Social links-->
 							<textarea id="description" class="min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description }}</textarea>
+
 							<hr>
+
+							<!--Social links-->
+							<!--
 							<ul class="inline-list">
 								<li><a href="javascript:void(0)" class="icon-twitter medium">Twitter</a></li>
 								<li><a href="javascript:void(0)" class="icon-facebook medium">Facebook</a></li>
@@ -35,6 +59,23 @@
 									<input type="text" placeholder="Enter your URL...">
 								</div>
 							</div>
+							-->
+							<div id="social-link" class="row collapse">
+								<div class="column small-6">
+									<span class="prefix text-small"></span>
+								</div>
+								<div class="column small-6">
+									<input type="text" placeholder="Votre adresse sur le r&eacute;seau social">
+								</div>
+							</div>
+							<ul id="social_links_icons" class="inline-list">
+								<li><a href="javascript:void(0)" class="icon-twitter medium" data-url-prefix="https://www.twitter.com/">Twitter</a></li>
+								<li><a href="javascript:void(0)" class="icon-facebook medium" data-url-prefix="https://www.facebook.com/">Facebook</a></li>
+								<li><a href="javascript:void(0)" class="icon-googleplus medium" data-url-prefix="https://plus.google.com/">GooglePlus</a></li>
+								<li><a href="javascript:void(0)" class="icon-linkedin medium" data-url-prefix="https://www.linkedin.com/">LinkedIn</a></li>
+							</ul>
+
 						</div>
+
 					</div>
 				</section>
