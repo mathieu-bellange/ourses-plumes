@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.ourses</groupId>
 		<artifactId>ourses-plumes</artifactId>
-		<version>0.0.4</version>
+		<version>0.0.5-SNAPSHOT</version>
 	</parent>
 	<artifactId>web-resources</artifactId>
 
