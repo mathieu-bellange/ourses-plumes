@@ -40,7 +40,7 @@ var loap = (function() {
 // Variables Declaration
 var alert_box_template = doT.compile(loadfile($app_root + "tmpl/alert_box.tmpl"));
 
-// Methods Declaration
+// Functions Declaration
 function build_user_nav() {
 	return doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"));
 }
@@ -63,7 +63,7 @@ function ajax_error(jqXHR, textStatus, errorThrown){
 }
 
 // Process build
-if ($css_fx == true) {$("body").addClass("css-fx");}
+if (typeof $css_fx !== "undefined" && $css_fx == true) {$("body").addClass("css-fx");}
 
 /* NOTE
  * Choice has been made to keep the two first <div> after <body> in
@@ -125,17 +125,12 @@ $("html").on("click", "[href*='#']", function() {
 /* # Toolbar */
 /* ------------------------------------------------------------------ */
 
-
-/* ================================================================== */
-if (typeof $boot !== "undefined") { // TEMP
 	/* Toolbar CSS Toggle Checker */
 	$(document).ready(function() {
-		if ($css_fx == false) {
+		if (typeof $css_fx !== "undefined" && $css_fx == false) {
 			$("#_css_fx_toggle").addClass("active");
 		}
 	});
-}
-/* ================================================================== */
 
 /* Toolbar Crystal Scheme Toggler */
 $("#_crystal_scheme_toggle").click(function() {
@@ -597,12 +592,84 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 });
 
 /* ------------------------------------------------------------------ */
+/* # Validation Bar */
+/* ------------------------------------------------------------------ */
+
+(function ($) {
+	'use strict';
+	$.fn.extend({
+		validation_bar: function() {
+			// vars
+			var str = "";
+			var t = 0;
+			// template
+			var textarea_helper_template = doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl")); // create template
+			// methods
+			function valid(obj, cancel) {
+				var cancel = cancel || false;
+				$(".validation-bar").fadeOut("fast");
+				$(".validation-bar").remove();
+				if (cancel) {
+					obj.val(str);
+				}
+			}
+			// loop
+			$(this).each(function() {
+				var obj = $(this);
+				if (typeof obj.attr("disabled") === "undefined" && typeof obj.attr("readonly") === "undefined") {
+					// events
+					obj.bind({
+						focus: function() {
+							str = $(obj).val();
+						},
+						blur: function(event) {
+							if ($(".validation-bar [data-valid]").length > 0 && $(".validation-bar [data-cancel]").is(":hover")) {
+								valid(obj, true);
+							} else {
+								valid(obj);
+							}
+						},
+						keydown: function(event) {
+							if (event.which == 27) { // Escape
+								valid(obj, true);
+								obj.blur();
+							} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
+								valid(obj);
+								obj.blur();
+							} else if (event.which == 0 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or A-Z 0-9 ot Numpad or Punctuation Mark
+								if ($(".validation-bar").length === 0) {
+									$(this).after(textarea_helper_template()); // process template
+									$(".validation-bar").fadeIn("slow");
+								}
+							}
+						}
+					});
+				}
+			});
+		}
+	});
+})(jQuery);
+
+/* ------------------------------------------------------------------ */
+/* # Cusor Position */
+/* ------------------------------------------------------------------ */
+
+jQuery.fn.extend({
+	cursor_position : function(start, end) {
+		end = end || false;
+		obj = this.first().get(0);
+		obj.focus();
+		obj.setSelectionRange(start, end || start);
+	}
+});
+
+/* ------------------------------------------------------------------ */
 /* # Initialize */
 /* ------------------------------------------------------------------ */
 
 /* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */
 $(document).ready(function(){
-	$('textarea').autosize({append: ""}); // WARNING : compatibility need to be checked on IE10
+	$("textarea").autosize({append: ""}); // WARNING : compatibility need to be checked on IE10
 });
 
 /* ================================================================== */

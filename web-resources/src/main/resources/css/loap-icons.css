@@ -19,6 +19,25 @@
   text-indent: 1000%;
   white-space: nowrap;
   overflow: hidden;
+  outline-width: 1px;
+  outline-offset: -1px;
+}
+
+/* Disabled */
+[class^="icon-"].disabled,
+[class*="icon-"].disabled {
+  opacity: .25;
+}
+[class^="icon-"].disabled:focus,
+[class*="icon-"].disabled:focus {
+  -webkit-animation: blink .25s; /* Chrome, Safari, Opera */
+          animation: blink .25s; /* Firefox */
+}
+@-webkit-keyframes blink { /* Chrome, Safari, Opera */
+  50% {opacity: .75;}
+}
+@keyframes blink { /* Firefox */
+  50% {opacity: .75;}
 }
 
 /* Icons Position */

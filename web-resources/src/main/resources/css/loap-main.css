@@ -254,6 +254,9 @@ input[type="tel"],
 input[type="time"],
 input[type="url"],
 textarea {
+  -webkit-box-shadow: none; /* Foundation override */
+     -moz-box-shadow: none; /* Foundation override */
+          box-shadow: none; /* Foundation override */
   -webkit-transition: none; /* Foundation override */
      -moz-transition: none; /* Foundation override */
           transition: none; /* Foundation override */
