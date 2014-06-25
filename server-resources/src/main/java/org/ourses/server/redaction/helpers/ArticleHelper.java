@@ -10,4 +10,6 @@ public interface ArticleHelper {
 
     void updateFromDTO(Article article, ArticleDTO articleDTO);
 
+    Article validateDraft(long id);
+
 }

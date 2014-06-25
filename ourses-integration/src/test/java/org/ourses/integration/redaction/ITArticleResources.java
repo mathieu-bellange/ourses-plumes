@@ -5,6 +5,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -26,6 +27,9 @@ public class ITArticleResources {
     private static final String PATH_DRAFT_UPDATE = "/rest/articles/draft/1";
     private static final String PATH_ANOTHER_DRAFT_UPDATE = "/rest/articles/draft/3";
     private static final String PATH_DRAFT_UPDATE_VALIDATE = "/rest/articles/draft/2";
+    private static final String PATH_DRAFT_VALIDATE = "/rest/articles/draft/4/validate";
+    private static final String PATH_ANOTHER_DRAFT_VALIDATE = "/rest/articles/draft/3/validate";
+    private static final String PATH_DRAFT_VALIDATE_VALIDATE = "/rest/articles/draft/2/validate";
 
     @Test
     public void shouldCreateArticleWithRedacRole() throws JsonGenerationException, JsonMappingException,
@@ -128,6 +132,45 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_UPDATE).build();
         ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
                 .put(ClientResponse.class, new ArticleDTO());
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldValidateDraft() {
+        URI uri = UriBuilder.fromPath(PATH_DRAFT_VALIDATE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article).isNotNull();
+        assertThat(article.getStatus()).isEqualTo(ArticleStatus.AVERIFIER);
+    }
+
+    @Test
+    public void shouldNotValidateDraftToOtherPeople() {
+        URI uri = UriBuilder.fromPath(PATH_ANOTHER_DRAFT_VALIDATE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldNotValidateValidateArticle() {
+        URI uri = UriBuilder.fromPath(PATH_DRAFT_VALIDATE_VALIDATE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldNotValidateWithoutRole() {
+        URI uri = UriBuilder.fromPath(PATH_DRAFT_VALIDATE).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
         // status attendu 401
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }

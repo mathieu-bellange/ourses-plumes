@@ -34,6 +34,7 @@
 				/rest/account/* = oursesAuthc
 				
 				/rest/articles/draft/* = oursesAuthc, oursesAuthz[Rédactrice]
+				/rest/articles/draft/*/validate = oursesAuthc, oursesAuthz[Rédactrice]
 				
 				/rest/github = oursesAuthc, oursesAuthz[Administratrice]
 				

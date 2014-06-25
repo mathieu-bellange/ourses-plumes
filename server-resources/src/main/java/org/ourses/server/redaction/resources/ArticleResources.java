@@ -19,7 +19,6 @@ import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.helpers.ArticleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.ClientResponse.Status;
@@ -72,13 +71,20 @@ public class ArticleResources {
 
     @PUT
     @Path("/draft/{id}/validate")
-    public Response validateDraft(@RequestParam("id")
+    public Response validateDraft(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
-        ResponseBuilder responseBuilder = Response.status(Status.OK);
-        // TODO vérification que l'article appartient au profil connecté
-        // TODO vérification que l'article est bien en brouillon
-        // TODO update du status de l'article
+        ResponseBuilder responseBuilder;
+        // vérification que l'article appartient au profil connecté
+        Profile profile = profileHelper.findProfileByAuthcToken(token);
+        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.BROUILLON)) {
+            // update du status de l'article
+            Article article = articleHelper.validateDraft(id);
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.UNAUTHORIZED);
+        }
         return responseBuilder.build();
     }
 
@@ -96,7 +102,7 @@ public class ArticleResources {
 
     @PUT
     @Path("/validate/{id}/publish")
-    public Response publishValidate(@RequestParam("id")
+    public Response publishValidate(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         // TODO vérification que l'action est fait pas une administratrice
@@ -108,7 +114,7 @@ public class ArticleResources {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteArticle(@RequestParam("id")
+    public Response deleteArticle(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         // TODO vérification que l'action est fait pas une administratrice pour les articles à valider et par son

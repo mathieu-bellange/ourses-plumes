@@ -42,4 +42,12 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setTags(tags);
         article.update("category", "rubrique", "title", "body", "description", "publishedDate", "tags");
     }
+
+    @Override
+    public Article validateDraft(long id) {
+        Article article = Article.findArticle(id);
+        article.setStatus(ArticleStatus.AVERIFIER);
+        article.update("status");
+        return article;
+    }
 }

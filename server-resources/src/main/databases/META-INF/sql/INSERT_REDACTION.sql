@@ -30,7 +30,8 @@ Insert into article
 Values
 	(1,'titre','description','body','2077-01-01 00:00:00',2,1,1,0),
 	(2,'titre','description','body','2077-01-01 00:00:00',2,1,2,1),
-	(3,'titre','description','body','2077-01-01 00:00:00',1,2,3,0);
+	(3,'titre','description','body','2077-01-01 00:00:00',1,2,3,0),
+	(4,'titre','description','body','2077-01-01 00:00:00',2,2,3,0);
 	
 Insert into article_tag
    (id, tag_id,article_id)
