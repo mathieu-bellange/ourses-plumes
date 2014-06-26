@@ -305,6 +305,17 @@ textarea.large {
 }
 
 /* ------------------------------------------------------------------ */
+/* # Placeholders */
+/* ------------------------------------------------------------------ */
+
+::-webkit-input-placeholder { /* Chrome */
+  color: rgba(0, 0, 0, .5);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(0, 0, 0, .5);
+}
+
+/* ------------------------------------------------------------------ */
 /* # Validation */
 /* ------------------------------------------------------------------ */
 
@@ -621,7 +632,7 @@ kbd,
   border-bottom: 1px solid #a8c;
 }
 
-.frame > .nav-pane input{
+.frame > .nav-pane input {
   margin-top: .125rem;
   border-color: #537;
   background-color: #a8c;
@@ -629,6 +640,7 @@ kbd,
   background-repeat: no-repeat;
   background-position: 97.5% center;
 }
+
 .frame > .nav-pane input:focus {
   background-color: #ffc;
 }
