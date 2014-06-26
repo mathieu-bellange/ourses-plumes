@@ -26,7 +26,11 @@ $(".alert-box .close").on('click', function(event) {
 });
 
 $( "#new-bug" ).submit(function( event ) {
-	if (document.getElementById("new-bug").checkValidity()){
+	// BUG :
+	// checkValidity() is an HTML 5 native method not supported by I9 and lower
+	// check if input content > 0 instead
+	// if (document.getElementById("new-bug").checkValidity()){
+	if ($("#bug-title").val() != "" && $("#bug-body").val() != "") {
 		var clientBrowserInfos = "\n***\n" +
 		"- appName : *" + navigator.appName + "*\n" +
 		"- appCodeName : *" + navigator.appCodeName + "*\n" +
