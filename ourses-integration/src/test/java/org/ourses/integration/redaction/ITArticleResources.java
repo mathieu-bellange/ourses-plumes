@@ -30,6 +30,8 @@ public class ITArticleResources {
     private static final String PATH_DRAFT_VALIDATE = "/rest/articles/draft/4/validate";
     private static final String PATH_ANOTHER_DRAFT_VALIDATE = "/rest/articles/draft/3/validate";
     private static final String PATH_DRAFT_VALIDATE_VALIDATE = "/rest/articles/draft/2/validate";
+    private static final String PATH_VALIDATE_UPDATE = "/rest/articles/validate/5";
+    private static final String PATH_VALIDATE_UPDATE_DRAFT = "/rest/articles/validate/1";
 
     @Test
     public void shouldCreateArticleWithRedacRole() throws JsonGenerationException, JsonMappingException,
@@ -171,6 +173,57 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_VALIDATE).build();
         ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldUpdateValidate() {
+        URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
+        ArticleDTO updateArticle = updateArticle(5l);
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article).isNotNull();
+        assertThat(article.getId()).isEqualTo(5l);
+        assertThat(article.getTitle()).isEqualTo(updateArticle.getTitle());
+        assertThat(article.getDescription()).isEqualTo(updateArticle.getDescription());
+        assertThat(article.getBody()).isEqualTo(updateArticle.getBody());
+        assertThat(article.getCategory()).isEqualTo(updateArticle.getCategory());
+        assertThat(article.getRubrique()).isEqualTo(updateArticle.getRubrique());
+        assertThat(article.getProfile().getPseudo()).isEqualTo("jpetit");
+        assertThat(article.getStatus()).isEqualTo(ArticleStatus.AVERIFIER);
+    }
+
+    @Test
+    public void shouldNotUpdateValidateWithRedacRole() {
+        URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
+        ArticleDTO updateArticle = updateArticle(5l);
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotUpdateDraftWithValidatePath() {
+        URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE_DRAFT).build();
+        ArticleDTO updateArticle = updateArticle(1l);
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldNotUpdateAnotherArticle() {
+        URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
+        // dans le path 5, article 1
+        ArticleDTO updateArticle = updateArticle(1l);
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }

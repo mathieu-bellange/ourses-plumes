@@ -267,7 +267,8 @@ public class BearAccount implements Account {
      * @return
      */
     public static BearAccount findAdminAccountByProfileId(Long profileId) {
-        return Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("profile.id", profileId).findUnique();
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").where().eq("profile.id", profileId)
+                .findUnique();
     }
 
     /**

@@ -145,9 +145,13 @@ public class Article implements Serializable {
         Ebean.save(this);
     }
 
-    public static int countArticle(long idProfile, long idArticle, ArticleStatus status) {
+    public static int countArticleByProfileAndStatus(long idProfile, long idArticle, ArticleStatus status) {
         return Ebean.find(Article.class).where().eq("profile.id", idProfile).eq("id", idArticle).eq("status", status)
                 .findRowCount();
+    }
+
+    public static int countArticleByStatus(long idArticle, ArticleStatus status) {
+        return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
     public static Article findArticle(long id) {

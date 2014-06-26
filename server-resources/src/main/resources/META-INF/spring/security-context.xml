@@ -36,6 +36,8 @@
 				/rest/articles/draft/* = oursesAuthc, oursesAuthz[Rédactrice]
 				/rest/articles/draft/*/validate = oursesAuthc, oursesAuthz[Rédactrice]
 				
+				/rest/articles/validate/* = oursesAuthc, oursesAuthz[Administratrice]
+				
 				/rest/github = oursesAuthc, oursesAuthz[Administratrice]
 				
 				/** = noSessionCreation

@@ -93,10 +93,19 @@ public class ArticleResources {
     public Response updateValidate(@PathParam("id")
     long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
-        // TODO vérification que l'action est fait pas une administratrice
-        // TODO vérification que l'article est bien en à valider
-        // TODO update de l'article passé en param
-        ResponseBuilder responseBuilder = Response.status(Status.OK);
+        // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
+        ResponseBuilder responseBuilder;
+        Profile profile = profileHelper.findProfileByAuthcToken(token);
+        Article article = Article.findArticle(id);
+        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)
+                && id == articleDTO.getId()) {
+            // update de l'article passé en param
+            articleHelper.updateFromDTO(article, articleDTO);
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.UNAUTHORIZED);
+        }
         return responseBuilder.build();
     }
 

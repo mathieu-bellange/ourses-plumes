@@ -234,7 +234,8 @@ public class ITBearAccountResources {
         assertThat(clientResponse.getStatus()).isEqualTo(204);
         ClientResponse clientResponseGet = TestHelper.webResourceWithAdminRole(UriBuilder.fromPath(PATH_AUTHC).build())
                 .header("Content-Type", "application/json")
-                .post(ClientResponse.class, new LoginDTO("yoda@gmail.com", "Bellange"));
+                .post(ClientResponse.class, new LoginDTO("nadejda@pussyriot.ru", "Bellange"));
+        assertThat(clientResponseGet.getStatus()).isEqualTo(200);
         AuthenticatedUserDTO userDTO = clientResponseGet.getEntity(AuthenticatedUserDTO.class);
         assertThat(userDTO.getRole()).isEqualTo(RolesUtil.REDACTRICE);
     }
