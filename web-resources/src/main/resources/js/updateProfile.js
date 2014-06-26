@@ -38,15 +38,7 @@ function createAlertBox(err, msg) {
 	if ($("#profile-alert").length == 0) {
 		$("header + hr").after(alert_box_template({"id" : "profile-alert", "class" : err, "text" : msg}));
 		if (document.readyState === "complete") {
-			// BUG -- the error alert box cannot be closed
-			// The Foundation alert box is reloaded only for the selector "header + hr".
-			// But the alert box has been put under "header + hr" with the jQuery method ".after()" (precisely between header and section).
-			// So the method foundation("alert") won't reload the newly created box because the scope is wrong.
-			// For it to work, this method should be placed on the parent element that contain the alert box.
-			// It can also be placed on the top most element of the node if any doubt remain.
-			// Let's append it to the whole document for now considering its actual position ;)
-			// $("header + hr").foundation("alert");
-			$(document).foundation("alert"); // EDIT
+			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
 		}
 		$("#profile-alert").fadeIn(300);
 	}
@@ -98,7 +90,7 @@ function setValidationIcon(selector, labelSelector, isValid) {
 	}
 }
 
-function majView(couple, updateInError){
+function majView(couple, updateInError) {
 	//en cas d'erreur, rollback les données à l'écran
 	if (updateInError) {
 		if (memoryCouple.property == pseudoProperty) {
@@ -131,8 +123,7 @@ function majView(couple, updateInError){
 			$(".icon-link").attr("data-url", couple.value);
 			break;
 		case pseudoProperty :
-			//loap.js method
-			update_user_pseudo(couple.value);
+			update_user_pseudo(couple.value); // method from loap.js
 			break;
 		default:
 			break;
@@ -205,7 +196,7 @@ function getProfile(){
 	}
 };
 
-function save(couple){
+function save(couple) {
 	var profileId = window.localStorage.getItem($oursesProfileId);
 	if(profileId != null){
 		$.ajax({
@@ -247,25 +238,25 @@ $("html").on("mouseout","#pseudo", function(event){
 	 $(this).removeClass("editable");
 });
 */
-$("html").on("focus","#pseudo", function(event){
+$("html").on("focus","#pseudo", function(event) {
 	// $(this).removeClass("disable");
 	// $(this).addClass("editing");
 	memoryCouple = new Couple(pseudoProperty,$(this).val());
 });
-$("html").on("keypress","#pseudo", function(event){
+$("html").on("keypress","#pseudo", function(event) {
 	if (event.which == 13) { // Enter
 		$(this).blur();
 	}
 });
-$("html").on("keydown","#pseudo", function(event){
+$("html").on("keydown","#pseudo", function(event) {
 	if (event.which == 27) { // Escape
-		$(this).val(memoryCouple.value); // recall initial value on cancel
+		$(this).val(memoryCouple.value); // recall last value on cancel
 		$(this).blur();
 	}
 });
-$("html").on("blur","#pseudo", function(event){
-	// $(this).addClass("disable"); // UNUSED for now ... do not remove
-	// $(this).removeClass("editing"); // UNUSED for now ... do not remove
+$("html").on("blur","#pseudo", function(event) {
+	// $(this).addClass("disable");
+	// $(this).removeClass("editing");
 	var couple = new Couple(pseudoProperty,$("#pseudo").val());
 	modifiyCouple(couple);
 });
@@ -278,21 +269,21 @@ $("html").on("mouseover","#description", function(event){
 $("html").on("mouseout","#description", function(event){
 	$(this).removeClass("editable");
 });
-$("html").on("focus","#description", function(event){
-	$(this).removeClass("disable");
-	$(this).addClass("editing");
-	memoryCouple = new Couple(descriptionProperty,$("#description").val());
-});
 $("html").on("keypress","#description", function(event){
 	if(event.which == 13) {
 		$(this).blur();
 	}
 });
 */
-$("html").on("blur","#description", function(event){
+$("html").on("focus","#description", function(event) {
+	// $(this).removeClass("disable");
+	// $(this).addClass("editing");
+	memoryCouple = new Couple(descriptionProperty, $("#description").val());
+});
+$("html").on("blur","#description", function(event) {
 	// $(this).addClass("disable");
 	// $(this).removeClass("editing");
-	var couple = new Couple(descriptionProperty,$(this).val());
+	var couple = new Couple(descriptionProperty, $(this).val());
 	modifiyCouple(couple);
 });
 

@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Main Cascading Style Sheet
  * Includes Basics, Responsive Design, CSS Effects, CSS Debug
- * ver. 0.0.4
+ * ver. 0.0.5
  */
 
 /* ------------------------------------------------------------------ */
@@ -1797,7 +1797,7 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .user-profile h3 {
   padding: .5rem;
   color: white;
-  background-color: #333;
+  background-color: #537;
 }
 .user-profile hr {
   margin: .5rem 0;
@@ -1826,7 +1826,7 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
   line-height: 150%;
   color: white;
   border-color: transparent;
-  background-color: #333;
+  background-color: #537;
 }
 .user-profile textarea#description {
   position: relative;

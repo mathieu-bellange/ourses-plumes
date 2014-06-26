@@ -41,7 +41,7 @@
 							<!--Rubric-->
 							<div class="row collapse">
 								<div class="column small-12">
-									<label for="rubric">Rubrique</label>
+									<label for="rubric">Rubrique <small class="red">*</small></label>
 									<select id="rubric">
 										<option disabled selected>&hellip;</option>
 										<option data-color="orange">Luttes</option>
@@ -57,7 +57,7 @@
 							<!--Category-->
 							<div class="row collapse">
 								<div class="column small-12">
-									<label for="category">Cat&eacute;gorie</label>
+									<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
 									<select id="category">
 										<option disabled selected>&hellip;</option>
 										<option>Br&egrave;ve</option>
@@ -77,7 +77,7 @@
 									<label for="tag">Tags</label>
 								</div>
 								<div class="column small-9">
-									<input id="tag" class="validation-icon" type="text" placeholder="Une &eacute;tiquette au choix pour r&eacute;f&eacute;rencer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
+									<input id="tag" class="validation-icon" type="text" placeholder="Une &eacute;tiquette au choix pour indexer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
 									<small id="tag_error" class="error hide">Ce tag est déjà pris !</small>
 								</div>
 								<div class="column small-3">
@@ -89,6 +89,12 @@
 								<dd class="hide"><span id="tag_rubric" class="label radius">&hellip;</span></dd>
 								<dd class="hide"><span id="tag_category" class="label radius inverse">&hellip;</span></dd>
 							</dl>
+
+							<!--Summary-->
+							<div>
+								<label for="summary">R&eacute;sum&eacute;</label>
+								<textarea id="summary" class="min" maxlength="255" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (255 caract&egrave;res maximum)"></textarea>
+							</div>
 
 						</fieldset>
 

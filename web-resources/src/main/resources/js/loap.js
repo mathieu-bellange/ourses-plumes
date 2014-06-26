@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Main File
  * Require jQuery Library, Includes Build and Core
- * ver. 0.0.4
+ * ver. 0.0.5
  */
 
 /* ------------------------------------------------------------------ */
@@ -628,6 +628,7 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 							} else {
 								valid(obj);
 							}
+							obj.trigger('autosize.resize') // force autosize (i.e. wrong size on cancel bug fix)
 						},
 						keydown: function(event) {
 							if (event.which == 27) { // Escape
@@ -636,9 +637,9 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 							} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
 								valid(obj);
 								obj.blur();
-							} else if (event.which == 0 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or A-Z 0-9 ot Numpad or Punctuation Mark
+							} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 								if ($(".validation-bar").length === 0) {
-									$(this).after(textarea_helper_template()); // process template
+									$(this).after(textarea_helper_template()); // insert validation_bar template
 									$(".validation-bar").fadeIn("slow");
 								}
 							}
