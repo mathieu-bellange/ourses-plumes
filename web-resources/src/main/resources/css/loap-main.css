@@ -380,11 +380,8 @@ button, .button,
   border-style: solid;
 }
 
-button:hover, .button:hover,
-button:focus, .button:focus {
-}
-
-button:active, .button:active {
+button:visited, .button:visited {
+  color: white; /* Chrome/IE link as button color Fix */
 }
 
 /* Buttons Sizing */
