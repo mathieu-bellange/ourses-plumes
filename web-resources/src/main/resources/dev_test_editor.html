@@ -1,0 +1,143 @@
+﻿<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<script src="boot"></script>
+		<script src="js/ckeditor/ckeditor.js"></script><!--TEMP-->
+		<script src="js/ckeditor/config.js"></script><!--TEMP-->
+		<script src="js/ckeditor/styles.js"></script><!--TEMP-->
+		<script src="js/ckeditor/adapters/jquery.js"></script><!--TEMP-->
+	</head>
+	<body>
+		<div style="min-height: 100%; padding: 1rem; background-color: white;">
+
+			<h2 class="red">&Eacute;diteur <small>#article_editor</small></h2>
+
+		<a href="#" class="button">Texte</a>
+
+			<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
+
+				<fieldset class="important">
+					<legend>Publication</legend>
+
+					<!--Title-->
+					<label for="title">Titre de l&rsquo;article</label>
+					<input id="title" type="text" placeholder="Le titre de l&rsquo;article (p. ex. &ldquo;L&rsquo;&eacute;galit&eacute; entre les sexes, une question plus que jamais d&rsquo;actualit&eacute;&ldquo;)">
+
+					<!--Date-->
+					<label for="date">Date de publication pr&eacute;visionnelle</label>
+					<div class="row collapse">
+						<div class="column small-4">
+							<input id="date" type="text" placeholder="JJ/MM/AAAA">
+						</div>
+						<div class="column small-8">
+							<span id="date_literal" class="postfix">&hellip;</span>
+						</div>
+					</div>
+
+					<!--Author-->
+					<label for="author">R&eacute;dactrice</label>
+					<input id="author" type="text" disabled value="{{= window.localStorage.getItem($oursesUserPseudo) !== null ? window.localStorage.getItem($oursesUserPseudo) : 'Les Ourses &agrave; plumes' }}" >
+
+					<!--Status-->
+					<label for="status">Statut</label>
+					<select id="status" disabled>
+						<option selected>Brouillon</option>
+						<option>En attente de validation</option>
+						<option>En ligne</option>
+					</select>
+
+				</fieldset>
+
+				<fieldset>
+					<legend>Ind&eacute;xation</legend>
+
+					<!--Rubric-->
+					<div class="row collapse">
+						<div class="column small-12">
+							<label for="rubric">Rubrique <small class="red">*</small></label>
+							<select id="rubric">
+								<option disabled selected>&hellip;</option>
+								<option data-color="orange">Luttes</option>
+								<option data-color="magenta">Nos corps, nous-m&ecirc;mes</option>
+								<option data-color="red">Intersectionnalit&eacute;</option>
+								<option data-color="blue">International</option>
+								<option data-color="cyan">&Eacute;ducation & Culture</option>
+								<option data-color="yellow">Id&eacute;es</option>
+							</select>
+						</div>
+					</div>
+
+					<!--Category-->
+					<div class="row collapse">
+						<div class="column small-12">
+							<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
+							<select id="category">
+								<option disabled selected>&hellip;</option>
+								<option>Br&egrave;ve</option>
+								<option>Reportage</option>
+								<option>Dossier</option>
+								<option>Spotlight</option>
+								<option>Interview</option>
+								<option>Tribune</option>
+								<option>Revue du web</option>
+							</select>
+						</div>
+					</div>
+
+					<!--Tags-->
+					<div class="row collapse">
+						<div class="column">
+							<label for="tag">Tags</label>
+						</div>
+						<div class="column small-9">
+							<input id="tag" class="validation-icon" type="text" placeholder="Une &eacute;tiquette au choix pour indexer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
+							<small id="tag_error" class="error hide">Ce tag est déjà pris !</small>
+						</div>
+						<div class="column small-3">
+							<input id="tag_add" type="button" value="Ajouter" href="javascript:void(0)" class="button postfix">
+						</div>
+					</div>
+					<dl id="tags" class="tags inline-list clearfix">
+						<dt><span class="icon-tag small" title="Tags">Tags</span></dt>
+						<dd class="hide"><span id="tag_rubric" class="label radius">&hellip;</span></dd>
+						<dd class="hide"><span id="tag_category" class="label radius inverse">&hellip;</span></dd>
+					</dl>
+
+					<!--Summary-->
+					<div>
+						<label for="summary">R&eacute;sum&eacute;</label>
+						<textarea id="summary" class="min" maxlength="255" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (255 caract&egrave;res maximum)"></textarea>
+					</div>
+
+				</fieldset>
+
+				<!--CK Editor-->
+				<textarea id="editor"></textarea>
+
+				<!--Validation Buttons-->
+				<div class="text-center" style="margin-top: 1rem;">
+					<input class="button tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip data-options="disable_for_touch:true">
+					<input class="button alert tip-top" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" data-tooltip data-options="disable_for_touch:true">
+				</div>
+
+			</form>
+
+		</div>
+
+		<script>
+			$build_container = false;
+			load();
+		</script>
+		<script>
+			loap.update()
+			$(document).ready(function(){
+				$('textarea').autosize({append: ""}); // apply autosize plugin to all textarea of the page
+				$("textarea").validation_bar(); // apply validation_bar plugin to all textarea of the page
+			});
+		</script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
+</html>
