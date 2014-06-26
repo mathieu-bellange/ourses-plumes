@@ -78,7 +78,19 @@ $err_msg          = {                                   // Object.  Define gener
 /* # TEMP : Frontend Reloc path */
 /* ------------------------------------------------------------------ */
 
-if (window.location.href.split("/")[0].slice(0,4) == "file") {
+function isFileProtocol() {
+	if (window.location.href.split("/")[0].slice(0,4) === "file") {
+		return true;
+	}
+}
+
+function isLocalHost() {
+	if (window.location.hostname === "localhost") {
+		return true;
+	}
+}
+
+if (isFileProtocol()) {
 	$app_root = ""; // Set relative base URL while serverless
 	$js_root = $app_root + "js/"; // Redefine js files location while serverless
 }
@@ -120,9 +132,13 @@ var body_tags = [
 
 var xhr = (function() {
 	if (typeof XMLHttpRequest !== "undefined") {
-		return new XMLHttpRequest();// Firefox, Chrome, Opera
+		if (isFileProtocol() && navigator.appName == "Microsoft Internet Explorer") {
+			return new ActiveXObject("Microsoft.XMLHTTP") // Internet Explorer > 9 from local files
+		} else {
+			return new XMLHttpRequest(); // Firefox, Chrome, Opera
+		}
 	} else if (typeof ActiveXObject !== "undefined") {
-		return new ActiveXObject("Microsoft.XMLHTTP"); // Internet Explorer
+		return new ActiveXObject("Microsoft.XMLHTTP"); // Internet Explorer < 9
 	} else {
 		console.log("File loading failed. XMLHttpRequest and ActiveXObject deactivated or not supported.");
 	}
