@@ -61,4 +61,13 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.update("status");
         return article;
     }
+
+    @Override
+    public Article publishArticle(long id) {
+        Article article = Article.findArticle(id);
+        article.setStatus(ArticleStatus.ENLIGNE);
+        article.update("status");
+        // TODO date de publication ?
+        return article;
+    }
 }

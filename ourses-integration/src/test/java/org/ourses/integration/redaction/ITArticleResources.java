@@ -32,6 +32,8 @@ public class ITArticleResources {
     private static final String PATH_DRAFT_VALIDATE_VALIDATE = "/rest/articles/draft/2/validate";
     private static final String PATH_VALIDATE_UPDATE = "/rest/articles/validate/5";
     private static final String PATH_VALIDATE_UPDATE_DRAFT = "/rest/articles/validate/1";
+    private static final String PATH_VALIDATE_PUBLISH = "/rest/articles/validate/6/publish";
+    private static final String PATH_DRAFT_PUBLISH = "/rest/articles/validate/1/publish";
 
     @Test
     public void shouldCreateArticleWithRedacRole() throws JsonGenerationException, JsonMappingException,
@@ -224,6 +226,36 @@ public class ITArticleResources {
         ArticleDTO updateArticle = updateArticle(1l);
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldPublishValidate() {
+        URI uri = UriBuilder.fromPath(PATH_VALIDATE_PUBLISH).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article).isNotNull();
+        assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
+    }
+
+    @Test
+    public void shouldNotPublishWithAdminRole() {
+        URI uri = UriBuilder.fromPath(PATH_VALIDATE_PUBLISH).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotPublishDraft() {
+        URI uri = UriBuilder.fromPath(PATH_DRAFT_PUBLISH).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
         // status attendu 401
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }

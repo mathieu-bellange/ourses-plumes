@@ -33,10 +33,9 @@
 				/rest/account/*/role = oursesAuthc, oursesAuthz[Administratrice]
 				/rest/account/* = oursesAuthc
 				
-				/rest/articles/draft/* = oursesAuthc, oursesAuthz[Rédactrice]
-				/rest/articles/draft/*/validate = oursesAuthc, oursesAuthz[Rédactrice]
+				/rest/articles/draft/** = oursesAuthc, oursesAuthz[Rédactrice]
 				
-				/rest/articles/validate/* = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/articles/validate/** = oursesAuthc, oursesAuthz[Administratrice]
 				
 				/rest/github = oursesAuthc, oursesAuthz[Administratrice]
 				

@@ -114,10 +114,17 @@ public class ArticleResources {
     public Response publishValidate(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
-        // TODO vérification que l'action est fait pas une administratrice
-        // TODO vérification que l'article est bien en à valider
-        // TODO update du status de l'article
-        ResponseBuilder responseBuilder = Response.status(Status.OK);
+        // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
+        ResponseBuilder responseBuilder;
+        Profile profile = profileHelper.findProfileByAuthcToken(token);
+        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)) {
+            // update du status de l'article
+            Article article = articleHelper.publishArticle(id);
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.UNAUTHORIZED);
+        }
         return responseBuilder.build();
     }
 

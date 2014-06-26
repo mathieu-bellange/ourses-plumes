@@ -12,4 +12,6 @@ public interface ArticleHelper {
 
     Article validateDraft(long id);
 
+    Article publishArticle(long id);
+
 }
