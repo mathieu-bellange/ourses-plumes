@@ -23,17 +23,17 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 
 public class ITArticleResources {
 
-    private static final String PATH_DRAFT_CREATE = "/rest/articles/draft/create";
-    private static final String PATH_DRAFT_UPDATE = "/rest/articles/draft/1";
-    private static final String PATH_ANOTHER_DRAFT_UPDATE = "/rest/articles/draft/3";
-    private static final String PATH_DRAFT_UPDATE_VALIDATE = "/rest/articles/draft/2";
-    private static final String PATH_DRAFT_VALIDATE = "/rest/articles/draft/4/validate";
-    private static final String PATH_ANOTHER_DRAFT_VALIDATE = "/rest/articles/draft/3/validate";
-    private static final String PATH_DRAFT_VALIDATE_VALIDATE = "/rest/articles/draft/2/validate";
-    private static final String PATH_VALIDATE_UPDATE = "/rest/articles/validate/5";
-    private static final String PATH_VALIDATE_UPDATE_DRAFT = "/rest/articles/validate/1";
-    private static final String PATH_VALIDATE_PUBLISH = "/rest/articles/validate/6/publish";
-    private static final String PATH_DRAFT_PUBLISH = "/rest/articles/validate/1/publish";
+    private static final String PATH_DRAFT_CREATE = "/rest/articles/create";
+    private static final String PATH_DRAFT_UPDATE = "/rest/articles/1";
+    private static final String PATH_ANOTHER_DRAFT_UPDATE = "/rest/articles/3";
+    private static final String PATH_DRAFT_UPDATE_VALIDATE = "/rest/articles/2";
+    private static final String PATH_DRAFT_VALIDATE = "/rest/articles/4/validate";
+    private static final String PATH_ANOTHER_DRAFT_VALIDATE = "/rest/articles/3/validate";
+    private static final String PATH_DRAFT_VALIDATE_VALIDATE = "/rest/articles/2/validate";
+    private static final String PATH_VALIDATE_UPDATE = "/rest/articles/5";
+    private static final String PATH_VALIDATE_UPDATE_DRAFT = "/rest/articles/1";
+    private static final String PATH_VALIDATE_PUBLISH = "/rest/articles/6/publish";
+    private static final String PATH_DRAFT_PUBLISH = "/rest/articles/1/publish";
 
     @Test
     public void shouldCreateArticleWithRedacRole() throws JsonGenerationException, JsonMappingException,
@@ -205,8 +205,8 @@ public class ITArticleResources {
         ArticleDTO updateArticle = updateArticle(5l);
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 403
-        assertThat(clientResponse.getStatus()).isEqualTo(403);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
     @Test
@@ -243,7 +243,7 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldNotPublishWithAdminRole() {
+    public void shouldNotPublishWithRedacRole() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_PUBLISH).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);

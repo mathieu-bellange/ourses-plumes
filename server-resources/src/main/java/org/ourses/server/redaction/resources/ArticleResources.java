@@ -35,7 +35,7 @@ public class ArticleResources {
     private ArticleHelper articleHelper;
 
     @PUT
-    @Path("/draft/create")
+    @Path("/create")
     public Response createArticle(ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
@@ -49,15 +49,15 @@ public class ArticleResources {
     }
 
     @PUT
-    @Path("/draft/{id}")
+    @Path("/{id}")
     public Response updateDraft(@PathParam("id")
     long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
-        // vérification que l'article appartient au profil connecté
+        // vérification que l'article est bien modifiable par l'utilisateur connecté
         Profile profile = profileHelper.findProfileByAuthcToken(token);
-        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.BROUILLON)
+        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, article.getStatus())
                 && id == articleDTO.getId()) {
             // update de l'article passé en param
             articleHelper.updateFromDTO(article, articleDTO);
@@ -70,7 +70,7 @@ public class ArticleResources {
     }
 
     @PUT
-    @Path("/draft/{id}/validate")
+    @Path("/{id}/validate")
     public Response validateDraft(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
@@ -89,28 +89,7 @@ public class ArticleResources {
     }
 
     @PUT
-    @Path("/validate/{id}")
-    public Response updateValidate(@PathParam("id")
-    long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
-        // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
-        ResponseBuilder responseBuilder;
-        Profile profile = profileHelper.findProfileByAuthcToken(token);
-        Article article = Article.findArticle(id);
-        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)
-                && id == articleDTO.getId()) {
-            // update de l'article passé en param
-            articleHelper.updateFromDTO(article, articleDTO);
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
-        }
-        else {
-            responseBuilder = Response.status(Status.UNAUTHORIZED);
-        }
-        return responseBuilder.build();
-    }
-
-    @PUT
-    @Path("/validate/{id}/publish")
+    @Path("/{id}/publish")
     public Response publishValidate(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
