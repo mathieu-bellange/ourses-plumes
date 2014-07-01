@@ -34,6 +34,8 @@ public class ITArticleResources {
     private static final String PATH_VALIDATE_UPDATE_DRAFT = "/rest/articles/1";
     private static final String PATH_VALIDATE_PUBLISH = "/rest/articles/6/publish";
     private static final String PATH_DRAFT_PUBLISH = "/rest/articles/1/publish";
+    private static final String PATH_DELETE_DRAFT = "/rest/articles/7";
+    private static final String PATH_DELETE_VALIDATE = "/rest/articles/8";
 
     @Test
     public void shouldCreateArticleWithRedacRole() throws JsonGenerationException, JsonMappingException,
@@ -256,6 +258,33 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_PUBLISH).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldDeleteDraft() {
+        URI uri = UriBuilder.fromPath(PATH_DELETE_DRAFT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").delete(ClientResponse.class);
+        // status attendu 204
+        assertThat(clientResponse.getStatus()).isEqualTo(204);
+    }
+
+    @Test
+    public void shouldNotDeleteDraftByAnotherUser() {
+        URI uri = UriBuilder.fromPath(PATH_DELETE_DRAFT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").delete(ClientResponse.class);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldNotDeleteValidate() {
+        URI uri = UriBuilder.fromPath(PATH_DELETE_VALIDATE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").delete(ClientResponse.class);
         // status attendu 401
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }

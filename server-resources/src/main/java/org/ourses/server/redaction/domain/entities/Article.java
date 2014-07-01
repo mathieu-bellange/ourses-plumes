@@ -53,7 +53,7 @@ public class Article implements Serializable {
     private Category category;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Rubrique rubrique;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "ARTICLE_TAG", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
     private Set<Tag> tags;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
@@ -161,6 +161,10 @@ public class Article implements Serializable {
 
     public void update(String... properties) {
         Ebean.update(this, Sets.newHashSet(properties));
+    }
+
+    public void delete() {
+        Ebean.delete(this);
     }
 
     public ArticleDTO toArticleDTO() {

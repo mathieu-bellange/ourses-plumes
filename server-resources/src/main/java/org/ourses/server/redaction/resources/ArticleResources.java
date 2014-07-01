@@ -112,11 +112,18 @@ public class ArticleResources {
     public Response deleteArticle(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
-        // TODO vérification que l'action est fait pas une administratrice pour les articles à valider et par son
-        // auteure pour les brouillons
-        // TODO suppression de l'article passé en param
-        ResponseBuilder responseBuilder = Response.status(Status.OK);
+        ResponseBuilder responseBuilder;
+        Article article = Article.findArticle(id);
+        // vérification que l'article est bien modifiable par l'utilisateur connecté
+        Profile profile = profileHelper.findProfileByAuthcToken(token);
+        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.BROUILLON)) {
+            // suppression de l'article passé en param
+            article.delete();
+            responseBuilder = Response.status(Status.NO_CONTENT);
+        }
+        else {
+            responseBuilder = Response.status(Status.UNAUTHORIZED);
+        }
         return responseBuilder.build();
     }
-
 }
