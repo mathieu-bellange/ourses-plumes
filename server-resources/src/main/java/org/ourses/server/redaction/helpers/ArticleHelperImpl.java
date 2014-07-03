@@ -22,12 +22,15 @@ public class ArticleHelperImpl implements ArticleHelper {
         boolean isUpdatable = false;
         switch (status) {
         case BROUILLON:
+            // seul la rédactrice peut modifier un brouillon
             isUpdatable = isProfileIsTheOwner(idProfile, idArticle, status);
             break;
         case AVERIFIER:
+            // seul une administratrice peut modifier un A vérifier
             isUpdatable = isAdminAndValidateArticle(idProfile, idArticle, status);
             break;
         case ENLIGNE:
+            // un article en ligne ne peut être modifié
             isUpdatable = false;
             break;
         default:
@@ -42,6 +45,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         switch (status) {
         case BROUILLON:
             // seul la rédactrice du brouillon à accès au brouillon
+            isReadable = isProfileIsTheOwner(idProfile, idArticle, status);
             break;
         case AVERIFIER:
             // seul une administratrice à accès à un A vérifier
@@ -57,7 +61,11 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     private boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status) {
-        return Article.countArticleByProfileAndStatus(idProfile, idArticle, status) > 0;
+        boolean isProfileIsTheOwner = false;
+        if (idProfile != null) {
+            isProfileIsTheOwner = Article.countArticleByProfileAndStatus(idProfile, idArticle, status) > 0;
+        }
+        return isProfileIsTheOwner;
     }
 
     private boolean isAdminAndValidateArticle(Long idProfile, long idArticle, ArticleStatus status) {

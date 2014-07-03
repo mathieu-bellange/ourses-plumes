@@ -44,7 +44,7 @@ public class ArticleResources {
         Article article = Article.findArticle(id);
         Long idProfile = profileHelper.findIdProfile(token);
         // détermine si un article est lisible par un utilisateur
-        if (article != null && articleHelper.isArticleReadable(idProfile, article.getId(), article.getStatus())) {
+        if (article != null && articleHelper.isArticleReadable(idProfile, id, article.getStatus())) {
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
         }
         else {
