@@ -18,17 +18,14 @@ import com.google.common.collect.Sets;
 public class ArticleHelperImpl implements ArticleHelper {
 
     @Override
-    public boolean isArticleUpdatable(long idProfile, long idArticle, ArticleStatus status) {
+    public boolean isArticleUpdatable(Long idProfile, long idArticle, ArticleStatus status) {
         boolean isUpdatable = false;
         switch (status) {
         case BROUILLON:
-            isUpdatable = Article.countArticleByProfileAndStatus(idProfile, idArticle, status) > 0;
+            isUpdatable = isProfileIsTheOwner(idProfile, idArticle, status);
             break;
         case AVERIFIER:
-            BearAccount account = BearAccount.findAdminAccountByProfileId(idProfile);
-            if (account != null && RolesUtil.ADMINISTRATRICE.equals(account.getAuthzInfo().getMainRole())) {
-                isUpdatable = Article.countArticleByStatus(idArticle, status) > 0;
-            }
+            isUpdatable = isAdminAndValidateArticle(idProfile, idArticle, status);
             break;
         case ENLIGNE:
             isUpdatable = false;
@@ -37,6 +34,41 @@ public class ArticleHelperImpl implements ArticleHelper {
             break;
         }
         return isUpdatable;
+    }
+
+    @Override
+    public boolean isArticleReadable(Long idProfile, Long idArticle, ArticleStatus status) {
+        boolean isReadable = false;
+        switch (status) {
+        case BROUILLON:
+            // seul la rédactrice du brouillon à accès au brouillon
+            break;
+        case AVERIFIER:
+            // seul une administratrice à accès à un A vérifier
+            break;
+        case ENLIGNE:
+            // tout le monde à accès au publish
+            isReadable = true;
+            break;
+        default:
+            break;
+        }
+        return isReadable;
+    }
+
+    private boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status) {
+        return Article.countArticleByProfileAndStatus(idProfile, idArticle, status) > 0;
+    }
+
+    private boolean isAdminAndValidateArticle(Long idProfile, long idArticle, ArticleStatus status) {
+        boolean isAdminAndValidateArticle = false;
+        if (idProfile != null) {
+            BearAccount account = BearAccount.findAdminAccountByProfileId(idProfile);
+            if (account != null && RolesUtil.ADMINISTRATRICE.equals(account.getAuthzInfo().getMainRole())) {
+                isAdminAndValidateArticle = Article.countArticleByStatus(idArticle, status) > 0;
+            }
+        }
+        return isAdminAndValidateArticle;
     }
 
     @Override
@@ -70,4 +102,13 @@ public class ArticleHelperImpl implements ArticleHelper {
         // TODO date de publication ?
         return article;
     }
+
+    @Override
+    public Article invalidateArticle(long id) {
+        Article article = Article.findArticle(id);
+        article.setStatus(ArticleStatus.BROUILLON);
+        article.update("status");
+        return article;
+    }
+
 }

@@ -36,6 +36,31 @@ public class ITArticleResources {
     private static final String PATH_DRAFT_PUBLISH = "/rest/articles/1/publish";
     private static final String PATH_DELETE_DRAFT = "/rest/articles/7";
     private static final String PATH_DELETE_VALIDATE = "/rest/articles/8";
+    private static final String PATH_INVALDIATE = "/rest/articles/9/invalidate";
+    private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
+    private static final String PATH_GET = "/rest/articles/11";
+
+    @Test
+    public void shouldReadPublishArticle() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_GET).build();
+
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+                .get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article).isNotNull();
+        assertThat(article.getId()).isNotNull();
+        assertThat(article.getTitle()).isNotNull();
+        assertThat(article.getDescription()).isNotNull();
+        assertThat(article.getBody()).isNotNull();
+        assertThat(article.getCategory().getCategory()).isNotNull();
+        assertThat(article.getRubrique().getRubrique()).isNotNull();
+        assertThat(article.getProfile().getPseudo()).isNotNull();
+        assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
+        assertThat(article.getTags()).isNotEmpty();
+    }
 
     @Test
     public void shouldCreateArticleWithRedacRole() throws JsonGenerationException, JsonMappingException,
@@ -285,6 +310,36 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DELETE_VALIDATE).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").delete(ClientResponse.class);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldInvalidate() {
+        URI uri = UriBuilder.fromPath(PATH_INVALDIATE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article).isNotNull();
+        assertThat(article.getStatus()).isEqualTo(ArticleStatus.BROUILLON);
+    }
+
+    @Test
+    public void shouldNotInvalidateWithRedacRole() {
+        URI uri = UriBuilder.fromPath(PATH_INVALDIATE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotInvalidateDraft() {
+        URI uri = UriBuilder.fromPath(PATH_INVALIDATE_DRAFT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
         // status attendu 401
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }

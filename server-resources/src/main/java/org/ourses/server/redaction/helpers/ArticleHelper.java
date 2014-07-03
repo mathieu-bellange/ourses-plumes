@@ -6,12 +6,16 @@ import org.ourses.server.redaction.domain.entities.ArticleStatus;
 
 public interface ArticleHelper {
 
-    boolean isArticleUpdatable(long idProfile, long idArticle, ArticleStatus brouillon);
+    boolean isArticleUpdatable(Long idProfile, long idArticle, ArticleStatus brouillon);
 
     void updateFromDTO(Article article, ArticleDTO articleDTO);
 
     Article validateDraft(long id);
 
     Article publishArticle(long id);
+
+    Article invalidateArticle(long id);
+
+    boolean isArticleReadable(Long idProfile, Long id, ArticleStatus status);
 
 }

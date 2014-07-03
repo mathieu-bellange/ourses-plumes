@@ -2,6 +2,7 @@ package org.ourses.server.redaction.resources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -34,9 +35,27 @@ public class ArticleResources {
     @Autowired
     private ArticleHelper articleHelper;
 
+    @GET
+    @Path("/{id}")
+    public Response read(@PathParam("id")
+    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token) {
+        ResponseBuilder responseBuilder;
+        Article article = Article.findArticle(id);
+        Long idProfile = profileHelper.findIdProfile(token);
+        // détermine si un article est lisible par un utilisateur
+        if (article != null && articleHelper.isArticleReadable(idProfile, article.getId(), article.getStatus())) {
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.NOT_FOUND);
+        }
+        return responseBuilder.build();
+    }
+
     @PUT
     @Path("/create")
-    public Response createArticle(ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    public Response create(ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
         Article article = articleDTO.toArticle();
@@ -50,14 +69,14 @@ public class ArticleResources {
 
     @PUT
     @Path("/{id}")
-    public Response updateDraft(@PathParam("id")
+    public Response update(@PathParam("id")
     long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
         // vérification que l'article est bien modifiable par l'utilisateur connecté
-        Profile profile = profileHelper.findProfileByAuthcToken(token);
-        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, article.getStatus())
+        Long idProfile = profileHelper.findIdProfile(token);
+        if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, article.getStatus())
                 && id == articleDTO.getId()) {
             // update de l'article passé en param
             articleHelper.updateFromDTO(article, articleDTO);
@@ -71,7 +90,7 @@ public class ArticleResources {
 
     @PUT
     @Path("/{id}/validate")
-    public Response validateDraft(@PathParam("id")
+    public Response validate(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder;
@@ -90,7 +109,7 @@ public class ArticleResources {
 
     @PUT
     @Path("/{id}/publish")
-    public Response publishValidate(@PathParam("id")
+    public Response publish(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
@@ -107,16 +126,35 @@ public class ArticleResources {
         return responseBuilder.build();
     }
 
+    @PUT
+    @Path("/{id}/invalidate")
+    public Response invalidate(@PathParam("id")
+    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token) {
+        // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
+        ResponseBuilder responseBuilder;
+        Profile profile = profileHelper.findProfileByAuthcToken(token);
+        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)) {
+            // update du status de l'article
+            Article article = articleHelper.invalidateArticle(id);
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.UNAUTHORIZED);
+        }
+        return responseBuilder.build();
+    }
+
     @DELETE
     @Path("/{id}")
-    public Response deleteArticle(@PathParam("id")
+    public Response delete(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
         // vérification que l'article est bien modifiable par l'utilisateur connecté
-        Profile profile = profileHelper.findProfileByAuthcToken(token);
-        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.BROUILLON)) {
+        Long idProfile = profileHelper.findIdProfile(token);
+        if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)) {
             // suppression de l'article passé en param
             article.delete();
             responseBuilder = Response.status(Status.NO_CONTENT);

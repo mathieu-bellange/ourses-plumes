@@ -96,4 +96,18 @@ public class ProfileHelperImpl implements ProfileHelper {
         return profile;
     }
 
+    @Override
+    public Long findIdProfile(String token) {
+        Long idProfile = null;
+        // le token peut être pour une personne qui se contente de consulter le site
+        if (token != null) {
+            Profile profile = findProfileByAuthcToken(token);
+            // au cas où le token n'est pas lié à un profil
+            if (profile != null) {
+                idProfile = profile.getId();
+            }
+        }
+        return idProfile;
+    }
+
 }

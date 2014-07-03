@@ -34,7 +34,10 @@
 				/rest/account/* = oursesAuthc
 				
 				/rest/articles/*/publish = oursesAuthc, oursesAuthz[Administratrice]
-				/rest/articles/** = oursesAuthc, oursesAuthz[Rédactrice]
+				/rest/articles/*/invalidate = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/articles/*/validate = oursesAuthc, oursesAuthz[Rédactrice]
+				/rest/articles/create = oursesAuthc, oursesAuthz[Rédactrice]
+				/rest/articles/** = anon
 				
 				
 				/rest/github = oursesAuthc, oursesAuthz[Administratrice]

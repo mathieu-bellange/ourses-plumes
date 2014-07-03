@@ -9,4 +9,6 @@ public interface ProfileHelper {
 
     Profile findProfileByAuthcToken(String token);
 
+    Long findIdProfile(String token);
+
 }

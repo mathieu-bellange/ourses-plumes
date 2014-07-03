@@ -35,10 +35,15 @@ Values
 	(5,'titre 5','description','body','2077-01-01 00:00:00',2,2,3,1),
 	(6,'titre 6','description','body','2077-01-01 00:00:00',2,2,3,1),
 	(7,'titre 7','to delete','body','2077-01-01 00:00:00',2,2,3,0),
-	(8,'titre 8','cannot delete','body','2077-01-01 00:00:00',2,2,3,1);
+	(8,'titre 8','cannot delete','body','2077-01-01 00:00:00',2,2,3,1),
+	(9,'titre 9','invalidate','body','2077-01-01 00:00:00',2,2,3,1),
+	(10,'titre 10','not_invalidate','body','2077-01-01 00:00:00',2,2,3,0),
+	(11,'titre 11','get','body','2077-01-01 00:00:00',2,2,3,2);
 	
 Insert into article_tag
    (id, tag_id,article_id)
  Values
    (1, 1, 1),
-   (2, 1, 7);
+   (2, 1, 7),
+   (3, 1, 11),
+   (4, 2, 11);
