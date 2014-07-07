@@ -13,8 +13,6 @@
 
 			<h2 class="red">&Eacute;diteur <small>#article_editor</small></h2>
 
-		<a href="#" class="button">Texte</a>
-
 			<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
 
 				<fieldset class="important">
@@ -37,7 +35,7 @@
 
 					<!--Author-->
 					<label for="author">R&eacute;dactrice</label>
-					<input id="author" type="text" disabled value="{{= window.localStorage.getItem($oursesUserPseudo) !== null ? window.localStorage.getItem($oursesUserPseudo) : 'Les Ourses &agrave; plumes' }}" >
+					<input id="author" type="text" disabled>
 
 					<!--Status-->
 					<label for="status">Statut</label>
@@ -56,15 +54,17 @@
 					<div class="row collapse">
 						<div class="column small-12">
 							<label for="rubric">Rubrique <small class="red">*</small></label>
-							<select id="rubric">
-								<option disabled selected>&hellip;</option>
-								<option data-color="orange">Luttes</option>
-								<option data-color="magenta">Nos corps, nous-m&ecirc;mes</option>
-								<option data-color="red">Intersectionnalit&eacute;</option>
-								<option data-color="blue">International</option>
-								<option data-color="cyan">&Eacute;ducation & Culture</option>
-								<option data-color="yellow">Id&eacute;es</option>
-							</select>
+
+								<select id="rubric">
+									<option disabled selected>&hellip;</option>
+									<option class="test" data-color="orange">Luttes</option>
+									<option data-color="magenta">Nos corps, nous-m&ecirc;mes</option>
+									<option data-color="red">Intersectionnalit&eacute;</option>
+									<option data-color="blue">International</option>
+									<option data-color="cyan">&Eacute;ducation & Culture</option>
+									<option data-color="yellow">Id&eacute;es</option>
+								</select>
+
 						</div>
 					</div>
 

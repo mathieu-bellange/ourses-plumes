@@ -1,0 +1,272 @@
+﻿<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<script src="boot"></script>
+		<script src="js/ckeditor/ckeditor.js"></script><!--TEMP-->
+		<script src="js/ckeditor/config.js"></script><!--TEMP-->
+		<script src="js/ckeditor/styles.js"></script><!--TEMP-->
+		<script src="js/ckeditor/adapters/jquery.js"></script><!--TEMP-->
+		<style type="text/CSS">
+
+			/* ------------------------------------------------------------ */
+			/* # Selects */
+			/* ------------------------------------------------------------ */
+
+			select:hover {
+				cursor: pointer;
+			}
+			select > option {
+				padding: .5rem;
+				background-color: white;
+			}
+
+			/* ------------------------------------------------------------ */
+			/* # Fake Selects */
+			/* ------------------------------------------------------------ */
+
+			.select {
+				position: relative;
+				padding: 0;
+			}
+			.select,
+			.select > .options {
+				font-size: .9em;
+			}
+			.select > .value,
+			.select > .options {
+				padding: .5rem;
+				background-color: white;
+				border: 1px solid silver;
+			}
+			.select > .value {
+				display: block;
+				min-height: 2rem;
+			}
+			.select > .value:after {
+				content: "";
+				float: right;
+				display: inline-block;
+				margin-top: .25em;
+				border: .5rem solid transparent;
+				border-bottom-width: 0;
+				border-top-color: silver;
+			}
+			.select > .value:hover:after {
+				border-top-color: darkgray;
+			}
+			.select > .value:hover,
+			.select > .options > li:hover {
+				cursor: pointer;
+				background-color: whitesmoke;
+				border-color: darkgray;
+			}
+			.select > .options {
+				padding: 0;
+				margin-left: 0;
+				list-style: none;
+				border-top: 0;
+				z-index: 100;
+			}
+			.select > .options > li {
+				padding: .25rem .5rem;
+			}
+			.select > .options > li:hover {
+				color: HighlightText;
+				background-color: Highlight;
+			}
+			.select > .options > li.selected {
+				font-weight: bold;
+				color: inherit;
+				background-color: lightgrey;
+			}
+			.select > .options > li.disabled {
+				cursor: default;
+				opacity: .5;
+			}
+			.select > .options > li.disabled,
+			.select > .options > li.disabled:hover {
+				color: inherit;
+				background-color: inherit;
+			}
+
+			/* ------------------------------------------------------------ */
+			/* # Custom Selects */
+			/* ------------------------------------------------------------ */
+
+			.customSelect { /* This is the default class that is used */
+				cursor: pointer;
+				display: block;
+				padding: .5rem;
+				font-size: .9rem;
+				border: 1px solid silver;
+				background-color: white;
+			}
+			.customSelect:after {
+				content: "";
+				display: inline-block;
+				position: absolute;
+				right: 1.75rem;
+				margin-top: .25em;
+				border: .5rem solid transparent;
+				border-bottom-width: 0;
+				border-top-color: silver;
+			}
+			.customSelect.customSelectHover { /* Styles for when the select box is hovered */
+				background-color: whitesmoke;
+				border-color: darkgray;
+			}
+			.customSelect.customSelectHover:after {
+				border-top-color: darkgray;
+			}
+			.customSelect.customSelectOpen { /* Styles for when the select box is open */
+			}
+			.customSelect.customSelectFocus { /* Styles for when the select box is in focus */
+				outline: 1px dotted dimgray;
+			}
+			.customSelectInner { /* You can style the inner box too */
+			}
+
+		</style>
+	</head>
+	<body>
+		<div style="min-height: 100%; padding: 1rem; background-color: white;">
+
+			<h2 class="red">Liste de choix <small>&lt;select&gt;</small></h2>
+
+			<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
+
+				<fieldset>
+
+					<!--Standard Select-->
+					<label for="standard_select">Standard Select</label>
+					<select id="standard_select">
+						<option>Option</option>
+						<option selected>Selected</option>
+						<option disabled>Disabled</option>
+						<option style="color: red;">Stylized</option>
+					</select>
+
+					<!--Custom select-->
+					<label for="custom_select">Custom select <span class="text-small text-silver">.customSelect</span></label>
+					<select id="custom_select" class="customSelect">
+						<option>Option</option>
+						<option selected>Selected</option>
+						<option disabled>Disabled</option>
+						<option style="color: red;">Stylized</option>
+					</select>
+					<p class="text-small"><strong>Advantage</strong>&thinsp;: browser friendly behaviour<br><strong>Inconvienent</strong>&thinsp;: ugly or unexpected looking according to browser<br><strike><strong>BUG</strong>&thinsp;: select keeps the document loaded width on resize (i.e. select box overlaps and corrupts document width on window reduction)</strike></p>
+
+					<!--Fake Select-->
+					<label>Fake select <span class="text-small text-silver">.select</span></label>
+					<div id="fake_select" class="select" tabindex="0">
+						<span class="value"></span>
+						<ul class="options hide">
+							<li>Option</li>
+							<li class="selected">Selected</li>
+							<li class="disabled">Disabled</li>
+							<li style="color: red;">Stylized</li>
+						</ul>
+					</div>
+					<p class="text-small"><strong>Advantages</strong>&thinsp;: full control against behaviour (script based), same display on all browsers (CSS based)<br><strong>Inconvenients</strong>&thinsp;: non standard behaviour (the choices box can't overlay window canvas), not focusable element (i.e. &lt;div&gt;), unusable on plain HTML display</p>
+
+				</fieldset>
+			</form>
+
+		</div>
+		<script>
+			$build_container = false;
+			load();
+		</script>
+		<script>
+			/* ------------------------------------------------------------ */
+			/* # Fake Selects */
+			/* ------------------------------------------------------------ */
+			// Functions
+			function scroll_to_element(selector, duration) {
+				var duration = duration || 500;
+				if ($(selector).offset().top + $(selector).height() > $(window).height() + $(document).scrollTop()) {
+					$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+						scrollTop : $(selector).offset().top
+					}, duration);
+				}
+			}
+			// Events
+			$("html").on("blur", ".select", function(event) {
+				$(this).find(".options").slideUp("fast");
+			});
+			$("html").on("click", ".select > .value", function() {
+				$(this).next(".options").slideToggle("fast", function() {
+					scroll_to_element(this);
+				});
+			});
+			$("html").on("click", ".select > .options > li", function() {
+				if (!$(this).hasClass("disabled")) {
+					var str = $(this).text();
+					$(this).addClass("selected");
+					$(this).siblings().removeClass("selected");
+					$(this).parent(".options").prev(".value").text(str);
+					$(this).parent(".options").slideToggle("fast");
+				}
+			});
+			$("html").on("keydown", ".select", function(event) {
+				if (event.which == 27) { // Escape
+					$(this).find(".options").slideUp("fast");
+				}
+				if (event.which == 13 || event.which == 32) { // Enter OR Space
+					var str = $(this).find(".options > li.selected").text();
+					$(this).find(".value").text(str);
+					$(this).find(".options").slideToggle("fast", function() {
+						scroll_to_element($(this));
+					});
+				}
+				if (event.which == 38 || event.which == 40) { // Up or Down
+					event.preventDefault();
+					var index = $(this).find(".options > li.selected").index();
+					if (index == -1) {
+						$(this).find(".options > li").not(".disabled").first().addClass("selected");
+						index = 0;
+					}
+					if (event.which == 38 && index - 1 >= 0) { // Up
+						$(this).find(".options > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().addClass("selected");
+						if ($(this).find(".options > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().hasClass("selected")) {
+							$(this).find(".options > li:eq(" + index + ")").removeClass("selected");
+						}
+						$(this).find(".value").text($(this).find(".options > li.selected").text());
+					}
+					if (event.which == 40 && index + 1 < $(this).find(".options > li").length) { // Down
+						$(this).find(".options > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().addClass("selected");
+						if ($(this).find(".options > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().hasClass("selected")) {
+							$(this).find(".options > li:eq(" + index + ")").removeClass("selected");
+						}
+						$(this).find(".value").text($(this).find(".options > li.selected").text());
+					}
+				}
+			});
+			$(document).ready(function() {
+				$(".select").each(function() {
+					if ($(this).find(".options > li").hasClass("selected")) {
+						var str = $(this).find(".options > li.selected").text();
+						$(this).find(".value").text(str);
+					}
+				});
+			});
+		</script>
+		<script>
+			loap.update()
+			$(document).ready(function(){
+				$("#custom_select").customSelect();
+				//$("#custom_select").customSelect({customClass:'myOwnClassName'}); // set a custom class name for the stylable element
+			});
+			 // customSelect onResize Fix
+			$(window).on("resize", function() {
+				$(".customSelect").css("width", "100%");
+				$(".customSelectInner").css("width", "100%");
+				$("#custom_select").css("width", $(".customSelect").outerWidth() - ($(".customSelect").width() - $(".customSelectInner").width()));
+			});
+		</script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
+</html>

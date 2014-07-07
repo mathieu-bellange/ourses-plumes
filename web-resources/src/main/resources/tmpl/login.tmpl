@@ -8,7 +8,7 @@
 							{{?}}
 							<div class="row collapse">
 								<div class="column small-8 medium-9">
-									<input id="user_password" type="password" placeholder="Mot de passe"{{= $free_log ? " value='Bellange'" : " required pattern='alpha'" }}>
+									<input id="user_password" type="password" placeholder="Mot de passe"{{= $free_log ? "" : " required pattern='alpha'" }}>
 									{{? $free_log == false }}
 									<small class="error">Mot de passe requis&nbsp;!</small>
 									{{?}}
