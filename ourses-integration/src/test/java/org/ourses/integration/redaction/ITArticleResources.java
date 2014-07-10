@@ -243,23 +243,13 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldUpdateValidate() {
+    public void shouldNotUpdateValidateWithAdminRole() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
         ArticleDTO updateArticle = updateArticle(5l);
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
-        assertThat(article).isNotNull();
-        assertThat(article.getId()).isEqualTo(5l);
-        assertThat(article.getTitle()).isEqualTo(updateArticle.getTitle());
-        assertThat(article.getDescription()).isEqualTo(updateArticle.getDescription());
-        assertThat(article.getBody()).isEqualTo(updateArticle.getBody());
-        assertThat(article.getCategory()).isEqualTo(updateArticle.getCategory());
-        assertThat(article.getRubrique()).isEqualTo(updateArticle.getRubrique());
-        assertThat(article.getProfile().getPseudo()).isEqualTo("jpetit");
-        assertThat(article.getStatus()).isEqualTo(ArticleStatus.AVERIFIER);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
     @Test

@@ -112,7 +112,8 @@ public class ArticleResources {
         Article article = Article.findArticle(id);
         // vérification que l'article est bien modifiable par l'utilisateur connecté
         Long idProfile = profileHelper.findIdProfile(token);
-        if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, article.getStatus())
+        // seul un article brouillon est modifiable
+        if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)
                 && id == articleDTO.getId()) {
             // update de l'article passé en param
             articleHelper.updateFromDTO(article, articleDTO);
