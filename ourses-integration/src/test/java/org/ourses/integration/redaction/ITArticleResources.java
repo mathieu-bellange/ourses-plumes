@@ -40,6 +40,7 @@ public class ITArticleResources {
     private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
     private static final String PATH_GET = "/rest/articles/11";
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
+    private static final String PATH_GET_VALIDATE = "/rest/articles/13";
 
     @Test
     public void shouldReadPublishArticle() throws JsonGenerationException, JsonMappingException,
@@ -94,6 +95,41 @@ public class ITArticleResources {
 
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    public void shouldReadValidateArticle() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_GET_VALIDATE).build();
+
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article).isNotNull();
+    }
+
+    @Test
+    public void shouldNotReadValidateArticleWithRedacRole() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_GET_VALIDATE).build();
+
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    public void shouldNotReadValidateArticleWithAnon() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_GET_VALIDATE).build();
+
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+                .get(ClientResponse.class);
         // status attendu 404
         assertThat(clientResponse.getStatus()).isEqualTo(404);
     }

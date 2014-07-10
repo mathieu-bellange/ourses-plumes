@@ -49,6 +49,7 @@ public class ArticleHelperImpl implements ArticleHelper {
             break;
         case AVERIFIER:
             // seul une administratrice à accès à un A vérifier
+            isReadable = isAdminAndValidateArticle(idProfile, idArticle, status);
             break;
         case ENLIGNE:
             // tout le monde à accès au publish
