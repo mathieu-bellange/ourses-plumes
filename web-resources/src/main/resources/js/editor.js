@@ -124,9 +124,10 @@ $("html").on("keydown", "#date", function(e) {
 	}
 });
 
-/* Rubric and Category */
+/* Rubric */
+/*
 $("html").on("change", "#rubric", function() {
-	$("#tag_rubric").text($(this).val());
+	$("#tag_rubric").text($(this).text());
 	$("#tag_rubric").removeClass();
 	if ($("#tag_rubric").parent("dd").hasClass("hide")) {
 		$("#tag_rubric").parent("dd").removeClass("hide")
@@ -137,11 +138,63 @@ $("html").on("change", "#rubric", function() {
 		$("#tag_rubric").addClass("label radius secondary");
 	}
 });
+*/
+// define method
+function update_rubric() {
+	if ($("#rubric .select").children().size() == 0) {
+		// update text
+		$("#tag_rubric").text($("#rubric .select").text());
+		// update color
+		$("#tag_rubric").removeClass();
+		if ($("#rubric .selected").attr("data-color")) {
+			$("#tag_rubric").addClass("label radius " + $("#rubric .selected").attr("data-color"));
+		} else {
+			$("#tag_rubric").addClass("label radius secondary");
+		}
+		// update visibility
+		if ($("#tag_rubric").parent("dd").hasClass("hide")) {
+			$("#tag_rubric").parent("dd").removeClass("hide")
+		}
+		if ($("#tags").css("display") == "none") {
+			$("#tags").fadeIn();
+		}
+	}
+}
+// bind events
+$("#rubric").bind({
+	blur: function() {update_rubric();},
+	click: function() {update_rubric();},
+	keyup: function() {update_rubric();}
+});
+
+/* Category */
+/*
 $("html").on("change", "#category", function() {
-	$("#tag_category").text($(this).val());
+	$("#tag_category").text($(this).text());
 	if ($("#tag_category").parent("dd").hasClass("hide")) {
 		$("#tag_category").parent("dd").removeClass("hide")
 	}
+});
+*/
+// define method
+function update_category() {
+	if ($("#category .select").children().size() == 0) {
+		// update text
+		$("#tag_category").text($("#category .select").text());
+		// update visibility
+		if ($("#tag_category").parent("dd").hasClass("hide")) {
+			$("#tag_category").parent("dd").removeClass("hide")
+		}
+		if ($("#tags").css("display") == "none") {
+			$("#tags").fadeIn();
+		}
+	}
+}
+// bind events
+$("#category").bind({
+	blur: function() {update_category();},
+	click: function() {update_category();},
+	keyup: function() {update_category();}
 });
 
 /* Tags */
@@ -168,10 +221,13 @@ function add_tag(source, target) {
 		}
 		// Add tag to tags list
 		if (is_valid == true) {
-			$(source).next("small.error").addClass("hide");
 			$(target).append("<dd data-alert><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
 			$(target).foundation("alert");
 			$(source).val("");
+			$(source).next("small.error").addClass("hide");
+			if ($("#tags").css("display") == "none") {
+				$("#tags").fadeIn();
+			}
 		}
 	} else {
 		$(source).next("small.error").addClass("hide");
@@ -189,15 +245,26 @@ function hide_error(obj, clear) {
 $("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });
-$("html").on("keydown", "#tag", function(e) {
-	hide_error("#tag");
-	if (e.which == 13) { // Enter
-		add_tag("#tag", "#tags");
+$("#tag").bind({
+	blur: function() {
+		hide_error("#tag");
+	},
+	focus: function() {
+		hide_error("#tag", true);
+	},
+	keydown: function(event) {
+		hide_error("#tag");
+		if (event.which == 13) { // Enter
+			add_tag("#tag", "#tags");
+		}
 	}
 });
-$("html").on("focus", "#tag", function() {
-	hide_error("#tag", true);
-});
-$("html").on("blur", "#tag", function() {
-	hide_error("#tag");
+$("#tags").on("click", ".close", function() {
+	setTimeout(function() {
+		if ($("#tags").children("dd").length == 2) {
+			if ($("#tag_rubric").parent("dd").hasClass("hide") && $("#tag_category").parent("dd").hasClass("hide")) {
+				$("#tags").fadeOut();
+			}
+		}
+	}, 500);
 });

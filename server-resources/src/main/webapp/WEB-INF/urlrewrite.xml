@@ -47,5 +47,11 @@
 		<from>^/connexion$</from>
 		<to>/login.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers la page de création d'un article</note>
+		<from>^/articles/nouveau$</from>
+		<to>/editor.html</to>
+	</rule>
 
 </urlrewrite>

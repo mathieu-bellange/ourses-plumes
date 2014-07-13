@@ -1,14 +1,23 @@
 ﻿				<!--Articles-->
 				<section id="articles">
+					<!--
 					<h2>Articles <small>.articles-list</small></h2>
 					<h3>Tous les articles <small>.list</small></h3>
-					<dl class="sub-nav">
-						<dt>Trier&#8239;:</dt>
-						<dd class="active"><a href="javascript:void(0)" class="disabled">Date de publication</a></dd>
-						<dd><a href="javascript:void(0)" class="disabled">Popularit&eacute;</a></dd>
-						<dd><a href="javascript:void(0)" class="disabled">Rubrique</a></dd>
-						<dd><a href="javascript:void(0)" class="disabled">Type</a></dd>
-					</dl>
+					-->
+					<div class="clearfix">
+						<dl class="sub-nav" style="display: inline-block;">
+							<dt>Trier&#8239;:</dt>
+							<dd class="active"><a href="javascript:void(0)" class="disabled">Date de publication</a></dd>
+							<dd><a href="javascript:void(0)" class="disabled">Popularit&eacute;</a></dd>
+							<dd><a href="javascript:void(0)" class="disabled">Rubrique</a></dd>
+							<dd><a href="javascript:void(0)" class="disabled">Type</a></dd>
+						</dl>
+						<a href="{{= $new_article}}" class="icon-article medium right" title="R&eacute;diger un article">R&eacute;diger un article</a>
+						{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac  }}
+							
+						{{?}}
+					</div>
+					
 					<ul class="no-bullet articles-list">
 						<li>
 							<h4 class="cyan">&Eacute;ducation & Culture</h4>
@@ -61,6 +70,7 @@
 							</div>
 						</li>
 					</ul>
+					<!--
 					<div class="pagination-centered">
 						<ul class="pagination">
 							<li class="arrow unavailable"><a href="javascript:void(0)" class="disabled">&laquo;</a></li>
@@ -72,4 +82,5 @@
 							<li class="arrow"><a href="javascript:void(0)" class="disabled">&raquo;</a></li>
 						</ul>
 					</div>
+					-->
 				</section>
