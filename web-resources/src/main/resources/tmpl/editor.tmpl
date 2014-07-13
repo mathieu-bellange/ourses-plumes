@@ -10,61 +10,24 @@
 							<label for="title">Titre de l&rsquo;article</label>
 							<input id="title" type="text" placeholder="Le titre de l&rsquo;article (p. ex. &ldquo;L&rsquo;&eacute;galit&eacute; entre les sexes, une question plus que jamais d&rsquo;actualit&eacute;&ldquo;)">
 
-							<!--Date-->
-							<label for="date">Date de publication pr&eacute;visionnelle</label>
-							<div class="row collapse">
-								<div class="column small-4">
-									<input id="date" type="text" placeholder="JJ/MM/AAAA">
-								</div>
-								<div class="column small-8">
-									<span id="date_literal" class="postfix">&hellip;</span>
-								</div>
-							</div>
-
-							<!--Author-->
-							<label for="author">R&eacute;dactrice</label>
-							<input id="author" type="text" disabled value="{{= window.localStorage.getItem($oursesUserPseudo) !== null ? window.localStorage.getItem($oursesUserPseudo) : 'Les Ourses &agrave; plumes' }}" >
-
-							<!--Status-->
-							<label for="status">Statut</label>
-							<!--
-							<select id="status" disabled>
-								<option selected>Brouillon</option>
-								<option>En attente de validation</option>
-								<option>En ligne</option>
-							</select>
-							-->
-						<div class="options-select" tabindex="0">
-							<span id="status" class="select"><span class="text-silver">&hellip;</span></span>
-							<ul class="options hide">
-								<li class="selected">Brouillon</li>
-								<li class="disabled">&Agrave; valider</li>
-								<li class="disabled">En ligne</li>
-							</ul>
-						</div>
-
-						</fieldset>
-
-						<fieldset>
-							<legend>Ind&eacute;xation</legend>
-
 							<!--Summary-->
 							<div>
 								<label for="summary">R&eacute;sum&eacute;</label>
 								<textarea id="summary" class="min" maxlength="255" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (255 caract&egrave;res maximum)"></textarea>
 							</div>
+							
+							<!--Author-->
+							<p class="text-right">Par {{= window.localStorage.getItem($oursesUserPseudo)}}</p>
+						</fieldset>
+
+						<fieldset>
+							<legend>Indexation</legend>
 
 							<!--Rubric-->
 							<label>Rubrique <small class="red">*</small></label>
 							<div id="rubric" class="options-select" tabindex="0">
 								<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
-								<ul class="options hide">
-									<li data-color="orange"><span class="icon-struggles small" style="margin-right: .25rem;"></span>Luttes</li>
-									<li data-color="magenta"><span class="icon-ourbody small" style="margin-right: .25rem;"></span>Nos corps, nous-m&ecirc;mes</li>
-									<li data-color="red"><span class="icon-intersec small" style="margin-right: .25rem;"></span>Intersectionnalit&eacute;</li>
-									<li data-color="blue"><span class="icon-internat small" style="margin-right: .25rem;"></span>International</li>
-									<li data-color="cyan"><span class="icon-educult small" style="margin-right: .25rem;"></span>&Eacute;ducation & Culture</li>
-									<li data-color="yellow"><span class="icon-ideas small" style="margin-right: .25rem;"></span>Id&eacute;es</li>
+								<ul class="options hide">									
 								</ul>
 							</div>
 
@@ -72,14 +35,7 @@
 							<label>Cat&eacute;gorie <small class="red">*</small></label>
 							<div id="category" class="options-select" tabindex="0">
 								<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
-								<ul class="options hide">
-									<li>Br&egrave;ve</li>
-									<li>Reportage</li>
-									<li>Dossier</li>
-									<li>Spotlight</li>
-									<li>Interview</li>
-									<li>Tribune</li>
-									<li>Revue du web</li>
+								<ul class="options hide">									
 								</ul>
 							</div>
 
@@ -109,8 +65,7 @@
 
 						<!--Validation Buttons-->
 						<div class="text-center" style="margin-top: 1rem;">
-							<input class="button tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip data-options="disable_for_touch:true">
-							<input class="button alert tip-top" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" data-tooltip data-options="disable_for_touch:true">
+							<input id="saveButton" class="button tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip data-options="disable_for_touch:true">
 						</div>
 
 					</form>

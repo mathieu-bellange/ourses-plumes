@@ -41,4 +41,10 @@ public class AuthorizationResources {
     public Response isAdmin() {
         return Response.ok().build();
     }
+	
+	@GET
+    @Path("/isredac")
+    public Response isRedac() {
+        return Response.ok().build();
+    }
 }

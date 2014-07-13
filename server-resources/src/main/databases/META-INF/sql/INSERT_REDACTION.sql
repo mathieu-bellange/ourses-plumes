@@ -10,14 +10,14 @@ Insert into category
    (7, 'Revue du web');
 
 Insert into rubrique
-   (id, rubrique)
+   (id, rubrique, classe)
  Values
-   (1, 'Luttes'),
-   (2, 'Nos corps, nous-mêmes'),
-   (3, 'Intersectionnalité'),
-   (4, 'International'),
-   (5, 'Education & Culture'),
-   (6, 'Idées');
+   (1, 'Luttes','struggles'),
+   (2, 'Nos corps, nous-mêmes', 'ourbody'),
+   (3, 'Intersectionnalité', 'intersec'),
+   (4, 'International', 'internat'),
+   (5, 'Education & Culture', 'educult'),
+   (6, 'Idées', 'ideas');
 
 Insert into tag
    (id, tag)

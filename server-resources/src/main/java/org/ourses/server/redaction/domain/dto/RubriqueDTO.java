@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 public class RubriqueDTO {
 
     private Long id;
+    private String classe;
 
     public RubriqueDTO() {
     }
@@ -60,4 +61,12 @@ public class RubriqueDTO {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
+
+	public String getClasse() {
+		return classe;
+	}
+
+	public void setClasse(String classe) {
+		this.classe = classe;
+	}
 }

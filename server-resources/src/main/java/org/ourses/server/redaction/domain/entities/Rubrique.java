@@ -28,6 +28,7 @@ public class Rubrique implements Serializable {
     @GeneratedValue
     private Long id;
     private String rubrique;
+    private String classe;
 
     public Rubrique() {
         this(null, null);
@@ -84,5 +85,13 @@ public class Rubrique implements Serializable {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
+
+	public String getClasse() {
+		return classe;
+	}
+
+	public void setClasse(String classe) {
+		this.classe = classe;
+	}
 
 }

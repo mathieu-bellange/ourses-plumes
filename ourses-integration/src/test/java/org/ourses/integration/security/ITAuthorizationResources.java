@@ -20,12 +20,14 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 
 public class ITAuthorizationResources {
 	
 	private static final String PATH_ROLES = "/rest/authz/roles";
     private static final String PATH_AUTHZ_ISADMIN = "/rest/authz/isadmin";
+    private static final String PATH_AUTHZ_ISREDAC = "/rest/authz/isredac";
     
     @Test
     public void shouldAccessAdminResources() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
@@ -35,6 +37,36 @@ public class ITAuthorizationResources {
     	ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
     			ClientResponse.class);
     	assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
+    }
+    
+    @Test
+    public void shouldNotAccessAdminResources() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
+    ClientHandlerException, IOException, InterruptedException {
+    	URI uri = UriBuilder.fromPath(PATH_AUTHZ_ISADMIN).build();
+    	Builder clientResource = TestHelper.webResourceWithRedacRole(uri);
+    	ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
+    			ClientResponse.class);
+    	assertThat(clientResponse.getStatus()).isEqualTo(Status.FORBIDDEN.getStatusCode());
+    }  
+    
+    @Test
+    public void shouldAccessRedacResources() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
+    ClientHandlerException, IOException, InterruptedException {
+    	URI uri = UriBuilder.fromPath(PATH_AUTHZ_ISREDAC).build();
+    	Builder clientResource = TestHelper.webResourceWithRedacRole(uri);
+    	ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
+    			ClientResponse.class);
+    	assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
+    }  
+    
+    @Test
+    public void shouldNotAccessRedacResources() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
+    ClientHandlerException, IOException, InterruptedException {
+    	URI uri = UriBuilder.fromPath(PATH_AUTHZ_ISREDAC).build();
+    	WebResource clientResource = TestHelper.webResource(uri);
+    	ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
+    			ClientResponse.class);
+    	assertThat(clientResponse.getStatus()).isEqualTo(Status.UNAUTHORIZED.getStatusCode());
     }
     
     @Test

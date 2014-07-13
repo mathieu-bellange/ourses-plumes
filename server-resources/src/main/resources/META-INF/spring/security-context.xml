@@ -26,6 +26,7 @@
 				/rest/authc/connected = oursesAuthc
 				
 				/rest/authz/isadmin = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/authz/isredac = oursesAuthc, oursesAuthz[Rédactrice]
 				/rest/authz/roles = oursesAuthc, oursesAuthz[Administratrice]
 				
 				/rest/account = oursesAuthc, oursesAuthz[Administratrice]

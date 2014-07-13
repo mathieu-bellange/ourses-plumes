@@ -8,60 +8,121 @@ $("header + hr").after(doT.compile(loadfile($app_root + "tmpl/editor.tmpl")));
 /* # Editor */
 /* ------------------------------------------------------------------ */
 
-function Article(){
-		this.title = $('#title').val();
-		this.body = $('#editor').val();
-		this.publication = $('#publication').val();
-		this.label = $('#label').val();
-		this.category = $('#category').val();
+function Article(title, body, description, category, rubrique, tags){
+		this.title = title;
+		this.body = body;
+		this.description = description;
+		this.category = category;
+		this.rubrique = rubrique;
+		this.tags = tags;
 		this.toJson = function(){
 			return JSON.stringify(this);
 		};
 };
 
-function Category(){
-	this.id;
-	this.category;
+function Category(id,value){
+	this.id = id;
+	this.category = value;
 	this.toJson = function(){
 		return JSON.stringify(this);
 	}
-	this.toDto = function(json){
-		var cat = JSON.parse(json);
-		this.id = cat.id;
-		this.category = cat.category;
+}
+
+function Rubrique(id,value){
+	this.id = id;
+	this.rubrique = value;
+	this.toJson = function(){
+		return JSON.stringify(this);
+	}
+}
+
+function Tag(id,value){
+	this.id = id;
+	this.tag = value;
+	this.toJson = function(){
+		return JSON.stringify(this);
 	}
 }
 
 function processCategory(json){
 	$.each(json, function(i, obj) {
-		$('#category').append($("<option/>", {
-			value: obj.id,
+		$('#category ul').append($("<li/>", {
+			"data-value": obj.id,
 			text: obj.category
 		}));
 	});
 }
 
+function processRubric(json){
+	$.each(json, function(i, obj) {
+		var li = $("<li/>", {
+			"data-value": obj.id,
+			"data-color" : obj.classe
+		});
+		var span = $("<span/>",{
+			className : "icon-" + obj.classe + " small",
+			style : "margin-right: .25rem;"
+		});
+		li.append(span);
+		li.text(obj.rubrique);
+		$('#rubric ul').append(li);
+	});
+}
+
+$("#saveButton").click(function(){
+	sendArticle();
+});
+
 function sendArticle(){
-	var article = new Article();
-	// $.ajax({
-		// type: "POST",
-		// url: "http://localhost:8080/rest/article",
-		// contentType: "application/json; charset=utf-8",
-		// data : JSON.stringify(data),
-		// success: function(jqXHR, status, errorThrown) {
-			// alert(status);
-		// },
-		// error: function(jqXHR, status, errorThrown) {
-			// alert(status);
-		// },
-		// dataType: "json"
-		// });
+	//Edition
+	var title = $("#title").val();
+	var description = $("#summary").val();
+	var body = $("#editor").val();
+	
+	//Categories
+	var idCategory = $("#category li.selected").attr("data-value");
+	var valueCategory = $("#category li.selected").text();	
+	var category = new Category(idCategory, valueCategory);
+	
+	//Rubriques
+	var idRubrique = $("#rubric li.selected").attr("data-value");
+	var valueRubrique = $("#rubric li.selected").text();
+	var rubrique = new Rubrique(idRubrique, valueRubrique);
+	
+	//Tags
+	var tags = [];
+	$("[data-tag] span").each(function(){
+		tags.push(new Tag(null, $(this).text()));
+	});
+	
+	var data = new Article(title, body, description, category, rubrique, tags);
+	
+	 $.ajax({
+		 type: "PUT",
+		 url: "http://localhost:8080/rest/articles/create",
+		 contentType: "application/json; charset=utf-8",
+		 data : JSON.stringify(data),
+		 beforeSend: function(request){
+				header_authentication(request);
+		},
+		 success: function(jqXHR, status, errorThrown) {
+			 window.location.href = $articles;
+		 },
+		 error: function(jqXHR, status, errorThrown) {
+			 createAlertBox();
+		 },
+		 dataType: "json"
+		 });
 	return true;
 };
 
-$.getJSON("http://localhost:8080/rest/category", function(json){
+$.getJSON("http://localhost:8080/rest/categories", function(json){
 	processCategory(json);
  });
+
+$.getJSON("http://localhost:8080/rest/rubriques", function(json){
+	processRubric(json);
+});
 
 $(document).ready(function(){
 	$('#editor').ckeditor();
@@ -71,74 +132,6 @@ $(document).ready(function(){
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-/* Forecasted Date */
-function convert_date_format(digit, literal) {
-	var date = digit.val(); // Retrieve date value
-	var err_prefix = "<strong>Erreur</strong>&#8239;: " // Set error message string prefix
-	// var q = /^(\d{2})\/(\d{2})\/(\d{4})$/; // Set regular expression query DD/MM/YYYY
-	var q = /^(\d{2})(\/|-)(\d{2})(\/|-)(\d{4})$/; // Set regular expression query DD/MM/YYYY
-	var r = date.match(q); // Set regular expression result from match
-	if (r !== null) {
-		if (r[1] > 0 && r[1] <= 31 && r[3] > 0 && r[3] <= 12 && r[5] >= 2014) {
-			switch(r[3]) {
-				case "01" : r[3] = "janvier"; break;
-				case "02" : r[3] = "f&eacute;vrier"; break;
-				case "03" : r[3] = "mars"; break;
-				case "04" : r[3] = "avril"; break;
-				case "05" : r[3] = "mai"; break;
-				case "06" : r[3] = "juin"; break;
-				case "07" : r[3] = "juillet"; break;
-				case "08" : r[3] = "ao&ucirc;t"; break;
-				case "09" : r[3] = "septembre"; break;
-				case "10" : r[3] = "octobre"; break;
-				case "11" : r[3] = "novembre"; break;
-				case "12" : r[3] = "d&eacute;cembre"; break;
-			}
-			if (r[1] == "01" ) {
-				r[1] = "1<sup>er</sup>";
-			} else if (r[1].slice(0,1) == 0) {
-				r[1] = r[1].slice(1,2);
-			}
-			literal.html(r[1] + " " + r[3] + " " + r[5]);
-		} else if (r[1] == 0 || r[1] > 31) { // Day invalid
-			literal.html(err_prefix + "Jour invalide <small class='text-steel'>(<strong class='red'>01-31</strong>/MM/AAAA)</small>");
-		} else if (r[3] == 0 || r[3] > 12) { // Month invalid
-			literal.html(err_prefix + "Mois invalide <small class='text-steel'>(JJ/<strong class='red'>01-12</strong>/AAAA)</small>");
-		} else if (r[5] == 0 || r[5] < 2014) { // Year wrong
-			literal.html(err_prefix + "Ann&eacute;e incorrecte <small class='text-steel'>(JJ/MM/<strong class='red'>2014+</strong>)</small>");
-		} else { // Any other date mistake
-			literal.html(err_prefix + "Date erron&eacute;e &hellip;");
-		}
-	} else if (digit.val().length > 0) { // Wrong date format
-		literal.html(err_prefix + "Format de date incorrect <small class='text-steel'>(<strong class='red'>JJ/MM/AAAA</strong>)</small>");
-	} else {
-		literal.html("&hellip;");
-	}
-}
-$("html").on("blur", "#date", function() {
-	convert_date_format($(this), $("#date_literal"));
-});
-$("html").on("keydown", "#date", function(e) {
-	if (e.which == 13) { // Enter
-		convert_date_format($(this), $("#date_literal"));
-	}
-});
-
-/* Rubric */
-/*
-$("html").on("change", "#rubric", function() {
-	$("#tag_rubric").text($(this).text());
-	$("#tag_rubric").removeClass();
-	if ($("#tag_rubric").parent("dd").hasClass("hide")) {
-		$("#tag_rubric").parent("dd").removeClass("hide")
-	}
-	if ($(this).children("option").filter(":selected").attr("data-color")) {
-		$("#tag_rubric").addClass("label radius " + $(this).children("option").filter(":selected").attr("data-color"));
-	} else {
-		$("#tag_rubric").addClass("label radius secondary");
-	}
-});
-*/
 // define method
 function update_rubric() {
 	if ($("#rubric .select").children().size() == 0) {
@@ -167,15 +160,6 @@ $("#rubric").bind({
 	keyup: function() {update_rubric();}
 });
 
-/* Category */
-/*
-$("html").on("change", "#category", function() {
-	$("#tag_category").text($(this).text());
-	if ($("#tag_category").parent("dd").hasClass("hide")) {
-		$("#tag_category").parent("dd").removeClass("hide")
-	}
-});
-*/
 // define method
 function update_category() {
 	if ($("#category .select").children().size() == 0) {
@@ -221,7 +205,7 @@ function add_tag(source, target) {
 		}
 		// Add tag to tags list
 		if (is_valid == true) {
-			$(target).append("<dd data-alert><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
+			$(target).append("<dd data-alert data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
 			$(target).foundation("alert");
 			$(source).val("");
 			$(source).next("small.error").addClass("hide");
@@ -268,3 +252,14 @@ $("#tags").on("click", ".close", function() {
 		}
 	}, 500);
 });
+
+function createAlertBox(err, msg) {
+	var err = err || "error", msg = msg || "";
+	if ($("#article-alert").length == 0) {
+		$("header + hr").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
+		if (document.readyState === "complete") {
+			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
+		}
+		$("#article-alert").fadeIn(300);
+	}
+}

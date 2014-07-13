@@ -53,5 +53,11 @@
 		<from>^/articles/nouveau$</from>
 		<to>/editor.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers la liste des articles</note>
+		<from>^/articles</from>
+		<to>/articles.html</to>
+	</rule>
 
 </urlrewrite>
