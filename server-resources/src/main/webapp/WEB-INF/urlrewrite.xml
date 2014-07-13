@@ -56,8 +56,16 @@
 	
 	<rule>
 		<note>redirection vers la liste des articles</note>
-		<from>^/articles</from>
+		<from>^/articles$</from>
 		<to>/articles.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers la page de création d'un article</note>
+		<from>^/articles/.*$</from>
+		<to>/article.html</to>
+	</rule>
+	
+
 
 </urlrewrite>

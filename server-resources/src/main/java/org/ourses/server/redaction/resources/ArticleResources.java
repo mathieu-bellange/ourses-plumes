@@ -1,5 +1,7 @@
 package org.ourses.server.redaction.resources;
 
+import java.util.Set;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,9 +20,13 @@ import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.helpers.ArticleHelper;
+import org.ourses.server.security.domain.entities.OurseSecurityToken;
+import org.ourses.server.security.helpers.SecurityHelper;
+import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.ClientResponse.Status;
 
@@ -34,6 +40,8 @@ public class ArticleResources {
     private ProfileHelper profileHelper;
     @Autowired
     private ArticleHelper articleHelper;
+    @Autowired
+    private SecurityHelper securityHelper;
 
     @GET
     @Path("/{id}")
@@ -51,6 +59,34 @@ public class ArticleResources {
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
+    }
+    
+    @GET
+    public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token){
+    	ResponseBuilder responseBuilder;
+    	Set<Article> articles = Sets.newHashSet();
+    	if(token != null){
+	    	Profile profile = profileHelper.findProfileByAuthcToken(token);	    	 
+	    	//Je suis connecté
+	    	if(profile != null){
+	    		articles.addAll(Article.findDrafts(profile.getId()));
+	    		OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
+	    		//Je suis admin
+	    		if(securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))){
+	    			articles.addAll(Article.findToCheck());
+	    		}    		
+	    	}
+    	}
+    	
+    	articles.addAll(Article.findOnline());
+    	Set<ArticleDTO> articlesDto = Sets.newHashSet();
+    	for(Article article : articles){
+    		articlesDto.add(article.toArticleDTO());
+    	}
+    	
+    	responseBuilder = Response.status(Status.OK).entity(articlesDto);
+    	return responseBuilder.build();
     }
 
     @PUT
