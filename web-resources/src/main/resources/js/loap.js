@@ -41,9 +41,6 @@ var loap = (function() {
 var alert_box_template = doT.compile(loadfile($app_root + "tmpl/alert_box.tmpl"));
 
 // Functions Declaration
-function build_user_nav() {
-	return doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"));
-}
 
 function update_user_pseudo(pseudo){
 	window.localStorage.setItem($oursesUserPseudo,pseudo);
@@ -80,12 +77,24 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	// process templates
 	if ($dev_toolbar == true) {$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));}
 	$("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
-	// Si l'utilisateur est dans le navigateur alors on affiche user-nav
-	if (window.localStorage.getItem($oursesUserPseudo)!== undefined && window.localStorage.getItem($oursesUserPseudo)!== null) {
-		$(".connect-launcher").remove();
-		$(".logo").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
-	}
 	$(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
+	// Si l'utilisateur est dans le navigateur alors on affiche user-nav
+	if (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null) {
+		//supprime le lien vers la page de connexion pour ajouter le menu utilisateur
+		$("#connect-launcher").attr("href","javascript:void(0)");
+		$("#connect-launcher").attr("data-dropdown","user_menu_test");
+		$("#connect-launcher").addClass("has-dropdown not-click");
+		$("#connect-launcher").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
+		// recharger l'image utilisateur
+		loap.update();
+	}else{
+		//ajoute le lien vers la page de connexion
+		$("#connect-launcher").attr("href",$login_page);
+		$("#connect-launcher").removeAttr("data-dropdown");
+		$("#connect-launcher").removeClass("has-dropdown");
+		$("#connect-launcher").removeClass("not-click");
+		$("#connect-launcher .user-nav").remove();
+	}
 	$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
 
 	// process slider template -- this is the tricky part
@@ -132,11 +141,14 @@ $("html").on("click", "[href*='#']", function() {
 		}
 	});
 
+/* UNUSED*/
 /* Toolbar Crystal Scheme Toggler */
+/*
 $("#_crystal_scheme_toggle").click(function() {
 	$(this).toggleClass("active");
 	$("html").toggleClass("crystal");
 });
+*/
 
 /* Toolbar Null Links Toggler */
 $("#_null_links_toggle").click(function() {
@@ -254,9 +266,9 @@ $("#toolbar .close").click(function() {
 /* ------------------------------------------------------------------ */
 
 /* Connect click Event */
-$("#_connect_modal").on("click", function(){
-	window.location.href="/connexion";
-});
+// $("#_connect_modal").on("click", function(){
+	// window.location.href="/connexion";
+// });
 $(".disconnect").on("click", function(){
 	$.ajax({
 		type : "POST",
@@ -319,6 +331,8 @@ $(".main-nav .sub-list ul").mouseleave(function() {
 /* # Breadcrumbs */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 function refresh_breadcrumbs(selector) {
 	// Selector comes from breadcrumbs
 	if (selector.parents("ul").hasClass("breadcrumbs")) {
@@ -410,6 +424,7 @@ function refresh_breadcrumbs(selector) {
 		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
 	}
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Accessibility */
@@ -592,6 +607,139 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 });
 
 /* ------------------------------------------------------------------ */
+/* # Cusor Position */
+/* ------------------------------------------------------------------ */
+
+jQuery.fn.extend({
+	cursor_position : function(start, end) {
+		end = end || false;
+		obj = this.first().get(0);
+		obj.focus();
+		obj.setSelectionRange(start, end || start);
+	}
+});
+
+/* ------------------------------------------------------------------ */
+/* # Options Select */
+/* ------------------------------------------------------------------ */
+
+jQuery.fn.extend({
+	options_select : function(options) {
+		// vars
+		var defaults = {
+			select : "span",          // String   Selector of the value holder element. Default : "span"
+			options : "ul",           // String   Selector of the list of choices itself. Default : "ul"
+			slide_duration : "fast",  // Integer  Length of the sliding effect in milliseconds. Default : "fast"
+			scroll_duration : 500,    // Integer  Length of the scrolling effect in milliseconds. Default : 500
+			scroll_spacing : 0        // Integer  Size of the scrolling spacing in pixels. Default : 0
+		};
+		var settings = $.extend({}, defaults, options);
+		// methods
+		function scrollTo(object, duration, spacing) {
+			var duration = typeof duration !== "undefined" ? duration : settings.scroll_duration;
+			var spacing = spacing || settings.scroll_spacing;
+			if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
+				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+					scrollTop : object.offset().top + object.outerHeight() - $(window).height() + spacing
+				}, duration);
+			} else if (object.offset().top < $(document).scrollTop()) { // scroll up
+				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+					scrollTop : object.offset().top - spacing
+				}, duration);
+			}
+		}
+		// loop
+		$(this).each(function () {
+			// vars
+			var self = this;
+			// set initially selected value if any
+			if ($(this).find(settings.options + " > li").hasClass("selected")) {
+				var str = $(this).find(settings.options + " > li.selected").text();
+				$(this).find(settings.select).text(str);
+			}
+			// prevent options list from being selected
+			$(this).attr("onSelectStart", "return false"); // IE 9
+			$(this).css({
+				"-ms-user-select" : "none", // IE 10+
+				"-moz-user-select" : "none", // Firefox
+				"-webkit-user-select" : "none" // Chrome 6.0, Safari 3.1, Opera 15.0
+			});
+			// bind events
+			$(this).bind({
+				blur: function() {
+					$(this).find(settings.options).slideUp(settings.slide_duration);
+				},
+				keydown: function(event) {
+					if (event.which == 27) { // Escape
+						$(this).val(str);
+						$(this).blur();
+					}
+					if (event.which == 13 || event.which == 32) { // Enter OR Space
+						var str = $(this).find(settings.options + " > li.selected").text();
+						$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
+							scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+						});
+					}
+					if (event.which >= 33 && event.which <= 36 || event.which == 38 || event.which == 40) { // PageUp, PageDown, End, Home or Up or Down
+						event.preventDefault();
+						var index = $(this).find(settings.options + " > li.selected").index();
+						if (index == -1) {
+							$(this).find(settings.options + " > li").not(".disabled").first().addClass("selected");
+							index = 0;
+						}
+						if (event.which == 33 || event.which == 36) { // PageUp or Home
+							$(this).find(settings.options + " > li").removeClass("selected");
+							$(this).find(settings.options + " > li").first().addClass("selected");
+						}
+						if (event.which == 34 || event.which == 35) { // PageDown or End
+							$(this).find(settings.options + " > li").removeClass("selected");
+							$(this).find(settings.options + " > li").last().addClass("selected");
+						}
+						if (event.which == 38 && index - 1 >= 0) { // Up
+							$(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().addClass("selected");
+							if ($(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().hasClass("selected")) {
+								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
+							}
+						}
+						if (event.which == 40 && index + 1 < $(this).find(settings.options + " > li").length) { // Down
+							$(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().addClass("selected");
+							if ($(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().hasClass("selected")) {
+								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
+							}
+						}
+						// scrolling
+						if ($(this).find(settings.options + " > li").hasClass("selected")) {
+							$(this).find(settings.select).text($(this).find(settings.options + " > li.selected").text());
+							if ($(this).find(settings.options + " > li.selected").is(":first-child")) {
+								scrollTo($(this).find(settings.select), 250, $(this).find(settings.select).outerHeight());
+							} else if ($(this).find(settings.options + " > li.selected").is(":last-child")) {
+								scrollTo($(this).find(settings.options + " > li.selected"), 250, $(this).find(settings.select).outerHeight());
+							} else {
+								scrollTo($(this).find(settings.options + " > li.selected"), 0);
+							}
+						}
+					}
+				}
+			});
+			$(this).on("click", settings.select, function() {
+				$(this).next(settings.options).slideToggle(settings.slide_duration, function() {
+					scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+				});
+			});
+			$(this).on("click", settings.options + " > li", function() {
+				if (!$(this).hasClass("disabled")) {
+					var str = $(this).text();
+					$(this).addClass("selected");
+					$(this).siblings().removeClass("selected");
+					$(this).parent(settings.options).prev(settings.select).text(str);
+					$(this).parent(settings.options).slideToggle(settings.slide_duration);
+				}
+			});
+		});
+	}
+});
+
+/* ------------------------------------------------------------------ */
 /* # Validation Bar */
 /* ------------------------------------------------------------------ */
 
@@ -645,19 +793,6 @@ jQuery.fn.extend({
 				});
 			}
 		});
-	}
-});
-
-/* ------------------------------------------------------------------ */
-/* # Cusor Position */
-/* ------------------------------------------------------------------ */
-
-jQuery.fn.extend({
-	cursor_position : function(start, end) {
-		end = end || false;
-		obj = this.first().get(0);
-		obj.focus();
-		obj.setSelectionRange(start, end || start);
 	}
 });
 
