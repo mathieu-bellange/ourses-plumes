@@ -627,8 +627,8 @@ jQuery.fn.extend({
 	options_select : function(options) {
 		// vars
 		var defaults = {
-			select : "span",          // String   Selector of the value holder element. Default : "span"
-			options : "ul",           // String   Selector of the list of choices itself. Default : "ul"
+			select : ".select",          // String   Selector of the value holder element. Default : "span"
+			options : ".options",           // String   Selector of the list of choices itself. Default : "ul"
 			slide_duration : "fast",  // Integer  Length of the sliding effect in milliseconds. Default : "fast"
 			scroll_duration : 500,    // Integer  Length of the scrolling effect in milliseconds. Default : 500
 			scroll_spacing : 0        // Integer  Size of the scrolling spacing in pixels. Default : 0
@@ -670,12 +670,11 @@ jQuery.fn.extend({
 					$(this).find(settings.options).slideUp(settings.slide_duration);
 				},
 				keydown: function(event) {
+					// var str = $(this).find(settings.options + " > li.selected").text();
 					if (event.which == 27) { // Escape
-						$(this).val(str);
 						$(this).blur();
 					}
 					if (event.which == 13 || event.which == 32) { // Enter OR Space
-						var str = $(this).find(settings.options + " > li.selected").text();
 						$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
 							scrollTo($(self), false, $(self).find(settings.select).outerHeight());
 						});
@@ -709,7 +708,8 @@ jQuery.fn.extend({
 						}
 						// scrolling
 						if ($(this).find(settings.options + " > li").hasClass("selected")) {
-							$(this).find(settings.select).text($(this).find(settings.options + " > li.selected").text());
+							var str = $(this).find(settings.options + " > li.selected").text();
+							$(this).find(settings.select).text(str);
 							if ($(this).find(settings.options + " > li.selected").is(":first-child")) {
 								scrollTo($(this).find(settings.select), 250, $(this).find(settings.select).outerHeight());
 							} else if ($(this).find(settings.options + " > li.selected").is(":last-child")) {
