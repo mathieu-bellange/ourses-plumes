@@ -14,69 +14,56 @@
 				<div class="column small-12 medium-5 large-4 text-center">
 
 					<!--User picture-->
-					<span class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</span>
-
-					<!--User links-->
-					<div id="user-link">
-						<input type="text" placeholder="L&rsquo;URL de votre lien (p. ex. http://marie.blogspot.fr/)">
-					</div>
-					<ul id="user_links_icons" class="inline-list">
-						<li><a href="javascript:void(0)" class="icon-mail medium">Adresse mail</a></li>
-						<li><a href="javascript:void(0)" class="icon-home medium">Site internet</a></li>
-						<li><a href="javascript:void(0)" class="icon-link medium">Page perso</a></li>
-					</ul>
+					<div class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</div>
 
 				</div>
 
-				<div class="column small-12 medium-7 large-8 text-center">
+				<div class="column small-12 medium-7 large-8">
 
 					<!--Disabled-->
-					<label for="pseudo" class="left red">Disabled (attribute 'disabled' is set)</label>
-					<input id="pseudo" type="text" value="MyUsername" class="validation-icon" disabled="disabled">
+					<label for="pseudo_disabled" class="left red">Disabled (attribute 'disabled' is set)</label>
+					<input id="pseudo_disabled" type="text" value="MyUsername" class="validation-icon" disabled="disabled">
 					<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
 
 					<!--Readonly-->
-					<label for="pseudo" class="left red">Readonly (attribute 'readonly' is set)</label>
-					<input id="pseudo" type="text" value="MyUsername" class="validation-icon" readonly="readonly">
+					<label for="pseudo_readonly" class="left red">Readonly (attribute 'readonly' is set)</label>
+					<input id="pseudo_readonly" type="text" value="MyUsername" class="validation-icon" readonly="readonly">
 					<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
 
-					<!--Default-->
-					<label for="pseudo" class="left red">Enabled (default)</label>
-					<input id="pseudo" type="text" value="MyUsername" class="validation-icon">
-					<small id="pseudoError" class="error hide">Le pseudo doit &ecirc;tre renseign&eacute;</small>
-
-					<!--User role-->
-					<h4 class="text-left">MyRole</h4>
-
-					<!--User description disabled-->
-					<label for="description" class="left red">Disabled (attribute 'disabled' is set)</label>
-					<textarea id="description" class="min" maxlength="255" disabled="disabled" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-					<!--User description readonly-->
-					<label for="description" class="left red">Readonly (attribute 'readonly' is set)</label>
-					<textarea id="description" class="min" maxlength="255" readonly="readonly" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-					<!--User description default-->
-					<label for="description" class="left red">Enabled (default)</label>
-					<textarea id="description" class="min test-txtarea" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-					<hr>
-
-					<!--Social links-->
-					<div id="social-link" class="row collapse">
-						<div class="column small-6">
-							<span class="prefix text-small"></span>
-						</div>
-						<div class="column small-6">
-							<input type="text" placeholder="Votre adresse sur le r&eacute;seau social">
-						</div>
+					<div class="clearfix" style="position: relative;">
+						<!--Default-->
+						<label for="pseudo" class="left red">Enabled (default)</label>
+						<input id="pseudo" type="text" value="MyUsername" class="validation-icon" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+						<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
+						<!--User role-->
+						<h4 id="role">MyRole</h4>
 					</div>
-					<ul id="social_links_icons" class="inline-list">
+
+					<!--User links-->
+					<div id="user-link">
+						<span class="prefix text-small left"></span>
+						<input class="left" type="text" placeholder="L&rsquo;adresse internet de votre lien">
+					</div>
+					<ul id="user_links_icons" class="inline-list block">
+						<li><a href="javascript:void(0)" class="icon-mail medium">Adresse mail</a></li>
+						<li><a href="javascript:void(0)" class="icon-link medium" data-url-prefix="http://">Page perso</a></li>
 						<li><a href="javascript:void(0)" class="icon-twitter medium" data-url-prefix="https://www.twitter.com/">Twitter</a></li>
 						<li><a href="javascript:void(0)" class="icon-facebook medium" data-url-prefix="https://www.facebook.com/">Facebook</a></li>
 						<li><a href="javascript:void(0)" class="icon-googleplus medium" data-url-prefix="https://plus.google.com/">Google+</a></li>
 						<li><a href="javascript:void(0)" class="icon-linkedin medium" data-url-prefix="https://www.linkedin.com/">LinkedIn</a></li>
 					</ul>
+
+					<!--User description disabled-->
+					<label for="description" class="red">Disabled (attribute 'disabled' is set)</label>
+					<textarea id="description" class="min" maxlength="255" disabled="disabled" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
+					<!--User description readonly-->
+					<label for="description" class="red">Readonly (attribute 'readonly' is set)</label>
+					<textarea id="description" class="min" maxlength="255" readonly="readonly" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
+					<!--User description default-->
+					<label for="description" class="red">Enabled (default)</label>
+					<textarea id="description" class="min" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
 
 				</div>
 			</div>
@@ -84,10 +71,7 @@
 		</div>
 		<script>
 
-			/**
-			 * New Function : set_icons_input()
-			 */
-			function set_icons_input(options) {
+			function create_icons_input(options) {
 				var defaults = {
 					"input_container" : "",
 					"icons_container" : "",
@@ -96,7 +80,57 @@
 					"icons_tooltip" : true,
 					"animation_delay" : 250
 				};
+				// Vars
 				var options = $.extend({}, defaults, options);
+				var input_container_margin_bottom = parseInt($(options.input_container).find("input").css("margin-bottom"));
+				var icons_container_margin_bottom = parseInt($(options.icons_container).css("margin-bottom"));
+				var is_icon_hover = false;
+				// Methods
+				function show_input_container() {
+					var obj = $(options.input_container + " input");
+					var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
+					var url_prefix = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url-prefix") === "undefined" ? false : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url-prefix");
+					setTimeout(function() {
+						$(options.input_container).fadeIn(options.animation_delay, function() {
+							$(options.input_container + " input").css("margin-bottom", "0");
+							$(options.input_container).css("margin-bottom", input_container_margin_bottom + "px");
+							$(options.input_container + " .prefix").css("border-color", "darkgray");
+							$(options.input_container).find("input").css("box-shadow", "none");
+							$(options.input_container).css("box-shadow", "0 0 .25rem rgba(0, 0, 0, .5)");
+						});
+						obj.val(url);
+						obj.cursor_position(0, obj.val().length);
+						$(options.input_container).css("width", "100%");
+						// Set input prefix visibility
+						if (!url_prefix) {
+							$(options.input_container + " .prefix").hide();
+							$(options.input_container + " input").css("width", "100%");
+						} else {
+							$(options.input_container + " .prefix").show();
+							$(options.input_container + " .prefix").text(url_prefix);
+							$(options.input_container + " .prefix").css({
+								"width" : "auto",
+								"display" : "inline-block"
+							});
+							// Adjust input width
+							var w = $(options.input_container).innerWidth() - $(options.input_container + " .prefix").outerWidth(true);
+							var w_adj = parseInt($("html").css("font-size")) * 1.25; // REM to px conversion
+							$(options.input_container + " input").width(w - w_adj);
+							$(options.input_container).css("width", "auto");
+						}
+						// Adjust container horizontal position
+						var h = $(options.input_container).outerHeight(true);
+						$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + icons_container_margin_bottom + "px"});
+					}, options.animation_delay);
+				}
+				function hide_input_container() {
+					$(options.input_container + "").fadeOut(options.animation_delay);
+					check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
+					$(options.icons_container + " " + options.icons_selector).removeClass("active");
+					setTimeout(function() {
+						$(options.icons_container).css({"top" : "0", "margin-bottom" : icons_container_margin_bottom});
+					}, options.animation_delay);
+				}
 				function check_icons_enabling(obj) {
 					if (typeof obj.attr("data-url") === "undefined" || obj.attr("data-url") == "") {
 						obj.addClass("disabled");
@@ -104,15 +138,7 @@
 						obj.removeClass("disabled");
 					}
 				}
-				function hide_input_container() {
-					$(options.input_container + "").fadeOut(options.animation_delay);
-					check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
-					$(options.icons_container + " " + options.icons_selector).removeClass("active");
-					setTimeout(function() {
-						$(options.icons_container).css({"top" : "0", "margin-bottom" : "0"});
-					}, options.animation_delay);
-				}
-				var is_icon_hover = false;
+				// Eventing
 				$(options.icons_container + " " + options.icons_selector).on("mouseenter", function() {
 					is_icon_hover = true;
 					if (!$(this).hasClass("active") && $(this).hasClass("disabled")) {
@@ -137,17 +163,7 @@
 					$(options.icons_container + " " + options.icons_selector).removeClass("active");
 					$(this).removeClass("disabled");
 					$(this).addClass("active");
-					var h = $(options.input_container).outerHeight(true);
-					var obj = $(options.input_container + " input");
-					var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
-					var url_prefix = typeof $(this).attr("data-url-prefix") === "undefined" ? "http://" : $(this).attr("data-url-prefix");
-					$(options.input_container + " .prefix").text(url_prefix);
-					setTimeout(function() {
-						$(options.input_container + "").fadeIn(options.animation_delay);
-						obj.val(url);
-						obj.cursor_position(0, obj.val().length);
-					}, options.animation_delay);
-					$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + "px"});
+					show_input_container()
 				});
 				$(options.input_container + " input").on("blur", function() {
 					$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
@@ -157,7 +173,7 @@
 						check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
 					}
 				});
-				$(options.input_container + " input").on("keydown", function(event) {
+				$(options.input_container + " input").on("keyup", function(event) {
 					if (event.which == 13) { // Enter
 						$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
 						hide_input_container()
@@ -166,10 +182,11 @@
 						hide_input_container()
 					}
 				});
+				// Initialization
 				$(document).ready(function() {
 					$(options.input_container).wrap("<div style='position: relative;'></div>");
 					$(options.input_container).css({"position" : "absolute", "width" : "100%", "display" : "none"});
-					$(options.icons_container).css({"position" : "relative", "top" : "0", "margin-bottom" : "0", "transition" : "top " + options.animation_delay + "ms, margin-bottom " + options.animation_delay + "ms"});
+					$(options.icons_container).css({"position" : "relative", "top" : "0", "margin-bottom" : icons_container_margin_bottom, "transition" : "top " + options.animation_delay + "ms, margin-bottom " + options.animation_delay + "ms"});
 					$(options.icons_container + " " + options.icons_selector).each(function() {
 						var str = $(this).text();
 						$(this).attr("title", options.icons_title_prefix + str);
@@ -183,20 +200,78 @@
 				});
 			}
 
+			function update_role_display(screen_width) {
+				var screen_width = screen_width || 640;
+				if ($(window).width() > screen_width) {
+					// Init : set user role custom styles
+					$("#role").addClass("text-large");
+					$("#role").css({
+						"position" : "absolute",
+						"top" : $("#pseudo").position().top,
+						"right" : "0",
+						"margin" : "0",
+						"padding" : "0 1rem",
+						"height" : $("#pseudo").outerHeight(),
+						"line-height" : $("#pseudo").css("line-height"),
+						"opacity" : ".5",
+						"color" : "white",
+						"text-shadow" : "-1px -1px rgba(0, 0, 0, .5)",
+					});
+					// Events : change user role custom styles
+					$("#pseudo").bind({
+						mouseover: function() {
+							$("#role").css("color", "gray");
+							$("#role").css("text-shadow", "none");
+						},
+						mouseout: function() {
+							$("#role").css("color", "white");
+							$("#role").css("text-shadow", "-1px -1px rgba(0, 0, 0, .5)");
+						},
+						focus: function() {
+							$("#role").fadeOut();
+						},
+						blur: function() {
+							$("#role").fadeIn();
+						}
+					});
+				} else {
+					// Init : reset user role custom styles
+					$("#role").removeClass("text-large");
+					$("#role").css({
+						"position" : "",
+						"top" : "",
+						"right" : "",
+						"margin" : "",
+						"padding" : "",
+						"height" : "",
+						"line-height" : "",
+						"opacity" : "",
+						"color" : "",
+						"text-shadow" : "",
+					});
+					// Events : unbind user role custom styles
+					$("#pseudo").unbind("mouseover");
+					$("#pseudo").unbind("mouseout");
+					$("#pseudo").unbind("focus");
+					$("#pseudo").unbind("blur");
+				}
+			}
+
 			// Define Icons Input Variables
 			var user_links = {
 				"input_container" : "#user-link",
 				"icons_container" : "#user_links_icons",
 				"icons_title_prefix" : "Votre "
 			};
-			var social_links = {
-				"input_container" : "#social-link",
-				"icons_container" : "#social_links_icons",
-				"icons_title_prefix" : "Votre page "
-			};
-			// Process Icons Input
-			set_icons_input(social_links);
-			set_icons_input(user_links);
+			// On Page Load
+			$(document).ready(function() {
+				create_icons_input(user_links); // Process user links
+				update_role_display(640); // Update user role display
+			});
+			// On Screen Resize
+			$(window).on("resize", function() {
+				update_role_display(640); // Update user role display
+			});
 
 		</script>
 		<script>

@@ -314,6 +314,17 @@ select > option {
 }
 
 /* ------------------------------------------------------------------ */
+/* # Input Fixes */
+/* ------------------------------------------------------------------ */
+
+.prefix, .postfix {
+  padding: 0 .75rem;
+}
+.prefix.button, .postfix.button {
+  padding: 0; /* Foundation Override */
+}
+
+/* ------------------------------------------------------------------ */
 /* # Placeholders */
 /* ------------------------------------------------------------------ */
 
@@ -957,9 +968,16 @@ kbd,
   display: inline-block;
   margin-left: auto; /* Foundation override */
   }
-.inline-list:first-child,
-.inline-list > li:first-child {margin-left: 0;} /* Foundation override */
-.inline-list > li {margin-left: .75rem;} /* Foundation override */
+.inline-list:last-child,
+.inline-list > li:last-child {
+  margin-left: 0; /* Foundation override */
+  margin-right: 0;
+}
+.inline-list > li {
+  margin-left: 0; /* Foundation override */
+  margin-right: .75rem;
+  margin-bottom: .75rem;
+}
 
 .inline-list > dt, .inline-list > dd {
   display: inline-block;
@@ -970,6 +988,11 @@ kbd,
 
 .inline-list > dt.hide, .inline-list > dd.hide {
   display: none; /* Visibility fix */
+}
+
+/* Block Inline Lists */
+.inline-list.block {
+  display: block;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1105,7 +1128,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .picture.cover {background-size: cover;}
 .picture.contain {background-size: contain;}
 
-/* EDIT */
+/* EDIT BACKUP */
 /*
 .picture.huge {width: 384px; height: 384px;}
 .picture.large {width: 256px; height: 256px;}
@@ -1120,7 +1143,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .picture.small {width: 96px; height: 96px;}
 .picture.tiny {width: 48px; height: 48px;}
 
-/* TEMP */
+/* TEMP : responsive design for pictures * UNFINISHED TEST */
 @media (max-width: 479px) {
   .picture.huge {width: 256px; height: 256px;}
   .picture.large {width: 196px; height: 196px;}
@@ -1975,7 +1998,6 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 /* Below are classes for user profile using HTML input mimics */
 .user-profile input#pseudo {
   height: auto;
-  margin-bottom: 0;
   padding: 0 .5rem;
   font-family: "Oswald", sans-serif;
   font-size: 2em;

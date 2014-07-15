@@ -627,8 +627,8 @@ jQuery.fn.extend({
 	options_select : function(options) {
 		// vars
 		var defaults = {
-			select : ".select",          // String   Selector of the value holder element. Default : "span"
-			options : ".options",           // String   Selector of the list of choices itself. Default : "ul"
+			select : ".select",       // String   Selector of the value holder element. Default : "span"
+			options : ".options",     // String   Selector of the list of choices itself. Default : "ul"
 			slide_duration : "fast",  // Integer  Length of the sliding effect in milliseconds. Default : "fast"
 			scroll_duration : 500,    // Integer  Length of the scrolling effect in milliseconds. Default : 500
 			scroll_spacing : 0        // Integer  Size of the scrolling spacing in pixels. Default : 0

@@ -2,6 +2,14 @@
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
+// Define Icons Input Variables
+var user_links_icons_input = {
+	"input_container" : "#user-link",
+	"icons_container" : "#user_links_icons",
+	"icons_title_prefix" : "Votre "
+};
+
+// Define Pair Property-Value registering method
 function Couple(property, value){
 	this.property = property;
 	this.value = value;
@@ -10,13 +18,14 @@ function Couple(property, value){
 	};
 }
 
+// Instance Variables
 var memoryCouple = new Couple("", "");
 var pseudoProperty = "pseudo";
 var descriptionProperty = "description";
-var social_links = ["twitter", "facebook", "googleplus", "linkedin"];
-var user_links = ["home", "mail", "link"];
+var user_links = ["mail", "link", "twitter", "facebook", "googleplus", "linkedin"];
 
-function modifiyCouple(couple){
+// Instance Methods
+function modifiyCouple(couple){ // Pair storing
 	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value) {
 		if (pseudoProperty == couple.property){
 			// vérifie qu'il a pas resaisi son pseudo après une éventuelle erreur
@@ -33,6 +42,14 @@ function modifiyCouple(couple){
 	}
 }
 
+// Data to HTML association method for user links
+function processSocialLinks(socialLinks){
+	for (var i = 0; i < socialLinks.length; i++) {
+		$(".icon-" + socialLinks[i].network.toLowerCase()).attr("data-url", socialLinks[i].socialUser);
+	}
+}
+
+// TEMP : instance method for alert box initialization ; to be replaced in loap.js
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#profile-alert").length == 0) {
@@ -41,34 +58,6 @@ function createAlertBox(err, msg) {
 			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
 		}
 		$("#profile-alert").fadeIn(300);
-	}
-}
-
-/*
-function selectorSocialLink(network){
-	return ".icon-" + network;
-}
-function processSocialLinks(socialLinks){
-	for (var i = 0; i < socialLinks.length; i ++){
-		//social network like facebook, twitter googpleplus and linkedin
-		var indexSocialNetwork = $.inArray(socialLinks[i].network,social_links);
-		if (indexSocialNetwork != -1){
-			$(selectorSocialLink(socialLinks[i].network)).addClass("social-active");
-			$(selectorSocialLink(socialLinks[i].network)).attr("data-social-user",socialLinks[i].socialUser)
-		}
-		//user network like web site mail and other link
-		var indexUserNetwork = $.inArray(socialLinks[i].network,user_links);
-		if (indexUserNetwork != -1){
-			$(selectorSocialLink(socialLinks[i].network)).addClass("social-active");
-			$(selectorSocialLink(socialLinks[i].network)).attr("data-social-user",socialLinks[i].socialUser)
-		}
-	}
-}
-*/
-
-function processSocialLinks(socialLinks){
-	for (var i = 0; i < socialLinks.length; i++) {
-		$(".icon-" + socialLinks[i].network.toLowerCase()).attr("data-url", socialLinks[i].socialUser);
 	}
 }
 
@@ -101,29 +90,26 @@ function majView(couple, updateInError) {
 	//sinon mise à jour des attributs pour les socials links
 	} else {
 		switch (couple.property) {
-		case social_links[0]:
-			$(".icon-twitter").attr("data-url", couple.value);
-			break;
-		case social_links[1]:
-			$(".icon-facebook").attr("data-url", couple.value);
-			break;
-		case social_links[2]:
-			$(".icon-googleplus").attr("data-url", couple.value);
-			break;
-		case social_links[3]:
-			$(".icon-linkedin").attr("data-url", couple.value);
-			break;
 		case user_links[0]:
-			$(".icon-home").attr("data-url", couple.value);
-			break;
-		case user_links[1]:
 			$(".icon-mail").attr("data-url", couple.value);
 			break;
-		case user_links[2]:
+		case user_links[1]:
 			$(".icon-link").attr("data-url", couple.value);
 			break;
+		case user_links[2]:
+			$(".icon-twitter").attr("data-url", couple.value);
+			break;
+		case user_links[3]:
+			$(".icon-facebook").attr("data-url", couple.value);
+			break;
+		case user_links[4]:
+			$(".icon-googleplus").attr("data-url", couple.value);
+			break;
+		case user_links[5]:
+			$(".icon-linkedin").attr("data-url", couple.value);
+			break;
 		case pseudoProperty :
-			update_user_pseudo(couple.value); // method from loap.js
+			update_user_pseudo(couple.value); // method launched from loap.js
 			break;
 		default:
 			break;
@@ -179,11 +165,15 @@ function getProfile(){
 				$("header + hr").after(profile_template(profile)); // process template
 				processSocialLinks(profile.socialLinks); // process social links
 				// Begin EDIT --------------------------------------------------
-				$('textarea').autosize({append: ""}); // reinitialize autosize plugin for all textareas
+				$("textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas
 				$("textarea").validation_bar(); // initialize validation_bar plugin for all textareas
-				set_icons_input(social_links); // process icons input for social links
-				set_icons_input(user_links); // process icons input for user links
+				//set_icons_input(social_links); // process icons input for social links
+				create_icons_input(user_links_icons_input); // process icons input for user links
 				loap.update(); // re-update loap for user picture
+				update_role_display(640); // update user role display
+				$(window).on("resize", function() {
+					update_role_display(640); // update user role display on screen resize
+				});
 				// End EDIT ----------------------------------------------------
 			},
 			error : function(jqXHR, status, errorThrown) {
@@ -222,25 +212,11 @@ function save(couple) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Persistent Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	getProfile();
-});
-
-// champ pseudo
-/*
-$("html").on("mouseover","#pseudo", function(event){
-	 $(this).addClass("editable");
-});
-$("html").on("mouseout","#pseudo", function(event){
-	 $(this).removeClass("editable");
-});
-*/
+/* User Name */
 $("html").on("focus","#pseudo", function(event) {
-	// $(this).removeClass("disable");
-	// $(this).addClass("editing");
 	memoryCouple = new Couple(pseudoProperty,$(this).val());
 });
 $("html").on("keypress","#pseudo", function(event) {
@@ -255,155 +231,20 @@ $("html").on("keydown","#pseudo", function(event) {
 	}
 });
 $("html").on("blur","#pseudo", function(event) {
-	// $(this).addClass("disable");
-	// $(this).removeClass("editing");
 	var couple = new Couple(pseudoProperty,$("#pseudo").val());
 	modifiyCouple(couple);
 });
 
-//champ description
-/*
-$("html").on("mouseover","#description", function(event){
-	$(this).addClass("editable");
-});
-$("html").on("mouseout","#description", function(event){
-	$(this).removeClass("editable");
-});
-$("html").on("keypress","#description", function(event){
-	if(event.which == 13) {
-		$(this).blur();
-	}
-});
-*/
+/* User Description */
 $("html").on("focus","#description", function(event) {
-	// $(this).removeClass("disable");
-	// $(this).addClass("editing");
 	memoryCouple = new Couple(descriptionProperty, $("#description").val());
 });
 $("html").on("blur","#description", function(event) {
-	// $(this).addClass("disable");
-	// $(this).removeClass("editing");
 	var couple = new Couple(descriptionProperty, $(this).val());
 	modifiyCouple(couple);
 });
 
-/*
-//twitter
-$("html").on("click",".icon-twitter", function(event){
-	$("#social-link").removeClass("hide");
-	$("#social-link").attr("data-social-network",social_links[0]);
-	$("#social-link span").html("https://twitter.com/");
-	$("#social-link input").val($(this).attr("data-social-user"));
-	$("#social-link input").focus();
-	var network = "";
-	if ($(this).attr("data-social-user") != undefined){
-		network = $(this).attr("data-social-user");
-	}
-	memoryCouple = new Couple(social_links[0],network);
-});
-//facebook
-$("html").on("click",".icon-facebook", function(event){
-	$("#social-link").removeClass("hide");
-	$("#social-link").attr("data-social-network",social_links[1]);
-	$("#social-link span").html("https://facebook.com/");
-	$("#social-link input").val($(this).attr("data-social-user"));
-	$("#social-link input").focus();
-	var network = "";
-	if ($(this).attr("data-social-user") != undefined){
-		network = $(this).attr("data-social-user");
-	}
-	memoryCouple = new Couple(social_links[1],network);
-});
-//google plus
-$("html").on("click",".icon-googleplus", function(event){
-	$("#social-link").removeClass("hide");
-	$("#social-link").attr("data-social-network",social_links[2]);
-	$("#social-link span").html("https://plus.google.com/");
-	$("#social-link input").val($(this).attr("data-social-user"));
-	$("#social-link input").focus();
-	var network = "";
-	if ($(this).attr("data-social-user") != undefined){
-		network = $(this).attr("data-social-user");
-	}
-	memoryCouple = new Couple(social_links[2],network);
-});
-//linkedin
-$("html").on("click",".icon-linkedin", function(event){
-	$("#social-link").removeClass("hide");
-	$("#social-link").attr("data-social-network",social_links[3]);
-	$("#social-link span").html("https://linkedin.com/");
-	$("#social-link input").val($(this).attr("data-social-user"));
-	$("#social-link input").focus();
-	var network = "";
-	if ($(this).attr("data-social-user") != undefined){
-		network = $(this).attr("data-social-user");
-	}
-	memoryCouple = new Couple(social_links[3],network);
-});
-//social link
-$("html").on("blur","#social-link", function(event){
-	$(this).addClass("hide");
-	var couple = new Couple($(this).attr("data-social-network"),$("#social-link input").val());
-	modifiyCouple(couple);
-});
-//home
-$("html").on("click",".icon-home", function(event){
-	$("#user-link").removeClass("hide");
-	$("#user-link").attr("data-user-network",user_links[0]);
-	$("#user-link input").val($(this).attr("data-social-user"));
-	$("#user-link input").focus();
-	var network = "";
-	if ($(this).attr("data-social-user") != undefined){
-		network = $(this).attr("data-social-user");
-	}
-	memoryCouple = new Couple(user_links[0],network);
-});
-//mail
-$("html").on("click",".icon-mail", function(event){
-	$("#user-link").removeClass("hide");
-	$("#user-link").attr("data-user-network",user_links[1]);
-	$("#user-link input").val($(this).attr("data-social-user"));
-	$("#user-link input").focus();
-	var network = "";
-	if ($(this).attr("data-social-user") != undefined){
-		network = $(this).attr("data-social-user");
-	}
-	memoryCouple = new Couple(user_links[1],network);
-});
-//link
-$("html").on("click",".icon-link", function(event){
-	$("#user-link").removeClass("hide");
-	$("#user-link").attr("data-user-network",user_links[2]);
-	$("#user-link input").val($(this).attr("data-social-user"));
-	$("#user-link input").focus();
-	var network = "";
-	if ($(this).attr("data-social-user") != undefined){
-		network = $(this).attr("data-social-user");
-	}
-	memoryCouple = new Couple(user_links[2],network);
-});
-//user link
-$("html").on("blur","#user-link", function(event){
-	$(this).addClass("hide");
-	var couple = new Couple($(this).attr("data-user-network"),$("#user-link input").val());
-	modifiyCouple(couple);
-});
-$("html").on("keypress","#user-link", function(event){
-	if(event.which == 13) {
-		$(this).blur();
-	}
-});
-*/
-
-// Social Links
-$("html").on("focus", "#social-link input", function() {
-	memoryCouple = new Couple($("#social_links_icons .active").text().toLowerCase(), $(this).val());
-});
-$("html").on("blur", "#social-link input", function() {
-	var couple = new Couple($("#social_links_icons .active").text().toLowerCase(), $(this).val());
-	modifiyCouple(couple);
-});
-// User Links
+/* User Links */
 $("html").on("focus", "#user-link input", function() {
 	memoryCouple = new Couple($("#user_links_icons .active").text().toLowerCase(), $(this).val());
 });
@@ -411,24 +252,17 @@ $("html").on("blur", "#user-link input", function() {
 	var couple = new Couple($("#user_links_icons .active").text().toLowerCase(), $(this).val());
 	modifiyCouple(couple);
 });
+$("html").on("keypress", "#user-link input", function(event) {
+	if (event.which == 13) { // Enter
+		$(this).blur();
+	}
+});
 
 /* ------------------------------------------------------------------ */
-/* # Set Icons Input */
+/* # Create Icons Input */
 /* ------------------------------------------------------------------ */
 
-var user_links = {
-	"input_container" : "#user-link",
-	"icons_container" : "#user_links_icons",
-	"icons_title_prefix" : "Votre "
-};
-
-var social_links = {
-	"input_container" : "#social-link",
-	"icons_container" : "#social_links_icons",
-	"icons_title_prefix" : "Votre page "
-};
-
-function set_icons_input(options) {
+function create_icons_input(options) {
 	var defaults = {
 		"input_container" : "",
 		"icons_container" : "",
@@ -437,7 +271,57 @@ function set_icons_input(options) {
 		"icons_tooltip" : true,
 		"animation_delay" : 250
 	};
+	// Vars
 	var options = $.extend({}, defaults, options);
+	var input_container_margin_bottom = parseInt($(options.input_container).find("input").css("margin-bottom"));
+	var icons_container_margin_bottom = parseInt($(options.icons_container).css("margin-bottom"));
+	var is_icon_hover = false;
+	// Methods
+	function show_input_container() {
+		var obj = $(options.input_container + " input");
+		var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
+		var url_prefix = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url-prefix") === "undefined" ? false : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url-prefix");
+		setTimeout(function() {
+			$(options.input_container).fadeIn(options.animation_delay, function() {
+				$(options.input_container + " input").css("margin-bottom", "0");
+				$(options.input_container).css("margin-bottom", input_container_margin_bottom + "px");
+				$(options.input_container + " .prefix").css("border-color", "darkgray");
+				$(options.input_container).find("input").css("box-shadow", "none");
+				$(options.input_container).css("box-shadow", "0 0 .25rem rgba(0, 0, 0, .5)");
+			});
+			obj.val(url);
+			obj.cursor_position(0, obj.val().length);
+			$(options.input_container).css("width", "100%");
+			// Set input prefix visibility
+			if (!url_prefix) {
+				$(options.input_container + " .prefix").hide();
+				$(options.input_container + " input").css("width", "100%");
+			} else {
+				$(options.input_container + " .prefix").show();
+				$(options.input_container + " .prefix").text(url_prefix);
+				$(options.input_container + " .prefix").css({
+					"width" : "auto",
+					"display" : "inline-block"
+				});
+				// Adjust input width
+				var w = $(options.input_container).innerWidth() - $(options.input_container + " .prefix").outerWidth(true);
+				var w_adj = parseInt($("html").css("font-size")) * 1.25; // REM to px conversion
+				$(options.input_container + " input").width(w - w_adj);
+				$(options.input_container).css("width", "auto");
+			}
+			// Adjust container horizontal position
+			var h = $(options.input_container).outerHeight(true);
+			$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + icons_container_margin_bottom + "px"});
+		}, options.animation_delay);
+	}
+	function hide_input_container() {
+		$(options.input_container).fadeOut(options.animation_delay);
+		check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
+		$(options.icons_container + " " + options.icons_selector).removeClass("active");
+		setTimeout(function() {
+			$(options.icons_container).css({"top" : "0", "margin-bottom" : icons_container_margin_bottom});
+		}, options.animation_delay);
+	}
 	function check_icons_enabling(obj) {
 		if (typeof obj.attr("data-url") === "undefined" || obj.attr("data-url") == "") {
 			obj.addClass("disabled");
@@ -445,17 +329,8 @@ function set_icons_input(options) {
 			obj.removeClass("disabled");
 		}
 	}
-	function hide_input_container() {
-		$(options.input_container).fadeOut(options.animation_delay);
-		check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
-		$(options.icons_container + " " + options.icons_selector).removeClass("active");
-		setTimeout(function() {
-			$(options.icons_container).css({"top" : "0", "margin-bottom" : "0"});
-		}, options.animation_delay);
-	}
-	var is_icon_hover = false;
-	var last_input_value = "";
-	$("html").on("mouseenter", options.icons_container + " " + options.icons_selector, function() {
+	// Eventing
+	$(options.icons_container + " " + options.icons_selector).on("mouseenter", function() {
 		is_icon_hover = true;
 		if (!$(this).hasClass("active") && $(this).hasClass("disabled")) {
 			$(this).css({
@@ -466,7 +341,7 @@ function set_icons_input(options) {
 			});
 		}
 	});
-	$("html").on("mouseleave", options.icons_container + " " + options.icons_selector, function() {
+	$(options.icons_container + " " + options.icons_selector).on("mouseleave", function() {
 		is_icon_hover = false;
 		$(this).css({"cursor" : "", "outline" : "", "background-color" : "", "opacity" : ""});
 		if (!$(this).hasClass("active")) {
@@ -475,26 +350,13 @@ function set_icons_input(options) {
 			}
 		}
 	});
-	$("html").on("click", options.icons_container + " " + options.icons_selector, function() {
+	$(options.icons_container + " " + options.icons_selector).on("click", function() {
 		$(options.icons_container + " " + options.icons_selector).removeClass("active");
 		$(this).removeClass("disabled");
 		$(this).addClass("active");
-		var h = $(options.input_container).outerHeight(true);
-		var obj = $(options.input_container + " input");
-		var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
-		var url_prefix = typeof $(this).attr("data-url-prefix") === "undefined" ? "http://" : $(this).attr("data-url-prefix");
-		$(options.input_container + " .prefix").text(url_prefix);
-		setTimeout(function() {
-			$(options.input_container).fadeIn(options.animation_delay);
-			obj.val(url);
-			obj.cursor_position(0, obj.val().length);
-		}, options.animation_delay);
-		$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + "px"});
+		show_input_container()
 	});
-	$("html").on("focus", options.input_container + " input", function() {
-		last_input_value = $(this).val();
-	});
-	$("html").on("blur", options.input_container + " input", function() {
+	$(options.input_container + " input").on("blur", function() {
 		$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
 		if (is_icon_hover == false) {
 			hide_input_container()
@@ -502,30 +364,101 @@ function set_icons_input(options) {
 			check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
 		}
 	});
-	$("html").on("keydown", options.input_container + " input", function(event) {
+	$(options.input_container + " input").on("keyup", function(event) {
 		if (event.which == 13) { // Enter
 			$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
-			$(this).blur();
 			hide_input_container()
 		}
 		if (event.which == 27) { // Escape
-			$(this).val(last_input_value);
-			$(this).blur();
 			hide_input_container()
 		}
 	});
+	// Initialization
 	$(document).ready(function() {
 		$(options.input_container).wrap("<div style='position: relative;'></div>");
 		$(options.input_container).css({"position" : "absolute", "width" : "100%", "display" : "none"});
-		$(options.icons_container).css({"position" : "relative", "top" : "0", "margin-bottom" : "0", "transition" : "top " + options.animation_delay + "ms, margin-bottom " + options.animation_delay + "ms"});
+		$(options.icons_container).css({"position" : "relative", "top" : "0", "margin-bottom" : icons_container_margin_bottom, "transition" : "top " + options.animation_delay + "ms, margin-bottom " + options.animation_delay + "ms"});
 		$(options.icons_container + " " + options.icons_selector).each(function() {
-			var str = $(this).text();
-			$(this).attr("title", options.icons_title_prefix + str);
-			if (options.icons_tooltip) {
-				$(this).attr("data-tooltip", "");
-				$(options.icons_container).foundation("tooltip");
+			var str = $(this).attr("title");
+			if (typeof str !== "undefined" && str != "") {
+				$(this).attr("title", options.icons_title_prefix + str);
+				if (options.icons_tooltip) {
+					$(this).addClass("tip-top");
+					$(this).attr("data-tooltip", "");
+					$(options.icons_container).foundation("tooltip");
+				}
 			}
 			check_icons_enabling($(this));
 		});
 	});
 }
+
+/* ------------------------------------------------------------------ */
+/* # Update Role Display */
+/* ------------------------------------------------------------------ */
+
+function update_role_display(screen_width) {
+	var screen_width = screen_width || 640;
+	if ($(window).width() > screen_width) {
+		// Init : set user role custom styles
+		$("#role").addClass("text-large");
+		$("#role").css({
+			"position" : "absolute",
+			"top" : $("#pseudo").position().top,
+			"right" : "0",
+			"margin" : "0",
+			"padding" : "0 1rem",
+			"height" : $("#pseudo").outerHeight(),
+			"line-height" : $("#pseudo").css("line-height"),
+			"opacity" : ".5",
+			"color" : "white",
+			"text-shadow" : "-1px -1px rgba(0, 0, 0, .5)",
+		});
+		// Events : change user role custom styles
+		$("#pseudo").bind({
+			mouseover: function() {
+				$("#role").css("color", "gray");
+				$("#role").css("text-shadow", "none");
+			},
+			mouseout: function() {
+				$("#role").css("color", "white");
+				$("#role").css("text-shadow", "-1px -1px rgba(0, 0, 0, .5)");
+			},
+			focus: function() {
+				$("#role").fadeOut();
+			},
+			blur: function() {
+				$("#role").fadeIn();
+			}
+		});
+	} else {
+		// Init : reset user role custom styles
+		$("#role").removeClass("text-large");
+		$("#role").css({
+			"position" : "",
+			"top" : "",
+			"right" : "",
+			"margin" : "",
+			"padding" : "",
+			"height" : "",
+			"line-height" : "",
+			"opacity" : "",
+			"color" : "",
+			"text-shadow" : "",
+		});
+		// Events : unbind user role custom styles
+		$("#pseudo").unbind("mouseover");
+		$("#pseudo").unbind("mouseout");
+		$("#pseudo").unbind("focus");
+		$("#pseudo").unbind("blur");
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* # Initialization */
+/* ------------------------------------------------------------------ */
+
+// Page Load
+$(document).ready(function() {
+	getProfile(); // process page template feeded with DB values through AJAX
+});
