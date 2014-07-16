@@ -60,33 +60,37 @@ public class ArticleResources {
         }
         return responseBuilder.build();
     }
-    
+
     @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token){
-    	ResponseBuilder responseBuilder;
-    	Set<Article> articles = Sets.newHashSet();
-    	if(token != null){
-	    	Profile profile = profileHelper.findProfileByAuthcToken(token);	    	 
-	    	//Je suis connecté
-	    	if(profile != null){
-	    		articles.addAll(Article.findDrafts(profile.getId()));
-	    		OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
-	    		//Je suis admin
-	    		if(securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))){
-	    			articles.addAll(Article.findToCheck());
-	    		}    		
-	    	}
-    	}
-    	
-    	articles.addAll(Article.findOnline());
-    	Set<ArticleDTO> articlesDto = Sets.newHashSet();
-    	for(Article article : articles){
-    		articlesDto.add(article.toArticleDTO());
-    	}
-    	
-    	responseBuilder = Response.status(Status.OK).entity(articlesDto);
-    	return responseBuilder.build();
+    String token) {
+        ResponseBuilder responseBuilder;
+        Set<Article> articles = Sets.newHashSet();
+        if (token != null) {
+            // recherche le profil associé
+            Profile profile = profileHelper.findProfileByAuthcToken(token);
+            // Je suis connecté
+            if (profile != null) {
+                OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
+                // je suis redac, j'ai accès à mes brouillon
+                if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
+                    articles.addAll(Article.findDrafts(profile.getId()));
+                }
+                // Je suis admin
+                if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {
+                    articles.addAll(Article.findToCheck());
+                }
+            }
+        }
+        // push les articles en ligne pour tous les utilisateurs
+        articles.addAll(Article.findOnline());
+        // passage en DTO
+        Set<ArticleDTO> articlesDto = Sets.newHashSet();
+        for (Article article : articles) {
+            articlesDto.add(article.toArticleDTO());
+        }
+        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        return responseBuilder.build();
     }
 
     @PUT

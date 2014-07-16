@@ -4,6 +4,8 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Collection;
+import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
@@ -17,8 +19,11 @@ import org.ourses.server.redaction.domain.dto.CategoryDTO;
 import org.ourses.server.redaction.domain.dto.RubriqueDTO;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 public class ITArticleResources {
@@ -41,6 +46,63 @@ public class ITArticleResources {
     private static final String PATH_GET = "/rest/articles/11";
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
     private static final String PATH_GET_VALIDATE = "/rest/articles/13";
+    private static final String PATH_GET_ALL = "/rest/articles";
+
+    @Test
+    public void shouldReadAllPublishArticle() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+                .get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
+    }
+
+    @Test
+    public void shouldReadAllPublishArticleAndIsOwnDraft() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE, ArticleStatus.BROUILLON);
+        Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
+
+            @Override
+            public boolean apply(ArticleDTO input) {
+                return ArticleStatus.BROUILLON.equals(input.getStatus());
+            }
+        });
+        assertThat(drafts).onProperty("profile.pseudo").containsOnly("jpetit");
+    }
+
+    @Test
+    public void shouldReadAllPublishArticleAndIsOwnDraftAndValidate() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE, ArticleStatus.BROUILLON,
+                ArticleStatus.AVERIFIER);
+        Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
+
+            @Override
+            public boolean apply(ArticleDTO input) {
+                return ArticleStatus.BROUILLON.equals(input.getStatus());
+            }
+        });
+        assertThat(drafts).onProperty("profile.pseudo").containsOnly("monPseudo");
+    }
 
     @Test
     public void shouldReadPublishArticle() throws JsonGenerationException, JsonMappingException,
