@@ -87,11 +87,18 @@ public class ProfileHelperImpl implements ProfileHelper {
 
     @Override
     public Profile findProfileByAuthcToken(String token) {
-        OurseSecurityToken authcToken = securityHelper.findByToken(token);
-        BearAccount account = BearAccount.findAuthcUserProperties(authcToken.getLogin());
         Profile profile = null;
-        if (account != null) {
-            profile = account.getProfile();
+        // test si la requête est authentifié
+        if (token != null) {
+            OurseSecurityToken authcToken = securityHelper.findByToken(token);
+            // test si le token est présent en base
+            if (authcToken != null) {
+                BearAccount account = BearAccount.findAuthcUserProperties(authcToken.getLogin());
+                // test si le compt est présent en base
+                if (account != null) {
+                    profile = account.getProfile();
+                }
+            }
         }
         return profile;
     }
