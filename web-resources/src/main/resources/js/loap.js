@@ -75,31 +75,36 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	$(".main-pane").append("<hr>");
 
 	// process templates
-	if ($dev_toolbar == true) {$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));}
+	if ($dev_toolbar == true) {
+		$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));
+	}
 	$("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
 	$(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
 	// Si l'utilisateur est dans le navigateur alors on affiche user-nav
 	if (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null) {
-		//supprime le lien vers la page de connexion pour ajouter le menu utilisateur
-		$("#connect-launcher").attr("href","javascript:void(0)");
-		$("#connect-launcher").attr("data-dropdown","user_menu_test");
-		$("#connect-launcher").addClass("has-dropdown not-click");
-		$("#connect-launcher").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
+		// supprime le lien vers la page de connexion pour ajouter le menu utilisateur
+		$("#user_connect").attr("href", "javascript:void(0)");
+		$("#user_connect").attr("data-dropdown", "user_menu");
+		$("#user_connect").attr("data-options", "is_hover:true");
+		$("#user_connect").removeClass("icon-home");
+		$("#user_connect").addClass("icon-expand");
+		$(".fast-nav").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
 		// recharger l'image utilisateur
 		loap.update();
-	}else{
-		//ajoute le lien vers la page de connexion
-		$("#connect-launcher").attr("href",$login_page);
-		$("#connect-launcher").removeAttr("data-dropdown");
-		$("#connect-launcher").removeClass("has-dropdown");
-		$("#connect-launcher").removeClass("not-click");
-		$("#connect-launcher .user-nav").remove();
+	} else {
+		// ajoute le lien vers la page de connexion
+		$("#user_connect").attr("href", $login_page);
+		$("#user_connect").removeAttr("data-dropdown");
+		$("#user_connect").removeAttr("data-options");
+		$("#user_connect").removeClass("icon-expand");
+		$("#user_connect").addClass("icon-home");
+		$("#user_menu").remove();
 	}
 	$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
 
 	// process slider template -- this is the tricky part
 	$(document).ready(function() {
-		$(".fast-nav + hr").after(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
+		$("header").append(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
 		$(".news-list").foundation("orbit"); // reload foundation ; Foundation need to be loaded one time before that for the list to appear inline
 		$(window).resize(); // just a dummy instruction for getting the proper height
 	});
@@ -134,12 +139,41 @@ $("html").on("click", "[href*='#']", function() {
 /* # Toolbar */
 /* ------------------------------------------------------------------ */
 
-	/* Toolbar CSS Toggle Checker */
-	$(document).ready(function() {
-		if (typeof $css_fx !== "undefined" && $css_fx == false) {
-			$("#_css_fx_toggle").addClass("active");
+/* Toolbar Activator */
+var toolbar_show = {
+	"index" : 0,
+	"timer" : NaN,
+	"delay" : 500
+};
+$(document).on("keydown", function(event) {
+	if ((event.which == 68 && toolbar_show.index == 0) || (event.which == 69 && toolbar_show.index == 1)) { // D OR E
+		toolbar_show.index++;
+		toolbar_show.timer = setTimeout(function() {
+			toolbar_show.index = 0;
+		}, toolbar_show.delay);
+	}
+	else if (event.which == 86 && toolbar_show.index == 2) { // V
+		clearTimeout(toolbar_show.timer);
+		if ($("#_toolbar_stick_toggle").hasClass("active")) {
+			if ($("#toolbar").hasClass("hide")) {
+				$("#main").css("margin-top", "45px");
+			} else {
+				$("#main").css("margin-top", "0");
+			}
 		}
-	});
+		$("#toolbar").toggleClass("hide");
+		toolbar_show.index = 0;
+	} else {
+		toolbar_show.index = 0;
+	}
+});
+
+/* Toolbar CSS Toggle Checker */
+$(document).ready(function() {
+	if (typeof $css_fx !== "undefined" && $css_fx == false) {
+		$("#_css_fx_toggle").addClass("active");
+	}
+});
 
 /* UNUSED*/
 /* Toolbar Crystal Scheme Toggler */
