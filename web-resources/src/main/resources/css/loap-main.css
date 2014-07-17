@@ -650,11 +650,17 @@ kbd,
   margin: 0;
   padding: 0;
 }
+
+/* UNUSED : Horizontal Rule */
+/*
 .nav-pane hr {
   border-top: 1px solid #537;
   border-bottom: 1px solid #a8c;
 }
+*/
 
+/* UNUSED : Search */
+/*
 .frame > .nav-pane input {
   margin-top: .125rem;
   border-color: #537;
@@ -667,19 +673,22 @@ kbd,
 .frame > .nav-pane input:focus {
   background-color: #ffc;
 }
+*/
 
-/* Connect */
+/* UNUSED : Connect */
+/*
 .nav-pane .connect-launcher {font-size: 1.5rem;}
 .nav-pane .connect-launcher a {color: #a8c;}
 .nav-pane .connect-launcher a:hover, .nav-pane .connect a:focus {color: #ffb;}
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Navs */
 /* ------------------------------------------------------------------ */
 
 /* All Navs */
-.user-nav a, .main-nav a, .fast-nav a, .site-nav a {text-decoration: none;}
-.user-nav ul li, .main-nav ul li, .fast-nav ul li {font-family: "Oswald", sans-serif;}
+.main-nav a, .fast-nav a, .user-nav a, .site-nav a {text-decoration: none;}
+.main-nav ul li, .fast-nav ul li, .user-nav ul li {font-family: "Oswald", sans-serif;}
 
 /* User Nav */
 .user-nav {
@@ -692,13 +701,19 @@ kbd,
   background-color: #d4a;
 }
 .user-nav ul {
-  font-size: 125%;
+  margin-left: 0;
   line-height: 150%;
+  list-style: none;
 }
-.user-nav ul .large {
-  line-height: 175%;
+.user-nav ul li {
+  font-size: 115%;
 }
-.user-nav ul .red {
+.user-nav ul li .picture {
+  margin-bottom: .5rem;
+}
+.user-nav ul li .disconnect {
+  font-size: 125%;
+  line-height: 133%;
   color: #c00;
 }
 .user-nav ul li a {
@@ -769,12 +784,18 @@ kbd,
 
 /* Fast Nav */
 .fast-nav {
-  margin-bottom: .75rem;
+  margin-bottom: .75rem; /* NEW */
+}
+.fast-nav ul {}
+.fast-nav ul li {
+  margin: 0 .5rem 0 0; /* NEW */
+}
+.fast-nav ul li:last-child {
+  margin-right: 0; /* NEW */
 }
 .fast-nav ul li a {
-  padding: .25rem;
+  padding: 0 .5rem;
   font-size: 1.15em;
-  line-height: 100%;
   border-width: .25rem 0;
   border-style: solid;
   border-color: transparent;
@@ -841,6 +862,10 @@ kbd,
   background-color: inherit;
 }
 
+.fast-nav ul li [class*='icon-'] {
+  border: 0;
+}
+
 /* Site Nav */
 .site-nav {
   width: 100%;
@@ -884,7 +909,8 @@ kbd,
   height: 11.76470588235294rem;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 1rem;
+  margin-top: 3.5rem;
+  margin-bottom: 2rem;
 }
 .logo > a {
   display: inline-block;
@@ -1399,6 +1425,12 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .pagination a {text-decoration: none;} /* Foundation override */
 
 /* ------------------------------------------------------------------ */
+/* # Foundation Dropdowns */
+/* ------------------------------------------------------------------ */
+
+.f-dropdown li:hover, .f-dropdown li:focus {background: transparent;} /* Foundation override */
+
+/* ------------------------------------------------------------------ */
 /* # Clearing Lightbox */
 /* ------------------------------------------------------------------ */
 
@@ -1655,7 +1687,6 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
      -moz-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
           box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
 }
-
 
 /* ------------------------------------------------------------------ */
 /* # Validation Bar */
@@ -2344,32 +2375,27 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
     display: inline-block;
     width: 100%;
   }
-  .logo {
-    width: 33.33333333333333%;
-    float: left;
+  .frame > .main-pane {
+    width: 100%;
+    display: block;
   }
+  .logo {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  /* UNUSED */
+  /*
   .nav-pane .search,
   .nav-pane .auth {
     width: 66.66666666666667%;
     float: right;
   }
+  */
   .main-nav {
     width: 100%;
+    font-size: 75%;
   }
-  .nav-pane .user-nav {
-    clear: left;
-  }
-  .nav-pane .user-nav ul {
-  }
-  .nav-pane .user-nav ul li{
-    float: left;
-    width: 50%;
-    line-height: 2rem;
-  }
-  .nav-pane .main-nav .sub-list {
-    width: 100%;
-  }
-  .nav-pane .main-nav li {
+  .main-nav li {
     float: left;
     width: 33.33333333333333%;
     line-height: 3rem;
@@ -2381,12 +2407,25 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
   .fast-nav li {
     margin: 0;
     float: left;
+    width: 47%;
+  }
+  .fast-nav [class*='icon-'] {
+    position: relative;
+    left: 40%; /* TEMP : center icon in box */
+  }
+  /* UNUSED */
+  /*
+  .user-nav {
+    clear: left;
+  }
+  .user-nav ul {
+  }
+  .user-nav ul li{
+    float: left;
     width: 50%;
+    line-height: 2rem;
   }
-  .frame > .main-pane {
-    width: 100%;
-    display: block;
-  }
+  */
   article .author {
     width: 100%;
   }
