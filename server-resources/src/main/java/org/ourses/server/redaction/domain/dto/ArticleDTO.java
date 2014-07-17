@@ -38,6 +38,8 @@ public class ArticleDTO {
     private ProfileDTO profile;
     @JsonProperty("status")
     private ArticleStatus status;
+    @JsonProperty("path")
+    private String path;
     @JsonProperty("tags")
     private Set<TagDTO> tags = Sets.newHashSet();
 
@@ -111,6 +113,14 @@ public class ArticleDTO {
 
     public void setStatus(ArticleStatus status) {
         this.status = status;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Set<TagDTO> getTags() {

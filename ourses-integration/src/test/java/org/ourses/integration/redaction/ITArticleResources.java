@@ -216,6 +216,7 @@ public class ITArticleResources {
         assertThat(article.getRubrique()).isEqualTo(newArticle.getRubrique());
         assertThat(article.getProfile().getPseudo()).isEqualTo("jpetit");
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.BROUILLON);
+        assertThat(article.getPath()).isEqualTo("/articles/" + article.getId());
     }
 
     @Test
@@ -311,6 +312,7 @@ public class ITArticleResources {
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
         assertThat(article).isNotNull();
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.AVERIFIER);
+        assertThat(article.getPath()).isEqualTo("/articles/4");
     }
 
     @Test
@@ -391,6 +393,8 @@ public class ITArticleResources {
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
         assertThat(article).isNotNull();
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
+        assertThat(article.getPath()).isEqualTo(
+                "/articles/" + article.getRubrique().getRubrique().toLowerCase() + "/titre-6");
     }
 
     @Test

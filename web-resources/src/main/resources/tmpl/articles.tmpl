@@ -13,7 +13,7 @@
 			{{= data.description}}
 			<span class="right author"><strong>{{=data.profile.pseudo}}</strong></span>
 		</p>
-		<a href="article.html#sexisme_dans_les_jeux_videos_une_critique_impossible" data-show="sexisme_dans_les_jeux_videos_une_critique_impossible">Lire l&rsquo;article</a>
+		<a href="{{= data.path }}" data-show="sexisme_dans_les_jeux_videos_une_critique_impossible">Lire l&rsquo;article</a>
 	</div>
 #}}
 
@@ -35,7 +35,6 @@
 							<a href="{{= $new_article}}" class="icon-article medium right" title="R&eacute;diger un article">R&eacute;diger un article</a>
 						{{?}}
 					</div>
-					
 					<ul class="no-bullet articles-list">
 						{{~ data.drafts :value}}
 							<li>{{# def.article:value}}</li>

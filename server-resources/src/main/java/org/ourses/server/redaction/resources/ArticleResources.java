@@ -101,9 +101,8 @@ public class ArticleResources {
         Article article = articleDTO.toArticle();
         // injection du profil qui créé l'article
         article.setProfile(profileHelper.findProfileByAuthcToken(token));
-        // place le status à brouillon
-        article.setStatus(ArticleStatus.BROUILLON);
-        article.save();
+        // créer le brouillon
+        articleHelper.createDraft(article);
         return responseBuilder.entity(article.toArticleDTO()).build();
     }
 

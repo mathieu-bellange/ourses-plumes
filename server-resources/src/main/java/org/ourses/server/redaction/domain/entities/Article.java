@@ -49,6 +49,7 @@ public class Article implements Serializable {
     private String description;
     private String body;
     private Date publishedDate;
+    private String path;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Category category;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
@@ -99,6 +100,14 @@ public class Article implements Serializable {
 
     public void setPublishedDate(Date publishedDate) {
         this.publishedDate = publishedDate;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Category getCategory() {
@@ -154,18 +163,19 @@ public class Article implements Serializable {
         return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
-    public static Set<Article> findDrafts(long idProfile){
-    	return Ebean.find(Article.class).where().eq("profile.id", idProfile).eq("status", ArticleStatus.BROUILLON).findSet();
+    public static Set<Article> findDrafts(long idProfile) {
+        return Ebean.find(Article.class).where().eq("profile.id", idProfile).eq("status", ArticleStatus.BROUILLON)
+                .findSet();
     }
-    
-    public static Set<Article> findToCheck(){
-    	return Ebean.find(Article.class).where().eq("status", ArticleStatus.AVERIFIER).findSet();
+
+    public static Set<Article> findToCheck() {
+        return Ebean.find(Article.class).where().eq("status", ArticleStatus.AVERIFIER).findSet();
     }
-    
-    public static Set<Article> findOnline(){
-    	return Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).findSet();
+
+    public static Set<Article> findOnline() {
+        return Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).findSet();
     }
-    
+
     public static Article findArticle(long id) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").where()
                 .eq("id", id).findUnique();

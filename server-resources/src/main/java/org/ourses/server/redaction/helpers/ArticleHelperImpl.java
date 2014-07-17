@@ -2,6 +2,7 @@ package org.ourses.server.redaction.helpers;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.text.StrBuilder;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
@@ -16,6 +17,14 @@ import com.google.common.collect.Sets;
 
 @Component
 public class ArticleHelperImpl implements ArticleHelper {
+
+    // tout sauf le & traité comme un et
+    private static final String URI_RESERVED_CHARAC_TO_ESCAPE = ";/?:@=+$,";
+    private static final String AND_CHARAC = "&";
+    // carac non réservé (sauf le ' remplacé par un -) mais a un sens pour le navigo, échappé aussi
+    private static final String OTHER_CHARAC_TO_ESCAPE = "\".!~*()";
+    private static final String OTHER_CHARAC_TO_REPLACE = "'";
+    private static final String URL_SEPARATOR = "-";
 
     @Override
     public boolean isArticleUpdatable(Long idProfile, long idArticle, ArticleStatus status) {
@@ -81,6 +90,16 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
+    public void createDraft(Article article) {
+        // place le status à brouillon
+        article.setStatus(ArticleStatus.BROUILLON);
+        article.save();
+        // créer le path
+        article.setPath(buildPath(article));
+        article.update("path");
+    }
+
+    @Override
     public void updateFromDTO(Article article, ArticleDTO articleDTO) {
         BeanUtils.copyProperties(articleDTO, article, new String[] { "category", "rubrique", "profile", "id", "status",
                 "tags" });
@@ -99,16 +118,36 @@ public class ArticleHelperImpl implements ArticleHelper {
     public Article validateDraft(long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.AVERIFIER);
+        // TODO création du path
         article.update("status");
         return article;
+    }
+
+    /**
+     * Construit un path url correct
+     * 
+     * @param title
+     * @return
+     */
+    protected String buildPath(String title) {
+        StrBuilder path = new StrBuilder();
+        String[] tokens = title.split("\\W");
+        for (String token : tokens) {
+            if (!token.isEmpty()) {
+                path.appendSeparator(URL_SEPARATOR);
+                path.append(token);
+            }
+        }
+        return path.toString();
+
     }
 
     @Override
     public Article publishArticle(long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.ENLIGNE);
-        article.update("status");
-        // TODO date de publication ?
+        article.setPath(buildPath(article));
+        article.update("status", "path");
         return article;
     }
 
@@ -118,6 +157,29 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setStatus(ArticleStatus.BROUILLON);
         article.update("status");
         return article;
+    }
+
+    @Override
+    public String buildPath(Article article) {
+        StringBuilder pathBuilder = new StringBuilder("/articles");
+        switch (article.getStatus()) {
+        // path /articles/{id}
+        case AVERIFIER:
+            pathBuilder.append("/" + article.getId());
+            break;
+        // path /articles/{id}
+        case BROUILLON:
+            pathBuilder.append("/" + article.getId());
+            break;
+        // path /articles/{rubrique}/{titre modifié}
+        case ENLIGNE:
+            pathBuilder.append("/" + article.getRubrique().getRubrique().toLowerCase());
+            pathBuilder.append("/" + buildPath(article.getTitle()));
+            break;
+        default:
+            break;
+        }
+        return pathBuilder.toString();
     }
 
 }

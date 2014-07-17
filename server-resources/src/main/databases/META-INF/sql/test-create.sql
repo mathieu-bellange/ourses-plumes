@@ -95,6 +95,7 @@ create table article (
   category_id                bigint,
   rubrique_id                bigint,
   status             int,
+  path					varchar(255),
   constraint pk_article primary key (id))
 ;
 

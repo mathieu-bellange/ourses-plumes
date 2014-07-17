@@ -1,5 +1,6 @@
 package org.ourses.server.redaction.helpers;
 
+import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anySetOf;
@@ -17,13 +18,14 @@ import org.ourses.server.redaction.domain.dto.RubriqueDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
+import org.ourses.server.redaction.domain.entities.Rubrique;
 import org.ourses.server.redaction.domain.entities.Tag;
 
 import com.google.common.collect.Sets;
 
 public class ArticleHelperTest {
 
-    ArticleHelper helper = new ArticleHelperImpl();
+    ArticleHelperImpl helper = new ArticleHelperImpl();
 
     @Test
     public void shouldCopyUpdatableProperty() {
@@ -50,4 +52,47 @@ public class ArticleHelperTest {
         verify(tagDTO).toTag();
         verify(article).setTags(anySetOf(Tag.class));
     }
+
+    @Test
+    public void shouldBuildArticlePath() {
+        String title = "ceci est un titre de test pour la construction d'un path correct";
+        assertThat(helper.buildPath(title)).isEqualTo(
+                "ceci-est-un-titre-de-test-pour-la-construction-d-un-path-correct");
+    }
+
+    @Test
+    public void shouldEscapeAllSpecialCarac() {
+        String title = "ceci est un titre plus complexe ! & "
+                + "pour la construction d'un path correct: il faut virer=$? ? "
+                + "et plein de \"trucs\", d'autres choses/ " + "et #;";
+        assertThat(helper.buildPath(title)).isEqualTo(
+                "ceci-est-un-titre-plus-complexe-pour-la-construction-d-un-path-correct-il-faut-virer-et-"
+                        + "plein-de-trucs-d-autres-choses-et");
+    }
+
+    @Test
+    public void shouldBuildDraftPath() {
+        Article article = new Article();
+        article.setStatus(ArticleStatus.BROUILLON);
+        article.setId(1l);
+        assertThat(helper.buildPath(article)).isEqualTo("/articles/1");
+    }
+
+    @Test
+    public void shouldBuildValdiatePath() {
+        Article article = new Article();
+        article.setStatus(ArticleStatus.AVERIFIER);
+        article.setId(1l);
+        assertThat(helper.buildPath(article)).isEqualTo("/articles/1");
+    }
+
+    @Test
+    public void shouldBuildPublishPath() {
+        Article article = new Article();
+        article.setStatus(ArticleStatus.ENLIGNE);
+        article.setRubrique(new Rubrique(1l, "Rubrique"));
+        article.setTitle("le titre");
+        assertThat(helper.buildPath(article)).isEqualTo("/articles/rubrique/le-titre");
+    }
+
 }

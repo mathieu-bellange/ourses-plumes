@@ -18,4 +18,8 @@ public interface ArticleHelper {
 
     boolean isArticleReadable(Long idProfile, Long id, ArticleStatus status);
 
+    String buildPath(Article article);
+
+    void createDraft(Article article);
+
 }
