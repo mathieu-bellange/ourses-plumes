@@ -104,7 +104,7 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 
 	// process slider template -- this is the tricky part
 	$(document).ready(function() {
-		$("header").append(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
+		$(".main-pane > header").append(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
 		$(".news-list").foundation("orbit"); // reload foundation ; Foundation need to be loaded one time before that for the list to appear inline
 		$(window).resize(); // just a dummy instruction for getting the proper height
 	});

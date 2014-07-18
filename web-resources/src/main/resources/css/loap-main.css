@@ -53,6 +53,20 @@ a.purple:hover, a.purple:focus, .purple > a:hover, .purple > a:focus {color: #51
 .magenta, a.magenta, .magenta > a {color: #e2a;}
 a.magenta:hover, a.magenta:focus, .magenta > a:hover, .magenta > a:focus {color: #a17;}
 
+/* Named Rubrics Colors */
+.intersec, a.intersec, .intersec > a {color: #c33;}
+a.intersec:hover, a.intersec:focus, .intersec > a:hover, .intersec > a:focus {color: #822;}
+.struggles, a.struggles, .struggles > a {color: #f63;}
+a.struggles:hover, a.struggles:focus, .struggles > a:hover, .struggles > a:focus {color: #931;}
+.ideas, a.ideas, .ideas > a {color: #ca0;}
+a.ideas:hover, a.ideas:focus, .ideas > a:hover, .ideas > a:focus {color: #761;}
+.educult, a.educult, .educult > a {color: #399;}
+a.educult:hover, a.educult:focus, .educult > a:hover, .educult > a:focus {color: #255;}
+.internat, a.internat, .internat > a {color: #36c;}
+a.internat:hover, a.internat:focus, .internat > a:hover, .internat > a:focus {color: #248;}
+.ourbody, a.ourbody, .ourbody > a {color: #e2a;}
+a.ourbody:hover, a.ourbody:focus, .ourbody > a:hover, .ourbody > a:focus {color: #a17;}
+
 /* ------------------------------------------------------------------ */
 /* # Font Size */
 /* ------------------------------------------------------------------ */
@@ -1410,6 +1424,20 @@ a.label.purple:hover, a.label.purple:focus {background-color: #517;}
 .label.magenta {background-color: #e2a;}
 a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 
+/* Named Rubrics Colors */
+.label.intersec, a.label.intersec {background-color: #c33;}
+a.label.intersec:hover, a.label.intersec:focus {background-color: #822;}
+.label.struggles {background-color: #f63;}
+a.label.struggles:hover, a.label.struggles:focus {background-color: #931;}
+.label.ideas {background-color: #ca0;}
+a.label.ideas:hover, a.label.ideas:focus {background-color: #761;}
+.label.educult {background-color: #399;}
+a.label.educult:hover, a.label.educult:focus {background-color: #255;}
+.label.internat {background-color: #36c;}
+a.label.internat:hover, a.label.internat:focus {background-color: #248;}
+.label.ourbody {background-color: #e2a;}
+a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
+
 .label.hide {display: none;} /* Visibility fix */
 
 .label .close {
@@ -2230,6 +2258,14 @@ a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
 .href-block.blue a:hover {border-color: #36c; outline-color: #36c;}
 .href-block.purple a:hover {border-color: #93c; outline-color: #93c;}
 .href-block.magenta a:hover {border-color: #e2a; outline-color: #e2a;}
+
+/* Named Rubrics Colors */
+.href-block.intersec a:hover {border-color: #c33; outline-color: #c33;}
+.href-block.struggles a:hover {border-color: #f63; outline-color: #f63;}
+.href-block.ideas a:hover {border-color: #ca0; outline-color: #ca0;}
+.href-block.educult a:hover {border-color: #399; outline-color: #399;}
+.href-block.internat a:hover {border-color: #36c; outline-color: #36c;}
+.href-block.ourbody a:hover {border-color: #e2a; outline-color: #e2a;}
 
 .href-block a:focus {opacity: .5;}
 

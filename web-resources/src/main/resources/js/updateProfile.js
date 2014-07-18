@@ -69,11 +69,21 @@ function setValidationIcon(selector, labelSelector, isValid) {
 	if (isValid == true) {
 		$(selector).removeAttr("data-invalid");
 		$(selector).removeClass("wrong");
+		$(selector).css("margin-bottom", "");
 		$(labelSelector).addClass("hide");
+		// TEMP : show role on validation success
+		if (selector.attr("id") == "pseudo" && $(window).width() > 640) {
+			$("#role").show();
+		}
 	} else if (isValid == false) {
 		$(selector).attr("data-invalid",true);
 		$(selector).addClass("wrong");
+		$(selector).css("margin-bottom", "0");
 		$(labelSelector).removeClass("hide");
+		// TEMP : hide role on validation fail
+		if (selector.attr("id") == "pseudo" && $(window).width() > 640) {
+			$("#role").hide();
+		}
 	} else {
 		$(selector).removeClass("wrong");
 	}
@@ -428,7 +438,10 @@ function update_role_display(screen_width) {
 				$("#role").fadeOut();
 			},
 			blur: function() {
-				$("#role").fadeIn();
+				// TEMP : do not show role if pseudo is invalid
+				if (typeof $("#pseudo").attr("data-invalid") === "undefined") {
+					$("#role").fadeIn();
+				}
 			}
 		});
 	} else {
