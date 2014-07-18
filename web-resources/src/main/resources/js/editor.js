@@ -70,8 +70,15 @@ function processRubric(json){
 }
 
 $("#saveButton").click(function(){
-	sendArticle();
+	if (isFormValid()){
+		sendArticle();
+	}
 });
+
+function isFormValid(){
+	var isTitleValid = !$("#title").attr("data-invalid");
+	return isTitleValid;
+}
 
 function sendArticle(){
 	//Edition
@@ -109,7 +116,12 @@ function sendArticle(){
 			 window.location.href = $articles;
 		 },
 		 error: function(jqXHR, status, errorThrown) {
-			 createAlertBox();
+			 ajax_error(jqXHR, status, errorThrown);
+				if (jqXHR.status == 403){
+					checkTitleAJAX();
+				}else{
+					createAlertBox();
+				}
 		 },
 		 dataType: "json"
 		 });
@@ -128,9 +140,62 @@ $(document).ready(function(){
 	$('#editor').ckeditor();
 });
 
+function checkTitleAJAX(){
+	if (typeof titleTimeoutValid !== "undefined") {
+		clearTimeout(titleTimeoutValid);
+	}
+	var selector = $("#title");
+	setValidationIcon(selector,$("#titleError"), null);
+	var title = selector.val();
+	$.ajax({
+		type : "POST",
+		url : "/rest/articles/check/title",
+		contentType : "application/json; charset=utf-8",
+		data : title,
+		success : function(data, textStatus, jqXHR) {
+			pseudoTimeoutValid = setTimeout(function(){
+				setValidationIcon(selector,$("#titleError"), true)}, 500);
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 403){
+				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#titleError"), false)}, 500);
+			}
+		},
+		dataType : "json"
+	});
+}
+
+
+function setValidationIcon(selector, labelSelector, isValid) {
+	if (isValid == true) {
+		$(selector).addClass("valid");
+		$(selector).removeAttr("data-invalid");
+		$(selector).removeClass("wrong");
+		$(selector).removeClass("loading");
+		$("[for='" + selector.attr("id") + "']").removeClass("error");
+		$(labelSelector).addClass("hide");
+	} else if (isValid == false) {
+		$(selector).removeClass("valid");
+		$(selector).attr("data-invalid",true);
+		$(selector).addClass("wrong");
+		$(selector).removeClass("loading");
+		$("[for='" + selector.attr("id") + "']").addClass("error");
+		$(labelSelector).removeClass("hide");
+	} else {
+		$(selector).removeClass("valid");
+		$(selector).removeClass("wrong");
+		$(selector).addClass("loading");
+		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
+	}
+}
+
 /* ------------------------------------------------------------------ */
 /* # Events */
 /* ------------------------------------------------------------------ */
+
+$("#title").change(function(event){
+	checkTitleAJAX();
+});
 
 // define method
 function update_rubric() {
