@@ -1,8 +1,32 @@
 ﻿/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
-
-$("header + hr").after(doT.compile(loadfile($app_root + "tmpl/editor.tmpl")));
+var template = doT.compile(loadfile($app_root + "tmpl/editor.tmpl"));
+//recherche de l'article di mise à jour
+if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
+	$.ajax({
+		type: "GET",
+		url: "/rest" + window.location.pathname,
+		contentType: "application/json; charset=utf-8",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		success: function(data, status, jqxhr) {
+			processArticle(data);
+		},
+		error: function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 404){
+				alert("non trouvé - tmpl 404 à faire ?")
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType: "json"
+	});
+}else{
+	processArticle(new Article("","","","","",""));
+}
 
 /* ------------------------------------------------------------------ */
 /* # Editor */
@@ -44,6 +68,63 @@ function Tag(id,value){
 	}
 }
 
+/* processing de la page */
+
+var pathPUT;
+
+function processArticle(article){
+	$("header + hr").after(template(article));
+	if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
+		pathPUT = "/rest" + window.location.pathname;
+	}else{
+		pathPUT = "/rest/articles/create";
+	}
+	$.getJSON("/rest/categories", function(json){
+		processCategory(json);
+	 });
+
+	$.getJSON("/rest/rubriques", function(json){
+		processRubric(json);
+	});
+	$('#editor').ckeditor();
+	
+	// bind events
+	$("#rubric").bind({
+		blur: function() {update_rubric();},
+		click: function() {update_rubric();},
+		keyup: function() {update_rubric();}
+	});
+	// bind events
+	$("#category").bind({
+		blur: function() {update_category();},
+		click: function() {update_category();},
+		keyup: function() {update_category();}
+	});
+	$("#tag").bind({
+		blur: function() {
+			hide_error("#tag");
+		},
+		focus: function() {
+			hide_error("#tag", true);
+		},
+		keydown: function(event) {
+			hide_error("#tag");
+			if (event.which == 13) { // Enter
+				add_tag("#tag", "#tags");
+			}
+		}
+	});
+	$("#tags").on("click", ".close", function() {
+		setTimeout(function() {
+			if ($("#tags").children("dd").length == 2) {
+				if ($("#tag_rubric").parent("dd").hasClass("hide") && $("#tag_category").parent("dd").hasClass("hide")) {
+					$("#tags").fadeOut();
+				}
+			}
+		}, 500);
+	});
+}
+
 function processCategory(json){
 	$.each(json, function(i, obj) {
 		$('#category ul').append($("<li/>", {
@@ -69,7 +150,7 @@ function processRubric(json){
 	});
 }
 
-$("#saveButton").click(function(){
+$("html").on("click","#saveButton",function(){
 	if (isFormValid()){
 		sendArticle();
 	}
@@ -106,12 +187,12 @@ function sendArticle(){
 	
 	 $.ajax({
 		 type: "PUT",
-		 url: "http://localhost:8080/rest/articles/create",
+		 url: pathPUT,
 		 contentType: "application/json; charset=utf-8",
 		 data : JSON.stringify(data),
 		 beforeSend: function(request){
 				header_authentication(request);
-		},
+		 },
 		 success: function(jqXHR, status, errorThrown) {
 			 window.location.href = $articles;
 		 },
@@ -128,18 +209,7 @@ function sendArticle(){
 	return true;
 };
 
-$.getJSON("http://localhost:8080/rest/categories", function(json){
-	processCategory(json);
- });
-
-$.getJSON("http://localhost:8080/rest/rubriques", function(json){
-	processRubric(json);
-});
-
-$(document).ready(function(){
-	$('#editor').ckeditor();
-});
-
+//TODO ajouter l'id en cas d'update
 function checkTitleAJAX(){
 	if (typeof titleTimeoutValid !== "undefined") {
 		clearTimeout(titleTimeoutValid);
@@ -152,11 +222,15 @@ function checkTitleAJAX(){
 		url : "/rest/articles/check/title",
 		contentType : "application/json; charset=utf-8",
 		data : title,
+		beforeSend: function(request){
+			header_authentication(request);
+		},
 		success : function(data, textStatus, jqXHR) {
 			pseudoTimeoutValid = setTimeout(function(){
 				setValidationIcon(selector,$("#titleError"), true)}, 500);
 		},
 		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 403){
 				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#titleError"), false)}, 500);
 			}
@@ -193,7 +267,7 @@ function setValidationIcon(selector, labelSelector, isValid) {
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-$("#title").change(function(event){
+$("html").on("change","#title",function(event){
 	checkTitleAJAX();
 });
 
@@ -218,12 +292,6 @@ function update_rubric() {
 		}
 	}
 }
-// bind events
-$("#rubric").bind({
-	blur: function() {update_rubric();},
-	click: function() {update_rubric();},
-	keyup: function() {update_rubric();}
-});
 
 // define method
 function update_category() {
@@ -239,12 +307,6 @@ function update_category() {
 		}
 	}
 }
-// bind events
-$("#category").bind({
-	blur: function() {update_category();},
-	click: function() {update_category();},
-	keyup: function() {update_category();}
-});
 
 /* Tags */
 var tag_num_lim = 8;
@@ -294,29 +356,7 @@ function hide_error(obj, clear) {
 $("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });
-$("#tag").bind({
-	blur: function() {
-		hide_error("#tag");
-	},
-	focus: function() {
-		hide_error("#tag", true);
-	},
-	keydown: function(event) {
-		hide_error("#tag");
-		if (event.which == 13) { // Enter
-			add_tag("#tag", "#tags");
-		}
-	}
-});
-$("#tags").on("click", ".close", function() {
-	setTimeout(function() {
-		if ($("#tags").children("dd").length == 2) {
-			if ($("#tag_rubric").parent("dd").hasClass("hide") && $("#tag_category").parent("dd").hasClass("hide")) {
-				$("#tags").fadeOut();
-			}
-		}
-	}, 500);
-});
+
 
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";

@@ -60,12 +60,18 @@
 		<to>/articles.html</to>
 	</rule>
 	
+	
 	<rule>
-		<note>redirection vers la page de création d'un article</note>
-		<from>^/articles/.*$</from>
+		<note>redirection vers la page d'un article</note>
+		<from>^/articles/(.*)/(.*)$</from>
 		<to>/article.html</to>
 	</rule>
 	
+	<rule>
+		<note>redirection vers la page d'update d'un article</note>
+		<from>^/articles/([0-9]+)$</from>
+		<to>/editor.html</to>
+	</rule>
 
 
 </urlrewrite>
