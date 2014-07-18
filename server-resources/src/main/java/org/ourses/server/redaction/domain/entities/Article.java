@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.ExpressionList;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -179,6 +180,14 @@ public class Article implements Serializable {
     public static Article findArticle(long id) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").where()
                 .eq("id", id).findUnique();
+    }
+
+    public static int articleWithSameTitle(String title, Long id) {
+        ExpressionList<Article> query = Ebean.find(Article.class).where().eq("title", title);
+        if (id != null) {
+            query.ne("id", id);
+        }
+        return query.findRowCount();
     }
 
     public void update(String... properties) {

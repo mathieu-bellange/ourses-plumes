@@ -47,6 +47,43 @@ public class ITArticleResources {
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
     private static final String PATH_GET_VALIDATE = "/rest/articles/13";
     private static final String PATH_GET_ALL = "/rest/articles";
+    private static final String PATH_CHECK_TITLE = "/rest/articles/check/title";
+
+    @Test
+    public void shouldUseTitleForNewDraft() {
+        URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+                .post(ClientResponse.class, "Un titre pas utilisé");
+        // status attendu 204
+        assertThat(clientResponse.getStatus()).isEqualTo(204);
+    }
+
+    @Test
+    public void shouldNotUseTitleForNewDraft() {
+        URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+                .post(ClientResponse.class, "titre 12");
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldUseSameTitleForUpdateDraft() {
+        URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("id", "12")
+                .header("Content-Type", "application/json").post(ClientResponse.class, "titre 12");
+        // status attendu 204
+        assertThat(clientResponse.getStatus()).isEqualTo(204);
+    }
+
+    @Test
+    public void shouldNotUseTitleForUpdateDraft() {
+        URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("id", "13")
+                .header("Content-Type", "application/json").post(ClientResponse.class, "titre 12");
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
 
     @Test
     public void shouldReadAllPublishArticle() {
@@ -201,7 +238,7 @@ public class ITArticleResources {
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_CREATE).build();
 
-        ArticleDTO newArticle = newArticle();
+        ArticleDTO newArticle = newArticle("shouldCreateArticleWithRedacRole");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, newArticle);
         // status attendu 201
@@ -220,10 +257,22 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldNotCreateArticleWithSameTitle() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_DRAFT_CREATE).build();
+
+        ArticleDTO newArticle = newArticle("titre 12");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").put(ClientResponse.class, newArticle);
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
     public void shouldCreateArticleWithAdminRole() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_CREATE).build();
-        ArticleDTO newArticle = newArticle();
+        ArticleDTO newArticle = newArticle("shouldCreateArticleWithAdminRole");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, newArticle);
         // status attendu 201
@@ -245,7 +294,7 @@ public class ITArticleResources {
     @Test
     public void shouldUpdateDraft() {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_UPDATE).build();
-        ArticleDTO updateArticle = updateArticle(1l);
+        ArticleDTO updateArticle = updateArticle(1l, "titre 1");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 200
@@ -263,9 +312,19 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldNotUpdateDraftWithSameTitle() {
+        URI uri = UriBuilder.fromPath(PATH_DRAFT_UPDATE).build();
+        ArticleDTO updateArticle = updateArticle(1l, "titre 12");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
     public void shouldNotUpdateDraftWithAnotherDraft() {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_UPDATE).build();
-        ArticleDTO updateArticle = updateArticle(2l);
+        ArticleDTO updateArticle = updateArticle(2l, "shouldNotUpdateDraftWithAnotherDraft");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
@@ -275,7 +334,7 @@ public class ITArticleResources {
     @Test
     public void shouldNotUpdateDraftToOtherPeople() {
         URI uri = UriBuilder.fromPath(PATH_ANOTHER_DRAFT_UPDATE).build();
-        ArticleDTO updateArticle = updateArticle(1l);
+        ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateDraftToOtherPeople");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
@@ -285,7 +344,7 @@ public class ITArticleResources {
     @Test
     public void shouldNotUpdateDraftWithValidateArticle() {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_UPDATE_VALIDATE).build();
-        ArticleDTO updateArticle = updateArticle(1l);
+        ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateDraftWithValidateArticle");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
@@ -345,7 +404,7 @@ public class ITArticleResources {
     @Test
     public void shouldNotUpdateValidateWithAdminRole() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
-        ArticleDTO updateArticle = updateArticle(5l);
+        ArticleDTO updateArticle = updateArticle(5l, "shouldNotUpdateValidateWithAdminRole");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
@@ -355,7 +414,7 @@ public class ITArticleResources {
     @Test
     public void shouldNotUpdateValidateWithRedacRole() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
-        ArticleDTO updateArticle = updateArticle(5l);
+        ArticleDTO updateArticle = updateArticle(5l, "shouldNotUpdateValidateWithRedacRole");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
@@ -365,7 +424,7 @@ public class ITArticleResources {
     @Test
     public void shouldNotUpdateDraftWithValidatePath() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE_DRAFT).build();
-        ArticleDTO updateArticle = updateArticle(1l);
+        ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateDraftWithValidatePath");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
@@ -376,7 +435,7 @@ public class ITArticleResources {
     public void shouldNotUpdateAnotherArticle() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
         // dans le path 5, article 1
-        ArticleDTO updateArticle = updateArticle(1l);
+        ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateAnotherArticle");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
@@ -472,9 +531,9 @@ public class ITArticleResources {
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
-    private ArticleDTO newArticle() {
+    private ArticleDTO newArticle(String title) {
         ArticleDTO newArticle = new ArticleDTO();
-        newArticle.setTitle("title");
+        newArticle.setTitle(title);
         newArticle.setDescription("desc");
         newArticle.setBody("body");
         CategoryDTO cat = new CategoryDTO(2l, "reportage");
@@ -484,10 +543,10 @@ public class ITArticleResources {
         return newArticle;
     }
 
-    private ArticleDTO updateArticle(long id) {
+    private ArticleDTO updateArticle(long id, String title) {
         ArticleDTO newArticle = new ArticleDTO();
         newArticle.setId(id);
-        newArticle.setTitle("title 2");
+        newArticle.setTitle(title);
         newArticle.setDescription("desc 2");
         newArticle.setBody("body 2");
         CategoryDTO cat = new CategoryDTO(3l, "dossier");

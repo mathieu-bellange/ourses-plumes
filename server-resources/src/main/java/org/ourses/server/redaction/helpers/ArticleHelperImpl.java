@@ -182,4 +182,9 @@ public class ArticleHelperImpl implements ArticleHelper {
         return pathBuilder.toString();
     }
 
+    @Override
+    public boolean isTitleAlreadyTaken(String title, Long id) {
+        return Article.articleWithSameTitle(title, id) > 0;
+    }
+
 }

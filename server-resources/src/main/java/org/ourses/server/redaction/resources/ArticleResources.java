@@ -6,10 +6,12 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -42,6 +44,17 @@ public class ArticleResources {
     private ArticleHelper articleHelper;
     @Autowired
     private SecurityHelper securityHelper;
+
+    @POST
+    @Path("/check/title")
+    public Response checkTitle(String title, @QueryParam("id")
+    Long id) {
+        ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
+        if (articleHelper.isTitleAlreadyTaken(title, id)) {
+            responseBuilder = Response.status(Status.FORBIDDEN);
+        }
+        return responseBuilder.build();
+    }
 
     @GET
     @Path("/{id}")
@@ -99,11 +112,18 @@ public class ArticleResources {
     String token) {
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
         Article article = articleDTO.toArticle();
-        // injection du profil qui créé l'article
-        article.setProfile(profileHelper.findProfileByAuthcToken(token));
-        // créer le brouillon
-        articleHelper.createDraft(article);
-        return responseBuilder.entity(article.toArticleDTO()).build();
+        // vérifie que l'aticle a bien un titre qui n'existe pas déjà
+        if (!articleHelper.isTitleAlreadyTaken(article.getTitle(), article.getId())) {
+            // injection du profil qui créé l'article
+            article.setProfile(profileHelper.findProfileByAuthcToken(token));
+            // créer le brouillon
+            articleHelper.createDraft(article);
+            responseBuilder.entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.FORBIDDEN);
+        }
+        return responseBuilder.build();
     }
 
     @PUT
@@ -118,9 +138,15 @@ public class ArticleResources {
         // seul un article brouillon est modifiable
         if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)
                 && id == articleDTO.getId()) {
-            // update de l'article passé en param
-            articleHelper.updateFromDTO(article, articleDTO);
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            // vérifie que l'aticle a bien un titre qui n'existe pas déjà
+            if (!articleHelper.isTitleAlreadyTaken(articleDTO.getTitle(), articleDTO.getId())) {
+                // update de l'article passé en param
+                articleHelper.updateFromDTO(article, articleDTO);
+                responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            }
+            else {
+                responseBuilder = Response.status(Status.FORBIDDEN);
+            }
         }
         else {
             responseBuilder = Response.status(Status.UNAUTHORIZED);

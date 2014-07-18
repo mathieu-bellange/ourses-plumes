@@ -22,4 +22,6 @@ public interface ArticleHelper {
 
     void createDraft(Article article);
 
+    boolean isTitleAlreadyTaken(String title, Long id);
+
 }
