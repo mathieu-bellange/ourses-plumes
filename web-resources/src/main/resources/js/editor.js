@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 var template = doT.compile(loadfile($app_root + "tmpl/editor.tmpl"));
-//recherche de l'article di mise à jour
+// si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
 if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
 	$.ajax({
 		type: "GET",
@@ -17,6 +17,7 @@ if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404){
+				// TODO créer un template not found dans les cas où on récupère une erreur 404
 				alert("non trouvé - tmpl 404 à faire ?")
 			}else{
 				createAlertBox();
@@ -24,12 +25,14 @@ if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
 		},
 		dataType: "json"
 	});
-}else{
-	processArticle(new Article("","","","","",""));
+}
+// sinon c'est une création d'article
+else{
+	processArticle(new Article("","","",null,null,[]));
 }
 
 /* ------------------------------------------------------------------ */
-/* # Editor */
+/* # Domain */
 /* ------------------------------------------------------------------ */
 
 function Article(title, body, description, category, rubrique, tags){
@@ -68,33 +71,58 @@ function Tag(id,value){
 	}
 }
 
+function isFormValid(){
+	var isTitleValid = !$("#title").attr("data-invalid");
+	return isTitleValid;
+}
+
+/* ------------------------------------------------------------------ */
+/* # DOM manipulation */
+/* ------------------------------------------------------------------ */
+
 /* processing de la page */
 
+// le path de la création/maj d'un article
 var pathPUT;
+// le path du check d'un article
+var pathTitle;
 
 function processArticle(article){
+	// affiche le template en passant en param l'article
+	// la catégorie et la rubrique ne sont pas setté dans le template
+	// il faut attendre la récupération asynchrone des données 
 	$("header + hr").after(template(article));
+	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau 
+	// et aux draft en update avec comme path /articles/{id}
+	
+	//si il y a un id dans le path on est en update
 	if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
 		pathPUT = "/rest" + window.location.pathname;
-	}else{
-		pathPUT = "/rest/articles/create";
+		pathTitle = "/rest/articles/check/title?id=" + article.id; 
 	}
+	//sinon en création
+	else{
+		pathPUT = "/rest/articles/create";
+		pathTitle = "/rest/articles/check/title";
+	}
+	
 	$.getJSON("/rest/categories", function(json){
 		processCategory(json);
+		//TODO injection de la valeur de l'article
 	 });
 
 	$.getJSON("/rest/rubriques", function(json){
 		processRubric(json);
+		//TODO injection de la valeur de l'article
 	});
 	$('#editor').ckeditor();
 	
-	// bind events
+	// bind events après le chargement du template par dot.js
 	$("#rubric").bind({
 		blur: function() {update_rubric();},
 		click: function() {update_rubric();},
 		keyup: function() {update_rubric();}
 	});
-	// bind events
 	$("#category").bind({
 		blur: function() {update_category();},
 		click: function() {update_category();},
@@ -123,6 +151,8 @@ function processArticle(article){
 			}
 		}, 500);
 	});
+	// recharge foundatin pour les tags ajoutés directement par le template
+	$("#tags").foundation("alert");
 }
 
 function processCategory(json){
@@ -150,17 +180,128 @@ function processRubric(json){
 	});
 }
 
-$("html").on("click","#saveButton",function(){
-	if (isFormValid()){
-		sendArticle();
+/* maj de la rubrique */
+function update_rubric() {
+	if ($("#rubric .select").children().size() == 0) {
+		// update text
+		$("#tag_rubric").text($("#rubric .select").text());
+		// update color
+		$("#tag_rubric").removeClass();
+		if ($("#rubric .selected").attr("data-color")) {
+			$("#tag_rubric").addClass("label radius " + $("#rubric .selected").attr("data-color"));
+		} else {
+			$("#tag_rubric").addClass("label radius secondary");
+		}
+		// update visibility
+		if ($("#tag_rubric").parent("dd").hasClass("hide")) {
+			$("#tag_rubric").parent("dd").removeClass("hide")
+		}
+		if ($("#tags").css("display") == "none") {
+			$("#tags").fadeIn();
+		}
 	}
-});
-
-function isFormValid(){
-	var isTitleValid = !$("#title").attr("data-invalid");
-	return isTitleValid;
 }
 
+/* maj de la combo catégorie */
+function update_category() {
+	if ($("#category .select").children().size() == 0) {
+		// update text
+		$("#tag_category").text($("#category .select").text());
+		// update visibility
+		if ($("#tag_category").parent("dd").hasClass("hide")) {
+			$("#tag_category").parent("dd").removeClass("hide")
+		}
+		if ($("#tags").css("display") == "none") {
+			$("#tags").fadeIn();
+		}
+	}
+}
+/* Tags */
+var tag_num_lim = 8;
+var tag_err_msg = ["Limite de tags autoris&eacute;e atteinte", "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie"];
+function add_tag(source, target) {
+	var str = $(source).val();
+	var is_valid = true;
+	if (str !== "") {
+		// Check if maxium of tags allowed is reached
+		if ($(target).children("dd").length >= tag_num_lim) {
+			$(source).next("small.error").html(tag_err_msg[0]);
+			$(source).next("small.error").removeClass("hide");
+			is_valid = false;
+		} else {
+			// Check if tag already exists
+			$(target).children("dd").each(function() {
+				if ($(this).children().text() == str) {
+					$(source).next("small.error").html(tag_err_msg[1]);
+					$(source).next("small.error").removeClass("hide");
+					is_valid = false;
+				}
+			});
+		}
+		// Add tag to tags list
+		if (is_valid == true) {
+			$(target).append("<dd data-alert data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
+			$(target).foundation("alert");
+			$(source).val("");
+			$(source).next("small.error").addClass("hide");
+			if ($("#tags").css("display") == "none") {
+				$("#tags").fadeIn();
+			}
+		}
+	} else {
+		$(source).next("small.error").addClass("hide");
+	}
+}
+function hide_error(obj, clear) {
+	var clear = clear || false;
+	if (!$(obj).next("small.error").hasClass("hide")) {
+		$(obj).next("small.error").addClass("hide")
+		if (clear) {
+			$(obj).val("");
+		}
+	}
+}
+
+/* Alert box */
+function setValidationIcon(selector, labelSelector, isValid) {
+	if (isValid == true) {
+		$(selector).addClass("valid");
+		$(selector).removeAttr("data-invalid");
+		$(selector).removeClass("wrong");
+		$(selector).removeClass("loading");
+		$("[for='" + selector.attr("id") + "']").removeClass("error");
+		$(labelSelector).addClass("hide");
+	} else if (isValid == false) {
+		$(selector).removeClass("valid");
+		$(selector).attr("data-invalid",true);
+		$(selector).addClass("wrong");
+		$(selector).removeClass("loading");
+		$("[for='" + selector.attr("id") + "']").addClass("error");
+		$(labelSelector).removeClass("hide");
+	} else {
+		$(selector).removeClass("valid");
+		$(selector).removeClass("wrong");
+		$(selector).addClass("loading");
+		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
+	}
+}
+
+function createAlertBox(err, msg) {
+	var err = err || "error", msg = msg || "";
+	if ($("#article-alert").length == 0) {
+		$("header + hr").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
+		if (document.readyState === "complete") {
+			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
+		}
+		$("#article-alert").fadeIn(300);
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* # AJAX */
+/* ------------------------------------------------------------------ */
+
+// créer ou ajout un article
 function sendArticle(){
 	//Edition
 	var title = $("#title").val();
@@ -209,7 +350,6 @@ function sendArticle(){
 	return true;
 };
 
-//TODO ajouter l'id en cas d'update
 function checkTitleAJAX(){
 	if (typeof titleTimeoutValid !== "undefined") {
 		clearTimeout(titleTimeoutValid);
@@ -219,7 +359,7 @@ function checkTitleAJAX(){
 	var title = selector.val();
 	$.ajax({
 		type : "POST",
-		url : "/rest/articles/check/title",
+		url : pathTitle,
 		contentType : "application/json; charset=utf-8",
 		data : title,
 		beforeSend: function(request){
@@ -239,132 +379,22 @@ function checkTitleAJAX(){
 	});
 }
 
-
-function setValidationIcon(selector, labelSelector, isValid) {
-	if (isValid == true) {
-		$(selector).addClass("valid");
-		$(selector).removeAttr("data-invalid");
-		$(selector).removeClass("wrong");
-		$(selector).removeClass("loading");
-		$("[for='" + selector.attr("id") + "']").removeClass("error");
-		$(labelSelector).addClass("hide");
-	} else if (isValid == false) {
-		$(selector).removeClass("valid");
-		$(selector).attr("data-invalid",true);
-		$(selector).addClass("wrong");
-		$(selector).removeClass("loading");
-		$("[for='" + selector.attr("id") + "']").addClass("error");
-		$(labelSelector).removeClass("hide");
-	} else {
-		$(selector).removeClass("valid");
-		$(selector).removeClass("wrong");
-		$(selector).addClass("loading");
-		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
-	}
-}
-
 /* ------------------------------------------------------------------ */
 /* # Events */
 /* ------------------------------------------------------------------ */
+
+$("html").on("click","#saveButton",function(){
+	if (isFormValid()){
+		sendArticle();
+	}
+});
 
 $("html").on("change","#title",function(event){
 	checkTitleAJAX();
 });
 
-// define method
-function update_rubric() {
-	if ($("#rubric .select").children().size() == 0) {
-		// update text
-		$("#tag_rubric").text($("#rubric .select").text());
-		// update color
-		$("#tag_rubric").removeClass();
-		if ($("#rubric .selected").attr("data-color")) {
-			$("#tag_rubric").addClass("label radius " + $("#rubric .selected").attr("data-color"));
-		} else {
-			$("#tag_rubric").addClass("label radius secondary");
-		}
-		// update visibility
-		if ($("#tag_rubric").parent("dd").hasClass("hide")) {
-			$("#tag_rubric").parent("dd").removeClass("hide")
-		}
-		if ($("#tags").css("display") == "none") {
-			$("#tags").fadeIn();
-		}
-	}
-}
-
-// define method
-function update_category() {
-	if ($("#category .select").children().size() == 0) {
-		// update text
-		$("#tag_category").text($("#category .select").text());
-		// update visibility
-		if ($("#tag_category").parent("dd").hasClass("hide")) {
-			$("#tag_category").parent("dd").removeClass("hide")
-		}
-		if ($("#tags").css("display") == "none") {
-			$("#tags").fadeIn();
-		}
-	}
-}
-
-/* Tags */
-var tag_num_lim = 8;
-var tag_err_msg = ["Limite de tags autoris&eacute;e atteinte", "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie"];
-function add_tag(source, target) {
-	var str = $(source).val();
-	var is_valid = true;
-	if (str !== "") {
-		// Check if maxium of tags allowed is reached
-		if ($(target).children("dd").length >= tag_num_lim) {
-			$(source).next("small.error").html(tag_err_msg[0]);
-			$(source).next("small.error").removeClass("hide");
-			is_valid = false;
-		} else {
-			// Check if tag already exists
-			$(target).children("dd").each(function() {
-				if ($(this).children().text() == str) {
-					$(source).next("small.error").html(tag_err_msg[1]);
-					$(source).next("small.error").removeClass("hide");
-					is_valid = false;
-				}
-			});
-		}
-		// Add tag to tags list
-		if (is_valid == true) {
-			$(target).append("<dd data-alert data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
-			$(target).foundation("alert");
-			$(source).val("");
-			$(source).next("small.error").addClass("hide");
-			if ($("#tags").css("display") == "none") {
-				$("#tags").fadeIn();
-			}
-		}
-	} else {
-		$(source).next("small.error").addClass("hide");
-	}
-}
-function hide_error(obj, clear) {
-	var clear = clear || false;
-	if (!$(obj).next("small.error").hasClass("hide")) {
-		$(obj).next("small.error").addClass("hide")
-		if (clear) {
-			$(obj).val("");
-		}
-	}
-}
 $("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });
 
 
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#article-alert").length == 0) {
-		$("header + hr").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
-		}
-		$("#article-alert").fadeIn(300);
-	}
-}

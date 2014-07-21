@@ -9,13 +9,14 @@
 							<!--Title-->
 							<label for="title">Titre de l&rsquo;article</label>
 							<input id="title" type="text" class="validation-icon" placeholder="Le titre de l&rsquo;article (p. ex. &ldquo;L&rsquo;&eacute;galit&eacute; entre les sexes, une question plus que jamais d&rsquo;actualit&eacute;&ldquo;)"
-								value="{{= data.title}}">
+								value="{{= data.title}}"></input>
 							<small id="titleError" class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
 
 							<!--Summary-->
 							<div>
 								<label for="summary">R&eacute;sum&eacute;</label>
-								<textarea id="summary" class="min" maxlength="255" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (255 caract&egrave;res maximum)"></textarea>
+								<textarea id="summary" maxlength="255" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (255 caract&egrave;res maximum)"
+									class="min">{{= data.description}}</textarea>
 							</div>
 							
 							<!--Author-->
@@ -54,16 +55,19 @@
 									<input id="tag_add" type="button" value="Ajouter" href="javascript:void(0)" class="button postfix">
 								</div>
 							</div>
-							<dl id="tags" class="tags inline-list clearfix" style="display: none;">
+							<dl id="tags" class="tags inline-list clearfix" {{?  data.tags.length === 0 }}style="display: none;"{{?}}>
 								<dt><span class="icon-tag small" title="Tags">Tags</span></dt>
 								<dd class="hide"><span id="tag_rubric" class="label radius">&hellip;</span></dd>
 								<dd class="hide"><span id="tag_category" class="label radius inverse">&hellip;</span></dd>
+								{{~  data.tags : tag }}
+									<dd data-alert="" data-tag=""><span class="label radius">{{= tag.tag}}<a href="javascript:void(0)" class="close"></a></span></dd>
+								{{~ }}
 							</dl>
 
 						</fieldset>
 
 						<!--CK Editor-->
-						<textarea id="editor"></textarea>
+						<textarea id="editor" >{{= data.body}}</textarea>
 
 						<!--Validation Buttons-->
 						<div class="text-center" style="margin-top: 1rem;">
