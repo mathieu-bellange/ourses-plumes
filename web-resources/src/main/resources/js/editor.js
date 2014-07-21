@@ -152,7 +152,9 @@ function processArticle(article){
 		}, 500);
 	});
 	// recharge foundatin pour les tags ajoutés directement par le template
-	$("#tags").foundation("alert");
+	if (article.tags.length > 0){
+		$("#tags").foundation("alert");
+	}
 }
 
 function processCategory(json){
