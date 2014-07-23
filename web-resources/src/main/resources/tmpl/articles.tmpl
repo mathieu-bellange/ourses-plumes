@@ -9,7 +9,9 @@
 	<div class="href-block clearfix cyan">
 		<h5 class="title">{{= data.title}}</h5>
 		<p class="summary">
-			<time datetime="{{= new Date(data.publishedDate).toLocaleDateString()}}" class="left date"></time>
+			{{? data.publishedDate !== null }}
+				<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate))}}" class="date">{{= dateToString(new Date(data.publishedDate))}}</time>
+			{{?}}
 			{{= data.description}}
 			<span class="right author"><strong>{{=data.profile.pseudo}}</strong></span>
 		</p>
@@ -19,10 +21,6 @@
 
 				<!--Articles-->
 				<section id="articles">
-					<!--
-					<h2>Articles <small>.articles-list</small></h2>
-					<h3>Tous les articles <small>.list</small></h3>
-					-->
 					<div class="clearfix">
 						<dl class="sub-nav" style="display: inline-block;">
 							<dt>Trier&#8239;:</dt>

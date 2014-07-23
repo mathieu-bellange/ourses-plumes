@@ -147,6 +147,21 @@ var xhr = (function() {
 	}
 }());
 
+var months = [
+	"janvier",
+	"février",
+	"mars",
+	"avril",
+	"mai",
+	"juin",
+	"juillet",
+	"août",
+	"septembre",
+	"octobre",
+	"novembre",
+	"décembre"
+]
+
 /* ------------------------------------------------------------------ */
 /* # Methods Declaration */
 /* ------------------------------------------------------------------ */
@@ -297,6 +312,39 @@ function isRedactrice(){
 	} else {
 		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
 	}
+}
+
+/* passe une date en param pour obtenir une string au bon format pour la balise time */
+function getDateTime(date){
+	var year = date.getFullYear().toString();
+	var month;
+	var day;
+	
+	var numMonth = date.getMonth() + 1;
+	if (numMonth < 10){
+		month = "0" + numMonth.toString();
+	}else{
+		month = numMonth.toString();
+	}
+	if (date.getDate() <10){
+		day = "0" + date.getDate().toString();
+	}else{
+		day = date.getDate().toString();
+	}
+	
+	return year + "-" + month + "-" + day;
+}
+
+function dateToString(date){
+	var year = date.getFullYear().toString();
+	var month;
+	var day = date.getDate().toString();
+	
+	if (date.getDate() === 1){
+		day += " er"; 
+	}
+	month = months[date.getMonth()];
+	return day + " " + month + " " + year;
 }
 
 /* ------------------------------------------------------------------ */

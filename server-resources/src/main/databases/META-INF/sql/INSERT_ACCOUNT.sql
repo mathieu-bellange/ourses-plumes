@@ -31,7 +31,8 @@ Insert into profile
    (2, 'jpetit', 'trop sexy', 1),
    (3, 'Nadejda', 'The media is an important weapon for an activist in today&rsquo;s Russia, [&hellip;] It&rsquo;s a wonderful example of how the civil society can be put to work.', 1),
    (4, 'to_delete', 'Ce compte est supprimé pendant les tests', 1),
-   (5, 'to_update', 'Ce compte est update pendant les tests', 1);
+   (5, 'to_update', 'Ce compte est update pendant les tests', 1),
+   (6, 'Ourse du Cheshire', '', 0);
 Insert into social_link
 	(id,network,social_user,profile_id)
 values
