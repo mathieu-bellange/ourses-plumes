@@ -56,7 +56,7 @@ public class ArticleHelperTest {
     @Test
     public void shouldBuildArticlePath() {
         String title = "ceci est un titre de test pour la construction d'un path correct";
-        assertThat(helper.buildPath(title)).isEqualTo(
+        assertThat(helper.beautifyTitle(title)).isEqualTo(
                 "ceci-est-un-titre-de-test-pour-la-construction-d-un-path-correct");
     }
 
@@ -65,7 +65,7 @@ public class ArticleHelperTest {
         String title = "ceci est un titre plus complexe ! & "
                 + "pour la construction d'un path correct: il faut virer=$? ? "
                 + "et plein de \"trucs\", d'autres choses/ " + "et #;";
-        assertThat(helper.buildPath(title)).isEqualTo(
+        assertThat(helper.beautifyTitle(title)).isEqualTo(
                 "ceci-est-un-titre-plus-complexe-pour-la-construction-d-un-path-correct-il-faut-virer-et-"
                         + "plein-de-trucs-d-autres-choses-et");
     }
@@ -90,7 +90,7 @@ public class ArticleHelperTest {
     public void shouldBuildPublishPath() {
         Article article = new Article();
         article.setStatus(ArticleStatus.ENLIGNE);
-        article.setRubrique(new Rubrique(1l, "Rubrique"));
+        article.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
         article.setTitle("le titre");
         assertThat(helper.buildPath(article)).isEqualTo("/articles/rubrique/le-titre");
     }

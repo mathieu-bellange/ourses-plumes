@@ -75,6 +75,23 @@ public class ArticleResources {
     }
 
     @GET
+    @Path("/{rubrique}/{title}")
+    public Response read(@PathParam("rubrique")
+    String rubrique, @PathParam("title")
+    String title) {
+        ResponseBuilder responseBuilder;
+        Article article = Article.findArticleByRubriqueAndBeautifyTitle(rubrique, title);
+        // détermine si un article est lisible par un utilisateur
+        if (article != null && articleHelper.isArticleReadable(null, null, article.getStatus())) {
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.NOT_FOUND);
+        }
+        return responseBuilder.build();
+    }
+
+    @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder;

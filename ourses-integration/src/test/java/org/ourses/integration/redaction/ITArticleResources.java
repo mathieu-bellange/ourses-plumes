@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -25,6 +26,7 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class ITArticleResources {
 
@@ -43,7 +45,7 @@ public class ITArticleResources {
     private static final String PATH_DELETE_VALIDATE = "/rest/articles/8";
     private static final String PATH_INVALDIATE = "/rest/articles/9/invalidate";
     private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
-    private static final String PATH_GET = "/rest/articles/11";
+    private static final String PATH_GET_PUBLISH = "/rest/articles/éducation-culture/titre-14";
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
     private static final String PATH_GET_VALIDATE = "/rest/articles/13";
     private static final String PATH_GET_ALL = "/rest/articles";
@@ -52,8 +54,8 @@ public class ITArticleResources {
     @Test
     public void shouldUseTitleForNewDraft() {
         URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
-                .post(ClientResponse.class, "Un titre pas utilisé");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").post(ClientResponse.class, "Un titre pas utilisé");
         // status attendu 204
         assertThat(clientResponse.getStatus()).isEqualTo(204);
     }
@@ -61,8 +63,8 @@ public class ITArticleResources {
     @Test
     public void shouldNotUseTitleForNewDraft() {
         URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
-                .post(ClientResponse.class, "titre 12");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").post(ClientResponse.class, "titre 12");
         // status attendu 403
         assertThat(clientResponse.getStatus()).isEqualTo(403);
     }
@@ -70,7 +72,9 @@ public class ITArticleResources {
     @Test
     public void shouldUseSameTitleForUpdateDraft() {
         URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("id", "12")
+        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+        params.add("id", "12");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
                 .header("Content-Type", "application/json").post(ClientResponse.class, "titre 12");
         // status attendu 204
         assertThat(clientResponse.getStatus()).isEqualTo(204);
@@ -79,7 +83,9 @@ public class ITArticleResources {
     @Test
     public void shouldNotUseTitleForUpdateDraft() {
         URI uri = UriBuilder.fromPath(PATH_CHECK_TITLE).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("id", "13")
+        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+        params.add("id", "13");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
                 .header("Content-Type", "application/json").post(ClientResponse.class, "titre 12");
         // status attendu 403
         assertThat(clientResponse.getStatus()).isEqualTo(403);
@@ -144,7 +150,7 @@ public class ITArticleResources {
     @Test
     public void shouldReadPublishArticle() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
-        URI uri = UriBuilder.fromPath(PATH_GET).build();
+        URI uri = UriBuilder.fromPath(PATH_GET_PUBLISH).build();
 
         ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
                 .get(ClientResponse.class);
@@ -160,6 +166,8 @@ public class ITArticleResources {
         assertThat(article.getRubrique().getRubrique()).isNotNull();
         assertThat(article.getProfile().getPseudo()).isNotNull();
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
+        assertThat(article.getPath()).isNotNull();
+        assertThat(article.getTitleBeautify()).isNotNull();
         assertThat(article.getTags()).isNotEmpty();
     }
 
@@ -183,8 +191,8 @@ public class ITArticleResources {
 
         ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
                 .get(ClientResponse.class);
-        // status attendu 404
-        assertThat(clientResponse.getStatus()).isEqualTo(404);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
     @Test
@@ -229,8 +237,8 @@ public class ITArticleResources {
 
         ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
                 .get(ClientResponse.class);
-        // status attendu 404
-        assertThat(clientResponse.getStatus()).isEqualTo(404);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
     @Test
@@ -454,6 +462,7 @@ public class ITArticleResources {
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
         assertThat(article.getPath()).isEqualTo(
                 "/articles/" + article.getRubrique().getRubrique().toLowerCase() + "/titre-6");
+        assertThat(article.getTitleBeautify()).isEqualTo("titre-6");
     }
 
     @Test

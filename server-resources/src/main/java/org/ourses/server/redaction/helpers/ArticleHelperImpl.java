@@ -129,7 +129,7 @@ public class ArticleHelperImpl implements ArticleHelper {
      * @param title
      * @return
      */
-    protected String buildPath(String title) {
+    protected String beautifyTitle(String title) {
         StrBuilder path = new StrBuilder();
         String[] tokens = title.split("\\W");
         for (String token : tokens) {
@@ -147,7 +147,9 @@ public class ArticleHelperImpl implements ArticleHelper {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.ENLIGNE);
         article.setPath(buildPath(article));
-        article.update("status", "path");
+        article.setTitleBeautify(beautifyTitle(article.getTitle()));
+        article.update("status", "path", "titleBeautify");
+        // TODO published date
         return article;
     }
 
@@ -173,8 +175,8 @@ public class ArticleHelperImpl implements ArticleHelper {
             break;
         // path /articles/{rubrique}/{titre modifié}
         case ENLIGNE:
-            pathBuilder.append("/" + article.getRubrique().getRubrique().toLowerCase());
-            pathBuilder.append("/" + buildPath(article.getTitle()));
+            pathBuilder.append("/" + article.getRubrique().getPath());
+            pathBuilder.append("/" + beautifyTitle(article.getTitle()));
             break;
         default:
             break;

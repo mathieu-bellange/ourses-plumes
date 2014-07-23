@@ -19,7 +19,7 @@ public class ArticleTest {
         article.setDescription("description");
         article.setProfile(new Profile(1l, "pseudo", "description"));
         article.setPublishedDate(DateTime.now().toDate());
-        article.setRubrique(new Rubrique(1l, "rubrique"));
+        article.setRubrique(new Rubrique(1l, "rubrique", "rubrique"));
         article.setStatus(ArticleStatus.BROUILLON);
         article.setCategory(new Category(1l, "category"));
         article.setTags(Sets.newHashSet(new Tag(1l, "tag1"), new Tag(2l, "tag2")));

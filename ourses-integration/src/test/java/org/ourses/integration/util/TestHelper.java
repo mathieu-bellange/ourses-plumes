@@ -3,6 +3,7 @@ package org.ourses.integration.util;
 import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
@@ -33,6 +34,11 @@ public final class TestHelper {
     public static Builder webResourceWithAuthcToken(URI uri, String token) {
         Client client = Client.create(new DefaultClientConfig(JacksonJsonProvider.class));
         return getWebResource(client, uri).header(HttpHeaders.AUTHORIZATION, token);
+    }
+
+    public static Builder webResourceWithRedacRoleAndParams(URI uri, MultivaluedMap<String, String> params) {
+        Client client = Client.create(new DefaultClientConfig(JacksonJsonProvider.class));
+        return getWebResource(client, uri).queryParams(params).header(HttpHeaders.AUTHORIZATION, "redac");
     }
 
     private static WebResource getWebResource(Client client, URI uri) {

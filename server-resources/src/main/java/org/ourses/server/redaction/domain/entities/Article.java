@@ -51,6 +51,7 @@ public class Article implements Serializable {
     private String body;
     private Date publishedDate;
     private String path;
+    private String titleBeautify;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Category category;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
@@ -109,6 +110,14 @@ public class Article implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getTitleBeautify() {
+        return titleBeautify;
+    }
+
+    public void setTitleBeautify(String titleBeautify) {
+        this.titleBeautify = titleBeautify;
     }
 
     public Category getCategory() {
@@ -180,6 +189,11 @@ public class Article implements Serializable {
     public static Article findArticle(long id) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").where()
                 .eq("id", id).findUnique();
+    }
+
+    public static Article findArticleByRubriqueAndBeautifyTitle(String rubrique, String titleBeautify) {
+        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").where()
+                .eq("rubrique.path", rubrique).eq("titleBeautify", titleBeautify).findUnique();
     }
 
     public static int articleWithSameTitle(String title, Long id) {

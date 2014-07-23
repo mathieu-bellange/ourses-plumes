@@ -12,6 +12,7 @@ public class RubriqueDTO {
 
     private Long id;
     private String classe;
+    private String path;
 
     public RubriqueDTO() {
     }
@@ -41,6 +42,15 @@ public class RubriqueDTO {
         this.rubrique = rubrique;
     }
 
+    @JsonProperty("path")
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public Rubrique toRubrique() {
         Rubrique rubrique = new Rubrique();
         BeanUtils.copyProperties(this, rubrique);
@@ -62,11 +72,11 @@ public class RubriqueDTO {
         return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
 
-	public String getClasse() {
-		return classe;
-	}
+    public String getClasse() {
+        return classe;
+    }
 
-	public void setClasse(String classe) {
-		this.classe = classe;
-	}
+    public void setClasse(String classe) {
+        this.classe = classe;
+    }
 }

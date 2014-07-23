@@ -29,15 +29,17 @@ public class Rubrique implements Serializable {
     private Long id;
     private String rubrique;
     private String classe;
+    private String path;
 
     public Rubrique() {
-        this(null, null);
+        this(null, null, null);
     }
 
-    public Rubrique(Long id, String rubrique) {
+    public Rubrique(Long id, String rubrique, String path) {
         super();
         this.id = id;
         this.rubrique = rubrique;
+        this.path = path;
     }
 
     public Long getId() {
@@ -54,6 +56,14 @@ public class Rubrique implements Serializable {
 
     public void setRubrique(String rubrique) {
         this.rubrique = rubrique;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public static Set<Rubrique> findAllRubrique() {
@@ -86,12 +96,12 @@ public class Rubrique implements Serializable {
         return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
 
-	public String getClasse() {
-		return classe;
-	}
+    public String getClasse() {
+        return classe;
+    }
 
-	public void setClasse(String classe) {
-		this.classe = classe;
-	}
+    public void setClasse(String classe) {
+        this.classe = classe;
+    }
 
 }

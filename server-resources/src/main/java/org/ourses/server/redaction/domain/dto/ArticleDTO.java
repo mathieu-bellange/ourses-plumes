@@ -40,6 +40,8 @@ public class ArticleDTO {
     private ArticleStatus status;
     @JsonProperty("path")
     private String path;
+    @JsonProperty("titleBeautify")
+    private String titleBeautify;
     @JsonProperty("tags")
     private Set<TagDTO> tags = Sets.newHashSet();
 
@@ -121,6 +123,14 @@ public class ArticleDTO {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getTitleBeautify() {
+        return titleBeautify;
+    }
+
+    public void setTitleBeautify(String titleBeautify) {
+        this.titleBeautify = titleBeautify;
     }
 
     public Set<TagDTO> getTags() {
