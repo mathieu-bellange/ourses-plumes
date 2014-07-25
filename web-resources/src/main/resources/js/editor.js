@@ -111,21 +111,33 @@ function processArticle(article){
 	}
 	
 	$.getJSON("/rest/categories", function(json){
-		processCategory(json);
+		// processCategory(json);
+		processCategory(json, article);
 		//TODO injection de la valeur de l'article
+		
+		// alert(article.category.id);
+		// alert(article.category.category);
 	 });
 
 	$.getJSON("/rest/rubriques", function(json){
-		processRubric(json);
+		processRubric(json, article);
 		//TODO injection de la valeur de l'article
 	});
-	
-	// event
-	$("#editor").on("blur",function(event){
-		checkBody();
-	});
+
 	$("#editor").ckeditor();
-	
+
+	// event
+	// $("#editor").blur(function(event){
+		// if (event.isDefaultPrevented) {
+			// alert("isDefaultPrevented = true");
+			// checkBody();
+		// }
+		// if (event.isPropagationStopped) {
+			// alert("isPropagationStopped = true");
+			// checkBody();
+		// }
+	// });
+
 	// bind events après le chargement du template par dot.js
 	$("#rubric").bind({
 		blur: function() {
@@ -136,15 +148,16 @@ function processArticle(article){
 		click: function() {update_rubric();},
 		keyup: function() {update_rubric();}
 	});
-	$("#category").bind({
-		blur: function() {
-			update_category();
-			//update validation
-			setValidationIcon($("#category"),$("#categoryError"), $("#category li.selected").text().length !== 0);
-		},
-		click: function() {update_category();},
-		keyup: function() {update_category();}
+
+	$("#category").blur(function() {
+		update_category();
+		//update validation
+		setValidationIcon($("#category"),$("#categoryError"), $("#category li.selected").text().length !== 0);
 	});
+	$("#category").click(function() {
+		update_category();
+	});
+
 	$("#tag").bind({
 		blur: function() {
 			hide_error("#tag");
@@ -172,31 +185,48 @@ function processArticle(article){
 	if (article.tags.length > 0){
 		$("#tags").foundation("alert");
 	}
+	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page
 }
 
-function processCategory(json){
+function processRubric(json, article){
 	$.each(json, function(i, obj) {
+		if (article.rubrique != null && article.rubrique.id == obj.id) {
+			$("#rubric .select").text(obj.rubrique); // reflow select value (i.e. asynchronous script conflict)
+			var cls = "selected " + article.rubrique.classe;
+		} else {
+			var cls = "";
+		}
+		var li = $("<li/>", {
+			"data-value": obj.id,
+			"data-color" : obj.classe,
+			"class" : cls
+		});
+		var span = $("<span/>",{
+			"class" : "icon-" + obj.classe + " small",
+			"style" : "margin-right: .25rem;"
+		});
+		li.text(obj.rubrique);
+		li.prepend(span);
+		$('#rubric ul').append(li);
+	});
+	update_rubric()
+}
+
+function processCategory(json, article){
+	$.each(json, function(i, obj) {
+		if (article.category != null && article.category.id == obj.id) {
+			$("#category .select").text(obj.category); // reflow select value (i.e. asynchronous script conflict)
+			var cls = "selected";
+		} else {
+			var cls = "";
+		}
 		$('#category ul').append($("<li/>", {
 			"data-value": obj.id,
+			"class" : cls,
 			text: obj.category
 		}));
 	});
-}
-
-function processRubric(json){
-	$.each(json, function(i, obj) {
-		var li = $("<li/>", {
-			"data-value": obj.id,
-			"data-color" : obj.classe
-		});
-		var span = $("<span/>",{
-			className : "icon-" + obj.classe + " small",
-			style : "margin-right: .25rem;"
-		});
-		li.append(span);
-		li.text(obj.rubrique);
-		$('#rubric ul').append(li);
-	});
+	update_category()
 }
 
 /* maj de la rubrique */
@@ -464,5 +494,4 @@ $("html").on("blur","#summary",function(event){
 $("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });
-
 

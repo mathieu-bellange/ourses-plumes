@@ -376,7 +376,7 @@ input.validation-icon.loading:focus {
   background-image: url('../img/ui/icon-loading-24x24.gif');
 }
 
-input.validation-icon + small.error { /* Position fix */
+.validation-icon + small.error { /* Position fix */
   position: relative;
   top: -1rem;
 }

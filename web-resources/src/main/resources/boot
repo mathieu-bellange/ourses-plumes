@@ -50,7 +50,7 @@ $bug_tracker_page = "/bug-tracker";                     // String   url of the b
 $home_page        = "/";                                // String   url of the home page
 $my_account_page  = "/parametres/compte";               // String   url of my account page
 $my_profile_page  = "/parametres/profil";               // String   url of my profile page
-$articles         = "/articles";						// String   url of list of articles page 
+$articles         = "/articles";                        // String   url of list of articles page 
 $new_article      = "/articles/nouveau";                // String   url of a new article
 
 $app_root         = "/";                                // String   Set application base URL. Default = "/"
