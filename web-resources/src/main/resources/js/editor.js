@@ -73,7 +73,11 @@ function Tag(id,value){
 
 function isFormValid(){
 	var isTitleValid = !$("#title").attr("data-invalid");
-	return isTitleValid;
+	var isRubricValid = !$("#rubric").attr("data-invalid");
+	var isCategoryValid = !$("#category").attr("data-invalid");
+	var isSummaryValid = !$("#summary").attr("data-invalid");
+	var isBodyValid = !$("#editor").attr("data-invalid");
+	return isTitleValid && isRubricValid && isCategoryValid && isSummaryValid && isBodyValid;
 }
 
 /* ------------------------------------------------------------------ */
@@ -115,16 +119,29 @@ function processArticle(article){
 		processRubric(json);
 		//TODO injection de la valeur de l'article
 	});
-	$('#editor').ckeditor();
+	
+	// event
+	$("#editor").on("blur",function(event){
+		checkBody();
+	});
+	$("#editor").ckeditor();
 	
 	// bind events après le chargement du template par dot.js
 	$("#rubric").bind({
-		blur: function() {update_rubric();},
+		blur: function() {
+			update_rubric();
+			//update validation
+			setValidationIcon($("#rubric"),$("#rubricError"), $("#rubric li.selected").text().length !== 0);
+		},
 		click: function() {update_rubric();},
 		keyup: function() {update_rubric();}
 	});
 	$("#category").bind({
-		blur: function() {update_category();},
+		blur: function() {
+			update_category();
+			//update validation
+			setValidationIcon($("#category"),$("#categoryError"), $("#category li.selected").text().length !== 0);
+		},
 		click: function() {update_category();},
 		keyup: function() {update_category();}
 	});
@@ -375,10 +392,50 @@ function checkTitleAJAX(){
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 403){
 				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#titleError"), false)}, 500);
+				if ($("#title").val().length === 0){
+					$("#titleError").text("La saisie du titre est obligatoire");
+				}else{
+					$("#titleError").text("Ce titre est déjà pris");
+				}
 			}
 		},
 		dataType : "json"
 	});
+}
+
+function checkRubric(){
+	if ($("#rubric li.selected").text().length === 0){
+		setValidationIcon($("#rubric"),$("#rubricError"), false);
+	}else{
+		setValidationIcon($("#rubric"),$("#rubricError"), true);
+	}
+	
+}
+
+function checkCategory(){
+	if ($("#category li.selected").text().length === 0){
+		setValidationIcon($("#category"),$("#categoryError"), false);
+	}else{
+		setValidationIcon($("#category"),$("#categoryError"), true);
+	}
+	
+}
+
+function checkSummary(){
+	if ($("#summary").val().length === 0){
+		setValidationIcon($("#summary"),$("#summaryError"), false);
+	}else{
+		setValidationIcon($("#summary"),$("#summaryError"), true);
+	}
+	
+}
+function checkBody(){
+	if ($("#editor").val().length === 0){
+		setValidationIcon($("#editor"),$("#editorError"), false);
+	}else{
+		setValidationIcon($("#editor"),$("#editorError"), true);
+	}
+	
 }
 
 /* ------------------------------------------------------------------ */
@@ -386,13 +443,22 @@ function checkTitleAJAX(){
 /* ------------------------------------------------------------------ */
 
 $("html").on("click","#saveButton",function(){
+	checkTitleAJAX();
+	checkRubric();
+	checkCategory();
+	checkBody();
+	checkSummary();
 	if (isFormValid()){
 		sendArticle();
 	}
 });
 
-$("html").on("change","#title",function(event){
+$("html").on("blur","#title",function(event){
 	checkTitleAJAX();
+});
+
+$("html").on("blur","#summary",function(event){
+	checkSummary();
 });
 
 $("html").on("click", "#tag_add", function() {

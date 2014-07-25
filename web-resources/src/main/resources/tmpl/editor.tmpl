@@ -7,16 +7,16 @@
 							<legend>Publication</legend>
 
 							<!--Title-->
-							<label for="title">Titre de l&rsquo;article</label>
+							<label for="title">Titre de l&rsquo;article <small class="red">*</small></label>
 							<input id="title" type="text" class="validation-icon" placeholder="Le titre de l&rsquo;article (p. ex. &ldquo;L&rsquo;&eacute;galit&eacute; entre les sexes, une question plus que jamais d&rsquo;actualit&eacute;&ldquo;)"
 								value="{{= data.title}}"></input>
 							<small id="titleError" class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
 
 							<!--Summary-->
 							<div>
-								<label for="summary">R&eacute;sum&eacute;</label>
-								<textarea id="summary" maxlength="255" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (255 caract&egrave;res maximum)"
-									class="min">{{= data.description}}</textarea>
+								<label for="summary">R&eacute;sum&eacute; <small class="red">*</small></label>
+								<textarea id="summary" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)" class="validation-icon">{{= data.description}}</textarea>
+								<small id="summaryError" class="error hide">La saisie du r&eacute;sum&eacute; est obligatoire</small>
 							</div>
 							
 							<!--Author-->
@@ -27,20 +27,22 @@
 							<legend>Indexation</legend>
 
 							<!--Rubric-->
-							<label>Rubrique <small class="red">*</small></label>
+							<label for="rubric">Rubrique <small class="red">*</small></label>
 							<div id="rubric" class="options-select" tabindex="0">
 								<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
 								<ul class="options hide">									
 								</ul>
 							</div>
+							<small id="rubricError" class="error hide">La saisie de la rubrique est obligatoire</small>
 
 							<!--Category-->
-							<label>Cat&eacute;gorie <small class="red">*</small></label>
+							<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
 							<div id="category" class="options-select" tabindex="0">
 								<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
 								<ul class="options hide">									
 								</ul>
 							</div>
+							<small id="categoryError" class="error hide">La saisie de la cat&eacute;gorie est obligatoire</small>
 
 							<!--Tags-->
 							<div class="row collapse">
@@ -68,6 +70,7 @@
 
 						<!--CK Editor-->
 						<textarea id="editor" >{{= data.body}}</textarea>
+						<small id="editorError" class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
 
 						<!--Validation Buttons-->
 						<div class="text-center" style="margin-top: 1rem;">

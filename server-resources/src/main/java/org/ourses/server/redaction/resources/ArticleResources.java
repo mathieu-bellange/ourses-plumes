@@ -50,7 +50,7 @@ public class ArticleResources {
     public Response checkTitle(String title, @QueryParam("id")
     Long id) {
         ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
-        if (articleHelper.isTitleAlreadyTaken(title, id)) {
+        if (title.isEmpty() || articleHelper.isTitleAlreadyTaken(title, id)) {
             responseBuilder = Response.status(Status.FORBIDDEN);
         }
         return responseBuilder.build();
