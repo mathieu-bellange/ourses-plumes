@@ -39,7 +39,7 @@ function displayArticles(){
 					});
 			processArticles({"drafts":brouillons,"toCheck":aVerifier,"onLine":enLigne});
 		},
-		error : function(jqXHR, status, errorThrown) {			
+		error : function(jqXHR, status, errorThrown) {
 		},
 		dataType : "json"
 	});

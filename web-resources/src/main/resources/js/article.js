@@ -25,10 +25,9 @@ function displayArticle(){
 		success : function(article, status, jqxhr) {
 			processArticle(article);
 		},
-		error : function(jqXHR, status, errorThrown) {		
+		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
-				// TODO créer un template not found dans les cas où on récupère une erreur 404
-				alert("non trouvé - tmpl 404 à faire ?")
+				$("header + hr").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
 			}else{
 				createAlertBox();
 			}
