@@ -71,8 +71,7 @@ if (typeof $css_fx !== "undefined" && $css_fx == true) {$("body").addClass("css-
 if (typeof $build_container !== "undefined" && $build_container == true) {
 	// create HTML skeleton
 	$("body").prepend("<div id='main' class='frame'>");
-	$("#main").append("<div class='main-pane'>");
-	$(".main-pane").append("<hr>");
+	$("#main").append("<main class='main-pane'>");
 
 	// process templates
 	if ($dev_toolbar == true) {

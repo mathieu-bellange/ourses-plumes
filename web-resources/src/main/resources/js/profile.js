@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("header + hr").after(loadfile($app_root + "tmpl/profile.tmpl"));
+$("header").after(loadfile($app_root + "tmpl/profile.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

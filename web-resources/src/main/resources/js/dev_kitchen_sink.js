@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("header + hr").after(loadfile($app_root + "tmpl/dev_kitchen_sink.tmpl"));
+$("header").after(loadfile($app_root + "tmpl/dev_kitchen_sink.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

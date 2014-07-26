@@ -53,7 +53,7 @@ function processSocialLinks(socialLinks){
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#profile-alert").length == 0) {
-		$("header + hr").after(alert_box_template({"id" : "profile-alert", "class" : err, "text" : msg}));
+		$("header").after(alert_box_template({"id" : "profile-alert", "class" : err, "text" : msg}));
 		if (document.readyState === "complete") {
 			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
 		}
@@ -172,7 +172,7 @@ function getProfile(){
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
 				var profile_template = doT.compile(loadfile($app_root + "tmpl/updateProfile.tmpl")); // create template
-				$("header + hr").after(profile_template(profile)); // process template
+				$("header").after(profile_template(profile)); // process template
 				processSocialLinks(profile.socialLinks); // process social links
 				// Begin EDIT --------------------------------------------------
 				$("textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas

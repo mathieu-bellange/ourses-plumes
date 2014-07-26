@@ -95,7 +95,7 @@ function processArticle(article){
 	// affiche le template en passant en param l'article
 	// la catégorie et la rubrique ne sont pas setté dans le template
 	// il faut attendre la récupération asynchrone des données 
-	$("header + hr").after(template(article));
+	$("header").after(template(article));
 	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau 
 	// et aux draft en update avec comme path /articles/{id}
 	
@@ -338,7 +338,7 @@ function setValidationIcon(selector, labelSelector, isValid) {
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#article-alert").length == 0) {
-		$("header + hr").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
+		$("header").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
 		if (document.readyState === "complete") {
 			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
 		}

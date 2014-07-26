@@ -661,7 +661,7 @@ kbd,
   margin-right: 1rem; /* WARNING : fix for ribbons ; set right margin for anything directly following main-pane */
 }
 
-.main-pane > header {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
+.main-pane > header {margin: 0 0 1rem 0;} /* WARNING : nullify header margin for ribbons effect */
 .main-pane > footer {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
 
 .nav-pane a {
@@ -1819,7 +1819,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* # Articles List */
 /* ------------------------------------------------------------------ */
 
-.articles-list {}
+.articles-list {margin-bottom: 0;}
 .articles-list li {}
 .articles-list li h4,
 .articles-list li h5 {

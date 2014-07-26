@@ -41,7 +41,7 @@ function getAccount(){
 		},
 		success : function(accounts, status, jqxhr) {
 			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
-			$("header + hr").after(accounts_template(accounts)); // process template
+			$("header").after(accounts_template(accounts)); // process template
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
