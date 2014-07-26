@@ -85,6 +85,8 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 		$("#user_connect").attr("href", "javascript:void(0)");
 		$("#user_connect").attr("data-dropdown", "user_menu");
 		$("#user_connect").attr("data-options", "is_hover:true");
+		$("#user_connect").removeAttr("title");
+		$("#user_connect").removeAttr("data-tooltip");
 		$("#user_connect").removeClass("icon-home");
 		$("#user_connect").addClass("icon-expand");
 		$(".fast-nav").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl")));
@@ -93,6 +95,8 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	} else {
 		// ajoute le lien vers la page de connexion
 		$("#user_connect").attr("href", $login_page);
+		$("#user_connect").attr("title", "S&rsquo;identifier");
+		$("#user_connect").attr("data-tooltip");
 		$("#user_connect").removeAttr("data-dropdown");
 		$("#user_connect").removeAttr("data-options");
 		$("#user_connect").removeClass("icon-expand");
