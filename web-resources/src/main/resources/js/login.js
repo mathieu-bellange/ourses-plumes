@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("header").after(doT.compile(loadfile($app_root + "tmpl/login.tmpl")));
+$("main > header").after(doT.compile(loadfile($app_root + "tmpl/login.tmpl")));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

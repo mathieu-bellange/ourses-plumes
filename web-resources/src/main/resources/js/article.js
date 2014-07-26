@@ -27,7 +27,7 @@ function displayArticle(){
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
-				$("header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
+				$("main > header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
 			}else{
 				createAlertBox();
 			}
@@ -37,7 +37,7 @@ function displayArticle(){
 }
 
 function processArticle(article){
-	$("header").after(template(article));
+	$("main > header").after(template(article));
 }
 /* ------------------------------------------------------------------ */
 /* # Events */

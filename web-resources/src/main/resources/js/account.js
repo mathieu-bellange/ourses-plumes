@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("header").after(loadfile($app_root + "tmpl/account.tmpl"));
+$("main > header").after(loadfile($app_root + "tmpl/account.tmpl"));
 
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";

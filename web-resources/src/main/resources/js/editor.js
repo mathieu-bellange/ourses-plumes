@@ -17,8 +17,7 @@ if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404){
-				// TODO créer un template not found dans les cas où on récupère une erreur 404
-				alert("non trouvé - tmpl 404 à faire ?")
+				$("main > header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
 			}else{
 				createAlertBox();
 			}
@@ -95,7 +94,7 @@ function processArticle(article){
 	// affiche le template en passant en param l'article
 	// la catégorie et la rubrique ne sont pas setté dans le template
 	// il faut attendre la récupération asynchrone des données 
-	$("header").after(template(article));
+	$("main > header").after(template(article));
 	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau 
 	// et aux draft en update avec comme path /articles/{id}
 	
@@ -181,11 +180,13 @@ function processArticle(article){
 			}
 		}, 500);
 	});
-	// recharge foundatin pour les tags ajoutés directement par le template
+	// recharge foundation pour les tags ajoutés directement par le template
 	if (article.tags.length > 0){
 		$("#tags").foundation("alert");
 	}
-	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page
+	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
+	$("textarea").validation_bar(); // TEMP DEBUG : apply validation_bar plugin to all textarea of the page after AJAX request
+	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
 }
 
 function processRubric(json, article){
@@ -338,7 +339,7 @@ function setValidationIcon(selector, labelSelector, isValid) {
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#article-alert").length == 0) {
-		$("header").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
+		$("main > header").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
 		if (document.readyState === "complete") {
 			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
 		}

@@ -47,7 +47,7 @@ function displayArticles(){
 
 function processArticles(articles){
 	var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
-	$("header").after(articles_tmpl(articles));
+	$("main > header").after(articles_tmpl(articles));
 }
 // AJAX stuff goes here
 
