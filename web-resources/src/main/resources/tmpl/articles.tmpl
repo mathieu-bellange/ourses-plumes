@@ -1,26 +1,24 @@
 ﻿<!--Partial Define-->
 {{## def.article: data:
-								<h4 class="{{= data.rubrique.classe}}">{{= data.rubrique.rubrique }}</h4>
-								<!--UNUSED : Social Icons-->
-								<!--
-								<ul class="right inline-list hide-for-small">
-									<li><span class="icon-twitter small">Twitter&#8239;:</span>&nbsp;7</li>
-									<li><span class="icon-facebook small">Facebook&#8239;:</span>&nbsp;6</li>
-									<li><span class="icon-googleplus small">GooglePlus&#8239;:</span>&nbsp;1</li>
-								</ul>
-								-->
-								<div class="href-block clearfix {{= data.rubrique.classe}}">
-									<h5 class="title">{{= data.title }}</h5>
-									<p class="summary">
-										{{? data.publishedDate !== null }}
-											<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date">{{= dateToString(new Date(data.publishedDate)) }}</time>
-										{{?}}
-										{{= data.description}}
-										<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
-									</p>
-									<a href="{{= data.path }}" data-show="sexisme_dans_les_jeux_videos_une_critique_impossible">Lire l&rsquo;article</a>
-								</div>
+	<h4 class="{{= data.rubrique.classe}}">{{= data.rubrique.rubrique}}</h4>
+	<ul class="right inline-list hide-for-small">
+		<li><span class="icon-twitter small">Twitter&#8239;:</span>&nbsp;7</li>
+		<li><span class="icon-facebook small">Facebook&#8239;:</span>&nbsp;6</li>
+		<li><span class="icon-googleplus small">GooglePlus&#8239;:</span>&nbsp;1</li>
+	</ul>
+	<div class="href-block clearfix {{= data.rubrique.classe}}">
+		<h5 class="title">{{= data.title}}</h5>
+		<p class="summary">
+			{{? data.publishedDate !== null }}
+				<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate))}}" class="date">{{= dateToString(new Date(data.publishedDate))}}</time>
+			{{?}}
+			{{= data.description}}
+			<span class="right author"><strong>{{=data.profile.pseudo}}</strong></span>
+		</p>
+		<a href="{{= data.path }}" data-show="sexisme_dans_les_jeux_videos_une_critique_impossible">Lire l&rsquo;article</a>
+	</div>
 #}}
+
 				<!--Articles-->
 				<section id="articles">
 					<div class="clearfix">
@@ -31,23 +29,23 @@
 							<dd><a href="javascript:void(0)" class="disabled">Rubrique</a></dd>
 							<dd><a href="javascript:void(0)" class="disabled">Type</a></dd>
 						</dl>
-						{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac }}
+						{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac  }}
 							<a href="{{= $new_article}}" class="icon-article medium right" title="R&eacute;diger un article">R&eacute;diger un article</a>
 						{{?}}
 					</div>
-					<ul class="no-bullet articles-list draft">
-						{{~ data.drafts :value }}
-							<li>{{# def.article:value }}</li>
-						{{~}}
-					</ul>
-					<ul class="no-bullet articles-list standby">
-						{{~ data.toCheck :value }}
-							<li>{{# def.article:value }}</li>
-						{{~}}
+					<ul class="no-bullet articles-list">
+						{{~ data.drafts :value}}
+							<li>{{# def.article:value}}</li>
+						{{~}}						
+					</ul>					
+					<ul class="no-bullet articles-list">
+						{{~ data.toCheck :value}}
+							<li>{{# def.article:value}}</li>
+						{{~}}						
 					</ul>
 					<ul class="no-bullet articles-list">
-						{{~ data.onLine :value }}
-							<li>{{# def.article:value }}</li>
-						{{~}}
-					</ul>
+						{{~ data.onLine :value}}
+							<li>{{# def.article:value}}</li>
+						{{~}}						
+					</ul>					
 				</section>

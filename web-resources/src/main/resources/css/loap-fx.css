@@ -368,10 +368,8 @@ body.css-fx {background-image: url('../img/ui/background-noise.png'), url('../im
 .css-debug.article .column .collapse {background-color: rgba(0, 255, 0, .5);}
 
 /* Articles List */
-.css-debug.articles-list li:nth-child(odd) {background-color: rgba(255, 0, 0, .5);}
-.css-debug.articles-list li:nth-child(even) {background-color: rgba(255, 255, 0, .5);}
-.css-debug.articles-list li h4 {background-color: rgba(0, 255, 0, .5);}
-.css-debug.articles-list li h5 {background-color: rgba(0, 255, 255, .5);}
+.css-debug.articles-list li {}
+.css-debug.articles-list li h4 {background-color: rgba(255, 255, 0, .5);}
 .css-debug.articles-list li > ul {background-color: rgba(0, 255, 255, .5);}
 .css-debug.articles-list li .href-block {}
 .css-debug.articles-list li .title {background-color: rgba(0, 255, 0, .5);}

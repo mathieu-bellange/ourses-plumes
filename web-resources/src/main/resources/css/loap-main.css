@@ -432,15 +432,7 @@ button.tiny, .button.tiny {
   padding: .375em .5em;
 }
 
-/* Buttons Positioning */
-button + button,
-.button + .button,
-button + .button,
-.button + button {
-  margin-left: .5rem;
-}
-
-/* Buttons Coloring */
+/* Buttons Coloring ------------------------------------------------- */
 
 /* UNUSED */
 /* TEMP : Crystal Scheme for primary buttons */
@@ -1819,6 +1811,10 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* # Articles List */
 /* ------------------------------------------------------------------ */
 
+[class*='block-grid'].articles-list {
+/*background-color: green;*/
+}
+
 .articles-list {}
 .articles-list li {}
 .articles-list li h4,
@@ -1828,16 +1824,26 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /*text-overflow: ellipsis; /* Replace last characters of overflowing text by ellipsis */
 /*white-space: nowrap; /* Prevent text from returning to the line */
 }
+.articles-list li h4,
+.articles-list li h5 {
+/*background-color: green; /* DEBUG */
+}
 
 .articles-list li > h4,
 .articles-list li > h5 {
 /*max-width: 65%; /* TEMP : percent size for box overlapping preventing */
 /*max-width: 55%; /* BUG : box was overlapping icons ... reduce width a little bit more */
 }
+.articles-list li:nth-child(odd) {
+/*background-color: red; /* DEBUG */
+}
+.articles-list li:nth-child(even) {
+/*background-color: yellow; /* DEBUG */
+}
 
 .articles-list li > ul {
   margin: 0;
-/*background-color: transparent; /* DEBUG */
+  background-color: transparent; /* DEBUG */
 }
 .articles-list li .href-block {
   padding: .5rem;
@@ -1884,56 +1890,6 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .articles-list li > ul > li > [class*='icon-'] {
   float: left;
 }
-
-/* Draft */
-.articles-list.draft {}
-.articles-list.draft li {}
-.articles-list.draft li .href-block {
-  font-style: italic;
-  border-style: dashed;
-  border-color: darkgray;
-  background-color: #eee;
-}
-.articles-list.draft h5:before {
-  content: 'Brouillon';
-  float: left;
-  margin-top: .25em;
-  -webkit-margin-before: .125em; /* Chrome and Opera margin top adjustment */
-  margin-right: .5rem;
-  padding: 0 .25rem;
-  color: white;
-  font-size: 75%;
-  line-height: 1.5em;
-  background-color: darkgray;
-  border-radius: .25rem;
-}
-.articles-list.draft button,
-.articles-list.draft .button{
-  font-style: normal; /* IE Fix */
-}
-
-/* Standby */
-.articles-list.standby {}
-.articles-list.standby li {}
-.articles-list.standby li .href-block {
-  background-color: lemonchiffon;
-  border-color: darkkhaki;
-  border-width: .25rem;
-}
-.articles-list.standby h5:before {
-  content: 'À valider';
-  float: left;
-  margin-top: .25em;
-  -webkit-margin-before: .125em; /* Chrome and Opera margin top adjustment */
-  margin-right: .5rem;
-  padding: 0 .25rem;
-  color: white;
-  font-size: 75%;
-  line-height: 1.5em;
-  background-color: darkkhaki;
-  border-radius: .25rem;
-}
-
 
 /* ------------------------------------------------------------------ */
 /* # Comment List */
@@ -2272,8 +2228,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   color: dimgray;
   border: 1px solid silver;
 }
-.href-block:hover,
-.href-block:focus {color: #222;}
+.href-block:hover {color: #222;}
 
 .href-block a {
   position: absolute;
@@ -2284,58 +2239,35 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   text-indent: 1000%; /* Hide text */
   white-space: nowrap; /* Hide text */
   overflow: hidden; /* Hide text */
+  background-color: #fff; /* Fix to make div clickable in IE */
+  z-index: 1; /* Places the link above everything else in the div */
   opacity: 0; /* Fix to make div clickable in IE */
-  z-index: 1; /* Places the link above the div */
   filter: alpha(opacity=1); /* Fix to make div clickable in IE */
 }
-.href-block a:hover,
-.href-block a:focus {
-  outline-color: gray;
+.href-block a:hover {
+  outline: 4px solid gray;
   cursor: pointer;
-  background-color: white; /* Fix for RGBA unsupport */
-  background-color: rgba(255, 255, 255, 0);
+  background-color: transparent;
   opacity: 1;
 }
-.href-block a:focus {
-  outline-offset: 3px;
-  outline-width: 1px;
-  outline-style: dotted;
-}
-.href-block a:hover {
-  outline-offset: 0;
-  outline-width: 4px;
-  outline-style: solid;
-}
-.href-block.red a:hover,
-.href-block.red a:focus {border-color: #c33; outline-color: #c33;}
-.href-block.orange a:hover,
-.href-block.orange a:focus {border-color: #f63; outline-color: #f63;}
-.href-block.yellow a:hover,
-.href-block.yellow a:focus {border-color: #ca0; outline-color: #ca0;}
-.href-block.green a:hover,
-.href-block.green a:focus {border-color: #393; outline-color: #393;}
-.href-block.cyan a:hover,
-.href-block.cyan a:focus {border-color: #399; outline-color: #399;}
-.href-block.blue a:hover,
-.href-block.blue a:focus {border-color: #36c; outline-color: #36c;}
-.href-block.purple a:hover,
-.href-block.purple a:focus {border-color: #93c; outline-color: #93c;}
-.href-block.magenta a:hover,
-.href-block.magenta a:focus {border-color: #e2a; outline-color: #e2a;}
+.href-block.red a:hover {border-color: #c33; outline-color: #c33;}
+.href-block.orange a:hover {border-color: #f63; outline-color: #f63;}
+.href-block.yellow a:hover {border-color: #ca0; outline-color: #ca0;}
+.href-block.green a:hover {border-color: #393; outline-color: #393;}
+.href-block.cyan a:hover {border-color: #399; outline-color: #399;}
+.href-block.blue a:hover {border-color: #36c; outline-color: #36c;}
+.href-block.purple a:hover {border-color: #93c; outline-color: #93c;}
+.href-block.magenta a:hover {border-color: #e2a; outline-color: #e2a;}
 
 /* Named Rubrics Colors */
-.href-block.intersec a:hover,
-.href-block.intersec a:focus {border-color: #c33; outline-color: #c33;}
-.href-block.struggles a:hover,
-.href-block.struggles a:focus {border-color: #f63; outline-color: #f63;}
-.href-block.ideas a:hover,
-.href-block.ideas a:focus {border-color: #ca0; outline-color: #ca0;}
-.href-block.educult a:hover,
-.href-block.educult a:focus {border-color: #399; outline-color: #399;}
-.href-block.internat a:hover,
-.href-block.internat a:focus {border-color: #36c; outline-color: #36c;}
-.href-block.ourbody a:hover,
-.href-block.ourbody a:focus {border-color: #e2a; outline-color: #e2a;}
+.href-block.intersec a:hover {border-color: #c33; outline-color: #c33;}
+.href-block.struggles a:hover {border-color: #f63; outline-color: #f63;}
+.href-block.ideas a:hover {border-color: #ca0; outline-color: #ca0;}
+.href-block.educult a:hover {border-color: #399; outline-color: #399;}
+.href-block.internat a:hover {border-color: #36c; outline-color: #36c;}
+.href-block.ourbody a:hover {border-color: #e2a; outline-color: #e2a;}
+
+.href-block a:focus {opacity: .5;}
 
 /* ------------------------------------------------------------------ */
 /* # Named Components */
