@@ -1921,7 +1921,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   border-width: .25rem;
 }
 .articles-list.standby h5:before {
-  content: 'À valider';
+  content: 'À vérifier';
   float: left;
   margin-top: .25em;
   -webkit-margin-before: .125em; /* Chrome and Opera margin top adjustment */
