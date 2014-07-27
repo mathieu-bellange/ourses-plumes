@@ -1130,14 +1130,23 @@ kbd,
 
 .sub-nav {}
 .sub-nav dt, .sub-nav dd, .sub-nav li {
+  margin: 0; /* Foundation override */
   font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif; /* Foundation override */
 }
-.sub-nav dt a, .sub-nav dd a, .sub-nav li a {}
+.sub-nav dt a, .sub-nav dd a, .sub-nav li a {
+  padding: .375rem .5rem;
+}
 .sub-nav dt a:hover, .sub-nav dd a:hover, .sub-nav li a:hover {}
 .sub-nav dt.active a, .sub-nav dd.active a, .sub-nav li.active a {
-  padding: .35rem .5rem;
+  padding: .375rem .5rem; /* Foundation override */
   background-color: #a8c;
 }
+/* DEBUG */
+/*
+.sub-nav dd:nth-child(odd) {background-color: red;}
+.sub-nav dd:nth-child(even) {background-color: yellow;}
+*/
+
 .sub-nav dt.active a:hover, .sub-nav dd.active a:hover, .sub-nav li.active a:hover {background-color: #a8c;}
 .sub-nav dt a.disabled:hover, .sub-nav dd a.disabled:hover, .sub-nav li a.disabled:hover {color: inherit;}
 .sub-nav dt.active a.disabled:hover, .sub-nav dd.active a.disabled:hover, .sub-nav li.active a.disabled:hover {color: white;}
@@ -1465,6 +1474,12 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 .f-dropdown li:hover, .f-dropdown li:focus {background: transparent;} /* Foundation override */
+
+/* ------------------------------------------------------------------ */
+/* # Tooltips */
+/* ------------------------------------------------------------------ */
+
+.tooltip {}
 
 /* ------------------------------------------------------------------ */
 /* # Clearing Lightbox */
@@ -1819,8 +1834,9 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* # Articles List */
 /* ------------------------------------------------------------------ */
 
-.articles-list {margin-bottom: 0;}
+.articles-list {margin-bottom: 0;} /* TEMP : remove margin between lists */
 .articles-list li {}
+.articles-list li + li {margin-top: 0;} /* TEMP : remove margin between list items */
 .articles-list li h4,
 .articles-list li h5 {
   font-size: 125%; /* H4 font size reduction instead of H5/H6 using for better raw HTML display */
@@ -1888,24 +1904,30 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* Draft */
 .articles-list.draft {}
 .articles-list.draft li {}
-.articles-list.draft li .href-block {
+.articles-list.draft .href-block {
   font-style: italic;
-  border-style: dashed;
-  border-color: darkgray;
   background-color: #eee;
 }
+.articles-list.draft .href-block a {
+  border-style: dashed;
+  border-color: darkgray;
+}
+.articles-list.draft .href-block a:hover {
+  border-style: solid;
+  border-color: darkgray; /* TEMP : remove to reset to default */
+}
+
 .articles-list.draft h5:before {
   content: 'Brouillon';
   float: left;
-  margin-top: .25em;
-  -webkit-margin-before: .125em; /* Chrome and Opera margin top adjustment */
-  margin-right: .5rem;
-  padding: 0 .25rem;
-  color: white;
-  font-size: 75%;
+  margin-top: .125em;
+  margin-right: .25rem;
+  padding: .125rem .375rem;
+  color: darkgray;
+  font-size: 80%;
   line-height: 1.5em;
-  background-color: darkgray;
   border-radius: .25rem;
+  background-color: transparent;
 }
 .articles-list.draft button,
 .articles-list.draft .button{
@@ -1915,25 +1937,40 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* Standby */
 .articles-list.standby {}
 .articles-list.standby li {}
-.articles-list.standby li .href-block {
+.articles-list.standby .href-block {
   background-color: lemonchiffon;
-  border-color: darkkhaki;
+}
+.articles-list.standby .href-block a {
+  border-color: dimgray;
   border-width: .25rem;
 }
-.articles-list.standby h5:before {
-  content: 'À vérifier';
-  float: left;
-  margin-top: .25em;
-  -webkit-margin-before: .125em; /* Chrome and Opera margin top adjustment */
-  margin-right: .5rem;
-  padding: 0 .25rem;
-  color: white;
-  font-size: 75%;
-  line-height: 1.5em;
-  background-color: darkkhaki;
-  border-radius: .25rem;
+.articles-list.standby .href-block a:hover {
+  border-color: #d52;
 }
-
+.articles-list.standby .href-block a:before {
+  content: 'À vérifier';
+  position: absolute;
+  top: -.5rem;
+  left: -5.5rem;
+  margin-top: -2em;
+  padding: .125rem .375rem;
+  min-width: 10rem;
+  line-height: 2em;
+  color: white;
+  text-align: center;
+  text-indent: 0; /* Revert hide text */
+  font-family: "Oswald", sans-serif;
+  background-color: dimgray;
+  -webkit-transform: rotate(-45deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-45deg); /* IE 9 */
+          transform: rotate(-45deg);
+  -webkit-transform-origin: 100% 0%; /* Chrome, Opera and Safari */
+      -ms-transform-origin: 100% 0%; /* IE 9 */
+          transform-origin: 100% 0%;
+}
+.articles-list.standby .href-block a:hover:before {
+  background-color: #d52;
+}
 
 /* ------------------------------------------------------------------ */
 /* # Comment List */
@@ -2269,8 +2306,8 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 
 .href-block {
   position: relative;
+  overflow: hidden;
   color: dimgray;
-  border: 1px solid silver;
 }
 .href-block:hover,
 .href-block:focus {color: #222;}
@@ -2284,58 +2321,36 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   text-indent: 1000%; /* Hide text */
   white-space: nowrap; /* Hide text */
   overflow: hidden; /* Hide text */
-  opacity: 0; /* Fix to make div clickable in IE */
   z-index: 1; /* Places the link above the div */
-  filter: alpha(opacity=1); /* Fix to make div clickable in IE */
+  border: 1px solid silver;
 }
 .href-block a:hover,
 .href-block a:focus {
-  outline-color: gray;
   cursor: pointer;
   background-color: white; /* Fix for RGBA unsupport */
   background-color: rgba(255, 255, 255, 0);
-  opacity: 1;
+  border-color: gray;
 }
-.href-block a:focus {
-  outline-offset: 3px;
-  outline-width: 1px;
-  outline-style: dotted;
-}
-.href-block a:hover {
-  outline-offset: 0;
-  outline-width: 4px;
-  outline-style: solid;
-}
-.href-block.red a:hover,
-.href-block.red a:focus {border-color: #c33; outline-color: #c33;}
-.href-block.orange a:hover,
-.href-block.orange a:focus {border-color: #f63; outline-color: #f63;}
-.href-block.yellow a:hover,
-.href-block.yellow a:focus {border-color: #ca0; outline-color: #ca0;}
-.href-block.green a:hover,
-.href-block.green a:focus {border-color: #393; outline-color: #393;}
-.href-block.cyan a:hover,
-.href-block.cyan a:focus {border-color: #399; outline-color: #399;}
-.href-block.blue a:hover,
-.href-block.blue a:focus {border-color: #36c; outline-color: #36c;}
-.href-block.purple a:hover,
-.href-block.purple a:focus {border-color: #93c; outline-color: #93c;}
-.href-block.magenta a:hover,
-.href-block.magenta a:focus {border-color: #e2a; outline-color: #e2a;}
+.href-block a:hover {border-width: 4px;}
+.href-block a:focus {outline-offset: -4px;}
+
+/* Standard Rubrics Colors */
+.href-block.red a:hover {border-color: #c33;}
+.href-block.orange a:hover {border-color: #f63;}
+.href-block.yellow a:hover {border-color: #ca0;}
+.href-block.green a:hover {border-color: #393;}
+.href-block.cyan a:hover {border-color: #399;}
+.href-block.blue a:hover {border-color: #36c;}
+.href-block.purple a:hover {border-color: #93c;}
+.href-block.magenta a:hover {border-color: #e2a;}
 
 /* Named Rubrics Colors */
-.href-block.intersec a:hover,
-.href-block.intersec a:focus {border-color: #c33; outline-color: #c33;}
-.href-block.struggles a:hover,
-.href-block.struggles a:focus {border-color: #f63; outline-color: #f63;}
-.href-block.ideas a:hover,
-.href-block.ideas a:focus {border-color: #ca0; outline-color: #ca0;}
-.href-block.educult a:hover,
-.href-block.educult a:focus {border-color: #399; outline-color: #399;}
-.href-block.internat a:hover,
-.href-block.internat a:focus {border-color: #36c; outline-color: #36c;}
-.href-block.ourbody a:hover,
-.href-block.ourbody a:focus {border-color: #e2a; outline-color: #e2a;}
+.href-block.intersec a:hover {border-color: #c33;}
+.href-block.struggles a:hover {border-color: #f63;}
+.href-block.ideas a:hover {border-color: #ca0;}
+.href-block.educult a:hover {border-color: #399;}
+.href-block.internat a:hover {border-color: #36c;}
+.href-block.ourbody a:hover {border-color: #e2a;}
 
 /* ------------------------------------------------------------------ */
 /* # Named Components */

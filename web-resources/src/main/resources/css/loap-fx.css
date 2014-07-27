@@ -201,6 +201,18 @@
 .css-fx .orbit-slides-container h5,
 .css-fx .orbit-slides-container h6 {text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);}
 
+/* Articles List */
+.articles-list.draft h5:before {
+  color: rgba(0, 0, 0, .375);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+}
+.css-fx .articles-list.standby .href-block a:before {
+  background-image: url('../img/ui/background-noise.png');
+  border-top: 2px solid rgba(255, 255, 255, .5);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, .25);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, .25);
+}
+
 /* Comment List */
 .css-fx .comment-toggle a:after {
   -webkit-transition: color 1.5s ease-out .5s;

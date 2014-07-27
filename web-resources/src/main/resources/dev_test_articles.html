@@ -4,10 +4,16 @@
 		<meta charset="utf-8">
 		<script src="boot"></script>
 	</head>
+	<style>
+		section > .clearfix > div > a {
+			text-decoration: none;
+		}
+		section > .clearfix > div > a:hover {
+			text-decoration: underline;
+		}
+	</style>
 	<body>
 		<div style="min-height: 100%; padding: 1rem; background-color: white;">
-
-			<h2 class="red">Liste des articles <small>#articles</small></h2>
 
 			<!--Section Width Slider-->
 			<div class="panel callout row collapse">
@@ -25,8 +31,8 @@
 					<input id="long_strings" type="checkbox" value="true" checked>
 				</div>
 			</div>
-
 			<script>
+				// Functions
 				function change_width(selector) {
 					var w = $(selector).val() + "%";
 					$("section").css("width", w);
@@ -36,8 +42,11 @@
 					if ($(selector).is(":checked")) {
 						$("section li:odd").css("background-color", "rgba(255, 0, 0, .5)");
 						$("section li:even").css("background-color", "rgba(0, 255, 0, .5)");
+						$("section > .clearfix > div").children().not("input").filter(":odd").css("background-color", "rgba(255, 255, 0, .5)");
+						$("section > .clearfix > div").children().not("input").filter(":even").css("background-color", "rgba(0, 255, 255, .5)");
 					} else {
 						$("section li").css("background-color", "");
+						$("section > .clearfix > div").children().css("background-color", "");
 					}
 				}
 				function check_long_strings(selector) {
@@ -53,26 +62,92 @@
 						$(".href-block > p > .author > strong").html("Auteure");
 					}
 				}
-
 				// Eventing
 				$("#section_width_slider").change(function() {change_width(this)});
 				$("#section_width_slider").keyup(function() {change_width(this)});
-
 				$("#debug_marks").change(function() {check_debug_marks(this)});
-
 				$("#long_strings").change(function() {check_long_strings(this)});
-
 				// Initialization
 				$(document).ready(function() {
 					change_width("#section_width_slider");
 					check_debug_marks("#debug_marks");
 					check_long_strings("#long_strings")
 				});
-
 			</script>
+
+			<h2 class="red">Liste des articles <small>#articles</small></h2>
 
 			<!--Articles-->
 			<section id="articles">
+
+				<!--Article Toolbar-->
+				<div class="clearfix" style="margin-bottom: 1rem;">
+
+					<div class="left">
+
+						<!--Search-->
+						<span id="search_icon" class="icon-search medium left" style="margin-left: .5rem;" ></span>
+						<a id="search_text" href="javascript:void(0)" class="left" style="font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px; margin: 0 .25rem;" title="Rechercher dans les articles" data-tooltip>Chercher</a>
+						<input id="search_input" type="text" class="left radius" style="display: none; margin: 0;  width: 12rem; height: 36px;">
+						<script>
+							$("#search_text").click(function() {
+								$("#search_text").toggleClass("active");
+								$("#search_text").blur();
+								$("#search_input").toggle();
+								$("#search_input").focus();
+							});
+						</script>
+
+						<!--Sort-->
+						<a id="sort_icon" href="javascript:void(0)" class="left" style="margin: 0 .5rem; font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px;" title="Filtrer les articles" data-tooltip >
+							<span class="icon-show medium" style="margin-right: .5rem;"></span>Trier
+						</a>
+
+						<dl id="sort_list" class="sub-nav left" style="display: none; margin: 0; padding: 0; line-height: 36px; height: 36px;">
+							<!--
+							<dt style="margin-left: .5rem;">Trier&#8239;:</dt>
+							-->
+							<dd class="active"><a href="javascript:void(0)">Date de publication</a></dd>
+							<dd><a href="javascript:void(0)">Popularit&eacute;</a></dd>
+							<dd><a href="javascript:void(0)">Rubrique</a></dd>
+							<dd><a href="javascript:void(0)">Cat&eacute;gorie</a></dd>
+						</dl>
+						<script>
+							$("#sort_icon").click(function() {
+								/*
+								if ($("#sort_icon > span").hasClass("icon-show")) {
+									$("#sort_icon > span").removeClass("icon-show");
+									$("#sort_icon > span").addClass("icon-hide");
+								} else {
+									$("#sort_icon > span").removeClass("icon-hide");
+									$("#sort_icon > span").addClass("icon-show");
+								}
+								*/
+								$("#sort_icon").toggleClass("active");
+								$("#sort_icon").blur();
+								$("#sort_list").toggle();
+							});
+						</script>
+					</div>
+
+					<div class="right">
+
+						<!--Write-->
+						<a href="javascript:void(0)" class="icon-article medium" title="R&eacute;diger un nouvel article" data-tooltip></a>
+						<label style="font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px; margin: 0 .25rem;">&Eacute;crire</label>
+
+					</div>
+
+				</div>
+
+				<!--UNUSED : Social Icons-->
+				<!--
+				<ul class="right inline-list hide-for-small">
+					<li><span class="icon-twitter small">Twitter&#8239;:</span>&nbsp;7</li>
+					<li><span class="icon-facebook small">Facebook&#8239;:</span>&nbsp;6</li>
+					<li><span class="icon-googleplus small">GooglePlus&#8239;:</span>&nbsp;1</li>
+				</ul>
+				-->
 
 				<!--Drafts-->
 				<ul class="no-bullet articles-list draft">
@@ -90,7 +165,7 @@
 									<span class="summary-text"></span>
 									<span class="right author"><strong></strong></span>
 									</p>
-									<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+									<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 								</div>
 							</div>
 							<div class="column small-2">
@@ -115,7 +190,7 @@
 							<span class="summary-text"></span>
 							<span class="right author"><strong></strong></span>
 							</p>
-							<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 						</div>
 						<!--Validation-->
 						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
@@ -134,9 +209,9 @@
 							<span class="summary-text"></span>
 							<span class="right author"><strong></strong></span>
 							</p>
-							<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 							<!--Validation-->
-							<div id="draft3_validation" style="display: none; position: absolute; top: 1.5rem; right: .375rem; margin-top: -1.125rem;">
+							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
 								<button class="small" style="margin-bottom: 0; z-index: 100;">Modifier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Valider</button>
 							</div>
 						</div>
@@ -159,7 +234,7 @@
 									<span class="summary-text"></span>
 									<span class="right author"><strong></strong></span>
 									</p>
-									<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+									<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 								</div>
 							</div>
 							<div class="column small-2">
@@ -184,7 +259,7 @@
 							<span class="summary-text"></span>
 							<span class="right author"><strong></strong></span>
 							</p>
-							<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 						</div>
 						<!--Validation-->
 						<div id="standby2_validation" class="text-right" style="height: 2.25rem;">
@@ -203,9 +278,9 @@
 							<span class="summary-text"></span>
 							<span class="right author"><strong></strong></span>
 							</p>
-							<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 							<!--Validation-->
-							<div id="standby3_validation" style="display: none; position: absolute; top: 1.5rem; right: .375rem; margin-top: -1.125rem;">
+							<div id="standby3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
 								<button class="small success" style="margin-bottom: 0; z-index: 100;">Publier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Renvoyer</button>
 							</div>
 						</div>
@@ -224,7 +299,7 @@
 							<span class="summary-text"></span>
 							<span class="right author"><strong></strong></span>
 							</p>
-							<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 						</div>
 					</li>
 					<li>
@@ -236,7 +311,7 @@
 							<span class="summary-text"></span>
 							<span class="right author"><strong></strong></span>
 							</p>
-							<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 						</div>
 					</li>
 					<li>
@@ -248,7 +323,7 @@
 							<span class="summary-text"></span>
 							<span class="right author"><strong></strong></span>
 							</p>
-							<a href="javascript:void(0)" data-show="null">Lire l&rsquo;article</a>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 						</div>
 					</li>
 				</ul>
@@ -285,6 +360,9 @@
 		</script>
 		<script>
 			loap.update()
+		</script>
+		<script>
+			$(document).foundation();
 		</script>
 	</body>
 </html>

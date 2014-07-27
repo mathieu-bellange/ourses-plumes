@@ -48,6 +48,7 @@ function displayArticles(){
 function processArticles(articles){
 	var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
 	$("main > header").after(articles_tmpl(articles));
+	$(document).foundation(); // reload all Foundation plugins
 }
 // AJAX stuff goes here
 

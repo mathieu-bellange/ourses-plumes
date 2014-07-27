@@ -1,14 +1,6 @@
 ﻿<!--Partial Define-->
 {{## def.article: data:
 								<h4 class="{{= data.rubrique.classe}}">{{= data.rubrique.rubrique }}</h4>
-								<!--UNUSED : Social Icons-->
-								<!--
-								<ul class="right inline-list hide-for-small">
-									<li><span class="icon-twitter small">Twitter&#8239;:</span>&nbsp;7</li>
-									<li><span class="icon-facebook small">Facebook&#8239;:</span>&nbsp;6</li>
-									<li><span class="icon-googleplus small">GooglePlus&#8239;:</span>&nbsp;1</li>
-								</ul>
-								-->
 								<div class="href-block clearfix {{= data.rubrique.classe}}">
 									<h5 class="title">{{= data.title }}</h5>
 									<p class="summary">
@@ -23,18 +15,14 @@
 #}}
 				<!--Articles-->
 				<section id="articles">
+					{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac }}
 					<div class="clearfix">
-						<dl class="sub-nav" style="display: inline-block;">
-							<dt>Trier&#8239;:</dt>
-							<dd class="active"><a href="javascript:void(0)" class="disabled">Date de publication</a></dd>
-							<dd><a href="javascript:void(0)" class="disabled">Popularit&eacute;</a></dd>
-							<dd><a href="javascript:void(0)" class="disabled">Rubrique</a></dd>
-							<dd><a href="javascript:void(0)" class="disabled">Type</a></dd>
-						</dl>
-						{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac }}
-							<a href="{{= $new_article}}" class="icon-article medium right" title="R&eacute;diger un article">R&eacute;diger un article</a>
-						{{?}}
+						<div class="right">
+							<a href="{{= $new_article}}" class="icon-article medium" title="R&eacute;diger un nouvel article" data-tooltip></a>
+							<label style="font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px; margin: 0 .25rem;">&Eacute;crire</label>
+						</div>
 					</div>
+					{{?}}
 					<ul class="no-bullet articles-list draft">
 						{{~ data.drafts :value }}
 							<li>{{# def.article:value }}</li>
