@@ -111,7 +111,7 @@ public class ArticleHelperImpl implements ArticleHelper {
             tags.add(tag.toTag());
         }
         article.setTags(tags);
-        article.update("category", "rubrique", "title", "body", "description", "publishedDate", "tags");
+        article.update("category", "rubrique", "title", "body", "description", "tags");
     }
 
     @Override

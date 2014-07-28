@@ -153,10 +153,9 @@ public class ArticleResources {
         // vérification que l'article est bien modifiable par l'utilisateur connecté
         Long idProfile = profileHelper.findIdProfile(token);
         // seul un article brouillon est modifiable
-        if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)
-                && id == articleDTO.getId()) {
+        if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)) {
             // vérifie que l'aticle a bien un titre qui n'existe pas déjà
-            if (!articleHelper.isTitleAlreadyTaken(articleDTO.getTitle(), articleDTO.getId())) {
+            if (!articleHelper.isTitleAlreadyTaken(articleDTO.getTitle(), id)) {
                 // update de l'article passé en param
                 articleHelper.updateFromDTO(article, articleDTO);
                 responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());

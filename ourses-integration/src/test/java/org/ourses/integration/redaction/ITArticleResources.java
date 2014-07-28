@@ -330,16 +330,6 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldNotUpdateDraftWithAnotherDraft() {
-        URI uri = UriBuilder.fromPath(PATH_DRAFT_UPDATE).build();
-        ArticleDTO updateArticle = updateArticle(2l, "shouldNotUpdateDraftWithAnotherDraft");
-        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
-                .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
-    }
-
-    @Test
     public void shouldNotUpdateDraftToOtherPeople() {
         URI uri = UriBuilder.fromPath(PATH_ANOTHER_DRAFT_UPDATE).build();
         ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateDraftToOtherPeople");
