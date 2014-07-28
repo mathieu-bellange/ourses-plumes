@@ -129,6 +129,10 @@ public class Profile {
         return Ebean.find(Profile.class).fetch("socialLinks").setId(id).findUnique();
     }
 
+    public static Profile findProfileWithSocialLinks(String pseudoBeautify) {
+        return Ebean.find(Profile.class).fetch("socialLinks").where().eq("pseudoBeautify", pseudoBeautify).findUnique();
+    }
+
     public static Profile findProfile(long id) {
         return Ebean.find(Profile.class, id);
     }

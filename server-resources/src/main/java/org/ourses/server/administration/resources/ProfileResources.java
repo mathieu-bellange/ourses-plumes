@@ -41,11 +41,18 @@ public class ProfileResources {
     @GET
     @Path("/{id}")
     public Response getProfile(@PathParam("id")
-    long id) {
-        Profile profile = Profile.findProfileWithSocialLinks(id);
+    String id) {
+        Profile profile = null;
+        // la recherche est possible soit par l'id long soit par le pseudoBeautify
+        try {
+            profile = Profile.findProfileWithSocialLinks(Long.parseLong(id));
+        }
+        catch (NumberFormatException nfe) {
+            profile = Profile.findProfileWithSocialLinks(id);
+        }
         ResponseBuilder builder;
         if (profile == null) {
-            builder = Response.serverError();
+            builder = Response.status(Status.NOT_FOUND);
         }
         else {
             builder = Response.ok().entity(profile.toProfileDTO());

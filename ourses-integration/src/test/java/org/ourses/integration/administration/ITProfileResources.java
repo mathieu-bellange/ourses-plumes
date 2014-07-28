@@ -21,9 +21,11 @@ public class ITProfileResources {
     private static final String PATH_GET_PROFILE = "/rest/profile/1";
     private static final String PATH_GET_UNKNOWN_PROFILE = "/rest/profile/666";
     private static final String PATH_PUT_PROFILE = "/rest/profile/1";
+    private static final String PATH_GET_PROFILE_PSEUDO = "/rest/profile/mbellange";
+    private static final String PATH_GET_UNKNOWN_PROFILE_PSEUDO = "/rest/profile/toto";
 
     @Test
-    public void shouldGetProfile() {
+    public void shouldGetProfileById() {
         URI uri = UriBuilder.fromPath(PATH_GET_PROFILE).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(200);
@@ -39,10 +41,33 @@ public class ITProfileResources {
     }
 
     @Test
-    public void shouldSendErrorWithUnknownProfile() {
+    public void shouldGetProfileByPseudoBeautify() {
+        URI uri = UriBuilder.fromPath(PATH_GET_PROFILE_PSEUDO).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ProfileDTO profileDTO = clientResponse.getEntity(ProfileDTO.class);
+        assertThat(profileDTO).isNotNull();
+        assertThat(profileDTO.getDescription()).isNotNull();
+        assertThat(profileDTO.getPseudo()).isNotNull();
+        assertThat(profileDTO.getPath()).isNotNull();
+        assertThat(profileDTO.getPseudoBeautify()).isNotNull();
+        assertThat(profileDTO.getSocialLinks()).isNotEmpty();
+        assertThat(profileDTO.getSocialLinks()).onProperty("network").isNotNull();
+        assertThat(profileDTO.getSocialLinks()).onProperty("socialUser").isNotNull();
+    }
+
+    @Test
+    public void shouldSendErrorWithUnknownProfileById() {
         URI uri = UriBuilder.fromPath(PATH_GET_UNKNOWN_PROFILE).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
-        assertThat(clientResponse.getStatus()).isEqualTo(500);
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    public void shouldSendErrorWithUnknownProfileByPseudo() {
+        URI uri = UriBuilder.fromPath(PATH_GET_UNKNOWN_PROFILE_PSEUDO).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     private Set<String> processSocialUsers(ProfileDTO profile) {
