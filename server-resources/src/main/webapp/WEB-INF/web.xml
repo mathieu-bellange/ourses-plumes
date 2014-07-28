@@ -84,7 +84,7 @@
 	<error-page>
 		<error-code>404</error-code>
 		<location>/error.html</location>
-	</error-page> -->
+	</error-page>
 
 	<welcome-file-list>
 		<welcome-file>/index.html</welcome-file>
