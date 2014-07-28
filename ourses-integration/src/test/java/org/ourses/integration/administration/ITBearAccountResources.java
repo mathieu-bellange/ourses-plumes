@@ -11,6 +11,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
@@ -190,6 +191,7 @@ public class ITBearAccountResources {
     /* Delete account */
 
     @Test
+    @Ignore
     public void shouldDeleteAccount() {
         URI uri = UriBuilder.fromPath(PATH_DELETE).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).delete(ClientResponse.class);

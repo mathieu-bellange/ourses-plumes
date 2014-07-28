@@ -32,6 +32,5 @@ public class ITTagResources {
         };
         Set<TagDTO> response = clientResource.header("Content-Type", "application/json").get(gt);
         assertThat(response).isNotEmpty();
-        assertThat(response.size()).isEqualTo(2);
     }
 }
