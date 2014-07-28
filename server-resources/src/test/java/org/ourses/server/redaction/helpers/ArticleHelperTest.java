@@ -32,6 +32,7 @@ public class ArticleHelperTest {
         // seul le title, body, description, publishedDate, tags, category et rubrique sont modifiable par l'utilisateur
         Article article = Mockito.mock(Article.class);
         ArticleDTO articleDTO = new ArticleDTO();
+        articleDTO.setTitle("Ceci est un test");
         RubriqueDTO rubriqueDTO = new RubriqueDTO(1l, "rubrique");
         CategoryDTO categoryDTO = new CategoryDTO(1l, "cat");
         TagDTO tagDTO = Mockito.mock(TagDTO.class);
@@ -46,6 +47,7 @@ public class ArticleHelperTest {
         verify(article, never()).setProfile(any(Profile.class));
         verify(article).setBody(articleDTO.getBody());
         verify(article).setTitle(articleDTO.getTitle());
+        verify(article).setTitleBeautify("ceci-est-un-test");
         verify(article).setDescription(articleDTO.getDescription());
         verify(article).setCategory(articleDTO.getCategory().toCategory());
         verify(article).setRubrique(articleDTO.getRubrique().toRubrique());

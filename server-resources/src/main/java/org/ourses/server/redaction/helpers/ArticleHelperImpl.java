@@ -93,6 +93,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     public void createDraft(Article article) {
         // place le status à brouillon
         article.setStatus(ArticleStatus.BROUILLON);
+        article.setTitleBeautify(beautifyTitle(article.getTitle()));
         article.save();
         // créer le path
         article.setPath(buildPath(article));
@@ -111,7 +112,8 @@ public class ArticleHelperImpl implements ArticleHelper {
             tags.add(tag.toTag());
         }
         article.setTags(tags);
-        article.update("category", "rubrique", "title", "body", "description", "tags");
+        article.setTitleBeautify(beautifyTitle(articleDTO.getTitle()));
+        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify");
     }
 
     @Override
@@ -121,25 +123,6 @@ public class ArticleHelperImpl implements ArticleHelper {
         // TODO création du path
         article.update("status");
         return article;
-    }
-
-    /**
-     * Construit un path url correct
-     * 
-     * @param title
-     * @return
-     */
-    protected String beautifyTitle(String title) {
-        StrBuilder path = new StrBuilder();
-        String[] tokens = title.split("\\W");
-        for (String token : tokens) {
-            if (!token.isEmpty()) {
-                path.appendSeparator(URL_SEPARATOR);
-                path.append(token);
-            }
-        }
-        return path.toString();
-
     }
 
     @Override
@@ -159,6 +142,25 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setStatus(ArticleStatus.BROUILLON);
         article.update("status");
         return article;
+    }
+
+    /**
+     * Construit un titre allégé de tous ses caractères spéciaux
+     * 
+     * @param title
+     * @return
+     */
+    protected String beautifyTitle(String title) {
+        StrBuilder path = new StrBuilder();
+        String[] tokens = title.split("\\W");
+        for (String token : tokens) {
+            if (!token.isEmpty()) {
+                path.appendSeparator(URL_SEPARATOR);
+                path.append(token.toLowerCase());
+            }
+        }
+        return path.toString();
+
     }
 
     @Override
@@ -186,7 +188,7 @@ public class ArticleHelperImpl implements ArticleHelper {
 
     @Override
     public boolean isTitleAlreadyTaken(String title, Long id) {
-        return Article.articleWithSameTitle(title, id) > 0;
+        return Article.articleWithSameTitleBeautify(beautifyTitle(title), id) > 0;
     }
 
 }

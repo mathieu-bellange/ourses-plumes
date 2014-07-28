@@ -262,6 +262,7 @@ public class ITArticleResources {
         assertThat(article.getProfile().getPseudo()).isEqualTo("jpetit");
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.BROUILLON);
         assertThat(article.getPath()).isEqualTo("/articles/" + article.getId());
+        assertThat(article.getTitleBeautify()).isEqualTo("shouldcreatearticlewithredacrole");
     }
 
     @Test
@@ -317,6 +318,7 @@ public class ITArticleResources {
         assertThat(article.getRubrique()).isEqualTo(updateArticle.getRubrique());
         assertThat(article.getProfile().getPseudo()).isEqualTo("jpetit");
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.BROUILLON);
+        assertThat(article.getTitleBeautify()).isEqualTo("titre-1");
     }
 
     @Test

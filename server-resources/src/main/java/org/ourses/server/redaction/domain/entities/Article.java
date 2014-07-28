@@ -196,8 +196,8 @@ public class Article implements Serializable {
                 .eq("rubrique.path", rubrique).eq("titleBeautify", titleBeautify).findUnique();
     }
 
-    public static int articleWithSameTitle(String title, Long id) {
-        ExpressionList<Article> query = Ebean.find(Article.class).where().eq("title", title);
+    public static int articleWithSameTitleBeautify(String titleBeautify, Long id) {
+        ExpressionList<Article> query = Ebean.find(Article.class).where().eq("titleBeautify", titleBeautify);
         if (id != null) {
             query.ne("id", id);
         }
