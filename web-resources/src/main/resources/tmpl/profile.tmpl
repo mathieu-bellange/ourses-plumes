@@ -1,34 +1,40 @@
 ﻿				<!--User Profile-->
-				<section id="user-profile" class="hide">
+				<section id="user-profile">
 					<div class="row panel radius user-profile">
 						<div class="column small-12 medium-5 large-4 text-center">
-							<span class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</span>
-							<blockquote class="text-justify"><span class="text-silver">[140 chars]</span> &ldquo;&#8239;The media is an important weapon for an activist in today&rsquo;s Russia, [&hellip;] It&rsquo;s a wonderful example of how the civil society can be put to work.&#8239;&rdquo;</blockquote>
-							<ul class="inline-list">
+
+							<!--User picture-->
+							<span class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">{{= data.pseudo}}</span>
+
+						</div>
+
+						<div class="column small-12 medium-7 large-8">
+
+							<div class="clearfix" style="position: relative;">
+								<!--Pseudo-->
+								<h3>{{= data.pseudo}}</h3>
+								<!--Role-->
+								<div class="clearfix" style="line-height: 2rem;">
+									<h4 class="left">R&eacute;dactrice</h4>
+								</div>
+							</div>
+
+							<!--User links-->
+							<ul id="user_links_icons" class="inline-list block">
+								<li><a href="javascript:void(0)" class="icon-mail medium has-tip tip-top radius" title="adresse email">Mail</a></li>
+								<li><a href="javascript:void(0)" class="icon-link medium has-tip tip-top radius" title="page perso">Link</a></li>
 								<li><a href="javascript:void(0)" class="icon-twitter medium has-tip tip-top radius" title="Voir le profil Twitter" data-tooltip>Twitter</a></li>
 								<li><a href="javascript:void(0)" class="icon-facebook medium has-tip tip-top radius" title="Voir la page Facebook" data-tooltip>Facebook</a></li>
 								<li><a href="javascript:void(0)" class="icon-googleplus medium has-tip tip-top radius" title="Consulter le compte Google+" data-tooltip>Google+</a></li>
 								<li><a href="javascript:void(0)" class="icon-linkedin medium has-tip tip-top radius" title="Consulter le compte LinkedIn" data-tooltip>LinkedIn</a></li>
 							</ul>
-						</div>
-						<div class="column small-12 medium-7 large-8">
-							<h3>Nadejda <small>Tolokonnikova</small></h3>
-							<div class="clearfix" style="line-height: 2rem;">
-								<h4 class="left">R&eacute;dactrice</h4>
-								<time datetime="2014-07-23" class="right text-steel"><small>Depuis le 23 juillet 2014</small></time>
-							</div>
-							<p class="collapse"><span class="text-silver">[1000 chars]</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique lorem porttitor orci posuere, at suscipit quam aliquam. Vestibulum tincidunt tellus non dignissim interdum. Nam in libero viverra, elementum orci eget, tincidunt nulla. Phasellus sit amet feugiat magna, non lobortis purus. Nullam dictum est urna, sit amet dictu m nisl adipiscing at. Sed vitae magna nisi.</p>
-							<p class="collapse">Interdum et malesuada fames ac ante ipsum primis in faucibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In hac habitasse platea dictumst. Curabitur semper ullamcorper rhoncus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam vel dolor non mi convallis volutpat eu eget libero.</p>
-							<p>Vestibulum vestibulum faucibus ante, nec tincidunt lorem vulputate in. Integer vel nisl mauris. Donec a ante id orci tincidunt egestas eu ac ipsum. Donec volutpat, velit vel suscipit viverra, nisl velit pharetra elit, eu accumsan purus leo eu tortor. Phasellus suscipit sed.</p>
-							<hr>
-							<ul class="no-bullet">
-								<li><span class="icon-mail small"></span><a href="javascript:void(0)">nadejda.tolokonnikova@volga-telecom.ru</a></li>
-								<li><span class="icon-home small"></span><a href="javascript:void(0)">http://pussy-riot.nadejda-tolokonnikova.ru</a></li>
-								<li><span class="icon-link small"></span><a href="javascript:void(0)">http://nadejda-tolokonnikova.canalblog.com</a></li>
-							</ul>
+							<p>
+								{{= data.description}}
+							</p>
 						</div>
 					</div>
 				</section>
+				
 				<hr class="hide">
 				<!--Profil Ourse Printanière-->
 				<section id="user-ourse-printaniere" class="hide">
