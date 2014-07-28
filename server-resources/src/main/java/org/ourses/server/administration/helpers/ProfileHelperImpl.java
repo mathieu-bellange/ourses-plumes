@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.text.StrBuilder;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
@@ -28,6 +29,8 @@ public class ProfileHelperImpl implements ProfileHelper {
 
     @Autowired
     private SecurityHelper securityHelper;
+
+    private final String URL_SEPARATOR = "-";
 
     @Override
     public boolean updateProfileProperty(Profile profile, CoupleDTO coupleDTO) {
@@ -74,6 +77,9 @@ public class ProfileHelperImpl implements ProfileHelper {
                         if (!oldValue.equals(newValue)) {
                             property.getWriteMethod().invoke(profile, newValue);
                             updated = true;
+                            if (property.getName().equals("pseudo")) {
+                                buildProfilePath(profile);
+                            }
                         }
                     }
                 }
@@ -117,4 +123,25 @@ public class ProfileHelperImpl implements ProfileHelper {
         return idProfile;
     }
 
+    @Override
+    public void buildProfilePath(Profile profile) {
+        profile.setPseudoBeautify(beautifyPseudo(profile.getPseudo()));
+        StringBuilder pathBuilder = new StringBuilder("/profils");
+        pathBuilder.append("/");
+        pathBuilder.append(profile.getPseudoBeautify());
+        profile.setPath(pathBuilder.toString());
+    }
+
+    protected String beautifyPseudo(String pseudo) {
+        StrBuilder path = new StrBuilder();
+        String[] tokens = pseudo.split("\\W");
+        for (String token : tokens) {
+            if (!token.isEmpty()) {
+                path.appendSeparator(URL_SEPARATOR);
+                path.append(token.toLowerCase());
+            }
+        }
+        return path.toString();
+
+    }
 }

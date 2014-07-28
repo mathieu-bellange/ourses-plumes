@@ -79,11 +79,13 @@ public class ProfileResources {
                     if (profileHelper.updateProfileProperty(profile, coupleDTO)) {
                         // maj des liens sociaux
                         if (SocialLinkUtil.NETWORK.contains(coupleDTO.getProperty())) {
-                            System.out.println(profile.toString());
                             profile.updateProfileProperty("socialLink");
-                            System.out.println(profile.toString());
                         }
                         // maj d'une propriété du profil
+                        else if (coupleDTO.getProperty().equals(Profile.PSEUDO)) {
+                            profile.updateProfileProperty(coupleDTO.getProperty(), Profile.PATH,
+                                    Profile.PSEUDO_BEAUTIFY);
+                        }
                         else {
                             profile.updateProfileProperty(coupleDTO.getProperty());
                         }

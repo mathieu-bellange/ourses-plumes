@@ -11,4 +11,6 @@ public interface ProfileHelper {
 
     Long findIdProfile(String token);
 
+    void buildProfilePath(Profile profile);
+
 }

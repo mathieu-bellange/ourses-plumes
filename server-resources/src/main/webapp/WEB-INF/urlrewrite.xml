@@ -35,6 +35,12 @@
 		<from>^/parametres/profil$</from>
 		<to>/updateProfile.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers la page d'un profil</note>
+		<from>^/profils/(.*)$</from>
+		<to>/profile.html</to>
+	</rule>
 
 	<rule>
 		<note>redirection vers la page des listes de comptes</note>

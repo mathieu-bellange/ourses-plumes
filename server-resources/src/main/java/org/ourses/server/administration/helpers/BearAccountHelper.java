@@ -2,6 +2,11 @@ package org.ourses.server.administration.helpers;
 
 import java.util.Set;
 
+import org.ourses.server.administration.domain.entities.BearAccount;
+import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullException;
+import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
+import org.ourses.server.administration.domain.exception.AccountProfileNullException;
+
 /**
  * Interface du DAO gérant les comptes
  * 
@@ -25,5 +30,8 @@ public interface BearAccountHelper {
     boolean isPasswordValid(String password);
 
     boolean isMailValid(String mail);
+
+    BearAccount create(BearAccount account) throws AccountProfileNullException, AccountAuthcInfoNullException,
+            AccountAuthzInfoNullException;
 
 }

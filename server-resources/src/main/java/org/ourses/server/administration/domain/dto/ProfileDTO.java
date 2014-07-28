@@ -16,6 +16,8 @@ public class ProfileDTO {
 
     private String description;
     private String pseudo;
+    private String path;
+    private String pseudoBeautify;
     private Integer version;
     private Set<SocialLinkDTO> socialLinks = Sets.newHashSet();
 
@@ -45,6 +47,24 @@ public class ProfileDTO {
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
+    }
+
+    @JsonProperty("path")
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    @JsonProperty("pseudoBeautify")
+    public String getPseudoBeautify() {
+        return pseudoBeautify;
+    }
+
+    public void setPseudoBeautify(String pseudoBeautify) {
+        this.pseudoBeautify = pseudoBeautify;
     }
 
     public void setVersion(Integer version) {

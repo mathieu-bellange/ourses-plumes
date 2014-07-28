@@ -28,12 +28,16 @@ import com.google.common.collect.Sets;
 public class Profile {
 
     public static final String PSEUDO = "pseudo";
+    public static final String PATH = "path";
+    public static final String PSEUDO_BEAUTIFY = "pseudoBeautify";
     @Id
     @GeneratedValue
     private Long id;
     private String pseudo;
-
     private String description;
+    private String path;
+    private String pseudoBeautify;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
     private Set<SocialLink> socialLinks;
@@ -90,6 +94,22 @@ public class Profile {
         this.socialLinks = socialLinks;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getPseudoBeautify() {
+        return pseudoBeautify;
+    }
+
+    public void setPseudoBeautify(String pseudoBeautify) {
+        this.pseudoBeautify = pseudoBeautify;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
     public ProfileDTO toProfileDTO() {
         ProfileDTO profile = new ProfileDTO();
         BeanUtils.copyProperties(this, profile, new String[] { "socialLinks" });
@@ -117,8 +137,8 @@ public class Profile {
         return Ebean.find(Profile.class).where().eq("pseudo", pseudo).findRowCount();
     }
 
-    public void updateProfileProperty(String propertyToUpdate) {
-        Ebean.update(this, Sets.newHashSet(propertyToUpdate));
+    public void updateProfileProperty(String... propertiesToUpdate) {
+        Ebean.update(this, Sets.newHashSet(propertiesToUpdate));
     }
 
     @Override

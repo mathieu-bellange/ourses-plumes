@@ -13,7 +13,7 @@ import com.google.common.collect.Sets;
 
 public class ProfileHelperTest {
 
-    private final ProfileHelper helper = new ProfileHelperImpl();
+    private final ProfileHelperImpl helper = new ProfileHelperImpl();
 
     @Test
     public void shouldUpdatePseudoProperty() {
@@ -115,4 +115,18 @@ public class ProfileHelperTest {
         assertThat(profile.getId()).isEqualTo(1l);
         assertThat(profile.getSocialLinks()).isEmpty();
     }
+
+    @Test
+    public void shouldBeautifyPseudo() {
+        assertThat(helper.beautifyPseudo("what a fucking pseudo ? YEAH!")).isEqualTo("what-a-fucking-pseudo-yeah");
+    }
+
+    @Test
+    public void shouldBuildPath() {
+        Profile profile = new Profile();
+        profile.setPseudo("Mon pseudo de ouf !");
+        helper.buildProfilePath(profile);
+        assertThat(profile.getPath()).isEqualTo("/profils/mon-pseudo-de-ouf");
+    }
+
 }

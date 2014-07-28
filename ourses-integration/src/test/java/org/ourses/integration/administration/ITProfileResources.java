@@ -31,6 +31,8 @@ public class ITProfileResources {
         assertThat(profileDTO).isNotNull();
         assertThat(profileDTO.getDescription()).isNotNull();
         assertThat(profileDTO.getPseudo()).isNotNull();
+        assertThat(profileDTO.getPath()).isNotNull();
+        assertThat(profileDTO.getPseudoBeautify()).isNotNull();
         assertThat(profileDTO.getSocialLinks()).isNotEmpty();
         assertThat(profileDTO.getSocialLinks()).onProperty("network").isNotNull();
         assertThat(profileDTO.getSocialLinks()).onProperty("socialUser").isNotNull();
@@ -78,6 +80,8 @@ public class ITProfileResources {
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         ProfileDTO profileDTOAfterUpdate = clientResponse.getEntity(ProfileDTO.class);
         assertThat(profileDTOAfterUpdate.getPseudo()).isEqualTo("monPseudo");
+        assertThat(profileDTOAfterUpdate.getPath()).isEqualTo("/profils/monpseudo");
+        assertThat(profileDTOAfterUpdate.getPseudoBeautify()).isEqualTo("monpseudo");
         assertThat(profileDTOAfterUpdate.getDescription()).isEqualTo(profileBeforeUpdate.getDescription());
         // social links n'ont pas changés
         assertThat(profileDTOAfterUpdate.getSocialLinks()).onProperty("network").containsOnly(
@@ -132,6 +136,8 @@ public class ITProfileResources {
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         ProfileDTO profileDTOAfterUpdate = clientResponse.getEntity(ProfileDTO.class);
         assertThat(profileDTOAfterUpdate.getPseudo()).isEqualTo(profileBeforeUpdate.getPseudo());
+        assertThat(profileDTOAfterUpdate.getPath()).isEqualTo(profileBeforeUpdate.getPath());
+        assertThat(profileDTOAfterUpdate.getPseudoBeautify()).isEqualTo(profileBeforeUpdate.getPseudoBeautify());
         assertThat(profileDTOAfterUpdate.getDescription()).isEqualTo("maDescription");
         // social links n'ont pas changés
         assertThat(profileDTOAfterUpdate.getSocialLinks()).onProperty("network").containsOnly(
@@ -161,6 +167,8 @@ public class ITProfileResources {
         ProfileDTO profileDTOAfterUpdate = clientResponse.getEntity(ProfileDTO.class);
         // les properties du profil n'ont pas changés
         assertThat(profileDTOAfterUpdate.getPseudo()).isEqualTo(profileBeforeUpdate.getPseudo());
+        assertThat(profileDTOAfterUpdate.getPath()).isEqualTo(profileBeforeUpdate.getPath());
+        assertThat(profileDTOAfterUpdate.getPseudoBeautify()).isEqualTo(profileBeforeUpdate.getPseudoBeautify());
         assertThat(profileDTOAfterUpdate.getDescription()).isEqualTo(profileBeforeUpdate.getDescription());
         // un nouveau link
         assertThat(profileDTOAfterUpdate.getSocialLinks().size()).isEqualTo(
@@ -192,6 +200,8 @@ public class ITProfileResources {
         ProfileDTO profileDTOAfterUpdate = clientResponse.getEntity(ProfileDTO.class);
         // les properties du profil n'ont pas changés
         assertThat(profileDTOAfterUpdate.getPseudo()).isEqualTo(profileBeforeUpdate.getPseudo());
+        assertThat(profileDTOAfterUpdate.getPath()).isEqualTo(profileBeforeUpdate.getPath());
+        assertThat(profileDTOAfterUpdate.getPseudoBeautify()).isEqualTo(profileBeforeUpdate.getPseudoBeautify());
         assertThat(profileDTOAfterUpdate.getDescription()).isEqualTo(profileBeforeUpdate.getDescription());
         // le nombre de link est inchangé
         assertThat(profileDTOAfterUpdate.getSocialLinks().size())
@@ -224,6 +234,8 @@ public class ITProfileResources {
         ProfileDTO profileDTOAfterUpdate = clientResponse.getEntity(ProfileDTO.class);
         // les properties du profil n'ont pas changés
         assertThat(profileDTOAfterUpdate.getPseudo()).isEqualTo(profileBeforeUpdate.getPseudo());
+        assertThat(profileDTOAfterUpdate.getPath()).isEqualTo(profileBeforeUpdate.getPath());
+        assertThat(profileDTOAfterUpdate.getPseudoBeautify()).isEqualTo(profileBeforeUpdate.getPseudoBeautify());
         assertThat(profileDTOAfterUpdate.getDescription()).isEqualTo(profileBeforeUpdate.getDescription());
         // le nombre de link est réduit de 1
         assertThat(profileDTOAfterUpdate.getSocialLinks().size()).isEqualTo(

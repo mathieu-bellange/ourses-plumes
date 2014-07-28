@@ -21,13 +21,11 @@ import org.ourses.server.administration.domain.dto.BearAccountDTO;
 import org.ourses.server.administration.domain.dto.MergeBearAccountDTO;
 import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
-import org.ourses.server.administration.domain.entities.OursesAuthorizationInfo;
 import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
 import org.ourses.server.administration.helpers.BearAccountHelper;
 import org.ourses.server.security.helpers.SecurityHelper;
-import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -61,10 +59,7 @@ public class BearAccountResources {
                     && helper.isPseudoValid(pseudo) && helper.isNewPseudo(pseudo)
                     && helper.isPasswordValid(bearAccountDTO.getPassword())) {
                 // on créé par défaut un compte en rédactrice
-                BearAccount account = bearAccountDTO.toBearAccount();
-                account.setCredentials(securityHelper.encryptedPassword((String) account.getCredentials()));
-                account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
-                account.save();
+                BearAccount account = helper.create(bearAccountDTO.toBearAccount());
                 responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
             }
             else {
