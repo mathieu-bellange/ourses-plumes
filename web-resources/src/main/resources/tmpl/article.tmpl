@@ -3,7 +3,7 @@
 					<article class="article">
 						<header class="topic">
 							<h2 class="title">{{= data.title}}</h2>
-							<h4 class="author"><span title="Auteure" class="icon-author medium">Par </span><a href="profile.html#user-ourse-du-cheshire" rel="author">{{=data.profile.pseudo}}</a></h4>
+							<h4 class="author"><span title="Auteure" class="icon-author medium">Par </span><a href="{{=data.profile.path}}" rel="author">{{=data.profile.pseudo}}</a></h4>
 							<time pubdate="{{= getDateTime(new Date(data.publishedDate))}}" class="date">{{= dateToString(new Date(data.publishedDate))}}</time><span class="right icon-date small" title="Date de publication">Publi&eacute; le </span>
 							<p class="summary">{{= data.description}}</p>
 							<dl class="tags inline-list clearfix">
@@ -22,7 +22,7 @@
 									<figcaption>Joueuses de World of Tank, 27 ao&ucirc;t 2011</figcaption>
 								</figure>
 								{{= data.body}}
-								<p class="author text-right">Par <a href="javascript:void(0)" rel="author">{{=data.profile.pseudo}}</a></p>
+								<p class="author text-right">Par <a href="{{=data.profile.path}}" rel="author">{{=data.profile.pseudo}}</a></p>
 							</div>
 						</div>
 					</article>
