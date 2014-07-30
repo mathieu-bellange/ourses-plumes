@@ -113,14 +113,12 @@ public class Profile {
     public ProfileDTO toProfileDTO() {
         ProfileDTO profile = new ProfileDTO();
         BeanUtils.copyProperties(this, profile, new String[] { "socialLinks" });
-        Set<SocialLinkDTO> links = Sets.newHashSet();
         if (socialLinks != null) {
             for (SocialLink link : socialLinks) {
                 SocialLinkDTO linkDTO = new SocialLinkDTO();
                 BeanUtils.copyProperties(link, linkDTO);
-                links.add(linkDTO);
+                profile.getSocialLinks().add(linkDTO);
             }
-            profile.setSocialLinks(links);
         }
         return profile;
     }

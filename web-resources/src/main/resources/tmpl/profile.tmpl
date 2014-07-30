@@ -21,12 +21,9 @@
 
 							<!--User links-->
 							<ul id="user_links_icons" class="inline-list block">
-								<li><a href="javascript:void(0)" class="icon-mail medium has-tip tip-top radius" title="adresse email">Mail</a></li>
-								<li><a href="javascript:void(0)" class="icon-link medium has-tip tip-top radius" title="page perso">Link</a></li>
-								<li><a href="javascript:void(0)" class="icon-twitter medium has-tip tip-top radius" title="Voir le profil Twitter" data-tooltip>Twitter</a></li>
-								<li><a href="javascript:void(0)" class="icon-facebook medium has-tip tip-top radius" title="Voir la page Facebook" data-tooltip>Facebook</a></li>
-								<li><a href="javascript:void(0)" class="icon-googleplus medium has-tip tip-top radius" title="Consulter le compte Google+" data-tooltip>Google+</a></li>
-								<li><a href="javascript:void(0)" class="icon-linkedin medium has-tip tip-top radius" title="Consulter le compte LinkedIn" data-tooltip>LinkedIn</a></li>
+								{{~ data.socialLinks :socialLink}}
+									<li><a href="{{= socialLink.path}}" class="icon-{{= socialLink.network}} medium has-tip tip-top radius" title="{{= socialLink.description}}" data-tooltip>{{= socialLink.network}}</a></li>
+								{{~}}
 							</ul>
 							<p>
 								{{= data.description}}

@@ -13,4 +13,6 @@ public interface ProfileHelper {
 
     void buildProfilePath(Profile profile);
 
+    Profile findPublicProfile(String id);
+
 }

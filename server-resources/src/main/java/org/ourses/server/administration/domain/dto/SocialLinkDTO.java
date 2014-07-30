@@ -14,6 +14,10 @@ public class SocialLinkDTO {
     private String network;
     @JsonProperty("socialUser")
     private String socialUser;
+    @JsonProperty("path")
+    private String path;
+    @JsonProperty("description")
+    private String description;
 
     public SocialLinkDTO() {
     }
@@ -37,6 +41,22 @@ public class SocialLinkDTO {
 
     public void setSocialUser(String socialUser) {
         this.socialUser = socialUser;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public SocialLink toSocialLink() {

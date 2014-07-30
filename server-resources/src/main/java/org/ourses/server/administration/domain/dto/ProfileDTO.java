@@ -1,12 +1,13 @@
 package org.ourses.server.administration.domain.dto;
 
-import java.util.Set;
+import java.util.SortedSet;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.ourses.server.administration.domain.entities.Profile;
+import org.ourses.server.administration.util.SocialLinkUtil;
 import org.springframework.beans.BeanUtils;
 
 import com.google.common.collect.Sets;
@@ -19,7 +20,7 @@ public class ProfileDTO {
     private String path;
     private String pseudoBeautify;
     private Integer version;
-    private Set<SocialLinkDTO> socialLinks = Sets.newHashSet();
+    private SortedSet<SocialLinkDTO> socialLinks = Sets.newTreeSet(SocialLinkUtil.NETWORK_COMPARATOR);
 
     public ProfileDTO() {
 
@@ -76,11 +77,11 @@ public class ProfileDTO {
         return version;
     }
 
-    public Set<SocialLinkDTO> getSocialLinks() {
+    public SortedSet<SocialLinkDTO> getSocialLinks() {
         return socialLinks;
     }
 
-    public void setSocialLinks(Set<SocialLinkDTO> socialLinks) {
+    public void setSocialLinks(SortedSet<SocialLinkDTO> socialLinks) {
         this.socialLinks = socialLinks;
     }
 

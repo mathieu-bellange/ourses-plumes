@@ -13,8 +13,8 @@ public class ProfileTest {
     public void shouldCopyProfileIntoProfileDTO() {
         // prepare
         Profile profile = new Profile(1l, "pseudo", "desc");
-        SocialLink link1 = new SocialLink(1l, "network1", "social_user1");
-        SocialLink link2 = new SocialLink(2l, "network2", "social_user2");
+        SocialLink link1 = new SocialLink(1l, "twitter", "social_user1");
+        SocialLink link2 = new SocialLink(2l, "facebook", "social_user2");
         profile.setSocialLinks(Sets.newHashSet(link1, link2));
         // verify
         ProfileDTO profileDTO = profile.toProfileDTO();

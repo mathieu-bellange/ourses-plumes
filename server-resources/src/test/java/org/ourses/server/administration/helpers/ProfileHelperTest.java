@@ -122,11 +122,10 @@ public class ProfileHelperTest {
     }
 
     @Test
-    public void shouldBuildPath() {
+    public void shouldBuildPathPseudo() {
         Profile profile = new Profile();
         profile.setPseudo("Mon pseudo de ouf !");
         helper.buildProfilePath(profile);
         assertThat(profile.getPath()).isEqualTo("/profils/mon-pseudo-de-ouf");
     }
-
 }

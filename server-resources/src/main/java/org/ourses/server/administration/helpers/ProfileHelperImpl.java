@@ -92,6 +92,25 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
+    public Profile findPublicProfile(String id) {
+        Profile profile = null;
+        // la recherche est possible soit par l'id long soit par le pseudoBeautify
+        try {
+            profile = Profile.findProfileWithSocialLinks(Long.parseLong(id));
+        }
+        catch (NumberFormatException nfe) {
+            profile = Profile.findProfileWithSocialLinks(id);
+        }
+        if (profile != null) {
+            for (SocialLink link : profile.getSocialLinks()) {
+                SocialLinkUtil.buildDescription(link);
+                SocialLinkUtil.buildPath(link);
+            }
+        }
+        return profile;
+    }
+
+    @Override
     public Profile findProfileByAuthcToken(String token) {
         Profile profile = null;
         // test si la requête est authentifié
@@ -144,4 +163,5 @@ public class ProfileHelperImpl implements ProfileHelper {
         return path.toString();
 
     }
+
 }

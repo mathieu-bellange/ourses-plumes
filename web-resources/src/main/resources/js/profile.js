@@ -13,13 +13,23 @@ function processProfile(profile){
 	loap.update();
 }
 
+function sortSocialLinks(links){
+	links.sort(function(a, b) {
+	    if (a.name > b.name)
+	      return 1;
+	    if (a.name < b.name)
+	      return -1;
+	    // a doit être égale à b
+	    return 0;
+	});
+}
+
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
 function displayProfile(){
 	var path = window.location.pathname.replace("/profils","");
-	alert(path);
 	$.ajax({
 		type : "GET",
 		url : "/rest/profile" +  path,

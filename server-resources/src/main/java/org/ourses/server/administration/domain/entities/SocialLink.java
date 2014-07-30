@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -25,6 +26,10 @@ public class SocialLink {
     private String network;
     @Column(name = "social_user")
     private String socialUser;
+    @Transient
+    private String path;
+    @Transient
+    private String description;
     @ManyToOne
     @Column(name = "profile_id")
     private Profile profile;
@@ -61,6 +66,22 @@ public class SocialLink {
 
     public void setSocialUser(String socialUser) {
         this.socialUser = socialUser;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Profile getProfile() {

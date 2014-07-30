@@ -38,6 +38,8 @@ public class ITProfileResources {
         assertThat(profileDTO.getSocialLinks()).isNotEmpty();
         assertThat(profileDTO.getSocialLinks()).onProperty("network").isNotNull();
         assertThat(profileDTO.getSocialLinks()).onProperty("socialUser").isNotNull();
+        assertThat(profileDTO.getSocialLinks()).onProperty("path").isNotNull();
+        assertThat(profileDTO.getSocialLinks()).onProperty("description").isNotNull();
     }
 
     @Test
@@ -54,6 +56,8 @@ public class ITProfileResources {
         assertThat(profileDTO.getSocialLinks()).isNotEmpty();
         assertThat(profileDTO.getSocialLinks()).onProperty("network").isNotNull();
         assertThat(profileDTO.getSocialLinks()).onProperty("socialUser").isNotNull();
+        assertThat(profileDTO.getSocialLinks()).onProperty("path").isNotNull();
+        assertThat(profileDTO.getSocialLinks()).onProperty("description").isNotNull();
     }
 
     @Test
