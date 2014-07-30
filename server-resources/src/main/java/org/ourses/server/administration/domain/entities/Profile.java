@@ -143,6 +143,11 @@ public class Profile {
         Ebean.update(this, Sets.newHashSet(propertiesToUpdate));
     }
 
+    public static Profile findProfileWithAuthz(String pseudoBeautify) {
+        return Ebean.find(Profile.class).fetch("account.authzInfo").where().eq("pseudoBeautify", pseudoBeautify)
+                .findUnique();
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);

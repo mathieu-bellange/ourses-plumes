@@ -12,6 +12,7 @@ import org.ourses.integration.util.TestHelper;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.dto.SocialLinkDTO;
+import org.ourses.server.security.util.RolesUtil;
 
 import com.google.common.collect.Sets;
 import com.sun.jersey.api.client.ClientResponse;
@@ -23,6 +24,24 @@ public class ITProfileResources {
     private static final String PATH_PUT_PROFILE = "/rest/profile/1";
     private static final String PATH_GET_PROFILE_PSEUDO = "/rest/profile/mbellange";
     private static final String PATH_GET_UNKNOWN_PROFILE_PSEUDO = "/rest/profile/toto";
+    private static final String PATH_GET_PROFILE_ROLE = "/rest/profile/mbellange/authz";
+    private static final String PATH_GET_NOT_FOUND_ROLE = "/rest/profile/toto/authz";
+
+    @Test
+    public void shouldGetRoleProfile() {
+        URI uri = UriBuilder.fromPath(PATH_GET_PROFILE_ROLE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        String role = clientResponse.getEntity(String.class);
+        assertThat(role).isEqualTo(RolesUtil.ADMINISTRATRICE);
+    }
+
+    @Test
+    public void shouldNotFoundRoleProfile() {
+        URI uri = UriBuilder.fromPath(PATH_GET_NOT_FOUND_ROLE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
+    }
 
     @Test
     public void shouldGetProfileById() {

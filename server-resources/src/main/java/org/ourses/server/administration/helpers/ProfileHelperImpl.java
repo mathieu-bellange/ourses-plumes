@@ -143,6 +143,16 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
+    public String findProfileRole(String pseudoBeautify) {
+        BearAccount account = BearAccount.findAccountByPseudo(pseudoBeautify);
+        String role = null;
+        if (account != null) {
+            role = account.getAuthzInfo().getMainRole();
+        }
+        return role;
+    }
+
+    @Override
     public void buildProfilePath(Profile profile) {
         profile.setPseudoBeautify(beautifyPseudo(profile.getPseudo()));
         StringBuilder pathBuilder = new StringBuilder("/profils");

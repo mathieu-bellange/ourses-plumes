@@ -1,6 +1,6 @@
 package org.ourses.server.administration.domain.dto;
 
-import java.util.SortedSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -20,7 +20,7 @@ public class ProfileDTO {
     private String path;
     private String pseudoBeautify;
     private Integer version;
-    private SortedSet<SocialLinkDTO> socialLinks = Sets.newTreeSet(SocialLinkUtil.NETWORK_COMPARATOR);
+    private Set<SocialLinkDTO> socialLinks = Sets.newTreeSet(SocialLinkUtil.NETWORK_COMPARATOR);
 
     public ProfileDTO() {
 
@@ -77,11 +77,11 @@ public class ProfileDTO {
         return version;
     }
 
-    public SortedSet<SocialLinkDTO> getSocialLinks() {
+    public Set<SocialLinkDTO> getSocialLinks() {
         return socialLinks;
     }
 
-    public void setSocialLinks(SortedSet<SocialLinkDTO> socialLinks) {
+    public void setSocialLinks(Set<SocialLinkDTO> socialLinks) {
         this.socialLinks = socialLinks;
     }
 

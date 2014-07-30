@@ -39,6 +39,21 @@ public class ProfileResources {
     private ProfileHelper profileHelper;
 
     @GET
+    @Path("/{pseudo}/authz")
+    public Response getProfileRole(@PathParam("pseudo")
+    String pseudoBeautify) {
+        String role = profileHelper.findProfileRole(pseudoBeautify);
+        ResponseBuilder builder;
+        if (role == null) {
+            builder = Response.status(Status.NOT_FOUND);
+        }
+        else {
+            builder = Response.ok().entity(role);
+        }
+        return builder.build();
+    }
+
+    @GET
     @Path("/{id}")
     public Response getProfile(@PathParam("id")
     String id) {
