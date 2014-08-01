@@ -49,8 +49,14 @@ function processArticles(articles){
 	var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
 	$("main > header").after(articles_tmpl(articles));
 	$(document).foundation(); // reload all Foundation plugins
+	// Events
+	$("html").on("mouseenter", ".href-block", function() {
+		$(this).find(".validate").show();
+	});
+	$("html").on("mouseleave", ".href-block", function() {
+		$(this).find(".validate").hide();
+	});
 }
-// AJAX stuff goes here
 
 /* ------------------------------------------------------------------ */
 /* # Events */

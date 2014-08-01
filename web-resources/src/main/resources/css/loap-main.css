@@ -71,10 +71,13 @@ a.ourbody:hover, a.ourbody:focus, .ourbody > a:hover, .ourbody > a:focus {color:
 /* # Font Size */
 /* ------------------------------------------------------------------ */
 
+.text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
+
 .text-tiny {font-size: 66%;}
 .text-small {font-size: 75%;}
 .text-medium {font-size: 100%;}
 .text-large {font-size: 133%;}
+.text-huge {font-size: 175%;}
 
 /* ------------------------------------------------------------------ */
 /* # Basics */
@@ -1814,6 +1817,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   margin-bottom: 1rem;
   font-family: "Oswald", sans-serif;
   font-size: 175%;
+  font-size: 150%; /* Reduce font-size */
   line-height: 150%;
   text-align: center;
   color: gray;
@@ -1821,6 +1825,16 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   border-left: 0;
   border-right: 0;
 }
+.article .callout:before {
+  content : "“"; /* Add left double quote */
+  margin-right: .5rem;
+}
+.article .callout:after{
+  content : "”"; /* Add right double quote */
+  margin-left: .5rem;
+}
+/* OLD UNUSED*/
+/*
 .article .callout.red {color: #c33; border-color: #c33;}
 .article .callout.orange {color: #f63; border-color: #f63;}
 .article .callout.yellow {color: #ca0; border-color: #ca0;}
@@ -1829,6 +1843,25 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .article .callout.blue {color: #36c; border-color: #36c;}
 .article .callout.purple {color: #93c; border-color: #93c;}
 .article .callout.magenta {color: #e2a; border-color: #e2a;}
+*/
+
+/* Standard Article Callout Rubrics Colors */
+.article.red .callout {color: #c33; border-color: #c33;}
+.article.orange .callout {color: #f63; border-color: #f63;}
+.article.yellow .callout {color: #ca0; border-color: #ca0;}
+.article.green .callout {color: #393; border-color: #393;}
+.article.cyan .callout {color: #399; border-color: #399;}
+.article.blue .callout {color: #36c; border-color: #36c;}
+.article.purple .callout {color: #93c; border-color: #93c;}
+.article.magenta .callout {color: #e2a; border-color: #e2a;}
+
+/* Named Article Callout Rubrics Colors */
+.article.intersec .callout {color: #c33; border-color: #c33;}
+.article.struggles .callout {color: #f63; border-color: #f63;}
+.article.ideas .callout {color: #ca0; border-color: #ca0;}
+.article.educult .callout {color: #399; border-color: #399;}
+.article.internat .callout {color: #36c; border-color: #36c;}
+.article.ourbody .callout {color: #e2a; border-color: #e2a;}
 
 /* ------------------------------------------------------------------ */
 /* # Articles List */
@@ -1899,6 +1932,19 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .articles-list li > ul > li > [class^='icon-'],
 .articles-list li > ul > li > [class*='icon-'] {
   float: left;
+}
+
+/* Validate */
+.articles-list .href-block .validate {
+  position: absolute;
+  top: 1.75rem;
+  right: .625rem;
+  margin-top: -1.125rem;
+}
+.articles-list .href-block .validate button,
+.articles-list .href-block .validate .button {
+  margin-bottom: 0;
+  z-index: 100;
 }
 
 /* Draft */

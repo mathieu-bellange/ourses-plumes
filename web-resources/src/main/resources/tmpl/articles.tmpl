@@ -10,7 +10,18 @@
 										{{= data.description}}
 										<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
 									</p>
-									<a href="{{= data.path }}" data-show="sexisme_dans_les_jeux_videos_une_critique_impossible">Lire l&rsquo;article</a>
+									<a href="{{= data.path }}">Lire l&rsquo;article</a>
+									{{? articles_list_type == "draft" || articles_list_type == "standby" }}
+									<div class="validate" style="display: none;">
+									{{? articles_list_type == "draft" }}
+									<!--Validation for Drafts-->
+										<button class="small">Modifier</button><button class="alert small">Valider</button>
+									{{?? articles_list_type == "standby" }}
+									<!--Validation for Standbys-->
+										<button class="small success">Publier</button><button class="alert small">Renvoyer</button>
+									{{?}}
+									</div>
+									{{?}}
 								</div>
 #}}
 				<!--Articles-->
@@ -24,16 +35,19 @@
 					</div>
 					{{?}}
 					<ul class="no-bullet articles-list draft">
+						{{ var articles_list_type = "draft"; }}
 						{{~ data.drafts :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
 					<ul class="no-bullet articles-list standby">
+						{{ var articles_list_type = "standby"; }}
 						{{~ data.toCheck :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
 					<ul class="no-bullet articles-list">
+						{{ var articles_list_type = "undefined"; }}
 						{{~ data.onLine :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
