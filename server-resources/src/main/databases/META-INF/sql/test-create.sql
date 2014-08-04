@@ -94,6 +94,7 @@ create table article (
   description             varchar(1000),
   body                   varchar(1000000),
   published_date           date,
+  created_date           date,
   profile_id                bigint not null,
   category_id                bigint,
   rubrique_id                bigint,

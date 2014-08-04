@@ -1,5 +1,6 @@
 package org.ourses.server.redaction.helpers;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.apache.commons.lang3.text.StrBuilder;
@@ -94,6 +95,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         // place le status à brouillon
         article.setStatus(ArticleStatus.BROUILLON);
         article.setTitleBeautify(beautifyTitle(article.getTitle()));
+        article.setCreatedDate(new Date());
         article.save();
         // créer le path
         article.setPath(buildPath(article));

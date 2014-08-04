@@ -28,6 +28,8 @@ public class ArticleDTO {
     private String description;
     @JsonProperty("body")
     private String body;
+    @JsonProperty("createdDate")
+    private Date createdDate;
     @JsonProperty("publishedDate")
     private Date publishedDate;
     @JsonProperty("category")
@@ -75,6 +77,14 @@ public class ArticleDTO {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Date getPublishedDate() {

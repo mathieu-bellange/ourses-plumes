@@ -49,6 +49,7 @@ public class Article implements Serializable {
     private String title;
     private String description;
     private String body;
+    private Date createdDate;
     private Date publishedDate;
     private String path;
     private String titleBeautify;
@@ -94,6 +95,14 @@ public class Article implements Serializable {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Date getPublishedDate() {
@@ -214,7 +223,7 @@ public class Article implements Serializable {
 
     public ArticleDTO toArticleDTO() {
         ArticleDTO articleDTO = new ArticleDTO();
-        BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile" });
+        BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile", "tags" });
         // category ne peut pas être null
         CategoryDTO categoryDTO = this.category.toCategoryDTO();
         articleDTO.setCategory(categoryDTO);

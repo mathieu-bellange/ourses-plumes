@@ -30,24 +30,24 @@ Insert into tag
    (6, 'Homophobie');
    
 Insert into article
-	(id,title,description,body,published_date,profile_id,category_id,rubrique_id,status,path,title_beautify)
+	(id,title,description,body,published_date,created_date,profile_id,category_id,rubrique_id,status,path,title_beautify)
 Values
-	(1,'titre 1','description','body',null,2,1,1,0,'/articles/1','titre-1'),
-	(2,'titre 2','description','body',null,2,1,2,1,'/articles/2','titre-2'),
-	(3,'titre 3','description','body',null,1,2,3,0,'/articles/3','titre-3'),
-	(4,'titre 4','description','body',null,2,2,3,0,'/articles/4','titre-4'),
-	(5,'titre 5','description','body',null,2,2,3,1,'/articles/5','titre-5'),
-	(6,'titre 6','description','body',null,2,2,3,1,'/articles/6','titre-6'),
-	(7,'titre 7','to delete','body',null,2,2,3,0,'/articles/7','titre-7'),
-	(8,'titre 8','cannot delete','body',null,2,2,3,1,'/articles/8','titre-8'),
-	(9,'titre 9','invalidate','body',null,2,2,3,1,'/articles/9','titre-9'),
-	(10,'titre 10','not_invalidate','body',null,2,2,3,0,'/articles/10','titre-10'),
-	(11,'titre 11','get','body','2077-01-01',2,2,3,2,'/articles/intersectionnalité/titre-11','titre-11'),
-	(12,'titre 12','get draft','body',null,2,2,3,0,'/articles/12','titre-12'),
-	(13,'titre 13','get validate','body',null,2,2,3,1,'/articles/13','titre-13'),
-	(14,'titre 14','en ligne au 01/01/2010','body','2010-01-01',3,7,5,2,'/articles/éducation-culture/titre-14','titre-14'),
-	(15,'titre 15','en ligne au 14/03/1982','body','1982-03-14',2,6,1,2,'/articles/luttes/titre-15','titre-15'),
-	(16,'titre 16','en ligne au 25/02/2007','body','2007-02-25',2,4,4,2,'/articles/international/titre-16','titre-16'),
+	(1,'titre 1','description','body',null,'2014-05-01',2,1,1,0,'/articles/1','titre-1'),
+	(2,'titre 2','description','body',null,'2014-02-02',2,1,2,1,'/articles/2','titre-2'),
+	(3,'titre 3','description','body',null,'2014-01-04',1,2,3,0,'/articles/3','titre-3'),
+	(4,'titre 4','description','body',null,'2014-03-01',2,2,3,0,'/articles/4','titre-4'),
+	(5,'titre 5','description','body',null,'2014-12-01',2,2,3,1,'/articles/5','titre-5'),
+	(6,'titre 6','description','body',null,'2014-01-05',2,2,3,1,'/articles/6','titre-6'),
+	(7,'titre 7','to delete','body',null,'2014-11-01',2,2,3,0,'/articles/7','titre-7'),
+	(8,'titre 8','cannot delete','body',null,'2014-01-27',2,2,3,1,'/articles/8','titre-8'),
+	(9,'titre 9','invalidate','body',null,'2014-08-07',2,2,3,1,'/articles/9','titre-9'),
+	(10,'titre 10','not_invalidate','body',null,'2014-06-01',2,2,3,0,'/articles/10','titre-10'),
+	(11,'titre 11','get','body','2077-01-01','2014-04-11',2,2,3,2,'/articles/intersectionnalité/titre-11','titre-11'),
+	(12,'titre 12','get draft','body',null,'2014-07-24',2,2,3,0,'/articles/12','titre-12'),
+	(13,'titre 13','get validate','body',null,'2014-09-13',2,2,3,1,'/articles/13','titre-13'),
+	(14,'titre 14','en ligne au 01/01/2010','body','2010-01-01','2014-02-06',3,7,5,2,'/articles/éducation-culture/titre-14','titre-14'),
+	(15,'titre 15','en ligne au 14/03/1982','body','1982-03-14','2014-10-21',2,6,1,2,'/articles/luttes/titre-15','titre-15'),
+	(16,'titre 16','en ligne au 25/02/2007','body','2007-02-25','2014-11-13',2,4,4,2,'/articles/international/titre-16','titre-16'),
 	(17,'Sexisme dans les jeux-vid&eacute;os, une critique impossible&nbsp;?',
 		'Ces derni&egrave;res ann&eacute;es sur le net et dans les milieux f&eacute;ministes anglophones et francophones, des d&eacute;bats et discussions sont n&eacute;s autour de la question des repr&eacute;sentations sexistes dans les jeux-vid&eacute;os et des comportements sexistes parmi les joueurs. Les r&eacute;actions de rejet particuli&egrave;rement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux d&eacute;cha&icirc;nements qu&rsquo;ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant &agrave; s&rsquo;interroger sur la possibilit&eacute; m&ecirc;me de mener une telle r&eacute;flexion.',
 		'<h4 class="cyan">Une industrie au sexisme bien ancr&eacute;.</h4>
@@ -70,7 +70,7 @@ Values
 								<h4 class="cyan">Un combat qui reste &agrave; mener</h4>
 								<p>La question est loin d&rsquo;&ecirc;tre anecdotique, d&rsquo;une part parce que comme on l&rsquo;a vu, les jeux vid&eacute;os, mais aussi de fa&ccedil;on plus large le web, constituent des espaces sociaux dont l&rsquo;importance et le rôle sont croissants dans la soci&eacute;t&eacute; et parce qu&rsquo;ils repr&eacute;sentent des opportunit&eacute;s cr&eacute;atrices d&rsquo;une grande richesse dont il est intol&eacute;rable que certainEs soient ainsi excluEs, et qu&rsquo;il faut donc en continuer la critique politique et le combat pour l&rsquo;ouvrir aux diff&eacute;rentes minorit&eacute;s.</p>
 								<p>Mais aussi parce que, au-del&agrave; du jeu vid&eacute;o lui-m&ecirc;me, les violences sexistes qui s&rsquo;y d&eacute;roulent sont un exemple tr&egrave;s r&eacute;v&eacute;lateur de la fa&ccedil;on dont les comportements sexistes, m&eacute;prisants, paternalistes participent d&rsquo;un syst&egrave;me d&rsquo;exclusion des femmes d&rsquo;un lieu social Comme certains le revendiquent d&rsquo;ailleurs explicitement.</p>',
-		'2014-09-01',6,4,5,2,'/articles/éducation-culture/sexisme-dans-les-jeux-vid&eacute;os-une-critique-impossible','sexisme-dans-les-jeux-vidéos-une-critique-impossible');
+		'2014-09-01','2014-02-01',6,4,5,2,'/articles/éducation-culture/sexisme-dans-les-jeux-vid&eacute;os-une-critique-impossible','sexisme-dans-les-jeux-vidéos-une-critique-impossible');
 	
 Insert into article_tag
    (id, tag_id,article_id)

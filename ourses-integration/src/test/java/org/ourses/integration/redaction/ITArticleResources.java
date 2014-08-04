@@ -263,6 +263,7 @@ public class ITArticleResources {
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.BROUILLON);
         assertThat(article.getPath()).isEqualTo("/articles/" + article.getId());
         assertThat(article.getTitleBeautify()).isEqualTo("shouldcreatearticlewithredacrole");
+        assertThat(article.getCreatedDate()).isNotNull();
     }
 
     @Test

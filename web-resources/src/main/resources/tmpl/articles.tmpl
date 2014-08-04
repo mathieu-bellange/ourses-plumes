@@ -6,6 +6,8 @@
 									<p class="summary">
 										{{? data.publishedDate !== null }}
 											<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date">{{= dateToString(new Date(data.publishedDate)) }}</time>
+										{{?? data.createdDate != null}}
+											<span class="icon-date small" title="Date de création">Cr&eacute;&eacute; le </span><time datetime="{{= getDateTime(new Date(data.createdDate)) }}" class="date">{{= dateToString(new Date(data.createdDate)) }}</time>
 										{{?}}
 										{{= data.description}}
 										<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
