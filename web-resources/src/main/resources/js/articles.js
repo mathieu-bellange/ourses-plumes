@@ -23,20 +23,45 @@ function displayArticles(){
 			var brouillons = articles.filter(function(n){
 				return n.status === "BROUILLON";
 			});
+			brouillons.sort(function compare(a, b) {
+				// si pas d'update, on test de la date de création
+				if (a.updatedDate === null){
+					if (a.createdDate > b.createdDate)
+						return -1;
+					if (a.createdDate < b.createdDate)
+						return 1;
+					// a doit être égal à b
+					return 0;
+				}
+				if (a.updatedDate > b.updatedDate)
+					return -1;
+				if (a.updatedDate < b.updatedDate)
+					return 1;
+				// a doit être égal à b
+				return 0;
+			});
 			var aVerifier = articles.filter(function(n){
 				return n.status === "AVERIFIER";
+			});
+			aVerifier.sort(function compare(a, b) {
+				if (a.updatedDate > b.updatedDate)
+					return -1;
+				if (a.updatedDate < b.updatedDate)
+					return 1;
+				// a doit être égal à b
+				return 0;
 			});
 			var enLigne = articles.filter(function(n){
 				return n.status === "ENLIGNE";
 			});
 			enLigne.sort(function compare(a, b) {
-				  if (a.publishedDate > b.publishedDate)
-					     return -1;
-					  if (a.publishedDate < b.publishedDate)
-					     return 1;
-					  // a doit être égal à b
-					  return 0;
-					});
+				if (a.publishedDate > b.publishedDate)
+					return -1;
+				if (a.publishedDate < b.publishedDate)
+					return 1;
+				// a doit être égal à b
+				return 0;
+			});
 			processArticles({"drafts":brouillons,"toCheck":aVerifier,"onLine":enLigne});
 		},
 		error : function(jqXHR, status, errorThrown) {

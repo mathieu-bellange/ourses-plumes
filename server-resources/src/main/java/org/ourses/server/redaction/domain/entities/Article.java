@@ -50,6 +50,7 @@ public class Article implements Serializable {
     private String description;
     private String body;
     private Date createdDate;
+    private Date updatedDate;
     private Date publishedDate;
     private String path;
     private String titleBeautify;
@@ -103,6 +104,14 @@ public class Article implements Serializable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     public Date getPublishedDate() {

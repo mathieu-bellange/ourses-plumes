@@ -320,6 +320,7 @@ public class ITArticleResources {
         assertThat(article.getProfile().getPseudo()).isEqualTo("jpetit");
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.BROUILLON);
         assertThat(article.getTitleBeautify()).isEqualTo("titre-1");
+        assertThat(article.getUpdatedDate()).isNotNull();
     }
 
     @Test

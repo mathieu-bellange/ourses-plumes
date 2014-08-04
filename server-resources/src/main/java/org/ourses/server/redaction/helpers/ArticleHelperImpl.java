@@ -115,7 +115,8 @@ public class ArticleHelperImpl implements ArticleHelper {
         }
         article.setTags(tags);
         article.setTitleBeautify(beautifyTitle(articleDTO.getTitle()));
-        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify");
+        article.setUpdatedDate(new Date());
+        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate");
     }
 
     @Override
