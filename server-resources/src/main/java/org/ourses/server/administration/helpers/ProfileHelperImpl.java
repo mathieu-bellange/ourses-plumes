@@ -161,7 +161,8 @@ public class ProfileHelperImpl implements ProfileHelper {
         profile.setPath(pathBuilder.toString());
     }
 
-    protected String beautifyPseudo(String pseudo) {
+    @Override
+    public String beautifyPseudo(String pseudo) {
         StrBuilder path = new StrBuilder();
         String[] tokens = pseudo.split("\\W");
         for (String token : tokens) {

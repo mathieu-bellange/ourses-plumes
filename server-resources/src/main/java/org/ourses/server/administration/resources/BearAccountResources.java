@@ -56,7 +56,7 @@ public class BearAccountResources {
         try {
             // test si login/mail/password ok
             if (helper.isNewMail(bearAccountDTO.getMail()) && helper.isMailValid(bearAccountDTO.getMail())
-                    && helper.isPseudoValid(pseudo) && helper.isNewPseudo(pseudo)
+                    && helper.isPseudoValid(pseudo) && helper.isNewPseudo(pseudo, null)
                     && helper.isPasswordValid(bearAccountDTO.getPassword())) {
                 // on créé par défaut un compte en rédactrice
                 BearAccount account = helper.create(bearAccountDTO.toBearAccount());

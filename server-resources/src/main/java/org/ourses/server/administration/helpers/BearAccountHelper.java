@@ -21,11 +21,11 @@ public interface BearAccountHelper {
 
     Set<String> getPermissions(String username);
 
-    boolean isNewPseudo(String pseudo);
+    boolean isNewPseudo(String pseudo, Long profileId);
 
     boolean isNewMail(String mail);
 
-    boolean isPseudoValid(String mail);
+    boolean isPseudoValid(String pseudo);
 
     boolean isPasswordValid(String password);
 

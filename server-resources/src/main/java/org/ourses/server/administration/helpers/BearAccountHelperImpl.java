@@ -43,8 +43,15 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     }
 
     @Override
-    public boolean isNewPseudo(String pseudo) {
-        return Profile.countPseudo(pseudo) == 0;
+    public boolean isNewPseudo(String pseudo, Long id) {
+        boolean isNewPseudo = false;
+        if (id != null) {
+            isNewPseudo = Profile.countPseudo(profileHelper.beautifyPseudo(pseudo), id) == 0;
+        }
+        else {
+            isNewPseudo = Profile.countPseudo(profileHelper.beautifyPseudo(pseudo)) == 0;
+        }
+        return isNewPseudo;
     }
 
     @Override

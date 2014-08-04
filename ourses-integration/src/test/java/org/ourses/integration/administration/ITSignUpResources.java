@@ -35,6 +35,15 @@ public class ITSignUpResources {
     }
 
     @Test
+    public void shouldNotWarnPseudoAlreadyTaken() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_CHECK_PSEUDO).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("id", "2")
+                .header("Content-Type", "application/json").post(ClientResponse.class, "JPETIT !");
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
+    }
+
+    @Test
     public void shouldWarnPseudoEmpty() throws JsonGenerationException, JsonMappingException,
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_CHECK_PSEUDO).build();

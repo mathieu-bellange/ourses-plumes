@@ -135,8 +135,13 @@ public class Profile {
         return Ebean.find(Profile.class, id);
     }
 
-    public static int countPseudo(String pseudo) {
-        return Ebean.find(Profile.class).where().eq("pseudo", pseudo).findRowCount();
+    public static int countPseudo(String pseudoBeautify) {
+        return Ebean.find(Profile.class).where().eq("pseudoBeautify", pseudoBeautify).findRowCount();
+    }
+
+    public static int countPseudo(String pseudoBeautify, Long profileId) {
+        return Ebean.find(Profile.class).where().eq("pseudoBeautify", pseudoBeautify).ne("id", profileId)
+                .findRowCount();
     }
 
     public void updateProfileProperty(String... propertiesToUpdate) {

@@ -153,6 +153,20 @@ public class ITProfileResources {
     }
 
     @Test
+    public void shouldNotUpdatePseudoWithExistingPseudoBis() {
+        // get pseudo before maj
+        URI uri = UriBuilder.fromPath(PATH_GET_PROFILE).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        // update
+        uri = UriBuilder.fromPath(PATH_PUT_PROFILE).build();
+        clientResponse = TestHelper.webResourceWithAuthcToken(uri, "profile_to_update")
+                .header("Content-Type", "application/json")
+                .put(ClientResponse.class, new CoupleDTO("pseudo", "JPETIT !"));
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
     public void shouldNotUpdatePseudoWithNullPseudo() {
         // get pseudo before maj
         URI uri = UriBuilder.fromPath(PATH_GET_PROFILE).build();

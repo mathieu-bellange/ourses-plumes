@@ -138,9 +138,10 @@ function checkPseudoAJAX(couple){
 	var selector = $("#pseudo");
 	setValidationIcon(selector,$("#pseudoError"), null);
 	var pseudo = selector.val();
+	var profileId = window.localStorage.getItem($oursesProfileId);
 	$.ajax({
 		type : "POST",
-		url : "/rest/signup_check/pseudo",
+		url : "/rest/signup_check/pseudo?id=" + profileId,
 		contentType : "application/json; charset=utf-8",
 		data : pseudo,
 		success : function(data, textStatus, jqXHR) {

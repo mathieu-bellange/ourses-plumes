@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -23,9 +24,10 @@ public class SignUpResources {
 
     @POST
     @Path("/pseudo")
-    public Response checkPseudo(String pseudo) {
+    public Response checkPseudo(String pseudo, @QueryParam("id")
+    Long profileId) {
         Status status = Status.FORBIDDEN;
-        if (accountHelper.isPseudoValid(pseudo) && accountHelper.isNewPseudo(pseudo)) {
+        if (accountHelper.isPseudoValid(pseudo) && accountHelper.isNewPseudo(pseudo, profileId)) {
             status = Status.NO_CONTENT;
         }
         return Response.status(status).build();

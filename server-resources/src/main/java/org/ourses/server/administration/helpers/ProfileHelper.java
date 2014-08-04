@@ -17,4 +17,6 @@ public interface ProfileHelper {
 
     String findProfileRole(String pseudoBeautify);
 
+    String beautifyPseudo(String pseudo);
+
 }

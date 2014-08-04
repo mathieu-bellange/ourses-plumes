@@ -86,8 +86,8 @@ public class ProfileResources {
                 securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
                 // vérificatin que le pseudo n'est pas déjà pris ou vide
                 if (Profile.PSEUDO.equals(coupleDTO.getProperty())
-                        && (!accountHelper.isNewPseudo(coupleDTO.getValue()) || !accountHelper.isPseudoValid(coupleDTO
-                                .getValue()))) {
+                        && (!accountHelper.isNewPseudo(coupleDTO.getValue(), id) || !accountHelper
+                                .isPseudoValid(coupleDTO.getValue()))) {
                     builder = Response.status(Status.FORBIDDEN);
                 }
                 else {
