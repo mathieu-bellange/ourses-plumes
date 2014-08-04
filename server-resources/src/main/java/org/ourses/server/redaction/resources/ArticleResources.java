@@ -102,13 +102,13 @@ public class ArticleResources {
             // Je suis connecté
             if (profile != null) {
                 OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
-                // je suis redac, j'ai accès à mes brouillon
-                if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
-                    articles.addAll(Article.findDrafts(profile.getId()));
-                }
                 // Je suis admin
                 if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {
-                    articles.addAll(Article.findToCheck());
+                    articles.addAll(Article.findToCheckAndDraft());
+                }
+                // je suis redac, j'ai accès à mes brouillons
+                else if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
+                    articles.addAll(Article.findDrafts(profile.getId()));
                 }
             }
         }

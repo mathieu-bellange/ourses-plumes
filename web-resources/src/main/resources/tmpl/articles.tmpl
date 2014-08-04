@@ -14,7 +14,15 @@
 										{{= data.description}}
 										<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
 									</p>
-									<a href="{{= data.path }}">Lire l&rsquo;article</a>
+									{{? articles_list_type == "draft"}}
+										{{? data.profile.id == window.localStorage.getItem($oursesProfileId)}}
+											<a href="{{= data.path }}">Lire l&rsquo;article</a>
+										{{??}}
+											<a href="javascript:void(0)" style="cursor: default;"></a>
+										{{?}}
+									{{??}}
+										<a href="{{= data.path }}">Lire l&rsquo;article</a>
+									{{?}}
 									{{? articles_list_type == "draft" || articles_list_type == "standby" }}
 									<div class="validate" style="display: none;">
 										{{? articles_list_type == "draft" }}

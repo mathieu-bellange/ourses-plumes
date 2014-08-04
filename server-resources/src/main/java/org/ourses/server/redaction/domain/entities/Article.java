@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.ExpressionList;
 import com.google.common.collect.Sets;
 
@@ -196,8 +197,9 @@ public class Article implements Serializable {
                 .findSet();
     }
 
-    public static Set<Article> findToCheck() {
-        return Ebean.find(Article.class).where().eq("status", ArticleStatus.AVERIFIER).findSet();
+    public static Set<Article> findToCheckAndDraft() {
+        return Ebean.find(Article.class).where()
+                .or(Expr.eq("status", ArticleStatus.AVERIFIER), Expr.eq("status", ArticleStatus.BROUILLON)).findSet();
     }
 
     public static Set<Article> findOnline() {

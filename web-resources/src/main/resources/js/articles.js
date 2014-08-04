@@ -24,18 +24,19 @@ function displayArticles(){
 				return n.status === "BROUILLON";
 			});
 			brouillons.sort(function compare(a, b) {
-				// si pas d'update, on test de la date de création
+				// si pas d'update, on test la date de création
+				var aDate = a.updatedDate;
+				var bDate = b.updatedDate;
 				if (a.updatedDate === null){
-					if (a.createdDate > b.createdDate)
-						return -1;
-					if (a.createdDate < b.createdDate)
-						return 1;
-					// a doit être égal à b
-					return 0;
+					aDate = a.createdDate;
 				}
-				if (a.updatedDate > b.updatedDate)
+				if (b.updatedDate === null){
+					bDate = b.createdDate;
+				}
+				
+				if (aDate > bDate)
 					return -1;
-				if (a.updatedDate < b.updatedDate)
+				if (aDate < bDate)
 					return 1;
 				// a doit être égal à b
 				return 0;
