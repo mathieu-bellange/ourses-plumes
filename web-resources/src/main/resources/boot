@@ -319,7 +319,6 @@ function getDateTime(date){
 	var year = date.getFullYear().toString();
 	var month;
 	var day;
-	
 	var numMonth = date.getMonth() + 1;
 	if (numMonth < 10){
 		month = "0" + numMonth.toString();
@@ -331,7 +330,6 @@ function getDateTime(date){
 	}else{
 		day = date.getDate().toString();
 	}
-	
 	return year + "-" + month + "-" + day;
 }
 
@@ -339,9 +337,8 @@ function dateToString(date){
 	var year = date.getFullYear().toString();
 	var month;
 	var day = date.getDate().toString();
-	
 	if (date.getDate() === 1){
-		day += " er"; 
+		day += "<sup>er</sup>"; // NEW : added HTML tag <sup>
 	}
 	month = months[date.getMonth()];
 	return day + " " + month + " " + year;
