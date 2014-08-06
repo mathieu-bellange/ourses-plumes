@@ -4,18 +4,71 @@
 		<meta charset="utf-8">
 		<script src="boot"></script>
 		<script src="js/ckeditor/ckeditor.js"></script><!--TEMP-->
-		<script src="js/ckeditor/config.js"></script><!--TEMP-->
-		<script src="js/ckeditor/styles.js"></script><!--TEMP-->
 		<script src="js/ckeditor/adapters/jquery.js"></script><!--TEMP-->
+		<script>
+			// TEMP : Set route CKEditor configuration file route
+			var loc = location.href.split("/");
+			loc.splice(loc.length - 1, 1);
+			$cke_config_path = isFileProtocol() ? loc.join("/") + "/" + $js_root : $js_root;
+		</script>
 	</head>
 	<body>
 		<div style="min-height: 100%; padding: 1rem; background-color: white;">
 
 			<h2 class="red">&Eacute;diteur <small>#article_editor</small></h2>
 
+			<style>
+				#dev_test_editor_toolbar {padding: .5rem 1.5rem;}
+				#dev_test_editor_toolbar > h4 {display: inline-block; margin-right: .5rem; color: darkgray;}
+				#dev_test_editor_toolbar > label {margin: 0 0 0 .5rem;}
+				#dev_test_editor_toolbar > input[type="checkbox"] {margin: 0; vertical-align: middle;}
+				#dev_test_editor_toolbar > input[type="button"] {margin-left: 1rem;}
+			</style>
+			<div id="dev_test_editor_toolbar" class="panel">
+				<h4 class="text-medium">Show</h4>
+				<label for="show_publishing">Publishing</label>
+				<input id="show_publishing" type="checkbox" name="show" value="publishing">
+				<label for="show_indexing">Indexing</label>
+				<input id="show_indexing" type="checkbox" name="show" value="indexing">
+				<label for="show_classic_editor">Classic Editor</label>
+				<input id="show_classic_editor" type="checkbox" name="show" value="classic_editor_fieldset" checked>
+				<label for="show_inline_editor">Inline Editor</label>
+				<input id="show_inline_editor" type="checkbox" name="show" value="inline_editor_fieldset" checked>
+				<label for="show_rubrics_switcher">Rubrics Switcher</label>
+				<input id="show_rubrics_switcher" type="checkbox" name="show" value="rubrics_switcher" checked>
+				<input id="cke_plugins" class="button tiny" type="button" value="CKEditor plugins">
+			</div>
+			<script>
+			// Events
+			$("html").on("click", "[name='show']", function() {
+				var f = $(this).val();
+				$("#" + f).toggle();
+			});
+			$("html").on("click", "#cke_plugins", function() {
+				var cke_plugins = CKEDITOR.config.plugins.split(",");
+				var str = new String;
+				for (i in cke_plugins) {
+					str += cke_plugins[i] + "\n";
+				}
+				alert(str);
+			});
+			// Init
+			$(document).ready(function() {
+				$("[name='show']").each(function() {
+					var f = $(this).val();
+					if ($(this).is(":checked")) {
+						$("#" + f).show();
+					} else {
+						$("#" + f).hide();
+					}
+				});
+			});
+			</script>
+
+
 			<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
 
-				<fieldset class="important">
+				<fieldset id="publishing" class="important">
 					<legend>Publication</legend>
 
 					<!--Title-->
@@ -47,7 +100,7 @@
 
 				</fieldset>
 
-				<fieldset>
+				<fieldset id="indexing">
 					<legend>Ind&eacute;xation</legend>
 
 					<!--Rubric-->
@@ -112,8 +165,86 @@
 
 				</fieldset>
 
-				<!--CK Editor-->
-				<textarea id="editor"></textarea>
+				<!--Rubrics Switcher-->
+				<style>
+					#rubrics_switcher {text-align: center;}
+					#rubrics_switcher > ul,
+					#rubrics_switcher > ul > li,
+					#rubrics_switcher > ul > li > a {margin-bottom: 0;}
+				</style>
+				<div id="rubrics_switcher">
+					<ul class="inline-list">
+						<li><a id="cke_rub_intersec" href="javascript:void(0)" class="button small secondary">Intersectionnalit&eacute;</a></li>
+						<li><a id="cke_rub_struggles" href="javascript:void(0)" class="button small secondary">Luttes</a></li>
+						<li><a id="cke_rub_ideas" href="javascript:void(0)" class="button small secondary">Id&eacute;es</a></li>
+						<li><a id="cke_rub_educult" href="javascript:void(0)" class="button small secondary">&Eacute;ducation &amp; Culture</a></li>
+						<li><a id="cke_rub_internat" href="javascript:void(0)" class="button small secondary">International</a></li>
+						<li><a id="cke_rub_ourbody" href="javascript:void(0)" class="button small secondary">Nos corps, nous-m&ecirc;mes</a></li>
+					</ul>
+				</div>
+				<script>
+					$("[id^='cke_rub_']").click(function() {
+						$(this).parent().siblings().children().removeClass("active"); // Remove all active classes for rubrics buttons
+						$("#inline_editor").removeClass(); // Remove all classes for inline editor
+						$("#inline_editor").addClass("article"); // Reset article class for inline editor
+						if ($(this).hasClass("active")) {
+							$(this).removeClass("active");
+						} else {
+							$(this).addClass("active");
+							var cls = $(this).attr("id").substr(8); // Retrieve rubric class from button id
+							$("#inline_editor").addClass(cls); // Add new rubric class to inline editor
+						}
+						CKEDITOR.instances["classic_editor"].destroy(); // Destroy classic editor instance
+						CKEDITOR.replace("classic_editor", { // Reinitialize classic editor instance with rubric class
+							customConfig : $cke_config_path + "editor_settings.js",
+							bodyClass : "article " + cls,
+							toolbarLocation : "bottom"
+						});
+					});
+				</script>
+
+				<!--Classic CKEditor-->
+				<fieldset id="classic_editor_fieldset">
+					<legend>R&eacute;daction</legend>
+					<label for="classic_editor">Corps de texte <span class="text-silver">classic</span></label>
+					<textarea id="classic_editor">
+						<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
+						<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
+						<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
+					</textarea>
+				</fieldset>
+
+				<!--Inline CKEditor-->
+				<fieldset id="inline_editor_fieldset" class="invisible">
+					<legend>R&eacute;daction</legend>
+					<style>
+						.article {
+							padding: .5rem;
+							border: 1px solid transparent;
+							background-color: white;
+						}
+						.article:hover {
+							cursor: pointer;
+							border-style: dashed;
+							border-color: darkgray;
+							background-color: whitesmoke;
+						}
+						.article:focus {
+							cursor: text;
+							border-style: solid;
+							border-color: darkgray;
+							background-color: white;
+							box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);
+							transition: box-shadow .75s;
+						}
+					</style>
+					<label for="inline_editor" style="margin-top: 2rem;">Corps de texte <span class="text-silver">inline</span></label>
+					<div id="inline_editor" class="article" contenteditable="true">
+						<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
+						<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
+						<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
+					</div>
+				</fieldset>
 
 				<!--Validation Buttons-->
 				<div class="text-center" style="margin-top: 1rem;">
@@ -132,12 +263,24 @@
 		<script>
 			loap.update()
 			$(document).ready(function(){
-				$("textarea").autosize({append: ""}); // apply autosize plugin to all textarea of the page
-				$("textarea").validation_bar(); // apply validation_bar plugin to all textarea of the page
+				$("textarea").autosize({append: ""}); // Apply autosize plugin to all <textarea> of the page
+				$("textarea").validation_bar(); // Apply validation_bar plugin to all <textarea> of the page
 			});
 		</script>
 		<script>
+			// Initialize Foundation plugins
 			$(document).foundation();
+			// Initialize classic CKEditor with custom config
+			CKEDITOR.replace("classic_editor", {
+				customConfig : $cke_config_path + "editor_settings.js",
+				toolbarLocation : "bottom",
+				bodyClass : "article"
+			});
+			// Initialize inline CKEditor with custom config
+			CKEDITOR.disableAutoInline = true;
+			CKEDITOR.inline("inline_editor", {
+				customConfig : $cke_config_path + "editor_settings.js"
+			});
 		</script>
 	</body>
 </html>
