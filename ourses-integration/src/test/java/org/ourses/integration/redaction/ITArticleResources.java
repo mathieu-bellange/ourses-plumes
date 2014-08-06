@@ -42,6 +42,8 @@ public class ITArticleResources {
     private static final String PATH_VALIDATE_PUBLISH = "/rest/articles/6/publish";
     private static final String PATH_DRAFT_PUBLISH = "/rest/articles/1/publish";
     private static final String PATH_DELETE_DRAFT = "/rest/articles/7";
+    private static final String PATH_DELETE_ANOTHER_DRAFT = "/rest/articles/17";
+    private static final String PATH_DELETE_INEXISTING_DRAFT = "/rest/articles/666";
     private static final String PATH_DELETE_VALIDATE = "/rest/articles/8";
     private static final String PATH_INVALDIATE = "/rest/articles/9/invalidate";
     private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
@@ -126,7 +128,7 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldReadAllPublishArticleAndIsOwnDraftAndValidate() {
+    public void shouldReadAllPublishArticleAndDraftAndValidate() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").get(ClientResponse.class);
@@ -137,14 +139,6 @@ public class ITArticleResources {
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
         assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE, ArticleStatus.BROUILLON,
                 ArticleStatus.AVERIFIER);
-        Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
-
-            @Override
-            public boolean apply(ArticleDTO input) {
-                return ArticleStatus.BROUILLON.equals(input.getStatus());
-            }
-        });
-        assertThat(drafts).onProperty("profile.pseudo").containsOnly("monPseudo");
     }
 
     @Test
@@ -487,8 +481,17 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldNotDeleteInexistingDraft() {
+        URI uri = UriBuilder.fromPath(PATH_DELETE_INEXISTING_DRAFT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
+                .header("Content-Type", "application/json").delete(ClientResponse.class);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
+    }
+
+    @Test
     public void shouldNotDeleteDraftByAnotherUser() {
-        URI uri = UriBuilder.fromPath(PATH_DELETE_DRAFT).build();
+        URI uri = UriBuilder.fromPath(PATH_DELETE_ANOTHER_DRAFT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").delete(ClientResponse.class);
         // status attendu 401

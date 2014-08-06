@@ -1,6 +1,18 @@
 ﻿/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
+var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
+
+function createAlertBox(err, msg) {
+	var err = err || "error", msg = msg || "";
+	if ($("#article-alert").length == 0) {
+		$("main > header").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
+		if (document.readyState === "complete") {
+			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
+		}
+		$("#article-alert").fadeIn(300);
+	}
+}
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -11,6 +23,30 @@
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
+function deleteArticle(id){
+	$.ajax({
+		type : "DELETE",
+		url : "/rest/articles/" + id,
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		contentType : "application/json; charset=utf-8",
+		success : function(noData, status, jqxhr) {
+			$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function(){
+				$(".validate button[data-delete='" + id + "']").parents("li").remove();
+			});
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404){
+				createAlertBox("ok","Cet article n&rsquo;existe plus, il a d&eacute;j&agrave; &eacute;t&eacute; supprim&eacute; par une Administratrice");
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
+}
+
 function displayArticles(){
 	$.ajax({
 		type : "GET",
@@ -66,13 +102,13 @@ function displayArticles(){
 			processArticles({"drafts":brouillons,"toCheck":aVerifier,"onLine":enLigne});
 		},
 		error : function(jqXHR, status, errorThrown) {
+			createAlertBox();
 		},
 		dataType : "json"
 	});
 }
 
 function processArticles(articles){
-	var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
 	$("main > header").after(articles_tmpl(articles));
 	$(document).foundation(); // reload all Foundation plugins
 	// Events
@@ -81,6 +117,9 @@ function processArticles(articles){
 	});
 	$("html").on("mouseleave", ".href-block", function() {
 		$(this).find(".validate").hide();
+	});
+	$(".validate button[data-delete]").click(function(){
+		deleteArticle($(this).attr("data-delete"));
 	});
 }
 

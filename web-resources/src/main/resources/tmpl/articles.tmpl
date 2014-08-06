@@ -1,33 +1,33 @@
 ﻿<!--Partial Define-->
-{{## def.article: data:
-								<h4 class="{{= data.rubrique.classe}}">{{= data.rubrique.rubrique }}</h4>
-								<div class="href-block clearfix {{= data.rubrique.classe}}">
-									<h5 class="title">{{= data.title }}</h5>
+{{## def.article: art:
+								<h4 class="{{= art.rubrique.classe}}">{{= art.rubrique.rubrique }}</h4>
+								<div class="href-block clearfix {{= art.rubrique.classe}}">
+									<h5 class="title">{{= art.title }}</h5>
 									<p class="summary">
-										{{? data.publishedDate !== null }}
-											<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date">{{= dateToString(new Date(data.publishedDate)) }}</time>
-										{{?? data.updatedDate !== null}}
-											<span class="icon-date small" title="Date de mise &agrave; jour">Mis &agrave; jour le </span><time datetime="{{= getDateTime(new Date(data.updatedDate)) }}" class="date">{{= dateToString(new Date(data.updatedDate)) }}</time>
-										{{?? data.createdDate !== null}}
-											<span class="icon-date small" title="Date de cr&eacute;ation">Cr&eacute;&eacute; le </span><time datetime="{{= getDateTime(new Date(data.createdDate)) }}" class="date">{{= dateToString(new Date(data.createdDate)) }}</time>
+										{{? art.publishedDate !== null }}
+											<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToString(new Date(art.publishedDate)) }}</time>
+										{{?? art.updatedDate !== null}}
+											<span class="icon-date small" title="Date de mise &agrave; jour">Mis &agrave; jour le </span><time datetime="{{= getDateTime(new Date(art.updatedDate)) }}" class="date">{{= dateToString(new Date(art.updatedDate)) }}</time>
+										{{?? art.createdDate !== null}}
+											<span class="icon-date small" title="Date de cr&eacute;ation">Cr&eacute;&eacute; le </span><time datetime="{{= getDateTime(new Date(art.createdDate)) }}" class="date">{{= dateToString(new Date(art.createdDate)) }}</time>
 										{{?}}
-										{{= data.description}}
-										<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
+										{{= art.description}}
+										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
 									</p>
 									{{? articles_list_type == "draft"}}
-										{{? data.profile.id == window.localStorage.getItem($oursesProfileId)}}
-											<a href="{{= data.path }}">Lire l&rsquo;article</a>
+										{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
+											<a href="{{= art.path }}">Lire l&rsquo;article</a>
 										{{??}}
 											<a href="javascript:void(0)" style="cursor: default;"></a>
 										{{?}}
 									{{??}}
-										<a href="{{= data.path }}">Lire l&rsquo;article</a>
+										<a href="{{= art.path }}">Lire l&rsquo;article</a>
 									{{?}}
 									{{? articles_list_type == "draft" || articles_list_type == "standby" }}
 									<div class="validate" style="display: none;">
 										{{? articles_list_type == "draft" }}
 										<!--Validation for Drafts-->
-											<button class="small">Modifier</button><button class="alert small">Valider</button>
+											<button class="small" data-delete = "{{= art.id }}">Supprimer</button><button class="alert small">Valider</button>
 										{{?? articles_list_type == "standby" }}
 										<!--Validation for Standbys-->
 											<button class="small success">Publier</button><button class="alert small">Renvoyer</button>

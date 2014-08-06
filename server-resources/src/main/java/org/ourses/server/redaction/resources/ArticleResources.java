@@ -234,15 +234,21 @@ public class ArticleResources {
     String token) {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
-        // vérification que l'article est bien modifiable par l'utilisateur connecté
-        Long idProfile = profileHelper.findIdProfile(token);
-        if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)) {
-            // suppression de l'article passé en param
-            article.delete();
-            responseBuilder = Response.status(Status.NO_CONTENT);
+        // l'article n'existe pas
+        if (article != null) {
+            // vérification que l'article est bien modifiable par l'utilisateur connecté
+            Long idProfile = profileHelper.findIdProfile(token);
+            if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)) {
+                // suppression de l'article passé en param
+                article.delete();
+                responseBuilder = Response.status(Status.NO_CONTENT);
+            }
+            else {
+                responseBuilder = Response.status(Status.UNAUTHORIZED);
+            }
         }
         else {
-            responseBuilder = Response.status(Status.UNAUTHORIZED);
+            responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
     }

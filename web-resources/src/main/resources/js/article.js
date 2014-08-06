@@ -4,6 +4,17 @@
 
 var template = doT.compile(loadfile($app_root + "tmpl/article.tmpl"));
 
+function createAlertBox(err, msg) {
+	var err = err || "error", msg = msg || "";
+	if ($("#article-alert").length == 0) {
+		$("main > header").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
+		if (document.readyState === "complete") {
+			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
+		}
+		$("#article-alert").fadeIn(300);
+	}
+}
+
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */

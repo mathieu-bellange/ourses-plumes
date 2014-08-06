@@ -48,7 +48,8 @@ Values
 	(14,'titre 14','en ligne au 01/01/2010','body','2010-01-01','2014-02-06','2014-01-05',3,7,5,2,'/articles/éducation-culture/titre-14','titre-14'),
 	(15,'titre 15','en ligne au 14/03/1982','body','1982-03-14','2014-10-21','2014-01-05',2,6,1,2,'/articles/luttes/titre-15','titre-15'),
 	(16,'titre 16','en ligne au 25/02/2007','body','2007-02-25','2014-11-13','2014-01-05',2,4,4,2,'/articles/international/titre-16','titre-16'),
-	(17,'Sexisme dans les jeux-vid&eacute;os, une critique impossible&nbsp;?',
+	(17,'titre 17','desc','body',null,'2014-11-13','2014-01-05',2,4,4,0,'/articles/international/titre-17','titre-17'),
+	(18,'Sexisme dans les jeux-vid&eacute;os, une critique impossible&nbsp;?',
 		'Ces derni&egrave;res ann&eacute;es sur le net et dans les milieux f&eacute;ministes anglophones et francophones, des d&eacute;bats et discussions sont n&eacute;s autour de la question des repr&eacute;sentations sexistes dans les jeux-vid&eacute;os et des comportements sexistes parmi les joueurs. Les r&eacute;actions de rejet particuli&egrave;rement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux d&eacute;cha&icirc;nements qu&rsquo;ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant &agrave; s&rsquo;interroger sur la possibilit&eacute; m&ecirc;me de mener une telle r&eacute;flexion.',
 		'<h4 class="cyan">Une industrie au sexisme bien ancr&eacute;.</h4>
 								<p>L&rsquo;industrie vid&eacute;o-ludique repr&eacute;sente aujourd&rsquo;hui un march&eacute; important du point de vue du chiffre d&rsquo;affaires mondial (environ 66 milliards de dollars en 2013) et du nombre de joueu-ses-rs (<a href="http://www.snjv.org/data/document/livre-blanc2.pdf">31 millions rien qu&rsquo;en France, dont 52&nbsp;% de joueuses</a>). </p>
