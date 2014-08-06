@@ -27,59 +27,6 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* # Font Colors */
-/* ------------------------------------------------------------------ */
-
-.text-white {color: #fff;}
-.text-silver {color: #999;}
-.text-steel {color: #666;}
-.text-iron {color: #222;}
-.text-black {color: #000;}
-
-.red, a.red, .red > a {color: #c33;}
-a.red:hover, a.red:focus, .red > a:hover, .red > a:focus {color: #822;}
-.orange, a.orange, .orange > a {color: #f63;}
-a.orange:hover, a.orange:focus, .orange > a:hover, .orange > a:focus {color: #931;}
-.yellow, a.yellow, .yellow > a {color: #ca0;}
-a.yellow:hover, a.yellow:focus, .yellow > a:hover, .yellow > a:focus {color: #761;}
-.green, a.green, .green > a {color: #393;}
-a.green:hover, a.green:focus, .green > a:hover, .green > a:focus {color: #252;}
-.cyan, a.cyan, .cyan > a {color: #399;}
-a.cyan:hover, a.cyan:focus, .cyan > a:hover, .cyan > a:focus {color: #255;}
-.blue, a.blue, .blue > a {color: #36c;}
-a.blue:hover, a.blue:focus, .blue > a:hover, .blue > a:focus {color: #248;}
-.purple, a.purple, .purple > a {color: #93c;}
-a.purple:hover, a.purple:focus, .purple > a:hover, .purple > a:focus {color: #517;}
-.magenta, a.magenta, .magenta > a {color: #e2a;}
-a.magenta:hover, a.magenta:focus, .magenta > a:hover, .magenta > a:focus {color: #a17;}
-
-/* Named Rubrics Colors */
-.intersec, a.intersec, .intersec > a {color: #c33;}
-a.intersec:hover, a.intersec:focus, .intersec > a:hover, .intersec > a:focus {color: #822;}
-.struggles, a.struggles, .struggles > a {color: #f63;}
-a.struggles:hover, a.struggles:focus, .struggles > a:hover, .struggles > a:focus {color: #931;}
-.ideas, a.ideas, .ideas > a {color: #ca0;}
-a.ideas:hover, a.ideas:focus, .ideas > a:hover, .ideas > a:focus {color: #761;}
-.educult, a.educult, .educult > a {color: #399;}
-a.educult:hover, a.educult:focus, .educult > a:hover, .educult > a:focus {color: #255;}
-.internat, a.internat, .internat > a {color: #36c;}
-a.internat:hover, a.internat:focus, .internat > a:hover, .internat > a:focus {color: #248;}
-.ourbody, a.ourbody, .ourbody > a {color: #e2a;}
-a.ourbody:hover, a.ourbody:focus, .ourbody > a:hover, .ourbody > a:focus {color: #a17;}
-
-/* ------------------------------------------------------------------ */
-/* # Font Size */
-/* ------------------------------------------------------------------ */
-
-.text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
-
-.text-tiny {font-size: 66%;}
-.text-small {font-size: 75%;}
-.text-medium {font-size: 100%;}
-.text-large {font-size: 133%;}
-.text-huge {font-size: 175%;}
-
-/* ------------------------------------------------------------------ */
 /* # Basics */
 /* ------------------------------------------------------------------ */
 
@@ -95,6 +42,7 @@ body {
   color: #222;
   background-image: none;
   background-color: #324;
+  background-color: white; /* TEMP */
 }
 
 /* ------------------------------------------------------------------ */
@@ -205,7 +153,6 @@ fieldset legend {
   font-size: 125%;
   font-weight: normal;
   font-family: "Oswald", sans-serif;
-  line-height: 1.5rem;
   line-height: 2rem;
   background-color: transparent; /* Foundation override */
   border-top-left-radius: .375rem;
@@ -221,13 +168,21 @@ fieldset legend:only-child {
 }
 
 /* Coloring */
+fieldset.important {
+  background-color: lightyellow;
+  border-color: lightgrey;
+}
 fieldset.transparent {
   background-color: transparent;
   border-color: transparent;
 }
-fieldset.important {
-  background-color: lightyellow;
-  border-color: lightgrey;
+fieldset.invisible {
+  padding: 0;
+  background-color: transparent;
+  border-color: transparent;
+}
+fieldset.invisible legend {
+  line-height: 0;
 }
 
 /* Figures */
@@ -351,6 +306,96 @@ select > option {
 :-ms-input-placeholder { /* IE 10+ */
   color: rgba(0, 0, 0, .5);
 }
+
+/* ------------------------------------------------------------------ */
+/* # Font Sizing */
+/* ------------------------------------------------------------------ */
+
+.text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
+
+.text-tiny {font-size: 66%;}
+.text-small {font-size: 75%;}
+.text-medium {font-size: 100%;}
+.text-large {font-size: 133%;}
+.text-huge {font-size: 175%;}
+
+/* ------------------------------------------------------------------ */
+/* # Font Coloring */
+/* ------------------------------------------------------------------ */
+
+.text-white {color: #fff;}
+.text-silver {color: #999;}
+.text-steel {color: #666;}
+.text-iron {color: #222;}
+.text-black {color: #000;}
+
+/* OLD UNUSED */
+/*
+.red, a.red, .red > a {color: #c33;}
+a.red:hover, a.red:focus, .red > a:hover, .red > a:focus {color: #822;}
+.orange, a.orange, .orange > a {color: #f63;}
+a.orange:hover, a.orange:focus, .orange > a:hover, .orange > a:focus {color: #931;}
+.yellow, a.yellow, .yellow > a {color: #ca0;}
+a.yellow:hover, a.yellow:focus, .yellow > a:hover, .yellow > a:focus {color: #761;}
+.green, a.green, .green > a {color: #393;}
+a.green:hover, a.green:focus, .green > a:hover, .green > a:focus {color: #252;}
+.cyan, a.cyan, .cyan > a {color: #399;}
+a.cyan:hover, a.cyan:focus, .cyan > a:hover, .cyan > a:focus {color: #255;}
+.blue, a.blue, .blue > a {color: #36c;}
+a.blue:hover, a.blue:focus, .blue > a:hover, .blue > a:focus {color: #248;}
+.purple, a.purple, .purple > a {color: #93c;}
+a.purple:hover, a.purple:focus, .purple > a:hover, .purple > a:focus {color: #517;}
+.magenta, a.magenta, .magenta > a {color: #e2a;}
+a.magenta:hover, a.magenta:focus, .magenta > a:hover, .magenta > a:focus {color: #a17;}
+*/
+
+/* OLD UNUSED : Named Rubrics Colors */
+/*
+.intersec, a.intersec, .intersec > a {color: #c33;}
+a.intersec:hover, a.intersec:focus, .intersec > a:hover, .intersec > a:focus {color: #822;}
+.struggles, a.struggles, .struggles > a {color: #f63;}
+a.struggles:hover, a.struggles:focus, .struggles > a:hover, .struggles > a:focus {color: #931;}
+.ideas, a.ideas, .ideas > a {color: #ca0;}
+a.ideas:hover, a.ideas:focus, .ideas > a:hover, .ideas > a:focus {color: #761;}
+.educult, a.educult, .educult > a {color: #399;}
+a.educult:hover, a.educult:focus, .educult > a:hover, .educult > a:focus {color: #255;}
+.internat, a.internat, .internat > a {color: #36c;}
+a.internat:hover, a.internat:focus, .internat > a:hover, .internat > a:focus {color: #248;}
+.ourbody, a.ourbody, .ourbody > a {color: #e2a;}
+a.ourbody:hover, a.ourbody:focus, .ourbody > a:hover, .ourbody > a:focus {color: #a17;}
+*/
+
+/* TEMP NEW : Named Rubrics Colors */
+.red, li.red > a {color: #c33;}
+a.red:hover, a.red:focus, li.red > a:hover, li.red > a:focus {color: #822;}
+.orange, li.orange > a {color: #f63;}
+a.orange:hover, a.orange:focus, li.orange > a:hover, li.orange > a:focus {color: #931;}
+.yellow, li.yellow > a {color: #ca0;}
+a.yellow:hover, a.yellow:focus, li.yellow > a:hover, li.yellow > a:focus {color: #761;}
+.green, li.green > a {color: #393;}
+a.green:hover, a.green:focus, li.green > a:hover, li.green > a:focus {color: #252;}
+.cyan, li.cyan > a {color: #399;}
+a.cyan:hover, a.cyan:focus, li.cyan > a:hover, li.cyan > a:focus {color: #255;}
+.blue, li.blue > a {color: #36c;}
+a.blue:hover, a.blue:focus, li.blue > a:hover, li.blue > a:focus {color: #248;}
+.purple, li.purple > a {color: #93c;}
+a.purple:hover, a.purple:focus, li.purple > a:hover, li.purple > a:focus {color: #517;}
+.magenta, li.magenta > a {color: #e2a;}
+a.magenta:hover, a.magenta:focus, li.magenta > a:hover, li.magenta > a:focus {color: #a17;}
+
+/* TEMP NEW : Literal Rubrics Colors */
+h1.intersec, h2.intersec, h3.intersec, h4.intersec, h5.intersec, h6.intersec, a.intersec, li.intersec > a {color: #c33;}
+a.intersec:hover, a.intersec:focus, li.intersec > a:hover, li.intersec > a:focus {color: #822;}
+h1.struggles, h2.struggles, h3.struggles, h4.struggles, h5.struggles, h6.struggles, a.struggles, li.struggles > a {color: #f63;}
+a.struggles:hover, a.struggles:focus, li.struggles > a:hover, li.struggles > a:focus {color: #931;}
+h1.ideas, h2.ideas, h3.ideas, h4.ideas, h5.ideas, h6.ideas, a.ideas, li.ideas > a {color: #ca0;}
+a.ideas:hover, a.ideas:focus, li.ideas > a:hover, li.ideas > a:focus {color: #761;}
+h1.educult, h2.educult, h3.educult, h4.educult, h5.educult, h6.educult, a.educult, li.educult > a {color: #399;}
+a.educult:hover, a.educult:focus, li.educult > a:hover, li.educult > a:focus {color: #255;}
+h1.internat, h2.internat, h3.internat, h4.internat, h5.internat, h6.internat, a.internat, li.internat > a {color: #36c;}
+a.internat:hover, a.internat:focus, li.internat > a:hover, li.internat > a:focus {color: #248;}
+h1.ourbody, h2.ourbody, h3.ourbody, h4.ourbody, h5.ourbody, h6.ourbody, a.ourbody, li.ourbody > a {color: #e2a;}
+a.ourbody:hover, a.ourbody:focus, li.ourbody > a:hover, li.ourbody > a:focus {color: #a17;}
 
 /* ------------------------------------------------------------------ */
 /* # Validation */
@@ -484,7 +529,8 @@ button:hover, .button:hover,
 button:focus, .button:focus {
   background-color: #97b;
 }
-button:active, .button:active {
+button:active, .button:active
+button.active, .button.active {
   background-color: #759;
 }
 
@@ -503,7 +549,8 @@ button.secondary:hover, .button.secondary:hover,
 button.secondary:focus, .button.secondary:focus {
   background-color: #ccc;
 }
-button.secondary:active, .button.secondary:active {
+button.secondary:active, .button.secondary:active,
+button.secondary.active, .button.secondary.active {
   background-color: #999;
 }
 
@@ -544,7 +591,8 @@ button.success:hover, .button.success:hover,
 button.success:focus, .button.success:focus {
   background-color: #295;
 }
-button.success:active, .button.success:active {
+button.success:active, .button.success:active,
+button.success.active, .button.success.active {
   background-color: #274;
 }
 
@@ -563,7 +611,8 @@ button.alert:hover, .button.alert:hover, button.error:hover, .button.error:hover
 button.alert:focus, .button.alert:focus, button.error:focus, .button.error:focus {
   background-color: #c41;
 }
-button.alert:active, .button.alert:active, button.error:active, .button.error:active {
+button.alert:active, .button.alert:active, button.error:active, .button.error:active,
+button.alert.active, .button.alert.active, button.error.active, .button.error.active {
   background-color: #930;
 }
 
@@ -588,7 +637,7 @@ a.disabled {
 [class*="-nav"] ul li a:hover.disabled.current,
 [class*="-nav"] ul li a:focus.disabled.current,
 [class*="-nav"] ul li a:active.disabled.current {
-  color: inherit;
+  color: inherit; /* TEMP */
   background-color: inherit;
   border-color: transparent;
 }
@@ -1808,12 +1857,12 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   content: "—";
   margin-right: .5rem;
 }
-
+[class*='cke'] .callout, /* CKEditor Styles Menu */
 .article .callout {
-  width: 75%;
   width: 90%;
-  margin-left: 12.5%;
+  width: 75%;
   margin-left: 5%;
+  margin-left: 12.5%;
   margin-bottom: 1rem;
   font-family: "Oswald", sans-serif;
   font-size: 175%;
@@ -1824,14 +1873,27 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   border: .25rem solid gray;
   border-left: 0;
   border-right: 0;
+  /*background-color: rgba(255, 0, 0, .5); /* DEBUG */
+  position: relative; /* TEMP : CKEditor position when editing bug */
+}
+[class*='cke'] .callout { /* CKEditor Styles Menu */
+  /*margin-bottom: 0; /* Fix margin bottom*/
 }
 .article .callout:before {
   content : "“"; /* Add left double quote */
+  position: absolute; /* TEMP : CKEditor position when editing bug */
+  top: 0; /* TEMP : CKEditor position when editing bug */
+  left: 0; /* TEMP : CKEditor position when editing bug */
   margin-right: .5rem;
+  /*background-color: rgba(255, 255, 0, .5); /* DEBUG */
 }
 .article .callout:after{
   content : "”"; /* Add right double quote */
+  position: absolute; /* TEMP : CKEditor position when editing bug */
+  bottom: 0; /* TEMP : CKEditor position when editing bug */
+  right: 0; /* TEMP : CKEditor position when editing bug */
   margin-left: .5rem;
+  /*background-color: rgba(255, 255, 0, .5); /* DEBUG */
 }
 /* OLD UNUSED*/
 /*
@@ -1856,11 +1918,23 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .article.magenta .callout {color: #e2a; border-color: #e2a;}
 
 /* Named Article Callout Rubrics Colors */
-.article.intersec .callout {color: #c33; border-color: #c33;}
+.article.intersec a,
+.article.intersec h4,
+.article.intersec .callout{color: #c33; border-color: #c33;}
+.article.struggles a,
+.article.struggles h4,
 .article.struggles .callout {color: #f63; border-color: #f63;}
+.article.ideas a,
+.article.ideas h4,
 .article.ideas .callout {color: #ca0; border-color: #ca0;}
+.article.educult a,
+.article.educult h4,
 .article.educult .callout {color: #399; border-color: #399;}
+.article.internat a,
+.article.internat h4,
 .article.internat .callout {color: #36c; border-color: #36c;}
+.article.ourbody a,
+.article.ourbody h4,
 .article.ourbody .callout {color: #e2a; border-color: #e2a;}
 
 /* ------------------------------------------------------------------ */
@@ -2322,6 +2396,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 }
 .date-list .href-block {
   min-height: 5rem;
+  border-style: solid;
   border-color: silver;
 }
 .date-list .href-block > time {

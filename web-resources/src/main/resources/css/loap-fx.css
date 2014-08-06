@@ -69,7 +69,8 @@
 .css-fx button:focus, .css-fx .button:focus {
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .125) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
 }
-.css-fx button:active, .css-fx .button:active {
+.css-fx button:active, .css-fx .button:active,
+.css-fx button.active, .css-fx .button.active {
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
 }
 .css-fx button.secondary, .css-fx .button.secondary,
@@ -86,7 +87,8 @@
 .css-fx button.secondary:focus, .css-fx .button.secondary:focus {
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .33) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
 }
-.css-fx button.secondary:active, .css-fx .button.secondary:active {
+.css-fx button.secondary:active, .css-fx .button.secondary:active,
+.css-fx button.secondary.active, .css-fx .button.secondary.active {
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
 }
 
