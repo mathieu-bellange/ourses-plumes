@@ -1,6 +1,8 @@
 ﻿/**
- * CKEditor Custom Config for Les Ourses à plumes
- * -- http://docs.ckeditor.com/#!/api/CKEDITOR.config
+ * Les Ourses à plumes
+ * CKEditor Custom Config
+ * http://docs.ckeditor.com/#!/api/CKEDITOR.config
+ * ver. 0.0.6
  */
 
 CKEDITOR.editorConfig = function( config ) {
@@ -65,7 +67,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// Body
 	//config.bodyId = "editor"; // Sets the id attribute to be used on the body element of the editing area. This can be useful when you intend to reuse the original CSS file you are using on your live website and want to assign the editor the same ID as the section that will include the contents. In this way ID-specific CSS rules will be enabled.
 	//config.bodyClass = "article"; // Sets the class attribute to be used on the body element of the editing area. This can be useful when you intend to reuse the original CSS file you are using on your live website and want to assign the editor the same class as the section that will include the contents. In this way class-specific CSS rules will be enabled.
-	
+
 	// CSS
 	config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
 
@@ -137,7 +139,7 @@ CKEDITOR.editorConfig = function( config ) {
 		["&#9824;", "Pique"]
 	];
 
-	/**
+	/*
 	// Toolbar configuration generated automatically by the editor based on config.toolbarGroups.
 	config.toolbar = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
@@ -181,12 +183,12 @@ CKEDITOR.editorConfig = function( config ) {
 	// Toolbars
 	config.toolbarLocation = "top"; // The part of the user interface where the toolbar will be rendered. For the default editor implementation, the recommended options are "top" and "bottom".
 	config.toolbarGroups = [
-		{ name: "styles" },
-		{ name: "links" },
-		{ name: "insert" },
-		{ name: "document" },
-		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: "tools" },
+		{name : "styles"},
+		{name : "links"},
+		{name : "insert"},
+		{name : "document"},
+		{name : "document", groups : ["mode"]},
+		{name : "tools"},
 	];
 	config.removeButtons = "Anchor,Image,Table,HorizontalRule,Format";
 	config.removeDialogTabs = "image:advanced;link:advanced;link:target;";
@@ -197,5 +199,4 @@ CKEDITOR.editorConfig = function( config ) {
 		{name : "Accroche", element : "div", attributes : {"class" : "callout"}},
 		{name : "Paragraphe", element : "p", attributes : {"class" : ""}},
 	];
-	
 };
