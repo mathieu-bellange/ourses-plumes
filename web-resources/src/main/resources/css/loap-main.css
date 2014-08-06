@@ -2018,40 +2018,50 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .articles-list .href-block .validate button,
 .articles-list .href-block .validate .button {
   margin-bottom: 0;
-  z-index: 100;
+  z-index: 1;
+}
+
+/* Transform */
+.articles-list.draft .href-block .title,
+.articles-list.draft .href-block .summary,
+.articles-list.standby .href-block .title,
+.articles-list.standby .href-block .summary {margin-left: 2.5rem;}
+.articles-list.draft .href-block a:before,
+.articles-list.standby .href-block a:before {
+  position: absolute;
+  text-indent: 0; /* Revert hide text */
+  font-family: "Oswald", sans-serif;
+  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-90deg); /* IE 9 */
+          transform: rotate(-90deg);
+  -webkit-transform-origin: 50% 100%; /* Chrome, Opera and Safari */
+      -ms-transform-origin: 50% 100%; /* IE 9 */
+          transform-origin: 50% 100%;
 }
 
 /* Draft */
 .articles-list.draft {}
 .articles-list.draft li {}
 .articles-list.draft .href-block {
-  font-style: italic;
   background-color: #eee;
 }
 .articles-list.draft .href-block a {
   border-style: dashed;
-  border-color: darkgray;
+  border-color: silver;
 }
-.articles-list.draft .href-block a:hover {
-  border-style: solid;
-  border-color: darkgray; /* TEMP : remove to reset to default */
-}
-
-.articles-list.draft h5:before {
+.articles-list.draft .href-block a:before {
   content: 'Brouillon';
-  float: left;
-  margin-top: .125em;
-  margin-right: .25rem;
-  padding: .125rem .375rem;
+  top: .75rem;
+  left: 0;
   color: darkgray;
-  font-size: 80%;
-  line-height: 1.5em;
-  border-radius: .25rem;
-  background-color: transparent;
 }
-.articles-list.draft button,
-.articles-list.draft .button{
-  font-style: normal; /* IE Fix */
+.articles-list.draft .href-block:hover {
+  background-color: white;
+}
+.articles-list.draft .href-block:hover a {
+  border-width: 1px;
+  border-style: solid;
+  border-color: silver;
 }
 
 /* Standby */
@@ -2061,34 +2071,31 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   background-color: lemonchiffon;
 }
 .articles-list.standby .href-block a {
-  border-color: dimgray;
+  border-color: #444;
   border-width: .25rem;
-}
-.articles-list.standby .href-block a:hover {
-  border-color: #d52;
 }
 .articles-list.standby .href-block a:before {
   content: 'À vérifier';
-  position: absolute;
-  top: -.5rem;
-  left: -5.5rem;
-  margin-top: -2em;
-  padding: .125rem .375rem;
-  min-width: 10rem;
-  line-height: 2em;
+  top: -.25rem;
+  left: -.375rem;
+  padding: .375rem .625rem;
   color: white;
-  text-align: center;
-  text-indent: 0; /* Revert hide text */
-  font-family: "Oswald", sans-serif;
-  background-color: dimgray;
-  -webkit-transform: rotate(-45deg); /* Chrome, Opera and Safari */
-      -ms-transform: rotate(-45deg); /* IE 9 */
-          transform: rotate(-45deg);
-  -webkit-transform-origin: 100% 0%; /* Chrome, Opera and Safari */
-      -ms-transform-origin: 100% 0%; /* IE 9 */
-          transform-origin: 100% 0%;
+  z-index: 1;
 }
-.articles-list.standby .href-block a:hover:before {
+.articles-list.standby .href-block a:after {
+  position: absolute;
+  content: '';
+  width: 2rem;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: .375rem .625rem;
+  background-color: #444;
+}
+.articles-list.standby .href-block:hover a {
+  border-color: #d52;
+}
+.articles-list.standby .href-block:hover a:after {
   background-color: #d52;
 }
 
@@ -2427,7 +2434,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 
 .href-block {
   position: relative;
-  overflow: hidden;
+  /*overflow: hidden;*/
   color: dimgray;
 }
 .href-block:hover,
@@ -2452,7 +2459,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   background-color: rgba(255, 255, 255, 0);
   border-color: gray;
 }
-.href-block a:hover {border-width: 4px;}
+.href-block a:hover {border-width: .25rem;}
 .href-block a:focus {outline-offset: -4px;}
 
 /* Standard Rubrics Colors */
