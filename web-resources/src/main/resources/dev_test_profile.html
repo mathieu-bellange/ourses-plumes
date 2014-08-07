@@ -128,25 +128,32 @@
 				<style>
 				.special {
 					position: absolute;
+					display: inline-block;
 					right: 0;
 					top: 50%;
-					margin-top: -0.6875rem;
-					display: inline-block;
-					width: 1.375rem;
-					height: 1.375rem;
-					vertical-align: center;
+					width: 1.5rem;
+					height: 1.5rem;
+					line-height: 1.5rem;
+					margin-top: -.75rem;
 					color: dimgray;
-					font-size: 75%;
-					font-weight: bold;
-					font-family: "Oswald", sans-serif;
+					font-family: "Oswald";
 					text-align: center;
 					border-radius: 100%;
 					background-color: whitesmoke;
-					border: 0.125rem solid darkgray;
+					border: 1px solid darkgray;
 					opacity: .5;
+					-webkit-transition: all .25s ease-out;
+						 -moz-transition: all .25s ease-out;
+									transition: all .25s ease-out;
 				}
 				.special:hover {
 					cursor: pointer;
+					right: -.375rem;
+					width: 2rem;
+					height: 2rem;
+					line-height: 2rem;
+					margin-top: -1rem;
+					font-size: 125%;
 					opacity: 1;
 				}
 				.special:before {
