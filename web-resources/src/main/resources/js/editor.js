@@ -1,6 +1,7 @@
 ﻿/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
+
 var template = doT.compile(loadfile($app_root + "tmpl/editor.tmpl"));
 // si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
 if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
@@ -97,7 +98,7 @@ function processArticle(article){
 	$("main > header").after(template(article));
 	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau 
 	// et aux draft en update avec comme path /articles/{id}
-	
+
 	//si il y a un id dans le path on est en update
 	if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
 		pathPUT = "/rest" + window.location.pathname;
@@ -123,6 +124,7 @@ function processArticle(article){
 		//TODO injection de la valeur de l'article
 	});
 
+	// Append Classic CKEditor to textarea #editor
 	$("#editor").ckeditor();
 
 	// event
@@ -142,21 +144,20 @@ function processArticle(article){
 		blur: function() {
 			update_rubric();
 			//update validation
-			setValidationIcon($("#rubric"),$("#rubricError"), $("#rubric li.selected").text().length !== 0);
+			setValidationIcon($("#rubric"), $("#rubricError"), $("#rubric li.selected").text().length !== 0);
 		},
 		click: function() {update_rubric();},
 		keyup: function() {update_rubric();}
 	});
-
-	$("#category").blur(function() {
-		update_category();
-		//update validation
-		setValidationIcon($("#category"),$("#categoryError"), $("#category li.selected").text().length !== 0);
+	$("#category").bind({
+		blur: function() {
+			update_category();
+			//update validation
+			setValidationIcon($("#category"), $("#categoryError"), $("#category li.selected").text().length !== 0);
+		},
+		click: function() {update_category();},
+		keyup: function() {update_category();}
 	});
-	$("#category").click(function() {
-		update_category();
-	});
-
 	$("#tag").bind({
 		blur: function() {
 			hide_error("#tag");
@@ -180,6 +181,7 @@ function processArticle(article){
 			}
 		}, 500);
 	});
+
 	// recharge foundation pour les tags ajoutés directement par le template
 	if (article.tags.length > 0){
 		$("#tags").foundation("alert");
@@ -230,7 +232,7 @@ function processCategory(json, article){
 	update_category()
 }
 
-/* maj de la rubrique */
+/* maj de la combo rubrique */
 function update_rubric() {
 	if ($("#rubric .select").children().size() == 0) {
 		// update text
@@ -266,6 +268,7 @@ function update_category() {
 		}
 	}
 }
+
 /* Tags */
 var tag_num_lim = 8;
 var tag_err_msg = ["Limite de tags autoris&eacute;e atteinte", "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie"];
@@ -335,7 +338,6 @@ function setValidationIcon(selector, labelSelector, isValid) {
 		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
 	}
 }
-
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#article-alert").length == 0) {
@@ -353,29 +355,29 @@ function createAlertBox(err, msg) {
 
 // créer ou ajout un article
 function sendArticle(){
-	//Edition
+	// Edition
 	var title = $("#title").val();
 	var description = $("#summary").val();
 	var body = $("#editor").val();
-	
-	//Categories
+
+	// Categories
 	var idCategory = $("#category li.selected").attr("data-value");
 	var valueCategory = $("#category li.selected").text();	
 	var category = new Category(idCategory, valueCategory);
-	
-	//Rubriques
+
+	// Rubriques
 	var idRubrique = $("#rubric li.selected").attr("data-value");
 	var valueRubrique = $("#rubric li.selected").text();
 	var rubrique = new Rubrique(idRubrique, valueRubrique);
-	
-	//Tags
+
+	// Tags
 	var tags = [];
 	$("[data-tag] span").each(function(){
 		tags.push(new Tag(null, $(this).text()));
 	});
-	
+
 	var data = new Article(title, body, description, category, rubrique, tags);
-	
+
 	 $.ajax({
 		 type: "PUT",
 		 url: pathPUT,
@@ -460,6 +462,7 @@ function checkSummary(){
 	}
 	
 }
+
 function checkBody(){
 	if ($("#editor").val().length === 0){
 		setValidationIcon($("#editor"),$("#editorError"), false);
