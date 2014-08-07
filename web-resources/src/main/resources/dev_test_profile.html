@@ -15,14 +15,12 @@
 			#dev_test_profile_toolbar > label {margin: 0 0 0 .5rem;}
 			#dev_test_profile_toolbar > input[type="checkbox"] {margin: 0; vertical-align: middle;}
 		</style>
-		<!--
-		 .user-profile
-		 .user-articles-list
-		-->
 		<div id="dev_test_profile_toolbar" class="panel">
 			<h4 class="text-medium">Show</h4>
-			<label for="show_user_profile">Profil</label>
-			<input id="show_user_profile" type="checkbox" name="show" value="user-profile">
+			<label for="show_user_profile_show">Vue Profil</label>
+			<input id="show_user_profile_show" type="checkbox" name="show" value="user-profile-show">
+			<label for="show_user_profile_update">Mise à jour Profil</label>
+			<input id="show_user_profile_update" type="checkbox" name="show" value="user-profile-update" checked>
 			<label for="show_user_articles_list">Liste des articles</label>
 			<input id="show_user_articles_list" type="checkbox" name="show" value="user-articles-list" checked>
 			<label for="toggle_css_debug">Masques CSS</label>
@@ -61,16 +59,40 @@
 		});
 		</script>
 
-		<!--User Profile--->
-		<div class="row panel radius user-profile">
+		<!--User Profile Show-->
+		<div class="row panel radius user-profile user-profile-show">
+			<div class="column small-12 medium-5 large-4 text-center">
+				<!--User picture-->
+				<div class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</div>
+			</div>
+			<div class="column small-12 medium-7 large-8">
+				<div class="clearfix" style="position: relative;">
+					<!--Pseudo-->
+					<h3 class="user-name">MyUsername</h3>
+					<!--Role-->
+					<h4 class="user-role">MyRole</h4>
+				</div>
+				<!--User links-->
+				<ul id="user_links_icons" class="inline-list block">
+					<li><a href="javascript:void(0)" class="icon-mail medium">Adresse mail</a></li>
+					<li><a href="javascript:void(0)" class="icon-link medium">Page perso</a></li>
+					<li><a href="javascript:void(0)" class="icon-twitter medium">Twitter</a></li>
+					<li><a href="javascript:void(0)" class="icon-facebook medium">Facebook</a></li>
+					<li><a href="javascript:void(0)" class="icon-googleplus medium">Google+</a></li>
+					<li><a href="javascript:void(0)" class="icon-linkedin medium">LinkedIn</a></li>
+				</ul>
+				<p>MyDescription</p>
+			</div>
+		</div>
 
+		<!--User Profile Update--->
+		<div class="row panel radius user-profile user-profile-update">
 			<div class="column small-12 medium-5 large-4 text-center">
 
 				<!--User picture-->
 				<div class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</div>
 
 			</div>
-
 			<div class="column small-12 medium-7 large-8">
 
 				<!--Disabled-->
@@ -83,13 +105,13 @@
 				<input id="pseudo_readonly" type="text" value="MyUsername" class="validation-icon" readonly="readonly">
 				<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
 
+				<label for="pseudo" class=" red">Enabled (default)</label>
 				<div class="clearfix" style="position: relative;">
 					<!--Default-->
-					<label for="pseudo" class="left red">Enabled (default)</label>
-					<input id="pseudo" type="text" value="MyUsername" class="validation-icon" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+					<input id="pseudo" type="text" value="MyUsername" class="user-name validation-icon wrong" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
 					<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
 					<!--User role-->
-					<h4 id="role">MyRole</h4>
+					<h4 id="role" class="user-role">MyRole</h4>
 				</div>
 
 				<!--User links-->
@@ -214,11 +236,11 @@
 			</div>
 		</div>
 
+		<!--Some script kiddy dirty things-->
 		<script>
-
+			/* User Articles List Expander  */
 			var triggerer = ".special";
 			var triggered = ".extra";
-
 			$(triggerer).click(function() {
 				var obj = $(this);
 				if (obj.data("can_slide") === "true") {
@@ -232,11 +254,10 @@
 			$(document).ready(function() {
 				$(".special").data("can_slide", "true");
 			});
-			
 		</script>
 
+		<!--The very big trash lies below-->
 		<script>
-
 			function create_icons_input(options) {
 				var defaults = {
 					"input_container" : "",
@@ -366,78 +387,59 @@
 				});
 			}
 
-			function update_role_display(screen_width) {
-				var screen_width = screen_width || 640;
-				if ($(window).width() > screen_width) {
-					// Init : set user role custom styles
-					$("#role").addClass("text-large");
-					$("#role").css({
-						"position" : "absolute",
-						"top" : $("#pseudo").position().top,
-						"right" : "0",
-						"margin" : "0",
-						"padding" : "0 1rem",
-						"height" : $("#pseudo").outerHeight(),
-						"line-height" : $("#pseudo").css("line-height"),
-						"opacity" : ".5",
-						"color" : "white",
-						"text-shadow" : "-1px -1px rgba(0, 0, 0, .5)",
-					});
-					// Events : change user role custom styles
-					$("#pseudo").bind({
-						mouseover: function() {
-							$("#role").css("color", "gray");
-							$("#role").css("text-shadow", "none");
-						},
-						mouseout: function() {
-							$("#role").css("color", "white");
-							$("#role").css("text-shadow", "-1px -1px rgba(0, 0, 0, .5)");
-						},
-						focus: function() {
-							$("#role").fadeOut();
-						},
-						blur: function() {
-							$("#role").fadeIn();
-						}
-					});
-				} else {
-					// Init : reset user role custom styles
-					$("#role").removeClass("text-large");
-					$("#role").css({
-						"position" : "",
-						"top" : "",
-						"right" : "",
-						"margin" : "",
-						"padding" : "",
-						"height" : "",
-						"line-height" : "",
-						"opacity" : "",
-						"color" : "",
-						"text-shadow" : "",
-					});
-					// Events : unbind user role custom styles
-					$("#pseudo").unbind("mouseover");
-					$("#pseudo").unbind("mouseout");
-					$("#pseudo").unbind("focus");
-					$("#pseudo").unbind("blur");
+			function set_role_display() {
+				// Define Methods
+				function update_role_display(clear) {
+					var screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+					if (window.matchMedia("(min-width: " + screen_width + "px)").matches) {
+						var clear = clear || false;
+						$("#role").css({
+							"color" : (clear ? "" : "gray"),
+							"text-shadow" : (clear ? "" : "none")
+						});
+					}
 				}
+				// Bind Events
+				$("#pseudo").bind({ // Bind role display events to pseudo
+					mouseenter: function() {update_role_display();},
+					mouseleave: function() {if (!$(this).is(":focus")) {update_role_display(true);}},
+					focus: function() {update_role_display();},
+					blur: function() {if (!$(this).is(":focus")) {update_role_display(true);}}
+				});
 			}
 
 			// Define Icons Input Variables
 			var user_links = {
-				"input_container" : "#user-link",
-				"icons_container" : "#user_links_icons",
+				"input_container" : ".user-profile-update #user-link",
+				"icons_container" : ".user-profile-update #user_links_icons",
 				"icons_title_prefix" : "Votre "
 			};
-			// On Page Load
+
+			// Define Page Startup Instructions
 			$(document).ready(function() {
 				create_icons_input(user_links); // Process user links
-				update_role_display(640); // Update user role display
+				set_role_display(); // Apply role display changing
 			});
-			// On Screen Resize
-			$(window).on("resize", function() {
-				update_role_display(640); // Update user role display
-			});
+
+		</script>
+		<script>
+
+		var test = (function() {
+			return {
+				init : function(a) {
+					if (a = 0) {
+						alert("init 0");
+					} else {
+						alert("init somethign else");
+					}
+				},
+				reload : function() {
+					this.init(1);
+				}
+			}
+		}());
+
+		test.reload();
 
 		</script>
 		<script>

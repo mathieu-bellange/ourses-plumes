@@ -19,23 +19,25 @@ function createAlertBox(err, msg) {
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-function processProfile(profile){
+function processProfile(profile) {
 	$("main > header").after(template(profile));
 	loap.update();
 }
 
-function processRole(role){
-	$("#role h4").text(role).fadeIn();
+function processRole(role) {
+	$(".user-role").text(role).fadeIn();
 }
 
-function sortSocialLinks(links){
+function sortSocialLinks(links) {
 	links.sort(function(a, b) {
-	    if (a.name > b.name)
-	      return 1;
-	    if (a.name < b.name)
-	      return -1;
-	    // a doit être égale à b
-	    return 0;
+		if (a.name > b.name) {
+			return 1;
+		}
+		if (a.name < b.name) {
+			return -1;
+		}
+		// a doit être égale à b
+		return 0;
 	});
 }
 
@@ -43,7 +45,7 @@ function sortSocialLinks(links){
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
-function displayProfile(){
+function displayProfile() {
 	var path = window.location.pathname.replace("/profils","");
 	$.ajax({
 		type : "GET",
@@ -64,7 +66,7 @@ function displayProfile(){
 	});
 }
 
-function displayRole(pseudo){
+function displayRole(pseudo) {
 	$.ajax({
 		type : "GET",
 		url : "/rest/profile/" + pseudo + "/authz",

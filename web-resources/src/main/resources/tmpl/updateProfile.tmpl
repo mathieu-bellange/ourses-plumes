@@ -1,24 +1,21 @@
 ﻿				<!--User Profile-->
 				<section id="user-update-profile">
+					<!--First Row-->
 					<div class="row panel radius user-profile">
-
+						<!--First Column-->
 						<div class="column small-12 medium-5 large-4 text-center">
-
 							<!--User picture-->
 							<span class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</span>
-
 						</div>
-
+						<!--Second Column-->
 						<div class="column small-12 medium-7 large-8">
-
 							<div class="clearfix" style="position: relative;">
 								<!--Pseudo-->
-								<input id="pseudo" type="text" value="{{= data.pseudo }}" class="validation-icon disable" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+								<input id="pseudo" class="user-name" type="text" value="{{= data.pseudo }}" class="validation-icon disable" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
 								<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
 								<!--Role-->
-								<h4 id="role">{{= window.localStorage.getItem($oursesUserRole) }}</h4>
+								<h4 id="role" class="user-role">{{= window.localStorage.getItem($oursesUserRole) }}</h4>
 							</div>
-
 							<!--User links-->
 							<div id="user-link">
 								<span class="prefix text-small left"></span>
@@ -32,11 +29,8 @@
 								<li><a href="javascript:void(0)" class="icon-googleplus medium" title="page Google+" data-url-prefix="https://plus.google.com/">GooglePlus</a></li>
 								<li><a href="javascript:void(0)" class="icon-linkedin medium" title="profil LinkedIn" data-url-prefix="https://www.linkedin.com/">LinkedIn</a></li>
 							</ul>
-
 							<!--Description-->
 							<textarea id="description" class="min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description }}</textarea>
-
 						</div>
-
 					</div>
 				</section>

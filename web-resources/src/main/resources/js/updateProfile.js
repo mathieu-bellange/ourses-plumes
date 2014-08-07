@@ -71,19 +71,26 @@ function setValidationIcon(selector, labelSelector, isValid) {
 		$(selector).removeClass("wrong");
 		$(selector).css("margin-bottom", "");
 		$(labelSelector).addClass("hide");
+		/* OLD SHIT : to be removed */
+		/*
 		// TEMP : show role on validation success
 		if (selector.attr("id") == "pseudo" && $(window).width() > 640) {
 			$("#role").show();
 		}
+		*/
 	} else if (isValid == false) {
 		$(selector).attr("data-invalid",true);
 		$(selector).addClass("wrong");
 		$(selector).css("margin-bottom", "0");
 		$(labelSelector).removeClass("hide");
+		/* OLD SHIT : to be removed */
+		/*
 		// TEMP : hide role on validation fail
 		if (selector.attr("id") == "pseudo" && $(window).width() > 640) {
 			$("#role").hide();
 		}
+		*/
+		role_display.update(); // here's the trick ! fancy stuff ;)
 	} else {
 		$(selector).removeClass("wrong");
 	}
@@ -180,11 +187,15 @@ function getProfile(){
 				$("textarea").validation_bar(); // initialize validation_bar plugin for all textareas
 				//set_icons_input(social_links); // process icons input for social links
 				create_icons_input(user_links_icons_input); // process icons input for user links
+				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
+				/* OLD SHIT : to be removed*/
+				/*
 				update_role_display(640); // update user role display
 				$(window).on("resize", function() {
 					update_role_display(640); // update user role display on screen resize
 				});
+				*/
 				// End EDIT ----------------------------------------------------
 			},
 			error : function(jqXHR, status, errorThrown) {
@@ -408,6 +419,47 @@ function create_icons_input(options) {
 /* # Update Role Display */
 /* ------------------------------------------------------------------ */
 
+var role_display = (function() {
+	return {
+		update : function(clear) { // Set role display according to device width
+			var clear = clear || false;
+			var screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+			if (window.matchMedia("(min-width: " + screen_width + "px)").matches) {
+				$("#role").css({
+					"color" : (clear ? "" : "gray"),
+					"text-shadow" : (clear ? "" : "none")
+				});
+			}
+		},
+		clear : function() { // Alias of update method with clear argument
+			this.update(true);
+		},
+		init : function() { // Bind role display events to pseudo
+			var self = this;
+			$("#pseudo").bind({
+				mouseenter: function() {
+					self.update();
+				},
+				mouseleave: function() {
+					if (!$(this).is(":focus") && !$(this).hasClass("wrong")) {
+						self.clear();
+					}
+				},
+				focus: function() {
+					self.update();
+				},
+				blur: function() {
+					if (!$(this).hasClass("wrong")) {
+						self.clear();
+					}
+				}
+			});
+		}
+	}
+}());
+
+/* UNUSED : old stuff ; not to be used */
+/*
 function update_role_display(screen_width) {
 	var screen_width = screen_width || 640;
 	if ($(window).width() > screen_width) {
@@ -467,6 +519,7 @@ function update_role_display(screen_width) {
 		$("#pseudo").unbind("blur");
 	}
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Initialization */
