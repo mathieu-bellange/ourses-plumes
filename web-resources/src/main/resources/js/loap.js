@@ -69,10 +69,11 @@ if (typeof $css_fx !== "undefined" && $css_fx == true) {$("body").addClass("css-
  */
 
 if (typeof $build_container !== "undefined" && $build_container == true) {
+	// Apply standard layout (i.e. two columns view) class to body
+	$("body").addClass("standard-layout");
 	// create HTML skeleton
 	$("body").prepend("<div id='main' class='frame'>");
 	$("#main").append("<main class='main-pane'>");
-
 	// process templates
 	if ($dev_toolbar == true) {
 		$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));

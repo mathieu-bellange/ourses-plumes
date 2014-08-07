@@ -46,50 +46,48 @@
 		</style>
 	</head>
 	<body>
-		<div style="min-height: 100%; padding: 1rem; background-color: white;">
 
-			<h2 class="red">Liste de choix <small>&lt;select&gt;</small></h2>
+		<h2 class="red">Liste de choix <small>&lt;select&gt;</small></h2>
 
-			<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
+		<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
 
-				<fieldset>
+			<fieldset>
 
-					<!--Standard Select-->
-					<label for="standard_select">Standard Select</label>
-					<select id="standard_select">
-						<option>Option</option>
-						<option selected>Selected</option>
-						<option disabled>Disabled</option>
-						<option style="color: red;">Stylized</option>
-					</select>
+				<!--Standard Select-->
+				<label for="standard_select">Standard Select</label>
+				<select id="standard_select">
+					<option>Option</option>
+					<option selected>Selected</option>
+					<option disabled>Disabled</option>
+					<option style="color: red;">Stylized</option>
+				</select>
 
-					<!--Custom Select-->
-					<label for="custom_select">Custom select <span class="text-small text-silver">.customSelect</span></label>
-					<select id="custom_select" class="customSelect">
-						<option>Option</option>
-						<option selected>Selected</option>
-						<option disabled>Disabled</option>
-						<option style="color: red;">Stylized</option>
-					</select>
-					<p class="text-small"><strong>Advantage</strong>&thinsp;: browser friendly behaviour<br><strong>Inconvienent</strong>&thinsp;: ugly or unexpected looking according to browser<br><strike><strong>BUG</strong>&thinsp;: select keeps the document loaded width on resize (i.e. select box overlaps and corrupts document width on window reduction)</strike></p>
+				<!--Custom Select-->
+				<label for="custom_select">Custom select <span class="text-small text-silver">.customSelect</span></label>
+				<select id="custom_select" class="customSelect">
+					<option>Option</option>
+					<option selected>Selected</option>
+					<option disabled>Disabled</option>
+					<option style="color: red;">Stylized</option>
+				</select>
+				<p class="text-small"><strong>Advantage</strong>&thinsp;: browser friendly behaviour<br><strong>Inconvienent</strong>&thinsp;: ugly or unexpected looking according to browser<br><strike><strong>BUG</strong>&thinsp;: select keeps the document loaded width on resize (i.e. select box overlaps and corrupts document width on window reduction)</strike></p>
 
-					<!--Options Select-->
-					<label >Options Select <span class="text-small text-silver">.options-select</span></label>
-					<div class="options-select" tabindex="0">
-						<span class="select"><span class="text-silver">Please select an option</span></span>
-						<ul class="options hide">
-							<li>Option</li>
-							<li class="selected">Selected</li>
-							<li class="disabled">Disabled</li>
-							<li style="color: red;">Stylized</li>
-						</ul>
-					</div>
-					<p class="text-small"><strong>Advantages</strong>&thinsp;: full control against behaviour (script based), same display on all browsers (CSS based)<br><strong>Inconvenients</strong>&thinsp;: not focusable element (i.e. &lt;div&gt;), unusable on plain HTML display</p>
+				<!--Options Select-->
+				<label >Options Select <span class="text-small text-silver">.options-select</span></label>
+				<div class="options-select" tabindex="0">
+					<span class="select"><span class="text-silver">Please select an option</span></span>
+					<ul class="options hide">
+						<li>Option</li>
+						<li class="selected">Selected</li>
+						<li class="disabled">Disabled</li>
+						<li style="color: red;">Stylized</li>
+					</ul>
+				</div>
+				<p class="text-small"><strong>Advantages</strong>&thinsp;: full control against behaviour (script based), same display on all browsers (CSS based)<br><strong>Inconvenients</strong>&thinsp;: not focusable element (i.e. &lt;div&gt;), unusable on plain HTML display</p>
 
-				</fieldset>
-			</form>
+			</fieldset>
+		</form>
 
-		</div>
 		<script>
 			$build_container = false;
 			load();

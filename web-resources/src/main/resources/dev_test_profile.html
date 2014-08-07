@@ -5,67 +5,65 @@
 		<script src="boot"></script>
 	</head>
 	<body>
-		<div style="min-height: 100%; padding: 1rem; background-color: white;">
 
-			<h2 class="red">Profil <small>.user-profile</small></h2>
+		<h2 class="red">Profil <small>.user-profile</small></h2>
 
-			<div class="row panel radius user-profile">
+		<div class="row panel radius user-profile">
 
-				<div class="column small-12 medium-5 large-4 text-center">
+			<div class="column small-12 medium-5 large-4 text-center">
 
-					<!--User picture-->
-					<div class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</div>
+				<!--User picture-->
+				<div class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</div>
 
+			</div>
+
+			<div class="column small-12 medium-7 large-8">
+
+				<!--Disabled-->
+				<label for="pseudo_disabled" class="left red">Disabled (attribute 'disabled' is set)</label>
+				<input id="pseudo_disabled" type="text" value="MyUsername" class="validation-icon" disabled="disabled">
+				<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
+
+				<!--Readonly-->
+				<label for="pseudo_readonly" class="left red">Readonly (attribute 'readonly' is set)</label>
+				<input id="pseudo_readonly" type="text" value="MyUsername" class="validation-icon" readonly="readonly">
+				<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
+
+				<div class="clearfix" style="position: relative;">
+					<!--Default-->
+					<label for="pseudo" class="left red">Enabled (default)</label>
+					<input id="pseudo" type="text" value="MyUsername" class="validation-icon" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+					<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
+					<!--User role-->
+					<h4 id="role">MyRole</h4>
 				</div>
 
-				<div class="column small-12 medium-7 large-8">
-
-					<!--Disabled-->
-					<label for="pseudo_disabled" class="left red">Disabled (attribute 'disabled' is set)</label>
-					<input id="pseudo_disabled" type="text" value="MyUsername" class="validation-icon" disabled="disabled">
-					<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
-
-					<!--Readonly-->
-					<label for="pseudo_readonly" class="left red">Readonly (attribute 'readonly' is set)</label>
-					<input id="pseudo_readonly" type="text" value="MyUsername" class="validation-icon" readonly="readonly">
-					<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
-
-					<div class="clearfix" style="position: relative;">
-						<!--Default-->
-						<label for="pseudo" class="left red">Enabled (default)</label>
-						<input id="pseudo" type="text" value="MyUsername" class="validation-icon" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
-						<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
-						<!--User role-->
-						<h4 id="role">MyRole</h4>
-					</div>
-
-					<!--User links-->
-					<div id="user-link">
-						<span class="prefix text-small left"></span>
-						<input class="left" type="text" placeholder="L&rsquo;adresse internet de votre lien">
-					</div>
-					<ul id="user_links_icons" class="inline-list block">
-						<li><a href="javascript:void(0)" class="icon-mail medium">Adresse mail</a></li>
-						<li><a href="javascript:void(0)" class="icon-link medium" data-url-prefix="http://">Page perso</a></li>
-						<li><a href="javascript:void(0)" class="icon-twitter medium" data-url-prefix="https://www.twitter.com/">Twitter</a></li>
-						<li><a href="javascript:void(0)" class="icon-facebook medium" data-url-prefix="https://www.facebook.com/">Facebook</a></li>
-						<li><a href="javascript:void(0)" class="icon-googleplus medium" data-url-prefix="https://plus.google.com/">Google+</a></li>
-						<li><a href="javascript:void(0)" class="icon-linkedin medium" data-url-prefix="https://www.linkedin.com/">LinkedIn</a></li>
-					</ul>
-
-					<!--User description disabled-->
-					<label for="description" class="red">Disabled (attribute 'disabled' is set)</label>
-					<textarea id="description" class="min" maxlength="255" disabled="disabled" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-					<!--User description readonly-->
-					<label for="description" class="red">Readonly (attribute 'readonly' is set)</label>
-					<textarea id="description" class="min" maxlength="255" readonly="readonly" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-					<!--User description default-->
-					<label for="description" class="red">Enabled (default)</label>
-					<textarea id="description" class="min" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
+				<!--User links-->
+				<div id="user-link">
+					<span class="prefix text-small left"></span>
+					<input class="left" type="text" placeholder="L&rsquo;adresse internet de votre lien">
 				</div>
+				<ul id="user_links_icons" class="inline-list block">
+					<li><a href="javascript:void(0)" class="icon-mail medium">Adresse mail</a></li>
+					<li><a href="javascript:void(0)" class="icon-link medium" data-url-prefix="http://">Page perso</a></li>
+					<li><a href="javascript:void(0)" class="icon-twitter medium" data-url-prefix="https://www.twitter.com/">Twitter</a></li>
+					<li><a href="javascript:void(0)" class="icon-facebook medium" data-url-prefix="https://www.facebook.com/">Facebook</a></li>
+					<li><a href="javascript:void(0)" class="icon-googleplus medium" data-url-prefix="https://plus.google.com/">Google+</a></li>
+					<li><a href="javascript:void(0)" class="icon-linkedin medium" data-url-prefix="https://www.linkedin.com/">LinkedIn</a></li>
+				</ul>
+
+				<!--User description disabled-->
+				<label for="description" class="red">Disabled (attribute 'disabled' is set)</label>
+				<textarea id="description" class="min" maxlength="255" disabled="disabled" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
+				<!--User description readonly-->
+				<label for="description" class="red">Readonly (attribute 'readonly' is set)</label>
+				<textarea id="description" class="min" maxlength="255" readonly="readonly" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
+				<!--User description default-->
+				<label for="description" class="red">Enabled (default)</label>
+				<textarea id="description" class="min" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
 			</div>
 
 		</div>

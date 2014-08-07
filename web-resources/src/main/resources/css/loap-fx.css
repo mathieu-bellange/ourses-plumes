@@ -238,7 +238,7 @@
 }
 
 /* Backgrounds Effects */
-body.css-fx {background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png');}
+.css-fx.standard-layout {background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png');}
 .css-fx button,
 .css-fx .button,
 .css-fx .site-nav,

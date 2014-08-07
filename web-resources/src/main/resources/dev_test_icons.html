@@ -92,257 +92,252 @@
 
 	<body>
 
-		<div style="min-height: 100%; padding: 1rem; background-color: white;">
+		<h2 class="red">Ic&ocirc;nes <small>.icon-*</small></h2>
 
-			<h2 class="red">Ic&ocirc;nes <small>.icon-*</small></h2>
-
-			<!--SVG-->
-			<svg width="0" height="0" style="position: absolute; opacity: 0;">
-				<defs>
-					<filter id="shadow" x="0" y="0">
-						<feOffset result="offsetOut" in="SourceAlpha" dx="2" dy="2" />
-						<feGaussianBlur result="blurOut" in="offsetOut" stdDeviation="1" />
-						<feBlend in="SourceGraphic" in2="blurOut" mode="normal" /
-					</filter>
-				</defs>
-				<defs>
-					<filter id="crenel">
-						<feGaussianBlur in="SourceGraphic" stdDeviation=".25" />
-					</filter>
-				</defs>
-				<defs>
-					<filter id="blur" x="-15%" y="-15%" width="125%" height="125%">
-						<feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-					</filter>
-				</defs>
-				<defs>
-					<filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
-						<feOffset in="SourceGraphic" result="offsetOut" dx="0" dy="0" />
-						<feMorphology operator="dilate" in="offsetOut" result="offsetOut" radius="1" />
-						<feGaussianBlur in="offsetOut" result="blurOut" stdDeviation="2" />
-						<feBlend in="SourceGraphic" in2="blurOut" mode="lighten" />
-					</filter>
-				</defs>
-				<g id="icon-left">
-					<path d="M33.746,12.421L21.954,24.213l11.792,11.793 c0,0,2.244,2.133-0.027,4.405c-2.271,2.271-4.404,0.027-4.404,0.027L13.091,24.215l0.001-0.002l-0.001-0.001L29.314,7.989 c0,0,2.133-2.244,4.404,0.028S33.746,12.421,33.746,12.421z"/>
-				</g>
-				<g id="icon-mail">
-					<path d="M5.002,16.726c0,4.877,0,12.91,0,16.546l10.117-9.725
-						L5.002,16.726z M23.87,29.447l-7.599-5.124L5.002,35.156c0,0.002,0,0.01,0,0.01s-0.001,1.865,1.884,1.865s32.613,0,34.229,0
-						c1.885,0,1.884-1.871,1.884-1.871v-0.004L31.537,24.348L23.87,29.447z M42.998,33.271c0-3.632,0-11.668,0-16.546l-10.289,6.843
-						L42.998,33.271z M41.095,10.968H6.871c0,0-1.869,0.015-1.869,1.885c0,0.274,0,0.955,0,1.904l11.29,7.662l0.042-0.04v0.068
-						l7.537,5.115l7.537-5.045V22.34l0.109,0.104l11.481-7.686c0-0.952,0-1.633,0-1.904C42.998,11.008,41.095,10.968,41.095,10.968z"/>
-				</g>
-			</svg>
-
-			<h4>Embedded SVG Icon</h4>
-			<svg class="icon" viewBox="0 0 48 48">
+		<!--SVG-->
+		<svg width="0" height="0" style="position: absolute; opacity: 0;">
+			<defs>
+				<filter id="shadow" x="0" y="0">
+					<feOffset result="offsetOut" in="SourceAlpha" dx="2" dy="2" />
+					<feGaussianBlur result="blurOut" in="offsetOut" stdDeviation="1" />
+					<feBlend in="SourceGraphic" in2="blurOut" mode="normal" /
+				</filter>
+			</defs>
+			<defs>
+				<filter id="crenel">
+					<feGaussianBlur in="SourceGraphic" stdDeviation=".25" />
+				</filter>
+			</defs>
+			<defs>
+				<filter id="blur" x="-15%" y="-15%" width="125%" height="125%">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+				</filter>
+			</defs>
+			<defs>
+				<filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+					<feOffset in="SourceGraphic" result="offsetOut" dx="0" dy="0" />
+					<feMorphology operator="dilate" in="offsetOut" result="offsetOut" radius="1" />
+					<feGaussianBlur in="offsetOut" result="blurOut" stdDeviation="2" />
+					<feBlend in="SourceGraphic" in2="blurOut" mode="lighten" />
+				</filter>
+			</defs>
+			<g id="icon-left">
 				<path d="M33.746,12.421L21.954,24.213l11.792,11.793 c0,0,2.244,2.133-0.027,4.405c-2.271,2.271-4.404,0.027-4.404,0.027L13.091,24.215l0.001-0.002l-0.001-0.001L29.314,7.989 c0,0,2.133-2.244,4.404,0.028S33.746,12.421,33.746,12.421z"/>
-			</svg>
+			</g>
+			<g id="icon-mail">
+				<path d="M5.002,16.726c0,4.877,0,12.91,0,16.546l10.117-9.725
+					L5.002,16.726z M23.87,29.447l-7.599-5.124L5.002,35.156c0,0.002,0,0.01,0,0.01s-0.001,1.865,1.884,1.865s32.613,0,34.229,0
+					c1.885,0,1.884-1.871,1.884-1.871v-0.004L31.537,24.348L23.87,29.447z M42.998,33.271c0-3.632,0-11.668,0-16.546l-10.289,6.843
+					L42.998,33.271z M41.095,10.968H6.871c0,0-1.869,0.015-1.869,1.885c0,0.274,0,0.955,0,1.904l11.29,7.662l0.042-0.04v0.068
+					l7.537,5.115l7.537-5.045V22.34l0.109,0.104l11.481-7.686c0-0.952,0-1.633,0-1.904C42.998,11.008,41.095,10.968,41.095,10.968z"/>
+			</g>
+		</svg>
 
-			<h4>Referenced SVG Icon</h4>
+		<h4>Embedded SVG Icon</h4>
+		<svg class="icon" viewBox="0 0 48 48">
+			<path d="M33.746,12.421L21.954,24.213l11.792,11.793 c0,0,2.244,2.133-0.027,4.405c-2.271,2.271-4.404,0.027-4.404,0.027L13.091,24.215l0.001-0.002l-0.001-0.001L29.314,7.989 c0,0,2.133-2.244,4.404,0.028S33.746,12.421,33.746,12.421z"/>
+		</svg>
 
+		<h4>Referenced SVG Icon</h4>
+
+		<svg class="icon huge" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
+
+		<svg class="icon large" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
+
+		<svg class="icon medium" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
+
+		<svg class="icon small" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
+
+		<svg class="icon tiny" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
+
+		<h4>Referenced SVG Icon Link</h4>
+
+		<a href="javascript:void(0)" class="link-icon block">
 			<svg class="icon huge" viewBox="0 0 48 48">
 				<use xlink:href="#icon-left"></use>
 			</svg>
+		</a>
 
+		<a href="javascript:void(0)" class="link-icon block">
 			<svg class="icon large" viewBox="0 0 48 48">
 				<use xlink:href="#icon-left"></use>
 			</svg>
+		</a>
 
+		<a href="javascript:void(0)" class="link-icon block">
 			<svg class="icon medium" viewBox="0 0 48 48">
 				<use xlink:href="#icon-left"></use>
 			</svg>
+		</a>
 
+		<a href="javascript:void(0)" class="link-icon block">
 			<svg class="icon small" viewBox="0 0 48 48">
 				<use xlink:href="#icon-left"></use>
 			</svg>
+		</a>
 
+		<a href="javascript:void(0)" class="link-icon block">
 			<svg class="icon tiny" viewBox="0 0 48 48">
 				<use xlink:href="#icon-left"></use>
 			</svg>
+		</a>
 
-			<h4>Referenced SVG Icon Link</h4>
-
+		<h4>Referenced SVG Icon with text</h4>
+		<p>
+			<svg class="icon" viewBox="0 0 48 48">
+				<use xlink:href="#icon-left"></use>
+			</svg>
+			Du texte à côté d'une icône
+		</p>
+		<p>
+			<svg class="icon" viewBox="0 0 48 48">
+				<use xlink:href="#icon-left"></use>
+			</svg>
+			<a href="javascript:void(0)">Un lien à côté d'une icône</a>
+		</p>
+		<p>
 			<a href="javascript:void(0)" class="link-icon block">
-				<svg class="icon huge" viewBox="0 0 48 48">
-					<use xlink:href="#icon-left"></use>
-				</svg>
-			</a>
-
-			<a href="javascript:void(0)" class="link-icon block">
-				<svg class="icon large" viewBox="0 0 48 48">
-					<use xlink:href="#icon-left"></use>
-				</svg>
-			</a>
-
-			<a href="javascript:void(0)" class="link-icon block">
-				<svg class="icon medium" viewBox="0 0 48 48">
-					<use xlink:href="#icon-left"></use>
-				</svg>
-			</a>
-
-			<a href="javascript:void(0)" class="link-icon block">
-				<svg class="icon small" viewBox="0 0 48 48">
-					<use xlink:href="#icon-left"></use>
-				</svg>
-			</a>
-
-			<a href="javascript:void(0)" class="link-icon block">
-				<svg class="icon tiny" viewBox="0 0 48 48">
-					<use xlink:href="#icon-left"></use>
-				</svg>
-			</a>
-
-			<h4>Referenced SVG Icon with text</h4>
-			<p>
 				<svg class="icon" viewBox="0 0 48 48">
 					<use xlink:href="#icon-left"></use>
 				</svg>
-				Du texte à côté d'une icône
-			</p>
-			<p>
+			</a>
+			Du texte à côté d'un lien-icône
+		</p>
+		<p>
+			<a href="javascript:void(0)" class="link-icon block">
 				<svg class="icon" viewBox="0 0 48 48">
 					<use xlink:href="#icon-left"></use>
 				</svg>
-				<a href="javascript:void(0)">Un lien à côté d'une icône</a>
-			</p>
-			<p>
-				<a href="javascript:void(0)" class="link-icon block">
-					<svg class="icon" viewBox="0 0 48 48">
-						<use xlink:href="#icon-left"></use>
-					</svg>
-				</a>
-				Du texte à côté d'un lien-icône
-			</p>
-			<p>
-				<a href="javascript:void(0)" class="link-icon block">
-					<svg class="icon" viewBox="0 0 48 48">
-						<use xlink:href="#icon-left"></use>
-					</svg>
-				</a>
-				<a href="javascript:void(0)">Un lien à côté d'un lien-icône</a>
-			</p>
-			<p>
-				<a href="javascript:void(0)" class="link-icon block">
-					<svg class="icon" viewBox="0 0 48 48">
-						<use xlink:href="#icon-left"></use>
-					</svg>
-					<span class="text">Du texte dans un lien-icône</span>
-				</a>
-				Du texte à côté d'un lien-icône
-			</p>
+			</a>
+			<a href="javascript:void(0)">Un lien à côté d'un lien-icône</a>
+		</p>
+		<p>
+			<a href="javascript:void(0)" class="link-icon block">
+				<svg class="icon" viewBox="0 0 48 48">
+					<use xlink:href="#icon-left"></use>
+				</svg>
+				<span class="text">Du texte dans un lien-icône</span>
+			</a>
+			Du texte à côté d'un lien-icône
+		</p>
 
-			<h4>Referenced SVG Icon Filters</h4>
+		<h4>Referenced SVG Icon Filters</h4>
 
-			<h6 class="subheader">Blur</h6>
-			<svg class="icon blur" viewBox="0 0 48 48">
-				<use xlink:href="#icon-left"></use>
-			</svg>
+		<h6 class="subheader">Blur</h6>
+		<svg class="icon blur" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
 
-			<h6 class="subheader">Glow</h6>
-			<svg class="icon glow" viewBox="0 0 48 48">
-				<use xlink:href="#icon-left"></use>
-			</svg>
+		<h6 class="subheader">Glow</h6>
+		<svg class="icon glow" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
 
-			<h6 class="subheader">Shadow</h6>
-			<svg class="icon shadow" viewBox="0 0 48 48">
-				<use xlink:href="#icon-left"></use>
-			</svg>
+		<h6 class="subheader">Shadow</h6>
+		<svg class="icon shadow" viewBox="0 0 48 48">
+			<use xlink:href="#icon-left"></use>
+		</svg>
 
-			<h6 class="subheader">Crenel <small>.icon-left</small></h6>
+		<h6 class="subheader">Crenel <small>.icon-left</small></h6>
 
+		<svg class="icon crenel" viewBox="0 0 48 48" style="background-color: darkgray;">
+			<use class="out" xlink:href="#icon-left" x="0.5" y="1"></use>
+			<use class="in" xlink:href="#icon-left"></use>
+		</svg>
+
+		<a href="javascript:void(0)"  class="link-icon">
 			<svg class="icon crenel" viewBox="0 0 48 48" style="background-color: darkgray;">
 				<use class="out" xlink:href="#icon-left" x="0.5" y="1"></use>
 				<use class="in" xlink:href="#icon-left"></use>
 			</svg>
+		</a>
 
-			<a href="javascript:void(0)"  class="link-icon">
-				<svg class="icon crenel" viewBox="0 0 48 48" style="background-color: darkgray;">
-					<use class="out" xlink:href="#icon-left" x="0.5" y="1"></use>
-					<use class="in" xlink:href="#icon-left"></use>
-				</svg>
-			</a>
+		<a href="javascript:void(0)" class="link-icon block">
+			<svg class="icon crenel" viewBox="0 0 48 48">
+				<use class="out" xlink:href="#icon-left" x="0.5" y="1"></use>
+				<use class="in" xlink:href="#icon-left"></use>
+			</svg>
+		</a>
 
-			<a href="javascript:void(0)" class="link-icon block">
-				<svg class="icon crenel" viewBox="0 0 48 48">
-					<use class="out" xlink:href="#icon-left" x="0.5" y="1"></use>
-					<use class="in" xlink:href="#icon-left"></use>
-				</svg>
-			</a>
+		<a href="javascript:void(0)" class="link-icon block dark">
+			<svg class="icon crenel" viewBox="0 0 48 48">
+				<use class="out" xlink:href="#icon-left" x="0.5" y="1"></use>
+				<use class="in" xlink:href="#icon-left"></use>
+			</svg>
+		</a>
 
-			<a href="javascript:void(0)" class="link-icon block dark">
-				<svg class="icon crenel" viewBox="0 0 48 48">
-					<use class="out" xlink:href="#icon-left" x="0.5" y="1"></use>
-					<use class="in" xlink:href="#icon-left"></use>
-				</svg>
-			</a>
+		<h6 class="subheader">Crenel <small>.icon-mail</small></h6>
 
-			<h6 class="subheader">Crenel <small>.icon-mail</small></h6>
+		<svg class="icon crenel" viewBox="0 0 48 48" style="background-color: darkgray;">
+			<use class="out" xlink:href="#icon-mail" x="0.5" y="1"></use>
+			<use class="in" xlink:href="#icon-mail"></use>
+		</svg>
 
+		<a href="javascript:void(0)"  class="link-icon">
 			<svg class="icon crenel" viewBox="0 0 48 48" style="background-color: darkgray;">
 				<use class="out" xlink:href="#icon-mail" x="0.5" y="1"></use>
 				<use class="in" xlink:href="#icon-mail"></use>
 			</svg>
+		</a>
 
-			<a href="javascript:void(0)"  class="link-icon">
-				<svg class="icon crenel" viewBox="0 0 48 48" style="background-color: darkgray;">
-					<use class="out" xlink:href="#icon-mail" x="0.5" y="1"></use>
-					<use class="in" xlink:href="#icon-mail"></use>
-				</svg>
-			</a>
+		<a href="javascript:void(0)" class="link-icon block">
+			<svg class="icon crenel" viewBox="0 0 48 48">
+				<use class="out" xlink:href="#icon-mail" x="0.5" y="1"></use>
+				<use class="in" xlink:href="#icon-mail"></use>
+			</svg>
+		</a>
 
-			<a href="javascript:void(0)" class="link-icon block">
-				<svg class="icon crenel" viewBox="0 0 48 48">
-					<use class="out" xlink:href="#icon-mail" x="0.5" y="1"></use>
-					<use class="in" xlink:href="#icon-mail"></use>
-				</svg>
-			</a>
+		<a href="javascript:void(0)" class="link-icon block dark">
+			<svg class="icon crenel" viewBox="0 0 48 48">
+				<use class="out" xlink:href="#icon-mail" x="0.5" y="1"></use>
+				<use class="in" xlink:href="#icon-mail"></use>
+			</svg>
+		</a>
 
-			<a href="javascript:void(0)" class="link-icon block dark">
-				<svg class="icon crenel" viewBox="0 0 48 48">
-					<use class="out" xlink:href="#icon-mail" x="0.5" y="1"></use>
-					<use class="in" xlink:href="#icon-mail"></use>
-				</svg>
-			</a>
-
-			<h4>CSS Sprites Icons vs. SVG Inline Icons </h4>
-			
-			<div class="row">
-				<input id="icon_size_slider" class="button left alert" type="range" value="48" min="8" max="128" style="height: 2rem">
-				<span id="icon_size_info" class="text-webfont left" style="margin-left: 1rem; line-height: 2rem;"></span>
-			</div>
-			<script>
-				function change_icon_size() {
-					$(".test .icon").css("width", $("#icon_size_slider").val());
-					$(".test .icon").css("height", $("#icon_size_slider").val());
-					$("#icon_size_info").text($("#icon_size_slider").val() + " px");
-				}
-				$("#icon_size_slider").change(function() {
-					change_icon_size();
-				});
-				$("#icon_size_slider").on("keydown", function() {
-					change_icon_size();
-				});
-				$(window).load(function() {
-					change_icon_size();
-				});
-			</script>
-			
-			<div class="row test">
-				<svg class="icon medium" viewBox="0 0 48 48" style="background-color: transparent;">
-					<use xlink:href="#icon-left" style="fill: #666"></use>
-				</svg>
-				<span class="icon-left large"></span>
-			</div>
-			<div class="row test">
-				<svg class="icon medium" viewBox="0 0 48 48" style="background-color: transparent;">
-					<use xlink:href="#icon-mail" style="fill: #666"></use>
-				</svg>
-				<span class="icon-mail large"></span>
-			</div>
-
-
+		<h4>CSS Sprites Icons vs. SVG Inline Icons </h4>
+		
+		<div class="row">
+			<input id="icon_size_slider" class="button left alert" type="range" value="48" min="8" max="128" style="height: 2rem">
+			<span id="icon_size_info" class="text-webfont left" style="margin-left: 1rem; line-height: 2rem;"></span>
+		</div>
+		<script>
+			function change_icon_size() {
+				$(".test .icon").css("width", $("#icon_size_slider").val());
+				$(".test .icon").css("height", $("#icon_size_slider").val());
+				$("#icon_size_info").text($("#icon_size_slider").val() + " px");
+			}
+			$("#icon_size_slider").change(function() {
+				change_icon_size();
+			});
+			$("#icon_size_slider").on("keydown", function() {
+				change_icon_size();
+			});
+			$(window).load(function() {
+				change_icon_size();
+			});
+		</script>
+		
+		<div class="row test">
+			<svg class="icon medium" viewBox="0 0 48 48" style="background-color: transparent;">
+				<use xlink:href="#icon-left" style="fill: #666"></use>
+			</svg>
+			<span class="icon-left large"></span>
+		</div>
+		<div class="row test">
+			<svg class="icon medium" viewBox="0 0 48 48" style="background-color: transparent;">
+				<use xlink:href="#icon-mail" style="fill: #666"></use>
+			</svg>
+			<span class="icon-mail large"></span>
 		</div>
 
 		<script>
