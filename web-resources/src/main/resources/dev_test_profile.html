@@ -8,6 +8,60 @@
 
 		<h2 class="red">Profil <small>.user-profile</small></h2>
 
+		<!--Dev Test Editor Toolbar-->
+		<style>
+			#dev_test_profile_toolbar {padding: .5rem 1.5rem;}
+			#dev_test_profile_toolbar > h4 {display: inline-block; margin-right: .5rem; color: darkgray;}
+			#dev_test_profile_toolbar > label {margin: 0 0 0 .5rem;}
+			#dev_test_profile_toolbar > input[type="checkbox"] {margin: 0; vertical-align: middle;}
+		</style>
+		<!--
+		 .user-profile
+		 .user-articles-list
+		-->
+		<div id="dev_test_profile_toolbar" class="panel">
+			<h4 class="text-medium">Show</h4>
+			<label for="show_user_profile">Profil</label>
+			<input id="show_user_profile" type="checkbox" name="show" value="user-profile">
+			<label for="show_user_articles_list">Liste des articles</label>
+			<input id="show_user_articles_list" type="checkbox" name="show" value="user-articles-list" checked>
+			<label for="toggle_css_debug">Masques CSS</label>
+			<input id="toggle_css_debug" type="checkbox" value="user-articles-list">
+		</div>
+		<script>
+		// Methods
+		function set_css_debug(selector) {
+			if ($("." + selector).parents(".row").hasClass("css-debug")) {
+				$("." + selector).parents(".row").removeClass("css-debug");
+			} else {
+				$("." + selector).parents(".row").addClass("css-debug");
+			}
+		}
+		// Events
+		$("html").on("click", "#toggle_css_debug", function() {
+			set_css_debug($(this).val());
+		});
+		$("html").on("click", "[name='show']", function() {
+			var f = $(this).val();
+			$("." + f).toggle();
+		});
+		// Init
+		$(document).ready(function() {
+			if ($("#toggle_css_debug").is(":checked")) {
+				set_css_debug($("#toggle_css_debug").val());
+			}
+			$("[name='show']").each(function() {
+				var f = $(this).val();
+				if ($(this).is(":checked")) {
+					$("." + f).show();
+				} else {
+					$("." + f).hide();
+				}
+			});
+		});
+		</script>
+
+		<!--User Profile--->
 		<div class="row panel radius user-profile">
 
 			<div class="column small-12 medium-5 large-4 text-center">
@@ -67,6 +121,113 @@
 			</div>
 
 		</div>
+
+		<!--User Articles List-->
+		<div class="row">
+			<div class="column small-12 small-centered">
+				<style>
+				.special {
+					position: absolute;
+					right: 0;
+					top: 50%;
+					margin-top: -0.6875rem;
+					display: inline-block;
+					width: 1.375rem;
+					height: 1.375rem;
+					vertical-align: center;
+					color: dimgray;
+					font-size: 75%;
+					font-weight: bold;
+					font-family: "Oswald", sans-serif;
+					text-align: center;
+					border-radius: 100%;
+					background-color: whitesmoke;
+					border: 0.125rem solid darkgray;
+					opacity: .5;
+				}
+				.special:hover {
+					cursor: pointer;
+					opacity: 1;
+				}
+				.special:before {
+					content: "?";
+				}
+				.special.active {
+					color: white;
+					border-color: dimgray;
+					background-color: dimgray;
+				}
+				.special.active:before {
+					content: "!";
+				}
+				.extra {
+					position: relative;
+					margin: .25rem 2rem 0 2rem;
+					padding-top: .25rem;
+					color: #666;
+					font-size: .875em;
+					text-align: justify;
+					border-top: 1px dotted silver;
+				}
+				.css-debug .extra {
+					background-color: rgba(255, 0, 0, .25);
+				}
+				.css-debug .user-articles-list {
+					background-color: rgba(255, 255, 0, .25);
+				}
+				.css-debug .user-articles-list > li {
+					background-color: rgba(0, 255, 255, .25);
+				}
+				</style>
+
+				<ul class="no-bullet user-articles-list">
+					<li><span class="icon-educult small">Éducation & Culture</span> <a href="#">Sexisme dans les jeux-vidéos, une critique impossible ?</a> <span class="special"></span>
+						<div class="extra" style="display: none;">
+							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+							Ces dernières années sur le net et dans les milieux féministes anglophones et francophones, des débats et discussions sont nés autour de la question des représentations sexistes dans les jeux-vidéos et des comportements sexistes parmi les joueurs. Les réactions de rejet particulièrement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux déchaînements qu’ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant à s’interroger sur la possibilité même de mener une telle réflexion.
+						</div>
+					</li>
+					<li><span class="icon-ourbody small">Nos corps, nous-mêmes</span> <a href="#">Stérilisation : « Une femme qui décide de ne pas vouloir avoir des enfants, c’est toujours louche »</a> <span class="special"></span>
+						<div class="extra" style="display: none;">
+							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+							Se faire stériliser en France relève d’un vrai combat pour les femmes qui veulent y recourir. Elles se heurtent aux refus des médecins, qui posent leurs propres conditions. Véronique Séhier, co-présidente Planning Familial, a répondu à nos questions sur ce sujet tabou dans notre société.
+						</div>
+					</li>
+					<li><span class="icon-intersec small">Intersectionnalité</span> <a href="#">Naturalisation et paupérisation du travail des femmes : le cas des services à la personne</a> <span class="special"></span>
+						<div class="extra" style="display: none;">
+							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+							Les services à la personne constituent une part non négligeable de l’emploi et de l’économie.  Avec 1,8 million de salariéEs (sans compter les assistantes maternelles), ils dépassent même le nombre d’équivalent temps plein du secteur de la construction (qui en compte 1,347 million). Pourtant, l’invisibilisation de ce pan de l’économie va de pair avec sa dévalorisation sociale.
+						</div>
+					</li>
+					<li><span class="icon-rubric small"></span> <a href="#" title="Pas de date" data-tooltip>Lorem Ipsum Dolor Sit Amet</a></li>
+					<li><span class="icon-rubric small"></span> <a href="#" title="Date masquée" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01" class="hide"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
+					<li><span class="icon-rubric small"></span> <a href="#" title="Date à la suite" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
+					<li><span class="icon-rubric small"></span> <a href="#" title="Date à la fin de la ligne" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01" class="right"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
+				</ul>
+			</div>
+		</div>
+
+		<script>
+
+			var triggerer = ".special";
+			var triggered = ".extra";
+
+			$(triggerer).click(function() {
+				var obj = $(this);
+				if (obj.data("can_slide") === "true") {
+					obj.data("can_slide", "false");
+					obj.toggleClass("active");
+					obj.next(triggered).slideToggle(250, function() {
+						obj.data("can_slide", "true");
+					});
+				}
+			});
+			$(document).ready(function() {
+				$(".special").data("can_slide", "true");
+			});
+			
+		</script>
+
 		<script>
 
 			function create_icons_input(options) {
