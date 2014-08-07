@@ -3,7 +3,7 @@
 			<div class="top-bar" data-topbar>
 				<ul class="title-area">
 					<li class="name">
-						<h1><a href="#toolbar">Dev Toolbar</a></h1>
+						<h1 class="text-white" style="margin-left: 1rem;">Dev Toolbar</a></h1>
 					</li>
 				</ul>
 				<section class="top-bar-section">
@@ -12,14 +12,14 @@
 							<li class="has-dropdown">
 								<a href="javascript:void(0)">Dev Pages</a>
 								<ul class="dropdown">
-									<li><a href="{{= $app_root + 'dev_kitchen_sink.html'}}"><strong>Kitchen Sink</strong></a></li>
-									<li><a href="{{= $app_root + 'dev_templating.html'}}">Templating</a></li>
-									<li><a href="{{= $app_root + 'dev_test_fieldset.html'}}">TEST <span class="text-silver">&lt;fieldset&gt;</span></a></li>
-									<li><a href="{{= $app_root + 'dev_test_textarea.html'}}">TEST <span class="text-silver">&lt;textarea&gt;</span></a></li>
-									<li><a href="{{= $app_root + 'dev_test_profile.html'}}">TEST <span class="text-silver">.profile</span></a></li>
-									<li><a href="{{= $app_root + 'dev_test_select.html'}}">TEST <span class="text-silver">.select</span></a></li>
-									<li><a href="{{= $app_root + 'dev_test_editor.html'}}">TEST <span class="text-silver">#editor</span></a></li>
-									<li><a href="{{= $app_root + 'dev_test_articles.html'}}">TEST <span class="text-silver">#articles</span></a></li>
+									<li><a href="{{= $app_root + 'dev_kitchen_sink.html'}}"><strong>Kitchen Sink</strong> <small class="text-silver">core</small></a></li>
+									<li><a href="{{= $app_root + 'dev_templating.html'}}">JS templating <small class="text-silver">core</small></a></li>
+									<li style="border-top: 1px solid dimgray;"><a href="{{= $app_root + 'dev_test_fieldset.html'}}">Fieldset <small class="text-silver">form</small></a></li>
+									<li><a href="{{= $app_root + 'dev_test_textarea.html'}}">Textarea <small class="text-silver">form</small></a></li>
+									<li><a href="{{= $app_root + 'dev_test_select.html'}}">Select <small class="text-silver">form</small></a></li>
+									<li style="border-top: 1px solid dimgray;"><a href="{{= $app_root + 'dev_test_profile.html'}}">Profile <small class="text-silver">feature</small></a></li>
+									<li><a href="{{= $app_root + 'dev_test_editor.html'}}">Editor <small class="text-silver">feature</small></a></li>
+									<li><a href="{{= $app_root + 'dev_test_articles.html'}}">Articles List <small class="text-silver">feature</small></a></li>
 								</ul>
 							</li>
 							<li class="has-dropdown">
