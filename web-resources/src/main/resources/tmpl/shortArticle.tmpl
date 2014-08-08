@@ -1,0 +1,41 @@
+								<li>
+									<h4 class="{{= data.rubrique.classe}}">{{= data.rubrique.rubrique }}</h4>
+									<div class="href-block clearfix {{= data.rubrique.classe}}">
+										<h5 class="title">{{= data.title }}</h5>
+										<p class="summary">
+											{{? data.publishedDate !== null }}
+												<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date">{{= dateToString(new Date(data.publishedDate)) }}</time>
+											{{?? data.updatedDate !== null}}
+												<span class="icon-date small" title="Date de mise &agrave; jour">Mis &agrave; jour le </span><time datetime="{{= getDateTime(new Date(data.updatedDate)) }}" class="date">{{= dateToString(new Date(data.updatedDate)) }}</time>
+											{{?? data.createdDate !== null}}
+												<span class="icon-date small" title="Date de cr&eacute;ation">Cr&eacute;&eacute; le </span><time datetime="{{= getDateTime(new Date(data.createdDate)) }}" class="date">{{= dateToString(new Date(data.createdDate)) }}</time>
+											{{?}}
+											{{= data.description}}
+											<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
+										</p>
+										{{? data.status == "BROUILLON" }}
+											{{? data.profile.id == window.localStorage.getItem($oursesProfileId)}}
+												<a href="{{= data.path }}">Lire l&rsquo;article</a>
+											{{??}}
+												<a href="javascript:void(0)" style="cursor: default;"></a>
+											{{?}}
+										{{??}}
+											<a href="{{= data.path }}">Lire l&rsquo;article</a>
+										{{?}}
+										{{? data.status == "BROUILLON" }}
+										<div class="validate" style="display: none;">
+											<!--delete for Drafts-->
+											<button class="small" data-delete = "{{= data.id }}">Supprimer</button>
+											{{? data.profile.id == window.localStorage.getItem($oursesProfileId)}}
+												<button class="alert small" data-validate = "{{= data.id }}">Valider</button>
+											{{?}}
+										</div>
+										{{?? data.status == "AVERIFIER" }}
+											<!--Validation for Standbys-->
+											<div class="validate" style="display: none;">
+												<button class="small success">Publier</button>
+												<button class="alert small">Renvoyer</button>
+											</div>
+										{{?}}
+									</div>
+								</li>

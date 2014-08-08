@@ -123,8 +123,8 @@ public class ArticleHelperImpl implements ArticleHelper {
     public Article validateDraft(long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.AVERIFIER);
-        // TODO création du path
-        article.update("status");
+        article.setUpdatedDate(new Date());
+        article.update("status", "updatedDate");
         return article;
     }
 

@@ -14,7 +14,7 @@
 										{{= art.description}}
 										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
 									</p>
-									{{? articles_list_type == "draft"}}
+									{{? art.status == "BROUILLON" }}
 										{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
 											<a href="{{= art.path }}">Lire l&rsquo;article</a>
 										{{??}}
@@ -23,16 +23,19 @@
 									{{??}}
 										<a href="{{= art.path }}">Lire l&rsquo;article</a>
 									{{?}}
-									{{? articles_list_type == "draft" || articles_list_type == "standby" }}
-									<div class="validate" style="display: none;">
-										{{? articles_list_type == "draft" }}
-										<!--Validation for Drafts-->
-											<button class="small" data-delete = "{{= art.id }}">Supprimer</button><button class="alert small">Valider</button>
-										{{?? articles_list_type == "standby" }}
-										<!--Validation for Standbys-->
+									{{? art.status == "BROUILLON" }}
+										<div class="validate" style="display: none;">
+											<!--delete for Drafts-->
+											<button class="small" data-delete = "{{= art.id }}">Supprimer</button>
+											{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
+												<button class="alert small" data-validate = "{{= art.id }}">Valider</button>
+											{{?}}
+										</div>
+									{{?? art.status == "AVERIFIER" }}
+										<div class="validate" style="display: none;">
+											<!--Validation for Standbys-->
 											<button class="small success">Publier</button><button class="alert small">Renvoyer</button>
-										{{?}}
-									</div>
+										</div>
 									{{?}}
 								</div>
 #}}
@@ -47,19 +50,16 @@
 					</div>
 					{{?}}
 					<ul class="no-bullet articles-list draft">
-						{{ var articles_list_type = "draft"; }}
 						{{~ data.drafts :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
-					<ul class="no-bullet articles-list standby">
-						{{ var articles_list_type = "standby"; }}
+					<ul id="articles_standby" class="no-bullet articles-list standby">
 						{{~ data.toCheck :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
 					<ul class="no-bullet articles-list">
-						{{ var articles_list_type = "undefined"; }}
 						{{~ data.onLine :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}

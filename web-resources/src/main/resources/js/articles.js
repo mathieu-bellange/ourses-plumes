@@ -1,6 +1,8 @@
 ﻿/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
+//TODO externalisé
+var short_article_tmpl = doT.compile(loadfile($app_root + "tmpl/shortArticle.tmpl"));
 var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
 
 function createAlertBox(err, msg) {
@@ -40,6 +42,33 @@ function deleteArticle(id){
 			if (jqXHR.status == 404){
 				$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function(){
 					$(".validate button[data-delete='" + id + "']").parents("li").remove();
+				});
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
+}
+function validateArticle(id){
+	$.ajax({
+		type : "PUT",
+		url : "/rest/articles/" + id + "/validate",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		contentType : "application/json; charset=utf-8",
+		success : function(article, status, jqxhr) {
+			$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function(){
+				$(".validate button[data-validate='" + id + "']").parents("li").remove();
+				processAfterValidation(article);
+			});
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404){
+				createAlertBox("ok","Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute; par une Administratrice");
+				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function(){
+					$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				});
 			}else{
 				createAlertBox();
@@ -123,6 +152,14 @@ function processArticles(articles){
 	$(".validate button[data-delete]").click(function(){
 		deleteArticle($(this).attr("data-delete"));
 	});
+	$(".validate button[data-validate]").click(function(){
+		validateArticle($(this).attr("data-validate"));
+	});
+}
+
+function processAfterValidation(article){
+	$("#articles_standby li:first").before(short_article_tmpl(article)).fadeIn("slow");
+	var newLi = $("#articles_standby li:first");
 }
 
 /* ------------------------------------------------------------------ */
