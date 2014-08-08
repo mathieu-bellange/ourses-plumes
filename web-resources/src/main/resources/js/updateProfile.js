@@ -49,7 +49,7 @@ function processSocialLinks(socialLinks){
 	}
 }
 
-// TEMP : instance method for alert box initialization ; to be replaced in loap.js
+// TEMP : instance method for alert box initialization ; to be put in loap.js
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
 	if ($("#profile-alert").length == 0) {
@@ -71,25 +71,11 @@ function setValidationIcon(selector, labelSelector, isValid) {
 		$(selector).removeClass("wrong");
 		$(selector).css("margin-bottom", "");
 		$(labelSelector).addClass("hide");
-		/* OLD SHIT : to be removed */
-		/*
-		// TEMP : show role on validation success
-		if (selector.attr("id") == "pseudo" && $(window).width() > 640) {
-			$("#role").show();
-		}
-		*/
 	} else if (isValid == false) {
 		$(selector).attr("data-invalid",true);
 		$(selector).addClass("wrong");
 		$(selector).css("margin-bottom", "0");
 		$(labelSelector).removeClass("hide");
-		/* OLD SHIT : to be removed */
-		/*
-		// TEMP : hide role on validation fail
-		if (selector.attr("id") == "pseudo" && $(window).width() > 640) {
-			$("#role").hide();
-		}
-		*/
 		role_display.update(); // here's the trick ! fancy stuff ;)
 	} else {
 		$(selector).removeClass("wrong");
@@ -182,21 +168,11 @@ function getProfile(){
 				var profile_template = doT.compile(loadfile($app_root + "tmpl/updateProfile.tmpl")); // create template
 				$("main > header").after(profile_template(profile)); // process template
 				processSocialLinks(profile.socialLinks); // process social links
-				// Begin EDIT --------------------------------------------------
 				$("textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas
 				$("textarea").validation_bar(); // initialize validation_bar plugin for all textareas
-				//set_icons_input(social_links); // process icons input for social links
 				create_icons_input(user_links_icons_input); // process icons input for user links
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
-				/* OLD SHIT : to be removed*/
-				/*
-				update_role_display(640); // update user role display
-				$(window).on("resize", function() {
-					update_role_display(640); // update user role display on screen resize
-				});
-				*/
-				// End EDIT ----------------------------------------------------
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -457,69 +433,6 @@ var role_display = (function() {
 		}
 	}
 }());
-
-/* UNUSED : old stuff ; not to be used */
-/*
-function update_role_display(screen_width) {
-	var screen_width = screen_width || 640;
-	if ($(window).width() > screen_width) {
-		// Init : set user role custom styles
-		$("#role").addClass("text-large");
-		$("#role").css({
-			"position" : "absolute",
-			"top" : $("#pseudo").position().top,
-			"right" : "0",
-			"margin" : "0",
-			"padding" : "0 1rem",
-			"height" : $("#pseudo").outerHeight(),
-			"line-height" : $("#pseudo").css("line-height"),
-			"opacity" : ".5",
-			"color" : "white",
-			"text-shadow" : "-1px -1px rgba(0, 0, 0, .5)",
-		});
-		// Events : change user role custom styles
-		$("#pseudo").bind({
-			mouseover: function() {
-				$("#role").css("color", "gray");
-				$("#role").css("text-shadow", "none");
-			},
-			mouseout: function() {
-				$("#role").css("color", "white");
-				$("#role").css("text-shadow", "-1px -1px rgba(0, 0, 0, .5)");
-			},
-			focus: function() {
-				$("#role").fadeOut();
-			},
-			blur: function() {
-				// TEMP : do not show role if pseudo is invalid
-				if (typeof $("#pseudo").attr("data-invalid") === "undefined") {
-					$("#role").fadeIn();
-				}
-			}
-		});
-	} else {
-		// Init : reset user role custom styles
-		$("#role").removeClass("text-large");
-		$("#role").css({
-			"position" : "",
-			"top" : "",
-			"right" : "",
-			"margin" : "",
-			"padding" : "",
-			"height" : "",
-			"line-height" : "",
-			"opacity" : "",
-			"color" : "",
-			"text-shadow" : "",
-		});
-		// Events : unbind user role custom styles
-		$("#pseudo").unbind("mouseover");
-		$("#pseudo").unbind("mouseout");
-		$("#pseudo").unbind("focus");
-		$("#pseudo").unbind("blur");
-	}
-}
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Initialization */

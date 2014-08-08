@@ -135,49 +135,11 @@
 }
 
 /* Logo */
-/* EDIT */
-/*
-.logo a {
-  -webkit-transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
-     -moz-transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
-      -ms-transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
-       -o-transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
-          transition: background-gradient .5s ease-out .25s, background-color .75s ease-out .5s, width .25s ease-in .5s, height .25s ease-in .5s, box-shadow 1.5s linear .5s;
-  transition-property: inherit;
-  transition-duration: .5s;
-  transition-timing-function: ease-out;
-  transition-delay: .25s;
-}
-.logo a:hover {
-  -webkit-box-shadow: 0 0 1rem .5rem rgba(255, 255, 255, .5), 0 0 1rem rgba(255, 255, 204, 1) inset;
-          box-shadow: 0 0 1rem .5rem rgba(255, 255, 255, .5), 0 0 1rem rgba(255, 255, 204, 1) inset;
-}
-.logo a > span {
-  -webkit-transition: all .5s ease-in, height .25s linear .5s, top .25s linear .5s;
-     -moz-transition: all .5s ease-in, height .25s linear .5s, top .25s linear .5s;
-      -ms-transition: all .5s ease-in, height .25s linear .5s, top .25s linear .5s;
-       -o-transition: all .5s ease-in, height .25s linear .5s, top .25s linear .5s;
-          transition: all .5s ease-in, height .25s linear .5s, top .25s linear .5s;
-}
-*/
 .css-fx .logo a {
   -webkit-transition: background-color .25s ease-out;
      -moz-transition: background-color .25s ease-out;
           transition: background-color .25s ease-out;
 }
-/*
-.css-fx .logo a:hover {
-  -webkit-box-shadow: 0 0 1rem .5rem rgba(255, 255, 255, .5), 0 0 1rem rgba(255, 255, 204, 1) inset;
-          box-shadow: 0 0 1rem .5rem rgba(255, 255, 255, .5), 0 0 1rem rgba(255, 255, 204, 1) inset;
-}
-.css-fx .logo a > span {
-  -webkit-transition: all .5s ease-in;
-     -moz-transition: all .5s ease-in;
-      -ms-transition: all .5s ease-in;
-       -o-transition: all .5s ease-in;
-          transition: all .5s ease-in;
-}
-*/
 
 /* Image Thumbnails */
 .css-fx .th {
@@ -223,9 +185,7 @@
      -moz-transition: background-color .25s ease-out;
           transition: background-color .25s ease-out;
 }
-.css-fx .articles-list.standby .href-block a:before {
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, .25);
-}
+.css-fx .articles-list.standby .href-block a:before {text-shadow: 1px 1px 0 rgba(0, 0, 0, .25);}
 
 /* Comment List */
 .css-fx .comment-toggle a:after {
@@ -233,9 +193,10 @@
      -moz-transition: color 1.5s ease-out .5s;
           transition: color 1.5s ease-out .5s;
 }
-.css-fx .comment-list .reply textarea:focus {
-  box-shadow: 0 0 .25rem .125rem silver inset;
-}
+.css-fx .comment-list .reply textarea:focus {box-shadow: 0 0 .25rem .125rem silver inset;}
+
+/* User Profile */
+.user-profile .user-name {text-shadow: 1px 1px rgba(0,0,0,.5);}
 
 /* Backgrounds Effects */
 .css-fx.standard-layout {background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png');}
@@ -362,16 +323,6 @@
 .css-debug.orbit-container blockquote {background-color: rgba(255, 255, 0, .25);}
 .css-debug.orbit-container blockquote cite {background-color: rgba(0, 255, 255, .25);}
 
-/* User Infos */
-.css-debug .user-profile .column:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
-.css-debug .user-profile .column:nth-child(even) {background-color: rgba(0, 255, 0, .25);}
-.css-debug .user-profile .column h4 {background-color: rgba(255, 0, 0, .25);}
-.css-debug .user-profile .column p {background-color: rgba(255, 255, 0, .25);}
-.css-debug .user-profile .column ul {background-color: rgba(255, 0, 0, .25);}
-.css-debug .user-profile .column li {background-color: rgba(0, 255, 255, .25);}
-.css-debug .user-profile .column time {background-color: rgba(0, 0, 255, .25);}
-.css-debug .user-profile .column blockquote {background-color: rgba(255, 0, 255, .25);}
-
 /* Articles */
 .css-debug [class*='icon-'] {background-color: rgba(255, 0, 255, .5);}
 .css-debug.article .topic .title {background-color: rgba(255, 0, 0, .5);}
@@ -411,3 +362,12 @@
 .css-debug.comment-list .topic {background-color: rgba(0, 0, 255, .25);}
 .css-debug.comment-list .date {background-color: rgba(255, 255, 0, .25);}
 .css-debug.comment-list .post {background-color: rgba(255, 0, 255, .25);}
+
+/* User Profile */
+.css-debug .user-profile .user-name {background-color: rgba(0, 0, 255, .25);}
+.css-debug .user-profile .user-role {background-color: rgba(255, 255, 0, .75);}
+.css-debug .user-profile .user-desc {background-color: rgba(0, 255, 0, .25);}
+
+/* User Articles List */
+.css-debug .user-articles-list {background-color: rgba(255, 255, 0, .25);}
+.css-debug .user-articles-list > li {background-color: rgba(0, 255, 255, .25);}

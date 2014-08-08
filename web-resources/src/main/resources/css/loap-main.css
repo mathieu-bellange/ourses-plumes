@@ -996,41 +996,17 @@ kbd,
   top: 5%;
   width: 90%;
   height: 90%;
-  /*
-  background: -webkit-linear-gradient(bottom, rgba(170,136,204,1) 0%,rgba(170,136,204,0) 100%);
-  background:    -moz-linear-gradient(bottom, rgba(170,136,204,1) 0%, rgba(170,136,204,0) 100%);
-  background:     -ms-linear-gradient(bottom, rgba(170,136,204,1) 0%,rgba(170,136,204,0) 100%);
-  background:      -o-linear-gradient(bottom, rgba(170,136,204,1) 0%,rgba(170,136,204,0) 100%);
-  background:        -webkit-gradient(linear, left bottom, left bottom, color-stop(0%,rgba(170,136,204,1)), color-stop(100%,rgba(170,136,204,0)));
-  background:         linear-gradient(to top, rgba(170,136,204,1) 0%,rgba(170,136,204,0) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( endColorstr='#00aa88cc', startColorstr='#aa88cc', GradientType=0 );
-  */
   background-color: rgba(170, 136, 204, .5);
   background-size: 50% 100%;
   -webkit-border-radius: 100%;
           border-radius: 100%;
 }
 .logo > a:hover {
-  /* UNUSED */
-  /*
-  width: 100%;
-  height: 100%;
-  */
-  /*
-  background: -webkit-linear-gradient(bottom, rgba(255,255,204,1) 0%,rgba(255,255,204,0) 100%);
-  background:    -moz-linear-gradient(bottom, rgba(255,255,204,1) 0%, rgba(255,255,204,0) 100%);
-  background:     -ms-linear-gradient(bottom, rgba(255,255,204,1) 0%,rgba(255,255,204,0) 100%);
-  background:      -o-linear-gradient(bottom, rgba(255,255,204,1) 0%,rgba(255,255,204,0) 100%);
-  background:        -webkit-gradient(linear, left bottom, left bottom, color-stop(0%,rgba(255,255,204,1)), color-stop(100%,rgba(255,255,204,0)));
-  background:         linear-gradient(to top, rgba(255,255,204,1) 0%,rgba(255,255,204,0) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( endColorstr='#00aa88cc', startColorstr='#aa88cc', GradientType=0 );
-  */
   background-color: #ffc;
 }
 .logo > a > span {
   display: inline-block;
   position: relative;
-/* UNUSED */
   left: -7.5%;
   top: -7.5%;
   width: 115%;
@@ -1041,15 +1017,6 @@ kbd,
   background-position: center;
   z-index: 1;
 }
-/* UNUSED */
-/*
-.logo > a:hover > span {
-  left: -12.5%;
-  top: -12.5%;
-  width: 125%;
-  height: 125%;
-}
-*/
 
 /* ------------------------------------------------------------------ */
 /* # End Note (i.e. copyright) */
@@ -2242,46 +2209,123 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .user-profile {
   background-color: #e9e9e9;
   border-color: transparent;
-  }
-.user-profile h3 { /* This is user name */
-  padding: .5rem;
-  color: white;
-  background-color: #759;
-  text-shadow: 1px 1px rgba(0,0,0,.5);
 }
-.user-profile h4 {} /* This is user role */
-
-.user-profile ul {margin-bottom: 0;}
-
-/* UNUSED */
-/*
-.user-profile hr {
-  margin: .5rem 0;
-  border-top-width: 2px;
-  border-bottom-width: 0;
-  border-style: solid;
-  border-color: silver;
-}
-.user-profile blockquote {
-  border-left: none;
-  margin: 1rem 0;
-  padding: 0;
-  font-style: oblique;
-}
-.user-profile time {line-height: 2rem;}
-*/
-
 .user-profile .picture {margin-bottom: .5rem;}
-
+.user-profile .inline-list {margin-bottom: 0;}
 .user-profile .user-name {
   height: 3rem;
   margin-top: 0;
+  padding: .5rem;
+  color: white;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  background-color: #759;
 }
-.user-profile-show .user-role {}
+.user-profile .user-role {}
+.user-profile .user-desc {}
 
+/* Below are classes for user profile using HTML input mimics */
+.user-profile input.user-name {
+  height: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: .5rem;
+  font-family: "Oswald", sans-serif;
+  font-size: 2em;
+  line-height: 150%;
+  color: white;
+  border-color: transparent;
+  background-color: #759;
+  text-shadow: 1px 1px rgba(0,0,0,.5);
+}
+.user-profile input.user-name:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(255, 255, 255, .5);
+  text-shadow: 1px 1px rgba(0,0,0,.125);
+}
+.user-profile input.user-name:hover:-ms-input-placeholder, /* IE 10+ */
+.user-profile input.user-name:focus:-ms-input-placeholder {
+  color: rgba(0, 0, 0, .25);
+  text-shadow: none;
+}
+.user-profile input.user-name::-webkit-input-placeholder { /* Chrome */
+  color: rgba(255, 255, 255, .5);
+  text-shadow: 1px 1px rgba(0,0,0,.125);
+}
+.user-profile input.user-name:hover::-webkit-input-placeholder, /* Chrome */
+.user-profile input.user-name:focus::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, .25);
+  text-shadow: none;
+}
+.user-profile #role {
+  top: 1px; /* FIX : this is a for #pseudo borders */
+}
+.user-profile textarea.user-desc {
+  position: relative;
+  left: -.25rem;
+  top: -.25rem;
+  margin-bottom: 0;
+  padding: .25rem;
+  font-size: 1em;
+  line-height: 133%;
+  color: #222;
+  border-color: transparent;
+  background-color: transparent;
+  -webkit-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
+     -moz-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
+          transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
+}
+
+/* Below are shared styles for user profile using HTML input mimics */
+.user-profile input.user-name[disabled],
+.user-profile textarea.user-desc[disabled] {
+  cursor: default;
+  color: grey;
+  background-color: transparent;
+  text-shadow: 1px 1px white;
+}
+.user-profile input.user-name[readonly],
+.user-profile textarea.user-desc[readonly],
+.user-profile input.user-name[readonly]:focus,
+.user-profile textarea.user-desc[readonly]:focus {
+  box-shadow: none;
+}
+.user-profile input.user-name:hover:not([disabled]):not([readonly]),
+.user-profile textarea.user-desc:hover:not([disabled]):not([readonly]) {
+  cursor: pointer;
+  color: rgba(0, 0, 0, .75); /* Foundation default value */
+  border-color: darkgray;
+  border-style: dotted;
+  background-color: rgba(255, 255, 255, .5);
+  text-shadow: none;
+}
+.user-profile input.user-name:focus:not([disabled]):not([readonly]),
+.user-profile textarea.user-desc:focus:not([disabled]):not([readonly]),
+.user-profile input.user-name:not([disabled]):not([readonly]).wrong,
+.user-profile textarea.user-desc:not([disabled]):not([readonly]).wrong,
+.user-profile input.user-name:hover:not([disabled]):not([readonly]).wrong,
+.user-profile textarea.user-desc:hover:not([disabled]):not([readonly]).wrong {
+  cursor: text;
+  color: rgba(0, 0, 0, .75); /* Foundation default value */
+  border-color: darkgray;
+  border-style: solid;
+  background-color: white;
+  text-shadow: none;
+}
+
+/* Below are specific mimic styles for user name */
+.user-profile input.user-name[disabled] {padding: 0;}
+.user-profile input.user-name + small.error {top: 0;} /* Position fix */
+
+/* Below are specific mimic styles for user description */
+.user-profile textarea.user-desc:hover:not([disabled]):not([readonly]),
+.user-profile textarea.user-desc:focus:not([disabled]):not([readonly]) {
+  left: 0;
+  top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Below are styles for user role on the box */
 @media (min-width: 1023px) { /* TEMP : media queries instructions should be placed at the end of the file */
   .user-profile .user-name {
     padding-right: 10rem; /* WARNING : inconstant property ; based upon .user-role max-width (computed with string 'Administratrice' as max value) */
@@ -2300,115 +2344,8 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
     color: white;
     opacity: .5;
     text-shadow: -1px -1px rgba(0, 0, 0, .5);
-    /*background-color: rgba(255, 255, 0, .5); /* DEBUG */
   }
 }
-
-/* Below are classes for user profile using HTML input mimics */
-.user-profile input#pseudo {
-  height: auto;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: .5rem;
-  font-family: "Oswald", sans-serif;
-  font-size: 2em;
-  line-height: 150%;
-  color: white;
-  border-color: transparent;
-  background-color: #759;
-  text-shadow: 1px 1px rgba(0,0,0,.5);
-}
-.user-profile input#pseudo:-ms-input-placeholder { /* IE 10+ */
-  color: rgba(255, 255, 255, .5);
-  text-shadow: 1px 1px rgba(0,0,0,.125);
-}
-.user-profile input#pseudo:hover:-ms-input-placeholder, /* IE 10+ */
-.user-profile input#pseudo:focus:-ms-input-placeholder {
-  color: rgba(0, 0, 0, .25);
-  text-shadow: none;
-}
-.user-profile input#pseudo::-webkit-input-placeholder { /* Chrome */
-  color: rgba(255, 255, 255, .5);
-  text-shadow: 1px 1px rgba(0,0,0,.125);
-}
-.user-profile input#pseudo:hover::-webkit-input-placeholder, /* Chrome */
-.user-profile input#pseudo:focus::-webkit-input-placeholder {
-  color: rgba(0, 0, 0, .25);
-  text-shadow: none;
-}
-.user-profile #role {
-  top: 1px; /* BUG : this is a fix for #pseudo borders ... */
-}
-.user-profile textarea#description {
-  position: relative;
-  left: -.25rem;
-  top: -.25rem;
-  margin-bottom: 0;
-  padding: .25rem;
-  font-size: 1em;
-  line-height: 133%;
-  color: #222;
-  border-color: transparent;
-  background-color: transparent;
-  -webkit-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
-     -moz-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
-          transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
-}
-
-/* Below are shared styles for user profile using HTML input mimics */
-.user-profile input#pseudo[disabled],
-.user-profile textarea#description[disabled] {
-  cursor: default;
-  color: grey;
-  background-color: transparent;
-  text-shadow: 1px 1px white;
-}
-.user-profile input#pseudo[readonly],
-.user-profile textarea#description[readonly]{
-  box-shadow: none;
-}
-.user-profile input#pseudo:hover:not([disabled]):not([readonly]),
-.user-profile textarea#description:hover:not([disabled]):not([readonly]) {
-  cursor: pointer;
-  color: rgba(0, 0, 0, .75); /* Foundation default value */
-  border-color: darkgray;
-  border-style: dotted;
-  background-color: rgba(255, 255, 255, .5);
-  text-shadow: none;
-}
-.user-profile input#pseudo:focus:not([disabled]):not([readonly]),
-.user-profile textarea#description:focus:not([disabled]):not([readonly]),
-.user-profile input#pseudo:not([disabled]):not([readonly]).wrong,
-.user-profile textarea#description:not([disabled]):not([readonly]).wrong,
-.user-profile input#pseudo:hover:not([disabled]):not([readonly]).wrong,
-.user-profile input#description:hover:not([disabled]):not([readonly]).wrong {
-  cursor: text;
-  color: rgba(0, 0, 0, .75); /* Foundation default value */
-  border-color: darkgray;
-  border-style: solid;
-  background-color: white;
-  text-shadow: none;
-}
-/* Below are specific mimic styles for user name */
-.user-profile input#pseudo[disabled] {
-  padding: 0;
-}
-.user-profile input#pseudo + small.error { /* Position fix */
-  top: 0;
-}
-/* Below are specific mimic styles for user description */
-.user-profile textarea#description:hover:not([disabled]):not([readonly]),
-.user-profile textarea#description:focus:not([disabled]):not([readonly]) {
-  left: 0;
-  top: 0;
-  margin-bottom: 1rem;
-}
-/* UNUSED */
-/*
-.user-profile textarea#description + hr {
-  margin-top: 0;
-}
-*/
 
 /* ------------------------------------------------------------------ */
 /* # User Articles List */
