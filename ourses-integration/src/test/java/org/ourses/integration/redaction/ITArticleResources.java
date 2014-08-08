@@ -334,7 +334,7 @@ public class ITArticleResources {
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -343,8 +343,8 @@ public class ITArticleResources {
         ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateDraftWithValidateArticle");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -403,8 +403,8 @@ public class ITArticleResources {
         ArticleDTO updateArticle = updateArticle(5l, "shouldNotUpdateValidateWithAdminRole");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -413,8 +413,8 @@ public class ITArticleResources {
         ArticleDTO updateArticle = updateArticle(5l, "shouldNotUpdateValidateWithRedacRole");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -423,8 +423,8 @@ public class ITArticleResources {
         ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateDraftWithValidatePath");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -434,8 +434,8 @@ public class ITArticleResources {
         ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateAnotherArticle");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -490,12 +490,12 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldNotDeleteDraftByAnotherUser() {
+    public void shouldDeleteDraftByAnotherUser() {
         URI uri = UriBuilder.fromPath(PATH_DELETE_ANOTHER_DRAFT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").delete(ClientResponse.class);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 204
+        assertThat(clientResponse.getStatus()).isEqualTo(204);
     }
 
     @Test
@@ -503,8 +503,8 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DELETE_VALIDATE).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").delete(ClientResponse.class);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test

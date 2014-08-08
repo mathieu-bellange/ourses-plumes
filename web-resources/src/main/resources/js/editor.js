@@ -393,6 +393,8 @@ function sendArticle(){
 			 ajax_error(jqXHR, status, errorThrown);
 				if (jqXHR.status == 403){
 					checkTitleAJAX();
+				}else if (jqXHR.status == 404){
+					createAlertBox("ok","Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;");
 				}else{
 					createAlertBox();
 				}

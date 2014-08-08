@@ -149,13 +149,13 @@ public class ArticleResources {
     long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
         ResponseBuilder responseBuilder;
-        Article article = Article.findArticle(id);
         // vérification que l'article est bien modifiable par l'utilisateur connecté
         Long idProfile = profileHelper.findIdProfile(token);
         // seul un article brouillon est modifiable
         if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)) {
             // vérifie que l'aticle a bien un titre qui n'existe pas déjà
             if (!articleHelper.isTitleAlreadyTaken(articleDTO.getTitle(), id)) {
+                Article article = Article.findArticle(id);
                 // update de l'article passé en param
                 articleHelper.updateFromDTO(article, articleDTO);
                 responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
@@ -165,7 +165,7 @@ public class ArticleResources {
             }
         }
         else {
-            responseBuilder = Response.status(Status.UNAUTHORIZED);
+            responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
     }
@@ -234,18 +234,9 @@ public class ArticleResources {
     String token) {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
-        // l'article n'existe pas
-        if (article != null) {
-            // vérification que l'article est bien modifiable par l'utilisateur connecté
-            Long idProfile = profileHelper.findIdProfile(token);
-            if (idProfile != null && articleHelper.isArticleUpdatable(idProfile, id, ArticleStatus.BROUILLON)) {
-                // suppression de l'article passé en param
-                article.delete();
-                responseBuilder = Response.status(Status.NO_CONTENT);
-            }
-            else {
-                responseBuilder = Response.status(Status.UNAUTHORIZED);
-            }
+        if (article != null && ArticleStatus.BROUILLON.equals(article.getStatus())) {
+            article.delete();
+            responseBuilder = Response.status(Status.NO_CONTENT);
         }
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);

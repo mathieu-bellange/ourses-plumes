@@ -38,7 +38,9 @@ function deleteArticle(id){
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
-				createAlertBox("ok","Cet article n&rsquo;existe plus, il a d&eacute;j&agrave; &eacute;t&eacute; supprim&eacute; par une Administratrice");
+				$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function(){
+					$(".validate button[data-delete='" + id + "']").parents("li").remove();
+				});
 			}else{
 				createAlertBox();
 			}
