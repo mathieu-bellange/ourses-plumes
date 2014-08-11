@@ -108,7 +108,7 @@ public class ArticleResources {
                 }
                 // je suis redac, j'ai accès à mes brouillons
                 else if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
-                    articles.addAll(Article.findDrafts(profile.getId()));
+                    articles.addAll(Article.findToCheckAndDraft(profile.getId()));
                 }
             }
         }

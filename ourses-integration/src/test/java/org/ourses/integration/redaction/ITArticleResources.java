@@ -107,7 +107,7 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldReadAllPublishArticleAndIsOwnDraft() {
+    public void shouldReadAllPublishArticleAndIsOwnDraftToCheck() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").get(ClientResponse.class);
@@ -116,7 +116,8 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE, ArticleStatus.BROUILLON);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE, ArticleStatus.BROUILLON,
+                ArticleStatus.AVERIFIER);
         Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
 
             @Override
@@ -125,6 +126,14 @@ public class ITArticleResources {
             }
         });
         assertThat(drafts).onProperty("profile.pseudo").containsOnly("jpetit");
+        Collection<ArticleDTO> toChecks = Collections2.filter(articles, new Predicate<ArticleDTO>() {
+
+            @Override
+            public boolean apply(ArticleDTO input) {
+                return ArticleStatus.AVERIFIER.equals(input.getStatus());
+            }
+        });
+        assertThat(toChecks).onProperty("profile.pseudo").containsOnly("jpetit");
     }
 
     @Test
@@ -375,8 +384,8 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_ANOTHER_DRAFT_VALIDATE).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -384,8 +393,8 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_VALIDATE_VALIDATE).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test

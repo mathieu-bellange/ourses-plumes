@@ -1,6 +1,7 @@
 package org.ourses.server.redaction.domain.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -192,14 +193,14 @@ public class Article implements Serializable {
         return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
-    public static Set<Article> findDrafts(long idProfile) {
-        return Ebean.find(Article.class).where().eq("profile.id", idProfile).eq("status", ArticleStatus.BROUILLON)
-                .findSet();
-    }
-
     public static Set<Article> findToCheckAndDraft() {
         return Ebean.find(Article.class).where()
                 .or(Expr.eq("status", ArticleStatus.AVERIFIER), Expr.eq("status", ArticleStatus.BROUILLON)).findSet();
+    }
+
+    public static Collection<? extends Article> findToCheckAndDraft(Long idProfile) {
+        return Ebean.find(Article.class).where().eq("profile.id", idProfile)
+                .or(Expr.eq("status", ArticleStatus.BROUILLON), Expr.eq("status", ArticleStatus.AVERIFIER)).findSet();
     }
 
     public static Set<Article> findOnline() {

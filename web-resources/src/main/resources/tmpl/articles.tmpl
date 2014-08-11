@@ -20,6 +20,12 @@
 										{{??}}
 											<a href="javascript:void(0)" style="cursor: default;"></a>
 										{{?}}
+									{{?? art.status == "AVERIFIER"}}
+										{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
+											<a href="javascript:void(0)" style="cursor: default;"></a>
+										{{??}}
+											<a href="{{= art.path }}">Lire l&rsquo;article</a>
+										{{?}}
 									{{??}}
 										<a href="{{= art.path }}">Lire l&rsquo;article</a>
 									{{?}}
@@ -34,7 +40,10 @@
 									{{?? art.status == "AVERIFIER" }}
 										<div class="validate" style="display: none;">
 											<!--Validation for Standbys-->
-											<button class="small success">Publier</button><button class="alert small">Renvoyer</button>
+											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+												<button class="small success">Publier</button>
+											{{?}}
+											<button class="alert small">Renvoyer</button>
 										</div>
 									{{?}}
 								</div>
