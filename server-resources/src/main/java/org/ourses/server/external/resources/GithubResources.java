@@ -20,7 +20,6 @@ public class GithubResources {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    // TODO activé securité @RequiresRoles(value = { RolesUtil.ADMINISTRATRICE })
     public Response addBug(GithubBug githubBug) {
         githubService.addIssue(githubBug);
         return Response.ok(githubBug).build();
