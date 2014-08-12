@@ -134,8 +134,9 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setStatus(ArticleStatus.ENLIGNE);
         article.setPath(buildPath(article));
         article.setTitleBeautify(beautifyTitle(article.getTitle()));
-        article.update("status", "path", "titleBeautify");
-        // TODO published date
+        article.setUpdatedDate(new Date());
+        article.setPublishedDate(new Date());
+        article.update("status", "path", "titleBeautify", "updatedDate", "publishedDate");
         return article;
     }
 

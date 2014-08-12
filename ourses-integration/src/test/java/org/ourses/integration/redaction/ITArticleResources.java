@@ -465,8 +465,8 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_PUBLISH).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -531,8 +531,8 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_INVALIDATE_DRAFT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
-        // status attendu 401
-        assertThat(clientResponse.getStatus()).isEqualTo(401);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     private ArticleDTO newArticle(String title) {

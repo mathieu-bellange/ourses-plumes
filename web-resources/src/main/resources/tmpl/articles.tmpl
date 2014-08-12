@@ -32,18 +32,18 @@
 									{{? art.status == "BROUILLON" }}
 										<div class="validate" style="display: none;">
 											<!--delete for Drafts-->
-											<button class="small" data-delete = "{{= art.id }}">Supprimer</button>
+											<button class="small" data-delete="{{= art.id }}">Supprimer</button>
 											{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
-												<button class="alert small" data-validate = "{{= art.id }}">Valider</button>
+												<button class="alert small" data-validate="{{= art.id }}">Valider</button>
 											{{?}}
 										</div>
 									{{?? art.status == "AVERIFIER" }}
 										<div class="validate" style="display: none;">
 											<!--Validation for Standbys-->
 											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
-												<button class="small success">Publier</button>
+												<button class="small success" data-publish="{{= art.id }}">Publier</button>
 											{{?}}
-											<button class="alert small" data-invalidate = "{{= art.id }}">Rappeler</button>
+											<button class="alert small" data-invalidate="{{= art.id }}">Rappeler</button>
 										</div>
 									{{?}}
 								</div>
@@ -68,7 +68,7 @@
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
-					<ul class="no-bullet articles-list">
+					<ul id="articles_publish" class="no-bullet articles-list">
 						{{~ data.onLine :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}

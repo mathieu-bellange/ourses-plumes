@@ -25,18 +25,18 @@
 										{{? data.status == "BROUILLON" }}
 										<div class="validate" style="display: none;">
 											<!--delete for Drafts-->
-											<button class="small" data-delete = "{{= data.id }}">Supprimer</button>
+											<button class="small" data-delete="{{= data.id }}">Supprimer</button>
 											{{? data.profile.id == window.localStorage.getItem($oursesProfileId)}}
-												<button class="alert small" data-validate = "{{= data.id }}">Valider</button>
+												<button class="alert small" data-validate="{{= data.id }}">Valider</button>
 											{{?}}
 										</div>
 										{{?? data.status == "AVERIFIER" }}
 											<!--Validation for Standbys-->
 											<div class="validate" style="display: none;">
 												{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
-													<button class="small success">Publier</button>
+													<button class="small success" data-publish="{{= art.id }}">Publier</button>
 												{{?}}
-												<button class="alert small" data-invalidate = "{{= data.id }}">Rappeler</button>
+												<button class="alert small" data-invalidate="{{= data.id }}">Rappeler</button>
 											</div>
 										{{?}}
 									</div>

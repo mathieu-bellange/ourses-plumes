@@ -13,6 +13,7 @@ function createAlertBox(err, msg) {
 			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
 		}
 		$("#article-alert").fadeIn(300);
+		window.scrollTo(0,0);
 	}
 }
 
@@ -89,6 +90,33 @@ function inValidateArticle(id){
 			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function(){
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterInValidation(article);
+			});
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404){
+				createAlertBox("ok","Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements");
+				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function(){
+					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+				});
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
+}
+function publishArticle(id){
+	$.ajax({
+		type : "PUT",
+		url : "/rest/articles/" + id + "/publish",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		contentType : "application/json; charset=utf-8",
+		success : function(article, status, jqxhr) {
+			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function(){
+				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+				processAfterPublish(article);
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -185,6 +213,9 @@ function processArticles(articles){
 	$(".validate button[data-invalidate]").click(function(){
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
+	$(".validate button[data-publish]").click(function(){
+		publishArticle($(this).attr("data-publish"));
+	});
 }
 
 function processAfterValidation(article){
@@ -202,6 +233,10 @@ function processAfterInValidation(article){
 	$("#articles_draft li:first .validate button[data-delete]").click(function(){
 		deleteArticle($(this).attr("data-delete"));
 	});
+}
+
+function processAfterPublish(article){
+	$("#articles_publish").prepend(short_article_tmpl(article));
 }
 
 /* ------------------------------------------------------------------ */
