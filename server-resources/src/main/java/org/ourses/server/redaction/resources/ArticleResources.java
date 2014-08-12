@@ -223,7 +223,7 @@ public class ArticleResources {
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
         }
         else {
-            responseBuilder = Response.status(Status.UNAUTHORIZED);
+            responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
     }

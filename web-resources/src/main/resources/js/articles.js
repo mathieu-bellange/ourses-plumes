@@ -77,6 +77,33 @@ function validateArticle(id){
 		dataType : "json"
 	});
 }
+function inValidateArticle(id){
+	$.ajax({
+		type : "PUT",
+		url : "/rest/articles/" + id + "/invalidate",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		contentType : "application/json; charset=utf-8",
+		success : function(article, status, jqxhr) {
+			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function(){
+				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+				processAfterInValidation(article);
+			});
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404){
+				createAlertBox("ok","Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements");
+				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function(){
+					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+				});
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
+}
 
 function displayArticles(){
 	$.ajax({
@@ -155,11 +182,26 @@ function processArticles(articles){
 	$(".validate button[data-validate]").click(function(){
 		validateArticle($(this).attr("data-validate"));
 	});
+	$(".validate button[data-invalidate]").click(function(){
+		inValidateArticle($(this).attr("data-invalidate"));
+	});
 }
 
 function processAfterValidation(article){
-	$("#articles_standby li:first").before(short_article_tmpl(article)).fadeIn("slow");
-	var newLi = $("#articles_standby li:first");
+	$("#articles_standby").prepend(short_article_tmpl(article));
+	$("#articles_standby li:first .validate button[data-invalidate]").click(function(){
+		inValidateArticle($(this).attr("data-invalidate"));
+	});
+}
+
+function processAfterInValidation(article){
+	$("#articles_draft").prepend(short_article_tmpl(article));
+	$("#articles_draft li:first .validate button[data-validate]").click(function(){
+		validateArticle($(this).attr("data-validate"));
+	});
+	$("#articles_draft li:first .validate button[data-delete]").click(function(){
+		deleteArticle($(this).attr("data-delete"));
+	});
 }
 
 /* ------------------------------------------------------------------ */

@@ -143,7 +143,8 @@ public class ArticleHelperImpl implements ArticleHelper {
     public Article invalidateArticle(long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.BROUILLON);
-        article.update("status");
+        article.setUpdatedDate(new Date());
+        article.update("status", "updatedDate");
         return article;
     }
 

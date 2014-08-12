@@ -33,8 +33,10 @@
 										{{?? data.status == "AVERIFIER" }}
 											<!--Validation for Standbys-->
 											<div class="validate" style="display: none;">
-												<button class="small success">Publier</button>
-												<button class="alert small">Renvoyer</button>
+												{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+													<button class="small success">Publier</button>
+												{{?}}
+												<button class="alert small" data-invalidate = "{{= data.id }}">Rappeler</button>
 											</div>
 										{{?}}
 									</div>
