@@ -407,13 +407,13 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldNotUpdateValidateWithAdminRole() {
+    public void shouldUpdateValidateWithAdminRole() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
         ArticleDTO updateArticle = updateArticle(5l, "shouldNotUpdateValidateWithAdminRole");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 404
-        assertThat(clientResponse.getStatus()).isEqualTo(404);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
     }
 
     @Test
@@ -430,17 +430,6 @@ public class ITArticleResources {
     public void shouldNotUpdateDraftWithValidatePath() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE_DRAFT).build();
         ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateDraftWithValidatePath");
-        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
-                .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
-        // status attendu 404
-        assertThat(clientResponse.getStatus()).isEqualTo(404);
-    }
-
-    @Test
-    public void shouldNotUpdateAnotherArticle() {
-        URI uri = UriBuilder.fromPath(PATH_VALIDATE_UPDATE).build();
-        // dans le path 5, article 1
-        ArticleDTO updateArticle = updateArticle(1l, "shouldNotUpdateAnotherArticle");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 404
