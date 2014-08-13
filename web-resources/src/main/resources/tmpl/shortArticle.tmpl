@@ -39,7 +39,7 @@
 												<button class="alert small" data-invalidate="{{= data.id }}">Invalider</button>
 											</div>
 										{{?? data.status == "ENLIGNE" }}
-											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+											{{? window.localStorage.getItem($oursesUserRole) == $role_admin || data.profile.id == window.localStorage.getItem($oursesProfileId)}}
 												<div class="validate" style="display: none;">
 													<!--Validation for Standbys-->
 													<button class="small success" data-recall="{{= data.id }}">Rappeler</button>

@@ -217,7 +217,9 @@ public class ArticleResources {
         // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
         ResponseBuilder responseBuilder;
         Profile profile = profileHelper.findProfileByAuthcToken(token);
-        if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)) {
+        if (profile != null
+                && (articleHelper.isAdminAndGoodStatusArticle(profile.getId(), id, ArticleStatus.AVERIFIER) || articleHelper
+                        .isProfileIsTheOwner(profile.getId(), id, ArticleStatus.AVERIFIER))) {
             // update du status de l'article
             Article article = articleHelper.invalidateArticle(id);
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
@@ -233,10 +235,13 @@ public class ArticleResources {
     public Response recall(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
     String token) {
-        // vérification que l'action est fait pas une administratrice et que l'article est bien à valider
+        // vérification que l'action est fait pas une administratrice et que l'article est bien enligne
+        // ou alors fait par une rédactrice sur ses articles uniquement
         ResponseBuilder responseBuilder;
         Profile profile = profileHelper.findProfileByAuthcToken(token);
-        if (profile != null && articleHelper.isAdminAndGoodStatusArticle(profile.getId(), id, ArticleStatus.ENLIGNE)) {
+        if (profile != null
+                && (articleHelper.isAdminAndGoodStatusArticle(profile.getId(), id, ArticleStatus.ENLIGNE) || articleHelper
+                        .isProfileIsTheOwner(profile.getId(), id, ArticleStatus.ENLIGNE))) {
             // update du status de l'article
             Article article = articleHelper.recallArticle(id);
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());

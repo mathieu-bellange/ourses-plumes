@@ -46,6 +46,8 @@ public class ITArticleResources {
     private static final String PATH_DELETE_INEXISTING_DRAFT = "/rest/articles/666";
     private static final String PATH_DELETE_VALIDATE = "/rest/articles/8";
     private static final String PATH_INVALDIATE = "/rest/articles/9/invalidate";
+    private static final String PATH_INVALDIATE_OWN = "/rest/articles/18/invalidate";
+    private static final String PATH_INVALDIATE_ANOTHER = "/rest/articles/19/invalidate";
     private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
     private static final String PATH_GET_PUBLISH = "/rest/articles/éducation-culture/titre-14";
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
@@ -53,6 +55,8 @@ public class ITArticleResources {
     private static final String PATH_GET_ALL = "/rest/articles";
     private static final String PATH_CHECK_TITLE = "/rest/articles/check/title";
     private static final String PATH_RECALL_PUBLISH = "/rest/articles/11/recall";
+    private static final String PATH_RECALL_REDAC_OWN = "/rest/articles/20/recall";
+    private static final String PATH_RECALL_ANOTHER = "/rest/articles/21/recall";
     private static final String PATH_RECALL_DRAFT = "/rest/articles/3/recall";
 
     @Test
@@ -520,12 +524,21 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldNotInvalidateWithRedacRole() {
-        URI uri = UriBuilder.fromPath(PATH_INVALDIATE).build();
+    public void shouldInvalidateWithRedacRoleIsOwnArticle() {
+        URI uri = UriBuilder.fromPath(PATH_INVALDIATE_OWN).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
-        // status attendu 403
-        assertThat(clientResponse.getStatus()).isEqualTo(403);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+    }
+
+    @Test
+    public void shouldNotInvalidateWithRedacRoleAnotherArticle() {
+        URI uri = UriBuilder.fromPath(PATH_INVALDIATE_ANOTHER).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -552,7 +565,7 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldNotRecallDraftArticle() {
+    public void shouldRecallDraftArticle() {
         URI uri = UriBuilder.fromPath(PATH_RECALL_DRAFT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
@@ -561,12 +574,21 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldNotRecallByRedac() {
-        URI uri = UriBuilder.fromPath(PATH_RECALL_PUBLISH).build();
+    public void shouldRecallByRedacIsOwnArticle() {
+        URI uri = UriBuilder.fromPath(PATH_RECALL_REDAC_OWN).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
-        // status attendu 403
-        assertThat(clientResponse.getStatus()).isEqualTo(403);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+    }
+
+    @Test
+    public void shouldNotRecallByRedacAnotherArticle() {
+        URI uri = UriBuilder.fromPath(PATH_RECALL_ANOTHER).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test

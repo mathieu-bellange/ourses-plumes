@@ -28,4 +28,6 @@ public interface ArticleHelper {
 
     boolean isAdminAndGoodStatusArticle(Long idProfile, long idArticle, ArticleStatus status);
 
+    boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status);
+
 }

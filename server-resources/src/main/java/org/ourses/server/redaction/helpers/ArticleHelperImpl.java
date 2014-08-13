@@ -71,7 +71,8 @@ public class ArticleHelperImpl implements ArticleHelper {
         return isReadable;
     }
 
-    private boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status) {
+    @Override
+    public boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status) {
         boolean isProfileIsTheOwner = false;
         if (idProfile != null) {
             isProfileIsTheOwner = Article.countArticleByProfileAndStatus(idProfile, idArticle, status) > 0;
