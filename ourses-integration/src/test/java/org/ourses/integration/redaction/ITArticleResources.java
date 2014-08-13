@@ -52,6 +52,8 @@ public class ITArticleResources {
     private static final String PATH_GET_VALIDATE = "/rest/articles/13";
     private static final String PATH_GET_ALL = "/rest/articles";
     private static final String PATH_CHECK_TITLE = "/rest/articles/check/title";
+    private static final String PATH_RECALL_PUBLISH = "/rest/articles/11/recall";
+    private static final String PATH_RECALL_DRAFT = "/rest/articles/3/recall";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -533,6 +535,47 @@ public class ITArticleResources {
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
         // status attendu 404
         assertThat(clientResponse.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    public void shouldRecallPublishedArticle() {
+        URI uri = UriBuilder.fromPath(PATH_RECALL_PUBLISH).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article).isNotNull();
+        assertThat(article.getStatus()).isEqualTo(ArticleStatus.AVERIFIER);
+        assertThat(article.getPath()).isEqualTo("/articles/" + article.getId());
+        assertThat(article.getPublishedDate()).isNull();
+    }
+
+    @Test
+    public void shouldNotRecallDraftArticle() {
+        URI uri = UriBuilder.fromPath(PATH_RECALL_DRAFT).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 404
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    public void shouldNotRecallByRedac() {
+        URI uri = UriBuilder.fromPath(PATH_RECALL_PUBLISH).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 403
+        assertThat(clientResponse.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void shouldNotRecallByAnon() {
+        URI uri = UriBuilder.fromPath(PATH_RECALL_PUBLISH).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+        // status attendu 401
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
     private ArticleDTO newArticle(String title) {

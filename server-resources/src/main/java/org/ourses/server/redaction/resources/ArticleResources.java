@@ -228,6 +228,25 @@ public class ArticleResources {
         return responseBuilder.build();
     }
 
+    @PUT
+    @Path("/{id}/recall")
+    public Response recall(@PathParam("id")
+    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token) {
+        // vérification que l'action est fait pas une administratrice et que l'article est bien à valider
+        ResponseBuilder responseBuilder;
+        Profile profile = profileHelper.findProfileByAuthcToken(token);
+        if (profile != null && articleHelper.isAdminAndGoodStatusArticle(profile.getId(), id, ArticleStatus.ENLIGNE)) {
+            // update du status de l'article
+            Article article = articleHelper.recallArticle(id);
+            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+        }
+        else {
+            responseBuilder = Response.status(Status.NOT_FOUND);
+        }
+        return responseBuilder.build();
+    }
+
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id")

@@ -132,6 +132,34 @@ function publishArticle(id){
 		dataType : "json"
 	});
 }
+function recallArticle(id){
+	$.ajax({
+		type : "PUT",
+		url : "/rest/articles/" + id + "/recall",
+		beforeSend: function(request){
+			header_authentication(request);
+		},
+		contentType : "application/json; charset=utf-8",
+		success : function(article, status, jqxhr) {
+			$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function(){
+				$(".validate button[data-recall='" + id + "']").parents("li").remove();
+				processAfterRecall(article);
+			});
+		},
+		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 404){
+				createAlertBox("ok","Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements");
+				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function(){
+					$(".validate button[data-recall='" + id + "']").parents("li").remove();
+				});
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
+}
 
 function displayArticles(){
 	$.ajax({
@@ -216,12 +244,18 @@ function processArticles(articles){
 	$(".validate button[data-publish]").click(function(){
 		publishArticle($(this).attr("data-publish"));
 	});
+	$(".validate button[data-recall]").click(function(){
+		recallArticle($(this).attr("data-recall"));
+	});
 }
 
 function processAfterValidation(article){
 	$("#articles_standby").prepend(short_article_tmpl(article));
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function(){
 		inValidateArticle($(this).attr("data-invalidate"));
+	});
+	$("#articles_standby li:first .validate button[data-publish]").click(function(){
+		publishArticle($(this).attr("data-publish"));
 	});
 }
 
@@ -237,6 +271,14 @@ function processAfterInValidation(article){
 
 function processAfterPublish(article){
 	$("#articles_publish").prepend(short_article_tmpl(article));
+	$("#articles_publish li:first .validate button[data-recall]").click(function(){
+		recallArticle($(this).attr("data-recall"));
+	});
+}
+
+function processAfterRecall(article){
+	//mêmes étapes qu'une validation
+	processAfterValidation(article);
 }
 
 /* ------------------------------------------------------------------ */

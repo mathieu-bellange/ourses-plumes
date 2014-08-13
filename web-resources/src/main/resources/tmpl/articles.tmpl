@@ -43,8 +43,15 @@
 											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
 												<button class="small success" data-publish="{{= art.id }}">Publier</button>
 											{{?}}
-											<button class="alert small" data-invalidate="{{= art.id }}">Rappeler</button>
+											<button class="alert small" data-invalidate="{{= art.id }}">Invalider</button>
 										</div>
+									{{?? art.status == "ENLIGNE" }}
+										{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+											<div class="validate" style="display: none;">
+												<!--Validation for Standbys-->
+												<button class="small success" data-recall="{{= art.id }}">Rappeler</button>
+											</div>
+										{{?}}
 									{{?}}
 								</div>
 #}}

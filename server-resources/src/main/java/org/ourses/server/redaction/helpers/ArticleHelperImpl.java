@@ -37,7 +37,7 @@ public class ArticleHelperImpl implements ArticleHelper {
             break;
         case AVERIFIER:
             // seul une administratrice peut modifier un A vérifier
-            isUpdatable = isAdminAndValidateArticle(idProfile, idArticle, status);
+            isUpdatable = isAdminAndGoodStatusArticle(idProfile, idArticle, status);
             break;
         case ENLIGNE:
             // un article en ligne ne peut être modifié
@@ -59,7 +59,7 @@ public class ArticleHelperImpl implements ArticleHelper {
             break;
         case AVERIFIER:
             // seul une administratrice à accès à un A vérifier
-            isReadable = isAdminAndValidateArticle(idProfile, idArticle, status);
+            isReadable = isAdminAndGoodStatusArticle(idProfile, idArticle, status);
             break;
         case ENLIGNE:
             // tout le monde à accès au publish
@@ -79,7 +79,8 @@ public class ArticleHelperImpl implements ArticleHelper {
         return isProfileIsTheOwner;
     }
 
-    private boolean isAdminAndValidateArticle(Long idProfile, long idArticle, ArticleStatus status) {
+    @Override
+    public boolean isAdminAndGoodStatusArticle(Long idProfile, long idArticle, ArticleStatus status) {
         boolean isAdminAndValidateArticle = false;
         if (idProfile != null) {
             BearAccount account = BearAccount.findAdminAccountByProfileId(idProfile);
@@ -133,10 +134,9 @@ public class ArticleHelperImpl implements ArticleHelper {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.ENLIGNE);
         article.setPath(buildPath(article));
-        article.setTitleBeautify(beautifyTitle(article.getTitle()));
         article.setUpdatedDate(new Date());
         article.setPublishedDate(new Date());
-        article.update("status", "path", "titleBeautify", "updatedDate", "publishedDate");
+        article.update("status", "path", "updatedDate", "publishedDate");
         return article;
     }
 
@@ -146,6 +146,17 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setStatus(ArticleStatus.BROUILLON);
         article.setUpdatedDate(new Date());
         article.update("status", "updatedDate");
+        return article;
+    }
+
+    @Override
+    public Article recallArticle(long id) {
+        Article article = Article.findArticle(id);
+        article.setStatus(ArticleStatus.AVERIFIER);
+        article.setPath(buildPath(article));
+        article.setUpdatedDate(new Date());
+        article.setPublishedDate(null);
+        article.update("status", "path", "updatedDate", "publishedDate");
         return article;
     }
 

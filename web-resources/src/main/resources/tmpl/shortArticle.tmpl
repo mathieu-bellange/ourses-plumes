@@ -34,10 +34,17 @@
 											<!--Validation for Standbys-->
 											<div class="validate" style="display: none;">
 												{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
-													<button class="small success" data-publish="{{= art.id }}">Publier</button>
+													<button class="small success" data-publish="{{= data.id }}">Publier</button>
 												{{?}}
-												<button class="alert small" data-invalidate="{{= data.id }}">Rappeler</button>
+												<button class="alert small" data-invalidate="{{= data.id }}">Invalider</button>
 											</div>
+										{{?? data.status == "ENLIGNE" }}
+											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+												<div class="validate" style="display: none;">
+													<!--Validation for Standbys-->
+													<button class="small success" data-recall="{{= data.id }}">Rappeler</button>
+												</div>
+											{{?}}
 										{{?}}
 									</div>
 								</li>

@@ -16,6 +16,8 @@ public interface ArticleHelper {
 
     Article invalidateArticle(long id);
 
+    Article recallArticle(long id);
+
     boolean isArticleReadable(Long idProfile, Long id, ArticleStatus status);
 
     String buildPath(Article article);
@@ -23,5 +25,7 @@ public interface ArticleHelper {
     void createDraft(Article article);
 
     boolean isTitleAlreadyTaken(String title, Long id);
+
+    boolean isAdminAndGoodStatusArticle(Long idProfile, long idArticle, ArticleStatus status);
 
 }
