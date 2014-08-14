@@ -46,10 +46,10 @@
 		<property name="classes">
 			<list>
 				<value>org.ourses.server.security.domain.entities.OurseSecurityToken</value>
+				<value>org.ourses.server.picture.domain.entities.Avatar</value>
 				<value>org.ourses.server.administration.domain.entities.OursesAuthorizationInfo</value>
 				<value>org.ourses.server.administration.domain.entities.OursesAuthenticationInfo</value>
 				<value>org.ourses.server.administration.domain.entities.SocialLink</value>
-				<value>org.ourses.server.administration.domain.entities.Avatar</value>
 				<value>org.ourses.server.administration.domain.entities.Profile</value>
 				<value>org.ourses.server.administration.domain.entities.BearAccount</value>
 				<value>org.ourses.server.redaction.domain.entities.Tag</value>

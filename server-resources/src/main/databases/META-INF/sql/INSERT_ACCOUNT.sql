@@ -36,11 +36,6 @@ Insert into profile
 			dans la luttes contre les différentes formes d''oppression, du racisme et post-colonialisme au capitalisme. Quand elle ne bat pas le pavé, elle passe bien trop de temps devant un écran 
 			d''ordinateur ou derrière un comic ou un livre... Il était donc grand temps qu''elle pose ses 
 			pattes sur un clavier pour militer comme ça aussi.','/profils/ourse-du-cheshire','ourse-du-cheshire', 0);
-
-Insert into profile_img
-	(id,image)
- Values
- 	(1,LOAD_FILE('src/main/databases/META-INF/sql/exemple.png'));
 			
 			
 Insert into social_link

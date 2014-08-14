@@ -1,4 +1,4 @@
-package org.ourses.server.administration.domain.entities;
+package org.ourses.server.picture.domain.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

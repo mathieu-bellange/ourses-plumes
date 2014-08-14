@@ -19,6 +19,4 @@ public interface ProfileHelper {
 
     String beautifyPseudo(String pseudo);
 
-    byte[] findAvatar(Long id);
-
 }

@@ -9,7 +9,6 @@ import java.util.Iterator;
 
 import org.apache.commons.lang3.text.StrBuilder;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
-import org.ourses.server.administration.domain.entities.Avatar;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.domain.entities.SocialLink;
@@ -174,15 +173,5 @@ public class ProfileHelperImpl implements ProfileHelper {
         }
         return path.toString();
 
-    }
-
-    @Override
-    public byte[] findAvatar(Long id) {
-        byte[] img = null;
-        Avatar avatar = Avatar.findAvatar(id);
-        if (avatar != null) {
-            img = avatar.getImage();
-        }
-        return img;
     }
 }

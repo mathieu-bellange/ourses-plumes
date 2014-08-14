@@ -69,29 +69,6 @@ public class ProfileResources {
         return builder.build();
     }
 
-    @GET
-    @Path("/avatar/{id}")
-    @Produces("image/png")
-    public Response getProfileAvatar(@PathParam("id")
-    Long id) {
-
-        byte[] avatar = null;
-        try {
-            avatar = profileHelper.findAvatar(id);
-        }
-        catch (Exception e) {
-
-        }
-        ResponseBuilder builder;
-        if (avatar == null) {
-            builder = Response.status(Status.NOT_FOUND);
-        }
-        else {
-            builder = Response.ok().entity(avatar);
-        }
-        return builder.build();
-    }
-
     @PUT
     @Path("/{id}")
     public Response updateProfile(@PathParam("id")
