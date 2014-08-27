@@ -178,6 +178,11 @@ public class ProfileHelperImpl implements ProfileHelper {
             }
         }
         return path.toString();
+    }
 
+    @Override
+    public void addDefaultAvatar(Profile profile) {
+        Avatar avatar = Avatar.findDefaultAvatar();
+        profile.setAvatar(avatar);
     }
 }

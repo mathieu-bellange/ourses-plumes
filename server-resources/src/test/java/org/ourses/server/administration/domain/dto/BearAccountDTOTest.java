@@ -3,9 +3,6 @@ package org.ourses.server.administration.domain.dto;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
-import org.ourses.server.administration.domain.dto.BearAccountDTO;
-import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
-import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.security.util.RolesUtil;
 

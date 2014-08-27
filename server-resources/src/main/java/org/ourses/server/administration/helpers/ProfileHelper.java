@@ -19,4 +19,6 @@ public interface ProfileHelper {
 
     String beautifyPseudo(String pseudo);
 
+    void addDefaultAvatar(Profile profile);
+
 }

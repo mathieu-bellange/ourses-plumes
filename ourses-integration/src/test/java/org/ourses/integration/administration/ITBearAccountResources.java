@@ -59,6 +59,8 @@ public class ITBearAccountResources {
         assertThat(account.getProfile()).isNotNull();
         assertThat(account.getRole()).isNotNull();
         assertThat(account.getRole().getRole()).isEqualTo(RolesUtil.REDACTRICE);
+        assertThat(account.getProfile().getAvatar()).isNotNull();
+        assertThat(account.getProfile().getAvatar().getPath()).isNotNull();
     }
 
     @Test

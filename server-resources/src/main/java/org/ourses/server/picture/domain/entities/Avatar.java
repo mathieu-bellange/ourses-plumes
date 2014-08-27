@@ -56,6 +56,10 @@ public class Avatar {
         return Ebean.find(Avatar.class, id);
     }
 
+    public static Avatar findDefaultAvatar() {
+        return Ebean.find(Avatar.class, 0l);
+    }
+
     public void save() {
         Ebean.save(this);
     }
@@ -69,4 +73,5 @@ public class Avatar {
         BeanUtils.copyProperties(this, dto, new String[] { "image" });
         return dto;
     }
+
 }

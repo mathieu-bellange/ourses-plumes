@@ -9,6 +9,7 @@ import org.ourses.server.administration.domain.dto.BearAccountDTO;
 import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
+import org.ourses.server.picture.domain.entities.Avatar;
 import org.ourses.server.security.util.RolesUtil;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +22,8 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
     public void shouldGetBearAccountDTO() {
         BearAccount bearAccount = new BearAccount(1l, "julie.marie@gmail.com", "mdp", new Profile(1l, "moi", "test"), 0);
         bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, "role"));
+        Avatar avatar = new Avatar(0l, "path", null);
+        bearAccount.getProfile().setAvatar(avatar);
         BearAccountDTO bearAccounToVerify = bearAccount.toBearAccountDTO();
         assertThat(bearAccounToVerify).isNotNull();
         assertThat(bearAccounToVerify.getProfile()).isNotNull();
@@ -28,6 +31,8 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
         assertThat(bearAccounToVerify.getPassword()).isNull();
         assertThat(bearAccounToVerify.getMail()).isEqualTo(
                 (String) bearAccount.getAuthcInfo().getPrincipals().getPrimaryPrincipal());
+        assertThat(bearAccounToVerify.getProfile().getAvatar()).isNotNull();
+        assertThat(bearAccounToVerify.getProfile().getAvatar().getPath()).isEqualTo(avatar.getPath());
 
         // prinicpal ne peut pas être null dans shiro
         bearAccount = new BearAccount(1l, "Principal", null, null, 0);

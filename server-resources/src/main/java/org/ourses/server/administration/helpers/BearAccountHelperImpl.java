@@ -80,6 +80,7 @@ public class BearAccountHelperImpl implements BearAccountHelper {
         account.setCredentials(securityHelper.encryptedPassword((String) account.getCredentials()));
         account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
         profileHelper.buildProfilePath(account.getProfile());
+        profileHelper.addDefaultAvatar(account.getProfile());
         account.save();
         return account;
     }
