@@ -8,6 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.util.SocialLinkUtil;
+import org.ourses.server.picture.domain.dto.AvatarDTO;
 import org.springframework.beans.BeanUtils;
 
 import com.google.common.collect.Sets;
@@ -21,6 +22,8 @@ public class ProfileDTO {
     private String path;
     private String pseudoBeautify;
     private Integer version;
+    @JsonProperty("avatar")
+    private AvatarDTO avatar;
     private Set<SocialLinkDTO> socialLinks = Sets.newTreeSet(SocialLinkUtil.NETWORK_COMPARATOR);
 
     public ProfileDTO() {
@@ -84,6 +87,14 @@ public class ProfileDTO {
     @JsonProperty("version")
     public Integer getVersion() {
         return version;
+    }
+
+    public AvatarDTO getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(AvatarDTO avatar) {
+        this.avatar = avatar;
     }
 
     public Set<SocialLinkDTO> getSocialLinks() {

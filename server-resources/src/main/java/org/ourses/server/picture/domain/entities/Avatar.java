@@ -3,7 +3,6 @@ package org.ourses.server.picture.domain.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.ourses.server.picture.domain.dto.AvatarDTO;
 import org.springframework.beans.BeanUtils;
@@ -12,7 +11,6 @@ import com.avaje.ebean.Ebean;
 import com.google.common.collect.Sets;
 
 @Entity
-@Table(name = "profile_img")
 public class Avatar {
 
     @Id
@@ -20,6 +18,15 @@ public class Avatar {
     private Long id;
     private byte[] image;
     private String path;
+
+    public Avatar() {
+    }
+
+    public Avatar(long id, String path, byte[] image) {
+        this.id = id;
+        this.image = image;
+        this.path = path;
+    }
 
     public Long getId() {
         return id;

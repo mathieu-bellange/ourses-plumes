@@ -48,7 +48,7 @@ public class AvatarHelperTest {
         File fimg = new File("src/test/resources/img/exemple.jpg");
         BufferedImage bimg = ImageIO.read(fimg);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(helper.compression(helper.scale(bimg)), "jpg", baos);
+        ImageIO.write(helper.compression(bimg), "jpg", baos);
         baos.flush();
         byte[] imageInByte = baos.toByteArray();
         baos.close();

@@ -13,6 +13,7 @@ import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.domain.entities.SocialLink;
 import org.ourses.server.administration.util.SocialLinkUtil;
+import org.ourses.server.picture.domain.entities.Avatar;
 import org.ourses.server.security.domain.entities.OurseSecurityToken;
 import org.ourses.server.security.helpers.SecurityHelper;
 import org.slf4j.Logger;
@@ -65,6 +66,11 @@ public class ProfileHelperImpl implements ProfileHelper {
                 }
                 updated = true;
             }
+            // avatar
+            else if ("avatar".equals(coupleDTO.getProperty())) {
+                Avatar avatar = Avatar.findAvatar(Long.valueOf(coupleDTO.getValue()));
+                profile.setAvatar(avatar);
+            }
             else {
                 // propriétés du bean profile
                 for (PropertyDescriptor property : Introspector.getBeanInfo(Profile.class, Object.class)
@@ -96,10 +102,10 @@ public class ProfileHelperImpl implements ProfileHelper {
         Profile profile = null;
         // la recherche est possible soit par l'id long soit par le pseudoBeautify
         try {
-            profile = Profile.findProfileWithSocialLinks(Long.parseLong(id));
+            profile = Profile.findPublicProfile(Long.parseLong(id));
         }
         catch (NumberFormatException nfe) {
-            profile = Profile.findProfileWithSocialLinks(id);
+            profile = Profile.findPublicProfile(id);
         }
         if (profile != null) {
             for (SocialLink link : profile.getSocialLinks()) {

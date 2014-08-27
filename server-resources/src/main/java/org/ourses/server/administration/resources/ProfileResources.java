@@ -91,7 +91,7 @@ public class ProfileResources {
                     builder = Response.status(Status.FORBIDDEN);
                 }
                 else {
-                    Profile profile = Profile.findProfileWithSocialLinks(id);
+                    Profile profile = Profile.findPublicProfile(id);
                     if (profileHelper.updateProfileProperty(profile, coupleDTO)) {
                         // maj des liens sociaux
                         if (SocialLinkUtil.NETWORK.contains(coupleDTO.getProperty())) {

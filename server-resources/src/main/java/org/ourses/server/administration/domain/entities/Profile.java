@@ -3,17 +3,21 @@ package org.ourses.server.administration.domain.entities;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.dto.SocialLinkDTO;
+import org.ourses.server.picture.domain.dto.AvatarDTO;
+import org.ourses.server.picture.domain.entities.Avatar;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -38,6 +42,9 @@ public class Profile {
     private String path;
     private String pseudoBeautify;
 
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @Column(name = "avatar_id")
+    private Avatar avatar;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
     private Set<SocialLink> socialLinks;
@@ -86,6 +93,14 @@ public class Profile {
         this.description = description;
     }
 
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
+
     public Set<SocialLink> getSocialLinks() {
         return socialLinks;
     }
@@ -112,7 +127,7 @@ public class Profile {
 
     public ProfileDTO toProfileDTO() {
         ProfileDTO profile = new ProfileDTO();
-        BeanUtils.copyProperties(this, profile, new String[] { "socialLinks" });
+        BeanUtils.copyProperties(this, profile, new String[] { "socialLinks", "avatar" });
         if (socialLinks != null) {
             for (SocialLink link : socialLinks) {
                 SocialLinkDTO linkDTO = new SocialLinkDTO();
@@ -120,19 +135,21 @@ public class Profile {
                 profile.getSocialLinks().add(linkDTO);
             }
         }
+        if (avatar != null) {
+            AvatarDTO avatar = new AvatarDTO();
+            BeanUtils.copyProperties(getAvatar(), avatar);
+            profile.setAvatar(avatar);
+        }
         return profile;
     }
 
-    public static Profile findProfileWithSocialLinks(Long id) {
-        return Ebean.find(Profile.class).fetch("socialLinks").setId(id).findUnique();
+    public static Profile findPublicProfile(Long id) {
+        return Ebean.find(Profile.class).fetch("socialLinks").fetch("avatar", "path").setId(id).findUnique();
     }
 
-    public static Profile findProfileWithSocialLinks(String pseudoBeautify) {
-        return Ebean.find(Profile.class).fetch("socialLinks").where().eq("pseudoBeautify", pseudoBeautify).findUnique();
-    }
-
-    public static Profile findProfile(long id) {
-        return Ebean.find(Profile.class, id);
+    public static Profile findPublicProfile(String pseudoBeautify) {
+        return Ebean.find(Profile.class).fetch("socialLinks").fetch("avatar", "path").where()
+                .eq("pseudoBeautify", pseudoBeautify).findUnique();
     }
 
     public static int countPseudo(String pseudoBeautify) {
@@ -146,11 +163,6 @@ public class Profile {
 
     public void updateProfileProperty(String... propertiesToUpdate) {
         Ebean.update(this, Sets.newHashSet(propertiesToUpdate));
-    }
-
-    public static Profile findProfileWithAuthz(String pseudoBeautify) {
-        return Ebean.find(Profile.class).fetch("account.authzInfo").where().eq("pseudoBeautify", pseudoBeautify)
-                .findUnique();
     }
 
     @Override
