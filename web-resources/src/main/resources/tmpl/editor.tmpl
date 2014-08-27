@@ -62,7 +62,7 @@
 								<dd class="hide"><span id="tag_rubric" class="label radius">&hellip;</span></dd>
 								<dd class="hide"><span id="tag_category" class="label radius inverse">&hellip;</span></dd>
 								{{~  data.tags : tag }}
-									<dd data-alert="" data-tag=""><span class="label radius">{{= tag.tag}}<a href="javascript:void(0)" class="close"></a></span></dd>
+									<dd data-alert="" data-tag=""><span data-id="{{= tag.id}}" class="label radius">{{= tag.tag}}<a href="javascript:void(0)" class="close"></a></span></dd>
 								{{~ }}
 							</dl>
 

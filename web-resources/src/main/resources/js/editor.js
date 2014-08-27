@@ -373,7 +373,7 @@ function sendArticle(){
 	// Tags
 	var tags = [];
 	$("[data-tag] span").each(function(){
-		tags.push(new Tag(null, $(this).text()));
+		tags.push(new Tag($(this).attr("data-id"), $(this).text()));
 	});
 
 	var data = new Article(title, body, description, category, rubrique, tags);
