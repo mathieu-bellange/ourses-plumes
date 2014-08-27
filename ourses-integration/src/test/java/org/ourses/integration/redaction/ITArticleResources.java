@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -18,10 +19,12 @@ import org.ourses.integration.util.TestHelper;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.CategoryDTO;
 import org.ourses.server.redaction.domain.dto.RubriqueDTO;
+import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Sets;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -256,6 +259,10 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_CREATE).build();
 
         ArticleDTO newArticle = newArticle("shouldCreateArticleWithRedacRole");
+        Set<TagDTO> tags = Sets.newHashSet();
+        tags.add(new TagDTO(null, "mon tag"));
+        tags.add(new TagDTO(1l, "tag en base"));
+        newArticle.setTags(tags);
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, newArticle);
         // status attendu 201
@@ -273,6 +280,7 @@ public class ITArticleResources {
         assertThat(article.getPath()).isEqualTo("/articles/" + article.getId());
         assertThat(article.getTitleBeautify()).isEqualTo("shouldcreatearticlewithredacrole");
         assertThat(article.getCreatedDate()).isNotNull();
+        assertThat(article.getTags()).onProperty("tag").containsOnly("Tag 1", "mon tag");
     }
 
     @Test

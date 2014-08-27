@@ -21,7 +21,8 @@ public class ArticleDTOTest {
         dto.setRubrique(new RubriqueDTO(1l, "rubrique"));
         dto.setStatus(ArticleStatus.BROUILLON);
         dto.setCategory(new CategoryDTO(1l, "category"));
-        dto.setTags(Sets.newHashSet(new TagDTO(1l, "tag1"), new TagDTO(2l, "tag2")));
+        // ne tient pas compte tag1 , il sera chargé en base
+        dto.setTags(Sets.newHashSet(new TagDTO(1l, "tag1"), new TagDTO(null, "tag2")));
         Article article = dto.toArticle();
         assertThat(article.getId()).isEqualTo(dto.getId());
         assertThat(article.getBody()).isEqualTo(dto.getBody());
@@ -31,6 +32,6 @@ public class ArticleDTOTest {
         assertThat(article.getProfile()).isNull();
         assertThat(article.getCategory().getCategory()).isEqualTo(dto.getCategory().getCategory());
         assertThat(article.getRubrique().getRubrique()).isEqualTo(dto.getRubrique().getRubrique());
-        assertThat(article.getTags()).onProperty("tag").containsOnly("tag1", "tag2");
+        assertThat(article.getTags()).onProperty("tag").containsOnly("Tag 1", "tag2");
     }
 }

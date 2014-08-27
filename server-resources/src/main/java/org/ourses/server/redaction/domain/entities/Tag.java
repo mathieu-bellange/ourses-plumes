@@ -62,6 +62,10 @@ public class Tag implements Serializable {
         return Ebean.find(Tag.class).findSet();
     }
 
+    public static Tag find(Long id) {
+        return Ebean.find(Tag.class, id);
+    }
+
     public TagDTO toTagDTO() {
         TagDTO tag = new TagDTO();
         BeanUtils.copyProperties(this, tag);
