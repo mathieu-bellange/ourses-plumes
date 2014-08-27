@@ -5,7 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.ourses.server.picture.domain.dto.AvatarDTO;
+import org.springframework.beans.BeanUtils;
+
 import com.avaje.ebean.Ebean;
+import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "profile_img")
@@ -15,6 +19,7 @@ public class Avatar {
     @GeneratedValue
     private Long id;
     private byte[] image;
+    private String path;
 
     public Long getId() {
         return id;
@@ -32,7 +37,29 @@ public class Avatar {
         this.image = image;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public static Avatar findAvatar(Long id) {
         return Ebean.find(Avatar.class, id);
+    }
+
+    public void save() {
+        Ebean.save(this);
+    }
+
+    public void update(String... ppts) {
+        Ebean.update(this, Sets.newHashSet(ppts));
+    }
+
+    public AvatarDTO toAvatarDTO() {
+        AvatarDTO dto = new AvatarDTO();
+        BeanUtils.copyProperties(this, dto, new String[] { "image" });
+        return dto;
     }
 }
