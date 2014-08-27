@@ -54,6 +54,8 @@ public class ITProfileResources {
         assertThat(profileDTO.getPseudo()).isNotNull();
         assertThat(profileDTO.getPath()).isNotNull();
         assertThat(profileDTO.getPseudoBeautify()).isNotNull();
+        assertThat(profileDTO.getAvatar()).isNotNull();
+        assertThat(profileDTO.getAvatar().getPath()).isNotNull();
         assertThat(profileDTO.getSocialLinks()).isNotEmpty();
         assertThat(profileDTO.getSocialLinks()).onProperty("network").isNotNull();
         assertThat(profileDTO.getSocialLinks()).onProperty("socialUser").isNotNull();

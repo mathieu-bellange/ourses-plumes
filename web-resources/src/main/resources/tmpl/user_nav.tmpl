@@ -3,7 +3,7 @@
 						<h3 class="hide">Menu utilisateur</h3>
 						<h4 class="user-name">{{= window.localStorage.getItem($oursesUserPseudo) }}</h4>
 						<ul>
-							<li><span class="picture medium" data-image="usr/{{= $user_picture }}">Image</span></li>
+							<li><span class="picture medium" data-image="{{= window.localStorage.getItem($oursesAvatarPath) }}">Image</span></li>
 							<li><a href="{{= $my_account_page }}">Mon compte</a></li>
 							<li><a href="{{= $my_profile_page }}">Mon profil</a></li>
 							{{? window.localStorage.getItem($oursesUserRole) == $role_admin }}

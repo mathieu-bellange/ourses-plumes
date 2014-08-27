@@ -42,6 +42,7 @@ public class ITAuthenticationResources {
         assertThat(authcUser.getPseudo()).isNotNull();
         assertThat(authcUser.getToken()).isNotNull();
         assertThat(authcUser.getRole()).isNotNull();
+        assertThat(authcUser.getPathAvatar()).isNotNull();
     }
 
     @Test

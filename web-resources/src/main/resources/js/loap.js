@@ -319,6 +319,7 @@ $(".disconnect").on("click", function(){
 			window.localStorage.removeItem($oursesUserRole);
 			window.localStorage.removeItem($oursesAccountId);
 			window.localStorage.removeItem($oursesProfileId);
+			window.localStorage.removeItem($oursesAvatarPath);
 			window.location.href = $home_page;
 		},
 		error : function(jqXHR, status, errorThrown) {

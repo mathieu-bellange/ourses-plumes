@@ -24,18 +24,23 @@ Insert into ourses_authentication_info
    (4, 'to_delete@gmail.com', '894633f005692bea4e846b65ecafca0baba005cf28d653b79e24de0a5d5cd170', 1),
    (5, 'account_to_update@gmail.com', '894633f005692bea4e846b65ecafca0baba005cf28d653b79e24de0a5d5cd170', 1);
 
-Insert into profile
-   (id, pseudo, description,path,pseudo_beautify,version)
+   Insert into avatar
+	(id,path)
  Values
-   (1, 'mbellange', 'trop musclé','/profils/mbellange','mbellange', 1),
-   (2, 'jpetit', 'trop sexy','/profils/jpetit','jpetit', 1),
-   (3, 'Nadejda', 'The media is an important weapon for an activist in today&rsquo;s Russia, [&hellip;] It&rsquo;s a wonderful example of how the civil society can be put to work.','/profils/nadejda','nadejda', 1),
-   (4, 'to_delete', 'Ce compte est supprimé pendant les tests','/profils/to-delete','to-delete', 1),
-   (5, 'to_update', 'Ce compte est update pendant les tests','/profils/to-update','to-update', 1),
+ 	(0,'usr/usr-default.jpg');
+ 	
+Insert into profile
+   (id, pseudo, description,path,pseudo_beautify,avatar_id,version)
+ Values
+   (1, 'mbellange', 'trop musclé','/profils/mbellange','mbellange',0, 1),
+   (2, 'jpetit', 'trop sexy','/profils/jpetit','jpetit',0, 1),
+   (3, 'Nadejda', 'The media is an important weapon for an activist in today&rsquo;s Russia, [&hellip;] It&rsquo;s a wonderful example of how the civil society can be put to work.','/profils/nadejda','nadejda',0, 1),
+   (4, 'to_delete', 'Ce compte est supprimé pendant les tests','/profils/to-delete','to-delete',0, 1),
+   (5, 'to_update', 'Ce compte est update pendant les tests','/profils/to-update','to-update',0, 1),
    (6, 'Ourse du Cheshire', 'Cette ourse sait garder le sourire, mais sait aussi montrer les dents. Membre d''un collectif de fac - et personnellement confrontée au sexisme et à la lesbophobie - elle n''hésite pas à jouer des griffes dans les luttes féministes et LGBTI-Q. Plus largement, elle s''implique 
 			dans la luttes contre les différentes formes d''oppression, du racisme et post-colonialisme au capitalisme. Quand elle ne bat pas le pavé, elle passe bien trop de temps devant un écran 
 			d''ordinateur ou derrière un comic ou un livre... Il était donc grand temps qu''elle pose ses 
-			pattes sur un clavier pour militer comme ça aussi.','/profils/ourse-du-cheshire','ourse-du-cheshire', 0);
+			pattes sur un clavier pour militer comme ça aussi.','/profils/ourse-du-cheshire','ourse-du-cheshire',0, 0);
 			
 			
 Insert into social_link

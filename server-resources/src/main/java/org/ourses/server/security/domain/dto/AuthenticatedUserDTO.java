@@ -16,17 +16,21 @@ public class AuthenticatedUserDTO {
     private String pseudo;
     @JsonProperty("role")
     private String role;
+    @JsonProperty("avatar")
+    private String pathAvatar;
 
     public AuthenticatedUserDTO() {
 
     }
 
-    public AuthenticatedUserDTO(Long accountId, Long profileId, String token, String pseudo, String role) {
+    public AuthenticatedUserDTO(Long accountId, Long profileId, String token, String pseudo, String role,
+            String pathAvatar) {
         this.profileId = profileId;
         this.accountId = accountId;
         this.token = token;
         this.pseudo = pseudo;
         this.role = role;
+        this.pathAvatar = pathAvatar;
     }
 
     public Long getAccountId() {
@@ -67,6 +71,14 @@ public class AuthenticatedUserDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPathAvatar() {
+        return pathAvatar;
+    }
+
+    public void setPathAvatar(String pathAvatar) {
+        this.pathAvatar = pathAvatar;
     }
 
     @Override

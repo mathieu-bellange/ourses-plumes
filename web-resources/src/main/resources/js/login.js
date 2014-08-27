@@ -35,6 +35,7 @@ function connection(){
 			window.localStorage.setItem($oursesAuthcToken, authcUser.token);
 			window.localStorage.setItem($oursesUserPseudo, authcUser.pseudo);
 			window.localStorage.setItem($oursesUserRole, authcUser.role);
+			window.localStorage.setItem($oursesAvatarPath, authcUser.avatar);
 			var redirection = window.location.search.replace($redir_param,"");
 			if (redirection != ""){
 				window.location.href = redirection;

@@ -45,7 +45,7 @@ public class AuthenticationResources {
             BearAccount bearAccount = BearAccount.findAuthcUserProperties(loginDto.getMail());
             AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(bearAccount.getId(), bearAccount.getProfile()
                     .getId(), authcToken.getToken(), bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo()
-                    .getMainRole());
+                    .getMainRole(), bearAccount.getProfile().getAvatar().getPath());
             builder = Response.ok(authcUserDTO);
         }
         catch (AuthenticationException e) {

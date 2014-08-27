@@ -270,6 +270,7 @@
 						<includes>
 							<include>META-INF/spring/db-dev-context.xml</include>
 							<include>META-INF/sql/*.sql</include>
+							<include>META-INF/sql/img/*.png</include>
 						</includes>
 					</resource>
 				</resources>

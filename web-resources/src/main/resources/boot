@@ -32,6 +32,7 @@ $oursesUserPseudo = "oursesUserPseudo";                 // String   Key of the U
 $oursesUserRole   = "oursesUserRole";                   // String   Key of the User role
 $oursesAccountId  = "oursesAccountId";                  // String   Key of the User account id
 $oursesProfileId  = "oursesProfileId";                  // String   Key of the User account id
+$oursesAvatarPath = "oursesAvatarPath";                 // String   Key of the Avatar path
 $redir_param      = "?redirection=";                    // String   url param in the login page. use for the redirection
 $role_admin       = "Administratrice"                   // String   Admin role
 $role_redac       = "Rédactrice"                        // String   Redacter role
