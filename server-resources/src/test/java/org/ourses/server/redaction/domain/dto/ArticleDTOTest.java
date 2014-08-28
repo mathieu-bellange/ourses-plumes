@@ -32,6 +32,6 @@ public class ArticleDTOTest {
         assertThat(article.getProfile()).isNull();
         assertThat(article.getCategory().getCategory()).isEqualTo(dto.getCategory().getCategory());
         assertThat(article.getRubrique().getRubrique()).isEqualTo(dto.getRubrique().getRubrique());
-        assertThat(article.getTags()).onProperty("tag").containsOnly("Tag 1", "tag2");
+        assertThat(article.getTags()).onProperty("tag").containsOnly("tag 1", "tag2");
     }
 }

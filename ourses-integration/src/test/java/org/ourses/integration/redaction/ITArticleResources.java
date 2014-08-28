@@ -194,6 +194,7 @@ public class ITArticleResources {
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
         assertThat(article).isNotNull();
+        assertThat(article.getTags()).isNotEmpty();
     }
 
     @Test
@@ -280,7 +281,7 @@ public class ITArticleResources {
         assertThat(article.getPath()).isEqualTo("/articles/" + article.getId());
         assertThat(article.getTitleBeautify()).isEqualTo("shouldcreatearticlewithredacrole");
         assertThat(article.getCreatedDate()).isNotNull();
-        assertThat(article.getTags()).onProperty("tag").containsOnly("Tag 1", "mon tag");
+        assertThat(article.getTags()).onProperty("tag").containsOnly("tag 1", "mon tag");
     }
 
     @Test
@@ -322,6 +323,12 @@ public class ITArticleResources {
     public void shouldUpdateDraft() {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_UPDATE).build();
         ArticleDTO updateArticle = updateArticle(1l, "titre 1");
+        Set<TagDTO> tags = Sets.newHashSet();
+        TagDTO tag1 = new TagDTO(null, "n'existe pas");
+        tags.add(tag1);
+        TagDTO tag2 = new TagDTO(1l, "Tag 1");
+        tags.add(tag2);
+        updateArticle.setTags(tags);
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 200
@@ -338,6 +345,8 @@ public class ITArticleResources {
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.BROUILLON);
         assertThat(article.getTitleBeautify()).isEqualTo("titre-1");
         assertThat(article.getUpdatedDate()).isNotNull();
+        assertThat(article.getTags()).isNotEmpty();
+        assertThat(article.getTags()).onProperty("tag").containsOnly(tag1.getTag(), "tag 1");
     }
 
     @Test

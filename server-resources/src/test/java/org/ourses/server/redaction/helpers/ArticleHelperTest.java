@@ -6,6 +6,7 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anySetOf;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Set;
 
@@ -20,10 +21,13 @@ import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.domain.entities.Rubrique;
 import org.ourses.server.redaction.domain.entities.Tag;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 import com.google.common.collect.Sets;
 
-public class ArticleHelperTest {
+@ContextConfiguration("classpath:META-INF/spring/application-context.xml")
+public class ArticleHelperTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     ArticleHelperImpl helper = new ArticleHelperImpl();
 
@@ -36,12 +40,14 @@ public class ArticleHelperTest {
         RubriqueDTO rubriqueDTO = new RubriqueDTO(1l, "rubrique");
         CategoryDTO categoryDTO = new CategoryDTO(1l, "cat");
         TagDTO tagDTO = Mockito.mock(TagDTO.class);
+        when(tagDTO.getTag()).thenReturn("Tag");
         Set<TagDTO> tags = Sets.newHashSet();
         tags.add(tagDTO);
         articleDTO.setRubrique(rubriqueDTO);
         articleDTO.setCategory(categoryDTO);
         articleDTO.setTags(tags);
         helper.updateFromDTO(article, articleDTO);
+        verify(tagDTO).setTag("tag");
         verify(article, never()).setId(anyLong());
         verify(article, never()).setStatus(any(ArticleStatus.class));
         verify(article, never()).setProfile(any(Profile.class));
@@ -51,7 +57,6 @@ public class ArticleHelperTest {
         verify(article).setDescription(articleDTO.getDescription());
         verify(article).setCategory(articleDTO.getCategory().toCategory());
         verify(article).setRubrique(articleDTO.getRubrique().toRubrique());
-        verify(tagDTO).toTag();
         verify(article).setTags(anySetOf(Tag.class));
     }
 

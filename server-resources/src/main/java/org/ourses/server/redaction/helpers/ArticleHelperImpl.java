@@ -113,7 +113,19 @@ public class ArticleHelperImpl implements ArticleHelper {
         // tags
         Set<Tag> tags = Sets.newHashSet();
         for (TagDTO tag : articleDTO.getTags()) {
-            tags.add(tag.toTag());
+            tag.setTag(tag.getTag().toLowerCase());
+            if (tag.getId() != null) {
+                tags.add(Tag.find(tag.getId()));
+            }
+            else {
+                Tag tagBdd = Tag.find(tag.getTag());
+                if (tagBdd != null) {
+                    tags.add(tagBdd);
+                }
+                else {
+                    tags.add(tag.toTag());
+                }
+            }
         }
         article.setTags(tags);
         article.setTitleBeautify(beautifyTitle(articleDTO.getTitle()));
@@ -201,6 +213,12 @@ public class ArticleHelperImpl implements ArticleHelper {
             break;
         }
         return pathBuilder.toString();
+    }
+
+    @Override
+    public void delete(Article article) {
+        // TODO suppression des tags inutiles ?
+        article.delete();
     }
 
     @Override

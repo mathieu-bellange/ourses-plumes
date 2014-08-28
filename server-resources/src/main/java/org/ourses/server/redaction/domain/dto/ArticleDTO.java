@@ -169,16 +169,20 @@ public class ArticleDTO {
         Rubrique rubrique = this.rubrique.toRubrique();
         article.setRubrique(rubrique);
         Set<Tag> tags = Sets.newHashSet();
-        // si un id, on le charge de la base
         for (TagDTO tag : this.tags) {
-            Tag tagToAdd;
+            tag.setTag(tag.getTag().toLowerCase());
             if (tag.getId() != null) {
-                tagToAdd = Tag.find(tag.getId());
+                tags.add(Tag.find(tag.getId()));
             }
             else {
-                tagToAdd = tag.toTag();
+                Tag tagBdd = Tag.find(tag.getTag());
+                if (tagBdd != null) {
+                    tags.add(tagBdd);
+                }
+                else {
+                    tags.add(tag.toTag());
+                }
             }
-            tags.add(tagToAdd);
         }
         article.setTags(tags);
         // le profil ne transit pas depuis le client

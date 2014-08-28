@@ -62,8 +62,17 @@ public class Tag implements Serializable {
         return Ebean.find(Tag.class).findSet();
     }
 
+    public static Tag find(String tag) {
+        return Ebean.find(Tag.class).where().eq("tag", tag).findUnique();
+    }
+
     public static Tag find(Long id) {
         return Ebean.find(Tag.class, id);
+    }
+
+    public void save() {
+        Ebean.save(this);
+
     }
 
     public TagDTO toTagDTO() {

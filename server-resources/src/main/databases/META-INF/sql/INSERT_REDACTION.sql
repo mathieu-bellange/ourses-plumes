@@ -22,12 +22,13 @@ Insert into rubrique
 Insert into tag
    (id, tag)
  Values
-   (1, 'Tag 1'),
-   (2, 'Tag 2'),
-   (3, 'Sexisme'),
-   (4, 'Jeux vid&eacute;os'),
-   (5, 'Machisme'),
-   (6, 'Homophobie');
+   (1, 'tag 1'),
+   (2, 'tag 2'),
+   (3, 'sexisme'),
+   (4, 'jeux vid&eacute;os'),
+   (5, 'machisme'),
+   (6, 'homophobie'),
+   (7, 'sept');
    
 Insert into article
 	(id,title,description,body,published_date,created_date,updated_date,profile_id,category_id,rubrique_id,status,path,title_beautify)
@@ -88,4 +89,6 @@ Insert into article_tag
    (6, 4, 17),
    (7, 5, 17),
    (8, 6, 17),
-   (9, 2, 14);
+   (9, 2, 14),
+   (10, 2, 12),
+   (11, 7, 7);

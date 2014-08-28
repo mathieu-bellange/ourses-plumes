@@ -130,7 +130,7 @@ public class ArticleResources {
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
         Article article = articleDTO.toArticle();
         // vérifie que l'aticle a bien un titre qui n'existe pas déjà
-        if (!articleHelper.isTitleAlreadyTaken(article.getTitle(), article.getId())) {
+        if (!articleHelper.isTitleAlreadyTaken(articleDTO.getTitle(), articleDTO.getId())) {
             // injection du profil qui créé l'article
             article.setProfile(profileHelper.findProfileByAuthcToken(token));
             // créer le brouillon
@@ -260,7 +260,7 @@ public class ArticleResources {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
         if (article != null && ArticleStatus.BROUILLON.equals(article.getStatus())) {
-            article.delete();
+            articleHelper.delete(article);
             responseBuilder = Response.status(Status.NO_CONTENT);
         }
         else {

@@ -30,4 +30,6 @@ public interface ArticleHelper {
 
     boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status);
 
+    void delete(Article article);
+
 }
