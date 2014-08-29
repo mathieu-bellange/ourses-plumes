@@ -27,10 +27,11 @@ public class ITTagResources {
     public void shouldGetAllTags() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
             ClientHandlerException, IOException, InterruptedException {
         URI uri = UriBuilder.fromPath(PATH_TAGS).build();
-        WebResource clientResource = TestHelper.webResource(uri);
+        WebResource clientResource = TestHelper.webResource(uri).queryParam("criteria", "ta");
         GenericType<Set<TagDTO>> gt = new GenericType<Set<TagDTO>>() {
         };
         Set<TagDTO> response = clientResource.header("Content-Type", "application/json").get(gt);
         assertThat(response).isNotEmpty();
+        assertThat(response).onProperty("tag").containsOnly("tag 1", "tag 2");
     }
 }

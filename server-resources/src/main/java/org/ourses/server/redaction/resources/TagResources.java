@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.ourses.server.redaction.domain.dto.TagDTO;
@@ -19,8 +20,9 @@ public class TagResources {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Set<TagDTO> findAllTag() {
-        Set<Tag> tags = Tag.findAllTag();
+    public Set<TagDTO> findAllTag(@QueryParam("criteria")
+    String criteria) {
+        Set<Tag> tags = Tag.findAllTag(criteria.toLowerCase());
         Set<TagDTO> tagsDTO = Sets.newHashSet();
         for (Tag tag : tags) {
             tagsDTO.add(tag.toTagDTO());

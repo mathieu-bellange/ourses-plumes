@@ -58,8 +58,8 @@ public class Tag implements Serializable {
         this.tag = tag;
     }
 
-    public static Set<Tag> findAllTag() {
-        return Ebean.find(Tag.class).findSet();
+    public static Set<Tag> findAllTag(String criteria) {
+        return Ebean.find(Tag.class).where().like("tag", criteria + "%").findSet();
     }
 
     public static Tag find(String tag) {
