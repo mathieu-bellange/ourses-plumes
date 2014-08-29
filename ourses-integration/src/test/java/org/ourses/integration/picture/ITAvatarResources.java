@@ -27,10 +27,19 @@ public class ITAvatarResources {
     }
 
     @Test
-    public void shouldPutAvatar() {
+    public void shouldNotPutAvatarWithoutAuthc() {
         File imgFile = new File("src/test/resources/img/exemple.png");
         URI uri = UriBuilder.fromPath(PATH_PUT_AVATAR).build();
         ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "image/*")
+                .put(ClientResponse.class, imgFile);
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldPutAvatar() {
+        File imgFile = new File("src/test/resources/img/exemple.png");
+        URI uri = UriBuilder.fromPath(PATH_PUT_AVATAR).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).header("Content-Type", "image/*")
                 .put(ClientResponse.class, imgFile);
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         AvatarDTO dto = clientResponse.getEntity(AvatarDTO.class);
@@ -46,7 +55,7 @@ public class ITAvatarResources {
     public void shouldNotPutBigAvatar() {
         File imgFile = new File("src/test/resources/img/exemple2.jpg");
         URI uri = UriBuilder.fromPath(PATH_PUT_AVATAR).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "image/*")
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).header("Content-Type", "image/*")
                 .put(ClientResponse.class, imgFile);
         assertThat(clientResponse.getStatus()).isEqualTo(500);
     }

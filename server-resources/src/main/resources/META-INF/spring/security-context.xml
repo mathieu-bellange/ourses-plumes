@@ -34,6 +34,8 @@
 				/rest/account/*/role = oursesAuthc, oursesAuthz[Administratrice]
 				/rest/account/* = oursesAuthc
 				
+				/rest/avatars/create = oursesAuthc
+				
 				/rest/articles/*/publish = oursesAuthc, oursesAuthz[Administratrice]
 				/rest/articles/*/recall = oursesAuthc, oursesAuthz[Rédactrice]
 				/rest/articles/*/invalidate = oursesAuthc, oursesAuthz[Rédactrice]
