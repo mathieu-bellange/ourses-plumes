@@ -36,7 +36,7 @@ CKEDITOR.editorConfig = function( config ) {
 	+ "horizontalrule," // This plugin provides the command to insert Horizontal Rule (<hr> element) in content.
 	// + "htmlwriter," // This plugin provides flexible HTML output formatting, with several configuration options to control the editor output format.
 	// + "wysiwygarea," // This plugin represents an editing area that holds the editor contents inside of an embedded iframe, so that styles of the content are not inherited from the host page.
-	+ "image," // This plugin add the following image oriented feature to editor: 1) Insert image with all properties managed in a dialog, 2) Integrate with any external file manager to upload/browser images, 3) Context menu option to edit an existing image
+	// + "image," // This plugin add the following image oriented feature to editor: 1) Insert image with all properties managed in a dialog, 2) Integrate with any external file manager to upload/browser images, 3) Context menu option to edit an existing image
 	+ "indent," // This plugin adds the generic Increase/Decrease Indent commands and toolbar buttons to the editor. These commands can be used to change the indentation of text blocks as well as list indentation levels.
 	+ "indentlist," // This plugin handles list indentation (for <ul> and <ol> elements). It allows to change list indentation levels by nesting lists (indent) or changing them into paragraphs (outdent). This plugin introduces keyboard shortcuts for indenting and outdenting lists by using the Tab and Shift+Tab keys, respectively.
 	// + "fakeobjects," // This plugin helps to create a "representative" (image with styles) for certain elements which have problem with living in editable, it provides the API to transform an real DOM element into the "fake" one, and to restore the real element from the fake one on the output.
@@ -69,7 +69,7 @@ CKEDITOR.editorConfig = function( config ) {
 	//config.bodyClass = "article"; // Sets the class attribute to be used on the body element of the editing area. This can be useful when you intend to reuse the original CSS file you are using on your live website and want to assign the editor the same class as the section that will include the contents. In this way class-specific CSS rules will be enabled.
 
 	// CSS
-	config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
+	// config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
 
 	// Autogrow Plugin
 	config.autoGrow_onStartup = true; // Whether automatic editor height adjustment brought by the Auto Grow feature should happen on editor creation.
@@ -190,7 +190,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{name : "document", groups : ["mode"]},
 		{name : "tools"},
 	];
-	config.removeButtons = "Anchor,Image,Table,HorizontalRule,Format";
+	config.removeButtons = "Anchor,Table,HorizontalRule,Format";
 	config.removeDialogTabs = "image:advanced;link:advanced;link:target;";
 
 	// Styles

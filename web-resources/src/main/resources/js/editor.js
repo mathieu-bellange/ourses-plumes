@@ -114,7 +114,6 @@ function processArticle(article){
 		// processCategory(json);
 		processCategory(json, article);
 		//TODO injection de la valeur de l'article
-		
 		// alert(article.category.id);
 		// alert(article.category.category);
 	 });
@@ -124,26 +123,18 @@ function processArticle(article){
 		//TODO injection de la valeur de l'article
 	});
 
-	// Append Classic CKEditor to textarea #editor
-	$("#editor").ckeditor();
-
-	// event
-	// $("#editor").blur(function(event){
-		// if (event.isDefaultPrevented) {
-			// alert("isDefaultPrevented = true");
-			// checkBody();
-		// }
-		// if (event.isPropagationStopped) {
-			// alert("isPropagationStopped = true");
-			// checkBody();
-		// }
-	// });
+	// Initialize inline CKEditor with custom config
+	CKEDITOR.disableAutoInline = true;
+	CKEDITOR.inline("editor", {
+		customConfig : $js_root + "editor_settings.js",
+		contentsCss : $css_root + "loap-main.css"
+	});
 
 	// bind events après le chargement du template par dot.js
 	$("#rubric").bind({
 		blur: function() {
 			update_rubric();
-			//update validation
+			// update validation
 			setValidationIcon($("#rubric"), $("#rubricError"), $("#rubric li.selected").text().length !== 0);
 		},
 		click: function() {update_rubric();},
@@ -152,7 +143,7 @@ function processArticle(article){
 	$("#category").bind({
 		blur: function() {
 			update_category();
-			//update validation
+			// update validation
 			setValidationIcon($("#category"), $("#categoryError"), $("#category li.selected").text().length !== 0);
 		},
 		click: function() {update_category();},
@@ -239,10 +230,13 @@ function update_rubric() {
 		$("#tag_rubric").text($("#rubric .select").text());
 		// update color
 		$("#tag_rubric").removeClass();
+		$("#editor").removeClass();
 		if ($("#rubric .selected").attr("data-color")) {
 			$("#tag_rubric").addClass("label radius " + $("#rubric .selected").attr("data-color"));
+			$("#editor").addClass("article " + $("#rubric .selected").attr("data-color"));
 		} else {
 			$("#tag_rubric").addClass("label radius secondary");
+			$("#editor").addClass("article");
 		}
 		// update visibility
 		if ($("#tag_rubric").parent("dd").hasClass("hide")) {
@@ -358,11 +352,11 @@ function sendArticle(){
 	// Edition
 	var title = $("#title").val();
 	var description = $("#summary").val();
-	var body = $("#editor").val();
+	var body = $("#editor").html();
 
 	// Categories
 	var idCategory = $("#category li.selected").attr("data-value");
-	var valueCategory = $("#category li.selected").text();	
+	var valueCategory = $("#category li.selected").text();
 	var category = new Category(idCategory, valueCategory);
 
 	// Rubriques
@@ -420,13 +414,13 @@ function checkTitleAJAX(){
 			header_authentication(request);
 		},
 		success : function(data, textStatus, jqXHR) {
-			pseudoTimeoutValid = setTimeout(function(){
+			pseudoTimeoutValid = setTimeout(function() {
 				setValidationIcon(selector,$("#titleError"), true)}, 500);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 403){
-				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#titleError"), false)}, 500);
+				pseudoTimeoutValid = setTimeout(function() {setValidationIcon(selector, $("#titleError"), false)}, 500);
 				if ($("#title").val().length === 0){
 					$("#titleError").text("La saisie du titre est obligatoire");
 				}else{
@@ -439,39 +433,35 @@ function checkTitleAJAX(){
 }
 
 function checkRubric(){
-	if ($("#rubric li.selected").text().length === 0){
+	if ($("#rubric li.selected").text().length === 0) {
 		setValidationIcon($("#rubric"),$("#rubricError"), false);
 	}else{
 		setValidationIcon($("#rubric"),$("#rubricError"), true);
 	}
-	
 }
 
 function checkCategory(){
-	if ($("#category li.selected").text().length === 0){
+	if ($("#category li.selected").text().length === 0) {
 		setValidationIcon($("#category"),$("#categoryError"), false);
 	}else{
 		setValidationIcon($("#category"),$("#categoryError"), true);
 	}
-	
 }
 
 function checkSummary(){
-	if ($("#summary").val().length === 0){
+	if ($("#summary").val().length === 0) {
 		setValidationIcon($("#summary"),$("#summaryError"), false);
 	}else{
 		setValidationIcon($("#summary"),$("#summaryError"), true);
 	}
-	
 }
 
 function checkBody(){
-	if ($("#editor").val().length === 0){
+	if ($("#editor").text().length === 0) {
 		setValidationIcon($("#editor"),$("#editorError"), false);
 	}else{
 		setValidationIcon($("#editor"),$("#editorError"), true);
 	}
-	
 }
 
 /* ------------------------------------------------------------------ */

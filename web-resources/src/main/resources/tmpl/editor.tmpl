@@ -68,9 +68,45 @@
 
 						</fieldset>
 
-						<!--CK Editor-->
-						<textarea id="editor" >{{= data.body}}</textarea>
-						<small id="editorError" class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
+						<!--Inline CKEditor-->
+						<fieldset class="invisible">
+							<legend>R&eacute;daction</legend>
+
+							<label for="editor" style="margin-top: 2rem;">Corps de l&rsquo;article</label>
+
+							<!--TEMP : DO NOT REMOVE !!!-->
+							<style>
+								.article {
+									padding: .5rem;
+									border: 1px solid transparent;
+									background-color: white;
+								}
+								.article:hover {
+									cursor: pointer;
+									border-style: dashed;
+									border-color: darkgray;
+									background-color: whitesmoke;
+								}
+								.article:focus {
+									cursor: text;
+									border-style: solid;
+									border-color: darkgray;
+									background-color: white;
+									box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);
+									transition: box-shadow .75s;
+								}
+							</style>
+
+							<div id="editor" class="article" contenteditable="true" style="overflow: hidden; max-width: 100%;">
+								<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
+								<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
+								<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
+								<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
+							</div>
+
+							<small id="editorError" class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
+
+						</fieldset>
 
 						<!--Validation Buttons-->
 						<div class="text-center" style="margin-top: 1rem;">

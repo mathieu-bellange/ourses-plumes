@@ -55,7 +55,8 @@ $articles         = "/articles";                        // String   url of list 
 $new_article      = "/articles/nouveau";                // String   url of a new article
 
 $app_root         = "/";                                // String   Set application base URL. Default = "/"
-$js_root          = $app_root + "js/";                  // String   Set js root. Default = "/js/"
+$js_root          = $app_root + "js/";                  // String   Set js root. Default = "js/"
+$css_root         = $app_root + "css/";                 // String   Set js root. Default = "css/"
 
 /* UNUSED for now */
 /*

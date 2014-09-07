@@ -65,7 +65,6 @@
 		});
 		</script>
 
-
 		<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
 
 			<fieldset id="publishing" class="important">
@@ -211,6 +210,7 @@
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
 					<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
+					<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
 				</textarea>
 			</fieldset>
 
@@ -243,6 +243,7 @@
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
 					<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
+					<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
 				</div>
 			</fieldset>
 
@@ -271,13 +272,15 @@
 			// Initialize classic CKEditor with custom config
 			CKEDITOR.replace("classic_editor", {
 				customConfig : $cke_config_path + "editor_settings.js",
+				contentsCss : "css/loap-main.css",
 				toolbarLocation : "bottom",
 				bodyClass : "article"
 			});
 			// Initialize inline CKEditor with custom config
 			CKEDITOR.disableAutoInline = true;
 			CKEDITOR.inline("inline_editor", {
-				customConfig : $cke_config_path + "editor_settings.js"
+				customConfig : $cke_config_path + "editor_settings.js",
+				contentsCss : "css/loap-main.css"
 			});
 		</script>
 	</body>
