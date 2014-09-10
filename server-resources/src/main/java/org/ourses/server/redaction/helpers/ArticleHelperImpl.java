@@ -1,5 +1,6 @@
 package org.ourses.server.redaction.helpers;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -10,8 +11,11 @@ import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.domain.entities.Tag;
+import org.ourses.server.security.domain.entities.OurseSecurityToken;
+import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Sets;
@@ -26,6 +30,9 @@ public class ArticleHelperImpl implements ArticleHelper {
     private static final String OTHER_CHARAC_TO_ESCAPE = "\".!~*()";
     private static final String OTHER_CHARAC_TO_REPLACE = "'";
     private static final String URL_SEPARATOR = "-";
+
+    @Autowired
+    private SecurityHelper securityHelper;
 
     @Override
     public boolean isArticleUpdatable(Long idProfile, long idArticle, ArticleStatus status) {
@@ -224,6 +231,26 @@ public class ArticleHelperImpl implements ArticleHelper {
     @Override
     public boolean isTitleAlreadyTaken(String title, Long id) {
         return Article.articleWithSameTitleBeautify(beautifyTitle(title), id) > 0;
+    }
+
+    @Override
+    public Collection<? extends Article> findOnline() {
+        return Article.findOnline();
+    }
+
+    @Override
+    public Collection<? extends Article> findToCheckAndDraft(Long profileId, String token) {
+        Set<Article> articles = Sets.newHashSet();
+        OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
+        // Je suis admin
+        if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {
+            articles.addAll(Article.findToCheckAndDraft());
+        }
+        // je suis redac, j'ai accès à mes brouillons
+        else if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
+            articles.addAll(Article.findToCheckAndDraft(profileId));
+        }
+        return articles;
     }
 
 }

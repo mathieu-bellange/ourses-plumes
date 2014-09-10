@@ -1,5 +1,7 @@
 package org.ourses.server.redaction.helpers;
 
+import java.util.Collection;
+
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
@@ -31,5 +33,9 @@ public interface ArticleHelper {
     boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status);
 
     void delete(Article article);
+
+    Collection<? extends Article> findOnline();
+
+    Collection<? extends Article> findToCheckAndDraft(Long profileId, String token);
 
 }

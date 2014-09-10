@@ -22,9 +22,6 @@ import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.helpers.ArticleHelper;
-import org.ourses.server.security.domain.entities.OurseSecurityToken;
-import org.ourses.server.security.helpers.SecurityHelper;
-import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -42,8 +39,6 @@ public class ArticleResources {
     private ProfileHelper profileHelper;
     @Autowired
     private ArticleHelper articleHelper;
-    @Autowired
-    private SecurityHelper securityHelper;
 
     @POST
     @Path("/check/title")
@@ -101,19 +96,11 @@ public class ArticleResources {
             Profile profile = profileHelper.findProfileByAuthcToken(token);
             // Je suis connecté
             if (profile != null) {
-                OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
-                // Je suis admin
-                if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {
-                    articles.addAll(Article.findToCheckAndDraft());
-                }
-                // je suis redac, j'ai accès à mes brouillons
-                else if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
-                    articles.addAll(Article.findToCheckAndDraft(profile.getId()));
-                }
+                articles.addAll(articleHelper.findToCheckAndDraft(profile.getId(),token));
             }
         }
         // push les articles en ligne pour tous les utilisateurs
-        articles.addAll(Article.findOnline());
+        articles.addAll(articleHelper.findOnline());
         // passage en DTO
         Set<ArticleDTO> articlesDto = Sets.newHashSet();
         for (Article article : articles) {
