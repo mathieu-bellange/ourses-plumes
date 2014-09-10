@@ -21,10 +21,10 @@
 											<a href="javascript:void(0)" style="cursor: default;"></a>
 										{{?}}
 									{{?? art.status == "AVERIFIER"}}
-										{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
-											<a href="javascript:void(0)" style="cursor: default;"></a>
-										{{??}}
+										{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
 											<a href="{{= art.path }}">Lire l&rsquo;article</a>
+										{{??}}
+											<a href="javascript:void(0)" style="cursor: default;"></a>
 										{{?}}
 									{{??}}
 										<a href="{{= art.path }}">Lire l&rsquo;article</a>

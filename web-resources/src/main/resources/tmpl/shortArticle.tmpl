@@ -19,6 +19,12 @@
 											{{??}}
 												<a href="javascript:void(0)" style="cursor: default;"></a>
 											{{?}}
+										{{?? data.status == "AVERIFIER"}}
+											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+												<a href="{{= data.path }}">Lire l&rsquo;article</a>
+											{{??}}
+												<a href="javascript:void(0)" style="cursor: default;"></a>
+											{{?}}
 										{{??}}
 											<a href="{{= data.path }}">Lire l&rsquo;article</a>
 										{{?}}
