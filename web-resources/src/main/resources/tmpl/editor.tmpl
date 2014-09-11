@@ -20,7 +20,11 @@
 							</div>
 							
 							<!--Author-->
-							<p class="text-right">Par {{= window.localStorage.getItem($oursesUserPseudo)}}</p>
+							{{? data.status == "AVERIFIER"}}
+								<p class="text-right">Par {{= data.profile.pseudo}}</p>
+							{{??}}
+								<p class="text-right">Par {{= window.localStorage.getItem($oursesUserPseudo)}}</p>
+							{{?}}
 						</fieldset>
 
 						<fieldset>
