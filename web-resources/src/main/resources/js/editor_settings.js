@@ -8,7 +8,7 @@
 CKEDITOR.editorConfig = function( config ) {
 
 	// Plugins -- http://ckeditor.com/addon/xxxxxx
-	config.extraPlugins = "autogrow"; // Autosize Editor on line feed
+	config.extraPlugins = "autogrow,youtube"; // Autosize Editor on line feed
 	config.removePlugins = ""
 	// + "dialogui," // This plugin defines various dialog field types to be used in the dialog, which is mostly used in accompany with the dialog plugin.
 	// + "dialog," // This plugin provides the dialog API for other plugins to build an editor dialog from a definition object.
@@ -197,6 +197,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.stylesSet = [
 		{name : "Titre", element : "h4", attributes : {"class" : ""}},
 		{name : "Accroche", element : "div", attributes : {"class" : "callout"}},
-		{name : "Paragraphe", element : "p", attributes : {"class" : ""}},
+		{name : "Paragraphe", element : "p", attributes : {"class" : ""}}
 	];
 };
