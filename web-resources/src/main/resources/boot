@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Loader
  * No dependency
- * ver. 0.0.6
+ * ver. 0.0.7
  */
 
 /* ------------------------------------------------------------------ */
@@ -22,7 +22,7 @@ $null_link        = "javascript:void(0)";               // String   Set null lin
 $org_url          = "http://www.ourses-plumes.org/";    // String   Set organization URL.
 $org_name         = "Les Ourses &agrave; plumes";       // String   Set organization name.
 $app_name         = "Webzine f&eacute;ministe";         // String   Set application name.
-$app_ver          = "0.0.6";                            // String   Set application version.
+$app_ver          = "0.0.7";                            // String   Set application version.
 $app_kwd          = ["Webzine", "F&eacute;minisme"];    // Array    Set application keywords.
 $app_desc         = "Un webzine f&eacute;ministe.";     // String   Set application keywords.
 $app_genr         = null;                               // String   Set application generator (i.e. the software used for dev).

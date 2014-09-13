@@ -1,8 +1,8 @@
 ﻿/**
  * Les Ourses à plumes
  * Javascript Main File
- * Require jQuery Library, Includes Build and Core
- * ver. 0.0.6
+ * Require jQuery Library
+ * ver. 0.0.7
  */
 
 /* ------------------------------------------------------------------ */
