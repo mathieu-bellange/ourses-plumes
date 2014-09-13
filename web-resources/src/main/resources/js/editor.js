@@ -180,6 +180,7 @@ function processArticle(article){
 	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
 	$("textarea").validation_bar(); // TEMP DEBUG : apply validation_bar plugin to all textarea of the page after AJAX request
 	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
+	//loap.update(); // TEMP DEBUG : reload all loap plugins for whole document
 }
 
 function processRubric(json, article){
@@ -203,6 +204,7 @@ function processRubric(json, article){
 		li.prepend(span);
 		$('#rubric ul').append(li);
 	});
+	$("#rubric [class*='icon-']").svg_icons(); // set svg icons for all icons contained in rubric
 	update_rubric()
 }
 
@@ -490,4 +492,3 @@ $("html").on("blur","#summary",function(event){
 $("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });
-

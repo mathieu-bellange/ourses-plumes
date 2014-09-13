@@ -26,7 +26,8 @@ function createAlertBox(err, msg) {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
-function deleteArticle(id){
+
+function deleteArticle(id) {
 	$.ajax({
 		type : "DELETE",
 		url : "/rest/articles/" + id,
@@ -51,7 +52,7 @@ function deleteArticle(id){
 		dataType : "json"
 	});
 }
-function validateArticle(id){
+function validateArticle(id) {
 	$.ajax({
 		type : "PUT",
 		url : "/rest/articles/" + id + "/validate",
@@ -78,7 +79,7 @@ function validateArticle(id){
 		dataType : "json"
 	});
 }
-function inValidateArticle(id){
+function inValidateArticle(id) {
 	$.ajax({
 		type : "PUT",
 		url : "/rest/articles/" + id + "/invalidate",
@@ -105,7 +106,7 @@ function inValidateArticle(id){
 		dataType : "json"
 	});
 }
-function publishArticle(id){
+function publishArticle(id) {
 	$.ajax({
 		type : "PUT",
 		url : "/rest/articles/" + id + "/publish",
@@ -132,7 +133,7 @@ function publishArticle(id){
 		dataType : "json"
 	});
 }
-function recallArticle(id){
+function recallArticle(id) {
 	$.ajax({
 		type : "PUT",
 		url : "/rest/articles/" + id + "/recall",
@@ -161,7 +162,7 @@ function recallArticle(id){
 	});
 }
 
-function displayArticles(){
+function displayArticles() {
 	$.ajax({
 		type : "GET",
 		url : "/rest/articles",
@@ -222,9 +223,10 @@ function displayArticles(){
 	});
 }
 
-function processArticles(articles){
+function processArticles(articles) {
 	$("main > header").after(articles_tmpl(articles));
 	$(document).foundation(); // reload all Foundation plugins
+	loap.update(); // reload loap plugins
 	// Events
 	$("html").on("mouseenter", ".href-block", function() {
 		$(this).find(".validate").show();
@@ -249,7 +251,7 @@ function processArticles(articles){
 	});
 }
 
-function processAfterValidation(article){
+function processAfterValidation(article) {
 	$("#articles_standby").prepend(short_article_tmpl(article));
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function(){
 		inValidateArticle($(this).attr("data-invalidate"));
@@ -259,7 +261,7 @@ function processAfterValidation(article){
 	});
 }
 
-function processAfterInValidation(article){
+function processAfterInValidation(article) {
 	$("#articles_draft").prepend(short_article_tmpl(article));
 	$("#articles_draft li:first .validate button[data-validate]").click(function(){
 		validateArticle($(this).attr("data-validate"));
@@ -269,14 +271,14 @@ function processAfterInValidation(article){
 	});
 }
 
-function processAfterPublish(article){
+function processAfterPublish(article) {
 	$("#articles_publish").prepend(short_article_tmpl(article));
 	$("#articles_publish li:first .validate button[data-recall]").click(function(){
 		recallArticle($(this).attr("data-recall"));
 	});
 }
 
-function processAfterRecall(article){
+function processAfterRecall(article) {
 	//mêmes étapes qu'une validation
 	processAfterValidation(article);
 }

@@ -1,8 +1,19 @@
 ﻿				<!--Kitchen Sink-->
 				<section id="kitchen_sink">
 					<h2>Kitchen Sink <small>Dev Tool</small></h2>
+					<!--Magellan Sticky Navigation-->
+					<div data-magellan-expedition="fixed">
+						<dl class="sub-nav">
+							<dd data-magellan-arrival="main"><a href="#main" class="icon-up tiny"><strong class="hide">Haut de page</strong></a></dd>
+							<dd data-magellan-arrival="typography"><a href="#typography">Typographie</a></dd>
+							<dd data-magellan-arrival="buttons"><a href="#buttons">Boutons</a></dd>
+							<dd data-magellan-arrival="icons"><a href="#icons">Ic&ocirc;nes</a></dd>
+							<dd data-magellan-arrival="forms"><a href="#forms">Formulaires</a></dd>
+							<dd data-magellan-arrival="media"><a href="#media">M&eacute;dias</a></dd>
+						</dl>
+					</div>
 					<!--Typography-->
-					<h3>Typographie</h3>
+					<h3 id="typography">Typographie</h3>
 					<!--Titles-->
 					<h4 class="subheader">Titres</h4>
 					<hgroup>
@@ -91,7 +102,7 @@ def helloworld (universe) {
 						<span class="label error">Erreur</span>
 					</p>
 					<!--Buttons-->
-					<h3>Boutons <small>.button</small></h3>
+					<h3 id="buttons">Boutons <small>.button</small></h3>
 					<h4 class="subheader">Position</h4>
 					<div>
 						<span class="button expand">&Eacute;tendu</span>
@@ -144,8 +155,137 @@ def helloworld (universe) {
 							<span class="button round">Rond</span>
 						</div>
 					</div>
+					<!--Icons-->
+					<h3 id="icons">Ic&ocirc;nes</h3>
+					<div class="row">
+						<!--UI Icons-->
+						<h4 class="subheader">Interface utilisateur</h4>
+						<div class="column small-12" style="margin-bottom: .5rem;">
+							<a href="javascript:void(0);" class="icon-left tip-top" title="Fl&egrave;che gauche" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-right tip-top" title="Fl&egrave;che droite" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-up tip-top" title="Fl&egrave;che haut" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-down tip-top" title="Fl&egrave;che bas" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-show tip-top" title="Voir" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-hide tip-top" title="Masquer" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-expand tip-top" title="D&eacute;rouler" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-collapse tip-top" title="Enrouler" data-tooltip></a>
+						</div>
+						<div class="code-block radius">
+							<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
+							<pre class="code">
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>left</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>right</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>up</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>down</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>show</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>hide</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>expand</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>collapse</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+</pre>
+						</div>
+						<!--Browsing Icons-->
+						<h4 class="subheader">Navigation</h4>
+						<div class="column small-12" style="margin-bottom: .5rem;">
+							<a href="javascript:void(0);" class="icon-home tip-top" title="Accueil" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-search tip-top" title="Rechercher" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-mail tip-top" title="Contact" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-link tip-top" title="Lien" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-brightness tip-top" title="Contraste" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-textinc tip-top" title="Texte plus grand" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-textdec tip-top" title="Texte plus petit" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-print tip-top" title="Imprimer" data-tooltip></a>
+						</div>
+						<div class="code-block radius">
+							<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
+							<pre class="code">
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>home</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>search</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>mail</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>link</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>brightness</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>textinc</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>textdec</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>print</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+</pre>
+						</div>
+						<!--Publishing Icons-->
+						<h4 class="subheader">Publication</h4>
+						<div class="column small-12" style="margin-bottom: .5rem;">
+							<a href="javascript:void(0);" class="icon-article tip-top" title="Article" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-author tip-top" title="Auteur" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-date tip-top" title="Date" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-tag tip-top" title="Tag" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-comment tip-top" title="Commenter" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-reply tip-top" title="R&eacute;pondre" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-edit tip-top" title="&Eacute;diter" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-alert tip-top" title="Signaler" data-tooltip></a>
+						</div>
+						<div class="code-block radius">
+							<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
+							<pre class="code">
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>article</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>author</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>date</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>tag</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>comment</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>reply</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>edit</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>alert</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+</pre>
+						</div>
+						<!--Ordering Icons-->
+						<h4 class="subheader">Ordonnancement</h4>
+						<div class="column small-12" style="margin-bottom: .5rem;">
+							<a href="javascript:void(0);" class="icon-rubric tip-top" title="Rubrique" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-struggles tip-top" title="Luttes" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-ourbody tip-top" title="Nos corps, nous-m&ecirc;mes" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-intersec tip-top" title="Intersectionnalit&eacute;" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-internat tip-top" title="International" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-educult tip-top" title="&Eacute;ducation & Culture" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-ideas tip-top" title="Id&eacute;es" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-undefined tip-top" title="Non d&eacute;fini" data-tooltip></a>
+						</div>
+						<div class="code-block radius">
+							<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
+							<pre class="code">
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>rubric</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>struggles</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>ourbody</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>intersec</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>internat</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>educult</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>ideas</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>undefined</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+</pre>
+						</div>
+						<!--Networking Icons-->
+						<h4 class="subheader">R&eacute;seaux sociaux</h4>
+						<div class="column small-12" style="margin-bottom: .5rem;">
+							<a href="javascript:void(0);" class="icon-syndicate tip-top" title="Syndication de flux RSS" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-twitter tip-top" title="Partager sur Twitter" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-facebook tip-top" title="Partager sur Facebook" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-googleplus tip-top" title="Partager sur Google+" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-tumblr tip-top" title="Partager sur Tumblr" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-linkedin tip-top" title="Partager sur LinkedIn" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-pinterest tip-top" title="Tagguer sur Pinterest" data-tooltip></a>
+							<a href="javascript:void(0);" class="icon-stumbleupon tip-top" title="Tagguer sur StumbleUpon" data-tooltip></a>
+						</div>
+						<div class="code-block radius">
+							<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
+							<pre class="code">
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>syndicate</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>twitter</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>facebook</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>googleplus</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>tumblr</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>linkedin</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>pinterest</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"icon-<mark>stumbleupon</mark>"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span>
+</pre>
+						</div>
+					</div>
 					<!--Forms-->
-					<h3>Formulaires</h3>
+					<h3 id="forms">Formulaires</h3>
 					<h4 class="subheader">Standard</h4>
 					<form id="bearAccount" onsubmit="return createBearAccount()" data-abide>
 						<fieldset>
@@ -214,282 +354,8 @@ def helloworld (universe) {
 							</div>
 						</fieldset>
 					</form>
-					<!--Icons-->
-					<h3>Ic&ocirc;nes <small>.icon-*</small></h3>
-					<h4 class="subheader">Taille<h4>
-					<h5 class="red">Grand</h5>
-					<div class="panel">
-						<a href="javascript:void(0)"><span class="icon-left large" title="Fl&egrave;che gauche"></span></a>
-						<a href="javascript:void(0)"><span class="icon-right large" title="Fl&egrave;che droite"></span></a>
-						<a href="javascript:void(0)"><span class="icon-up large" title="Fl&egrave;che haut"></span></a>
-						<a href="javascript:void(0)"><span class="icon-down large" title="Fl&egrave;che bas"></span></a>
-						<a href="javascript:void(0)"><span class="icon-show large" title="Voir"></span></a>
-						<a href="javascript:void(0)"><span class="icon-hide large" title="Masquer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-expand large" title="D&eacute;rouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-collapse large" title="Enrouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-home large" title="Accueil"></span></a>
-						<a href="javascript:void(0)"><span class="icon-search large" title="Rechercher"></span></a>
-						<a href="javascript:void(0)"><span class="icon-mail large" title="Contact"></span></a>
-						<a href="javascript:void(0)"><span class="icon-link large" title="Lien"></span></a>
-						<a href="javascript:void(0)"><span class="icon-brightness large" title="Contraste"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textinc large" title="Texte plus grand"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textdec large" title="Texte plus petit"></span></a>
-						<a href="javascript:void(0)"><span class="icon-print large" title="Imprimer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-article large" title="Article"></span></a>
-						<a href="javascript:void(0)"><span class="icon-author large" title="Auteur"></span></a>
-						<a href="javascript:void(0)"><span class="icon-date large" title="Date"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tag large" title="Tag"></span></a>
-						<a href="javascript:void(0)"><span class="icon-comment large" title="Commenter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-reply large" title="R&eacute;pondre"></span></a>
-						<a href="javascript:void(0)"><span class="icon-edit large" title="&Eacute;diter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-alert large" title="Signaler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-rubric large" title="Rubrique"></span></a>
-						<a href="javascript:void(0)"><span class="icon-struggles large" title="Luttes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ourbody large" title="Nos corps, nous-m&ecirc;mes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-intersec large" title="Intersectionnalit&eacute;"></span></a>
-						<a href="javascript:void(0)"><span class="icon-internat large" title="International"></span></a>
-						<a href="javascript:void(0)"><span class="icon-educult large" title="&Eacute;ducation & Culture"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ideas large" title="Id&eacute;es"></span></a>
-						<a href="javascript:void(0)"><span class="icon-undefined large" title="Non d&eacute;fini"></span></a>
-						<a href="javascript:void(0)"><span class="icon-syndicate large" title="Syndication de flux RSS"></span></a>
-						<a href="javascript:void(0)"><span class="icon-twitter large" title="Partager sur Twitter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-facebook large" title="Partager sur Facebook"></span></a>
-						<a href="javascript:void(0)"><span class="icon-googleplus large" title="Partager sur Google+"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tumblr large" title="Partager sur Tumblr"></span></a>
-						<a href="javascript:void(0)"><span class="icon-linkedin large" title="Partager sur LinkedIn"></span></a>
-						<a href="javascript:void(0)"><span class="icon-pinterest large" title="Tagguer sur Pinterest"></span></a>
-						<a href="javascript:void(0)"><span class="icon-stumbleupon large" title="Tagguer sur StumbleUpon"></span></a>
-					</div>
-					<div class="alert-box secondary">
-						<a href="javascript:void(0)"><span class="icon-left large white" title="Fl&egrave;che gauche"></span></a>
-						<a href="javascript:void(0)"><span class="icon-right large white" title="Fl&egrave;che droite"></span></a>
-						<a href="javascript:void(0)"><span class="icon-up large white" title="Fl&egrave;che haut"></span></a>
-						<a href="javascript:void(0)"><span class="icon-down large white" title="Fl&egrave;che bas"></span></a>
-						<a href="javascript:void(0)"><span class="icon-show large white" title="Voir"></span></a>
-						<a href="javascript:void(0)"><span class="icon-hide large white" title="Masquer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-expand large white" title="D&eacute;rouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-collapse large white" title="Enrouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-home large white" title="Accueil"></span></a>
-						<a href="javascript:void(0)"><span class="icon-search large white" title="Rechercher"></span></a>
-						<a href="javascript:void(0)"><span class="icon-mail large white" title="Contact"></span></a>
-						<a href="javascript:void(0)"><span class="icon-link large white" title="Lien"></span></a>
-						<a href="javascript:void(0)"><span class="icon-brightness large white" title="Contraste"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textinc large white" title="Texte plus grand"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textdec large white" title="Texte plus petit"></span></a>
-						<a href="javascript:void(0)"><span class="icon-print large white" title="Imprimer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-article large white" title="Article"></span></a>
-						<a href="javascript:void(0)"><span class="icon-author large white" title="Auteur"></span></a>
-						<a href="javascript:void(0)"><span class="icon-date large white" title="Date"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tag large white" title="Tag"></span></a>
-						<a href="javascript:void(0)"><span class="icon-comment large white" title="Commenter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-reply large white" title="R&eacute;pondre"></span></a>
-						<a href="javascript:void(0)"><span class="icon-edit large white" title="&Eacute;diter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-alert large white" title="Signaler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-rubric large white" title="Rubrique"></span></a>
-						<a href="javascript:void(0)"><span class="icon-struggles large white" title="Luttes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ourbody large white" title="Nos corps, nous-m&ecirc;mes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-intersec large white" title="Intersectionnalit&eacute;"></span></a>
-						<a href="javascript:void(0)"><span class="icon-internat large white" title="International"></span></a>
-						<a href="javascript:void(0)"><span class="icon-educult large white" title="&Eacute;ducation & Culture"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ideas large white" title="Id&eacute;es"></span></a>
-						<a href="javascript:void(0)"><span class="icon-undefined large white" title="Non d&eacute;fini"></span></a>
-						<a href="javascript:void(0)"><span class="icon-syndicate large white" title="Syndication de flux RSS"></span></a>
-						<a href="javascript:void(0)"><span class="icon-twitter large white" title="Partager sur Twitter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-facebook large white" title="Partager sur Facebook"></span></a>
-						<a href="javascript:void(0)"><span class="icon-googleplus large white" title="Partager sur Google+"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tumblr large white" title="Partager sur Tumblr"></span></a>
-						<a href="javascript:void(0)"><span class="icon-linkedin large white" title="Partager sur LinkedIn"></span></a>
-						<a href="javascript:void(0)"><span class="icon-pinterest large white" title="Tagguer sur Pinterest"></span></a>
-						<a href="javascript:void(0)"><span class="icon-stumbleupon large white" title="Tagguer sur StumbleUpon"></span></a>
-					</div>
-					<h5 class="red">Moyen</h5>
-					<div class="panel">
-						<a href="javascript:void(0)"><span class="icon-left medium" title="Fl&egrave;che gauche"></span></a>
-						<a href="javascript:void(0)"><span class="icon-right medium" title="Fl&egrave;che droite"></span></a>
-						<a href="javascript:void(0)"><span class="icon-up medium" title="Fl&egrave;che haut"></span></a>
-						<a href="javascript:void(0)"><span class="icon-down medium" title="Fl&egrave;che bas"></span></a>
-						<a href="javascript:void(0)"><span class="icon-show medium" title="Voir"></span></a>
-						<a href="javascript:void(0)"><span class="icon-hide medium" title="Masquer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-expand medium" title="D&eacute;rouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-collapse medium" title="Enrouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-home medium" title="Accueil"></span></a>
-						<a href="javascript:void(0)"><span class="icon-search medium" title="Rechercher"></span></a>
-						<a href="javascript:void(0)"><span class="icon-mail medium" title="Contact"></span></a>
-						<a href="javascript:void(0)"><span class="icon-link medium" title="Lien"></span></a>
-						<a href="javascript:void(0)"><span class="icon-brightness medium" title="Contraste"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textinc medium" title="Texte plus grand"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textdec medium" title="Texte plus petit"></span></a>
-						<a href="javascript:void(0)"><span class="icon-print medium" title="Imprimer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-article medium" title="Article"></span></a>
-						<a href="javascript:void(0)"><span class="icon-author medium" title="Auteur"></span></a>
-						<a href="javascript:void(0)"><span class="icon-date medium" title="Date"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tag medium" title="Tag"></span></a>
-						<a href="javascript:void(0)"><span class="icon-comment medium" title="Commenter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-reply medium" title="R&eacute;pondre"></span></a>
-						<a href="javascript:void(0)"><span class="icon-edit medium" title="&Eacute;diter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-alert medium" title="Signaler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-rubric medium" title="Rubrique"></span></a>
-						<a href="javascript:void(0)"><span class="icon-struggles medium" title="Luttes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ourbody medium" title="Nos corps, nous-m&ecirc;mes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-intersec medium" title="Intersectionnalit&eacute;"></span></a>
-						<a href="javascript:void(0)"><span class="icon-internat medium" title="International"></span></a>
-						<a href="javascript:void(0)"><span class="icon-educult medium" title="&Eacute;ducation & Culture"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ideas medium" title="Id&eacute;es"></span></a>
-						<a href="javascript:void(0)"><span class="icon-undefined medium" title="Non d&eacute;fini"></span></a>
-						<a href="javascript:void(0)"><span class="icon-syndicate medium" title="Syndication de flux RSS"></span></a>
-						<a href="javascript:void(0)"><span class="icon-twitter medium" title="Partager sur Twitter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-facebook medium" title="Partager sur Facebook"></span></a>
-						<a href="javascript:void(0)"><span class="icon-googleplus medium" title="Partager sur Google+"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tumblr medium" title="Partager sur Tumblr"></span></a>
-						<a href="javascript:void(0)"><span class="icon-linkedin medium" title="Partager sur LinkedIn"></span></a>
-						<a href="javascript:void(0)"><span class="icon-pinterest medium" title="Tagguer sur Pinterest"></span></a>
-						<a href="javascript:void(0)"><span class="icon-stumbleupon medium" title="Tagguer sur StumbleUpon"></span></a>
-					</div>
-					<div class="alert-box secondary">
-						<a href="javascript:void(0)"><span class="icon-left medium white" title="Fl&egrave;che gauche"></span></a>
-						<a href="javascript:void(0)"><span class="icon-right medium white" title="Fl&egrave;che droite"></span></a>
-						<a href="javascript:void(0)"><span class="icon-up medium white" title="Fl&egrave;che haut"></span></a>
-						<a href="javascript:void(0)"><span class="icon-down medium white" title="Fl&egrave;che bas"></span></a>
-						<a href="javascript:void(0)"><span class="icon-show medium white" title="Voir"></span></a>
-						<a href="javascript:void(0)"><span class="icon-hide medium white" title="Masquer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-expand medium white" title="D&eacute;rouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-collapse medium white" title="Enrouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-home medium white" title="Accueil"></span></a>
-						<a href="javascript:void(0)"><span class="icon-search medium white" title="Rechercher"></span></a>
-						<a href="javascript:void(0)"><span class="icon-mail medium white" title="Contact"></span></a>
-						<a href="javascript:void(0)"><span class="icon-link medium white" title="Lien"></span></a>
-						<a href="javascript:void(0)"><span class="icon-brightness medium white" title="Contraste"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textinc medium white" title="Texte plus grand"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textdec medium white" title="Texte plus petit"></span></a>
-						<a href="javascript:void(0)"><span class="icon-print medium white" title="Imprimer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-article medium white" title="Article"></span></a>
-						<a href="javascript:void(0)"><span class="icon-author medium white" title="Auteur"></span></a>
-						<a href="javascript:void(0)"><span class="icon-date medium white" title="Date"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tag medium white" title="Tag"></span></a>
-						<a href="javascript:void(0)"><span class="icon-comment medium white" title="Commenter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-reply medium white" title="R&eacute;pondre"></span></a>
-						<a href="javascript:void(0)"><span class="icon-edit medium white" title="&Eacute;diter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-alert medium white" title="Signaler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-rubric medium white" title="Rubrique"></span></a>
-						<a href="javascript:void(0)"><span class="icon-struggles medium white" title="Luttes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ourbody medium white" title="Nos corps, nous-m&ecirc;mes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-intersec medium white" title="Intersectionnalit&eacute;"></span></a>
-						<a href="javascript:void(0)"><span class="icon-internat medium white" title="International"></span></a>
-						<a href="javascript:void(0)"><span class="icon-educult medium white" title="&Eacute;ducation & Culture"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ideas medium white" title="Id&eacute;es"></span></a>
-						<a href="javascript:void(0)"><span class="icon-undefined medium white" title="Non d&eacute;fini"></span></a>
-						<a href="javascript:void(0)"><span class="icon-syndicate medium white" title="Syndication de flux RSS"></span></a>
-						<a href="javascript:void(0)"><span class="icon-twitter medium white" title="Partager sur Twitter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-facebook medium white" title="Partager sur Facebook"></span></a>
-						<a href="javascript:void(0)"><span class="icon-googleplus medium white" title="Partager sur Google+"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tumblr medium white" title="Partager sur Tumblr"></span></a>
-						<a href="javascript:void(0)"><span class="icon-linkedin medium white" title="Partager sur LinkedIn"></span></a>
-						<a href="javascript:void(0)"><span class="icon-pinterest medium white" title="Tagguer sur Pinterest"></span></a>
-						<a href="javascript:void(0)"><span class="icon-stumbleupon medium white" title="Tagguer sur StumbleUpon"></span></a>
-					</div>
-					<h5 class="red">Petit</h5>
-					<div class="panel">
-						<a href="javascript:void(0)"><span class="icon-left small" title="Fl&egrave;che gauche"></span></a>
-						<a href="javascript:void(0)"><span class="icon-right small" title="Fl&egrave;che droite"></span></a>
-						<a href="javascript:void(0)"><span class="icon-up small" title="Fl&egrave;che haut"></span></a>
-						<a href="javascript:void(0)"><span class="icon-down small" title="Fl&egrave;che bas"></span></a>
-						<a href="javascript:void(0)"><span class="icon-show small" title="Voir"></span></a>
-						<a href="javascript:void(0)"><span class="icon-hide small" title="Masquer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-expand small" title="D&eacute;rouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-collapse small" title="Enrouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-home small" title="Accueil"></span></a>
-						<a href="javascript:void(0)"><span class="icon-search small" title="Rechercher"></span></a>
-						<a href="javascript:void(0)"><span class="icon-mail small" title="Contact"></span></a>
-						<a href="javascript:void(0)"><span class="icon-link small" title="Lien"></span></a>
-						<a href="javascript:void(0)"><span class="icon-brightness small" title="Contraste"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textinc small" title="Texte plus grand"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textdec small" title="Texte plus petit"></span></a>
-						<a href="javascript:void(0)"><span class="icon-print small" title="Imprimer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-article small" title="Article"></span></a>
-						<a href="javascript:void(0)"><span class="icon-author small" title="Auteur"></span></a>
-						<a href="javascript:void(0)"><span class="icon-date small" title="Date"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tag small" title="Tag"></span></a>
-						<a href="javascript:void(0)"><span class="icon-comment small" title="Commenter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-reply small" title="R&eacute;pondre"></span></a>
-						<a href="javascript:void(0)"><span class="icon-edit small" title="&Eacute;diter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-alert small" title="Signaler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-rubric small" title="Rubrique"></span></a>
-						<a href="javascript:void(0)"><span class="icon-struggles small" title="Luttes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ourbody small" title="Nos corps, nous-m&ecirc;mes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-intersec small" title="Intersectionnalit&eacute;"></span></a>
-						<a href="javascript:void(0)"><span class="icon-internat small" title="International"></span></a>
-						<a href="javascript:void(0)"><span class="icon-educult small" title="&Eacute;ducation & Culture"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ideas small" title="Id&eacute;es"></span></a>
-						<a href="javascript:void(0)"><span class="icon-undefined small" title="Non d&eacute;fini"></span></a>
-						<a href="javascript:void(0)"><span class="icon-syndicate small" title="Syndication de flux RSS"></span></a>
-						<a href="javascript:void(0)"><span class="icon-twitter small" title="Partager sur Twitter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-facebook small" title="Partager sur Facebook"></span></a>
-						<a href="javascript:void(0)"><span class="icon-googleplus small" title="Partager sur Google+"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tumblr small" title="Partager sur Tumblr"></span></a>
-						<a href="javascript:void(0)"><span class="icon-linkedin small" title="Partager sur LinkedIn"></span></a>
-						<a href="javascript:void(0)"><span class="icon-pinterest small" title="Tagguer sur Pinterest"></span></a>
-						<a href="javascript:void(0)"><span class="icon-stumbleupon small" title="Tagguer sur StumbleUpon"></span></a>
-					</div>
-					<div class="alert-box secondary">
-						<a href="javascript:void(0)"><span class="icon-left small white" title="Fl&egrave;che gauche"></span></a>
-						<a href="javascript:void(0)"><span class="icon-right small white" title="Fl&egrave;che droite"></span></a>
-						<a href="javascript:void(0)"><span class="icon-up small white" title="Fl&egrave;che haut"></span></a>
-						<a href="javascript:void(0)"><span class="icon-down small white" title="Fl&egrave;che bas"></span></a>
-						<a href="javascript:void(0)"><span class="icon-show small white" title="Voir"></span></a>
-						<a href="javascript:void(0)"><span class="icon-hide small white" title="Masquer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-expand small white" title="D&eacute;rouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-collapse small white" title="Enrouler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-home small white" title="Accueil"></span></a>
-						<a href="javascript:void(0)"><span class="icon-search small white" title="Rechercher"></span></a>
-						<a href="javascript:void(0)"><span class="icon-mail small white" title="Contact"></span></a>
-						<a href="javascript:void(0)"><span class="icon-link small white" title="Lien"></span></a>
-						<a href="javascript:void(0)"><span class="icon-brightness small white" title="Contraste"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textinc small white" title="Texte plus grand"></span></a>
-						<a href="javascript:void(0)"><span class="icon-textdec small white" title="Texte plus petit"></span></a>
-						<a href="javascript:void(0)"><span class="icon-print small white" title="Imprimer"></span></a>
-						<a href="javascript:void(0)"><span class="icon-article small white" title="Article"></span></a>
-						<a href="javascript:void(0)"><span class="icon-author small white" title="Auteur"></span></a>
-						<a href="javascript:void(0)"><span class="icon-date small white" title="Date"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tag small white" title="Tag"></span></a>
-						<a href="javascript:void(0)"><span class="icon-comment small white" title="Commenter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-reply small white" title="R&eacute;pondre"></span></a>
-						<a href="javascript:void(0)"><span class="icon-edit small white" title="&Eacute;diter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-alert small white" title="Signaler"></span></a>
-						<a href="javascript:void(0)"><span class="icon-rubric small white" title="Rubrique"></span></a>
-						<a href="javascript:void(0)"><span class="icon-struggles small white" title="Luttes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ourbody small white" title="Nos corps, nous-m&ecirc;mes"></span></a>
-						<a href="javascript:void(0)"><span class="icon-intersec small white" title="Intersectionnalit&eacute;"></span></a>
-						<a href="javascript:void(0)"><span class="icon-internat small white" title="International"></span></a>
-						<a href="javascript:void(0)"><span class="icon-educult small white" title="&Eacute;ducation & Culture"></span></a>
-						<a href="javascript:void(0)"><span class="icon-ideas small white" title="Id&eacute;es"></span></a>
-						<a href="javascript:void(0)"><span class="icon-undefined small white" title="Non d&eacute;fini"></span></a>
-						<a href="javascript:void(0)"><span class="icon-syndicate small white" title="Syndication de flux RSS"></span></a>
-						<a href="javascript:void(0)"><span class="icon-twitter small white" title="Partager sur Twitter"></span></a>
-						<a href="javascript:void(0)"><span class="icon-facebook small white" title="Partager sur Facebook"></span></a>
-						<a href="javascript:void(0)"><span class="icon-googleplus small white" title="Partager sur Google+"></span></a>
-						<a href="javascript:void(0)"><span class="icon-tumblr small white" title="Partager sur Tumblr"></span></a>
-						<a href="javascript:void(0)"><span class="icon-linkedin small white" title="Partager sur LinkedIn"></span></a>
-						<a href="javascript:void(0)"><span class="icon-pinterest small white" title="Tagguer sur Pinterest"></span></a>
-						<a href="javascript:void(0)"><span class="icon-stumbleupon small white" title="Tagguer sur StumbleUpon"></span></a>
-					</div>
-					<h4 class="subheader">Int&eacute;gration</h4>
-					<ol>
-						<li>Ceci est une ic&ocirc;ne&#8239;: <span class="icon-home"></span></li>
-						<li>Cette ic&ocirc;ne est un lien&#8239;: <a href="javascript:void(0)" class="icon-home"></span></a></li>
-						<li>Ceci est <a href="javascript:void(0)">un lien avec <span class="icon-home inside"></span>une ic&ocirc;ne &agrave; l&rsquo;int&eacute;rieur.</a></li>
-						<li>Cela est <a href="javascript:void(0)"><span class="icon-home before"></span>un lien pr&eacute;c&eacute;d&eacute; d&rsquo;une ic&ocirc;ne.</a></li>
-						<li>Cela est <a href="javascript:void(0)">un lien suivi d&rsquo;une ic&ocirc;ne.<span class="icon-home after"></span></a></li>
-						<li>Cette ic&ocirc;ne est un lien actif&#8239;: <a href="javascript:void(0)" class="icon-home active"></span></a> &rarr; <code>.active</code></li>
-						<li>Ceci est <a href="javascript:void(0)" class="active">un lien actif avec <span class="icon-home inside"></span>une ic&ocirc;ne &agrave; l&rsquo;int&eacute;rieur.</a> &rarr; <code>.active</code></li>
-						<li>Cette ic&ocirc;ne est un lien vers la page actuelle&#8239;: <a href="javascript:void(0)" class="icon-home current"></span></a> &rarr; <code>.current</code></li>
-						<li>Ceci est <a href="javascript:void(0)" class="current">un lien vers la page actuelle avec <span class="icon-home inside"></span>une ic&ocirc;ne &agrave; l&rsquo;int&eacute;rieur.</a> &rarr; <code>.current</code></li>
-						<li>Cette ic&ocirc;ne est un lien d&eacute;sactiv&eacute;&#8239;: <a href="javascript:void(0)" class="icon-home  disabled"></span></a> &rarr; <code>.disabled</code></li>
-						<li>Ceci est <a href="javascript:void(0)" class="disabled">un lien d&eacute;sactiv&eacute; avec <span class="icon-home inside"></span>une ic&ocirc;ne &agrave; l&rsquo;int&eacute;rieur.</a> &rarr; <code>.disabled</code></li>
-						<li>Cette ic&ocirc;ne est un lien indisponible&#8239;: <a href="javascript:void(0)" class="icon-home unavailable"></span></a> &rarr; <code>.unavailable</code></li>
-						<li>Ceci est <a href="javascript:void(0)" class="unavailable">un lien indisponible avec <span class="icon-home inside"></span>une ic&ocirc;ne &agrave; l&rsquo;int&eacute;rieur.</a> &rarr; <code>.unavailable</code></li>
-					</ol>
 					<!--Media Support-->
-					<h3>M&eacute;dias</h3>
+					<h3 id="media">M&eacute;dias</h3>
 					<h4 class="subheader">Images utilisatrices <small>.picture</small></h4>
 					<h5 class="red">Taille</h5>
 					<div>

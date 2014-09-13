@@ -10,8 +10,9 @@
 /* ------------------------------------------------------------------ */
 
 /* Utility */
-$build_container  = true;                               // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
 $build_compress   = false;                              // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
+$build_container  = true;                               // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
+$build_icons      = true;                               // Boolean  Generate inline SVG icons into the document. Default = true
 $dev_toolbar      = true;                               // Boolean  Create dev toolbar. Default = false
 $css_fx           = true;                               // Boolean  Enable CSS effects. Default = true
 $lib_ext          = "";                                 // String   JS libraries additional extension. Default = ".min"
@@ -123,7 +124,6 @@ var head_tags = [
 	{elem: "script", attr: {src: $app_root + "js/modernizr/modernizr" + $lib_ext +".js"}},
 	{elem: "script", attr: {src: $app_root + "js/jquery/jquery-2.x" + $lib_ext + ".js"}},
 	{elem: "script", attr: {src: $app_root + "js/jquery/jquery.autosize" + $lib_ext + ".js"}},
-	//{elem: "script", attr: {src: $app_root + "js/jquery/jquery.customSelect" + $lib_ext + ".js"}}, // UNUSED
 	{elem: "script", attr: {src: $app_root + "js/dot/dot" + $lib_ext + ".js"}},
 	{elem: "script", attr: {src: $app_root + "js/dot/dot.settings.js"}},
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
@@ -245,7 +245,7 @@ function load(script) { // Postbuild Processing
 }
 
 /* A appeler en https pour ne pas transporter le token en clair */
-function isAuthenticated(){
+function isAuthenticated() {
 	if (typeof xhr !== "undefined") {
 		var redirection = window.location.pathname;
 		xhr.open("GET", "/rest/authc/connected", false); // define request arguments
@@ -266,7 +266,7 @@ function isAuthenticated(){
 	}
 }
 
-function isAdministratrice(){
+function isAdministratrice() {
 	if (typeof xhr !== "undefined") {
 		var redirection = window.location.pathname;
 		xhr.open("GET", "/rest/authz/isadmin", false); // define request arguments
@@ -291,7 +291,7 @@ function isAdministratrice(){
 	}
 }
 
-function isRedactrice(){
+function isRedactrice() {
 	if (typeof xhr !== "undefined") {
 		var redirection = window.location.pathname;
 		xhr.open("GET", "/rest/authz/isredac", false); // define request arguments
@@ -317,7 +317,7 @@ function isRedactrice(){
 }
 
 /* passe une date en param pour obtenir une string au bon format pour la balise time */
-function getDateTime(date){
+function getDateTime(date) {
 	var year = date.getFullYear().toString();
 	var month;
 	var day;
@@ -335,7 +335,7 @@ function getDateTime(date){
 	return year + "-" + month + "-" + day;
 }
 
-function dateToString(date){
+function dateToString(date) {
 	var year = date.getFullYear().toString();
 	var month;
 	var day = date.getDate().toString();

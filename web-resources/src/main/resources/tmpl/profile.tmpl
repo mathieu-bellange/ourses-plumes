@@ -5,23 +5,23 @@
 						<!--First Column-->
 						<div class="column small-12 medium-5 large-4 text-center">
 							<!--User picture-->
-							<span class="picture large cover radius max-height" data-image="{{= data.avatar.path}}">{{= data.pseudo}}</span>
+							<span class="picture large cover radius max-height" data-image="{{= data.avatar.path }}">{{= data.pseudo }}</span>
 						</div>
 						<!--Second Column-->
 						<div class="column small-12 medium-7 large-8">
 							<div class="clearfix" style="position: relative;">
 								<!--Pseudo-->
-								<h3 class="user-name">{{= data.pseudo}}</h3>
+								<h3 class="user-name">{{= data.pseudo }}</h3>
 								<!--Role-->
 								<h4 class="user-role"></h4>
 							</div>
 							<!--User links-->
 							<ul id="user_links_icons" class="inline-list block">
-								{{~ data.socialLinks :socialLink}}
-									<li><a href="{{= socialLink.path}}" class="icon-{{= socialLink.network}} medium has-tip tip-top radius" title="{{= socialLink.description}}" data-tooltip>{{= socialLink.network}}</a></li>
+								{{~ data.socialLinks :socialLink }}
+									<li><a href="{{= socialLink.path }}" class="icon-{{= socialLink.network }} tip-top" title="{{= socialLink.description }}" data-tooltip><span class="hide">{{= socialLink.description }}</span></a></li>
 								{{~}}
 							</ul>
-							<p class="user-desc">{{= data.description}}</p>
+							<p class="user-desc">{{= data.description }}</p>
 						</div>
 					</div>
 				</section>

@@ -35,6 +35,7 @@ function displayArticle(){
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
 			processArticle(article);
+			loap.update(); // reload all loap plugins for whole document
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){

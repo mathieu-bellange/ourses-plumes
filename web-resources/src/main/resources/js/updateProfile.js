@@ -244,10 +244,10 @@ $("html").on("blur","#description", function(event) {
 
 /* User Links */
 $("html").on("focus", "#user-link input", function() {
-	memoryCouple = new Couple($("#user_links_icons .active").text().toLowerCase(), $(this).val());
+	memoryCouple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
 });
 $("html").on("blur", "#user-link input", function() {
-	var couple = new Couple($("#user_links_icons .active").text().toLowerCase(), $(this).val());
+	var couple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
 	modifiyCouple(couple);
 });
 $("html").on("keypress", "#user-link input", function(event) {
@@ -264,7 +264,7 @@ function create_icons_input(options) {
 	var defaults = {
 		"input_container" : "",
 		"icons_container" : "",
-		"icons_selector" : "[class*='icon-']",
+		"icons_selector" : "[class*='icon']", // BUG : SVG icons are generated after function initialization ; so the only selector available at this time is class containing keyword 'icon' (i.e. switch from "[class*='icon-']" to ".icon")
 		"icons_title_prefix" : "",
 		"icons_tooltip" : true,
 		"animation_delay" : 250
@@ -335,13 +335,14 @@ function create_icons_input(options) {
 				"cursor" : "pointer",
 				"outline" : "1px dotted gray",
 				"background-color" : "rgba(255, 255, 255, .5)",
+				"border-radius" : "0",
 				"opacity" : "1"
 			});
 		}
 	});
 	$(options.icons_container + " " + options.icons_selector).on("mouseleave", function() {
 		is_icon_hover = false;
-		$(this).css({"cursor" : "", "outline" : "", "background-color" : "", "opacity" : ""});
+		$(this).css({"cursor" : "", "outline" : "", "background-color" : "", "border-radius" : "", "opacity" : ""});
 		if (!$(this).hasClass("active")) {
 			if (typeof $(this).attr("data-url") === "undefined" || $(this).attr("data-url") == "") {
 				$(this).addClass("disabled");

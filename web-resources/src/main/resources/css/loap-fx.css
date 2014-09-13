@@ -223,7 +223,7 @@
   position: absolute;
   width: 0;
   height: 0;
-  background-image: url('../img/ui/ui-iconset.png');
+  background-image: url('../img/ui/ui-carousel.png');
   background-repeat: no-repeat;
 }
 .css-fx .orbit-container li:before,

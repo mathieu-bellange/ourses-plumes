@@ -6,6 +6,270 @@
  */
 
 /* ------------------------------------------------------------------ */
+/* # Core */
+/* ------------------------------------------------------------------ */
+/* NOTE
+ * Below are all jQuery extensions required by the application.
+ * They have to be called before anything else.
+ * Be carefull with them or beware Bilbo Baggin's mighty wrath !
+ */
+
+/* Cursor Position */
+jQuery.fn.extend({
+	cursor_position : function(start, end) {
+		end = end || false;
+		obj = this.first().get(0);
+		obj.focus();
+		obj.setSelectionRange(start, end || start);
+	}
+});
+
+/* User Pictures */
+jQuery.fn.extend({
+	user_pictures : function(options) {
+		// Loop
+		$(this).each(function() {
+			var file = $(this).attr("data-image");
+			var dir = $app_root + "img/";
+			$(this).css("background-image", "url('" + dir + file + "')")
+		});
+	}
+});
+
+/* SVG Icons */
+jQuery.fn.extend({
+	svg_icons : function(options) {
+		// Variables
+		var defaults = {
+			s_null : true,                  // Boolean   Set icons display size to zero (i.e. hide SVG on plain HTML). Default : true
+			s_default : 48,                 // Integer   Default icons display size in px. Default : 48
+			s_tiny : 24,                    // Integer   Tiny icons display size in px. Default : 24
+			s_small : 32,                   // Integer   Small icons display size in px. Default : 32
+			s_medium : 40,                  // Integer   Medium icons display size in px. Default : 48
+			s_large : 56,                   // Integer   Large icons display size in px. Default : 64
+			s_huge : 80,                    // Integer   Huge icons display size in px. Default : 80
+			i_classes : {                   // Object    Colored icons associative array (i.e. "icon_name" : "color")
+				"struggles" : "orange",       // Default : "orange"
+				"ourbody" : "fuschia",        // Default : "fuschia"
+				"intersec" : "red",           // Default : "red"
+				"internat" : "blue",          // Default : "blue"
+				"educult" : "turquoise",      // Default : "turquoise"
+				"ideas" : "golden",           // Default : "golden"
+				"syndicate" : "honey",        // Default : "honey"
+				"twitter" : "skyblue",        // Default : "skyblue"
+				"facebook" : "royalblue",     // Default : "royalblue"
+				"googleplus" : "firered",     // Default : "firered"
+				"tumblr" : "royalblue",       // Default : "royalblue"
+				"linkedin" : "electricblue",  // Default : "electricblue"
+				"pinterest" : "firered",      // Default : "firered"
+				"stumbleupon" : "gingerred"   // Default : "gingerred"
+			}
+		};
+		var settings = $.extend({}, defaults, options);
+		// Loop
+		$(this).each(function() {
+			// Define object
+			var obj = $(this);
+			// Retrieve icon hypertext reference from object class
+			var c = obj.attr("class").match(/icon-[a-z]*/).toString();
+			var i = c.substr(5, c.length);
+			var k = "icon";
+			// Define icon color class from icon hypertext reference
+			if (settings.i_classes.hasOwnProperty(i)) {
+				k += " " + settings.i_classes[i];
+			}
+			// Set svg element width and height attributes
+			var s = settings.s_default;
+			if (settings.s_null == true) {s = 0}
+			else if (obj.hasClass("tiny")) {s = settings.s_tiny}
+			else if (obj.hasClass("small")) {s = settings.s_small}
+			else if (obj.hasClass("medium")) {s = settings.s_medium}
+			else if (obj.hasClass("large")) {s = settings.s_large}
+			else if (obj.hasClass("huge")) {s = settings.s_huge}
+			// Define svg icon html code
+			var h = "<svg viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
+			// Append svg icon html code
+			obj.removeClass(c);
+			obj.addClass(k);
+			obj.prepend(h);
+		});
+	}
+});
+
+/* Options Select */
+jQuery.fn.extend({
+	options_select : function(options) {
+		// vars
+		var defaults = {
+			select : ".select",       // String   Selector of the value holder element. Default : "span"
+			options : ".options",     // String   Selector of the list of choices itself. Default : "ul"
+			slide_duration : "fast",  // Integer  Length of the sliding effect in milliseconds. Default : "fast"
+			scroll_duration : 500,    // Integer  Length of the scrolling effect in milliseconds. Default : 500
+			scroll_spacing : 0        // Integer  Size of the scrolling spacing in pixels. Default : 0
+		};
+		var settings = $.extend({}, defaults, options);
+		// methods
+		function scrollTo(object, duration, spacing) {
+			var duration = typeof duration !== "undefined" ? duration : settings.scroll_duration;
+			var spacing = spacing || settings.scroll_spacing;
+			if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
+				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+					scrollTop : object.offset().top + object.outerHeight() - $(window).height() + spacing
+				}, duration);
+			} else if (object.offset().top < $(document).scrollTop()) { // scroll up
+				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+					scrollTop : object.offset().top - spacing
+				}, duration);
+			}
+		}
+		// loop
+		$(this).each(function () {
+			// vars
+			var self = this;
+			// set initially selected value if any
+			if ($(this).find(settings.options + " > li").hasClass("selected")) {
+				var str = $(this).find(settings.options + " > li.selected").text();
+				$(this).find(settings.select).text(str);
+			}
+			// prevent options list from being selected
+			$(this).attr("onSelectStart", "return false"); // IE 9
+			$(this).css({
+				"-ms-user-select" : "none", // IE 10+
+				"-moz-user-select" : "none", // Firefox
+				"-webkit-user-select" : "none" // Chrome 6.0, Safari 3.1, Opera 15.0
+			});
+			// bind events
+			$(this).bind({
+				blur: function() {
+					$(this).find(settings.options).slideUp(settings.slide_duration);
+				},
+				keydown: function(event) {
+					// var str = $(this).find(settings.options + " > li.selected").text();
+					if (event.which == 27) { // Escape
+						$(this).blur();
+					}
+					if (event.which == 13 || event.which == 32) { // Enter OR Space
+						$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
+							scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+						});
+					}
+					if (event.which >= 33 && event.which <= 36 || event.which == 38 || event.which == 40) { // PageUp, PageDown, End, Home or Up or Down
+						event.preventDefault();
+						var index = $(this).find(settings.options + " > li.selected").index();
+						if (index == -1) {
+							$(this).find(settings.options + " > li").not(".disabled").first().addClass("selected");
+							index = 0;
+						}
+						if (event.which == 33 || event.which == 36) { // PageUp or Home
+							$(this).find(settings.options + " > li").removeClass("selected");
+							$(this).find(settings.options + " > li").first().addClass("selected");
+						}
+						if (event.which == 34 || event.which == 35) { // PageDown or End
+							$(this).find(settings.options + " > li").removeClass("selected");
+							$(this).find(settings.options + " > li").last().addClass("selected");
+						}
+						if (event.which == 38 && index - 1 >= 0) { // Up
+							$(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().addClass("selected");
+							if ($(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().hasClass("selected")) {
+								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
+							}
+						}
+						if (event.which == 40 && index + 1 < $(this).find(settings.options + " > li").length) { // Down
+							$(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().addClass("selected");
+							if ($(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().hasClass("selected")) {
+								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
+							}
+						}
+						// scrolling
+						if ($(this).find(settings.options + " > li").hasClass("selected")) {
+							var str = $(this).find(settings.options + " > li.selected").text();
+							$(this).find(settings.select).text(str);
+							if ($(this).find(settings.options + " > li.selected").is(":first-child")) {
+								scrollTo($(this).find(settings.select), 250, $(this).find(settings.select).outerHeight());
+							} else if ($(this).find(settings.options + " > li.selected").is(":last-child")) {
+								scrollTo($(this).find(settings.options + " > li.selected"), 250, $(this).find(settings.select).outerHeight());
+							} else {
+								scrollTo($(this).find(settings.options + " > li.selected"), 0);
+							}
+						}
+					}
+				}
+			});
+			$(this).on("click", settings.select, function() {
+				$(this).next(settings.options).slideToggle(settings.slide_duration, function() {
+					scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+				});
+			});
+			$(this).on("click", settings.options + " > li", function() {
+				if (!$(this).hasClass("disabled")) {
+					var str = $(this).text();
+					$(this).addClass("selected");
+					$(this).siblings().removeClass("selected");
+					$(this).parent(settings.options).prev(settings.select).text(str);
+					$(this).parent(settings.options).slideToggle(settings.slide_duration);
+				}
+			});
+		});
+	}
+});
+
+/* Validation Bar */
+jQuery.fn.extend({
+	validation_bar : function() {
+		// vars
+		var str = "";
+		var t = 0;
+		// template
+		// var textarea_helper_template = doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl")); // create template
+		// methods
+		function valid(obj, cancel) {
+			var cancel = cancel || false;
+			$(".validation-bar").fadeOut("fast");
+			$(".validation-bar").remove();
+			if (cancel) {
+				obj.val(str);
+			}
+		}
+		// loop
+		$(this).each(function() {
+			var obj = $(this);
+			if (typeof obj.attr("disabled") === "undefined" && typeof obj.attr("readonly") === "undefined") {
+				// events
+				obj.bind({
+					focus: function() {
+						str = $(obj).val();
+					},
+					blur: function(event) {
+						if ($(".validation-bar [data-valid]").length > 0 && $(".validation-bar [data-cancel]").is(":hover")) {
+							valid(obj, true);
+						} else {
+							valid(obj);
+						}
+						obj.trigger('autosize.resize') // force autosize (i.e. wrong size on cancel bug fix)
+					},
+					keydown: function(event) {
+						if (event.which == 27) { // Escape
+							valid(obj, true);
+							obj.blur();
+						} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
+							valid(obj);
+							obj.blur();
+						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
+							if ($(".validation-bar").length === 0) {
+								$(this).after(doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl"))); // insert validation_bar template
+								$(".validation-bar [class*='icon-']").svg_icons(); // reload svg_icons plugin for all icons contained in validation bar
+								$(".validation-bar").fadeIn("slow");
+								//loap.update() // TEMP DEBUG : reload all loap plugins
+							}
+						}
+					}
+				});
+			}
+		});
+	}
+});
+
+/* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
 /* NOTE
@@ -20,18 +284,15 @@
 
 var loap = (function() {
 	return {
-		init: function() {},
 		update: function() {
-			/* User Pictures Displayer */
-			$("[data-image]").each(function() {
-				var file = $(this).attr("data-image");
-				var dir = $app_root + "img/";
-				$(this).css("background-image", "url('" + dir + file + "')")
-			});
+			$("[class*='icon-']").svg_icons(); // WARNING : set svg icons for whole document
+			$("[data-image]").user_pictures(); // WARNING : set user pictures for whole document
+		},
+		init: function() {
+			this.update();
 		}
 	};
 }());
-// $(document).ready(loap.update()); // TEMP : Launch after loading ; can't make a named function self-executing and reusable
 
 /* ------------------------------------------------------------------ */
 /* # Build */
@@ -41,7 +302,6 @@ var loap = (function() {
 var alert_box_template = doT.compile(loadfile($app_root + "tmpl/alert_box.tmpl"));
 
 // Functions Declaration
-
 function update_user_pseudo(pseudo){
 	window.localStorage.setItem($oursesUserPseudo,pseudo);
 	$(".user-name").html(pseudo);
@@ -65,18 +325,18 @@ function set_user_connect(user_logged_in) {
 		$("#user_connect").attr("href", "javascript:void(0)"); // supprime le lien vers la page de connexion pour ajouter le menu utilisateur
 		$("#user_connect").attr("data-dropdown", "user_menu");
 		//$("#user_connect").attr("data-options", "is_hover:true"); // TEMP : disable user menu hover ; uncomment to re-enable
-		$("#user_connect").removeAttr("title");
-		$("#user_connect").removeAttr("data-tooltip");
+		$("#user_connect").parent("span").attr("title", "Menu");
+		//$("#user_connect").parent("span").removeAttr("data-tooltip");
 		$("#user_connect").removeClass("icon-home");
 		$("#user_connect").addClass("icon-expand");
 		$("#user_connect").data("enable", "true");
 		$(".fast-nav").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"))); // Process user menu template
-		loap.update(); // recharger l'image utilisateur
+		loap.update(); // recharger les images utilisateurs et les icônes pour tout le document
 	} else {
 		// $("#user_menu").remove(); // UNUSED : user menu should not be launched on page load if not required
 		$("#user_connect").attr("href", $login_page); // ajoute le lien vers la page de connexion
-		$("#user_connect").attr("title", "S&rsquo;identifier");
-		$("#user_connect").attr("data-tooltip");
+		$("#user_connect").parent("span").attr("title", "S&rsquo;identifier");
+		//$("#user_connect").parent("span").attr("data-tooltip");
 		$("#user_connect").removeAttr("data-dropdown");
 		//$("#user_connect").removeAttr("data-options"); // TEMP : disable user menu hover ; uncomment to re-enable
 		$("#user_connect").removeClass("icon-expand");
@@ -96,7 +356,9 @@ function check_user_connect() {
 }
 
 // Process build
-if (typeof $css_fx !== "undefined" && $css_fx == true) {$("body").addClass("css-fx");}
+if (typeof $css_fx !== "undefined" && $css_fx == true) {
+	$("body").addClass("css-fx");
+}
 
 /* NOTE
  * Choice has been made to keep the two first <div> after <body> in
@@ -138,6 +400,14 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 		$(".news-list").foundation("orbit"); // reload Foundation Orbit Slider plugin ; Foundation need to be loaded one time before that for the list to appear inline
 		$(window).resize(); // just a dummy instruction for getting the proper height
 	});
+}
+
+if (typeof $build_icons !== "undefined" && $build_icons == true) {
+	// Process SVG Icons
+	/* TEST : import Icons CSS Effects File */
+		$("body").prepend("<style type='text/css'>" + loadfile($css_root + "loap-icons-fx.css") + "</style>");
+	/* TEST : import Icons SVG File */
+		$("body").prepend(loadfile($app_root + "img/svg/ui-iconset.svg"));
 }
 
 /* ------------------------------------------------------------------ */
@@ -353,7 +623,6 @@ $("html").on("click", ".disconnect", function() {
 		dataType : "json"
 	});
 });
-
 
 /* ------------------------------------------------------------------ */
 /* # Main Navigation */
@@ -672,202 +941,13 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 });
 
 /* ------------------------------------------------------------------ */
-/* # Cusor Position */
-/* ------------------------------------------------------------------ */
-
-jQuery.fn.extend({
-	cursor_position : function(start, end) {
-		end = end || false;
-		obj = this.first().get(0);
-		obj.focus();
-		obj.setSelectionRange(start, end || start);
-	}
-});
-
-/* ------------------------------------------------------------------ */
-/* # Options Select */
-/* ------------------------------------------------------------------ */
-
-jQuery.fn.extend({
-	options_select : function(options) {
-		// vars
-		var defaults = {
-			select : ".select",       // String   Selector of the value holder element. Default : "span"
-			options : ".options",     // String   Selector of the list of choices itself. Default : "ul"
-			slide_duration : "fast",  // Integer  Length of the sliding effect in milliseconds. Default : "fast"
-			scroll_duration : 500,    // Integer  Length of the scrolling effect in milliseconds. Default : 500
-			scroll_spacing : 0        // Integer  Size of the scrolling spacing in pixels. Default : 0
-		};
-		var settings = $.extend({}, defaults, options);
-		// methods
-		function scrollTo(object, duration, spacing) {
-			var duration = typeof duration !== "undefined" ? duration : settings.scroll_duration;
-			var spacing = spacing || settings.scroll_spacing;
-			if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
-				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-					scrollTop : object.offset().top + object.outerHeight() - $(window).height() + spacing
-				}, duration);
-			} else if (object.offset().top < $(document).scrollTop()) { // scroll up
-				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-					scrollTop : object.offset().top - spacing
-				}, duration);
-			}
-		}
-		// loop
-		$(this).each(function () {
-			// vars
-			var self = this;
-			// set initially selected value if any
-			if ($(this).find(settings.options + " > li").hasClass("selected")) {
-				var str = $(this).find(settings.options + " > li.selected").text();
-				$(this).find(settings.select).text(str);
-			}
-			// prevent options list from being selected
-			$(this).attr("onSelectStart", "return false"); // IE 9
-			$(this).css({
-				"-ms-user-select" : "none", // IE 10+
-				"-moz-user-select" : "none", // Firefox
-				"-webkit-user-select" : "none" // Chrome 6.0, Safari 3.1, Opera 15.0
-			});
-			// bind events
-			$(this).bind({
-				blur: function() {
-					$(this).find(settings.options).slideUp(settings.slide_duration);
-				},
-				keydown: function(event) {
-					// var str = $(this).find(settings.options + " > li.selected").text();
-					if (event.which == 27) { // Escape
-						$(this).blur();
-					}
-					if (event.which == 13 || event.which == 32) { // Enter OR Space
-						$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
-							scrollTo($(self), false, $(self).find(settings.select).outerHeight());
-						});
-					}
-					if (event.which >= 33 && event.which <= 36 || event.which == 38 || event.which == 40) { // PageUp, PageDown, End, Home or Up or Down
-						event.preventDefault();
-						var index = $(this).find(settings.options + " > li.selected").index();
-						if (index == -1) {
-							$(this).find(settings.options + " > li").not(".disabled").first().addClass("selected");
-							index = 0;
-						}
-						if (event.which == 33 || event.which == 36) { // PageUp or Home
-							$(this).find(settings.options + " > li").removeClass("selected");
-							$(this).find(settings.options + " > li").first().addClass("selected");
-						}
-						if (event.which == 34 || event.which == 35) { // PageDown or End
-							$(this).find(settings.options + " > li").removeClass("selected");
-							$(this).find(settings.options + " > li").last().addClass("selected");
-						}
-						if (event.which == 38 && index - 1 >= 0) { // Up
-							$(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().addClass("selected");
-							if ($(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().hasClass("selected")) {
-								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
-							}
-						}
-						if (event.which == 40 && index + 1 < $(this).find(settings.options + " > li").length) { // Down
-							$(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().addClass("selected");
-							if ($(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().hasClass("selected")) {
-								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
-							}
-						}
-						// scrolling
-						if ($(this).find(settings.options + " > li").hasClass("selected")) {
-							var str = $(this).find(settings.options + " > li.selected").text();
-							$(this).find(settings.select).text(str);
-							if ($(this).find(settings.options + " > li.selected").is(":first-child")) {
-								scrollTo($(this).find(settings.select), 250, $(this).find(settings.select).outerHeight());
-							} else if ($(this).find(settings.options + " > li.selected").is(":last-child")) {
-								scrollTo($(this).find(settings.options + " > li.selected"), 250, $(this).find(settings.select).outerHeight());
-							} else {
-								scrollTo($(this).find(settings.options + " > li.selected"), 0);
-							}
-						}
-					}
-				}
-			});
-			$(this).on("click", settings.select, function() {
-				$(this).next(settings.options).slideToggle(settings.slide_duration, function() {
-					scrollTo($(self), false, $(self).find(settings.select).outerHeight());
-				});
-			});
-			$(this).on("click", settings.options + " > li", function() {
-				if (!$(this).hasClass("disabled")) {
-					var str = $(this).text();
-					$(this).addClass("selected");
-					$(this).siblings().removeClass("selected");
-					$(this).parent(settings.options).prev(settings.select).text(str);
-					$(this).parent(settings.options).slideToggle(settings.slide_duration);
-				}
-			});
-		});
-	}
-});
-
-/* ------------------------------------------------------------------ */
-/* # Validation Bar */
-/* ------------------------------------------------------------------ */
-
-jQuery.fn.extend({
-	validation_bar: function() {
-		// vars
-		var str = "";
-		var t = 0;
-		// template
-		// var textarea_helper_template = doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl")); // create template
-		// methods
-		function valid(obj, cancel) {
-			var cancel = cancel || false;
-			$(".validation-bar").fadeOut("fast");
-			$(".validation-bar").remove();
-			if (cancel) {
-				obj.val(str);
-			}
-		}
-		// loop
-		$(this).each(function() {
-			var obj = $(this);
-			if (typeof obj.attr("disabled") === "undefined" && typeof obj.attr("readonly") === "undefined") {
-				// events
-				obj.bind({
-					focus: function() {
-						str = $(obj).val();
-					},
-					blur: function(event) {
-						if ($(".validation-bar [data-valid]").length > 0 && $(".validation-bar [data-cancel]").is(":hover")) {
-							valid(obj, true);
-						} else {
-							valid(obj);
-						}
-						obj.trigger('autosize.resize') // force autosize (i.e. wrong size on cancel bug fix)
-					},
-					keydown: function(event) {
-						if (event.which == 27) { // Escape
-							valid(obj, true);
-							obj.blur();
-						} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
-							valid(obj);
-							obj.blur();
-						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
-							if ($(".validation-bar").length === 0) {
-								$(this).after(doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl"))); // insert validation_bar template
-								$(".validation-bar").fadeIn("slow");
-							}
-						}
-					}
-				});
-			}
-		});
-	}
-});
-
-/* ------------------------------------------------------------------ */
 /* # Initialize */
 /* ------------------------------------------------------------------ */
 
 /* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */
 $(document).ready(function(){
 	$("textarea").autosize({append: ""}); // WARNING : compatibility need to be checked on IE10
+	loap.init();
 });
 
 /* ================================================================== */

@@ -5,11 +5,11 @@
 									<h5 class="title">{{= art.title }}</h5>
 									<p class="summary">
 										{{? art.publishedDate !== null }}
-											<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToString(new Date(art.publishedDate)) }}</time>
+											<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToString(new Date(art.publishedDate)) }}</time>
 										{{?? art.updatedDate !== null}}
-											<span class="icon-date small" title="Date de mise &agrave; jour">Mis &agrave; jour le </span><time datetime="{{= getDateTime(new Date(art.updatedDate)) }}" class="date">{{= dateToString(new Date(art.updatedDate)) }}</time>
+											<span class="icon-date tiny" title="Date de mise &agrave; jour"><span class="hide">Mis &agrave; jour le </span></span><time datetime="{{= getDateTime(new Date(art.updatedDate)) }}" class="date">{{= dateToString(new Date(art.updatedDate)) }}</time>
 										{{?? art.createdDate !== null}}
-											<span class="icon-date small" title="Date de cr&eacute;ation">Cr&eacute;&eacute; le </span><time datetime="{{= getDateTime(new Date(art.createdDate)) }}" class="date">{{= dateToString(new Date(art.createdDate)) }}</time>
+											<span class="icon-date tiny" title="Date de cr&eacute;ation"><span class="hide">Cr&eacute;e le </span></span><time datetime="{{= getDateTime(new Date(art.createdDate)) }}" class="date">{{= dateToString(new Date(art.createdDate)) }}</time>
 										{{?}}
 										{{= art.description}}
 										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
@@ -60,8 +60,7 @@
 					{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac }}
 					<div class="clearfix">
 						<div class="right">
-							<a href="{{= $new_article}}" class="icon-article medium" title="R&eacute;diger un nouvel article" data-tooltip></a>
-							<label style="font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px; margin: 0 .25rem;">&Eacute;crire</label>
+							<a href="{{= $new_article}}" class="icon-article" title="R&eacute;diger un nouvel article" data-tooltip><span class="text">&Eacute;crire</span></a>
 						</div>
 					</div>
 					{{?}}

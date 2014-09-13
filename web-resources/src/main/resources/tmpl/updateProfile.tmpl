@@ -5,7 +5,7 @@
 						<!--First Column-->
 						<div class="column small-12 medium-5 large-4 text-center">
 							<!--User picture-->
-							<span class="picture large cover radius max-height" data-image="{{= data.avatar.path}}">{{= data.pseudo }}</span>
+							<span class="picture large cover radius max-height" data-image="{{= data.avatar.path }}">{{= data.pseudo }}</span>
 						</div>
 						<!--Second Column-->
 						<div class="column small-12 medium-7 large-8">
@@ -22,12 +22,12 @@
 								<input class="left" type="text" placeholder="L&rsquo;URL de votre lien">
 							</div>
 							<ul id="user_links_icons" class="inline-list block">
-								<li><a href="javascript:void(0)" class="icon-mail medium" title="adresse email">Mail</a></li>
-								<li><a href="javascript:void(0)" class="icon-link medium" title="blog ou page perso" data-url-prefix="http://">Link</a></li>
-								<li><a href="javascript:void(0)" class="icon-twitter medium" title="compte Twitter" data-url-prefix="https://www.twitter.com/">Twitter</a></li>
-								<li><a href="javascript:void(0)" class="icon-facebook medium" title="compte Facebook" data-url-prefix="https://www.facebook.com/">Facebook</a></li>
-								<li><a href="javascript:void(0)" class="icon-googleplus medium" title="page Google+" data-url-prefix="https://plus.google.com/">GooglePlus</a></li>
-								<li><a href="javascript:void(0)" class="icon-linkedin medium" title="profil LinkedIn" data-url-prefix="https://www.linkedin.com/">LinkedIn</a></li>
+								<li><a href="javascript:void(0)" class="icon-mail" title="adresse e-mail" data-id="0"><span class="hide">Mail</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-link" title="blog ou page perso" data-id="1" data-url-prefix="http://"><span class="hide">Lien perso</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-twitter" title="compte Twitter" data-id="2" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-facebook" title="compte Facebook" data-id="3" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-googleplus" title="page Google+" data-id="4" data-url-prefix="https://plus.google.com/"><span class="hide">GooglePlus</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-linkedin" title="profil LinkedIn" data-id="5" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
 							</ul>
 							<!--Description-->
 							<textarea id="description" class="user-desc min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description }}</textarea>

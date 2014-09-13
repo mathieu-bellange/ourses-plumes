@@ -484,6 +484,11 @@ button.tiny, .button.tiny {
   padding: .375em .5em;
 }
 
+button::-moz-focus-inner { /* Firefox extra button spacing fix */
+  padding: 0;
+  border: 0;
+}
+
 /* Buttons Positioning */
 button + button,
 .button + .button,
@@ -533,7 +538,7 @@ button:hover, .button:hover,
 button:focus, .button:focus {
   background-color: #97b;
 }
-button:active, .button:active
+button:active, .button:active,
 button.active, .button.active {
   background-color: #759;
 }
@@ -707,7 +712,7 @@ kbd,
 .frame > .main-pane {
   display: table-cell;
   width: 75%;
-  padding: 1rem 0; /* WARNING : fix for ribbons ; removed left and right box padding for adding it to child elements */
+  padding: .5rem 0 1rem; /* WARNING : fix for ribbons ; removed left and right box padding for adding it to child elements */
   vertical-align: top;
   /*background-color: white;*/ /* UNUSED : background-color will be beared by frame for low-res */
 }
@@ -862,16 +867,16 @@ kbd,
 
 /* Fast Nav */
 .fast-nav {
-  margin-bottom: .75rem; /* NEW */
+  margin-bottom: .5rem; /* NEW */
 }
-.fast-nav ul {}
+.fast-nav ul {vertical-align: middle;}
 .fast-nav ul li {
   margin: 0 .5rem 0 0; /* NEW */
 }
 .fast-nav ul li:last-child {
   margin-right: 0; /* NEW */
 }
-.fast-nav ul li a {
+.fast-nav ul li a:not(.icon) {
   padding: 0 .5rem;
   font-size: 1.15em;
   border-width: .25rem 0;
@@ -941,7 +946,7 @@ kbd,
 }
 
 .fast-nav ul li [class*='icon-'] {
-  border: 0;
+  border: 0; /* UNUSED */
 }
 
 /* Site Nav */
@@ -1559,11 +1564,11 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* NOTE
  * The Orbit Slider is quite a tricky feature ...
  * First, Orbit options 'next_class' and 'prev_class' seem to screw up and cannot hold custom classes.
- * So 'orbit-prev' and 'orbit-next' classes have been set up with the 'icon-left' and 'icon-right' properties.
+ * So 'orbit-prev' and 'orbit-next' classes have been set up like the 'icon-left' and 'icon-right' properties into the 'ui-carousel.png' file.
  * Second, the Orbit options do not accept any callback functions as well.
- * So it is not possible to hide the ribbons when the Orbit slides ...
+ * So it is not possible to hide the ribbons when the Orbit slides.
  * Finally, using keyboard navigation, the browser will search ANY link beared by the Orbit !
- * So it will focus on hidden anchors and the browser pointer will simply disappear ...
+ * So it will focus on hidden anchors and the browser pointer will simply disappear.
  * That is why it is higly not recommanded to put links into the Orbit Slider.
  * It must remains a truly cosmetic feature.
  */
@@ -1573,18 +1578,19 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .orbit-container .orbit-next {
   width: 48px;
   height: 48px;
-  background-image: url('../img/ui/ui-iconset.png');
+  background-image: url('../img/ui/ui-carousel.png');
   background-repeat: no-repeat;
-  background-size: 1968px;
 }
-.orbit-container .orbit-prev {background-position: -24px -144px;}
-.orbit-container .orbit-next {background-position: -72px -144px;}
-.orbit-container .orbit-prev:active, .orbit-container .orbit-prev:focus {background-position: -24px -240px;}
-.orbit-container .orbit-next:active, .orbit-container .orbit-next:focus {background-position: -72px -240px;}
+.orbit-container .orbit-prev {background-position: -24px 0;}
+.orbit-container .orbit-next {background-position: -72px 0;}
+.orbit-container .orbit-prev:hover, .orbit-container .orbit-prev:focus:hover {background-position: -24px -48px;}
+.orbit-container .orbit-next:hover, .orbit-container .orbit-next:focus:hover {background-position: -72px -48px;}
+.orbit-container .orbit-prev:focus, .orbit-container .orbit-prev:active {background-position: -24px -96px;}
+.orbit-container .orbit-next:focus, .orbit-container .orbit-next:active {background-position: -72px -96px;}
 .orbit-container .orbit-prev:hover,
-.orbit-container .orbit-next:hover {background-color: transparent; border: none;}
-.orbit-container .orbit-prev:hover {background-position: -24px -192px;}
-.orbit-container .orbit-next:hover {background-position: -72px -192px;}
+.orbit-container .orbit-next:hover,
+.orbit-container .orbit-prev:active,
+.orbit-container .orbit-next:active {background-color: transparent; border: none;}
 .orbit-container .orbit-prev > span,
 .orbit-container .orbit-next > span {border: 0;}
 .orbit-timer {}
@@ -1660,18 +1666,18 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 [data-magellan-expedition] {
+  min-width: 75%;
   z-index: 50;
-  left: 0;
-  min-width: 100%;
+  left: 25%;
+  padding: 0;
 }
-
 [data-magellan-expedition] .sub-nav {
-  margin-bottom: 0; }
-[data-magellan-expedition] .sub-nav dd {
-  margin-bottom: 0;
+  margin: 0;
+  padding: .5rem .75rem;
 }
+[data-magellan-expedition] .sub-nav dd {}
 [data-magellan-expedition] .sub-nav a {
-  line-height: 1.8em;
+  line-height: 2.25rem; /* Foundation override */
 }
 
 /* ------------------------------------------------------------ */
@@ -1761,6 +1767,34 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
      -moz-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
           box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
 }
+
+/* ------------------------------------------------------------ */
+/* # Code Blocks */
+/* ------------------------------------------------------------ */
+
+.code-block {
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 87.5%;
+  line-height: 200%;
+  border: 1px solid silver;
+  background-color: whitesmoke;
+  overflow-x: auto;
+}
+.code-block.radius {border-radius: .5rem;}
+.code-block > .num {
+  position: absolute;
+  padding-right: .5rem;
+  color: gray;
+  border-right: .25rem solid silver;
+}
+.code {cursor: text;}
+.num + .code {margin-left: 2rem;}
+.code .tag {color: blue;}
+.code .attr {color: red;}
+.code .prop {color: purple;}
 
 /* ------------------------------------------------------------------ */
 /* # Validation Bar */
@@ -2597,41 +2631,53 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* Hi-res */
 @media (min-width: 2880px) {
   .frame {left: 16.66666666666667%; width: 66.66666666666667%;}
+  [data-magellan-expedition] {left: 33.3333333333333%; min-width: 50%;}
 }
 @media (min-width: 2720px) and (max-width: 2879px) {
   .frame {left: 16.1764705882353%; width: 67.64705882352941%;}
+  [data-magellan-expedition] {left: 33.0882352941177%; min-width: 50.7352941176471%;}
 }
 @media (min-width: 2560px) and (max-width: 2719px) {
   .frame {left: 15.625%; width: 68.75%;}
+  [data-magellan-expedition] {left: 32.8125%; min-width: 51.5625%;}
 }
 @media (min-width: 2400px) and (max-width: 2559px) {
   .frame {left: 15%; width: 70%;}
+  [data-magellan-expedition] {left: 32.5%; min-width: 52.5%;}
 }
 @media (min-width: 2240px) and (max-width: 2399px) {
   .frame {left: 14.28571428571429%; width: 71.42857142857143%;}
+  [data-magellan-expedition] {left: 32.1428571428572%; min-width: 53.5714285714286%;}
 }
 @media (min-width: 2080px) and (max-width: 2239px) {
   .frame {left: 13.46153846153846%; width: 73.07692307692308%;}
+  [data-magellan-expedition] {left: 31.7307692307692%; min-width: 54.8076923076923%;}
 }
 @media (min-width: 1920px) and (max-width: 2079px) {
   .frame {left: 12.5%; width: 75%;}
+  [data-magellan-expedition] {left: 31.25%; min-width: 56.25%;}
 }
 @media (min-width: 1760px) and (max-width: 1919px) {
   .frame {left: 11.36363636363637%; width: 77.27272727272727%;}
+  [data-magellan-expedition] {left: 30.6818181818182%; min-width: 57.9545454545454%;}
 }
 
 /* Medium-res */
 @media (min-width: 1600px) and (max-width: 1759px) {
   .frame {left: 10%; width: 80%;}
+  [data-magellan-expedition] {left: 30%; min-width: 60%;}
 }
 @media (min-width: 1440px) and (max-width: 1599px) {
   .frame {left: 6.25%; width: 87.5%;}
+  [data-magellan-expedition] {left: 28.125%; min-width: 65.625%;}
 }
 @media (min-width: 1280px) and (max-width: 1439px) {
   .frame {left: 3.125%; width: 93.75%;}
+  [data-magellan-expedition] {left: 26.5625%; min-width: 70.3125%;}
 }
 @media (min-width: 1120px) and (max-width: 1279px) {
   .frame {left: 1.785714285714285%; width: 96.42857142857143%;}
+  [data-magellan-expedition] {left: 25.8928571428571%; min-width: 72.3214285714286%;}
 }
 
 /* Low-res */
@@ -2688,6 +2734,10 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   .fast-nav [class*='icon-'] {
     position: relative;
     left: 40%; /* TEMP : center icon in box */
+  }
+  [data-magellan-expedition] {
+    width: 100%;
+    left: 0;
   }
   /* UNUSED */
   /*
