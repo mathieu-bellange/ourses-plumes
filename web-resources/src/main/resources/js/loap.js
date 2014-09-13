@@ -219,8 +219,6 @@ jQuery.fn.extend({
 		// vars
 		var str = "";
 		var t = 0;
-		// template
-		// var textarea_helper_template = doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl")); // create template
 		// methods
 		function valid(obj, cancel) {
 			var cancel = cancel || false;
@@ -257,9 +255,8 @@ jQuery.fn.extend({
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
 								$(this).after(doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl"))); // insert validation_bar template
-								$(".validation-bar [class*='icon-']").svg_icons(); // reload svg_icons plugin for all icons contained in validation bar
+								$(".validation-bar [class*='icon-']").svg_icons(); // reflow all icons of validation bar
 								$(".validation-bar").fadeIn("slow");
-								//loap.update() // TEMP DEBUG : reload all loap plugins
 							}
 						}
 					}
@@ -325,8 +322,8 @@ function set_user_connect(user_logged_in) {
 		$("#user_connect").attr("href", "javascript:void(0)"); // supprime le lien vers la page de connexion pour ajouter le menu utilisateur
 		$("#user_connect").attr("data-dropdown", "user_menu");
 		//$("#user_connect").attr("data-options", "is_hover:true"); // TEMP : disable user menu hover ; uncomment to re-enable
-		$("#user_connect").parent("span").attr("title", "Menu");
-		//$("#user_connect").parent("span").removeAttr("data-tooltip");
+		$("#user_connect").parent("span").attr("title", "Menu"); // TEMP : set tooltip title on hover
+		//$("#user_connect").parent("span").removeAttr("data-tooltip"); // TEMP : prevent tooltip disabling if hover
 		$("#user_connect").removeClass("icon-home");
 		$("#user_connect").addClass("icon-expand");
 		$("#user_connect").data("enable", "true");
@@ -474,15 +471,6 @@ $(document).ready(function() {
 		$("#_css_fx_toggle").addClass("active");
 	}
 });
-
-/* UNUSED*/
-/* Toolbar Crystal Scheme Toggler */
-/*
-$("#_crystal_scheme_toggle").click(function() {
-	$(this).toggleClass("active");
-	$("html").toggleClass("crystal");
-});
-*/
 
 /* Toolbar Null Links Toggler */
 $("#_null_links_toggle").click(function() {
