@@ -316,39 +316,59 @@ function ajax_error(jqXHR, textStatus, errorThrown){
 	}
 }
 
+function reload_tooltip(obj) {
+	var tooltip_id = obj.attr("data-selector");
+	var tooltip_value = obj.attr("title");
+	$("[data-selector='" + tooltip_id + "']").last().html(tooltip_value + "<span class='nub'></span>");
+}
+
 function set_user_connect(user_logged_in) {
 	var user_logged_in = user_logged_in || false;
-	if (user_logged_in) {
+	if (user_logged_in == true) {
 		$("#user_connect").attr("href", "javascript:void(0)"); // supprime le lien vers la page de connexion pour ajouter le menu utilisateur
 		$("#user_connect").attr("data-dropdown", "user_menu");
 		//$("#user_connect").attr("data-options", "is_hover:true"); // TEMP : disable user menu hover ; uncomment to re-enable
 		$("#user_connect").parent("span").attr("title", "Menu"); // TEMP : set tooltip title on hover
 		//$("#user_connect").parent("span").removeAttr("data-tooltip"); // TEMP : prevent tooltip disabling if hover
-		$("#user_connect").removeClass("icon-home");
-		$("#user_connect").addClass("icon-expand");
+		if ($("#user_connect").hasClass("icon-home")) {
+			$("#user_connect").removeClass("icon-home");
+			$("#user_connect").addClass("icon-expand");
+		} else {
+			$("#user_connect svg use").attr("xlink:href", "#icon-expand");
+		}
 		$("#user_connect").data("enable", "true");
 		$(".fast-nav").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"))); // Process user menu template
-		loap.update(); // recharger les images utilisateurs et les icônes pour tout le document
 	} else {
-		// $("#user_menu").remove(); // UNUSED : user menu should not be launched on page load if not required
+		//$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
 		$("#user_connect").attr("href", $login_page); // ajoute le lien vers la page de connexion
 		$("#user_connect").parent("span").attr("title", "S&rsquo;identifier");
 		//$("#user_connect").parent("span").attr("data-tooltip");
 		$("#user_connect").removeAttr("data-dropdown");
 		//$("#user_connect").removeAttr("data-options"); // TEMP : disable user menu hover ; uncomment to re-enable
-		$("#user_connect").removeClass("icon-expand");
-		$("#user_connect").addClass("icon-home");
+		if ($("#user_connect").hasClass("icon-expand")) {
+			$("#user_connect").removeClass("icon-expand");
+			$("#user_connect").addClass("icon-home");
+		} else {
+			$("#user_connect svg use").attr("xlink:href", "#icon-home");
+		}
 		$("#user_connect").data("enable", "false");
 	}
 }
 
 function check_user_connect() {
+	if ((window.location.href.indexOf($login_page) == -1) && (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null)) { // if current page != connexion
+		isAuthenticated(); // check if auth token hasn't expired
+	}
+	if ((window.location.href.indexOf($login_page) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null)) {
+		set_user_connect(true); // enable user connection
+		$(document).foundation("dropdown"); // reload Foundation Dropdown plugin for whole document (n.b. includes #user_connect and #user_menu)
+		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
+		loap.update(); // TEMP : reload user picture
+	}
 	if (($("#user_connect").data("enable") == "true") && (window.localStorage.getItem($oursesUserPseudo) === undefined || window.localStorage.getItem($oursesUserPseudo) === null)) {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
 		set_user_connect(false); // disable user connection
-	} else if ($("#user_connect").data("enable") == "false" && window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null) {
-		set_user_connect(true); // enable user connection
-		$(document).foundation("dropdown"); // reload Foundation Dropdown plugin for whole document (n.b. includes #user_connect and #user_menu)
+		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
 	}
 }
 
@@ -377,18 +397,23 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	$("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
 	// Process header template
 	$(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
+
 	// Set user connection depending on browser local storage domain log
-	if (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null) {
-		set_user_connect(true);
-		$("#user_connect").mouseenter(function() {
-			check_user_connect()
-		});
-	} else {
+	if (window.location.href.indexOf($login_page) > -1) {
 		set_user_connect(false);
-		$("#user_connect").mouseenter(function() {
-			check_user_connect()
-		});
+	} else {
+		if (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null) {
+			set_user_connect(true);
+		} else {
+			set_user_connect(false);
+		}
 	}
+
+	// Bind user connect event
+	$("#user_connect").mouseenter(function() {
+		check_user_connect()
+	});
+
 	// Process footer template
 	$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
 	// Process slider template -- this is the tricky part
