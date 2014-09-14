@@ -3,47 +3,6 @@
 	<head>
 		<meta charset="utf-8">
 		<script src="boot"></script>
-		<script src="js/jquery/jquery.customSelect.js"></script>
-		<style type="text/CSS">
-
-			/* ------------------------------------------------------------ */
-			/* # Custom Selects */
-			/* ------------------------------------------------------------ */
-
-			.customSelect { /* This is the default class that is used */
-				cursor: pointer;
-				display: block;
-				padding: .5rem;
-				font-size: .9rem;
-				border: 1px solid silver;
-				background-color: white;
-			}
-			.customSelect:after {
-				content: "";
-				display: inline-block;
-				position: absolute;
-				right: 1.75rem;
-				margin-top: .25em;
-				border: .5rem solid transparent;
-				border-bottom-width: 0;
-				border-top-color: silver;
-			}
-			.customSelect.customSelectHover { /* Styles for when the select box is hovered */
-				background-color: whitesmoke;
-				border-color: darkgray;
-			}
-			.customSelect.customSelectHover:after {
-				border-top-color: darkgray;
-			}
-			.customSelect.customSelectOpen { /* Styles for when the select box is open */
-			}
-			.customSelect.customSelectFocus { /* Styles for when the select box is in focus */
-				outline: 1px dotted dimgray;
-			}
-			.customSelectInner { /* You can style the inner box too */
-			}
-
-		</style>
 	</head>
 	<body>
 
@@ -61,16 +20,6 @@
 					<option disabled>Disabled</option>
 					<option style="color: red;">Stylized</option>
 				</select>
-
-				<!--Custom Select-->
-				<label for="custom_select">Custom select <span class="text-small text-silver">.customSelect</span></label>
-				<select id="custom_select" class="customSelect">
-					<option>Option</option>
-					<option selected>Selected</option>
-					<option disabled>Disabled</option>
-					<option style="color: red;">Stylized</option>
-				</select>
-				<p class="text-small"><strong>Advantage</strong>&thinsp;: browser friendly behaviour<br><strong>Inconvienent</strong>&thinsp;: ugly or unexpected looking according to browser<br><strike><strong>BUG</strong>&thinsp;: select keeps the document loaded width on resize (i.e. select box overlaps and corrupts document width on window reduction)</strike></p>
 
 				<!--Options Select-->
 				<label >Options Select <span class="text-small text-silver">.options-select</span></label>
@@ -96,14 +45,6 @@
 			loap.update()
 			$(document).ready(function(){
 				$(".options-select").options_select();
-				$("#custom_select").customSelect();
-				//$("#custom_select").customSelect({customClass:'myOwnClassName'}); // set a custom class name for the stylable element
-			});
-			 // customSelect onResize Fix
-			$(window).on("resize", function() {
-				$(".customSelect").css("width", "100%");
-				$(".customSelectInner").css("width", "100%");
-				$("#custom_select").css("width", $(".customSelect").outerWidth() - ($(".customSelect").width() - $(".customSelectInner").width()));
 			});
 		</script>
 		<script>
