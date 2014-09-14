@@ -41,6 +41,22 @@ function sortSocialLinks(links) {
 	});
 }
 
+function attach_slider(attachee) {
+	var attachee = attachee || ".user-articles-list";
+	var triggerer = ".info-tip";
+	var triggered = ".summary";
+	$(attachee).on("click", triggerer, function() {
+		var obj = $(this);
+		if (obj.data("is_sliding") !== "true") {
+			obj.data("is_sliding", "true");
+			obj.toggleClass("active");
+			obj.next(triggered).slideToggle(250, function() {
+				obj.removeData("is_sliding");
+			});
+		}
+	});
+}
+
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
@@ -54,11 +70,12 @@ function displayProfile() {
 		success : function(profile, status, jqxhr) {
 			processProfile(profile);
 			displayRole(profile.pseudoBeautify);
+			attach_slider(); // bind events on sliding elements
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
 				$("main > header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
-			}else{
+			} else {
 				createAlertBox();
 			}
 		},

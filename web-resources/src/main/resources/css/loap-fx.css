@@ -369,5 +369,6 @@
 .css-debug .user-profile .user-desc {background-color: rgba(0, 255, 0, .25);}
 
 /* User Articles List */
-.css-debug .user-articles-list {background-color: rgba(255, 255, 0, .25);}
-.css-debug .user-articles-list > li {background-color: rgba(0, 255, 255, .25);}
+.css-debug .user-articles {background-color: rgba(255, 255, 0, .25);}
+.css-debug .user-articles > li {background-color: rgba(0, 255, 255, .25);}
+.css-debug .user-articles .summary {background-color: rgba(255, 0, 0, .25);}
