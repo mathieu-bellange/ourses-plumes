@@ -957,10 +957,18 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 /* # Initialize */
 /* ------------------------------------------------------------------ */
 
+/* Autosize jQuery plugin custom settings */
+var autosize_cfg = {append: ""};
+
 /* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */
-$(document).ready(function(){
-	$("textarea").autosize({append: ""}); // WARNING : compatibility need to be checked on IE10
+$(document).ready(function() {
+	$("textarea").autosize(autosize_cfg); // WARNING : compatibility need to be checked on IE10
 	loap.init();
+});
+
+/* Reload Autosize jQuery plugin on window resize */
+$(window).on("resize", function() {
+	$("textarea").autosize(autosize_cfg);
 });
 
 /* ================================================================== */
