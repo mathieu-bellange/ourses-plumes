@@ -35,27 +35,27 @@ else{
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-function Article(title, body, description, category, rubrique, tags){
+function Article(title, body, description, category, rubrique, tags) {
 		this.title = title;
 		this.body = body;
 		this.description = description;
 		this.category = category;
 		this.rubrique = rubrique;
 		this.tags = tags;
-		this.toJson = function(){
+		this.toJson = function() {
 			return JSON.stringify(this);
 		};
 };
 
-function Category(id,value){
+function Category(id,value) {
 	this.id = id;
 	this.category = value;
-	this.toJson = function(){
+	this.toJson = function() {
 		return JSON.stringify(this);
 	}
 }
 
-function Rubrique(id,value){
+function Rubrique(id,value) {
 	this.id = id;
 	this.rubrique = value;
 	this.toJson = function(){
@@ -63,7 +63,7 @@ function Rubrique(id,value){
 	}
 }
 
-function Tag(id,value){
+function Tag(id,value) {
 	this.id = id;
 	this.tag = value;
 	this.toJson = function(){
@@ -71,7 +71,7 @@ function Tag(id,value){
 	}
 }
 
-function isFormValid(){
+function isFormValid() {
 	var isTitleValid = !$("#title").attr("data-invalid");
 	var isRubricValid = !$("#rubric").attr("data-invalid");
 	var isCategoryValid = !$("#category").attr("data-invalid");
@@ -91,7 +91,7 @@ var pathPUT;
 // le path du check d'un article
 var pathTitle;
 
-function processArticle(article){
+function processArticle(article) {
 	// affiche le template en passant en param l'article
 	// la catégorie et la rubrique ne sont pas setté dans le template
 	// il faut attendre la récupération asynchrone des données 
@@ -100,7 +100,7 @@ function processArticle(article){
 	// et aux draft en update avec comme path /articles/{id}
 
 	//si il y a un id dans le path on est en update
-	if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
+	if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 		pathPUT = "/rest" + window.location.pathname;
 		pathTitle = "/rest/articles/check/title?id=" + article.id; 
 	}
@@ -110,7 +110,7 @@ function processArticle(article){
 		pathTitle = "/rest/articles/check/title";
 	}
 	
-	$.getJSON("/rest/categories", function(json){
+	$.getJSON("/rest/categories", function(json) {
 		// processCategory(json);
 		processCategory(json, article);
 		//TODO injection de la valeur de l'article
@@ -118,7 +118,7 @@ function processArticle(article){
 		// alert(article.category.category);
 	 });
 
-	$.getJSON("/rest/rubriques", function(json){
+	$.getJSON("/rest/rubriques", function(json) {
 		processRubric(json, article);
 		//TODO injection de la valeur de l'article
 	});
@@ -174,7 +174,7 @@ function processArticle(article){
 	});
 
 	// recharge foundation pour les tags ajoutés directement par le template
-	if (article.tags.length > 0){
+	if (article.tags.length > 0) {
 		$("#tags").foundation("alert");
 	}
 	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
@@ -183,7 +183,7 @@ function processArticle(article){
 	//loap.update(); // TEMP DEBUG : reload all loap plugins for whole document
 }
 
-function processRubric(json, article){
+function processRubric(json, article) {
 	$.each(json, function(i, obj) {
 		if (article.rubrique != null && article.rubrique.id == obj.id) {
 			$("#rubric .select").text(obj.rubrique); // reflow select value (i.e. asynchronous script conflict)
@@ -208,7 +208,7 @@ function processRubric(json, article){
 	update_rubric()
 }
 
-function processCategory(json, article){
+function processCategory(json, article) {
 	$.each(json, function(i, obj) {
 		if (article.category != null && article.category.id == obj.id) {
 			$("#category .select").text(obj.category); // reflow select value (i.e. asynchronous script conflict)
@@ -350,7 +350,7 @@ function createAlertBox(err, msg) {
 /* ------------------------------------------------------------------ */
 
 // créer ou ajout un article
-function sendArticle(){
+function sendArticle() {
 	// Edition
 	var title = $("#title").val();
 	var description = $("#summary").val();
@@ -400,7 +400,7 @@ function sendArticle(){
 	return true;
 };
 
-function checkTitleAJAX(){
+function checkTitleAJAX() {
 	if (typeof titleTimeoutValid !== "undefined") {
 		clearTimeout(titleTimeoutValid);
 	}
@@ -434,7 +434,7 @@ function checkTitleAJAX(){
 	});
 }
 
-function checkRubric(){
+function checkRubric() {
 	if ($("#rubric li.selected").text().length === 0) {
 		setValidationIcon($("#rubric"),$("#rubricError"), false);
 	}else{
@@ -442,7 +442,7 @@ function checkRubric(){
 	}
 }
 
-function checkCategory(){
+function checkCategory() {
 	if ($("#category li.selected").text().length === 0) {
 		setValidationIcon($("#category"),$("#categoryError"), false);
 	}else{
@@ -450,7 +450,7 @@ function checkCategory(){
 	}
 }
 
-function checkSummary(){
+function checkSummary() {
 	if ($("#summary").val().length === 0) {
 		setValidationIcon($("#summary"),$("#summaryError"), false);
 	}else{
@@ -458,7 +458,7 @@ function checkSummary(){
 	}
 }
 
-function checkBody(){
+function checkBody() {
 	if ($("#editor").text().length === 0) {
 		setValidationIcon($("#editor"),$("#editorError"), false);
 	}else{
@@ -470,7 +470,14 @@ function checkBody(){
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-$("html").on("click","#saveButton",function(){
+// local vars for editor
+var editor_cfg = {
+	e_attachee : "html",
+	t_summary : 0
+};
+
+// local editor eventing
+$(editor_cfg.e_attachee).on("click", "#saveButton", function() {
 	checkTitleAJAX();
 	checkRubric();
 	checkCategory();
@@ -480,15 +487,20 @@ $("html").on("click","#saveButton",function(){
 		sendArticle();
 	}
 });
-
-$("html").on("blur","#title",function(event){
+$(editor_cfg.e_attachee).on("blur", "#title", function() {
 	checkTitleAJAX();
 });
-
-$("html").on("blur","#summary",function(event){
-	checkSummary();
+$(editor_cfg.e_attachee).on("click", "#summary", function() {
+	clearTimeout(editor_cfg.t_summary);
 });
-
-$("html").on("click", "#tag_add", function() {
+$(editor_cfg.e_attachee).on("blur", "#summary", function() {
+	editor_cfg.t_summary = setTimeout(function() {
+		checkSummary();
+	}, 250);
+});
+$(editor_cfg.e_attachee).on("keypress", "#summary", function() {
+	setValidationIcon($("#summary"), $("#summaryError"), true);
+});
+$(editor_cfg.e_attachee).on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });
