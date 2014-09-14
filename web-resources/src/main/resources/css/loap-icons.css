@@ -36,9 +36,11 @@ a.icon {
 a.icon:not(.button) {
   line-height: 0;
   text-decoration: none; /* TEMP */
-  border-radius: .5rem;
+  border-radius: .5rem; /* TEMP : better use .radius class instead */
   transition: background-color .25s; /* TEMP */
 }
+a.icon.round:not(.button) {border-radius: 100%;}
+a.icon.radius:not(.button) {border-radius: .5rem;}
 a.icon:not(.button):not(.disabled):not(.no-bg):focus,
 a.icon:not(.button):not(.disabled):not(.no-bg):hover,
 a.icon.active:not(.button):not(.disabled):not(.no-bg) {
