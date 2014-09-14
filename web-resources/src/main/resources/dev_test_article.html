@@ -1,0 +1,115 @@
+﻿<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<script src="boot"></script>
+	</head>
+	<body>
+
+		<h2 class="red">Article <small>.article</small></h2>
+
+		<article class="article">
+			<header class="topic">
+				<h2 class="title">Le titre de l'article</h2>
+				<h4 class="author"><span title="Auteure" class="icon-author medium"></span><a href="javascript:void(0)" rel="author">L'auteure</a></h4>
+				<time class="date">1<sup>er</sup> septembre 2014</time><span class="right icon-date small" title="Date de publication"><span class="hide">Publi&eacute; le </span></span>
+				<p class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+				<dl class="tags inline-list clearfix">
+					<dt><span title="Tags" class="icon-tag small"><strong class="hide">Tags</strong></span></dt>
+					<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">Catégorie</a></dd>
+					<dd><a href="javascript:void(0)" rel="tag" class="label radius ideas">Idées</a></dd>
+					<dd><a href="javascript:void(0)" rel="tag" class="label radius">Un tag</a></dd>
+				</dl>
+			</header>
+			<!--TEMP : DO NOT REMOVE-->
+			<!--
+			<figure>
+				<a href="/img/web/illuanais.png" target="blank"><img src="/img/web/illuanais.png" alt="Illuanais" title="Cr&eacute;dit photo DR" /></a>
+				<figcaption>Joueuses de World of Tank, 27 ao&ucirc;t 2011</figcaption>
+			</figure>
+			-->
+			<div class="article ideas">
+			<h4>Un inter-titre</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas dignissim consectetur. Aenean feugiat ligula at mi varius ultricies. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam quis convallis tellus. Duis id metus malesuada, aliquet tellus vel, lobortis massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla malesuada pulvinar mauris, sed finibus orci ullamcorper luctus.</p>
+			<div class="callout">Vivamus egestas dignissim consectetur.</div>
+			<p>Quisque risus ipsum, volutpat non fermentum ut, sodales sit amet eros. Aliquam iaculis sit amet mi vestibulum faucibus. Aliquam velit ligula, scelerisque vitae egestas dictum, efficitur nec arcu. Donec egestas ultricies ligula, eu condimentum est maximus eget. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus eget augue a velit finibus ultrices. Praesent tempus venenatis dapibus. Phasellus justo velit, laoreet ac tellus id, tempus feugiat massa. Maecenas feugiat luctus ipsum. Nulla nec dui rhoncus, dignissim mauris at, suscipit felis.</p>
+			<h4>Un autre inter-titre</h4>
+			<p>Aliquam mollis lorem eget neque porttitor, eu imperdiet libero blandit. Nam efficitur, leo at semper fringilla, ligula ex sollicitudin mauris, id ultricies diam erat nec lacus. Duis sagittis eu justo id porta. Nullam faucibus neque fringilla enim blandit dictum. Aenean aliquet, elit vitae eleifend varius, leo dui vehicula sapien, a commodo lacus mauris hendrerit massa. Nullam ut urna massa. Curabitur sit amet fringilla urna, vel volutpat orci. Etiam enim metus, tristique in purus in, cursus accumsan erat. Curabitur sem nulla, pharetra a viverra a, sagittis vitae diam. Donec mattis porta scelerisque. Aenean et tincidunt magna. Sed posuere dolor a mi imperdiet, et rutrum felis pretium. Sed ornare vulputate.</p>
+			</div>
+			<p class="author text-right">Par <a href="{{=data.profile.path}}" rel="author">L'auteure</a></p>
+		</article>
+
+		<!--Related Articles-->
+		<style>
+			.related {
+				margin-bottom: 1rem;
+				padding: .5rem;
+				font-size: 87.5%;
+				background-color: #f0f0f0;
+				background: linear-gradient(180deg, #f5f5f5 0%, #f0f0f0 100%);
+				border: .125rem solid #ddd;
+				border-radius: .5rem;
+				box-shadow: 0 0 .375rem 0 rgba(0 ,0, 0, .125);
+			}
+			.related .subheader {
+				color: rgba(0, 0, 0,.25);
+				text-shadow: 1px 1px rgba(255, 255, 255, .75);
+			}
+			.related .user-articles-list {
+				margin-top: 0;
+			}
+		</style>
+		<div class="related row">
+			<div class="column">
+				<h4 class="subheader">Articles connexes</h4>
+				<ul class="no-bullet user-articles-list">
+					<li><span class="icon-educult small"><span class="hide">Éducation & Culture</span></span> <a href="#">Sexisme dans les jeux-vidéos, une critique impossible ?</a> <span class="info-tip"></span>
+						<div class="summary" style="display: none;">
+							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+							Ces dernières années sur le net et dans les milieux féministes anglophones et francophones, des débats et discussions sont nés autour de la question des représentations sexistes dans les jeux-vidéos et des comportements sexistes parmi les joueurs. Les réactions de rejet particulièrement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux déchaînements qu’ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant à s’interroger sur la possibilité même de mener une telle réflexion.
+						</div>
+					</li>
+					<li><span class="icon-ourbody small"><span class="hide">Nos corps, nous-mêmes</span></span> <a href="#">Stérilisation : « Une femme qui décide de ne pas vouloir avoir des enfants, c’est toujours louche »</a> <span class="info-tip"></span>
+						<div class="summary" style="display: none;">
+							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+							Se faire stériliser en France relève d’un vrai combat pour les femmes qui veulent y recourir. Elles se heurtent aux refus des médecins, qui posent leurs propres conditions. Véronique Séhier, co-présidente Planning Familial, a répondu à nos questions sur ce sujet tabou dans notre société.
+						</div>
+					</li>
+					<li><span class="icon-intersec small"><span class="hide">Intersectionnalité</span></span> <a href="#">Naturalisation et paupérisation du travail des femmes : le cas des services à la personne</a> <span class="info-tip"></span>
+						<div class="summary" style="display: none;">
+							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+							Les services à la personne constituent une part non négligeable de l’emploi et de l’économie.  Avec 1,8 million de salariéEs (sans compter les assistantes maternelles), ils dépassent même le nombre d’équivalent temps plein du secteur de la construction (qui en compte 1,347 million). Pourtant, l’invisibilisation de ce pan de l’économie va de pair avec sa dévalorisation sociale.
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<script>
+			/* User Articles List Info Box Slider */
+			var triggerer = ".info-tip";
+			var triggered = ".summary";
+			$(triggerer).click(function() {
+				var obj = $(this);
+				if (obj.data("is_sliding") !== "true") {
+					obj.data("is_sliding", "true");
+					obj.toggleClass("active");
+					obj.next(triggered).slideToggle(250, function() {
+						obj.removeData("is_sliding");
+					});
+				}
+			});
+		</script>
+
+		<script>
+			$build_container = false;
+			load();
+		</script>
+		<script>
+			loap.update()
+		</script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
+</html>
