@@ -361,9 +361,9 @@ function check_user_connect() {
 	}
 	if ((window.location.href.indexOf($login_page) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null)) {
 		set_user_connect(true); // enable user connection
+		$("#user_menu [data-image]").user_pictures(); // reload user pictures of user menu
 		$(document).foundation("dropdown"); // reload Foundation Dropdown plugin for whole document (n.b. includes #user_connect and #user_menu)
 		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
-		loap.update(); // TEMP : reload user picture
 	}
 	if (($("#user_connect").data("enable") == "true") && (window.localStorage.getItem($oursesUserPseudo) === undefined || window.localStorage.getItem($oursesUserPseudo) === null)) {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
