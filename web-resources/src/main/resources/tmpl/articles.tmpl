@@ -59,18 +59,26 @@
 				<section id="articles">
 					{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac }}
 					<div class="clearfix">
+						{{? window.localStorage.getItem($oursesUserRole) == $role_admin }}
+						<div class="left">
+							<a id="filter_icon" href="javascript:void(0)" class="left icon-show medium" style="margin-right: .5rem;" title="Filtrer les articles" data-tooltip ><span class="text">Voir</span></a>
+							<dl id="filters_list" class="sub-nav left" style="display: none;">
+								<dd><a id="others_drafts" href="javascript:void(0)">Tous les brouillons</a></dd>
+							</dl>
+						</div>
+						{{?}}
 						<div class="right">
 							<a href="{{= $new_article}}" class="icon-article" title="R&eacute;diger un nouvel article" data-tooltip><span class="text">&Eacute;crire</span></a>
 						</div>
 					</div>
 					{{?}}
-					<ul id="articles_draft" class="no-bullet articles-list draft">
-						{{~ data.drafts :value }}
+					<ul id="articles_standby" class="no-bullet articles-list standby">
+						{{~ data.toCheck :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
-					<ul id="articles_standby" class="no-bullet articles-list standby">
-						{{~ data.toCheck :value }}
+					<ul id="articles_draft" class="no-bullet articles-list draft">
+						{{~ data.drafts :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>

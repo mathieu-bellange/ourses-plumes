@@ -1901,6 +1901,9 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .articles-list.draft .href-block {
   background-color: #eee;
 }
+.articles-list.draft .other .href-block {
+  background-color: lemonchiffon;
+}
 .articles-list.draft .href-block a {
   border-style: dashed;
   border-color: silver;

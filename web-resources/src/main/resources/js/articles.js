@@ -223,10 +223,38 @@ function displayArticles() {
 	});
 }
 
+function set_articles_filtering() {
+	// Set filters list CSS
+	$("#filters_list").css({"margin" : "0", "padding" : "0", "line-height" : "2.5rem", "height": "2.5rem"});
+	$("#filters_list dd > a").css("cursor", "pointer");
+	// Hide others drafts
+	var user_name = window.localStorage.getItem($oursesUserPseudo);
+	$("#articles_draft .author").each(function() {
+		if ($(this).text() != user_name) {
+			$(this).parents("li").addClass("other");
+			$(this).parents("li").toggle();
+		}
+	});
+	// Bind events
+	$("html").on("click", "#filter_icon", function() {
+		if (window.localStorage.getItem($oursesUserRole) !== $role_admin) {
+			window.location.href = $login_page;
+		}
+		$("#filter_icon").toggleClass("active");
+		$("#filter_icon").blur();
+		$("#filters_list").toggle();
+	});
+	$("html").on("click", "#filters_list #others_drafts", function() {
+		$(this).parent("dd").toggleClass("active");
+		$(".draft .other").toggle();
+	});
+}
+
 function processArticles(articles) {
 	$("main > header").after(articles_tmpl(articles));
 	$(document).foundation(); // reload all Foundation plugins
 	loap.update(); // reload loap plugins
+	set_articles_filtering(); // set articles filtering
 	// Events
 	$("html").on("mouseenter", ".href-block", function() {
 		$(this).find(".validate").show();
@@ -287,7 +315,6 @@ function processAfterRecall(article) {
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-// jQuery events go here
 $(document).ready(function() {
 	displayArticles();
 });

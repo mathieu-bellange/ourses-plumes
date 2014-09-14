@@ -47,12 +47,14 @@
 					$("section > ul > li > h4").html("Ceci est l&rsquo;intitul&eacute; de la rubrique dans laquelle l&rsquo;article est index&eacute;");
 					$(".href-block > .title").html("Ceci est un titre plut&ocirc;t long pour un article qui ne l&rsquo;est pas moins");
 					$(".href-block > p > .summary-text").html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.");
-					$(".href-block > p > .author > strong").html("Ceci est le nom de plume de l&rsquo;auteure de l&rsquo;article");
+					$(".href-block > p > .author > strong").html("Ceci est mon nom de plume");
+					$(".other .href-block > p > .author > strong").html("Ceci est le nom de plume de l&rsquo;auteure de l&rsquo;article");
 				} else {
 					$("section > ul > li > h4").html("Rubrique");
 					$(".href-block > .title").html("Titre.");
 					$(".href-block > p > .summary-text").html("R&eacute;sum&eacute;.");
-					$(".href-block > p > .author > strong").html("Auteure");
+					$(".href-block > p > .author > strong").html("Moi");
+					$(".other .href-block > p > .author > strong").html("Auteure");
 				}
 			}
 			// Eventing
@@ -77,8 +79,7 @@
 				<div class="left">
 
 					<!--Search-->
-					<span id="search_icon" class="icon-search medium left" style="margin-left: .5rem;" ></span>
-					<a id="search_text" href="javascript:void(0)" class="left" style="font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px; margin: 0 .25rem;" title="Rechercher dans les articles" data-tooltip>Chercher</a>
+					<a id="search_text" href="javascript:void(0)" class="left icon-search" style="margin-right: .5rem;" title="Rechercher dans les articles" data-tooltip><span class="text">Chercher</span></a>
 					<input id="search_input" type="text" class="left radius" style="display: none; margin: 0;  width: 12rem; height: 36px;">
 					<script>
 						$("#search_text").click(function() {
@@ -90,43 +91,45 @@
 					</script>
 
 					<!--Sort-->
-					<a id="sort_icon" href="javascript:void(0)" class="left" style="margin: 0 .5rem; font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px;" title="Filtrer les articles" data-tooltip >
-						<span class="icon-show medium" style="margin-right: .5rem;"></span>Trier
-					</a>
-
-					<dl id="sort_list" class="sub-nav left" style="display: none; margin: 0; padding: 0; line-height: 36px; height: 36px;">
+					<a id="filter_icon" href="javascript:void(0)" class="left icon-show medium" style="margin-left: .5rem; margin-right: .5rem;" title="Filtrer les articles" data-tooltip ><span class="text">Voir</span></a>
+					<dl id="filters_list" class="sub-nav left" style="display: none;">
 						<!--
 						<dt style="margin-left: .5rem;">Trier&#8239;:</dt>
-						-->
 						<dd class="active"><a href="javascript:void(0)">Date de publication</a></dd>
 						<dd><a href="javascript:void(0)">Popularit&eacute;</a></dd>
 						<dd><a href="javascript:void(0)">Rubrique</a></dd>
 						<dd><a href="javascript:void(0)">Cat&eacute;gorie</a></dd>
+						-->
+						<dd><a id="others_drafts" href="javascript:void(0)">Tous les brouillons</a></dd>
 					</dl>
 					<script>
-						$("#sort_icon").click(function() {
+						$("#filter_icon").click(function() {
 							/*
-							if ($("#sort_icon > span").hasClass("icon-show")) {
-								$("#sort_icon > span").removeClass("icon-show");
-								$("#sort_icon > span").addClass("icon-hide");
+							if ($("#filter_icon > span").hasClass("icon-show")) {
+								$("#filter_icon > span").removeClass("icon-show");
+								$("#filter_icon > span").addClass("icon-hide");
 							} else {
-								$("#sort_icon > span").removeClass("icon-hide");
-								$("#sort_icon > span").addClass("icon-show");
+								$("#filter_icon > span").removeClass("icon-hide");
+								$("#filter_icon > span").addClass("icon-show");
 							}
 							*/
-							$("#sort_icon").toggleClass("active");
-							$("#sort_icon").blur();
-							$("#sort_list").toggle();
+							$("#filter_icon").toggleClass("active");
+							$("#filter_icon").blur();
+							$("#filters_list").toggle();
+						});
+						$("#filters_list #others_drafts").click(function() {
+							$(".draft .other").toggle();
+						});
+						$(document).ready(function() {
+							$("#filters_list").css({"margin" : "0", "padding" : "0", "line-height" : "2.5rem", "height": "2.5rem"});
+							$("#filters_list dd > a").css("cursor", "pointer");
 						});
 					</script>
 				</div>
 
+				<!--Write-->
 				<div class="right">
-
-					<!--Write-->
-					<a href="javascript:void(0)" class="icon-article medium" title="R&eacute;diger un nouvel article" data-tooltip></a>
-					<label style="font-size: 75%; text-transform: uppercase; color: #999; line-height: 36px; height: 36px; margin: 0 .25rem;">&Eacute;crire</label>
-
+					<a href="javascript:void(0)" class="icon-article medium" title="R&eacute;diger un nouvel article" data-tooltip><span class="text">&Eacute;crire</span></a>
 				</div>
 
 			</div>
@@ -139,6 +142,62 @@
 				<li><span class="icon-googleplus small">GooglePlus&#8239;:</span>&nbsp;1</li>
 			</ul>
 			-->
+
+			<!--Articles Filtering-->
+			<h4>Articles Filtering</h4>
+			<ul class="no-bullet articles-list draft">
+				<li>
+					<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+					<div class="href-block clearfix blue">
+						<h5 class="title"></h5>
+						<p class="summary">
+							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+							<span class="summary-text"></span>
+							<span class="right author"><strong></strong></span>
+						</p>
+						<a href="javascript:void(0)">Lire l&rsquo;article</a>
+					</div>
+				</li>
+				<li class="other" style="display: none;">
+					<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
+					<div class="href-block clearfix blue">
+						<h5 class="title"></h5>
+						<p class="summary">
+							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+							<span class="summary-text"></span>
+							<span class="right author"><strong></strong></span>
+						</p>
+						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+					</div>
+				</li>
+				<li>
+					<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+					<div class="href-block clearfix blue">
+						<h5 class="title"></h5>
+						<p class="summary">
+							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+							<span class="summary-text"></span>
+							<span class="right author"><strong></strong></span>
+						</p>
+						<a href="javascript:void(0)">Lire l&rsquo;article</a>
+					</div>
+				</li>
+				<li class="other" style="display: none;">
+					<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
+					<div class="href-block clearfix blue">
+						<h5 class="title"></h5>
+						<p class="summary">
+							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+							<span class="summary-text"></span>
+							<span class="right author"><strong></strong></span>
+						</p>
+						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+					</div>
+				</li>
+			</ul>
+
+			<!--Articles Status-->
+			<h4>Articles Status</h4>
 
 			<!--Drafts-->
 			<ul class="no-bullet articles-list draft">

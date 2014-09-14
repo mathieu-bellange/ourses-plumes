@@ -20,6 +20,9 @@
   padding: .075rem; /* WARNING : this is inner spacing adjustment (automatically deduced from element size) */
   vertical-align: middle;
 }
+.icon > .text {
+  color: darkgray;
+}
 
 /* SVG Icons Sizing */
 .icon.tiny > svg {width: 1.5rem; height: 1.5rem;} /* 24px */
@@ -58,6 +61,8 @@ a.icon.active:not(.button):not(.disabled) > svg {
 }
 a.icon:not(.button) > .text {
   color: dimgray;
+  font-size: 75%;
+  text-transform: uppercase;
 }
 a.icon:not(.button):not(.disabled):hover > .text,
 a.icon:not(.button):not(.disabled):focus > .text,
