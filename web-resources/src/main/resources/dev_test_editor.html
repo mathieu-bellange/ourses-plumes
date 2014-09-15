@@ -29,13 +29,13 @@
 			<label for="show_publishing">Publishing</label>
 			<input id="show_publishing" type="checkbox" name="show" value="publishing">
 			<label for="show_indexing">Indexing</label>
-			<input id="show_indexing" type="checkbox" name="show" value="indexing">
+			<input id="show_indexing" type="checkbox" name="show" value="indexing" checked>
 			<label for="show_classic_editor">Classic Editor</label>
-			<input id="show_classic_editor" type="checkbox" name="show" value="classic_editor_fieldset" checked>
+			<input id="show_classic_editor" type="checkbox" name="show" value="classic_editor_fieldset">
 			<label for="show_inline_editor">Inline Editor</label>
-			<input id="show_inline_editor" type="checkbox" name="show" value="inline_editor_fieldset" checked>
+			<input id="show_inline_editor" type="checkbox" name="show" value="inline_editor_fieldset">
 			<label for="show_rubrics_switcher">Rubrics Switcher</label>
-			<input id="show_rubrics_switcher" type="checkbox" name="show" value="rubrics_switcher" checked>
+			<input id="show_rubrics_switcher" type="checkbox" name="show" value="rubrics_switcher">
 			<input id="cke_plugins" class="button tiny" type="button" value="CKEditor plugins">
 		</div>
 		<script>
@@ -142,19 +142,219 @@
 					<div class="column">
 						<label for="tag">Tags</label>
 					</div>
-					<div class="column small-9">
-						<input id="tag" class="validation-icon" type="text" placeholder="Une &eacute;tiquette au choix pour indexer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
-						<small id="tag_error" class="error hide">Ce tag est déjà pris !</small>
+
+					<style>
+						/* Named Components */
+						#tag {}
+						#tag_add {margin-bottom: 0;}
+						/* Autocomplete */
+						.autocomplete {
+							font-size: 87.5%;
+							background-color: rgba(255, 0, 0, .5);
+							background-color: transparent;
+							transition: box-shadow .5s;
+						}
+						.autocomplete ul {
+							margin: 0 0 1rem;
+							list-style: none;
+							background-color: rgba(0, 255, 0, .5);
+							background-color: white;
+							border-width: 0 .125rem;
+							border-style: solid;
+							border-color: silver;
+						}
+						.autocomplete ul > li {
+							padding: 0 .5rem;
+							line-height: 200%;
+						}
+						.autocomplete ul > li.selected {
+							color: HighlightText;
+							background-color: Highlight;
+							font-weight: bold;
+						}
+						.autocomplete ul > li.selected mark {
+							color: white;
+							background-color: #d52;
+						}
+						.autocomplete ul > li.suggested-fetch {
+							font-weight: bold;
+						}
+						.autocomplete ul > li.suggested-fetch:after {
+							content: "Suggéré";
+							float: right;
+							color: darkgray;
+							font-size: 75%;
+							font-weight: bold;
+						}
+						.autocomplete ul > li.suggested-fetch.selected:after {
+							color: rgba(255, 255, 255, .5);
+						}
+						input:focus + button + .error + .autocomplete {
+							-webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+								 -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+											box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+						}
+						input:focus + button + .error + .autocomplete > ul {
+							border-color: darkgray;
+						}
+						.css-debug .autocomplete ul > li:nth-child(odd) {
+							background-color: rgba(0, 255, 0, .5);
+						}
+						.css-debug .autocomplete ul > li:nth-child(even) {
+							background-color: rgba(0, 0, 255, .5);
+						}
+					</style>
+
+					<div class="column">
+						<input id="tag" class="validation-icon" style="display: inline-block; height: 2.25rem; width: 16rem; border-width: .125rem;" type="text" placeholder="Une &eacute;tiquette au choix (32 carac.)" maxlength="32"><button id="tag_add" type="button" href="javascript:void(0)" class=" icon-undefined small" style=""></button>
+						<small id="tag_error" class="hide error" style="top: 0; width: 16rem;">Ce tag est déjà pris !</small>
+						<div class="autocomplete hide" style="position: relative; width: 16rem; z-index: 2;">
+							<ul>
+								<li>Amphibien</li>
+								<li>Amphipode</li>
+								<li>Amphithéatre</li>
+								<li>Amphore</li>
+								<li>Amphotère</li>
+								<li>Amplificateur</li>
+								<li>Ampoule</li>
+								<li>Amputation</li>
+								<li>Jeu ViDeo</li>
+								<li>Jeux-vidéos</li>
+								<li>Jeux  vidéos</li>
+								<li class="suggested-fetch" >Jeux vidéos</li>
+								<li>JEUX VIDEOS</li>
+								<li>Jeux_vidéos</li>
+							</ul>
+						</div>
 					</div>
-					<div class="column small-3">
-						<input id="tag_add" type="button" value="Ajouter" href="javascript:void(0)" class="button postfix">
-					</div>
-				</div>
+
+					<div class="column" style="margin-bottom: 1rem;"><span style="font-size: 87.5%; color: dimgray;">Try it now ! Type <code>amp</code> or <code>jeu</code> in the input.</span></div>
+
+				</div><!--row-->
+
+				<script>
+					// vars
+					var min_i = 3;
+					var max_displayed_items = 6;
+					var i = min_i;
+					// events
+					$("#tag").bind({
+						focus : function() {
+							$("#tag").css("margin-bottom", "0");
+							$(".autocomplete").removeClass("hide");
+						},
+						blur : function() {
+							$(this).val($(this).val().trim()); // remove white spaces
+							$(".autocomplete").addClass("hide");
+							$("#tag").css("margin-bottom", "");
+						},
+						keydown : function(e) {
+							if (e.which == 13 || e.which == 27) { // Enter or Escape
+								$(this).blur();
+							}
+							if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp, PageDown, End, Home or Up or Down
+								e.preventDefault();
+								index = 0;
+								var index = $(".autocomplete ul > li.selected").index();
+								if (index == -1) {
+									$(".autocomplete ul > li").not(".hide").first().addClass("selected");
+								}
+								if (e.which == 33) { // PageUp
+									$(".autocomplete ul > li").removeClass("selected");
+									$(".autocomplete ul > li").not(".hide").first().addClass("selected");
+								}
+								if (e.which == 34) { // PageDown
+									$(".autocomplete ul > li").removeClass("selected");
+									$(".autocomplete ul > li").not(".hide").last().addClass("selected");
+								}
+								if (e.which == 38 && index - 1 >= 0) { // Up
+									$(".autocomplete ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().addClass("selected");
+									if ($(".autocomplete ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().hasClass("selected")) {
+										$(".autocomplete ul > li:eq(" + index + ")").removeClass("selected");
+									}
+								}
+								if (e.which == 40) { // Down
+									$(".autocomplete ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().addClass("selected");
+									if ($(".autocomplete ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().hasClass("selected")) {
+										$(".autocomplete ul > li:eq(" + index + ")").removeClass("selected");
+									}
+								}
+								var s = $(".autocomplete ul > li.selected").text();
+								$(this).val(s);
+								// scroll to selected item
+								if ($(".autocomplete ul > li").hasClass("selected")) {
+									if ($(".autocomplete ul > li").not(".hide").first().hasClass("selected")) {
+										scrollTo($("#tag"), 250, $("#tag").outerHeight());
+									} else if ($(".autocomplete ul > li").not(".hide").last().hasClass("selected")) {
+										scrollTo($(".autocomplete ul > li.selected"), 250, $("#tag").outerHeight());
+									} else {
+										scrollTo($(".autocomplete ul > li.selected"), 0);
+									}
+								}
+							}
+						},
+						keyup : function(e) {
+							if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
+								$(".autocomplete ul > li").removeClass("selected"); // unselect all
+								if (e.which == 8 || e.which == 46) { // Backspace or Del
+									if (i > 0) {
+										i -= 1;
+									}
+								}
+								if ($(this).val().length >= min_i) {
+									var k = 0;
+									var m = $(this).val();
+									i = $(this).val().length;
+									$(".autocomplete ul > li").each(function() {
+										var r = $(this).text().slice(0, i);
+										if (r.toLowerCase() == m.toLowerCase() && k < max_displayed_items) {
+											var str = $(this).text();
+											var html = "<mark>" + str.slice(0, i) + "</mark>" + str.substr(i, str.length);
+											$(this).html(html);
+											$(this).removeClass("hide");
+											k++;
+										} else {
+											$(this).addClass("hide");
+										}
+									});
+									// scroll
+									if ($(".autocomplete").offset().top + $(".autocomplete").height() > $(window).height() + $(document).scrollTop()) {
+										scrollTo($(".autocomplete ul > li:visible").last(), 500, $("#tag").outerHeight());
+									} else {
+										scrollTo($(".autocomplete").parent(), 500, $("#tag").outerHeight());
+									}
+								} else {
+									$(".autocomplete ul > li").each(function() {
+										$(this).addClass("hide"); // hide all autocompletion items
+									});
+								}
+							}
+						},
+					});
+					$(".autocomplete ul > li").not("hide").bind({
+						mouseenter : function() {
+							$(this).siblings().removeClass("selected");
+							$(this).addClass("selected");
+							$("#tag").val($(this).text());
+						},
+						mouseleave : function() {
+							$(this).removeClass("selected");
+						}
+					});
+					$(document).ready(function() {
+						$(".autocomplete ul > li").each(function() {
+							$(this).addClass("hide"); // hide all autocompletion items
+						});
+					});
+				</script>
+
+				<!--
 				<dl id="tags" class="tags inline-list clearfix">
-					<dt><span class="icon-tag small" title="Tags">Tags</span></dt>
+					<dt><span class="icon-tag small" title="Tags"><span class="hide">Tags</span></span></dt>
 					<dd class="hide"><span id="tag_rubric" class="label radius">&hellip;</span></dd>
 					<dd class="hide"><span id="tag_category" class="label radius inverse">&hellip;</span></dd>
 				</dl>
+				-->
 
 				<!--Summary-->
 				<div>

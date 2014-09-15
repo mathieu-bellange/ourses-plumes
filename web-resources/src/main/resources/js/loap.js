@@ -14,6 +14,21 @@
  * Be carefull with them or beware Bilbo Baggin's mighty wrath !
  */
 
+/* Scroll to (object) */
+function scrollTo(object, duration, spacing) {
+	var duration = typeof duration !== "undefined" ? duration : 0;
+	var spacing = spacing || 0;
+	if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
+		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+			scrollTop : object.offset().top + object.outerHeight() - $(window).height() + spacing
+		}, duration);
+	} else if (object.offset().top < $(document).scrollTop()) { // scroll up
+		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+			scrollTop : object.offset().top - spacing
+		}, duration);
+	}
+}
+
 /* Cursor Position */
 jQuery.fn.extend({
 	cursor_position : function(start, end) {
@@ -108,20 +123,6 @@ jQuery.fn.extend({
 			scroll_spacing : 0        // Integer  Size of the scrolling spacing in pixels. Default : 0
 		};
 		var settings = $.extend({}, defaults, options);
-		// methods
-		function scrollTo(object, duration, spacing) {
-			var duration = typeof duration !== "undefined" ? duration : settings.scroll_duration;
-			var spacing = spacing || settings.scroll_spacing;
-			if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
-				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-					scrollTop : object.offset().top + object.outerHeight() - $(window).height() + spacing
-				}, duration);
-			} else if (object.offset().top < $(document).scrollTop()) { // scroll up
-				$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-					scrollTop : object.offset().top - spacing
-				}, duration);
-			}
-		}
 		// loop
 		$(this).each(function () {
 			// vars
