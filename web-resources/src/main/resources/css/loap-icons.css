@@ -81,6 +81,7 @@ a.button.icon > svg {
 }
 button.icon > .text,
 .button.icon > .text {
+  color: white;
   vertical-align: middle;
 }
 
