@@ -3,19 +3,24 @@ package org.ourses.integration.administration;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.fest.assertions.Condition;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.dto.SocialLinkDTO;
+import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.security.util.RolesUtil;
 
 import com.google.common.collect.Sets;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 
 public class ITProfileResources {
 
@@ -26,6 +31,7 @@ public class ITProfileResources {
     private static final String PATH_GET_UNKNOWN_PROFILE_PSEUDO = "/rest/profile/toto";
     private static final String PATH_GET_PROFILE_ROLE = "/rest/profile/mbellange/authz";
     private static final String PATH_GET_NOT_FOUND_ROLE = "/rest/profile/toto/authz";
+    private static final String PATH_GET_PROFILE_ARTICLES = "/rest/profile/2/articles";
 
     @Test
     public void shouldGetRoleProfile() {
@@ -308,5 +314,31 @@ public class ITProfileResources {
         Set<String> socialUser = processSocialUsers(profileBeforeUpdate);
         socialUser.remove(linkToUpdate.getSocialUser());
         assertThat(profileDTOAfterUpdate.getSocialLinks()).onProperty("socialUser").contains(socialUser.toArray());
+    }
+
+    @Test
+    public void shouldGetProfileArticles() {
+        // get profile articles
+        URI uri = UriBuilder.fromPath(PATH_GET_PROFILE_ARTICLES).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("publishedDate").satisfies(new Condition<List<?>>() {
+
+            @Override
+            public boolean matches(List<?> value) {
+                boolean isOk = true;
+                for (Object date : value) {
+                    if (new DateTime(date).isAfterNow()) {
+                        isOk = false;
+                        break;
+                    }
+                }
+                return isOk;
+            }
+        });
+        assertThat(articles).onProperty("profile.id").containsOnly(2l);
     }
 }

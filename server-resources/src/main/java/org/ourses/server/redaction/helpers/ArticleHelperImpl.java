@@ -253,4 +253,13 @@ public class ArticleHelperImpl implements ArticleHelper {
         return articles;
     }
 
+    @Override
+    public Collection<? extends Article> findProfileArticles(Long profileId) {
+        Set<Article> articles = Sets.newHashSet();
+        if (profileId != null) {
+            articles.addAll(Article.findProfileArticles(profileId));
+        }
+        return articles;
+    }
+
 }

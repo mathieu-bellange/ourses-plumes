@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.joda.time.DateTime;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
@@ -201,6 +202,11 @@ public class Article implements Serializable {
     public static Collection<? extends Article> findToCheckAndDraft(Long idProfile) {
         return Ebean.find(Article.class).where().eq("profile.id", idProfile)
                 .or(Expr.eq("status", ArticleStatus.BROUILLON), Expr.eq("status", ArticleStatus.AVERIFIER)).findSet();
+    }
+
+    public static Collection<? extends Article> findProfileArticles(Long profileId) {
+        return Ebean.find(Article.class).where().eq("profile.id", profileId).eq("status", ArticleStatus.ENLIGNE)
+                .lt("publishedDate", DateTime.now().toDate()).findSet();
     }
 
     public static Set<Article> findOnline() {

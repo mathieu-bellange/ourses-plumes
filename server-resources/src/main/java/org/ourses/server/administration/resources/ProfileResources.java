@@ -1,5 +1,8 @@
 package org.ourses.server.administration.resources;
 
+import java.util.Collection;
+import java.util.Set;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -19,10 +22,14 @@ import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.helpers.BearAccountHelper;
 import org.ourses.server.administration.helpers.ProfileHelper;
 import org.ourses.server.administration.util.SocialLinkUtil;
+import org.ourses.server.redaction.domain.dto.ArticleDTO;
+import org.ourses.server.redaction.domain.entities.Article;
+import org.ourses.server.redaction.helpers.ArticleHelper;
 import org.ourses.server.security.helpers.SecurityHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 
 @Controller
@@ -37,6 +44,8 @@ public class ProfileResources {
     BearAccountHelper accountHelper;
     @Autowired
     private ProfileHelper profileHelper;
+    @Autowired
+    private ArticleHelper articleHelper;
 
     @GET
     @Path("/{pseudo}/authz")
@@ -114,5 +123,18 @@ public class ProfileResources {
             }
         }
         return builder.build();
+    }
+
+    @GET
+    @Path("/{id}/articles")
+    public Response userArticles(@PathParam("id")
+    Long id) {
+        Collection<? extends Article> articles = articleHelper.findProfileArticles(id);
+        // passage en DTO
+        Set<ArticleDTO> articlesDto = Sets.newHashSet();
+        for (Article article : articles) {
+            articlesDto.add(article.toArticleDTO());
+        }
+        return Response.ok().entity(articlesDto).build();
     }
 }

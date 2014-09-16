@@ -38,4 +38,5 @@ public interface ArticleHelper {
 
     Collection<? extends Article> findToCheckAndDraft(Long profileId, String token);
 
+    Collection<? extends Article> findProfileArticles(Long profileId);
 }
