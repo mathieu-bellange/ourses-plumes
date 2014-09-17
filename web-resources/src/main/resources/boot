@@ -10,73 +10,74 @@
 /* ------------------------------------------------------------------ */
 
 /* Utility */
-$build_compress   = false;                              // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
-$build_container  = true;                               // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
-$build_icons      = true;                               // Boolean  Generate inline SVG icons into the document. Default = true
-$dev_toolbar      = true;                               // Boolean  Create dev toolbar. Default = false
-$css_fx           = true;                               // Boolean  Enable CSS effects. Default = true
-$lib_ext          = "";                                 // String   JS libraries additional extension. Default = ".min"
-$null_link        = "javascript:void(0)";               // String   Set null link value. Default = "javascript:void(0)"
+$build_compress         = false;                                // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
+$build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
+$build_icons            = true;                                 // Boolean  Generate inline SVG icons into the document. Default = true
+$dev_toolbar            = true;                                 // Boolean  Create dev toolbar. Default = false
+$css_fx                 = true;                                 // Boolean  Enable CSS effects. Default = true
+$lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
+$null_link              = "javascript:void(0)";                 // String   Set null link value. Default = "javascript:void(0)"
 
 /* Whois */
-$org_url          = "http://www.ourses-plumes.org/";    // String   Set organization URL.
-$org_name         = "Les Ourses &agrave; plumes";       // String   Set organization name.
-$app_name         = "Webzine f&eacute;ministe";         // String   Set application name.
-$app_ver          = "0.0.7";                            // String   Set application version.
-$app_kwd          = ["Webzine", "F&eacute;minisme"];    // Array    Set application keywords.
-$app_desc         = "Un webzine f&eacute;ministe.";     // String   Set application keywords.
-$app_genr         = null;                               // String   Set application generator (i.e. the software used for dev).
+$org_url                = "http://www.ourses-plumes.org/";      // String   Set organization URL.
+$org_name               = "Les Ourses &agrave; plumes";         // String   Set organization name.
+$app_name               = "Webzine f&eacute;ministe";           // String   Set application name.
+$app_ver                = "0.0.7";                              // String   Set application version.
+$app_kwd                = ["Webzine", "F&eacute;minisme"];      // Array    Set application keywords.
+$app_desc               = "Un webzine f&eacute;ministe.";       // String   Set application keywords.
+$app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
 
-/* Variable d'application */
-$oursesAuthcToken = "oursesAuthcToken";                 // String   Key of the authentication token
-$oursesUserPseudo = "oursesUserPseudo";                 // String   Key of the User pseudo
-$oursesUserRole   = "oursesUserRole";                   // String   Key of the User role
-$oursesAccountId  = "oursesAccountId";                  // String   Key of the User account id
-$oursesProfileId  = "oursesProfileId";                  // String   Key of the User account id
-$oursesAvatarPath = "oursesAvatarPath";                 // String   Key of the Avatar path
-$redir_param      = "?redirection=";                    // String   url param in the login page. use for the redirection
-$role_admin       = "Administratrice"                   // String   Admin role
-$role_redac       = "Rédactrice"                        // String   Redacter role
+/* Application vars */
+$oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token
+$oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo
+$oursesUserRole         = "oursesUserRole";                     // String   Key of the User role
+$oursesAccountId        = "oursesAccountId";                    // String   Key of the User account id
+$oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id
+$oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path
+$redir_param            = "?redirection=";                      // String   url param in the login page. use for the redirection
+$role_admin             = "Administratrice"                     // String   Admin role
+$role_redac             = "Rédactrice"                          // String   Redacter role
 
-$err_msg          = {                                   // Object   Define generic error messages.
+/* Error messages */
+$err_msg                = {                                     // Object   Define generic error messages.
 	"err_default" : "Une erreur technique s’est produite. Veuillez prévenir l’administateur du site.",
 	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n’a pas pu être envoyé.",
 	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n’a pas été envoyé.",
 	"something_weird_happened" : "Un truc vraiment chelou s’est produit. Veuillez éteindre votre ordinateur et faire le poirier en attendant les secours."
 }
 
-/* navigation map */
-$login_page       = "/connexion";                       // String   url of the login page
-$accounts_page    = "/comptes";                         // String   url of the accounts page
-$bug_tracker_page = "/bug-tracker";                     // String   url of the bug tracker page
-$home_page        = "/";                                // String   url of the home page
-$my_account_page  = "/parametres/compte";               // String   url of my account page
-$my_profile_page  = "/parametres/profil";               // String   url of my profile page
-$articles         = "/articles";                        // String   url of list of articles page 
-$new_article      = "/articles/nouveau";                // String   url of a new article
+/* Navigation map */
+$login_page             = "/connexion";                         // String   url of the login page
+$accounts_page          = "/comptes";                           // String   url of the accounts page
+$bug_tracker_page       = "/bug-tracker";                       // String   url of the bug tracker page
+$home_page              = "/";                                  // String   url of the home page
+$my_account_page        = "/parametres/compte";                 // String   url of my account page
+$my_profile_page        = "/parametres/profil";                 // String   url of my profile page
+$articles               = "/articles";                          // String   url of list of articles page 
+$new_article            = "/articles/nouveau";                  // String   url of a new article
 
-$app_root         = "/";                                // String   Set application base URL. Default = "/"
-$js_root          = $app_root + "js/";                  // String   Set js root. Default = "js/"
-$css_root         = $app_root + "css/";                 // String   Set js root. Default = "css/"
+$app_root               = "/";                                  // String   Set application base URL. Default = "/"
+$js_root                = $app_root + "js/";                    // String   Set js root. Default = "js/"
+$css_root               = $app_root + "css/";                   // String   Set js root. Default = "css/"
+$img_root               = $app_root + "img/";                   // String   Set js root. Default = "img/"
 
-/* UNUSED for now */
-/*
-$app_path         = {                                   // Object   Set application path to files.
-	root: "/",
-	js: "js/",
-	css: "css/",
-	img: "img/",
-	fnt: "fnt/",
-	tmpl: "tmpl/",
-	json: "json/"
+$app_path               = {                                     // Object   Set application path to files.
+	js: $app_root + "js/",
+	css: $app_root + "css/",
+	img: $app_root + "img/",
+	fnt: $app_root + "fnt/",
+	tmpl: $app_root + "tmpl/",
+	json: $app_root + "json/"
 };
-*/
 
-/* TEMP : debug / dev constants */
-$boot             = true;                               // Boolean  Flag for this file setup.
-$free_log         = true;                               // Boolean  Disable abide validation for logger.
-$user_picture     = "usr-nadejda.jpg";                  // String   Register user picture file.
-$page_title       = null;                               // String   Register page title.
+$svg_icons_file         = $app_path.img + "ui/ui-iconset.svg";  // String   Set js root. Default = "img/ui/ui-iconset.svg"
+$svg_icons_fx_file      = $app_path.css + "loap-icons-fx.css";  // String   Set js root. Default = "css/loap-icons-fx.css"
+
+/* TEMP : dev constants */
+$boot                   = true;                                 // Boolean  Flag for this file setup.
+$free_log               = true;                                 // Boolean  Disable abide validation for logger.
+$user_picture           = "usr-nadejda.jpg";                    // String   Register user picture file.
+$page_title             = null;                                 // String   Register page title.
 
 /* ------------------------------------------------------------------ */
 /* # TEMP : Frontend Reloc path */
@@ -96,7 +97,11 @@ function isLocalHost() {
 
 if (isFileProtocol()) {
 	$app_root = ""; // Set relative base URL while serverless
-	$js_root = $app_root + "js/"; // Redefine js files location while serverless
+	$js_root = "js/";
+	$css_root = "css/";
+	$img_root = "img/";
+	$svg_icons_file = "img/ui/ui-iconset.svg";
+	$svg_icons_fx_file = "css/loap-icons-fx.css";
 }
 
 /* ------------------------------------------------------------------ */

@@ -331,11 +331,11 @@ function set_user_connect(user_logged_in) {
 		//$("#user_connect").attr("data-options", "is_hover:true"); // TEMP : disable user menu hover ; uncomment to re-enable
 		$("#user_connect").parent("span").attr("title", "Menu"); // TEMP : set tooltip title on hover
 		//$("#user_connect").parent("span").removeAttr("data-tooltip"); // TEMP : prevent tooltip disabling if hover
-		if ($("#user_connect").hasClass("icon-home")) {
-			$("#user_connect").removeClass("icon-home");
-			$("#user_connect").addClass("icon-expand");
+		if ($("#user_connect").hasClass("icon-connect")) {
+			$("#user_connect").removeClass("icon-connect");
+			$("#user_connect").addClass("icon-menu");
 		} else {
-			$("#user_connect svg use").attr("xlink:href", "#icon-expand");
+			$("#user_connect svg use").attr("xlink:href", "#icon-menu");
 		}
 		$("#user_connect").data("enable", "true");
 		$(".fast-nav").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"))); // Process user menu template
@@ -346,11 +346,11 @@ function set_user_connect(user_logged_in) {
 		//$("#user_connect").parent("span").attr("data-tooltip");
 		$("#user_connect").removeAttr("data-dropdown");
 		//$("#user_connect").removeAttr("data-options"); // TEMP : disable user menu hover ; uncomment to re-enable
-		if ($("#user_connect").hasClass("icon-expand")) {
-			$("#user_connect").removeClass("icon-expand");
-			$("#user_connect").addClass("icon-home");
+		if ($("#user_connect").hasClass("icon-menu")) {
+			$("#user_connect").removeClass("icon-menu");
+			$("#user_connect").addClass("icon-connect");
 		} else {
-			$("#user_connect svg use").attr("xlink:href", "#icon-home");
+			$("#user_connect svg use").attr("xlink:href", "#icon-connect");
 		}
 		$("#user_connect").data("enable", "false");
 	}
@@ -428,9 +428,9 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 if (typeof $build_icons !== "undefined" && $build_icons == true) {
 	// Process SVG Icons
 	/* TEST : import Icons CSS Effects File */
-		$("body").prepend("<style type='text/css'>" + loadfile($css_root + "loap-icons-fx.css") + "</style>");
+		$("body").prepend("<style type='text/css'>" + loadfile($svg_icons_fx_file) + "</style>");
 	/* TEST : import Icons SVG File */
-		$("body").prepend(loadfile($app_root + "img/svg/ui-iconset.svg"));
+		$("body").prepend(loadfile($svg_icons_file));
 }
 
 /* ------------------------------------------------------------------ */
@@ -614,9 +614,6 @@ $("#toolbar .close").click(function() {
 /* ------------------------------------------------------------------ */
 
 /* Connect click Event */
-// $("#_connect_modal").on("click", function(){
-	// window.location.href="/connexion";
-// });
 $("html").on("click", ".disconnect", function() {
 	$.ajax({
 		type : "POST",
@@ -778,6 +775,8 @@ function refresh_breadcrumbs(selector) {
 /* # Accessibility */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED : put to top in update
+/*
 $(".accessibility .icon-textinc").click(function() {
 	if ($(".accessibility .icon-textdec").hasClass("active")) {
 		$(".accessibility .icon-textdec").removeClass("active");
@@ -796,6 +795,7 @@ $(".accessibility .icon-textdec").click(function() {
 	$(this).blur();
 	$("section").toggleClass("text-small");
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # User Pictures */
