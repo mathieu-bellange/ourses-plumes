@@ -3,6 +3,7 @@
 /* ------------------------------------------------------------------ */
 
 var template = doT.compile(loadfile($app_root + "tmpl/profile.tmpl"));
+var templateProfileArticles = doT.compile(loadfile($app_root + "tmpl/profile_article.tmpl"));
 
 function createAlertBox(err, msg) {
 	var err = err || "error", msg = msg || "";
@@ -26,6 +27,19 @@ function processProfile(profile) {
 
 function processRole(role) {
 	$(".user-role").text(role).fadeIn();
+}
+
+function processArticles(articles){
+	articles.sort(function compare(a, b) {
+		if (a.publishedDate > b.publishedDate)
+			return -1;
+		if (a.publishedDate < b.publishedDate)
+			return 1;
+		// a doit être égal à b
+		return 0;
+	});
+	$("#articles").append(templateProfileArticles(articles));
+	attach_slider(); // bind events on sliding elements
 }
 
 function sortSocialLinks(links) {
@@ -70,7 +84,7 @@ function displayProfile() {
 		success : function(profile, status, jqxhr) {
 			processProfile(profile);
 			displayRole(profile.pseudoBeautify);
-			attach_slider(); // bind events on sliding elements
+			displayArticles(profile.id);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
@@ -90,6 +104,21 @@ function displayRole(pseudo) {
 		contentType : "application/json; charset=utf-8",
 		success : function(role, status, jqxhr) {
 			processRole(role);
+		},
+		error : function(jqXHR, status, errorThrown) {
+			createAlertBox();
+		},
+		dataType : "text"
+	});
+}
+
+function displayArticles(profileId){
+	$.ajax({
+		type : "GET",
+		url : "/rest/profile/" + profileId + "/articles",
+		contentType : "application/json; charset=utf-8",
+		success : function(articles, status, jqxhr) {
+			processArticles(JSON.parse(articles));
 		},
 		error : function(jqXHR, status, errorThrown) {
 			createAlertBox();
