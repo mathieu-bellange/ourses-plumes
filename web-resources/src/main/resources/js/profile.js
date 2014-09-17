@@ -22,7 +22,6 @@ function createAlertBox(err, msg) {
 
 function processProfile(profile) {
 	$("main > header").after(template(profile));
-	loap.update();
 }
 
 function processRole(role) {
@@ -40,6 +39,7 @@ function processArticles(articles){
 	});
 	$("#articles").append(templateProfileArticles(articles));
 	attach_slider(); // bind events on sliding elements
+	loap.update();
 }
 
 function sortSocialLinks(links) {
