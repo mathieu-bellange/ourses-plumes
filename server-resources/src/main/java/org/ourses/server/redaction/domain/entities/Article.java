@@ -205,8 +205,8 @@ public class Article implements Serializable {
     }
 
     public static Collection<? extends Article> findProfileArticles(Long profileId) {
-        return Ebean.find(Article.class).where().eq("profile.id", profileId).eq("status", ArticleStatus.ENLIGNE)
-                .lt("publishedDate", DateTime.now().toDate()).findSet();
+        return Ebean.find(Article.class).fetch("rubrique").where().eq("profile.id", profileId)
+                .eq("status", ArticleStatus.ENLIGNE).lt("publishedDate", DateTime.now().toDate()).findSet();
     }
 
     public static Set<Article> findOnline() {
