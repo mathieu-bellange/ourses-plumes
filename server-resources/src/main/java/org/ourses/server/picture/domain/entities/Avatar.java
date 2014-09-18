@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.ourses.server.picture.domain.dto.AvatarDTO;
 import org.springframework.beans.BeanUtils;
 
@@ -75,6 +77,11 @@ public class Avatar {
         AvatarDTO dto = new AvatarDTO();
         BeanUtils.copyProperties(this, dto, new String[] { "image" });
         return dto;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
 }

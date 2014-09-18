@@ -27,7 +27,7 @@ Insert into ourses_authentication_info
    Insert into avatar
 	(id,path)
  Values
- 	(0,'usr/usr-default.jpg');
+ 	(0,'/img/usr/usr-default.jpg');
  	
 Insert into profile
    (id, pseudo, description,path,pseudo_beautify,avatar_id,version)

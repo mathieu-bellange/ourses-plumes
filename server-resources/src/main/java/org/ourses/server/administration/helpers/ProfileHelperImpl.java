@@ -70,6 +70,7 @@ public class ProfileHelperImpl implements ProfileHelper {
             else if ("avatar".equals(coupleDTO.getProperty())) {
                 Avatar avatar = Avatar.findAvatar(Long.valueOf(coupleDTO.getValue()));
                 profile.setAvatar(avatar);
+                updated = true;
             }
             else {
                 // propriétés du bean profile

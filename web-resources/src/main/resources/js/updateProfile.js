@@ -21,6 +21,7 @@ function Couple(property, value) {
 // Instance Variables
 var memoryCouple = new Couple("", "");
 var pseudoProperty = "pseudo";
+var avatarProperty = "avatar";
 var descriptionProperty = "description";
 var user_links = ["mail", "link", "twitter", "facebook", "googleplus", "linkedin"];
 
@@ -85,6 +86,11 @@ function majView(couple, updateInError) {
 			break;
 		case pseudoProperty :
 			update_user_pseudo(couple.value); // method launched from loap.js
+			break;
+		case avatarProperty :
+			$("#avatar").attr("data-image","/rest/avatars/" + couple.value);
+			loap.update();
+			update_user_avatar(couple.value); // method launched from loap.js
 			break;
 		default:
 			break;
@@ -151,6 +157,14 @@ function getProfile() {
 				create_icons_input(user_links_icons_input); // process icons input for user links
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
+				var holder = document.getElementById('avatar');
+				holder.ondragover = function () { this.className = 'hover'; return false; };
+					holder.ondragend = function () { this.className = ''; return false; };
+					holder.ondrop = function (e) {
+				    this.className = '';
+				    e.preventDefault();
+				    readfiles(e.dataTransfer.files);
+				}
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -421,3 +435,61 @@ var role_display = (function() {
 $(document).ready(function() {
 	getProfile(); // process page template feeded with DB values through AJAX
 });
+
+XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
+    function byteValue(x) {
+        return x.charCodeAt(0) & 0xff;
+    }
+    var ords = Array.prototype.map.call(datastr, byteValue);
+    var ui8a = new Uint8Array(ords);
+    this.send(ui8a.buffer);
+}
+
+function readfiles(files) {
+	var formData = new FormData();
+	for (var i = 0; i < files.length; i++) {
+		var file = files[i];
+		// Check the file type.
+		if (!file.type.match('image.*')) {
+			continue;
+		}
+		var reader = new FileReader();
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = handler;
+		xhr.upload.addEventListener("progress", updateProgress, false);
+		xhr.upload.addEventListener("load", transferComplete, false);
+		xhr.upload.addEventListener("error", transferFailed, false);
+		xhr.open("POST", "/rest/avatars/create");
+		if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
+			xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+		}
+		reader.onload = function(evt) {
+			xhr.sendAsBinary(evt.target.result);
+		};
+		reader.readAsBinaryString(file);
+	}
+	
+}
+
+function handler() {
+	if (this.readyState == this.DONE) {
+		if (this.status == 200) {
+			// success!
+			var avatar = JSON.parse(this.response);
+			save(new Couple(avatarProperty,avatar.id));
+		}else{
+			createAlertBox();
+		}
+	}
+}
+
+function updateProgress(event){
+	console.log(event);
+}
+function transferComplete(event){
+	console.log(event);
+}
+function transferFailed(event){
+	console.log(event);
+}
+

@@ -31,7 +31,7 @@ public class ITAvatarResources {
         File imgFile = new File("src/test/resources/img/exemple.png");
         URI uri = UriBuilder.fromPath(PATH_PUT_AVATAR).build();
         ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "image/*")
-                .put(ClientResponse.class, imgFile);
+                .post(ClientResponse.class, imgFile);
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
@@ -40,7 +40,7 @@ public class ITAvatarResources {
         File imgFile = new File("src/test/resources/img/exemple.png");
         URI uri = UriBuilder.fromPath(PATH_PUT_AVATAR).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).header("Content-Type", "image/*")
-                .put(ClientResponse.class, imgFile);
+                .post(ClientResponse.class, imgFile);
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         AvatarDTO dto = clientResponse.getEntity(AvatarDTO.class);
         assertThat(dto).isNotNull();
@@ -56,7 +56,7 @@ public class ITAvatarResources {
         File imgFile = new File("src/test/resources/img/exemple2.jpg");
         URI uri = UriBuilder.fromPath(PATH_PUT_AVATAR).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).header("Content-Type", "image/*")
-                .put(ClientResponse.class, imgFile);
+                .post(ClientResponse.class, imgFile);
         assertThat(clientResponse.getStatus()).isEqualTo(500);
     }
 }

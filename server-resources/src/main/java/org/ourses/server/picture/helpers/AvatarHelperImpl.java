@@ -119,6 +119,6 @@ public class AvatarHelperImpl implements AvatarHelper {
     }
 
     protected void buildAvatarPath(Avatar avatar) {
-        avatar.setPath("/avatars/" + avatar.getId());
+        avatar.setPath("/rest/avatars/" + avatar.getId());
     }
 }

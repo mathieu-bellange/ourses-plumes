@@ -45,8 +45,7 @@ jQuery.fn.extend({
 		// Loop
 		$(this).each(function() {
 			var file = $(this).attr("data-image");
-			var dir = $app_root + "img/";
-			$(this).css("background-image", "url('" + dir + file + "')")
+			$(this).css("background-image", "url('" + file + "')")
 		});
 	}
 });
