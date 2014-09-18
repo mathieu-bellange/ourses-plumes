@@ -8,8 +8,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
@@ -42,7 +44,8 @@ public class BearAccount implements Account {
     protected static final String REALM_NAME = "staticRealm";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "bear_account_seq_gen")
+    @SequenceGenerator(name = "bear_account_seq_gen", sequenceName = "bear_account_seq")
     private Long id;
 
     public Long getId() {

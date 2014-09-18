@@ -3,8 +3,10 @@ package org.ourses.server.administration.domain.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -21,7 +23,8 @@ import org.springframework.stereotype.Component;
 public class SocialLink {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "social_link_seq_gen")
+    @SequenceGenerator(name = "social_link_seq_gen", sequenceName = "social_link_seq")
     private Long id;
     private String network;
     @Column(name = "social_user")

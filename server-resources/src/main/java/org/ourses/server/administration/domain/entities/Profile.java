@@ -6,10 +6,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -35,7 +37,8 @@ public class Profile {
     public static final String PATH = "path";
     public static final String PSEUDO_BEAUTIFY = "pseudoBeautify";
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "profile_seq_gen")
+    @SequenceGenerator(name = "profile_seq_gen", sequenceName = "profile_seq")
     private Long id;
     private String pseudo;
     private String description;

@@ -44,7 +44,7 @@ public class ITAvatarResources {
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         AvatarDTO dto = clientResponse.getEntity(AvatarDTO.class);
         assertThat(dto).isNotNull();
-        assertThat(dto.getId()).isEqualTo(1l);
+        assertThat(dto.getId()).isEqualTo(50l);
         assertThat(dto.getPath()).isEqualTo("/avatars/1");
         uri = UriBuilder.fromPath(PATH_AFTER_PUT_AVATAR).build();
         clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);

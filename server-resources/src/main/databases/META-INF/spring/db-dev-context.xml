@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
 
 	<jdbc:embedded-database id="dataSource" type="HSQL" >
+    	<jdbc:script location="classpath:META-INF/sql/SEQUENCES.sql"/>
     	<jdbc:script location="classpath:META-INF/sql/test-create.sql"/>
     	<jdbc:script location="classpath:META-INF/sql/INSERT_ACCOUNT.sql"/>
     	<jdbc:script location="classpath:META-INF/sql/INSERT_REDACTION.sql"/>

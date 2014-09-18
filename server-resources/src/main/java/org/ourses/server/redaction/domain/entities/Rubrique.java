@@ -5,7 +5,9 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -25,7 +27,8 @@ public class Rubrique implements Serializable {
     private static final long serialVersionUID = -5279390634966391625L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "rubrique_seq_gen")
+    @SequenceGenerator(name = "rubrique_seq_gen", sequenceName = "rubrique_seq")
     private Long id;
     private String rubrique;
     private String classe;

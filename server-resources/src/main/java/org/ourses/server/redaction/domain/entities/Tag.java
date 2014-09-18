@@ -5,7 +5,9 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -37,7 +39,8 @@ public class Tag implements Serializable {
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "tag_seq_gen")
+    @SequenceGenerator(name = "tag_seq_gen", sequenceName = "tag_seq")
     private Long id;
 
     public Long getId() {

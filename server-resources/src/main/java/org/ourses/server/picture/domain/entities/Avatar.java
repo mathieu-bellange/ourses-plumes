@@ -2,7 +2,9 @@ package org.ourses.server.picture.domain.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.ourses.server.picture.domain.dto.AvatarDTO;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +16,8 @@ import com.google.common.collect.Sets;
 public class Avatar {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "avatar_seq_gen")
+    @SequenceGenerator(name = "avatar_seq_gen", sequenceName = "avatar_seq")
     private Long id;
     private byte[] image;
     private String path;

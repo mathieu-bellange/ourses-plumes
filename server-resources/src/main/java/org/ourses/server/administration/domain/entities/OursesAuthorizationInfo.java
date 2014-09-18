@@ -6,7 +6,9 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -35,7 +37,8 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     private static final long serialVersionUID = -4775014513590290508L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ourses_authorization_info_seq_gen")
+    @SequenceGenerator(name = "ourses_authorization_info_seq_gen", sequenceName = "ourses_authorization_info_seq")
     private Long id;
 
     public Long getId() {

@@ -4,7 +4,9 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
@@ -38,7 +40,8 @@ public class OursesAuthenticationInfo implements AuthenticationInfo {
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ourses_authentication_info_seq_gen")
+    @SequenceGenerator(name = "ourses_authentication_info_seq_gen", sequenceName = "ourses_authentication_info_seq")
     private Long id;
 
     public Long getId() {
