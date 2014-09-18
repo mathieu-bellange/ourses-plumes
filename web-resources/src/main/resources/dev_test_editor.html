@@ -206,7 +206,7 @@
 					</style>
 
 					<div class="column">
-						<input id="tag" class="validation-icon" style="display: inline-block; height: 2.25rem; width: 16rem; border-width: .125rem;" type="text" placeholder="Une &eacute;tiquette au choix (32 carac.)" maxlength="32"><button id="tag_add" type="button" href="javascript:void(0)" class=" icon-add small" style=""></button>
+						<input id="tag" class="validation" style="display: inline-block; height: 2.25rem; width: 16rem; border-width: .125rem;" type="text" placeholder="Une &eacute;tiquette au choix (32 carac.)" maxlength="32"><button id="tag_add" type="button" href="javascript:void(0)" class=" icon-add small" style=""></button>
 						<small id="tag_error" class="hide error" style="top: 0; width: 16rem;">Ce tag est déjà pris !</small>
 						<div class="autocomplete hide" style="position: relative; width: 16rem; z-index: 2;">
 							<ul>
@@ -237,16 +237,43 @@
 					var min_i = 3;
 					var max_displayed_items = 6;
 					var i = min_i;
+					var white_spaces_replacement = " "; // white spaces replacement
+					var accepted_chars_list = /[^\w\d\s\+\-\=\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i; // accepted chars list
+					// methods
+					function check_illegal_chars(str, reg) {
+						var reg = reg || accepted_chars_list;
+						if (reg.test(str)) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+					function check_error(selector, error_margin) {
+						var error_margin = error_margin || "";
+						if (check_illegal_chars($(selector).val()) == true) {
+							$(selector).css("margin-bottom", "0");
+							$(selector).nextAll("small.error").first().css("margin-bottom", error_margin);
+							$(selector).set_validation(false, "Caract&egrave;re(s) invalide(s)&thinsp;!");
+						} else if ($(selector).val().length === 0) {
+							$(selector).set_validation(true);
+							$(selector).removeClass("valid");
+						} else {
+							$(selector).set_validation(true);
+						}
+					}
 					// events
 					$("#tag").bind({
 						focus : function() {
-							$("#tag").css("margin-bottom", "0");
+							$(this).css("margin-bottom", "0");
 							$(".autocomplete").removeClass("hide");
+							check_error(this, "0"); // check error
 						},
 						blur : function() {
 							$(this).val($(this).val().trim()); // remove white spaces
+							$(this).val($(this).val().replace(/\s+/g, white_spaces_replacement)); // replace white spaces
 							$(".autocomplete").addClass("hide");
 							$("#tag").css("margin-bottom", "");
+							check_error(this); // check error
 						},
 						keydown : function(e) {
 							if (e.which == 13 || e.which == 27) { // Enter or Escape
@@ -294,6 +321,7 @@
 							}
 						},
 						keyup : function(e) {
+							check_error(this, "0"); // check error
 							if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
 								$(".autocomplete ul > li").removeClass("selected"); // unselect all
 								if (e.which == 8 || e.which == 46) { // Backspace or Del
@@ -336,6 +364,7 @@
 							$(this).siblings().removeClass("selected");
 							$(this).addClass("selected");
 							$("#tag").val($(this).text());
+							check_error("#tag", "0"); // check error
 						},
 						mouseleave : function() {
 							$(this).removeClass("selected");

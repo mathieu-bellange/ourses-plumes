@@ -235,7 +235,7 @@ jQuery.fn.extend({
 				$(this).removeClass(settings.cls_invalid);
 				$(this).removeClass(settings.cls_abiding);
 				$("[for='" + $(this).attr("id") + "']").removeClass(settings.cls_label);
-				$(this).next(settings.err_selector).addClass("hide");
+				$(this).nextAll(settings.err_selector).first().addClass("hide");
 			} else if (is_valid == false) {
 				$(this).removeClass(settings.cls_valid);
 				$(this).attr("data-invalid", true); // Define Foundation abide validation data attribute
@@ -243,9 +243,9 @@ jQuery.fn.extend({
 				$(this).removeClass(settings.cls_abiding);
 				$("[for='" + $(this).attr("id") + "']").addClass(settings.cls_label);
 				if (err_msg !== undefined) {
-					$(this).next(settings.err_selector).html(err_msg);
+					$(this).nextAll(settings.err_selector).first().html(err_msg);
 				}
-				$(this).next(settings.err_selector).removeClass("hide");
+				$(this).nextAll(settings.err_selector).first().removeClass("hide");
 			} else {
 				$(this).removeClass(settings.cls_valid);
 				$(this).removeClass(settings.cls_invalid);
