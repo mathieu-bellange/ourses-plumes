@@ -39,11 +39,15 @@ $role_admin             = "Administratrice"                     // String   Admi
 $role_redac             = "Rédactrice"                          // String   Redacter role
 
 /* Error messages */
-$err_msg                = {                                     // Object   Define generic error messages.
-	"err_default" : "Une erreur technique s’est produite. Veuillez prévenir l’administateur du site.",
-	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n’a pas pu être envoyé.",
-	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n’a pas été envoyé.",
-	"something_weird_happened" : "Un truc vraiment chelou s’est produit. Veuillez éteindre votre ordinateur et faire le poirier en attendant les secours."
+$app_msg                = {                                     // Object   Define generic application messages.
+	"error" : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
+	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
+	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
+	"article_deleted" : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
+	"article_offcheck" : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
+	"article_offline" : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
+	"account_updated" : "Compte mis &agrave; jour avec succ&egrave;s",
+	"something_weird_happened" : "Un truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
 }
 
 /* Navigation map */
@@ -167,7 +171,7 @@ var months = [
 	"octobre",
 	"novembre",
 	"décembre"
-]
+];
 
 /* ------------------------------------------------------------------ */
 /* # Methods Declaration */
@@ -345,7 +349,7 @@ function dateToString(date) {
 	var month;
 	var day = date.getDate().toString();
 	if (date.getDate() === 1){
-		day += "<sup>er</sup>"; // NEW : added HTML tag <sup>
+		day += "<sup>er</sup>";
 	}
 	month = months[date.getMonth()];
 	return day + " " + month + " " + year;

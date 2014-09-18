@@ -4,17 +4,6 @@
 
 $("main > header").after(loadfile($app_root + "tmpl/account.tmpl"));
 
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#compte-alert").length == 0) {
-		$("#bearAccount").before(alert_box_template({"id" : "compte-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$("#account").foundation("alert");
-		}
-		$("#compte-alert").fadeIn(300);
-	}
-}
-
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */

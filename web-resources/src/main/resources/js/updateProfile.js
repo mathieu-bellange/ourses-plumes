@@ -49,18 +49,6 @@ function processSocialLinks(socialLinks){
 	}
 }
 
-// TEMP : instance method for alert box initialization ; to be put in loap.js
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#profile-alert").length == 0) {
-		$("main > header").after(alert_box_template({"id" : "profile-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
-		}
-		$("#profile-alert").fadeIn(300);
-	}
-}
-
 /* ------------------------------------------------------------------ */
 /* # DOM manipulation */
 /* ------------------------------------------------------------------ */

@@ -15,18 +15,7 @@ function BearAccount(oldPassword,newPassword,confirmPassword) {
 	};
 }
 
-var newPassword ="";
-
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#compte-alert").length == 0) {
-		$("main > header").after(alert_box_template({"id" : "compte-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
-		}
-		$("#compte-alert").fadeIn(300);
-	}
-}
+var newPassword = "";
 
 function setValidationIcon(selector, labelSelector, isValid) {
 	if (isValid == true) {
@@ -147,7 +136,7 @@ function submitAccountAJAX(){
 			header_authentication(request);
 		},
 		success : function(jqXHR, status, errorThrown) {
-			createAlertBox("success","Compte mis à jour avec succès");
+			createAlertBox($app_msg.account_updated, "success");
 			clearForm();
 		},
 		error : function(jqXHR, status, errorThrown) {

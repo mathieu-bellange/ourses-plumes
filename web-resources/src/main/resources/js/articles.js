@@ -1,21 +1,10 @@
 ﻿/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
+
 //TODO externalisé
 var short_article_tmpl = doT.compile(loadfile($app_root + "tmpl/shortArticle.tmpl"));
 var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
-
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#article-alert").length == 0) {
-		$("main > header").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
-		}
-		$("#article-alert").fadeIn(300);
-		window.scrollTo(0,0);
-	}
-}
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -68,7 +57,7 @@ function validateArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
-				createAlertBox("ok","Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute; par une Administratrice");
+				createAlertBox($app_msg.article_deleted, "default");
 				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function(){
 					$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				});
@@ -95,7 +84,7 @@ function inValidateArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
-				createAlertBox("ok","Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements");
+				createAlertBox($app_msg.article_offcheck, "default");
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function(){
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -122,7 +111,7 @@ function publishArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
-				createAlertBox("ok","Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements");
+				createAlertBox($app_msg.article_offcheck, "default");
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function(){
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -150,7 +139,7 @@ function recallArticle(id) {
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404){
-				createAlertBox("ok","Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements");
+				createAlertBox($app_msg.article_offline, "default");
 				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function(){
 					$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				});

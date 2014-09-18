@@ -2,17 +2,6 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#comptes-alert").length == 0) {
-		$("#accountsTable").before(alert_box_template({"id" : "comptes-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$("#accounts").foundation("alert");
-		}
-		$("#comptes-alert").fadeIn(300);
-	}
-}
-
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */

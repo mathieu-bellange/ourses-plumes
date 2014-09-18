@@ -5,17 +5,6 @@
 var template = doT.compile(loadfile($app_root + "tmpl/profile.tmpl"));
 var templateProfileArticles = doT.compile(loadfile($app_root + "tmpl/profile_article.tmpl"));
 
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#profile-alert").length == 0) {
-		$("#user-profile").before(alert_box_template({"id" : "profile-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$("#account").foundation("alert");
-		}
-		$("#profile-alert").fadeIn(300);
-	}
-}
-
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */

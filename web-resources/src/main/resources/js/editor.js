@@ -334,16 +334,6 @@ function setValidationIcon(selector, labelSelector, isValid) {
 		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
 	}
 }
-function createAlertBox(err, msg) {
-	var err = err || "error", msg = msg || "";
-	if ($("#article-alert").length == 0) {
-		$("main > header").after(alert_box_template({"id" : "article-alert", "class" : err, "text" : msg}));
-		if (document.readyState === "complete") {
-			$(document).foundation("alert"); // reload Foundation alert plugin for whole document (i.e. alert-box cannot be closed bug fix)
-		}
-		$("#article-alert").fadeIn(300);
-	}
-}
 
 /* ------------------------------------------------------------------ */
 /* # AJAX */
@@ -390,7 +380,7 @@ function sendArticle() {
 				if (jqXHR.status == 403){
 					checkTitleAJAX();
 				}else if (jqXHR.status == 404){
-					createAlertBox("ok","Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;");
+					createAlertBox($app_msg.article_deleted, "default");
 				}else{
 					createAlertBox();
 				}

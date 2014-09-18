@@ -300,6 +300,19 @@ var loap = (function() {
 var alert_box_template = doT.compile(loadfile($app_root + "tmpl/alert_box.tmpl"));
 
 // Functions Declaration
+function createAlertBox(msg, cls, id, scroll) {
+	var msg = msg || $app_msg.error, cls = cls || "error", id = id || "alert_box", scroll = scroll || true;
+	if ($("#" + id).length === 0) {
+		$("main > header").after(alert_box_template({"id" : id, "class" : cls, "text" : msg}));
+		$("#" + id + " [class*='icon-']").svg_icons(); // set svg icons contained by alert box
+		$("#" + id).fadeIn(300); // show alert box
+		$("#" + id).parent().foundation("alert"); // reload Foundation alert plugin for alert box closest parent (i.e. alert-box cannot be closed bug fix)
+		if (scroll == true) {
+			scrollTo($("#" + id), 500, $("#" + id).innerHeight()); // scroll to alert box
+		}
+	}
+}
+
 function update_user_pseudo(pseudo){
 	window.localStorage.setItem($oursesUserPseudo,pseudo);
 	$(".user-name").html(pseudo);

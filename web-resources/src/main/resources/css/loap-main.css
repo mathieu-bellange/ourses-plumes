@@ -1237,6 +1237,8 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .alert-box > *:last-child {margin-bottom: 0;}
 
 .alert-box {
+  padding: .25rem 1.5rem; /* Foundation Override */
+  line-height: 2rem; /* Foundation Override */
   background-color: #a8c;
   border: .15rem solid #759;
 }
@@ -1254,8 +1256,8 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   text-decoration: none;
 }
 .alert-box .close:after {
-  margin-top: .625rem;
-  margin-right: .625rem;
+  margin-top: .25rem;
+  margin-right: .5rem;
   display: block;
 }
 .alert-box.info a {text-decoration: none;}
