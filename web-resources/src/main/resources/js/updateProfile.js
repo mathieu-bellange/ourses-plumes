@@ -10,7 +10,7 @@ var user_links_icons_input = {
 };
 
 // Define Pair Property-Value registering method
-function Couple(property, value){
+function Couple(property, value) {
 	this.property = property;
 	this.value = value;
 	this.json = function() {
@@ -25,16 +25,17 @@ var descriptionProperty = "description";
 var user_links = ["mail", "link", "twitter", "facebook", "googleplus", "linkedin"];
 
 // Instance Methods
-function modifiyCouple(couple){ // Pair storing
+function modifiyCouple(couple) { // Pair storing
 	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value) {
-		if (pseudoProperty == couple.property){
+		if (pseudoProperty == couple.property) {
 			// vérifie qu'il a pas resaisi son pseudo après une éventuelle erreur
-			if (couple.value != window.localStorage.getItem($oursesUserPseudo)){
+			if (couple.value != window.localStorage.getItem($oursesUserPseudo)) {
 				checkPseudoAJAX(couple);
 			}
 			// si c'est son pseudo, on se contente de virer l'erreur
 			else {
-				setValidationIcon($("#pseudo"), $("#pseudoError"), true);
+				$("#pseudo").set_validation(true);
+				$("#pseudo").css("margin-bottom", "");
 			}
 		} else {
 			save(couple);
@@ -43,7 +44,7 @@ function modifiyCouple(couple){ // Pair storing
 }
 
 // Data to HTML association method for user links
-function processSocialLinks(socialLinks){
+function processSocialLinks(socialLinks) {
 	for (var i = 0; i < socialLinks.length; i++) {
 		$(".icon-" + socialLinks[i].network.toLowerCase()).attr("data-url", socialLinks[i].socialUser);
 	}
@@ -52,23 +53,6 @@ function processSocialLinks(socialLinks){
 /* ------------------------------------------------------------------ */
 /* # DOM manipulation */
 /* ------------------------------------------------------------------ */
-
-function setValidationIcon(selector, labelSelector, isValid) {
-	if (isValid == true) {
-		$(selector).removeAttr("data-invalid");
-		$(selector).removeClass("wrong");
-		$(selector).css("margin-bottom", "");
-		$(labelSelector).addClass("hide");
-	} else if (isValid == false) {
-		$(selector).attr("data-invalid",true);
-		$(selector).addClass("wrong");
-		$(selector).css("margin-bottom", "0");
-		$(labelSelector).removeClass("hide");
-		role_display.update(); // here's the trick ! fancy stuff ;)
-	} else {
-		$(selector).removeClass("wrong");
-	}
-}
 
 function majView(couple, updateInError) {
 	//en cas d'erreur, rollback les données à l'écran
@@ -112,12 +96,12 @@ function majView(couple, updateInError) {
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
-function checkPseudoAJAX(couple){
+function checkPseudoAJAX(couple) {
 	if (typeof pseudoTimeoutValid !== "undefined") {
 		clearTimeout(pseudoTimeoutValid);
 	}
 	var selector = $("#pseudo");
-	setValidationIcon(selector,$("#pseudoError"), null);
+	selector.set_validation(null);
 	var pseudo = selector.val();
 	var profileId = window.localStorage.getItem($oursesProfileId);
 	$.ajax({
@@ -126,14 +110,20 @@ function checkPseudoAJAX(couple){
 		contentType : "application/json; charset=utf-8",
 		data : pseudo,
 		success : function(data, textStatus, jqXHR) {
-			pseudoTimeoutValid = setTimeout(function(){
-				setValidationIcon(selector,$("#pseudoError"), true)}, 500);
+			pseudoTimeoutValid = setTimeout(function() {
+				selector.set_validation(true);
+				$(selector).css("margin-bottom", "");
+			}, 500);
 			save(couple);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			//erreur 403, normal le pseudo est soit vide soit déjà pris
-			if (jqXHR.status == 403){
-				pseudoTimeoutValid = setTimeout(function(){setValidationIcon(selector, $("#pseudoError"), false)}, 500);
+			if (jqXHR.status == 403) {
+				pseudoTimeoutValid = setTimeout(function() {
+					selector.set_validation(false);
+					$(selector).css("margin-bottom", "0");
+					role_display.update(); // here's the trick ! fancy stuff ;)
+					}, 500);
 			}
 			//autre erreur rollback du pseudo et affichage d'un alerte générique
 			else{
@@ -145,9 +135,9 @@ function checkPseudoAJAX(couple){
 	});
 }
 
-function getProfile(){
+function getProfile() {
 	var profileId = window.localStorage.getItem($oursesProfileId);
-	if(profileId != null){
+	if(profileId != null) {
 		$.ajax({
 			type : "GET",
 			url : "/rest/profile/" + profileId,
@@ -174,12 +164,12 @@ function getProfile(){
 
 function save(couple) {
 	var profileId = window.localStorage.getItem($oursesProfileId);
-	if(profileId != null){
+	if(profileId != null) {
 		$.ajax({
 			type : "PUT",
 			url : "/rest/profile/" + profileId,
 			contentType : "application/json; charset=utf-8",
-			beforeSend: function(request){
+			beforeSend: function(request) {
 				header_authentication(request);
 			},
 			data : couple.json(),

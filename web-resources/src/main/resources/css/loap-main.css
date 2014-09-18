@@ -369,30 +369,30 @@ a.ourbody:hover, a.ourbody:focus, li.ourbody > a:hover, li.ourbody > a:focus {co
 /* # Validation */
 /* ------------------------------------------------------------------ */
 
-input.validation-icon,
-input.validation-icon:hover,
-input.validation-icon:focus {
+input.validation,
+input.validation:hover,
+input.validation:focus {
+  padding-right: 32px;
   background-repeat: no-repeat;
   background-position: right center;
-  background-origin: content-box;
 }
-input.validation-icon.wrong,
-input.validation-icon.wrong:hover,
-input.validation-icon.wrong:focus {
-  background-image: url('../img/ui/icon-wrong-24x24.png');
+input.validation.wrong,
+input.validation.wrong:hover,
+input.validation.wrong:focus {
+  background-image: url('../img/ui/icon-wrong.png');
 }
-input.validation-icon.valid,
-input.validation-icon.valid:hover,
-input.validation-icon.valid:focus {
-  background-image: url('../img/ui/icon-valid-24x24.png');
+input.validation.valid,
+input.validation.valid:hover,
+input.validation.valid:focus {
+  background-image: url('../img/ui/icon-valid.png');
 }
-input.validation-icon.loading,
-input.validation-icon.loading:hover,
-input.validation-icon.loading:focus {
-  background-image: url('../img/ui/icon-loading-24x24.gif');
+input.validation.loading,
+input.validation.loading:hover,
+input.validation.loading:focus {
+  background-image: url('../img/ui/icon-loading.gif');
 }
 
-.validation-icon + small.error { /* Position fix */
+.validation + small.error { /* Position fix */
   position: relative;
   top: -1rem;
 }

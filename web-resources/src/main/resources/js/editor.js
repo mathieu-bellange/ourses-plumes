@@ -4,12 +4,12 @@
 
 var template = doT.compile(loadfile($app_root + "tmpl/editor.tmpl"));
 // si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
-if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
+if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 	$.ajax({
 		type: "GET",
 		url: "/rest" + window.location.pathname,
 		contentType: "application/json; charset=utf-8",
-		beforeSend: function(request){
+		beforeSend: function(request) {
 			header_authentication(request);
 		},
 		success: function(data, status, jqxhr) {
@@ -17,9 +17,9 @@ if(/^\/articles\/[0-9]+/.test(window.location.pathname)){
 		},
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
-			if (jqXHR.status == 404){
+			if (jqXHR.status == 404) {
 				$("main > header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
-			}else{
+			} else {
 				createAlertBox();
 			}
 		},
@@ -58,7 +58,7 @@ function Category(id,value) {
 function Rubrique(id,value) {
 	this.id = id;
 	this.rubrique = value;
-	this.toJson = function(){
+	this.toJson = function() {
 		return JSON.stringify(this);
 	}
 }
@@ -66,7 +66,7 @@ function Rubrique(id,value) {
 function Tag(id,value) {
 	this.id = id;
 	this.tag = value;
-	this.toJson = function(){
+	this.toJson = function() {
 		return JSON.stringify(this);
 	}
 }
@@ -135,7 +135,7 @@ function processArticle(article) {
 		blur: function() {
 			update_rubric();
 			// update validation
-			setValidationIcon($("#rubric"), $("#rubricError"), $("#rubric li.selected").text().length !== 0);
+			$("#rubric").set_validation($("#rubric li.selected").text().length !== 0);
 		},
 		click: function() {update_rubric();},
 		keyup: function() {update_rubric();}
@@ -144,7 +144,7 @@ function processArticle(article) {
 		blur: function() {
 			update_category();
 			// update validation
-			setValidationIcon($("#category"), $("#categoryError"), $("#category li.selected").text().length !== 0);
+			$("#category").set_validation($("#category li.selected").text().length !== 0);
 		},
 		click: function() {update_category();},
 		keyup: function() {update_category();}
@@ -311,30 +311,6 @@ function hide_error(obj, clear) {
 	}
 }
 
-/* Alert box */
-function setValidationIcon(selector, labelSelector, isValid) {
-	if (isValid == true) {
-		$(selector).addClass("valid");
-		$(selector).removeAttr("data-invalid");
-		$(selector).removeClass("wrong");
-		$(selector).removeClass("loading");
-		$("[for='" + selector.attr("id") + "']").removeClass("error");
-		$(labelSelector).addClass("hide");
-	} else if (isValid == false) {
-		$(selector).removeClass("valid");
-		$(selector).attr("data-invalid",true);
-		$(selector).addClass("wrong");
-		$(selector).removeClass("loading");
-		$("[for='" + selector.attr("id") + "']").addClass("error");
-		$(labelSelector).removeClass("hide");
-	} else {
-		$(selector).removeClass("valid");
-		$(selector).removeClass("wrong");
-		$(selector).addClass("loading");
-		setTimeout(function(){$(selector).removeClass("loading")}, 1000);
-	}
-}
-
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
@@ -358,7 +334,7 @@ function sendArticle() {
 
 	// Tags
 	var tags = [];
-	$("[data-tag] span").each(function(){
+	$("[data-tag] span").each(function() {
 		tags.push(new Tag($(this).attr("data-id"), $(this).text()));
 	});
 
@@ -369,7 +345,7 @@ function sendArticle() {
 		 url: pathPUT,
 		 contentType: "application/json; charset=utf-8",
 		 data : JSON.stringify(data),
-		 beforeSend: function(request){
+		 beforeSend: function(request) {
 				header_authentication(request);
 		 },
 		 success: function(jqXHR, status, errorThrown) {
@@ -377,11 +353,11 @@ function sendArticle() {
 		 },
 		 error: function(jqXHR, status, errorThrown) {
 			 ajax_error(jqXHR, status, errorThrown);
-				if (jqXHR.status == 403){
+				if (jqXHR.status == 403) {
 					checkTitleAJAX();
-				}else if (jqXHR.status == 404){
+				}else if (jqXHR.status == 404) {
 					createAlertBox($app_msg.article_deleted, "default");
-				}else{
+				} else {
 					createAlertBox();
 				}
 		 },
@@ -395,29 +371,31 @@ function checkTitleAJAX() {
 		clearTimeout(titleTimeoutValid);
 	}
 	var selector = $("#title");
-	setValidationIcon(selector,$("#titleError"), null);
+	selector.set_validation(null);
 	var title = selector.val();
 	$.ajax({
 		type : "POST",
 		url : pathTitle,
 		contentType : "application/json; charset=utf-8",
 		data : title,
-		beforeSend: function(request){
+		beforeSend: function(request) {
 			header_authentication(request);
 		},
 		success : function(data, textStatus, jqXHR) {
 			pseudoTimeoutValid = setTimeout(function() {
-				setValidationIcon(selector,$("#titleError"), true)}, 500);
+				selector.set_validation(true);
+			}, 500);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
-			if (jqXHR.status == 403){
-				pseudoTimeoutValid = setTimeout(function() {setValidationIcon(selector, $("#titleError"), false)}, 500);
-				if ($("#title").val().length === 0){
-					$("#titleError").text("La saisie du titre est obligatoire");
-				}else{
-					$("#titleError").text("Ce titre est déjà pris");
-				}
+			if (jqXHR.status == 403) {
+				pseudoTimeoutValid = setTimeout(function() {
+					if ($("#title").val().length === 0) {
+						selector.set_validation(false, "La saisie du titre est obligatoire");
+					} else {
+						selector.set_validation(false, "Ce titre est d&eacute;j&agrave; pris");
+					}
+				}, 500);
 			}
 		},
 		dataType : "json"
@@ -426,33 +404,33 @@ function checkTitleAJAX() {
 
 function checkRubric() {
 	if ($("#rubric li.selected").text().length === 0) {
-		setValidationIcon($("#rubric"),$("#rubricError"), false);
-	}else{
-		setValidationIcon($("#rubric"),$("#rubricError"), true);
+		$("#rubric").set_validation(false);
+	} else {
+		$("#rubric").set_validation(true);
 	}
 }
 
 function checkCategory() {
 	if ($("#category li.selected").text().length === 0) {
-		setValidationIcon($("#category"),$("#categoryError"), false);
-	}else{
-		setValidationIcon($("#category"),$("#categoryError"), true);
+		$("#category").set_validation(false);
+	} else {
+		$("#category").set_validation(true);
 	}
 }
 
 function checkSummary() {
 	if ($("#summary").val().length === 0) {
-		setValidationIcon($("#summary"),$("#summaryError"), false);
-	}else{
-		setValidationIcon($("#summary"),$("#summaryError"), true);
+		$("#summary").set_validation(false);
+	} else {
+		$("#summary").set_validation(true);
 	}
 }
 
 function checkBody() {
 	if ($("#editor").text().length === 0) {
-		setValidationIcon($("#editor"),$("#editorError"), false);
-	}else{
-		setValidationIcon($("#editor"),$("#editorError"), true);
+		$("#editor").set_validation(false);
+	} else {
+		$("#editor").set_validation(true);
 	}
 }
 
@@ -462,35 +440,32 @@ function checkBody() {
 
 // local vars for editor
 var editor_cfg = {
-	e_attachee : "html",
 	t_summary : 0
 };
 
 // local editor eventing
-$(editor_cfg.e_attachee).on("click", "#saveButton", function() {
+$("html").on("click", "#saveButton", function() {
 	checkTitleAJAX();
 	checkRubric();
 	checkCategory();
 	checkBody();
 	checkSummary();
-	if (isFormValid()){
+	if (isFormValid()) {
 		sendArticle();
 	}
 });
-$(editor_cfg.e_attachee).on("blur", "#title", function() {
+$("html").on("blur", "#title", function() {
 	checkTitleAJAX();
 });
-$(editor_cfg.e_attachee).on("click", "#summary", function() {
+$("html").on("focus", "#summary", function() {
 	clearTimeout(editor_cfg.t_summary);
+	$("#summary").set_validation(true);
 });
-$(editor_cfg.e_attachee).on("blur", "#summary", function() {
+$("html").on("blur", "#summary", function() {
 	editor_cfg.t_summary = setTimeout(function() {
 		checkSummary();
 	}, 250);
 });
-$(editor_cfg.e_attachee).on("keypress", "#summary", function() {
-	setValidationIcon($("#summary"), $("#summaryError"), true);
-});
-$(editor_cfg.e_attachee).on("click", "#tag_add", function() {
+$("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });

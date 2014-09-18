@@ -214,7 +214,51 @@ jQuery.fn.extend({
 	}
 });
 
-/* Validation Bar */
+/* Set Validation */
+jQuery.fn.extend({
+	set_validation : function(is_valid, err_msg, options) {
+		// vars
+		var err_msg = err_msg || undefined;
+		var defaults = {
+			cls_label : "error",            // String  The class of an invalid field label. Default : "error"
+			cls_valid : "valid",            // String  The class of a valid field. Default : "valid"
+			cls_invalid : "wrong",          // String  The class of an invalid field. Default : "wrong"
+			cls_abiding : "loading",        // String  The class of an abiding validation field. Default : "loading"
+			err_selector : "small.error"    // String  The selector of the element holding the error message. Default : "small.error"
+		};
+		var settings = $.extend({}, defaults, options);
+		// loop
+		$(this).each(function () {
+			if (is_valid == true) {
+				$(this).addClass(settings.cls_valid);
+				$(this).removeAttr("data-invalid"); // Remove Foundation abide validation data attribute
+				$(this).removeClass(settings.cls_invalid);
+				$(this).removeClass(settings.cls_abiding);
+				$("[for='" + $(this).attr("id") + "']").removeClass(settings.cls_label);
+				$(this).next(settings.err_selector).addClass("hide");
+			} else if (is_valid == false) {
+				$(this).removeClass(settings.cls_valid);
+				$(this).attr("data-invalid", true); // Define Foundation abide validation data attribute
+				$(this).addClass(settings.cls_invalid);
+				$(this).removeClass(settings.cls_abiding);
+				$("[for='" + $(this).attr("id") + "']").addClass(settings.cls_label);
+				if (err_msg !== undefined) {
+					$(this).next(settings.err_selector).html(err_msg);
+				}
+				$(this).next(settings.err_selector).removeClass("hide");
+			} else {
+				$(this).removeClass(settings.cls_valid);
+				$(this).removeClass(settings.cls_invalid);
+				$(this).addClass(settings.cls_abiding);
+				setTimeout(function() {
+					$(this).removeClass(settings.cls_abiding);
+				}, 1000);
+			}
+		});
+	}
+});
+
+/* Add Confirmation */
 jQuery.fn.extend({
 	validation_bar : function() {
 		// vars

@@ -8,15 +8,15 @@
 
 							<!--Title-->
 							<label for="title">Titre de l&rsquo;article <small class="red">*</small></label>
-							<input id="title" type="text" class="validation-icon" placeholder="Le titre de l&rsquo;article (p. ex. &ldquo;L&rsquo;&eacute;galit&eacute; entre les sexes, une question plus que jamais d&rsquo;actualit&eacute;&ldquo;)"
+							<input id="title" type="text" class="validation" placeholder="Le titre de l&rsquo;article (p. ex. &ldquo;L&rsquo;&eacute;galit&eacute; entre les sexes, une question plus que jamais d&rsquo;actualit&eacute;&ldquo;)"
 								value="{{= data.title}}"></input>
-							<small id="titleError" class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
+							<small class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
 
 							<!--Summary-->
 							<div>
 								<label for="summary">R&eacute;sum&eacute; <small class="red">*</small></label>
-								<textarea id="summary" class="validation-icon tiny" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description}}</textarea>
-								<small id="summaryError" class="error hide">La saisie du r&eacute;sum&eacute; est obligatoire</small>
+								<textarea id="summary" class="validation tiny" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description}}</textarea>
+								<small class="error hide">La saisie du r&eacute;sum&eacute; est obligatoire</small>
 							</div>
 							
 							<!--Author-->
@@ -32,21 +32,21 @@
 
 							<!--Rubric-->
 							<label for="rubric">Rubrique <small class="red">*</small></label>
-							<div id="rubric" class="options-select validation-icon" tabindex="0">
+							<div id="rubric" class="options-select validation" tabindex="0">
 								<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
 								<ul class="options hide">
 								</ul>
 							</div>
-							<small id="rubricError" class="error hide">La saisie de la rubrique est obligatoire</small>
+							<small class="error hide">La saisie de la rubrique est obligatoire</small>
 
 							<!--Category-->
 							<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
-							<div id="category" class="options-select validation-icon" tabindex="0">
+							<div id="category" class="options-select validation" tabindex="0">
 								<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
 								<ul class="options hide">
 								</ul>
 							</div>
-							<small id="categoryError" class="error hide">La saisie de la cat&eacute;gorie est obligatoire</small>
+							<small class="error hide">La saisie de la cat&eacute;gorie est obligatoire</small>
 
 							<!--Tags-->
 							<div class="row collapse">
@@ -54,7 +54,7 @@
 									<label for="tag">Tags</label>
 								</div>
 								<div class="column small-9">
-									<input id="tag" class="validation-icon" type="text" placeholder="Une &eacute;tiquette au choix pour indexer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
+									<input id="tag" class="validation" type="text" placeholder="Une &eacute;tiquette au choix pour indexer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
 									<small id="tag_error" class="error hide">Ce tag est déjà pris !</small>
 								</div>
 								<div class="column small-3">
@@ -108,7 +108,7 @@
 								<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
 							</div>
 
-							<small id="editorError" class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
+							<small class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
 
 						</fieldset>
 
