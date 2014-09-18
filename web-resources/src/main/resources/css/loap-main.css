@@ -1961,6 +1961,69 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 }
 
 /* ------------------------------------------------------------------ */
+/* # Related List */
+/* ------------------------------------------------------------------ */
+
+.related-list {margin: 1rem 0 0;}
+.related-list > li {
+  position: relative;
+  padding: .125rem .25rem;
+}
+.related-list > li + li {margin-top: .5rem;}
+.related-list > li > a {font-weight: bold; color: #444; text-decoration: none;}
+.related-list > li > a:hover {font-weight: bold; color: #222; text-decoration: underline;}
+.related-list .summary {
+  position: relative;
+  margin: .25rem 2rem 0 2rem;
+  padding-top: .25rem;
+  color: #666;
+  font-size: .875em;
+  text-align: justify;
+  border-top: 1px dotted silver;
+}
+.info-tip {
+  position: absolute;
+  display: inline-block;
+  right: 0;
+  top: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  margin-top: -.75rem;
+  color: dimgray;
+  font-family: "Oswald";
+  text-align: center;
+  border-radius: 100%;
+  background-color: whitesmoke;
+  border: 1px solid darkgray;
+  opacity: .5;
+  -webkit-transition: all .25s ease-out; /* TEMP */
+     -moz-transition: all .25s ease-out; /* TEMP */
+          transition: all .25s ease-out; /* TEMP */
+}
+.info-tip:hover {
+  cursor: pointer;
+  right: -.375rem;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  margin-top: -1rem;
+  font-size: 125%;
+  opacity: 1;
+}
+.info-tip:before {
+  content: "?";
+}
+.info-tip.active {
+  color: white;
+  border-color: dimgray;
+  background-color: dimgray;
+}
+.info-tip.active:before {
+  content: "!";
+}
+
+/* ------------------------------------------------------------------ */
 /* # Comment List */
 /* ------------------------------------------------------------------ */
 
@@ -2235,69 +2298,6 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
     opacity: .5;
     text-shadow: -1px -1px rgba(0, 0, 0, .5);
   }
-}
-
-/* ------------------------------------------------------------------ */
-/* # User Articles List */
-/* ------------------------------------------------------------------ */
-
-.user-articles-list {margin: 1rem 0 0;}
-.user-articles-list > li {
-  position: relative;
-  padding: .125rem .25rem;
-}
-.user-articles-list > li + li {margin-top: .5rem;}
-.user-articles-list > li > a {font-weight: bold; color: #444; text-decoration: none;}
-.user-articles-list > li > a:hover {font-weight: bold; color: #222; text-decoration: underline;}
-.user-articles-list .summary {
-  position: relative;
-  margin: .25rem 2rem 0 2rem;
-  padding-top: .25rem;
-  color: #666;
-  font-size: .875em;
-  text-align: justify;
-  border-top: 1px dotted silver;
-}
-.info-tip {
-  position: absolute;
-  display: inline-block;
-  right: 0;
-  top: 50%;
-  width: 1.5rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  margin-top: -.75rem;
-  color: dimgray;
-  font-family: "Oswald";
-  text-align: center;
-  border-radius: 100%;
-  background-color: whitesmoke;
-  border: 1px solid darkgray;
-  opacity: .5;
-  -webkit-transition: all .25s ease-out; /* TEMP */
-     -moz-transition: all .25s ease-out; /* TEMP */
-          transition: all .25s ease-out; /* TEMP */
-}
-.info-tip:hover {
-  cursor: pointer;
-  right: -.375rem;
-  width: 2rem;
-  height: 2rem;
-  line-height: 2rem;
-  margin-top: -1rem;
-  font-size: 125%;
-  opacity: 1;
-}
-.info-tip:before {
-  content: "?";
-}
-.info-tip.active {
-  color: white;
-  border-color: dimgray;
-  background-color: dimgray;
-}
-.info-tip.active:before {
-  content: "!";
 }
 
 /* ------------------------------------------------------------------ */
