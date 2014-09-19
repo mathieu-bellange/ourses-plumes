@@ -56,14 +56,14 @@ function processSocialLinks(socialLinks) {
 /* ------------------------------------------------------------------ */
 
 function majView(couple, updateInError) {
-	//en cas d'erreur, rollback les données à l'écran
+	// en cas d'erreur, rollback les données à l'écran
 	if (updateInError) {
 		if (memoryCouple.property == pseudoProperty) {
 			$("#pseudo").val(memoryCouple.value);
 		} else if (memoryCouple.property == descriptionProperty) {
 			$("#description").val(memoryCouple.value);
 		}
-	//sinon mise à jour des attributs pour les socials links
+	// sinon mise à jour des attributs pour les socials links
 	} else {
 		switch (couple.property) {
 		case user_links[0]:
@@ -123,7 +123,7 @@ function checkPseudoAJAX(couple) {
 			save(couple);
 		},
 		error : function(jqXHR, status, errorThrown) {
-			//erreur 403, normal le pseudo est soit vide soit déjà pris
+			// erreur 403, normal le pseudo est soit vide soit déjà pris
 			if (jqXHR.status == 403) {
 				pseudoTimeoutValid = setTimeout(function() {
 					selector.set_validation(false);
@@ -131,7 +131,7 @@ function checkPseudoAJAX(couple) {
 					role_display.update(); // here's the trick ! fancy stuff ;)
 					}, 500);
 			}
-			//autre erreur rollback du pseudo et affichage d'un alerte générique
+			// autre erreur rollback du pseudo et affichage d'un alerte générique
 			else{
 				createAlertBox();
 				majView(couple, true);
@@ -254,12 +254,12 @@ function create_icons_input(options) {
 		"icons_tooltip" : true,
 		"animation_delay" : 250
 	};
-	// Vars
+	// vars
 	var options = $.extend({}, defaults, options);
 	var input_container_margin_bottom = parseInt($(options.input_container).find("input").css("margin-bottom"));
 	var icons_container_margin_bottom = parseInt($(options.icons_container).css("margin-bottom"));
 	var is_icon_hover = false;
-	// Methods
+	// methods
 	function show_input_container() {
 		var obj = $(options.input_container + " input");
 		var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
@@ -275,7 +275,7 @@ function create_icons_input(options) {
 			obj.val(url);
 			obj.cursor_position(0, obj.val().length);
 			$(options.input_container).css("width", "100%");
-			// Set input prefix visibility
+			// set input prefix visibility
 			if (!url_prefix) {
 				$(options.input_container + " .prefix").hide();
 				$(options.input_container + " input").css("width", "100%");
@@ -286,13 +286,13 @@ function create_icons_input(options) {
 					"width" : "auto",
 					"display" : "inline-block"
 				});
-				// Adjust input width
+				// adjust input width
 				var w = $(options.input_container).innerWidth() - $(options.input_container + " .prefix").outerWidth(true);
 				var w_adj = parseInt($("html").css("font-size")) * 1.25; // REM to px conversion
 				$(options.input_container + " input").width(w - w_adj);
 				$(options.input_container).css("width", "auto");
 			}
-			// Adjust container horizontal position
+			// adjust container horizontal position
 			var h = $(options.input_container).outerHeight(true);
 			$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + icons_container_margin_bottom + "px"});
 		}, options.animation_delay);
@@ -312,7 +312,7 @@ function create_icons_input(options) {
 			obj.removeClass("disabled");
 		}
 	}
-	// Eventing
+	// events
 	$(options.icons_container + " " + options.icons_selector).on("mouseenter", function() {
 		is_icon_hover = true;
 		if (!$(this).hasClass("active") && $(this).hasClass("disabled")) {
@@ -357,7 +357,7 @@ function create_icons_input(options) {
 			hide_input_container()
 		}
 	});
-	// Initialization
+	// init
 	$(document).ready(function() {
 		$(options.input_container).wrap("<div style='position: relative;'></div>");
 		$(options.input_container).css({"position" : "absolute", "width" : "100%", "display" : "none"});
@@ -421,14 +421,10 @@ var role_display = (function() {
 }());
 
 /* ------------------------------------------------------------------ */
-/* # Initialization */
+/* # Drag 'n' Drop File Upload */
 /* ------------------------------------------------------------------ */
 
-// Page Load
-$(document).ready(function() {
-	getProfile(); // process page template feeded with DB values through AJAX
-});
-
+// XHR Object
 XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
 	function byteValue(x) {
 		return x.charCodeAt(0) & 0xff;
@@ -438,6 +434,19 @@ XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
 	this.send(ui8a.buffer);
 }
 
+// Get File
+function handler() {
+	if (this.readyState == this.DONE) {
+		if (this.status == 200) { // success!
+			var avatar = JSON.parse(this.response);
+			save(new Couple(avatarProperty, avatar.id));
+		} else { // fail...
+			createAlertBox();
+		}
+	}
+}
+
+// Open and Send Files
 function readfiles(files) {
 	var formData = new FormData(); // Here's IE bug ! FormData() isn't recognized by that browser
 	for (var i = 0; i < files.length; i++) {
@@ -464,19 +473,7 @@ function readfiles(files) {
 			};
 			reader.readAsBinaryString(file);
 		} else {
-			createAlertBox("Votre image ne doit pas d&eacute;passer 200 Ko", "warning");/* Matthieuuuuu !!!! Participe (dé)passé ! */
-		}
-	}
-}
-
-function handler() {
-	if (this.readyState == this.DONE) {
-		if (this.status == 200) {
-			// success!
-			var avatar = JSON.parse(this.response);
-			save(new Couple(avatarProperty, avatar.id));
-		} else {
-			createAlertBox();
+			createAlertBox("Votre image ne doit pas d&eacute;passer 200 Ko", "warning"); // Matthieuuuuu !!!! Participe (dé)passé !
 		}
 	}
 }
@@ -486,15 +483,18 @@ var t_progress = 0;
 var h_selector = "#avatar";
 
 function processAvatar() {
+	// vars
 	var id = "avatar"; // A tribute to James Cameron ?
 	var cls = "dragon" // Parce que ça marche des flammes :D
 	var holder = document.getElementById(id);
 	var selector = "#" + id;
+	// methods
 	function show_progress_bar() {
 		clearTimeout(t_progress);
 		$(selector).nextAll(".progress").first().removeClass("secondary warning alert success");
 		$(selector).nextAll(".progress").first().show();
 	}
+	// events
 	holder.ondragover = function() {
 		if ($(selector).data("drag_on") !== "true") {
 			$(selector).data("drag_on", "true");
@@ -538,6 +538,7 @@ function processAvatar() {
 	}
 }
 
+// XHR upload events
 function updateProgress(event) {
 	var selector = h_selector;
 	if (event.lengthComputable) {
@@ -559,3 +560,12 @@ function transferFailed(event) {
 	$(selector).nextAll(".progress").first().removeClass("secondary warning success");
 	$(selector).nextAll(".progress").first().addClass("alert");
 }
+
+/* ------------------------------------------------------------------ */
+/* # Initialization */
+/* ------------------------------------------------------------------ */
+
+// Page Load
+$(document).ready(function() {
+	getProfile(); // process page template feeded with DB values through AJAX
+});
