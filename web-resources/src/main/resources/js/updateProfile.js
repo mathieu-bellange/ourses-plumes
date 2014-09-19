@@ -444,6 +444,7 @@ function readfiles(files) {
 		var file = files[i];
 		// Check the file type.
 		if (!file.type.match('image.*')) {
+			createAlertBox("Le format du fichier doit &ecirc;tre une image jpg, png ou gif","warn");
 			continue;
 		}
 		// max 200KB
