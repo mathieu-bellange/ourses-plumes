@@ -5,7 +5,13 @@
 						<!--First Column-->
 						<div class="column small-12 medium-5 large-4 text-center">
 							<!--User picture-->
-							<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
+							<div style="display: inline-block; width: 256px;">
+								<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
+								<input type="file" style="display: none;">
+								<div class="progress radius" style="display: none;">
+									<span class="meter">0</span>
+								</div>
+							</div>
 						</div>
 						<!--Second Column-->
 						<div class="column small-12 medium-7 large-8">

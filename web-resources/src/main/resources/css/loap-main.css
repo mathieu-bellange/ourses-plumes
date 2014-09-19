@@ -1380,6 +1380,39 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .clearing-close {text-decoration: none;} /* Foundation override */
 
 /* ------------------------------------------------------------------ */
+/* # Progress Bars */
+/* ------------------------------------------------------------------ */
+
+.progress {
+  width: 100%;
+  height: 2rem; /* Foundation override */
+  padding: .375rem; /* Foundation override */
+  border-color: silver; /* Foundation override */
+}
+.progress.radius {
+  border-radius: .375rem; /* Foundation override */
+}
+.progress.radius .meter {
+  border-radius: .25rem; /* Foundation override */
+}
+.progress .meter {
+  width: 0;
+  color: white;
+  font-size: 87.5%;
+  line-height: 1.25rem;
+  background-color: #a8c;
+}
+.progress.secondary .meter {background-color: silver;}
+.progress.success .meter {background-color: #3a6;}
+.progress.alert .meter {background-color: #d52;}
+.progress.warning .meter {background-color: #fa0;}
+
+.progress .meter:after {
+  content: "%";
+  margin-left: .125rem;
+}
+
+/* ------------------------------------------------------------------ */
 /* # Reveal Modals */
 /* ------------------------------------------------------------------ */
 
@@ -2186,14 +2219,15 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   border-radius: 1rem;
   background-clip: content-box;
 }
-.user-profile a.picture:focus,
-.user-profile a.picture:hover {
-  cursor: copy;
+.user-profile a.picture:hover,
+.user-profile a.picture:focus {
   border-color: dimgray;
   border-radius: 0;
 }
-.user-profile a.picture:focus:before,
-.user-profile a.picture:hover:before {
+.user-profile a.picture:hover {cursor: pointer;}
+.user-profile a.picture:focus {cursor: copy;}
+.user-profile a.picture:hover:before,
+.user-profile a.picture:focus:before {
   position: absolute;
   content: "Glisser-déposer";
   padding-top: 40%;

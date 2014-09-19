@@ -439,7 +439,7 @@ XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
 }
 
 function readfiles(files) {
-	var formData = new FormData();
+	var formData = new FormData(); // Here's IE bug ! FormData() isn't recognized by that browser
 	for (var i = 0; i < files.length; i++) {
 		var file = files[i];
 		// check file type
@@ -448,7 +448,7 @@ function readfiles(files) {
 			continue;
 		}
 		// max 200 KB
-		if (file.size <= 204800){
+		if (file.size <= 204800) {
 			var reader = new FileReader();
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = handler;
@@ -474,20 +474,32 @@ function handler() {
 		if (this.status == 200) {
 			// success!
 			var avatar = JSON.parse(this.response);
-			save(new Couple(avatarProperty,avatar.id));
+			save(new Couple(avatarProperty, avatar.id));
 		} else {
 			createAlertBox();
 		}
 	}
 }
 
+// Locals
+var t_progress = 0;
+var h_selector = "#avatar";
+
 function processAvatar() {
-	var holder = document.getElementById('avatar');
+	var id = "avatar"; // A tribute to James Cameron ?
+	var cls = "dragon" // Parce que ça marche des flammes :D
+	var holder = document.getElementById(id);
+	var selector = "#" + id;
+	function show_progress_bar() {
+		clearTimeout(t_progress);
+		$(selector).nextAll(".progress").first().removeClass("secondary warning alert success");
+		$(selector).nextAll(".progress").first().show();
+	}
 	holder.ondragover = function() {
-		if ($("#avatar").data("dragon") !== "true") {
-			$("#avatar").data("dragon", "true");
-			$("#avatar").focus();
-			$("#avatar").addClass("dragon");
+		if ($(selector).data("drag_on") !== "true") {
+			$(selector).data("drag_on", "true");
+			$(selector).focus();
+			$(selector).addClass(cls);
 		}
 		return false;
 	};
@@ -495,23 +507,55 @@ function processAvatar() {
 		return false;
 	};
 	holder.ondrop = function(e) {
-		if ($("#avatar").data("dragon") === "true") {
-			$("#avatar").removeData("dragon");
-			$("#avatar").blur();
-			$("#avatar").removeClass("dragon");
+		// reset avatar display
+		if ($(selector).data("drag_on") === "true") {
+			$(selector).removeData(cls);
+			$(selector).blur();
+			$(selector).removeClass(cls);
 		}
+		// show progress bar
+		show_progress_bar();
+		// start file upload
 		e.preventDefault();
 		readfiles(e.dataTransfer.files);
+	};
+	holder.onfocus = function() {
+		$(selector).next($("input[file]")).fadeIn(250);
+		if ($(selector).next($("input[file]")).attr("id") === undefined) {
+			$(selector).next($("input[file]")).attr("id", $(selector).attr("id") + "_file");
+			$(selector + "_file").bind({
+				change : function() {
+					// show progress bar
+					show_progress_bar();
+					// start file upload
+					readfiles(this.files);
+				}
+			});
+		}
+	};
+	holder.onblur = function() {
+		$(selector).next($("input[file]")).fadeOut(250);
 	}
 }
 
-// TODO progress bar ?
 function updateProgress(event) {
-	console.log(event);
+	var selector = h_selector;
+	if (event.lengthComputable) {
+		var p = (event.loaded / event.total * 100 | 0); // completed percentage
+		$(selector).nextAll(".progress").first().find(".meter").text(p);
+		$(selector).nextAll(".progress").first().find(".meter").css("width", p + "%");
+	}
 }
 function transferComplete(event) {
-	console.log(event);
+	var selector = h_selector;
+	$(selector).nextAll(".progress").first().removeClass("secondary warning alert");
+	$(selector).nextAll(".progress").first().addClass("success");
+	t_progress = setTimeout(function() {
+		$(selector).nextAll(".progress").first().fadeOut(1000);
+	}, 2000);
 }
 function transferFailed(event) {
-	console.log(event);
+	var selector = h_selector;
+	$(selector).nextAll(".progress").first().removeClass("secondary warning success");
+	$(selector).nextAll(".progress").first().addClass("alert");
 }
