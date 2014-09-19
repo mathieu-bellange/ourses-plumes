@@ -18,11 +18,11 @@
 		<div id="dev_test_profile_toolbar" class="panel">
 			<h4 class="text-medium">Show</h4>
 			<label for="show_user_profile_show">Vue Profil</label>
-			<input id="show_user_profile_show" type="checkbox" name="show" value="user-profile-show" checked>
+			<input id="show_user_profile_show" type="checkbox" name="show" value="user-profile-show">
 			<label for="show_user_profile_update">Mise à jour Profil</label>
-			<input id="show_user_profile_update" type="checkbox" name="show" value="user-profile-update">
+			<input id="show_user_profile_update" type="checkbox" name="show" value="user-profile-update" checked>
 			<label for="show_user_articles_list">Liste des articles</label>
-			<input id="show_user_articles_list" type="checkbox" name="show" value="related-list" checked>
+			<input id="show_user_articles_list" type="checkbox" name="show" value="related-list">
 			<label for="toggle_css_debug">Masques CSS</label>
 			<input id="toggle_css_debug" type="checkbox">
 		</div>
@@ -60,7 +60,7 @@
 		<div class="row panel radius user-profile user-profile-show">
 			<div class="column small-12 medium-5 large-4 text-center">
 				<!--User picture-->
-				<div class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</div>
+				<span class="picture large cover radius max-height" data-image="img/usr/usr-nadejda.jpg">Nadejda</span>
 			</div>
 			<div class="column small-12 medium-7 large-8">
 				<div class="clearfix" style="position: relative;">
@@ -130,7 +130,7 @@
 			<div class="column small-12 medium-5 large-4 text-center">
 
 				<!--User picture-->
-				<div class="picture large cover radius max-height" data-image="usr/usr-nadejda.jpg">Nadejda</div>
+				<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="img/usr/usr-nadejda.jpg">Nadejda</a>
 
 			</div>
 			<div class="column small-12 medium-7 large-8">

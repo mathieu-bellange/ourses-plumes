@@ -430,24 +430,24 @@ $(document).ready(function() {
 });
 
 XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
-    function byteValue(x) {
-        return x.charCodeAt(0) & 0xff;
-    }
-    var ords = Array.prototype.map.call(datastr, byteValue);
-    var ui8a = new Uint8Array(ords);
-    this.send(ui8a.buffer);
+	function byteValue(x) {
+		return x.charCodeAt(0) & 0xff;
+	}
+	var ords = Array.prototype.map.call(datastr, byteValue);
+	var ui8a = new Uint8Array(ords);
+	this.send(ui8a.buffer);
 }
 
 function readfiles(files) {
 	var formData = new FormData();
 	for (var i = 0; i < files.length; i++) {
 		var file = files[i];
-		// Check the file type.
-		if (!file.type.match('image.*')) {
-			createAlertBox("Le format du fichier doit &ecirc;tre une image jpg, png ou gif","warn");
+		// check file type
+		if (!file.type.match("image.*")) {
+			createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", "warning");
 			continue;
 		}
-		// max 200KB
+		// max 200 KB
 		if (file.size <= 204800){
 			var reader = new FileReader();
 			var xhr = new XMLHttpRequest();
@@ -459,12 +459,12 @@ function readfiles(files) {
 			if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
 				xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
 			}
-			reader.onload = function(evt) {
-				xhr.sendAsBinary(evt.target.result);
+			reader.onload = function(e) {
+				xhr.sendAsBinary(e.target.result);
 			};
 			reader.readAsBinaryString(file);
-		}else{
-			createAlertBox("Votre image ne doit pas d&eacute;pass&eacute; 200 KB","warn");
+		} else {
+			createAlertBox("Votre image ne doit pas d&eacute;passer 200 Ko", "warning");/* Matthieuuuuu !!!! Participe (dé)passé ! */
 		}
 	}
 }
@@ -475,37 +475,43 @@ function handler() {
 			// success!
 			var avatar = JSON.parse(this.response);
 			save(new Couple(avatarProperty,avatar.id));
-		}else{
+		} else {
 			createAlertBox();
 		}
 	}
 }
 
-//TODO style drag n drop
-function processAvatar(){
+function processAvatar() {
 	var holder = document.getElementById('avatar');
-	holder.ondragover = function () { 
-		//this.className = 'hover'; 
-		return false; 
+	holder.ondragover = function() {
+		if ($("#avatar").data("dragon") !== "true") {
+			$("#avatar").data("dragon", "true");
+			$("#avatar").focus();
+			$("#avatar").addClass("dragon");
+		}
+		return false;
 	};
-	holder.ondragend = function () { 
-		//this.className = ''; 
-		return false; 
+	holder.ondragend = function() {
+		return false;
 	};
-	holder.ondrop = function (e) {
-		//this.className = '';
-	   	e.preventDefault();
-	    readfiles(e.dataTransfer.files);
+	holder.ondrop = function(e) {
+		if ($("#avatar").data("dragon") === "true") {
+			$("#avatar").removeData("dragon");
+			$("#avatar").blur();
+			$("#avatar").removeClass("dragon");
+		}
+		e.preventDefault();
+		readfiles(e.dataTransfer.files);
 	}
 }
-//TODO progress bar ?
-function updateProgress(event){
-	console.log(event);
-}
-function transferComplete(event){
-	console.log(event);
-}
-function transferFailed(event){
-	console.log(event);
-}
 
+// TODO progress bar ?
+function updateProgress(event) {
+	console.log(event);
+}
+function transferComplete(event) {
+	console.log(event);
+}
+function transferFailed(event) {
+	console.log(event);
+}
