@@ -446,22 +446,26 @@ function readfiles(files) {
 		if (!file.type.match('image.*')) {
 			continue;
 		}
-		var reader = new FileReader();
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = handler;
-		xhr.upload.addEventListener("progress", updateProgress, false);
-		xhr.upload.addEventListener("load", transferComplete, false);
-		xhr.upload.addEventListener("error", transferFailed, false);
-		xhr.open("POST", "/rest/avatars/create");
-		if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
-			xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+		// max 200KB
+		if (file.size <= 204800){
+			var reader = new FileReader();
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = handler;
+			xhr.upload.addEventListener("progress", updateProgress, false);
+			xhr.upload.addEventListener("load", transferComplete, false);
+			xhr.upload.addEventListener("error", transferFailed, false);
+			xhr.open("POST", "/rest/avatars/create");
+			if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
+				xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+			}
+			reader.onload = function(evt) {
+				xhr.sendAsBinary(evt.target.result);
+			};
+			reader.readAsBinaryString(file);
+		}else{
+			createAlertBox("Votre image ne doit pas d&eacute;pass&eacute; 200 KB","warn");
 		}
-		reader.onload = function(evt) {
-			xhr.sendAsBinary(evt.target.result);
-		};
-		reader.readAsBinaryString(file);
 	}
-	
 }
 
 function handler() {

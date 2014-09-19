@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class AvatarHelperImpl implements AvatarHelper {
 
     // taille max 200 KB
-    private final static int MAX_WEIGHT = 200000;
+    private final static int MAX_WEIGHT = 204800;
     private static final double MAX_WIDTH = 384.0;
 
     @Override
