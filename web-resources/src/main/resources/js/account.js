@@ -122,7 +122,7 @@ function checkMailAJAX() {
 
 function submitAccountAJAX() {
 	var profile = new Profile($("#pseudo").val());
-	var bearAccount = new BearAccount($("#mail").val(),$("#password").val(),profile);
+	var bearAccount = new BearAccount($("#mail").val(), $("#password").val(), profile);
 	$.ajax({
 		type : "PUT",
 		url : "/rest/account/create",
@@ -179,7 +179,7 @@ $("#password").on("focus", function(event) {
 	$(this).attr("placeholder", "");
 });
 $("html").on("blur","#password", function(event) {
-	if ($(this).val().length==0) {
-		$(this).attr("placeholder","Minimum 7 caractères, une minuscule et un chiffre");
+	if ($(this).val().length == 0) {
+		$(this).attr("placeholder", "Minimum 7 caractères, une minuscule et un chiffre");
 	}
 });

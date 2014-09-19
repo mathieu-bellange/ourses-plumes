@@ -45,7 +45,7 @@ function clearForm() {
 	$("#oldPassword").val("");
 	$("#newPassword").removeClass("valid");
 	$("#newPassword").val("");
-	$("#newPassword").attr("placeholder","Minimum 7 caractères, une minuscule et un chiffre");
+	$("#newPassword").attr("placeholder", "Minimum 7 caractères, une minuscule et un chiffre");
 	$("#confirmPassword").removeClass("valid");
 	$("#confirmPassword").val("");
 }

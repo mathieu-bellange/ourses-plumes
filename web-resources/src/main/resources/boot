@@ -27,7 +27,7 @@ $app_kwd                = ["Webzine", "F&eacute;minisme"];      // Array    Set 
 $app_desc               = "Un webzine f&eacute;ministe.";       // String   Set application keywords.
 $app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
 
-/* Application vars */
+/* Application globals */
 $oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token
 $oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo
 $oursesUserRole         = "oursesUserRole";                     // String   Key of the User role
@@ -38,7 +38,7 @@ $redir_param            = "?redirection=";                      // String   url 
 $role_admin             = "Administratrice"                     // String   Admin role
 $role_redac             = "Rédactrice"                          // String   Redacter role
 
-/* Error messages */
+/* Application messages */
 $app_msg                = {                                     // Object   Define generic application messages.
 	"error" : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
 	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
@@ -51,14 +51,14 @@ $app_msg                = {                                     // Object   Defi
 }
 
 /* Navigation map */
-$login_page             = "/connexion";                         // String   url of the login page
-$accounts_page          = "/comptes";                           // String   url of the accounts page
-$bug_tracker_page       = "/bug-tracker";                       // String   url of the bug tracker page
-$home_page              = "/";                                  // String   url of the home page
-$my_account_page        = "/parametres/compte";                 // String   url of my account page
-$my_profile_page        = "/parametres/profil";                 // String   url of my profile page
-$articles               = "/articles";                          // String   url of list of articles page 
-$new_article            = "/articles/nouveau";                  // String   url of a new article
+$login_page             = "/connexion";                         // String   URL of the login page. Default = "/connexion"
+$accounts_page          = "/comptes";                           // String   URL of the accounts page Default = "/comptes"
+$bug_tracker_page       = "/bug-tracker";                       // String   URL of the bug tracker page Default = "/bug-tracker"
+$home_page              = "/";                                  // String   URL of the home page Default = "/"
+$my_account_page        = "/parametres/compte";                 // String   URL of my account page Default = "/parametres/compte"
+$my_profile_page        = "/parametres/profil";                 // String   URL of my profile page Default = "/parametres/profil"
+$articles               = "/articles";                          // String   URL of list of articles page Default = "/articles"
+$new_article            = "/articles/nouveau";                  // String   URL of a new article Default = "/articles/nouveau"
 
 $app_root               = "/";                                  // String   Set application base URL. Default = "/"
 $js_root                = $app_root + "js/";                    // String   Set js root. Default = "js/"
@@ -66,16 +66,15 @@ $css_root               = $app_root + "css/";                   // String   Set 
 $img_root               = $app_root + "img/";                   // String   Set js root. Default = "img/"
 
 $app_path               = {                                     // Object   Set application path to files.
-	js: $app_root + "js/",
-	css: $app_root + "css/",
-	img: $app_root + "img/",
-	fnt: $app_root + "fnt/",
-	tmpl: $app_root + "tmpl/",
-	json: $app_root + "json/"
+	js: $app_root + "js/",                                        // String   Path to scripts. Default = "js/"
+	css: $app_root + "css/",                                      // String   Path to style sheets. Default = "css/"
+	img: $app_root + "img/",                                      // String   Path to images. Default = "img/"
+	fnt: $app_root + "fnt/",                                      // String   Path to fonts. Default = "fnt/"
+	tmpl: $app_root + "tmpl/"                                     // String   Path to templates. Default = "tmpl/"
 };
 
-$svg_icons_file         = $app_path.img + "ui/ui-iconset.svg";  // String   Set js root. Default = "img/ui/ui-iconset.svg"
-$svg_icons_fx_file      = $app_path.css + "loap-icons-fx.css";  // String   Set js root. Default = "css/loap-icons-fx.css"
+$svg_icons_file         = $app_path.img + "ui/ui-iconset.svg";  // String   Store URL of SVG icons file. Default = "img/ui/ui-iconset.svg"
+$svg_icons_fx_file      = $app_path.css + "loap-icons-fx.css";  // String   Store URL of SVG icons effects file. Default = "css/loap-icons-fx.css"
 
 /* TEMP : dev constants */
 $boot                   = true;                                 // Boolean  Flag for this file setup.
@@ -358,4 +357,5 @@ function dateToString(date) {
 /* ------------------------------------------------------------------ */
 /* # Prebuild Processing */
 /* ------------------------------------------------------------------ */
+
 document.write(mk_tags(head_tags));
