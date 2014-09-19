@@ -71,6 +71,6 @@ public class AvatarHelperTest {
     public void shouldBuildAvatarPath() {
         when(avatar.getId()).thenReturn(1l);
         helper.buildAvatarPath(avatar);
-        verify(avatar).setPath("/avatars/1");
+        verify(avatar).setPath("/rest/avatars/1");
     }
 }

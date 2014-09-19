@@ -361,11 +361,18 @@ function update_user_pseudo(pseudo){
 	$(".user-name").html(pseudo);
 }
 
+function update_user_avatar(pathAvatar){
+	window.localStorage.setItem($oursesAvatarPath,pathAvatar);
+	$("#user-avatar").attr("data-image",pathAvatar);
+	loap.update();
+}
+
 function header_authentication(xhr){
 	if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
 	}
 }
+
 
 function ajax_error(jqXHR, textStatus, errorThrown){
 	if (jqXHR.status == 401){

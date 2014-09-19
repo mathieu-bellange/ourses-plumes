@@ -90,7 +90,7 @@ function majView(couple, updateInError) {
 		case avatarProperty :
 			$("#avatar").attr("data-image","/rest/avatars/" + couple.value);
 			loap.update();
-			update_user_avatar(couple.value); // method launched from loap.js
+			update_user_avatar("/rest/avatars/" + couple.value); // method launched from loap.js
 			break;
 		default:
 			break;
@@ -156,15 +156,8 @@ function getProfile() {
 				$("textarea").validation_bar(); // initialize validation_bar plugin for all textareas
 				create_icons_input(user_links_icons_input); // process icons input for user links
 				role_display.init(); // apply role display changing
+				processAvatar();
 				loap.update(); // re-update loap for user picture
-				var holder = document.getElementById('avatar');
-				holder.ondragover = function () { this.className = 'hover'; return false; };
-					holder.ondragend = function () { this.className = ''; return false; };
-					holder.ondrop = function (e) {
-				    this.className = '';
-				    e.preventDefault();
-				    readfiles(e.dataTransfer.files);
-				}
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -483,6 +476,24 @@ function handler() {
 	}
 }
 
+//TODO style drag n drop
+function processAvatar(){
+	var holder = document.getElementById('avatar');
+	holder.ondragover = function () { 
+		//this.className = 'hover'; 
+		return false; 
+	};
+	holder.ondragend = function () { 
+		//this.className = ''; 
+		return false; 
+	};
+	holder.ondrop = function (e) {
+		//this.className = '';
+	   	e.preventDefault();
+	    readfiles(e.dataTransfer.files);
+	}
+}
+//TODO progress bar ?
 function updateProgress(event){
 	console.log(event);
 }
