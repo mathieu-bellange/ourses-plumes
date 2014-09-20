@@ -45,7 +45,7 @@ function sortSocialLinks(links) {
 }
 
 function attach_slider(attachee) {
-	var attachee = attachee || ".user-articles-list";
+	var attachee = attachee || ".related-list";
 	var triggerer = ".info-tip";
 	var triggered = ".summary";
 	$(attachee).on("click", triggerer, function() {
