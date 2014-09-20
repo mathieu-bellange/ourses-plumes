@@ -178,7 +178,7 @@ function processArticle(article) {
 		$("#tags").foundation("alert");
 	}
 	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
-	$("textarea").validation_bar(); // TEMP DEBUG : apply validation_bar plugin to all textarea of the page after AJAX request
+	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
 	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
 	//loap.update(); // TEMP DEBUG : reload all loap plugins for whole document
 }

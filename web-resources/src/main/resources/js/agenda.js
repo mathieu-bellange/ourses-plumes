@@ -20,4 +20,24 @@ $("main > header").after(loadfile($app_root + "tmpl/agenda.tmpl"));
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-// jQuery events go here
+$("html").on("mouseenter", ".date-table .href-block.has-event", function() {
+	$(this).addClass("mouseenter");
+	var handler = $(this);
+	handler.data("hover", true);
+	setTimeout(function() {
+		if (handler.data("hover") == true) {
+			handler.css("width", handler.outerWidth());
+			handler.css("position", "absolute");
+			handler.css("z-index", "10");
+			handler.children(".event-list").slideDown("fast");
+		}
+	}, 400);
+});
+$("html").on("mouseleave", ".date-table .href-block.has-event", function() {
+	$(this).data("hover", false);
+	$(this).removeClass("mouseenter");
+	$(this).children(".event-list").slideUp("slow", function() {
+		$(this).css("position", "relative");
+		$(this).css("z-index", "auto");
+	});
+});

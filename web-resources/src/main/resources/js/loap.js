@@ -259,7 +259,7 @@ jQuery.fn.extend({
 
 /* Add Confirmation Bar */
 jQuery.fn.extend({
-	validation_bar : function() {
+	add_confirmation_bar : function() {
 		// vars
 		var str = "";
 		var t = 0;
@@ -298,7 +298,7 @@ jQuery.fn.extend({
 							obj.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
-								$(this).after(doT.compile(loadfile($app_root + "tmpl/validation_bar.tmpl"))); // insert validation_bar template
+								$(this).after(doT.compile(loadfile($app_root + "tmpl/confirmation_bar.tmpl"))); // insert confirmation_bar template
 								$(".validation-bar [class*='icon-']").svg_icons(); // reflow all icons of validation bar
 								$(".validation-bar").fadeIn("slow");
 							}
@@ -490,10 +490,8 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 
 if (typeof $build_icons !== "undefined" && $build_icons == true) {
 	// Process SVG Icons
-	/* TEST : import Icons CSS Effects File */
-		$("body").prepend("<style type='text/css'>" + loadfile($svg_icons_fx_file) + "</style>");
-	/* TEST : import Icons SVG File */
-		$("body").prepend(loadfile($svg_icons_file));
+		$("body").prepend("<style type='text/css'>" + loadfile($svg_icons_fx_file) + "</style>"); // append SVG effects
+		$("body").prepend(loadfile($svg_icons_file)); // append SVG icons
 }
 
 /* ------------------------------------------------------------------ */
@@ -912,40 +910,16 @@ $(".pagination li a").click(function() {
 });
 
 /* ------------------------------------------------------------------ */
-/* # Date Table */
-/* ------------------------------------------------------------------ */
-
-$("html").on("mouseenter", ".date-table .href-block.has-event", function() {
-	$(this).addClass("mouseenter");
-	var handler = $(this);
-	handler.data("hover", true);
-	setTimeout(function() {
-		if (handler.data("hover") == true) {
-			handler.css("width", handler.outerWidth());
-			handler.css("position", "absolute");
-			handler.css("z-index", "10");
-			handler.children(".event-list").slideDown("fast");
-		}
-	}, 400);
-});
-$("html").on("mouseleave", ".date-table .href-block.has-event", function() {
-	$(this).data("hover", false);
-	$(this).removeClass("mouseenter");
-	$(this).children(".event-list").slideUp("slow", function() {
-		$(this).css("position", "relative");
-		$(this).css("z-index", "auto");
-	});
-});
-
-/* ------------------------------------------------------------------ */
 /* # Comments */
 /* ------------------------------------------------------------------ */
 
-/* Comment Visibility Toggler */
+/* UNUSED */
+/*
 $(".comment-toggle a").click(function() {
 	$(this).toggleClass("active");
 	$(".comment-list").toggleClass("hide");
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Site Navigation */
@@ -963,10 +937,11 @@ $(document).ready(function() {
 /* # Links Focus Fix (for Chrome) */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
 /*
 $("html").on("click", "a", function() {
 	if (!$(this).is(":focus")) {
-		// $(this).focus(); // TEMP : CKEditor menus bug !!
+		// $(this).focus(); // BUG : conflict with CKEditor combo boxes
 	}
 });
 */

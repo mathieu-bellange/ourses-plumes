@@ -153,7 +153,7 @@ function getProfile() {
 				$("main > header").after(profile_template(profile)); // process template
 				processSocialLinks(profile.socialLinks); // process social links
 				$("textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas
-				$("textarea").validation_bar(); // initialize validation_bar plugin for all textareas
+				$("textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas
 				create_icons_input(user_links_icons_input); // process icons input for user links
 				role_display.init(); // apply role display changing
 				processAvatar();
