@@ -1,23 +1,19 @@
 ﻿				<!--Article-->
-				<section id="{{= data.beautify_title}}">
-					<article class="article">
-						<header class="topic">
-							<h2 class="title">{{= data.title}}</h2>
-							<h4 class="author"><span title="Auteure" class="icon-author medium"></span><a href="{{=data.profile.path}}" rel="author">{{=data.profile.pseudo}}</a></h4>
-							<time pubdate="{{= getDateTime(new Date(data.publishedDate))}}" class="date">{{= dateToString(new Date(data.publishedDate))}}</time><span class="right icon-date small" title="Date de publication"><span class="hide">Publi&eacute; le </span></span>
-							<p class="summary">{{= data.description}}</p>
-							<dl class="tags inline-list clearfix">
-								<dt><span title="Tags" class="icon-tag small"><strong class="hide">Tags</strong></span></dt>
-								<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">{{= data.category.category}}</a></dd>
-								<dd><a href="javascript:void(0)" rel="tag" class="label radius {{= data.rubrique.classe}}">{{= data.rubrique.rubrique}}</a></dd>
-								{{~  data.tags : tag }}
-									<dd><a href="javascript:void(0)" rel="tag" class="label radius">{{= tag.tag}}</a></dd>
-								{{~ }}
-							</dl>
-						</header>
-						<div class="article {{= data.rubrique.classe}}">
-						{{= data.body}}
-						</div>
-						<p class="author text-right">Par <a href="{{=data.profile.path}}" rel="author">{{=data.profile.pseudo}}</a></p>
+				<section id="{{= data.beautify_title }}">
+					<article class="article {{= data.rubrique.classe }}">
+						<h2 class="title">{{= data.title }}</h2>
+						<h4 class="author"><a href="{{= data.profile.path }}" class="icon-author" rel="author" title="Auteure"><span class="text">{{= data.profile.pseudo }}</span></a></h4>
+						<time class="date icon-date small" pubdate="{{= getDateTime(new Date(data.publishedDate)) }}"><small class="text"><span class="hide">Publi&eacute; le </span>{{= dateToString(new Date(data.publishedDate)) }}</small></time>
+						<p class="summary">{{= data.description }}</p>
+						<dl class="tags inline-list clearfix">
+							<dt><span class="icon-tag small" title="Tags"><strong class="hide">Tags</strong></span></dt>
+							<dd><a href="javascript:void(0)" rel="tag" class="label radius {{= data.rubrique.classe }}">{{= data.rubrique.rubrique }}</a></dd>
+							<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">{{= data.category.category }}</a></dd>
+							{{~ data.tags : tag }}
+								<dd><a href="javascript:void(0)" rel="tag" class="label radius">{{= tag.tag }}</a></dd>
+							{{~}}
+						</dl>
+						{{= data.body }}
+						<p class="author text-right"><a href="{{= data.profile.path }}" class="tip-top" rel="author" title="Voir le profil" data-tooltip>{{= data.profile.pseudo }}</a></p>
 					</article>
 				</section>

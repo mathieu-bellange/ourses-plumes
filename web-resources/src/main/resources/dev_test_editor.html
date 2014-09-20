@@ -27,9 +27,7 @@
 		<div id="dev_test_editor_toolbar" class="panel">
 			<h4 class="text-medium">Show</h4>
 			<label for="show_publishing">Publishing</label>
-			<input id="show_publishing" type="checkbox" name="show" value="publishing">
-			<label for="show_indexing">Indexing</label>
-			<input id="show_indexing" type="checkbox" name="show" value="indexing" checked>
+			<input id="show_publishing" type="checkbox" name="show" value="publishing" checked>
 			<label for="show_classic_editor">Classic Editor</label>
 			<input id="show_classic_editor" type="checkbox" name="show" value="classic_editor_fieldset">
 			<label for="show_inline_editor">Inline Editor</label>
@@ -65,48 +63,102 @@
 		});
 		</script>
 
-		<form method="get" accept-charset="utf-8" autocomplete="off" novalidate>
+		<form class="article edit" method="get" accept-charset="utf-8" autocomplete="off" novalidate>
 
-			<fieldset id="publishing" class="important">
-				<legend>Publication</legend>
+			<fieldset id="publishing" class="transparent">
+				<legend class="hide">Publication</legend>
 
 				<!--Title-->
-				<label for="title">Titre de l&rsquo;article</label>
-				<input id="title" type="text" placeholder="Le titre de l&rsquo;article (p. ex. &ldquo;L&rsquo;&eacute;galit&eacute; entre les sexes, une question plus que jamais d&rsquo;actualit&eacute;&ldquo;)">
-
-				<!--Date-->
-				<label for="date">Date de publication pr&eacute;visionnelle</label>
-				<div class="row collapse">
-					<div class="column small-4">
-						<input id="date" type="text" placeholder="JJ/MM/AAAA">
-					</div>
-					<div class="column small-8">
-						<span id="date_literal" class="postfix">&hellip;</span>
-					</div>
-				</div>
+				<label for="title" class="hide">Titre de l&rsquo;article</label>
+				<input id="title" class="title" type="text" placeholder="Le titre de l&rsquo;article">
+				<small class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
 
 				<!--Author-->
+				<!--
 				<label for="author">R&eacute;dactrice</label>
 				<input id="author" type="text" disabled>
+				-->
+				<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">Nadejda</span></span></h4>
+
+				<!--Date-->
+				<!--
+				<time datetime="2014-01-01" class="date icon-date small">1<sup>er</sup> janvier 2014</span>
+				-->
 
 				<!--Status-->
+				<!--
 				<label for="status">Statut</label>
 				<select id="status" disabled>
 					<option selected>Brouillon</option>
 					<option>En attente de validation</option>
 					<option>En ligne</option>
 				</select>
+				-->
+
+				<!--Summary-->
+				<label for="summary" class="hide">R&eacute;sum&eacute; <small class="red">*</small></label>
+				<textarea id="summary" class="summary validation min" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)"></textarea>
+				<small class="error hide">La saisie du r&eacute;sum&eacute; est obligatoire</small>
+
+				<!--Tags List-->
+				<dl class="tags inline-list clearfix" tabindex="0">
+					<dt class="icon-tag small"><strong class="text hide">Tags</strong></dt>
+					<!--
+					<dd><a href="javascript:void(0)" rel="tag" class="label radius">Rubrique</a></dd>
+					<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">Cat&eacute;gorie</a></dd>
+					-->
+				</dl>
+				<script>
+
+					// Display indexation panel (i.e. tags editing)
+					function toggle_tags() {
+						$(".tags").blur();
+						if ($(".tags").data("preventClick") !== "true" && $(".tags").data("preventToggle") !== "true") {
+							$(".tags").toggleClass("active");
+							if ($("#indexing").is(":visible")) {
+								$("#indexing").slideUp();
+							} else {
+								$(".tags").data("preventToggle", "true");
+								$("#indexing").slideDown();
+								setTimeout(function() {
+									scrollTo($("#indexing"), 250, $("#indexing").height() + 16); // scroll to indexing box including tags
+									$(".tags").removeData("preventToggle");
+									$("#rubric").focus();
+								}, 500);
+							}
+						}
+					}
+
+					// Tags list prevent click from child element
+					$(".tags dd").on("mouseenter", function() {
+						$(".tags").data("preventClick", "true");
+					});
+					$(".tags dd").on("mouseleave", function() {
+						$(".tags").removeData("preventClick");
+					});
+
+					// Tags list toggle indexation display
+					$(".tags").on("click", function() {
+						toggle_tags();
+					});
+					$(".tags").on("keypress", function(e) {
+						if (e.which === 13) {
+							toggle_tags();
+						}
+					});
+
+				</script>
 
 			</fieldset>
 
-			<fieldset id="indexing">
+			<fieldset id="indexing" style="display: none;">
 				<legend>Ind&eacute;xation</legend>
 
 				<!--Rubric-->
+				<!--
 				<div class="row collapse">
 					<div class="column small-12">
 						<label for="rubric">Rubrique <small class="red">*</small></label>
-
 							<select id="rubric">
 								<option disabled selected>&hellip;</option>
 								<option class="test" data-color="orange">Luttes</option>
@@ -116,11 +168,25 @@
 								<option data-color="cyan">&Eacute;ducation & Culture</option>
 								<option data-color="yellow">Id&eacute;es</option>
 							</select>
-
 					</div>
 				</div>
+				-->
+				<label for="rubric">Rubrique <small class="red">*</small></label>
+				<div id="rubric" class="options-select validation" tabindex="0">
+					<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
+					<ul class="options hide">
+						<li><span class="icon-struggles small" style="margin-right: .25rem;"></span>Luttes</li>
+						<li><span class="icon-ourbody small" style="margin-right: .25rem;"></span>Nos corps, nous-m&ecirc;mes</li>
+						<li><span class="icon-intersec small" style="margin-right: .25rem;"></span>Intersectionnalit&eacute;</li>
+						<li><span class="icon-internat small" style="margin-right: .25rem;"></span>International</li>
+						<li><span class="icon-educult small" style="margin-right: .25rem;"></span>&Eacute;ducation & Culture</li>
+						<li><span class="icon-ideas small" style="margin-right: .25rem;"></span>Id&eacute;es</li>
+					</ul>
+				</div>
+				<small class="error hide">La saisie de la rubrique est obligatoire</small>
 
 				<!--Category-->
+				<!--
 				<div class="row collapse">
 					<div class="column small-12">
 						<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
@@ -136,101 +202,108 @@
 						</select>
 					</div>
 				</div>
+				-->
+				<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
+				<div id="category" class="options-select validation" tabindex="0">
+					<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
+					<ul class="options hide">
+						<li>Br&egrave;ve</li>
+						<li>Reportage</li>
+						<li>Dossier</li>
+						<li>Spotlight</li>
+						<li>Interview</li>
+						<li>Tribune</li>
+						<li>Revue du web</li>
+					</ul>
+				</div>
+				<small class="error hide">La saisie de la cat&eacute;gorie est obligatoire</small>
 
 				<!--Tags-->
-				<div class="row collapse">
-					<div class="column">
-						<label for="tag">Tags</label>
+				<label for="tag">Tags</label>
+				<style>
+					/* Named Components */
+					#tag {}
+					#tag_add {margin-bottom: 0;}
+					/* Autocomplete */
+					.autocomplete {
+						font-size: 87.5%;
+						background-color: rgba(255, 0, 0, .5);
+						background-color: transparent;
+						transition: box-shadow .5s;
+					}
+					.autocomplete ul {
+						margin: 0 0 1rem;
+						list-style: none;
+						background-color: rgba(0, 255, 0, .5);
+						background-color: white;
+						border-width: 0 .125rem;
+						border-style: solid;
+						border-color: silver;
+					}
+					.autocomplete ul > li {
+						padding: 0 .5rem;
+						line-height: 200%;
+					}
+					.autocomplete ul > li.selected {
+						color: HighlightText;
+						background-color: Highlight;
+						font-weight: bold;
+					}
+					.autocomplete ul > li.selected mark {
+						color: white;
+						background-color: #d52;
+					}
+					.autocomplete ul > li.suggested-fetch {
+						font-weight: bold;
+					}
+					.autocomplete ul > li.suggested-fetch:after {
+						content: "Suggéré";
+						float: right;
+						color: darkgray;
+						font-size: 75%;
+						font-weight: bold;
+					}
+					.autocomplete ul > li.suggested-fetch.selected:after {
+						color: rgba(255, 255, 255, .5);
+					}
+					input:focus + button + .error + .autocomplete {
+						-webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+							 -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+										box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+					}
+					input:focus + button + .error + .autocomplete > ul {
+						border-color: darkgray;
+					}
+					.css-debug .autocomplete ul > li:nth-child(odd) {
+						background-color: rgba(0, 255, 0, .5);
+					}
+					.css-debug .autocomplete ul > li:nth-child(even) {
+						background-color: rgba(0, 0, 255, .5);
+					}
+				</style>
+				<div>
+					<input id="tag" class="validation" style="display: inline-block; height: 2.25rem; width: 16rem; border-width: .125rem;" type="text" placeholder="Une &eacute;tiquette au choix (32 carac.)" maxlength="32"><button id="tag_add" type="button" href="javascript:void(0)" class=" icon-add small" style=""></button>
+					<small id="tag_error" class="hide error" style="top: 0; width: 16rem;">Ce tag est déjà pris !</small>
+					<div class="autocomplete hide" style="position: relative; width: 16rem; z-index: 2;">
+						<ul>
+							<li>Amphibien</li>
+							<li>Amphipode</li>
+							<li>Amphithéatre</li>
+							<li>Amphore</li>
+							<li>Amphotère</li>
+							<li>Amplificateur</li>
+							<li>Ampoule</li>
+							<li>Amputation</li>
+							<li>Jeu ViDeo</li>
+							<li>Jeux-vidéos</li>
+							<li>Jeux  vidéos</li>
+							<li class="suggested-fetch" >Jeux vidéos</li>
+							<li>JEUX VIDEOS</li>
+							<li>Jeux_vidéos</li>
+						</ul>
 					</div>
-
-					<style>
-						/* Named Components */
-						#tag {}
-						#tag_add {margin-bottom: 0;}
-						/* Autocomplete */
-						.autocomplete {
-							font-size: 87.5%;
-							background-color: rgba(255, 0, 0, .5);
-							background-color: transparent;
-							transition: box-shadow .5s;
-						}
-						.autocomplete ul {
-							margin: 0 0 1rem;
-							list-style: none;
-							background-color: rgba(0, 255, 0, .5);
-							background-color: white;
-							border-width: 0 .125rem;
-							border-style: solid;
-							border-color: silver;
-						}
-						.autocomplete ul > li {
-							padding: 0 .5rem;
-							line-height: 200%;
-						}
-						.autocomplete ul > li.selected {
-							color: HighlightText;
-							background-color: Highlight;
-							font-weight: bold;
-						}
-						.autocomplete ul > li.selected mark {
-							color: white;
-							background-color: #d52;
-						}
-						.autocomplete ul > li.suggested-fetch {
-							font-weight: bold;
-						}
-						.autocomplete ul > li.suggested-fetch:after {
-							content: "Suggéré";
-							float: right;
-							color: darkgray;
-							font-size: 75%;
-							font-weight: bold;
-						}
-						.autocomplete ul > li.suggested-fetch.selected:after {
-							color: rgba(255, 255, 255, .5);
-						}
-						input:focus + button + .error + .autocomplete {
-							-webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
-								 -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
-											box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
-						}
-						input:focus + button + .error + .autocomplete > ul {
-							border-color: darkgray;
-						}
-						.css-debug .autocomplete ul > li:nth-child(odd) {
-							background-color: rgba(0, 255, 0, .5);
-						}
-						.css-debug .autocomplete ul > li:nth-child(even) {
-							background-color: rgba(0, 0, 255, .5);
-						}
-					</style>
-
-					<div class="column">
-						<input id="tag" class="validation" style="display: inline-block; height: 2.25rem; width: 16rem; border-width: .125rem;" type="text" placeholder="Une &eacute;tiquette au choix (32 carac.)" maxlength="32"><button id="tag_add" type="button" href="javascript:void(0)" class=" icon-add small" style=""></button>
-						<small id="tag_error" class="hide error" style="top: 0; width: 16rem;">Ce tag est déjà pris !</small>
-						<div class="autocomplete hide" style="position: relative; width: 16rem; z-index: 2;">
-							<ul>
-								<li>Amphibien</li>
-								<li>Amphipode</li>
-								<li>Amphithéatre</li>
-								<li>Amphore</li>
-								<li>Amphotère</li>
-								<li>Amplificateur</li>
-								<li>Ampoule</li>
-								<li>Amputation</li>
-								<li>Jeu ViDeo</li>
-								<li>Jeux-vidéos</li>
-								<li>Jeux  vidéos</li>
-								<li class="suggested-fetch" >Jeux vidéos</li>
-								<li>JEUX VIDEOS</li>
-								<li>Jeux_vidéos</li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="column" style="margin-bottom: 1rem;"><span style="font-size: 87.5%; color: dimgray;">Try it now ! Type <code>amp</code> or <code>jeu</code> in the input.</span></div>
-
-				</div><!--row-->
+				</div>
+				<div style="margin-bottom: 1rem;"><span style="font-size: 87.5%; color: dimgray;">Try it now ! Type <code>amp</code> or <code>jeu</code> in the input.</span></div>
 
 				<script>
 					// vars
@@ -377,20 +450,6 @@
 					});
 				</script>
 
-				<!--
-				<dl id="tags" class="tags inline-list clearfix">
-					<dt><span class="icon-tag small" title="Tags"><span class="hide">Tags</span></span></dt>
-					<dd class="hide"><span id="tag_rubric" class="label radius">&hellip;</span></dd>
-					<dd class="hide"><span id="tag_category" class="label radius inverse">&hellip;</span></dd>
-				</dl>
-				-->
-
-				<!--Summary-->
-				<div>
-					<label for="summary">R&eacute;sum&eacute;</label>
-					<textarea id="summary" class="min" maxlength="255" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (255 caract&egrave;res maximum)"></textarea>
-				</div>
-
 			</fieldset>
 
 			<!--Rubrics Switcher-->
@@ -445,31 +504,10 @@
 			</fieldset>
 
 			<!--Inline CKEditor-->
-			<fieldset id="inline_editor_fieldset" class="invisible">
-				<legend>R&eacute;daction</legend>
-				<style>
-					.article {
-						padding: .5rem;
-						border: 1px solid transparent;
-						background-color: white;
-					}
-					.article:hover {
-						cursor: pointer;
-						border-style: dashed;
-						border-color: darkgray;
-						background-color: whitesmoke;
-					}
-					.article:focus {
-						cursor: text;
-						border-style: solid;
-						border-color: darkgray;
-						background-color: white;
-						box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);
-						transition: box-shadow .75s;
-					}
-				</style>
-				<label for="inline_editor" style="margin-top: 2rem;">Corps de texte <span class="text-silver">inline</span></label>
-				<div id="inline_editor" class="article" contenteditable="true">
+			<fieldset id="inline_editor_fieldset" class="transparent">
+				<legend class="hide">R&eacute;daction</legend>
+				<label for="inline_editor" class="hide">Corps de texte <span class="text-silver">inline</span></label>
+				<div id="inline_editor" class="inline-editor" contenteditable="true">
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
 					<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
@@ -479,7 +517,8 @@
 
 			<!--Validation Buttons-->
 			<div class="text-center" style="margin-top: 1rem;">
-				<input class="button tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip data-options="disable_for_touch:true">
+				<input class="button secondary tip-top" type="button" value="Lecture seule" title="Visualiser l&rsquo;article sans les fonctionnalit&eacute;s d&rsquo;&eacute;dition" data-tooltip data-options="disable_for_touch:true">
+				<input class="button success tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip data-options="disable_for_touch:true">
 				<input class="button alert tip-top" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" data-tooltip data-options="disable_for_touch:true">
 			</div>
 
@@ -494,6 +533,7 @@
 			$(document).ready(function(){
 				$("textarea").autosize({append: ""}); // Apply autosize plugin to all <textarea> of the page
 				$("textarea").validation_bar(); // Apply validation_bar plugin to all <textarea> of the page
+				$(".options-select").options_select(); // Apply options_select plugin to all .options-select of the page
 			});
 		</script>
 		<script>

@@ -232,13 +232,13 @@ function update_rubric() {
 		$("#tag_rubric").text($("#rubric .select").text());
 		// update color
 		$("#tag_rubric").removeClass();
-		$("#editor").removeClass();
+		$("form").removeClass(); // WARNING : using 'form' as topmost parent element
 		if ($("#rubric .selected").attr("data-color")) {
 			$("#tag_rubric").addClass("label radius " + $("#rubric .selected").attr("data-color"));
-			$("#editor").addClass("article " + $("#rubric .selected").attr("data-color"));
+			$("form").addClass("article edit " + $("#rubric .selected").attr("data-color")); // WARNING : using 'form' as topmost parent element
 		} else {
 			$("#tag_rubric").addClass("label radius secondary");
-			$("#editor").addClass("article");
+			$("form").addClass("article edit"); // WARNING : using 'form' as topmost parent element
 		}
 		// update visibility
 		if ($("#tag_rubric").parent("dd").hasClass("hide")) {
@@ -307,6 +307,25 @@ function hide_error(obj, clear) {
 		$(obj).next("small.error").addClass("hide")
 		if (clear) {
 			$(obj).val("");
+		}
+	}
+}
+
+/* Display indexation panel (i.e. tags editing) */
+function toggle_indexation() {
+	$(".tags").blur();
+	if ($(".tags").data("preventClick") !== "true" && $(".tags").data("preventToggle") !== "true") {
+		$(".tags").toggleClass("active");
+		if ($("#indexing").is(":visible")) {
+			$("#indexing").slideUp();
+		} else {
+			$(".tags").data("preventToggle", "true");
+			$("#indexing").slideDown();
+			setTimeout(function() {
+				scrollTo($("#indexing"), 250, $("#indexing").height() + 16); // scroll to indexing box including tags
+				$(".tags").removeData("preventToggle");
+				$("#rubric").focus();
+			}, 500);
 		}
 	}
 }
@@ -405,6 +424,9 @@ function checkTitleAJAX() {
 function checkRubric() {
 	if ($("#rubric li.selected").text().length === 0) {
 		$("#rubric").set_validation(false);
+		if (!$("#indexing").is(":visible")) {
+			toggle_indexation();
+		}
 	} else {
 		$("#rubric").set_validation(true);
 	}
@@ -413,6 +435,9 @@ function checkRubric() {
 function checkCategory() {
 	if ($("#category li.selected").text().length === 0) {
 		$("#category").set_validation(false);
+		if (!$("#indexing").is(":visible")) {
+			toggle_indexation();
+		}
 	} else {
 		$("#category").set_validation(true);
 	}
@@ -435,15 +460,14 @@ function checkBody() {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Persistent events */
 /* ------------------------------------------------------------------ */
 
-// local vars for editor
+// Local vars for persistent events
 var editor_cfg = {
 	t_summary : 0
 };
-
-// local editor eventing
+// Save button form check validation
 $("html").on("click", "#saveButton", function() {
 	checkTitleAJAX();
 	checkRubric();
@@ -454,9 +478,11 @@ $("html").on("click", "#saveButton", function() {
 		sendArticle();
 	}
 });
+// Title  validation
 $("html").on("blur", "#title", function() {
 	checkTitleAJAX();
 });
+// Summary check validation
 $("html").on("focus", "#summary", function() {
 	clearTimeout(editor_cfg.t_summary);
 	$("#summary").set_validation(true);
@@ -466,6 +492,23 @@ $("html").on("blur", "#summary", function() {
 		checkSummary();
 	}, 250);
 });
+// Tags add new element
 $("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
+});
+// Tags list prevent click from child element
+$("html").on("mouseenter", ".tags dd", function() {
+	$(".tags").data("preventClick", "true");
+});
+$("html").on("mouseleave", ".tags dd", function() {
+	$(".tags").removeData("preventClick");
+});
+// Tags list toggle indexation display
+$("html").on("click", ".tags", function() {
+	toggle_indexation();
+});
+$("html").on("keypress", ".tags", function(e) {
+	if (e.which === 13) { // Enter
+		toggle_indexation();
+	}
 });

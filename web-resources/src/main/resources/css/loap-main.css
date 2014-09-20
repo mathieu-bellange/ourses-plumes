@@ -177,15 +177,11 @@ fieldset.important {
   border-color: lightgrey;
 }
 fieldset.transparent {
-  background-color: transparent;
-  border-color: transparent;
-}
-fieldset.invisible {
   padding: 0;
   background-color: transparent;
   border-color: transparent;
 }
-fieldset.invisible legend {
+fieldset.transparent legend {
   line-height: 0;
 }
 
@@ -754,14 +750,14 @@ kbd,
 
 /* Fast Nav */
 .fast-nav {
-  margin-bottom: .5rem; /* NEW */
+  margin-bottom: .5rem;
 }
 .fast-nav ul {vertical-align: middle;}
 .fast-nav ul li {
-  margin: 0 .5rem 0 0; /* NEW */
+  margin: 0 .5rem 0 0;
 }
 .fast-nav ul li:last-child {
-  margin-right: 0; /* NEW */
+  margin-right: 0;
 }
 .fast-nav ul li a:not(.icon) {
   padding: 0 .5rem;
@@ -1096,15 +1092,6 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .picture.cover {background-size: cover;}
 .picture.contain {background-size: contain;}
 
-/* EDIT BACKUP */
-/*
-.picture.huge {width: 384px; height: 384px;}
-.picture.large {width: 256px; height: 256px;}
-.picture.medium {width: 128px; height: 128px;}
-.picture.small {width: 96px; height: 96px;}
-.picture.tiny {width: 48px; height: 48px;}
-*/
-
 .picture.huge {width: 384px; height: 384px;}
 .picture.large {width: 256px; height: 256px;}
 .picture.medium {width: 128px; height: 128px;}
@@ -1246,7 +1233,6 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   display: inline-block;
   color: inherit;
   border-color: inherit;
-  /*border-bottom: 0;*/
 }
 .alert-box .close {
   top: 0; /* Foundation Override */
@@ -1624,6 +1610,10 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   background-color: whitesmoke;
   border-color: darkgray;
 }
+.options-select.wrong > .select,
+.options-select:focus.wrong > .select {
+  border-color: #c33;
+}
 .options-select > .options {
   padding: 0;
   margin-left: 0;
@@ -1701,101 +1691,119 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   display: none;
   position: relative;
   top: -.5rem;
-  line-height: 1.5rem;
+  line-height: 2rem;
 }
 
 /* ------------------------------------------------------------------ */
 /* # Articles */
 /* ------------------------------------------------------------------ */
 
-.article .topic .title {}
+.article .title {padding: 0 .5rem;}
 
-.article .topic .author {
+.article .author:not(p) {
   display: inline-block;
-  margin: 0 0 .75rem;
   float: left;
+  margin: 0 0 .75rem;
+  line-height: 0;
 }
-.article .topic .author a:hover:after {
+.article .author:not(p) > .icon > .text {
+  font-size: 100%;
+  text-transform: none;
+  vertical-align: middle;
+}
+.article:not(.edit) .author:not(p):hover:after {
   content: "Voir le profil";
   margin-left: .5rem;
   color: silver;
   font-size: smaller;
+  font-variant: normal;
   line-height: initial;
 }
 
-.article .topic .date {
-  margin: 0;
+.article .date {
   float: right;
+  margin: 0;
   color: darkgray;
   text-align: right;
 }
-.article .topic .summary {
+
+.article .summary {
   clear: both;
-/*margin: .75rem 0;*/
   margin: 0 0 .75rem;
-  padding: .5rem 0;
+  padding: .5rem;
   color: gray;
   font-size: 90%;
   font-style: italic;
   border: .25rem solid silver;
-  border-left: 0;
-  border-right: 0;
-}
-.article .topic .summary .label {
-  margin: 0 .25rem 0 0;
-  color: white;
-  background-color: #333;
+  border-left-color: transparent;
+  border-right-color: transparent;
 }
 
-.article .topic .tag-list {
-/*margin-bottom: .75rem;*/
+.article .tags {
+  margin-bottom: 0;
+  border: 1px solid transparent;
 }
 
-.article .column > *:first-child {margin-top: 0;}
-.article .column > *:last-child {margin-bottom: 0;}
-.article .column > p {text-align: justify;}
-.article .column > .author {}
-.article .column > .author:before {
+.article > p {
+  text-align: justify;
+}
+.article > p.author {
+  text-align: right;
+  font-variant: small-caps;
+}
+.article > p.author:before {
   content: "—";
   margin-right: .5rem;
 }
-[class*='cke'] .callout, /* CKEditor Styles Menu */
+.article > p.author > a:not(.label):not(.close) {
+  padding: .125rem .25rem;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: .25rem;
+}
+.article > p.author > a:not(.label):not(.close):hover,
+.article > p.author > a:not(.label):not(.close):focus {
+  color: white;
+}
+.article > p.author > a:not(.label):not(.close):hover {
+  background-color: dimgray;
+}
+.article > p.author > a:not(.label):not(.close):focus {
+  background-color: #333;
+}
+
+[class*=' cke'] .callout, /* CKEditor Format Styles Combo */
 .article .callout {
-  width: 90%;
+  position: relative; /* Fix CKEditor callout position bug */
   width: 75%;
-  margin-left: 5%;
   margin-left: 12.5%;
   margin-bottom: 1rem;
+  color: gray;
   font-family: "Oswald", sans-serif;
-  font-size: 175%;
-  font-size: 150%; /* Reduce font-size */
+  font-size: 150%;
   line-height: 150%;
   text-align: center;
-  color: gray;
   border: .25rem solid gray;
   border-left: 0;
   border-right: 0;
-  /*background-color: rgba(255, 0, 0, .5); /* DEBUG */
-  position: relative; /* TEMP : CKEditor position when editing bug */
 }
-[class*='cke'] .callout { /* CKEditor Styles Menu */
-  /*margin-bottom: 0; /* Fix margin bottom*/
+[class*='cke_panel'] .callout { /* CKEditor Styles Menu */
+  margin-bottom: 0; /* Fix margin bottom */
 }
 .article .callout:before {
-  content : "“"; /* Add left double quote */
-  position: absolute; /* TEMP : CKEditor position when editing bug */
-  top: 0; /* TEMP : CKEditor position when editing bug */
-  left: 0; /* TEMP : CKEditor position when editing bug */
+  content : "“";
+  position: absolute; /* Fix CKEditor callout position bug */
+  top: 0; /* Fix CKEditor callout position bug */
+  left: 0; /* Fix CKEditor callout position bug */
   margin-right: .5rem;
-  /*background-color: rgba(255, 255, 0, .5); /* DEBUG */
 }
 .article .callout:after{
-  content : "”"; /* Add right double quote */
-  position: absolute; /* TEMP : CKEditor position when editing bug */
-  bottom: 0; /* TEMP : CKEditor position when editing bug */
-  right: 0; /* TEMP : CKEditor position when editing bug */
+  content : "”";
+  position: absolute; /* Fix CKEditor callout position bug */
+  bottom: 0; /* Fix CKEditor callout position bug */
+  right: 0; /* Fix CKEditor callout position bug */
   margin-left: .5rem;
-  /*background-color: rgba(255, 255, 0, .5); /* DEBUG */
 }
 
 /* Standard Article Callout Rubrics Colors */
@@ -1809,24 +1817,131 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .article.magenta .callout {color: #e2a; border-color: #e2a;}
 
 /* Named Article Callout Rubrics Colors */
-.article.intersec a,
 .article.intersec h4,
+.article.intersec a:not(.label):not(.close),
 .article.intersec .callout{color: #c33; border-color: #c33;}
-.article.struggles a,
 .article.struggles h4,
+.article.struggles a:not(.label):not(.close),
 .article.struggles .callout {color: #f63; border-color: #f63;}
-.article.ideas a,
 .article.ideas h4,
+.article.ideas a:not(.label):not(.close),
 .article.ideas .callout {color: #ca0; border-color: #ca0;}
-.article.educult a,
 .article.educult h4,
+.article.educult a:not(.label):not(.close),
 .article.educult .callout {color: #399; border-color: #399;}
-.article.internat a,
 .article.internat h4,
+.article.internat a:not(.label):not(.close),
 .article.internat .callout {color: #36c; border-color: #36c;}
-.article.ourbody a,
 .article.ourbody h4,
+.article.ourbody a:not(.label):not(.close),
 .article.ourbody .callout {color: #e2a; border-color: #e2a;}
+
+/* ------------------------------------------------------------------ */
+/* # Edit Articles */
+/* ------------------------------------------------------------------ */
+
+/* Below are shared mimic styles */
+.article.edit .title:hover,
+.article.edit .summary:hover,
+.article.edit .tags:hover,
+.article.edit .tags:focus,
+.article.edit .inline-editor:hover {
+  cursor: pointer;
+  border-style: dotted;
+  border-color: silver;
+  background-color: whitesmoke;
+}
+.article.edit .title:focus,
+.article.edit .title.wrong,
+.article.edit .summary:focus,
+.article.edit .summary.wrong,
+.article.edit .inline-editor:focus,
+.article.edit .inline-editor.wrong {
+  cursor: text;
+  border-style: solid;
+  border-color: darkgray;
+  background-color: white;
+}
+.article.edit .title.wrong,
+.article.edit .summary.wrong,
+.article.edit .inline-editor.wrong {
+  border-color: #c33;
+}
+
+/* Below are specific mimic styles */
+.article.edit .title {
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+  font-size: 2.5em;
+  font-family: "Oswald",sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  height: auto;
+  color: black;
+  background-color: transparent;
+  border-color: transparent;
+}
+.article.edit .title + .error {
+  margin-top: -.625rem; /* WARNING : vertical position adjustment */
+}
+
+.article.edit .summary:hover {
+  border-style: dashed;
+}
+.article.edit .summary:focus,
+.article.edit .summary.wrong {
+  padding: .675rem;
+  font-style: normal;
+  border-width: .125rem;
+  border-style: solid;
+}
+.article.edit .summary + .error {
+  margin-top: 1rem; /* WARNING : vertical position adjustment */
+}
+
+.article.edit .tags {
+  position: relative;
+  display: block;
+  padding-right: 10rem; /* WARNING : based upon after pseudo-element text width */
+}
+.article.edit .tags:after {
+  color: gainsboro;
+  font-size: 1rem;
+  transition: all .25s ease;
+}
+.article.edit .tags:hover:after,
+.article.edit .tags:focus:after,
+.article.edit .tags.active:after {
+  content: "Éditer les tags";
+  position: absolute;
+  top: 12.5%;
+  right: 1rem;
+  color: silver;
+  font-size: 1.75rem;
+  font-family: "Oswald";
+}
+.article.edit .tags.active:after {
+  content: "Masquer les tags";
+}
+.article.edit .tags dt > svg {
+  transition: all .25s ease;
+}
+.article.edit .tags:hover dt > svg,
+.article.edit .tags:focus dt > svg,
+.article.edit .tags.active dt > svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.article.edit .inline-editor {
+  padding: .5rem;
+  border: 1px solid transparent;
+  background-color: white;
+  transition: box-shadow .75s; /* TEMP */
+}
+.article.edit .inline-editor:focus {
+  box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);
+}
 
 /* ------------------------------------------------------------------ */
 /* # Articles List */
@@ -2196,7 +2311,13 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   background-color: #f0f0f0;
   border-color: transparent;
 }
-.user-profile .picture {margin-bottom: .5rem;}
+.user-profile .picture {
+  margin-bottom: .5rem;
+  text-decoration: none;
+  border: .375rem dashed transparent;
+  border-radius: 1rem;
+  background-clip: content-box;
+}
 .user-profile .inline-list {margin-bottom: 0;}
 .user-profile .user-name {
   height: 3rem;
@@ -2209,16 +2330,10 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   background-color: #759;
 }
 .user-profile .user-role {}
-.user-profile .user-desc {}
+.user-profile .user-desc {padding: .375rem;}
 
 /* Below are classes for user profile using HTML input mimics */
-.user-profile a.picture {
-  position: relative;
-  text-decoration: none;
-  border: .375rem dashed transparent;
-  border-radius: 1rem;
-  background-clip: content-box;
-}
+.user-profile a.picture {position: relative;}
 .user-profile a.picture:hover,
 .user-profile a.picture:focus {
   border-color: dimgray;
@@ -2294,18 +2409,13 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 }
 .user-profile textarea.user-desc {
   position: relative;
-  left: -.25rem;
-  top: -.25rem;
   margin-bottom: 0;
-  padding: .25rem;
+  padding: .375rem;
   font-size: 1em;
   line-height: 133%;
   color: #222;
   border-color: transparent;
   background-color: transparent;
-  -webkit-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
-     -moz-transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
-          transition: top .125s linear, left .125s linear, margin-bottom .125s linear;
 }
 
 /* Below are shared styles for user profile using HTML input mimics */
