@@ -257,7 +257,7 @@ jQuery.fn.extend({
 	}
 });
 
-/* Add Confirmation */
+/* Add Confirmation Bar */
 jQuery.fn.extend({
 	validation_bar : function() {
 		// vars
@@ -963,11 +963,13 @@ $(document).ready(function() {
 /* # Links Focus Fix (for Chrome) */
 /* ------------------------------------------------------------------ */
 
+/*
 $("html").on("click", "a", function() {
 	if (!$(this).is(":focus")) {
-		$(this).focus();
+		// $(this).focus(); // TEMP : CKEditor menus bug !!
 	}
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Links Display Switchers */
