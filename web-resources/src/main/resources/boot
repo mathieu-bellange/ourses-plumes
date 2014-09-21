@@ -34,9 +34,11 @@ $build_compress         = false;                                // Boolean  Comp
 $build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
 $build_icons            = true;                                 // Boolean  Generate inline SVG icons into the document. Default = true
 $dev_toolbar            = true;                                 // Boolean  Create dev toolbar. Default = false
+$free_log               = true;                                 // Boolean  Disable abide validation for logger. Default = "false"
 $css_fx                 = true;                                 // Boolean  Enable CSS effects. Default = true
 $lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
 $null_link              = "javascript:void(0)";                 // String   Set null link value. Default = "javascript:void(0)"
+$page_title             = null;                                 // String   Register page title. Default = null
 
 /* Navigation */
 $login_page             = "/connexion";                         // String   URL of the login page. Default = "/connexion"
@@ -91,12 +93,6 @@ var $months = [                                                 // Array    Defi
 	"novembre",
 	"décembre"
 ];
-
-/* TEMP : dev constants */
-$boot                   = true;                                 // Boolean  Flag for this file setup. * DO NOT REMOVE
-$free_log               = true;                                 // Boolean  Disable abide validation for logger.
-$user_picture           = "usr-nadejda.jpg";                    // String   Register user picture file.
-$page_title             = null;                                 // String   Register page title.
 
 /* ------------------------------------------------------------------ */
 /* # Navigation map relocation */
