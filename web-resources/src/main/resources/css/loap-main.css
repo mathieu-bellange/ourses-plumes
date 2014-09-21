@@ -1040,7 +1040,6 @@ kbd,
   margin: 0; /* Foundation override */
   font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif; /* Foundation override */
 }
-.sub-nav.switch dt, .sub-nav.switch dd, .sub-nav.switch li {}
 .sub-nav.toggle dt, .sub-nav.toggle dd, .sub-nav.toggle li {
   margin: 0 .125rem;
 }
