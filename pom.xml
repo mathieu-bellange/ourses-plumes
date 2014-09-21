@@ -11,36 +11,36 @@
 		<java-version>1.7</java-version>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
-		
+
 		<!-- REST -->
 		<jersey-version>1.18</jersey-version>
 		<jackson-version>1.9.12</jackson-version>
-		
+
 		<!-- spring -->
 		<spring-version>3.2.0.RELEASE</spring-version>
-		
+
 		<!-- security -->
 		<ourses-security-version>0.0.2</ourses-security-version>
-		
+
 		<!-- test -->
 		<junit-version>4.11</junit-version>
 		<fest-assert-version>1.4</fest-assert-version>
 		<mockito-version>1.9.5</mockito-version>
 		<hsql-version>2.2.8</hsql-version>
-		
+
 		<!-- sonar -->
 		<sonar.version>2.0</sonar.version>
-		
+
 		<!-- server -->
 		<jetty.version>9.1.3.v20140225</jetty.version>
-		
+
 		<!-- plugin maven -->
 		<jar-plugin-version>2.4</jar-plugin-version>
 		<dependency-plugin-version>2.3</dependency-plugin-version>
 		<surfire-plugin-version>2.15</surfire-plugin-version>
 		<compiler-plugin-version>3.1</compiler-plugin-version>
 	</properties>
-	
+
 	<scm>
 		<developerConnection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</developerConnection>
 		<connection>scm:git:ssh://git@github.com/mathieu-bellange/ourses-plumes.git</connection>
@@ -61,15 +61,15 @@
 			<url>dav:https://repository-ourses-plumes.forge.cloudbees.com/snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
-		<repositories>
-		    <repository>
-		        <id>project.local</id>
-		        <name>project</name>
-		        <url>file:${project.basedir}/repo</url>
-		    </repository>
-		</repositories>
-	
+
+	<repositories>
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/repo</url>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- REST -->
@@ -122,59 +122,58 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
-		
 		<extensions>
-	    	<extension>
-	        	<groupId>org.apache.maven.wagon</groupId>
-	            <artifactId>wagon-webdav</artifactId>
-	            <version>1.0-beta-2</version>
-	         </extension>
-	    </extensions>
+				<extension>
+					<groupId>org.apache.maven.wagon</groupId>
+					<artifactId>wagon-webdav</artifactId>
+					<version>1.0-beta-2</version>
+				</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.4.2</version>
 				<dependencies>
-			        <dependency>
-			        	<groupId>org.apache.maven.scm</groupId>
-			          	<artifactId>maven-scm-provider-gitexe</artifactId>
-			          	<version>1.9</version>
-			    	</dependency>
-			    </dependencies>
+					<dependency>
+					<groupId>org.apache.maven.scm</groupId>
+					<artifactId>maven-scm-provider-gitexe</artifactId>
+					<version>1.9</version>
+					</dependency>
+				</dependencies>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
 			<plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-dependency-plugin</artifactId>
-	            <version>2.3</version>
-	            <executions>
-	                <execution>
-	                    <phase>package</phase>
-	                    <goals><goal>copy</goal></goals>
-	                    <configuration>
-	                        <artifactItems>
-	                            <artifactItem>
-	                                <groupId>com.github.jsimone</groupId>
-	                                <artifactId>webapp-runner</artifactId>
-	                                <version>7.0.40.0</version>
-	                                <destFileName>webapp-runner.jar</destFileName>
-	                            </artifactItem>
-	                        </artifactItems>
-	                    </configuration>
-	                </execution>
-	            </executions>
-	        </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals><goal>copy</goal></goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.github.jsimone</groupId>
+									<artifactId>webapp-runner</artifactId>
+									<version>7.0.40.0</version>
+									<destFileName>webapp-runner.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
-		    		<artifactId>jetty-maven-plugin</artifactId>
+					<artifactId>jetty-maven-plugin</artifactId>
 					<version>${jetty.version}</version>
 				</plugin>
 				<plugin>
@@ -191,19 +190,19 @@
 					</configuration>
 				</plugin>
 				<plugin>
-	            	<groupId>org.apache.maven.plugins</groupId>
-	            	<artifactId>maven-dependency-plugin</artifactId>
-	            	<version>${dependency-plugin-version}</version>
-	            </plugin>
-	            <plugin>
-			        <groupId>org.apache.maven.plugins</groupId>
-			        <artifactId>maven-surefire-plugin</artifactId>
-			        <version>${surfire-plugin-version}</version>
-			        <configuration>
-			          <argLine>-Dfile.encoding=UTF-8</argLine>
-			        </configuration>
-			    </plugin>
-			    <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${dependency-plugin-version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surfire-plugin-version}</version>
+					<configuration>
+						<argLine>-Dfile.encoding=UTF-8</argLine>
+					</configuration>
+				</plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${compiler-plugin-version}</version>

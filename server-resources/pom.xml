@@ -13,13 +13,13 @@
 		<javax-servlet-version>3.0.1</javax-servlet-version>
 		<urlrewriter-version>4.0.3</urlrewriter-version>
 		<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
-		
+
 		<!-- commons -->
 		<commons-lang-version>3.1</commons-lang-version>
 		<guava-version>14.0.1</guava-version>
 		<jsr-305-version>2.0.1</jsr-305-version>
 		<joda-time-version>2.2</joda-time-version>
-		
+
 		<!-- aop -->
 		<aspectjrt-version>1.7.1</aspectjrt-version>
 		<aspectjweaver-version>1.7.1</aspectjweaver-version>
@@ -41,7 +41,7 @@
 		<!-- sonar -->
 		<sonar.language>java</sonar.language>
 		<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
-		
+
 		<!-- maven plugin -->
 		<war-plugin-version>2.4</war-plugin-version>
 	</properties>
@@ -54,16 +54,15 @@
 			<version>${javax-servlet-version}</version>
 		</dependency>
 		<dependency>
-	        <groupId>org.tuckey</groupId>
-	        <artifactId>urlrewritefilter</artifactId>
-	        <version>${urlrewriter-version}</version>
-	    </dependency>
+				<groupId>org.tuckey</groupId>
+				<artifactId>urlrewritefilter</artifactId>
+				<version>${urlrewriter-version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.3-1102-jdbc41</version>
 		</dependency>
-		
 
 		<!-- commons -->
 		<dependency>
@@ -86,8 +85,7 @@
 			<artifactId>joda-time</artifactId>
 			<version>${joda-time-version}</version>
 		</dependency>
-		
-		
+
 		<!-- aop -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -257,7 +255,7 @@
 			<version>${spring-ebean-version}</version>
 		</dependency>
 	</dependencies>
-	
+
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -301,7 +299,7 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<resources>
 			<resource>
@@ -343,13 +341,12 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${war-plugin-version}</version>
-				<executions>
-				</executions>
+				<executions></executions>
 				<configuration>
 					<warSourceDirectory>${webappDirectory}</warSourceDirectory>
 					<webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
@@ -368,16 +365,16 @@
 					<warName>Ourses</warName>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
-			
+
 			<!-- server -->
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
-		    	<artifactId>jetty-maven-plugin</artifactId>
+				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
 					<reload>manual</reload>
 					<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
@@ -386,11 +383,11 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
-			
+
 			<!-- test -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-surefire-plugin</artifactId>
+				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
 
 			<!-- sonar -->
