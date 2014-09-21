@@ -9,15 +9,6 @@
 /* # Public Variables */
 /* ------------------------------------------------------------------ */
 
-/* Utility */
-$build_compress         = false;                                // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
-$build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
-$build_icons            = true;                                 // Boolean  Generate inline SVG icons into the document. Default = true
-$dev_toolbar            = true;                                 // Boolean  Create dev toolbar. Default = false
-$css_fx                 = true;                                 // Boolean  Enable CSS effects. Default = true
-$lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
-$null_link              = "javascript:void(0)";                 // String   Set null link value. Default = "javascript:void(0)"
-
 /* Whois */
 $org_url                = "http://www.ourses-plumes.org/";      // String   Set organization URL.
 $org_name               = "Les Ourses &agrave; plumes";         // String   Set organization name.
@@ -27,7 +18,7 @@ $app_kwd                = ["Webzine", "F&eacute;minisme"];      // Array    Set 
 $app_desc               = "Un webzine f&eacute;ministe.";       // String   Set application keywords.
 $app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
 
-/* Application globals */
+/* Security */
 $oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token. Default = "oursesAuthcToken"
 $oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo. Default = "oursesUserPseudo"
 $oursesUserRole         = "oursesUserRole";                     // String   Key of the User role. Default = "oursesUserRole"
@@ -38,19 +29,16 @@ $redir_param            = "?redirection=";                      // String   URL 
 $role_admin             = "Administratrice"                     // String   Admin role. Default = "Administratrice"
 $role_redac             = "Rédactrice"                          // String   Redacter role. Default = "Rédactrice"
 
-/* Application messages */
-$app_msg                = {                                     // Object   Define generic application messages.
-	"error" : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
-	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
-	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
-	"article_deleted" : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
-	"article_offcheck" : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
-	"article_offline" : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
-	"account_updated" : "Compte mis &agrave; jour avec succ&egrave;s",
-	"something_weird_happened" : "Un truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
-}
+/* Utility */
+$build_compress         = false;                                // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
+$build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
+$build_icons            = true;                                 // Boolean  Generate inline SVG icons into the document. Default = true
+$dev_toolbar            = true;                                 // Boolean  Create dev toolbar. Default = false
+$css_fx                 = true;                                 // Boolean  Enable CSS effects. Default = true
+$lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
+$null_link              = "javascript:void(0)";                 // String   Set null link value. Default = "javascript:void(0)"
 
-/* Navigation map */
+/* Navigation */
 $login_page             = "/connexion";                         // String   URL of the login page. Default = "/connexion"
 $accounts_page          = "/comptes";                           // String   URL of the accounts page Default = "/comptes"
 $bug_tracker_page       = "/bug-tracker";                       // String   URL of the bug tracker page Default = "/bug-tracker"
@@ -76,16 +64,45 @@ $app_path               = {                                     // Object   Set 
 $svg_icons_file         = $app_path.img + "ui/ui-iconset.svg";  // String   Store URL of SVG icons file. Default = "img/ui/ui-iconset.svg"
 $svg_icons_fx_file      = $app_path.css + "loap-icons-fx.css";  // String   Store URL of SVG icons effects file. Default = "css/loap-icons-fx.css"
 
+/* Messages */
+$app_msg                = {                                     // Object   Define generic application messages.
+	"error" : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
+	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
+	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
+	"article_deleted" : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
+	"article_offcheck" : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
+	"article_offline" : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
+	"account_updated" : "Compte mis &agrave; jour avec succ&egrave;s",
+	"something_weird_happened" : "Un truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
+}
+
+/* Timing */
+var $months = [                                                 // Array    Define literals for months.
+	"janvier",
+	"février",
+	"mars",
+	"avril",
+	"mai",
+	"juin",
+	"juillet",
+	"août",
+	"septembre",
+	"octobre",
+	"novembre",
+	"décembre"
+];
+
 /* TEMP : dev constants */
-$boot                   = true;                                 // Boolean  Flag for this file setup.
+$boot                   = true;                                 // Boolean  Flag for this file setup. * DO NOT REMOVE
 $free_log               = true;                                 // Boolean  Disable abide validation for logger.
 $user_picture           = "usr-nadejda.jpg";                    // String   Register user picture file.
 $page_title             = null;                                 // String   Register page title.
 
 /* ------------------------------------------------------------------ */
-/* # TEMP : Frontend Reloc path */
+/* # Navigation map relocation */
 /* ------------------------------------------------------------------ */
 
+/* Methods */
 function isFileProtocol() {
 	if (window.location.href.split("/")[0].slice(0,4) === "file") {
 		return true;
@@ -98,6 +115,7 @@ function isLocalHost() {
 	}
 }
 
+/* Processing */
 if (isFileProtocol()) {
 	$app_root = ""; // Set relative base URL while serverless
 	$js_root = "js/";
@@ -108,14 +126,14 @@ if (isFileProtocol()) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Private Variables */
+/* # Prebuild processing */
 /* ------------------------------------------------------------------ */
 
+/* Private Variables */
 var IE_conditional_comments = [
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>",
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
 ];
-
 var head_tags = [
 	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
 	{elem: "meta", attr: {name: "author", content: $org_name}},
@@ -137,11 +155,70 @@ var head_tags = [
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
 	{elem: "!--[gt IE 9]", text: IE_conditional_comments[2] + lb() + tb(2) + "<![endif]-->"}
 ];
-
 var body_tags = [
 	{elem: "script", attr: {src: $app_root + "js/loap.js"}},
 	{elem: "script", attr: {src: $app_root + "js/foundation/foundation.lib.js"}}
 ];
+
+/* Methods Declaration */
+function p_char(n, c) { // Print Character (n.b. for local use only)
+	var s = "";
+	if ($build_compress == false) {
+		for (var i = 0; i < n; i++) {
+			s += c;
+		}
+	}
+	return s;
+}
+
+function tb(n, c) { // Tabulation (alias)
+	var n = n || 1, c = c || "\t"; // default params
+	return p_char(n, c);
+}
+
+function lb(n, c) { // Line Break (alias)
+	var n = n || 1, c = c || "\n"; // default params
+	return p_char(n, c);
+}
+
+function b_html(array) { // Build HTML Elements
+	var str = "";
+	for (index in array) {
+		str += lb() + tb(2) + "<" + array[index].elem;
+		for (param in array[index].attr) {
+			if (array[index].attr[param] != null) {
+				str += " " + param + "='" + array[index].attr[param] + "'";
+			}
+		}
+		str += ">";
+		if (typeof array[index].text !== "undefined") {
+			str += array[index].text;
+		}
+		if (array[index].elem == "script") {
+			str += "</script>";
+		}
+	}
+	return str;
+}
+
+function load(script) { // Define Postbuild Processing
+	if (typeof script !== "undefined") {
+		body_tags.splice(-1, 0, {elem: "script", attr: {src: $js_root + script}});
+	}
+	document.write(b_html(body_tags));
+}
+
+/* Process Prebuild */
+document.write(b_html(head_tags));
+
+
+/* ------------------------------------------------------------------ */
+/* # XMLHttpRequest */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * Below is a simple HTTP file request object.
+ */
 
 var xhr = (function() {
 	if (typeof XMLHttpRequest !== "undefined") {
@@ -157,28 +234,9 @@ var xhr = (function() {
 	}
 }());
 
-var months = [
-	"janvier",
-	"février",
-	"mars",
-	"avril",
-	"mai",
-	"juin",
-	"juillet",
-	"août",
-	"septembre",
-	"octobre",
-	"novembre",
-	"décembre"
-];
-
-/* ------------------------------------------------------------------ */
-/* # Methods Declaration */
-/* ------------------------------------------------------------------ */
-
 /*
  * NOTE
- * Below is a simple file request.
+ * Below is a simple synchronous file loader.
  * The function has been named accordingly to doT.js
  */
 
@@ -205,54 +263,18 @@ var async = async || false, method = method || "GET", send = send || null, respo
 	}
 }
 
-function p_char(n, c) { // Print Character (n.b. for local use only)
-	var s = "";
-	if ($build_compress == false) {
-		for (var i = 0; i < n; i++) {
-			s += c;
-		}
-	}
-	return s;
-}
+/* ------------------------------------------------------------------ */
+/* # Security */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * Les fonctions ci-dessous contrôlent l'authentification du client.
+ * Elles doivent être invoquées avant le chargement du contenu protégé.
+ *
+ * WARNING
+ * À appeler en HTTPS pour ne pas transporter le token en clair.
+ */
 
-function tb(n, c) { // Tabulation (alias)
-	var n = n || 1, c = c || "\t"; // default params
-	return p_char(n, c);
-}
-
-function lb(n, c) { // Line Break (alias)
-	var n = n || 1, c = c || "\n"; // default params
-	return p_char(n, c);
-}
-
-function mk_tags(array) { // Make Tags
-	var str = "";
-	for (index in array) {
-		str += lb() + tb(2) + "<" + array[index].elem;
-		for (param in array[index].attr) {
-			if (array[index].attr[param] != null) {
-				str += " " + param + "='" + array[index].attr[param] + "'";
-			}
-		}
-		str += ">";
-		if (typeof array[index].text !== "undefined") {
-			str += array[index].text;
-		}
-		if (array[index].elem == "script") {
-			str += "</script>";
-		}
-	}
-	return str;
-}
-
-function load(script) { // Postbuild Processing
-	if (typeof script !== "undefined") {
-		body_tags.splice(-1, 0, {elem: "script", attr: {src: $js_root + script}});
-	}
-	document.write(mk_tags(body_tags));
-}
-
-/* A appeler en https pour ne pas transporter le token en clair */
 function isAuthenticated() {
 	if (typeof xhr !== "undefined") {
 		var redirection = window.location.pathname;
@@ -323,39 +345,3 @@ function isRedactrice() {
 		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
 	}
 }
-
-/* passe une date en param pour obtenir une string au bon format pour la balise time */
-function getDateTime(date) {
-	var year = date.getFullYear().toString();
-	var month;
-	var day;
-	var numMonth = date.getMonth() + 1;
-	if (numMonth < 10){
-		month = "0" + numMonth.toString();
-	}else{
-		month = numMonth.toString();
-	}
-	if (date.getDate() <10){
-		day = "0" + date.getDate().toString();
-	}else{
-		day = date.getDate().toString();
-	}
-	return year + "-" + month + "-" + day;
-}
-
-function dateToString(date) {
-	var year = date.getFullYear().toString();
-	var month;
-	var day = date.getDate().toString();
-	if (date.getDate() === 1){
-		day += "<sup>er</sup>";
-	}
-	month = months[date.getMonth()];
-	return day + " " + month + " " + year;
-}
-
-/* ------------------------------------------------------------------ */
-/* # Prebuild Processing */
-/* ------------------------------------------------------------------ */
-
-document.write(mk_tags(head_tags));

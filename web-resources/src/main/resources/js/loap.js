@@ -8,8 +8,9 @@
 /* ------------------------------------------------------------------ */
 /* # Core */
 /* ------------------------------------------------------------------ */
-/* NOTE
- * Below are all jQuery extensions required by the application.
+/*
+ * NOTE
+ * Below are methods and jQuery extensions required by the module.
  * They have to be called before anything else.
  * Be carefull with them or beware Bilbo Baggin's mighty wrath !
  */
@@ -313,7 +314,8 @@ jQuery.fn.extend({
 /* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
-/* NOTE
+/*
+ * NOTE
  * All instructions that need a refresh should be put below.
  * That is mainly for anything launched by a generated element.
  * It concerns append, prepend, wrap, before, after, insert, html, etc.
@@ -336,13 +338,16 @@ var loap = (function() {
 }());
 
 /* ------------------------------------------------------------------ */
-/* # Build */
+/* # Build methods declaration */
 /* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * Below are all methods called after or during build process.
+ * These are not parts of the module and aren't supposed to be reloaded.
+ */
 
-// Variables Declaration
+/* Create Alert Box */
 var alert_box_template = doT.compile(loadfile($app_root + "tmpl/alert_box.tmpl"));
-
-// Functions Declaration
 function createAlertBox(msg, cls, id, scroll) {
 	var msg = msg || $app_msg.error, cls = cls || "error", id = id || "alert_box", scroll = scroll || true;
 	if ($("#" + id).length === 0) {
@@ -356,36 +361,77 @@ function createAlertBox(msg, cls, id, scroll) {
 	}
 }
 
-function update_user_pseudo(pseudo){
-	window.localStorage.setItem($oursesUserPseudo,pseudo);
-	$(".user-name").html(pseudo);
-}
-
-function update_user_avatar(pathAvatar){
-	window.localStorage.setItem($oursesAvatarPath,pathAvatar);
-	$("#user-avatar").attr("data-image",pathAvatar);
-	loap.update();
-}
-
-function header_authentication(xhr){
-	if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
-	}
-}
-
-
-function ajax_error(jqXHR, textStatus, errorThrown){
-	if (jqXHR.status == 401){
-		window.location.href = $login_page;
-	}
-}
-
+/* Reload Tooltip */
 function reload_tooltip(obj) {
 	var tooltip_id = obj.attr("data-selector");
 	var tooltip_value = obj.attr("title");
 	$("[data-selector='" + tooltip_id + "']").last().html(tooltip_value + "<span class='nub'></span>");
 }
 
+/* Convert long date format to short numeric */
+function getDateTime(date) { // passe une date en param pour obtenir une string au bon format pour la balise time
+	var year = date.getFullYear().toString();
+	var month;
+	var day;
+	var numMonth = date.getMonth() + 1;
+	if (numMonth < 10){
+		month = "0" + numMonth.toString();
+	}else{
+		month = numMonth.toString();
+	}
+	if (date.getDate() <10){
+		day = "0" + date.getDate().toString();
+	}else{
+		day = date.getDate().toString();
+	}
+	return year + "-" + month + "-" + day;
+}
+
+/* Convert long date format to string */
+function dateToString(date) {
+	var year = date.getFullYear().toString();
+	var month;
+	var day = date.getDate().toString();
+	if (date.getDate() === 1) {
+		day += "er";
+	}
+	month = $months[date.getMonth()];
+	return day + " " + month + " " + year;
+}
+
+/* Convert long date format to HTML */
+function dateToHTML(date) {
+	return (dateToString(date).replace("1er", "1<sup>er</sup>").replace("é", "&eacute;").replace("û", "&ucirc;"));
+}
+
+/* Update user menu user name */
+function update_user_pseudo(pseudo){
+	window.localStorage.setItem($oursesUserPseudo,pseudo);
+	$(".user-name").html(pseudo);
+}
+
+/* Update user menu user picture */
+function update_user_avatar(pathAvatar){
+	window.localStorage.setItem($oursesAvatarPath,pathAvatar);
+	$("#user-avatar").attr("data-image",pathAvatar);
+	loap.update();
+}
+
+/* Check and register authc */
+function header_authentication(xhr){
+	if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
+		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+	}
+}
+
+/* Redirect on XHR error */
+function ajax_error(jqXHR, textStatus, errorThrown){
+	if (jqXHR.status == 401){
+		window.location.href = $login_page;
+	}
+}
+
+/* Set user connect */
 function set_user_connect(user_logged_in) {
 	var user_logged_in = user_logged_in || false;
 	if (user_logged_in == true) {
@@ -419,6 +465,7 @@ function set_user_connect(user_logged_in) {
 	}
 }
 
+/* Check user connect */
 function check_user_connect() {
 	if ((window.location.href.indexOf($login_page) == -1) && (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null)) { // if current page != connexion
 		isAuthenticated(); // check if auth token hasn't expired
@@ -436,16 +483,20 @@ function check_user_connect() {
 	}
 }
 
-// Process build
-if (typeof $css_fx !== "undefined" && $css_fx == true) {
-	$("body").addClass("css-fx");
-}
-
-/* NOTE
+/* ------------------------------------------------------------------ */
+/* # Build processing */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
  * Choice has been made to keep the two first <div> after <body> in
  * HTML files in order to handle none or multiple <section> cases and
  * prevent indent issues. The script seems to work properly that way.
  */
+
+// Process build
+if (typeof $css_fx !== "undefined" && $css_fx == true) {
+	$("body").addClass("css-fx");
+}
 
 if (typeof $build_container !== "undefined" && $build_container == true) {
 	// Apply standard layout (i.e. two columns view) class to body
@@ -498,6 +549,8 @@ if (typeof $build_icons !== "undefined" && $build_icons == true) {
 /* # Active Section Toggler */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 $(document).ready(function() {
 	var url = window.location.pathname;
 	var q = /[a-zA-Z-_]*\.(?:html|htm)/;
@@ -518,6 +571,7 @@ $("html").on("click", "[href*='#']", function() {
 		$(selector).removeClass("hide");
 }
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Toolbar */
@@ -566,10 +620,13 @@ $("#_null_links_toggle").click(function() {
 		$("nav ul li .disabled").addClass("not-disabled");
 		$("nav ul li[class^='icon-'] .disabled").parent("li").addClass("enabled"); // Navs Icons
 		$("nav ul li .disabled").removeClass("disabled");
+		/* UNUSED */
+		/*
 		// Accessibility Icons
 		$(".accessibility ul li .disabled").addClass("enabled");
 		$(".accessibility ul li .disabled").addClass("not-disabled");
 		$(".accessibility ul li .disabled").removeClass("disabled");
+		*/
 		// Sub Navigation
 		$(".sub-nav dd .disabled").addClass("enabled");
 		$(".sub-nav dd .disabled").addClass("not-disabled");
@@ -583,10 +640,13 @@ $("#_null_links_toggle").click(function() {
 		$("nav ul li .not-disabled").addClass("disabled");
 		$("nav ul li[class^='icon-'] .not-disabled").parent("li").removeClass("enabled"); // Navs Icons
 		$("nav ul li .not-disabled").removeClass("not-disabled");
+		/* UNUSED */
+		/*
 		// Accessibility Icons
 		$(".accessibility ul li .not-disabled").addClass("disabled");
 		$(".accessibility ul li .not-disabled").removeClass("enabled");
 		$(".accessibility ul li .not-disabled").removeClass("not-disabled");
+		*/
 		// Sub Navigation
 		$(".sub-nav dd .not-disabled").addClass("disabled");
 		$(".sub-nav dd .not-disabled").removeClass("enabled");
@@ -875,7 +935,7 @@ $("[data-image]").each(function() {
 /* # Accordions */
 /* ------------------------------------------------------------------ */
 
-/* Accordion Active Toggler */
+/* Accordion Active Switcher */
 $(".accordion dd > a").click(function() {
 	$(this).parent("dd").siblings().children().removeClass("active");
 	$(this).toggleClass("active");
@@ -886,10 +946,9 @@ $(".accordion dd > a").click(function() {
 /* ------------------------------------------------------------------ */
 
 /* Sub Navigation Switcher */
-$("html").on("click", ".sub-nav.switch dd a", function() {
+$("html").on("click", ".sub-nav:not(.toggle) dd a", function() {
 	if (!$(this).parent("dd").hasClass("unavailable")) {
 		if (!$(this).hasClass("disabled")) {
-			$(this).parent("dd").siblings().removeClass("active");
 			$(this).parent("dd").toggleClass("active");
 		}
 	}
@@ -899,6 +958,7 @@ $("html").on("click", ".sub-nav.switch dd a", function() {
 $("html").on("click", ".sub-nav.toggle dd a", function() {
 	if (!$(this).parent("dd").hasClass("unavailable")) {
 		if (!$(this).hasClass("disabled")) {
+			$(this).parent("dd").siblings().removeClass("active");
 			$(this).parent("dd").toggleClass("active");
 		}
 	}
@@ -959,9 +1019,8 @@ $("[data-show]").click(function() {
 		refresh_breadcrumbs($(this));
 	}
 });
-*/
 
-/* Attach event for now and the future to 'html' */
+// Attach event for now and the future to 'html'
 $("html").on("click", "[data-show]", function() {
 	var selector = "#" + $(this).attr("data-show")
 	if ($(selector).hasClass("hide")) {
@@ -972,6 +1031,7 @@ $("html").on("click", "[data-show]", function() {
 		refresh_breadcrumbs($(this));
 	}
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Links Current Switchers */
@@ -1018,13 +1078,3 @@ $(document).ready(function() {
 $(window).on("resize", function() {
 	$("textarea").autosize(autosize_cfg);
 });
-
-/* ================================================================== */
-/* Trying to hide the slider display ol/ul to bar ...
- * Need to edit the 'news-list' class for the element getting the
- * styles before class 'orbit-slider' is put to DOM.
- * OR !!! Manually set the orbit-slider class => DONT WORK
- */
-// $(".news-list").removeClass("hide");
-// $(".news-list").addClass("hide-for-small");
-/* ================================================================== */
