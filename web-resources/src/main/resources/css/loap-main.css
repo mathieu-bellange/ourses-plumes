@@ -1040,6 +1040,10 @@ kbd,
   margin: 0; /* Foundation override */
   font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif; /* Foundation override */
 }
+.sub-nav.switch dt, .sub-nav.switch dd, .sub-nav.switch li {}
+.sub-nav.toggle dt, .sub-nav.toggle dd, .sub-nav.toggle li {
+  margin: 0 .125rem;
+}
 .sub-nav dt a, .sub-nav dd a, .sub-nav li a {
   padding: .375rem .5rem;
 }
@@ -2046,18 +2050,19 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
           transform-origin: 50% 100%;
 }
 
-/* Draft */
+/* Drafts */
 .articles-list.draft {}
 .articles-list.draft li {}
 .articles-list.draft .href-block {
-  background-color: #eee;
+  background-color: whitesmoke;
 }
 .articles-list.draft .other .href-block {
-  background-color: beige;
+  background-color: #f3eafa;
 }
 .articles-list.draft .href-block a {
   border-style: dashed;
   border-color: silver;
+  border-width: .125rem;
 }
 .articles-list.draft .href-block a:before {
   content: 'Brouillon';
@@ -2066,22 +2071,25 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   color: darkgray;
 }
 .articles-list.draft .href-block:hover {
-  background-color: white;
+/*background-color: white; /* UNUSED : drafts are uneditable */
 }
 .articles-list.draft .href-block:hover a {
-  border-width: 1px;
-  border-style: solid;
+/*border-width: 1px; /* UNUSED : drafts are uneditable */
+/*border-style: solid; /* UNUSED : drafts are uneditable */
   border-color: silver;
 }
+.articles-list.draft .href-block:hover .summary {
+  color: dimgray;
+}
 
-/* Standby */
+/* Standbys */
 .articles-list.standby {}
 .articles-list.standby li {}
 .articles-list.standby .href-block {
-  background-color: lemonchiffon;
+  background-color: beige;
 }
 .articles-list.standby .href-block a {
-  border-color: #444;
+  border-color: rgba(0,0,0,.375);
   border-width: .25rem;
 }
 .articles-list.standby .href-block a:before {
@@ -2100,7 +2108,10 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   top: 0;
   left: 0;
   padding: .375rem .625rem;
-  background-color: #444;
+  background-color: rgba(0,0,0,.375);
+}
+.articles-list.standby .href-block:hover {
+  background-color: bisque;
 }
 .articles-list.standby .href-block:hover a {
   border-color: #d52;
@@ -2232,7 +2243,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .comment-list .reply textarea {
   min-width: 160px;
   max-width: 100%;
-  min-height: 96px;
+  /*min-height: 96px;*/
   margin: 0;
   background-color: whitesmoke;
   border-color: silver;
@@ -2293,7 +2304,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .comment-list .moderation textarea {
   min-width: 160px;
   max-width: 100%;
-  min-height: 12rem;
+  /*min-height: 12rem;*/
 }
 
 /* ------------------------------------------------------------------ */

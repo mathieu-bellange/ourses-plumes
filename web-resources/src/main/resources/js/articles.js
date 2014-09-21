@@ -235,6 +235,7 @@ var articles_filters = (function() {
 			// Set others drafts
 			set_others_drafts();
 			// Bind events
+			/*
 			$("html").on("click", "#filter_icon", function() {
 				if (window.localStorage.getItem($oursesUserRole) !== $role_admin) {
 					window.location.href = $login_page;
@@ -246,6 +247,41 @@ var articles_filters = (function() {
 			$("html").on("click", "#filters_list #others_drafts", function() {
 				$(this).parent("dd").toggleClass("active");
 				$(".draft .other").toggle();
+			});
+			*/
+			// Filter List
+			$("#filter_icon").click(function() {
+				$("#filter_icon").toggleClass("active");
+				$("#filter_icon").blur();
+			});
+			$("#filters_list").mouseenter(function() {
+				// If not authenticated then punish badly
+				// Else If authenticated but not admin remove all drafts and standbys
+				if ($(this).data("preventFading") !== "true") {
+					$(this).find("dd").fadeIn(500);
+				}
+			});
+			$("#filters_list").mouseleave(function() {
+				var self = $(this);
+				if (!$("#filter_icon").hasClass("active")) {
+					self.data("preventFading", "true");
+					self.find("dd").fadeOut(500, function() {
+						self.removeData("preventFading");
+					});
+				}
+			});
+			// Filter Switches
+			$("#filters_list #others_drafts").click(function() {
+				$(".draft .other").toggle();
+			});
+			$("#filters_list #my_drafts").click(function() {
+				$(".draft li:not(.other)").toggle();
+			});
+			$("#filters_list #standbys").click(function() {
+				$(".standby").toggle();
+			});
+			$("#filters_list #onlines").click(function() {
+				$(".articles-list:not(.draft):not(.standby)").toggle();
 			});
 		},
 		update : function () {

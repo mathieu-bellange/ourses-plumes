@@ -14,13 +14,17 @@
 				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
 			</svg>
 			<h4>Voir</h4>
-			<label>Largeur</label>
-			<input id="section_width_slider" type="range" min="20" max="120" step="10" value="100">
-			<span id="section_width_tip"></span>
+			<label for="show_articles_filtering">Articles filtering</label>
+			<input id="show_articles_filtering" type="checkbox" name="show" value="articles_filtering" checked>
+			<label for="show_articles_status">Articles status</label>
+			<input id="show_articles_status" type="checkbox" name="show" value="articles_status">
 			<label for="debug_marks">Masques</label>
 			<input id="debug_marks" type="checkbox" value="true">
 			<label for="long_strings">Texte &eacute;tendu</label>
 			<input id="long_strings" type="checkbox" value="true" checked>
+			<label>Largeur</label>
+			<input id="section_width_slider" type="range" min="20" max="120" step="10" value="100">
+			<span id="section_width_tip"></span>
 		</div>
 		<script>
 			// Functions
@@ -56,12 +60,25 @@
 				}
 			}
 			// Eventing
+			$("html").on("click", "[name='show']", function() {
+				var f = $(this).val();
+				$("#" + f).toggle();
+			});
 			$("#section_width_slider").change(function() {change_width(this)});
 			$("#section_width_slider").keyup(function() {change_width(this)});
 			$("#debug_marks").change(function() {check_debug_marks(this)});
 			$("#long_strings").change(function() {check_long_strings(this)});
+			// Init
 			// Initialization
 			$(document).ready(function() {
+				$("[name='show']").each(function() {
+					var f = $(this).val();
+					if ($(this).is(":checked")) {
+						$("#" + f).show();
+					} else {
+						$("#" + f).hide();
+					}
+				});
 				change_width("#section_width_slider");
 				check_debug_marks("#debug_marks");
 				check_long_strings("#long_strings")
@@ -89,35 +106,48 @@
 					</script>
 
 					<!--Sort-->
-					<a id="filter_icon" href="javascript:void(0)" class="left icon-filter medium" style="margin-left: .5rem; margin-right: .5rem;" title="Filtrer les articles" data-tooltip ><span class="text">Filtrer</span></a>
-					<dl id="filters_list" class="sub-nav left" style="display: none;">
-						<!--
-						<dt style="margin-left: .5rem;">Trier&#8239;:</dt>
-						<dd class="active"><a href="javascript:void(0)">Date de publication</a></dd>
-						<dd><a href="javascript:void(0)">Popularit&eacute;</a></dd>
-						<dd><a href="javascript:void(0)">Rubrique</a></dd>
-						<dd><a href="javascript:void(0)">Cat&eacute;gorie</a></dd>
-						-->
-						<dd><a id="others_drafts" href="javascript:void(0)">Tous les brouillons</a></dd>
+					<dl id="filters_list" class="sub-nav toggle left">
+						<dt><a id="filter_icon" href="javascript:void(0)" class="left icon-filter" style="padding: 0;" title="Filtrer les articles" data-tooltip><span class="text">Filtrer</span></a></dt>
+						<dd class="active" style="display: none;"><a id="standbys" href="javascript:void(0)">À vérifier</a></dd>
+						<dd style="display: none;"><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></dd>
+						<dd class="active" style="display: none;"><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></dd>
+						<dd class="active" style="display: none;"><a id="onlines" href="javascript:void(0)">En ligne</a></dd>
 					</dl>
 					<script>
+						// Filter List
 						$("#filter_icon").click(function() {
-							/*
-							if ($("#filter_icon > span").hasClass("icon-show")) {
-								$("#filter_icon > span").removeClass("icon-show");
-								$("#filter_icon > span").addClass("icon-hide");
-							} else {
-								$("#filter_icon > span").removeClass("icon-hide");
-								$("#filter_icon > span").addClass("icon-show");
-							}
-							*/
 							$("#filter_icon").toggleClass("active");
 							$("#filter_icon").blur();
-							$("#filters_list").toggle();
 						});
+						$("#filters_list").mouseenter(function() {
+							var self = $(this);
+							if ($(this).data("preventFading") !== "true") {
+								$(this).find("dd").fadeIn(500);
+							}
+						});
+						$("#filters_list").mouseleave(function() {
+							var self = $(this);
+							if (!$("#filter_icon").hasClass("active")) {
+								$(this).data("preventFading", "true");
+								$(this).find("dd").fadeOut(500, function() {
+									self.removeData("preventFading");
+								});
+							}
+						});
+						// Filter Switches
 						$("#filters_list #others_drafts").click(function() {
 							$(".draft .other").toggle();
 						});
+						$("#filters_list #my_drafts").click(function() {
+							$(".draft li:not(.other)").toggle();
+						});
+						$("#filters_list #standbys").click(function() {
+							$(".standby").toggle();
+						});
+						$("#filters_list #onlines").click(function() {
+							$(".articles-list:not(.draft):not(.standby)").toggle();
+						});
+
 						$(document).ready(function() {
 							$("#filters_list").css({"margin" : "0", "padding" : "0", "line-height" : "2.5rem", "height": "2.5rem"});
 							$("#filters_list dd > a").css("cursor", "pointer");
@@ -142,239 +172,295 @@
 			-->
 
 			<!--Articles Filtering-->
-			<h4>Articles Filtering</h4>
-			<ul class="no-bullet articles-list draft">
-				<li>
-					<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-					<div class="href-block clearfix blue">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="javascript:void(0)">Lire l&rsquo;article</a>
-					</div>
-				</li>
-				<li class="other" style="display: none;">
-					<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
-					<div class="href-block clearfix blue">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-					</div>
-				</li>
-				<li>
-					<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-					<div class="href-block clearfix blue">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="javascript:void(0)">Lire l&rsquo;article</a>
-					</div>
-				</li>
-				<li class="other" style="display: none;">
-					<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
-					<div class="href-block clearfix blue">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-					</div>
-				</li>
-			</ul>
+			<div id="articles_filtering">
+				<h4>Articles Filtering</h4>
+				<ul class="no-bullet articles-list standby">
+					<li>
+						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+						</div>
+					</li>
+					<li>
+						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="no-bullet articles-list draft">
+					<li>
+						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+						</div>
+					</li>
+					<li class="other" style="display: none;">
+						<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+						</div>
+					</li>
+					<li>
+						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+						</div>
+					</li>
+					<li class="other" style="display: none;">
+						<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="no-bullet articles-list">
+					<li>
+						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+						</div>
+					</li>
+					<li>
+						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+						</div>
+					</li>
+				</ul>
+			</div>
 
-			<!--Articles Status-->
-			<h4>Articles Status</h4>
+			<div id="articles_status">
+				<!--Articles Status-->
+				<h4>Articles Status</h4>
 
-			<!--Drafts-->
-			<ul class="no-bullet articles-list draft">
+				<!--Drafts-->
+				<ul class="no-bullet articles-list draft">
 
-				<!--Side Validation-->
-				<li id="draft1">
-					<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
-					<div class="row collapse" style="margin: 0;">
-						<div class="column small-10">
-							<!--Href Block-->
-							<div class="href-block clearfix red">
-								<h5 class="title"></h5>
-								<p class="summary">
-									<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-									<span class="summary-text"></span>
-									<span class="right author"><strong></strong></span>
-								</p>
-								<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+					<!--Side Validation-->
+					<li id="draft1">
+						<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
+						<div class="row collapse" style="margin: 0;">
+							<div class="column small-10">
+								<!--Href Block-->
+								<div class="href-block clearfix red">
+									<h5 class="title"></h5>
+									<p class="summary">
+										<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+										<span class="summary-text"></span>
+										<span class="right author"><strong></strong></span>
+									</p>
+									<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+								</div>
+							</div>
+							<div class="column small-2">
+								<!--Validation-->
+								<div id="draft1_validation" style="margin-left: .5rem; display: none;">
+									<button class="small" style="margin-bottom: .25rem;">Modifier</button>
+									<br>
+									<button class="small alert" style="margin-bottom: 0;">Valider</button>
+								</div>
 							</div>
 						</div>
-						<div class="column small-2">
-							<!--Validation-->
-							<div id="draft1_validation" style="margin-left: .5rem; display: none;">
-								<button class="small" style="margin-bottom: .25rem;">Modifier</button>
-								<br>
-								<button class="small alert" style="margin-bottom: 0;">Valider</button>
-							</div>
+					</li>
+
+					<!--Bottom Validation-->
+					<li id="draft2">
+						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
+						<!--Href Block-->
+						<div class="href-block clearfix cyan">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 						</div>
-					</div>
-				</li>
-
-				<!--Bottom Validation-->
-				<li id="draft2">
-					<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
-					<!--Href Block-->
-					<div class="href-block clearfix cyan">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-					</div>
-					<!--Validation-->
-					<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
-						<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Modifier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button>
-					</div>
-				</li>
-
-				<!--Inside Validation-->
-				<li id="draft3">
-					<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
-					<!--Href Block-->
-					<div class="href-block clearfix blue">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 						<!--Validation-->
-						<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
-							<button class="small" style="margin-bottom: 0; z-index: 100;">Modifier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Valider</button>
+						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
+							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Modifier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button>
 						</div>
-					</div>
-				</li>
-			</ul>
+					</li>
 
-			<!--Standbys-->
-			<ul class="no-bullet articles-list standby">
-
-				<!--Side Validation-->
-				<li id="standby1">
-					<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
-					<div class="row collapse" style="margin: 0;">
-						<div class="column small-10">
-							<!--Href Block-->
-							<div class="href-block clearfix red">
-								<h5 class="title"></h5>
-								<p class="summary">
-									<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-									<span class="summary-text"></span>
-									<span class="right author"><strong></strong></span>
-								</p>
-								<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-							</div>
-						</div>
-						<div class="column small-2">
+					<!--Inside Validation-->
+					<li id="draft3">
+						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
+						<!--Href Block-->
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
 							<!--Validation-->
-							<div id="standby1_validation" style="margin-left: .5rem; display: none;">
-								<button class="small success" style="margin-bottom: .25rem;">Publier</button>
-								<br>
-								<button class="small alert" style="margin-bottom: 0;">Renvoyer</button>
+							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
+								<button class="small" style="margin-bottom: 0; z-index: 100;">Modifier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Valider</button>
 							</div>
 						</div>
-					</div>
-				</li>
+					</li>
+				</ul>
 
-				<!--Bottom Validation-->
-				<li id="standby2">
-					<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
-					<!--Href Block-->
-					<div class="href-block clearfix cyan">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-					</div>
-					<!--Validation-->
-					<div id="standby2_validation" class="text-right" style="height: 2.25rem;">
-						<button class="tiny success" style="display: none; margin-top: .5rem; margin-bottom: 0;">Publier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Renvoyer</button>
-					</div>
-				</li>
+				<!--Standbys-->
+				<ul class="no-bullet articles-list standby">
 
-				<!--Inside Validation-->
-				<li id="standby3">
-					<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
-					<!--Href Block-->
-					<div class="href-block clearfix blue">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-						<!--Validation-->
-						<div id="standby3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
-							<button class="small success" style="margin-bottom: 0; z-index: 100;">Publier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Renvoyer</button>
+					<!--Side Validation-->
+					<li id="standby1">
+						<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
+						<div class="row collapse" style="margin: 0;">
+							<div class="column small-10">
+								<!--Href Block-->
+								<div class="href-block clearfix red">
+									<h5 class="title"></h5>
+									<p class="summary">
+										<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+										<span class="summary-text"></span>
+										<span class="right author"><strong></strong></span>
+									</p>
+									<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+								</div>
+							</div>
+							<div class="column small-2">
+								<!--Validation-->
+								<div id="standby1_validation" style="margin-left: .5rem; display: none;">
+									<button class="small success" style="margin-bottom: .25rem;">Publier</button>
+									<br>
+									<button class="small alert" style="margin-bottom: 0;">Renvoyer</button>
+								</div>
+							</div>
 						</div>
-					</div>
-				</li>
+					</li>
 
-			</ul>
+					<!--Bottom Validation-->
+					<li id="standby2">
+						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
+						<!--Href Block-->
+						<div class="href-block clearfix cyan">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+						</div>
+						<!--Validation-->
+						<div id="standby2_validation" class="text-right" style="height: 2.25rem;">
+							<button class="tiny success" style="display: none; margin-top: .5rem; margin-bottom: 0;">Publier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Renvoyer</button>
+						</div>
+					</li>
 
-			<!--Onlines-->
-			<ul class="no-bullet articles-list">
-				<li>
-					<h4 class="red">Rubrique</h4>
-					<div class="href-block clearfix red">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-					</div>
-				</li>
-				<li>
-					<h4 class="cyan">Rubrique</h4>
-					<div class="href-block clearfix cyan">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-					</div>
-				</li>
-				<li>
-					<h4 class="blue">Rubrique</h4>
-					<div class="href-block clearfix blue">
-						<h5 class="title"></h5>
-						<p class="summary">
-							<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-							<span class="summary-text"></span>
-							<span class="right author"><strong></strong></span>
-						</p>
-						<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-					</div>
-				</li>
-			</ul>
+					<!--Inside Validation-->
+					<li id="standby3">
+						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
+						<!--Href Block-->
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+							<!--Validation-->
+							<div id="standby3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
+								<button class="small success" style="margin-bottom: 0; z-index: 100;">Publier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Renvoyer</button>
+							</div>
+						</div>
+					</li>
+
+				</ul>
+
+				<!--Onlines-->
+				<ul class="no-bullet articles-list">
+					<li>
+						<h4 class="red">Rubrique</h4>
+						<div class="href-block clearfix red">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+						</div>
+					</li>
+					<li>
+						<h4 class="cyan">Rubrique</h4>
+						<div class="href-block clearfix cyan">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+						</div>
+					</li>
+					<li>
+						<h4 class="blue">Rubrique</h4>
+						<div class="href-block clearfix blue">
+							<h5 class="title"></h5>
+							<p class="summary">
+								<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="summary-text"></span>
+								<span class="right author"><strong></strong></span>
+							</p>
+							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+						</div>
+					</li>
+				</ul>
+			</div>
 
 		</section>
 

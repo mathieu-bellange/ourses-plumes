@@ -885,11 +885,20 @@ $(".accordion dd > a").click(function() {
 /* # Sub Navigation */
 /* ------------------------------------------------------------------ */
 
-/* Sub Navigation Toggler */
-$(".sub-nav dd a").click(function() {
+/* Sub Navigation Switcher */
+$("html").on("click", ".sub-nav.switch dd a", function() {
 	if (!$(this).parent("dd").hasClass("unavailable")) {
 		if (!$(this).hasClass("disabled")) {
 			$(this).parent("dd").siblings().removeClass("active");
+			$(this).parent("dd").toggleClass("active");
+		}
+	}
+});
+
+/* Sub Navigation Toggler */
+$("html").on("click", ".sub-nav.toggle dd a", function() {
+	if (!$(this).parent("dd").hasClass("unavailable")) {
+		if (!$(this).hasClass("disabled")) {
 			$(this).parent("dd").toggleClass("active");
 		}
 	}
@@ -908,18 +917,6 @@ $(".pagination li a").click(function() {
 		}
 	}
 });
-
-/* ------------------------------------------------------------------ */
-/* # Comments */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$(".comment-toggle a").click(function() {
-	$(this).toggleClass("active");
-	$(".comment-list").toggleClass("hide");
-});
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Site Navigation */
