@@ -945,21 +945,12 @@ $(".accordion dd > a").click(function() {
 /* # Sub Navigation */
 /* ------------------------------------------------------------------ */
 
-/* Sub Navigation Switcher */
-$("html").on("click", ".sub-nav:not(.toggle) dd a", function() {
-	if (!$(this).parent("dd").hasClass("unavailable")) {
-		if (!$(this).hasClass("disabled")) {
-			$(this).parent("dd").toggleClass("active");
-		}
-	}
-});
-
-/* Sub Navigation Toggler */
-$("html").on("click", ".sub-nav.toggle dd a", function() {
-	if (!$(this).parent("dd").hasClass("unavailable")) {
-		if (!$(this).hasClass("disabled")) {
-			$(this).parent("dd").siblings().removeClass("active");
-			$(this).parent("dd").toggleClass("active");
+/* Sub Navigation Toggler / Switcher */
+$("html").on("click", ".sub-nav dd a", function() {
+	if (!$(this).parent("dd").hasClass("unavailable") && !$(this).hasClass("disabled")) {
+		$(this).parent("dd").toggleClass("active"); // toggle
+		if (!$(this).parent("dd").parent(".sub-nav").hasClass("toggle")) {
+			$(this).parent("dd").siblings().removeClass("active"); // switch
 		}
 	}
 });
@@ -968,7 +959,7 @@ $("html").on("click", ".sub-nav.toggle dd a", function() {
 /* # Pagination */
 /* ------------------------------------------------------------------ */
 
-/* Pagination Toggler */
+/* Pagination Switcher */
 $(".pagination li a").click(function() {
 	if (!$(this).parent("li").hasClass("unavailable")) {
 		if (!$(this).hasClass("disabled")) {
