@@ -14,27 +14,23 @@
 	</head>
 	<body>
 
-		<h2 class="red">&Eacute;diteur <small>#article_editor</small></h2>
+		<h2 class="red">&Eacute;diteur <small>.article.edit</small></h2>
 
-		<!--Dev Test Editor Toolbar-->
-		<style>
-			#dev_test_editor_toolbar {padding: .5rem 1.5rem;}
-			#dev_test_editor_toolbar > h4 {display: inline-block; margin-right: .5rem; color: darkgray;}
-			#dev_test_editor_toolbar > label {margin: 0 0 0 .5rem;}
-			#dev_test_editor_toolbar > input[type="checkbox"] {margin: 0; vertical-align: middle;}
-			#dev_test_editor_toolbar > input[type="button"] {margin-left: 1rem;}
-		</style>
-		<div id="dev_test_editor_toolbar" class="panel">
-			<h4 class="text-medium">Show</h4>
+		<!--Dev Testbar-->
+		<div id="dev_testbar" class="panel">
+			<svg width="0" height="0" viewBox="0 0 48 48">
+				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
+			</svg>
+			<h4>Voir</h4>
 			<label for="show_publishing">Publishing</label>
 			<input id="show_publishing" type="checkbox" name="show" value="publishing" checked>
 			<label for="show_classic_editor">Classic Editor</label>
 			<input id="show_classic_editor" type="checkbox" name="show" value="classic_editor_fieldset">
 			<label for="show_inline_editor">Inline Editor</label>
-			<input id="show_inline_editor" type="checkbox" name="show" value="inline_editor_fieldset">
+			<input id="show_inline_editor" type="checkbox" name="show" value="inline_editor_fieldset" checked>
 			<label for="show_rubrics_switcher">Rubrics Switcher</label>
 			<input id="show_rubrics_switcher" type="checkbox" name="show" value="rubrics_switcher">
-			<input id="cke_plugins" class="button tiny" type="button" value="CKEditor plugins">
+			<input id="cke_plugins" class="button tiny secondary" type="button" value="CKEditor plugins">
 		</div>
 		<script>
 		// Events
