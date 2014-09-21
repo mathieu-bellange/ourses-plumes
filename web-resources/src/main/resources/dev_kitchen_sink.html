@@ -6,11 +6,14 @@
 	</head>
 	<body>
 		<script>
-			load("dev_kitchen_sink.js");
+			load();
 		</script>
 		<script>
-			loap.update()
+			$("main > header").after(doT.compile(loadfile($app_root + "tmpl/dev_kitchen_sink.tmpl")));
+		</script>
+		<script>
 			$(document).foundation();
+			loap.update()
 		</script>
 	</body>
 </html>

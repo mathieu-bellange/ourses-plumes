@@ -5,30 +5,63 @@
 		<script src="boot"></script>
 		<!--Define Internal Template -->
 		<script id="_template" type="text/x-dot-template">
-			<h2>{{= data.title }}</h2>
-			<table>
-				<caption>{{= data.caption }}</caption>
-				<tr>
-					<th>Identifiant</th>
-					<th>Adresse email</th>
-					<th>Mot de passe</th>
-				</tr>
-				{{~ data.users:key }}
-				<tr>
-					<td>{{= key.login }}</td>
-					<td>{{= key.mail || '<em style="color: grey;">Non renseign&eacute;</em>' }}</td>
-					<td>{{= key.password || '<strong style="color: red;">Aucun</strong>' }}</td>
-				</tr>
-				{{~}}
-			</table>
+			<div id="internal_tmpl">
+				<h2 class="red">{{= data.title }}</h2>
+				<table>
+					<caption>{{= data.caption }}</caption>
+					<tr>
+						<th>Identifiant</th>
+						<th>Adresse email</th>
+						<th>Mot de passe</th>
+					</tr>
+					{{~ data.users:key }}
+					<tr>
+						<td>{{= key.login }}</td>
+						<td>{{= key.mail || '<em style="color: grey;">Non renseign&eacute;</em>' }}</td>
+						<td>{{= key.password || '<strong style="color: red;">Aucun</strong>' }}</td>
+					</tr>
+					{{~}}
+				</table>
+			</div>
 		</script>
 	</head>
 	<body>
-		<section id="dev_templating">
+		<!--Dev Testbar-->
+		<div id="dev_testbar" class="panel">
+			<svg width="0" height="0" viewBox="0 0 48 48">
+				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
+			</svg>
+			<h4>Voir</h4>
+			<label for="show_internal_tmpl">Internal Templating</label>
+			<input id="show_internal_tmpl" type="checkbox" name="show" value="internal_tmpl">
+			<label for="show_external_tmpl">External Templating</label>
+			<input id="show_external_tmpl" type="checkbox" name="show" value="external_tmpl" checked>
+			<label for="show_advanced_tmpl">Advanced Templating</label>
+			<input id="show_advanced_tmpl" type="checkbox" name="show" value="advanced_tmpl">
+		</div>
+		<script>
+		// Events
+		$("html").on("click", "[name='show']", function() {
+			var f = $(this).val();
+			$("#" + f).toggle();
+		});
+		// Init
+		$(document).ready(function() {
+			$("[name='show']").each(function() {
+				var f = $(this).val();
+				if ($(this).is(":checked")) {
+					$("#" + f).show();
+				} else {
+					$("#" + f).hide();
+				}
+			});
+		});
+		</script>
+		<section id="dev_internal_templating">
 			<!--Process Internal Template-->
 			<script>
 				var users_list = { // set data
-						title: "Internal template",
+						title: "Internal templating",
 						caption: "Liste des utilisateurs",
 						users: [
 							{login: "Polluxette", mail: "polluxette@hotmail.com"},
@@ -39,11 +72,22 @@
 						compiled = doT.compile(template); // compile template to var
 				document.write(compiled(users_list)); // write templated data
 			</script>
-			<hr>
-			<!--Processed External Template will be put here-->
+		</section>
+		<section id="dev_external_templating">
+		<!--Processed External Template will be put here-->
 		</section>
 		<script>
-			load("dev_templating.js");
+			$build_container = false;
+			load();
+		</script>
+		<script>
+			var test_data = JSON.parse(loadfile($app_root + "json/dev_templating.json")), // define data
+					test_template = loadfile($app_root + "tmpl/dev_templating.tmpl"), // define template
+					test_compile = doT.compile(test_template); // compile template
+			$("#dev_external_templating").append(test_compile(test_data)); // apply compiled data to DOM
+		</script>
+		<script>
+			loap.update()
 		</script>
 		<script>
 			$(document).foundation();
