@@ -21,7 +21,7 @@
 									<li><a href="{{= socialLink.path }}" class="icon-{{= socialLink.network }} tip-top" title="{{= socialLink.description }}" data-tooltip><span class="hide">{{= socialLink.description }}</span></a></li>
 								{{~}}
 							</ul>
-							<p class="user-desc">{{= data.description }}</p>
+							<p class="user-desc">{{= data.description === null ? "" : data.description }}</p>
 						</div>
 						<!--User Articles List-->
 						<div id="articles" class="column small-12 small-centered">

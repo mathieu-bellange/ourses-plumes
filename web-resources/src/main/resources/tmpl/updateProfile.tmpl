@@ -36,7 +36,7 @@
 								<li><a href="javascript:void(0)" class="icon-linkedin" title="profil LinkedIn" data-id="5" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
 							</ul>
 							<!--Description-->
-							<textarea id="description" class="user-desc min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description }}</textarea>
+							<textarea id="description" class="user-desc min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description === null ? "" : data.description }}</textarea>
 						</div>
 					</div>
 				</section>
