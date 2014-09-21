@@ -3,31 +3,18 @@
 			<h4 class="text-center print-only">{{= $org_url }}</h4>
 			<!--Nav Pane-->
 			<aside class="nav-pane text-center hide-for-print">
-				<h2 class="hide">Navigation interne</h2>
-				<h3 class="hide">Fonctionnalit&eacute;s</h3>
-				<!--Search-->
-					<!--
-				<h4 class="hide">Recherche</h4>
-				<div id="_search_form" class="row collapse search">
-					<div class="column">
-						<input type="text" placeholder="Rechercher&hellip;">
-					</div>
-					<div class="hide">
-						<button class="button postfix">Rechercher</button>
-					</div>
-				</div>
-					-->
 				<!--Logo-->
 				<div class="logo">
 					<a href="{{= $home_page }}"><span></span></a>
 				</div>
 				<!--Main Navigation-->
+				<h2 class="hide">Navigation interne</h2>
 				<h3 class="hide">Menu principal</h3>
 				<h4 class="hide">Sections</h4>
 				<nav class="main-nav">
 					<ul>
 						<li><a href="{{= $articles }}">Articles</a></li>
-						<li><a href="{{= $app_root + 'agenda.html' }}">Agenda</a></li>
+						<li><a href="javascript:void(0)" class="disabled">Agenda</a></li>
 						<li><a href="{{= $app_root + 'about.html' }}">FAQ</a></li>
 						<li><a href="javascript:void(0)" class="disabled">Nos copines</a></li>
 						<li><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
