@@ -3,7 +3,7 @@
 					<article class="article {{= data.rubrique.classe }}">
 						<h2 class="title">{{= data.title }}</h2>
 						<h4 class="author"><a href="{{= data.profile.path }}" class="icon-author" rel="author" title="Auteure"><span class="text">{{= data.profile.pseudo }}</span></a></h4>
-						<time class="date icon-date small" pubdate="{{= getDateTime(new Date(data.publishedDate)) }}"><small class="text"><span class="hide">Publi&eacute; le </span>{{= dateToString(new Date(data.publishedDate)) }}</small></time>
+						<time class="date icon-date small" pubdate="{{= getDateTime(new Date(data.publishedDate)) }}"><small class="text"><span class="hide">Publi&eacute; le </span>{{= dateToHTML(new Date(data.publishedDate)) }}</small></time>
 						<p class="summary">{{= data.description }}</p>
 						<dl class="tags inline-list clearfix">
 							<dt><span class="icon-tag small" title="Tags"><strong class="hide">Tags</strong></span></dt>

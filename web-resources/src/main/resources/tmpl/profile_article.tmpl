@@ -2,7 +2,7 @@
 	{{~ data :art }}
 		<li>
 			<span class="icon-{{=art.rubrique.classe}} small"><span class="hide">{{= art.rubrique.rubrique}}</span></span><a href="{{=art.path}}">{{=art.title}}</a><span class="info-tip"></span>
-			<div class="summary" style="display: none;"><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}"><small class="text-silver">{{= dateToString(new Date(art.publishedDate)) }}</small></time> {{=art.description}}</div>
+			<div class="summary" style="display: none;"><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}"><small class="text-silver">{{= dateToHTML(new Date(art.publishedDate)) }}</small></time> {{=art.description}}</div>
 		</li>
 	{{~}}
 </ul>
