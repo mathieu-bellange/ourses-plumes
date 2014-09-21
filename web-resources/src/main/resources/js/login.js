@@ -36,7 +36,7 @@ function connection(){
 			window.localStorage.setItem($oursesUserPseudo, authcUser.pseudo);
 			window.localStorage.setItem($oursesUserRole, authcUser.role);
 			window.localStorage.setItem($oursesAvatarPath, authcUser.avatar);
-			var redirection = window.location.search.replace($redir_param,"");
+			var redirection = window.location.search.replace($redir_param, "");
 			if (redirection != ""){
 				window.location.href = redirection;
 			}else{
@@ -44,18 +44,15 @@ function connection(){
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
-			var msg;
 			if (jqXHR.status == 401){
-				msg = "Login ou mot de passe incorrect";
-			}else{
-				msg = $err_msg.err_default;
-			}
-			if ($("#login-alert").length == 0) {
-				$("#login_form").prepend(alert_box_template({id: "login-alert", class: "error", text: msg}));
-				$("#login_form").foundation("alert");
-				$("#login-alert").fadeIn(300);
+				var msg = "Login ou mot de passe incorrect";
 			} else {
-				$("#login-alert > span").html(msg);
+				var msg = $err_msg.err_default;
+			}
+			if ($("#login-alert").length === 0) {
+				createAlertBox(msg, "alert", "login-alert", true);
+			} else {
+				$("#login-alert > .text").text(msg);
 			}
 		},
 		dataType : "json"

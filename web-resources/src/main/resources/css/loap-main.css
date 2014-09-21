@@ -2342,9 +2342,10 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   background-color: #759;
 }
 .user-profile .user-role {}
-.user-profile .user-desc {padding: .375rem;}
-
-.user-profile .user-desc {text-align: justify;}
+.user-profile .user-desc {
+  padding: .375rem;
+  text-align: justify;
+}
 
 /* Below are classes for user profile using HTML input mimics */
 .user-profile a.picture {position: relative;}
