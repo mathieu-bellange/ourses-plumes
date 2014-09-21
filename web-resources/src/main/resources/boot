@@ -28,15 +28,15 @@ $app_desc               = "Un webzine f&eacute;ministe.";       // String   Set 
 $app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
 
 /* Application globals */
-$oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token
-$oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo
-$oursesUserRole         = "oursesUserRole";                     // String   Key of the User role
-$oursesAccountId        = "oursesAccountId";                    // String   Key of the User account id
-$oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id
-$oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path
-$redir_param            = "?redirection=";                      // String   url param in the login page. use for the redirection
-$role_admin             = "Administratrice"                     // String   Admin role
-$role_redac             = "Rédactrice"                          // String   Redacter role
+$oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token. Default = "oursesAuthcToken"
+$oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo. Default = "oursesUserPseudo"
+$oursesUserRole         = "oursesUserRole";                     // String   Key of the User role. Default = "oursesUserRole"
+$oursesAccountId        = "oursesAccountId";                    // String   Key of the User account id. Default = "oursesAccountId"
+$oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id. Default = "oursesProfileId"
+$oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path. Default = "oursesAvatarPath"
+$redir_param            = "?redirection=";                      // String   URL param in the login page. Use for the redirection. Default = "?redirection="
+$role_admin             = "Administratrice"                     // String   Admin role. Default = "Administratrice"
+$role_redac             = "Rédactrice"                          // String   Redacter role. Default = "Rédactrice"
 
 /* Application messages */
 $app_msg                = {                                     // Object   Define generic application messages.
