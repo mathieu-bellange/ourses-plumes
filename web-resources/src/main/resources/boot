@@ -280,15 +280,15 @@ function isAuthenticated() {
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401){
-				console.log("unautorized - redirection to the login page"); // unauthorized
+				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $redir_param + redirection;
 				window.location.href = $login_page + loginParam;
 			}
 		} catch(err) {
-			console.log("resource not found.\n " + err); // log server error
+			console.log("HTTP request failed.\n " + err); // log server error
 		}
 	} else {
-		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
+		console.log("XMLHttpRequest not supported."); // log client error
 	}
 }
 
@@ -301,19 +301,19 @@ function isAdministratrice() {
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401){
-				console.log("unautorized - redirection to the login page"); // unauthorized
+				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $redir_param + redirection;
 				window.location.href = $login_page + loginParam;
 			}
 			else if (xhr.status == 403){
-				console.log("forbidden - redirection to the login page"); // unauthorized
+				console.log("Forbidden ! Redirect to the login page."); // unauthorized
 				window.location.href = $home_page;
 			}
 		} catch(err) {
-			console.log("resource not found.\n " + err); // log server error
+			console.log("HTTP request failed.\n " + err); // log server error
 		}
 	} else {
-		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
+		console.log("XMLHttpRequest not supported."); // log client error
 	}
 }
 
@@ -326,18 +326,18 @@ function isRedactrice() {
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401){
-				console.log("unautorized - redirection to the login page"); // unauthorized
+				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $redir_param + redirection;
 				window.location.href = $login_page + loginParam;
 			}
 			else if (xhr.status == 403){
-				console.log("forbidden - redirection to the login page"); // unauthorized
+				console.log("Forbidden ! Redirect to the login page."); // unauthorized
 				window.location.href = $home_page;
 			}
 		} catch(err) {
-			console.log("resource not found.\n " + err); // log server error
+			console.log("HTTP request failed.\n " + err); // log server error
 		}
 	} else {
-		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
+		console.log("XMLHttpRequest not supported."); // log client error
 	}
 }

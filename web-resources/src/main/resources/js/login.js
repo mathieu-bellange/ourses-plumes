@@ -10,7 +10,7 @@ $("main > header").after(doT.compile(loadfile($app_root + "tmpl/login.tmpl")));
 
 var $accounts_redirection = "accounts";
 
-function Authentication(login,password){
+function Authentication(login, password){
 	this.login = login;
 	this.password = password;
 	this.json = function() {
@@ -23,7 +23,7 @@ function Authentication(login,password){
 /* ------------------------------------------------------------------ */
 
 function connection(){
-	var authc = new Authentication($("#user_login").val(),$("#user_password").val());
+	var authc = new Authentication($("#user_login").val(), $("#user_password").val());
 	$.ajax({
 		type : "POST",
 		url : "/rest/authc",
@@ -37,9 +37,9 @@ function connection(){
 			window.localStorage.setItem($oursesUserRole, authcUser.role);
 			window.localStorage.setItem($oursesAvatarPath, authcUser.avatar);
 			var redirection = window.location.search.replace($redir_param, "");
-			if (redirection != ""){
+			if (redirection != "") {
 				window.location.href = redirection;
-			}else{
+			} else {
 				window.location.href = $home_page;
 			}
 		},

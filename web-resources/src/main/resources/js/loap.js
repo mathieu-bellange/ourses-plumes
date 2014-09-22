@@ -417,17 +417,40 @@ function update_user_avatar(pathAvatar){
 	loap.update();
 }
 
-/* Check and register authc */
+/* Check authentication before sending AJAX requests */
 function header_authentication(xhr){
 	if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
 	}
 }
 
-/* Redirect on XHR error */
+/* Redirect on HTTP response status unauthorized after AJAX request */
 function ajax_error(jqXHR, textStatus, errorThrown){
 	if (jqXHR.status == 401){
 		window.location.href = $login_page;
+	}
+}
+
+/* Check if user is authenticated */
+var onAuthc = $.ajax({
+	url : "/rest/authc/connected",
+	processData : false,
+	beforeSend : function(jqXHR) {
+		header_authentication(jqXHR);
+	},
+	dataType : "text"
+});
+
+/* Check if user is an admin according to localStorage -- alias method */
+function isAdmin() {
+	if (window.localStorage.getItem($oursesUserRole) == $role_admin) {
+		return true;
+	}
+}
+/* Check if user is a writer according to localStorage -- alias method */
+function isRedac() {
+	if (window.localStorage.getItem($oursesUserRole) == $role_redac) {
+		return true;
 	}
 }
 

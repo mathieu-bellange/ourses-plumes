@@ -1,27 +1,27 @@
 ﻿<!--Partial Define-->
 {{## def.article: art:
-								<h4 class="{{= art.rubrique.classe}}">{{= art.rubrique.rubrique }}</h4>
-								<div class="href-block clearfix {{= art.rubrique.classe}}">
+								<h4 class="{{= art.rubrique.classe }}">{{= art.rubrique.rubrique }}</h4>
+								<div class="href-block clearfix {{= art.rubrique.classe }}">
 									<h5 class="title">{{= art.title }}</h5>
 									<p class="summary">
 										{{? art.publishedDate !== null }}
 											<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToHTML(new Date(art.publishedDate)) }}</time>
-										{{?? art.updatedDate !== null}}
+										{{?? art.updatedDate !== null }}
 											<span class="icon-date tiny" title="Date de mise &agrave; jour"><span class="hide">Mis &agrave; jour le </span></span><time datetime="{{= getDateTime(new Date(art.updatedDate)) }}" class="date">{{= dateToHTML(new Date(art.updatedDate)) }}</time>
-										{{?? art.createdDate !== null}}
+										{{?? art.createdDate !== null }}
 											<span class="icon-date tiny" title="Date de cr&eacute;ation"><span class="hide">Cr&eacute;e le </span></span><time datetime="{{= getDateTime(new Date(art.createdDate)) }}" class="date">{{= dateToHTML(new Date(art.createdDate)) }}</time>
 										{{?}}
-										{{= art.description}}
+										{{= art.description }}
 										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
 									</p>
 									{{? art.status == "BROUILLON" }}
-										{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
+										{{? art.profile.id == window.localStorage.getItem($oursesProfileId) }}
 											<a href="{{= art.path }}">Lire l&rsquo;article</a>
 										{{??}}
 											<a href="javascript:void(0)" style="cursor: default;"></a>
 										{{?}}
-									{{?? art.status == "AVERIFIER"}}
-										{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+									{{?? art.status == "AVERIFIER" }}
+										{{? isAdmin() }}
 											<a href="{{= art.path }}">Lire l&rsquo;article</a>
 										{{??}}
 											<a href="javascript:void(0)" style="cursor: default;"></a>
@@ -33,20 +33,20 @@
 										<div class="validate" style="display: none;">
 											<!--delete for Drafts-->
 											<button class="small" data-delete="{{= art.id }}">Supprimer</button>
-											{{? art.profile.id == window.localStorage.getItem($oursesProfileId)}}
+											{{? art.profile.id == window.localStorage.getItem($oursesProfileId) }}
 												<button class="alert small" data-validate="{{= art.id }}">Valider</button>
 											{{?}}
 										</div>
 									{{?? art.status == "AVERIFIER" }}
 										<div class="validate" style="display: none;">
 											<!--Validation for Standbys-->
-											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+											{{? isAdmin() }}
 												<button class="small success" data-publish="{{= art.id }}">Publier</button>
 											{{?}}
 											<button class="alert small" data-invalidate="{{= art.id }}">Invalider</button>
 										</div>
 									{{?? art.status == "ENLIGNE" }}
-										{{? window.localStorage.getItem($oursesUserRole) == $role_admin || art.profile.id == window.localStorage.getItem($oursesProfileId)}}
+										{{? isAdmin() || art.profile.id == window.localStorage.getItem($oursesProfileId) }}
 											<div class="validate" style="display: none;">
 												<!--Validation for Standbys-->
 												<button class="small success" data-recall="{{= art.id }}">Rappeler</button>
@@ -57,24 +57,26 @@
 #}}
 				<!--Articles-->
 				<section id="articles">
-					{{? window.localStorage.getItem($oursesUserRole) == $role_admin || window.localStorage.getItem($oursesUserRole) == $role_redac }}
-					<div class="clearfix">
-						<div class="left">
-							<dl id="filters_list" class="sub-nav toggle left">
-								<dt><a id="filter_icon" href="javascript:void(0)" class="left icon-filter" style="padding: 0;" title="Filtrer les articles" data-tooltip><span class="text">Filtrer</span></a></dt>
-								{{? window.localStorage.getItem($oursesUserRole) == $role_admin }}
-								<dd class="active" style="display: none;"><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></dd>
-								<dd style="display: none;"><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></dd>
-								{{?}}
-								<dd class="active" style="display: none;"><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></dd>
-								<dd class="active" style="display: none;"><a id="onlines" href="javascript:void(0)">En ligne</a></dd>
-							</dl>
+					{{ onAuthc.done(function() { }}
+						{{? isAdmin() || isRedac() }}
+						<div class="clearfix">
+							<div class="left">
+								<dl id="filters_list" class="sub-nav toggle left">
+									<dt><a id="filter_icon" href="javascript:void(0)" class="left icon-filter" style="padding: 0;" title="Filtrer les articles" data-tooltip><span class="text">Filtrer</span></a></dt>
+									{{? isAdmin() }}
+									<dd class="active" style="display: none;"><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></dd>
+									<dd style="display: none;"><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></dd>
+									{{?}}
+									<dd class="active" style="display: none;"><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></dd>
+									<dd class="active" style="display: none;"><a id="onlines" href="javascript:void(0)">En ligne</a></dd>
+								</dl>
+							</div>
+							<div class="right">
+								<a id="write_article" href="{{= $new_article }}" class="icon-article" title="R&eacute;diger un nouvel article" data-tooltip><span class="text">&Eacute;crire</span></a>
+							</div>
 						</div>
-						<div class="right">
-							<a href="{{= $new_article}}" class="icon-article" title="R&eacute;diger un nouvel article" data-tooltip><span class="text">&Eacute;crire</span></a>
-						</div>
-					</div>
-					{{?}}
+						{{?}}
+					{{ }); }}
 					<ul id="articles_standby" class="no-bullet articles-list standby">
 						{{~ data.toCheck :value }}
 							<li>{{# def.article:value }}</li>
