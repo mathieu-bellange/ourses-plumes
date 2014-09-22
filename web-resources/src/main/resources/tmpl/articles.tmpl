@@ -77,13 +77,13 @@
 						</div>
 						{{?}}
 					{{ }); }}
-					<ul id="articles_standby" class="no-bullet articles-list standby">
-						{{~ data.toCheck :value }}
+					<ul id="articles_draft" class="no-bullet articles-list draft">
+						{{~ data.drafts :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
-					<ul id="articles_draft" class="no-bullet articles-list draft">
-						{{~ data.drafts :value }}
+					<ul id="articles_standby" class="no-bullet articles-list standby">
+						{{~ data.toCheck :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
