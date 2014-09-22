@@ -561,7 +561,7 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	}
 
 	// Bind user connect event
-	$("#user_connect").mouseenter(function() {
+	$("#user_connect").click(function() {
 		check_user_connect()
 	});
 
