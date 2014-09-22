@@ -1,0 +1,207 @@
+﻿<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<script src="boot"></script>
+	</head>
+	<body>
+
+		<h2 class="red">Dossiers <small>.folders</small></h2>
+
+		<!--Dev Testbar-->
+		<div id="dev_testbar">
+			<svg width="0" height="0" viewBox="0 0 48 48">
+				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
+			</svg>
+			<h4>Voir</h4>
+			<label for="show_folders_list">Liste des Dossiers</label>
+			<input id="show_folders_list" type="checkbox" name="show" value="folders_list">
+			<label for="show_folder_view">Affichage d'un dossier</label>
+			<input id="show_folder_view" type="checkbox" name="show" value="folder_view">
+			<label for="show_article_in_a_folder">Article dans un dossier</label>
+			<input id="show_article_in_a_folder" type="checkbox" name="show" value="article_in_a_folder" checked>
+			<label for="debug_marks">Masques</label>
+			<input id="debug_marks" type="checkbox" value="true">
+			<label>Largeur</label>
+			<input id="section_width_slider" type="range" min="20" max="120" step="10" value="100">
+			<span id="section_width_tip"></span>
+		</div>
+		<script>
+			// Functions
+			function change_width(selector) {
+				var w = $(selector).val() + "%";
+				$("section").css("width", w);
+				$("#section_width_tip").text(w + " (" + $("section").outerWidth(true) + "px)");
+			}
+			function check_debug_marks(selector) {
+				if ($(selector).is(":checked")) {
+					$("section").addClass("css-debug");
+				} else {
+					$("section").removeClass("css-debug");
+				}
+			}
+			// Eventing
+			$("html").on("click", "[name='show']", function() {
+				var f = $(this).val();
+				$("#" + f).toggle();
+			});
+			$("#section_width_slider").change(function() {change_width(this)});
+			$("#section_width_slider").keyup(function() {change_width(this)});
+			$("#debug_marks").change(function() {check_debug_marks(this)});
+			// Initialization
+			$(document).ready(function() {
+				$("[name='show']").each(function() {
+					var f = $(this).val();
+					if ($(this).is(":checked")) {
+						$("#" + f).show();
+					} else {
+						$("#" + f).hide();
+					}
+				});
+				change_width("#section_width_slider");
+				check_debug_marks("#debug_marks");
+			});
+		</script>
+
+		<!--Folders-->
+		<section>
+
+			<!--Folders List-->
+			<div id="folders_list">
+				<h3>Liste des dossiers</h3>
+				<dl>
+					<dt>Natalité</dt>
+					<dd>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</dd>
+					<!--
+					<dd>Avortement : un droit mal acquis</dd>
+					<dd>Gestation pour autrui, une autre étape ?</dd>
+					<dd>La guerre des poupons</dd>
+					-->
+					<dt>Égalité des sexes</dt>
+					<dd>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</dd>
+					<!--
+					<dd>Le troisième sexe</dd>
+					<dd>Parité : une théorie éculée ?</dd>
+					<dd>Une paire de seins vaut bien une paire de couilles</dd>
+					-->
+				</dl>
+			</div>
+
+			<!--Folder View-->
+			<div id="folder_view">
+				<h3>Affichage d'un dossier</h3>
+				<style>
+					.folder {
+						padding: .75rem;
+						background-color: whitesmoke;
+						border: .0625rem solid silver;
+					}
+					.folder *:first-child {margin-top: 0;}
+					.folder *:last-child {margin-bottom: 0;}
+					.folder + .folder {
+						margin-top: 1rem;
+					}
+				</style>
+				<div class="folder">
+					<h4>Natalité</h4>
+					<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+					<ul>
+						<li>Avortement : un droit mal acquis</li>
+						<li>Gestation pour autrui, une autre étape ?</li>
+						<li>La guerre des poupons</li>
+					</ul>
+				</div>
+				<div class="folder">
+					<h4>Égalité des sexes</h4>
+					<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+					<ul>
+						<li>Le troisième sexe</li>
+						<li>Parité : une théorie éculée ?</li>
+						<li>Une paire de seins vaut bien une paire de couilles</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--Folder Slider-->
+			<div id="article_in_a_folder">
+				<h3>Article dans un dossier</h3>
+				<style>
+					.folder-slider {
+						clear: both;
+					}
+					.folder-slider h4 {
+						display: inline-block;
+						float: none;
+						width: 40%;
+						text-align: center;
+					}
+					.folder-slider .prev,
+					.folder-slider .next {
+						display: table;
+					}
+					.folder-slider .prev {
+						width: 30%;
+						float: left;
+						text-align: left;
+					}
+					.folder-slider .next {
+						width: 30%;
+						float: right;
+						text-align: right;
+					}
+					.folder-slider .prev .text-webfont,
+					.folder-slider .next .text-webfont {
+						display: table-cell;
+						vertical-align: middle;
+					}
+					.css-debug .folder-slider h4 {
+						background-color: rgba(255, 0, 0, .5);
+					}
+					.css-debug .folder-slider .prev {
+						background-color: rgba(0, 255, 0, .5);
+					}
+					.css-debug .folder-slider .next {
+						background-color: rgba(0, 0, 255, .5);
+					}
+				</style>
+				<div class="folder-slider">
+					<h4><span class="hide">Dossier : </span><a href="javascript:void(0)">Natalité</a></h4>
+					<div class="prev"><a href="javascript:void(0)"class="icon-left huge left"></a><span class="text hide">Article précédent : </span><a href="javascript:void(0)" class="text-webfont text-large">Avortement : un droit mal acquis &hellip; abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde &hellip;</a></div>
+					<div class="next"><span class="hide">Article suivant : </span><a href="javascript:void(0)" class="text-webfont text-large">La guerre des poupons</a><a href="javascript:void(0)"class="icon-right huge right"></a></div>
+				</div>
+				<hr>
+				<article class="article ourbody">
+					<h2 class="title">Gestation pour autrui, une autre étape ?</h2>
+					<h4 class="author"><a href="javascript:void(0)" class="icon-author" rel="author" title="Auteure"><span class="text">Nadejda</span></a></h4>
+					<time class="date icon-date small" datetime="2015-01-01"><small class="text"><span class="hide">Publi&eacute; le </span>1<sup>er</sup> janvier 2015</small></time>
+					<p class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+					<dl class="tags inline-list clearfix">
+						<dt><span class="icon-tag small" title="Tags"><strong class="hide">Tags</strong></span></dt>
+						<dd><a href="javascript:void(0)" rel="tag" class="label radius ourbody">Nos corps, nous-mêmes</a></dd>
+						<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">Dossier</a></dd>
+						<dd><a href="javascript:void(0)" rel="tag" class="label radius">Théorie du genre</a></dd>
+						<dd><a href="javascript:void(0)" rel="tag" class="label radius">Puériculture</a></dd>
+					</dl>
+
+					<h4>Un inter-titre</h4>
+					<p>Lorem ipsum dolor sit amet, <a href="javascript:void(0)">consectetur adipiscing elit</a>. Vivamus egestas dignissim consectetur. Aenean feugiat ligula at mi varius ultricies. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. <a href="javascript:void(0)">Etiam quis convallis tellus</a>. Duis id metus malesuada, aliquet tellus vel, lobortis massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla malesuada pulvinar mauris, sed finibus orci ullamcorper luctus.</p>
+					<div class="callout">Vivamus egestas dignissim consectetur.</div>
+					<p>Quisque risus ipsum, volutpat non fermentum ut, sodales sit amet eros. Aliquam iaculis sit amet mi vestibulum faucibus. Aliquam velit ligula, scelerisque vitae egestas dictum, efficitur nec arcu. Donec egestas ultricies ligula, eu condimentum est maximus eget. Class aptent taciti sociosqu <a href="javascript:void(0)">ad litora torquent</a> per conubia nostra, per inceptos himenaeos. Vivamus eget augue a velit finibus ultrices. Praesent tempus venenatis dapibus. Phasellus justo velit, laoreet ac tellus id, tempus feugiat massa. Maecenas feugiat luctus ipsum. Nulla nec dui rhoncus, dignissim mauris at, suscipit felis.</p>
+					<p class="author"><a href="javascript:void(0)" class="tip-top" rel="author" title="Voir le profil" data-tooltip>Nadejda</a></p>
+				</article>
+			</div>
+
+		</section>
+
+		<script>
+			$build_container = false;
+			load();
+		</script>
+		<script>
+			loap.update()
+		</script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
+</html>
