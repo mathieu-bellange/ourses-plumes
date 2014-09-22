@@ -28,7 +28,7 @@ if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 }
 // sinon c'est une création d'article
 else{
-	processArticle(new Article("","","",null,null,[]));
+	processArticle(new Article("", "", "", null, null, []));
 }
 
 /* ------------------------------------------------------------------ */

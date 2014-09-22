@@ -64,7 +64,7 @@
 								</div>
 								<div class="column small-9">
 									<input id="tag" class="validation" type="text" placeholder="Une &eacute;tiquette au choix pour indexer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
-									<small id="tag_error" class="error hide">Ce tag est déjà pris !</small>
+									<small id="tag_error" class="error hide">Ce tag est d&eacute;j&agrave; pris !</small>
 								</div>
 								<div class="column small-3">
 									<input id="tag_add" type="button" value="Ajouter" href="javascript:void(0)" class="button postfix">
@@ -78,10 +78,15 @@
 							<legend class="hide">R&eacute;daction</legend>
 							<label for="editor" class="hide">Corps de l&rsquo;article</label>
 							<div id="editor" class="inline-editor" contenteditable="true" style="overflow: hidden; max-width: 100%;">
+								{{? data.body !== ""}}
+								{{= data.body }}
+								{{??}}
 								<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 								<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
 								<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
 								<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
+								<p><iframe allowfullscreen="" frameborder="0" width="640" height="360" src="//www.youtube.com/embed/iUs2Wzupf1c?rel=0"></iframe></p>
+								{{?}}
 							</div>
 							<small class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
 						</fieldset>
