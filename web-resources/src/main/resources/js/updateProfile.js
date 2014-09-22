@@ -458,6 +458,8 @@ function readfiles(files) {
 		}
 		// max 200 KB
 		if (file.size <= 204800) {
+			// show progress bar
+			show_progress_bar();
 			var reader = new FileReader();
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = handler;
@@ -482,18 +484,18 @@ function readfiles(files) {
 var t_progress = 0;
 var h_selector = "#avatar";
 
+function show_progress_bar() {
+	clearTimeout(t_progress);
+	$(h_selector).nextAll(".progress").first().removeClass("secondary warning alert success");
+	$(h_selector).nextAll(".progress").first().show();
+}
+
 function processAvatar() {
 	// vars
 	var id = "avatar"; // A tribute to James Cameron ?
 	var cls = "dragon" // Parce que ça marche des flammes :D
 	var holder = document.getElementById(id);
 	var selector = "#" + id;
-	// methods
-	function show_progress_bar() {
-		clearTimeout(t_progress);
-		$(selector).nextAll(".progress").first().removeClass("secondary warning alert success");
-		$(selector).nextAll(".progress").first().show();
-	}
 	// events
 	holder.ondragover = function() {
 		if ($(selector).data("drag_on") !== "true") {
@@ -513,8 +515,6 @@ function processAvatar() {
 			$(selector).blur();
 			$(selector).removeClass(cls);
 		}
-		// show progress bar
-		show_progress_bar();
 		// start file upload
 		e.preventDefault();
 		readfiles(e.dataTransfer.files);
@@ -525,8 +525,6 @@ function processAvatar() {
 			$(selector).next($("input[file]")).attr("id", $(selector).attr("id") + "_file");
 			$(selector + "_file").bind({
 				change : function() {
-					// show progress bar
-					show_progress_bar();
 					// start file upload
 					readfiles(this.files);
 				}
@@ -559,6 +557,9 @@ function transferFailed(event) {
 	var selector = h_selector;
 	$(selector).nextAll(".progress").first().removeClass("secondary warning success");
 	$(selector).nextAll(".progress").first().addClass("alert");
+	t_progress = setTimeout(function() {
+		$(selector).nextAll(".progress").first().fadeOut(1000);
+	}, 2000);
 }
 
 /* ------------------------------------------------------------------ */
