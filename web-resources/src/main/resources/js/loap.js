@@ -561,15 +561,16 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	}
 
 	// Bind user connect event
-	$("#user_connect").click(function() {
+	$("#user_connect").mouseenter(function() {
 		check_user_connect()
 	});
 
 	// Process footer template
 	$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
 	// Process slider template -- this is the tricky part
+	var news_list_tmpl = doT.compile(loadfile($app_root + "tmpl/news_list.tmpl"));
 	$(document).ready(function() {
-		$(".main-pane > header").append(doT.compile(loadfile($app_root + "tmpl/news_list.tmpl")));
+		$(".main-pane > header").append(news_list_tmpl());
 		$(".news-list").foundation("orbit"); // reload Foundation Orbit Slider plugin ; Foundation need to be loaded one time before that for the list to appear inline
 		$(window).resize(); // just a dummy instruction for getting the proper height
 	});
