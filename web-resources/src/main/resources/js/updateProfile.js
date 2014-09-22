@@ -425,13 +425,16 @@ var role_display = (function() {
 /* ------------------------------------------------------------------ */
 
 // XHR Object
-XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
-	function byteValue(x) {
-		return x.charCodeAt(0) & 0xff;
-	}
-	var ords = Array.prototype.map.call(datastr, byteValue);
-	var ui8a = new Uint8Array(ords);
-	this.send(ui8a.buffer);
+if (!XMLHttpRequest.prototype.sendAsBinary) {
+	XMLHttpRequest.prototype.sendAsBinary = function(sData) {
+		var nBytes = sData.length, ui8Data = new Uint8Array(nBytes);
+		for (var nIdx = 0; nIdx < nBytes; nIdx++) {
+			ui8Data[nIdx] = sData.charCodeAt(nIdx) & 0xff;
+		}
+		/* send as ArrayBufferView...: */
+		this.send(ui8Data);
+		/* ...or as ArrayBuffer (legacy)...: this.send(ui8Data.buffer); */
+	};
 }
 
 // Get File
