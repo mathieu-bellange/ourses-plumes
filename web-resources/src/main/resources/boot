@@ -80,18 +80,18 @@ $app_msg                = {                                     // Object   Defi
 
 /* Timing */
 var $months = [                                                 // Array    Define literals for months.
-	"janvier",
-	"février",
-	"mars",
-	"avril",
-	"mai",
-	"juin",
-	"juillet",
-	"août",
-	"septembre",
-	"octobre",
-	"novembre",
-	"décembre"
+	"janvier",                                                    // String   Set January literal. Default "janvier"
+	"février",                                                    // String   Set February literal. Default "février"
+	"mars",                                                       // String   Set March literal. Default "mars"
+	"avril",                                                      // String   Set April literal. Default "avril"
+	"mai",                                                        // String   Set May literal. Default "mai"
+	"juin",                                                       // String   Set June literal. Default "juin","
+	"juillet",                                                    // String   Set July literal. Default "juillet"
+	"août",                                                       // String   Set August literal. Default "août"
+	"septembre",                                                  // String   Set September literal. Default "septembre"
+	"octobre",                                                    // String   Set October literal. Default "octobre"
+	"novembre",                                                   // String   Set November literal. Default "novembre"
+	"décembre"                                                    // String   Set December literal. Default "décembre"
 ];
 
 /* ------------------------------------------------------------------ */

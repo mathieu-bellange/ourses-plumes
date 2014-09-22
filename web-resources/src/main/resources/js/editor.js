@@ -180,7 +180,7 @@ function processArticle(article) {
 	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
 	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
 	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
-	$("section [class*='icon-']").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
+	$("section").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
 	//loap.update(); // TEMP DEBUG : reload all loap plugins for whole document
 }
 
@@ -205,7 +205,7 @@ function processRubric(json, article) {
 		li.prepend(span);
 		$('#rubric ul').append(li);
 	});
-	$("#rubric [class*='icon-']").svg_icons(); // set svg icons for all icons contained in rubric
+	$("#rubric").svg_icons(); // set svg icons for all icons contained in rubric
 	update_rubric()
 }
 

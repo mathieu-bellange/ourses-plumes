@@ -43,10 +43,18 @@ jQuery.fn.extend({
 /* User Pictures */
 jQuery.fn.extend({
 	user_pictures : function(options) {
+		// Variables
+		var defaults = {
+			attr : "data-image",            // String    Define the data attribute containing image URL. Default : "data-image"
+		};
+		var settings = $.extend({}, defaults, options);
 		// Loop
 		$(this).each(function() {
-			var file = $(this).attr("data-image");
-			$(this).css("background-image", "url('" + file + "')")
+			var obj = $(this).find("[" + settings.attr + "]");
+			obj.each(function() {
+				var file = $(this).attr(settings.attr);
+				$(this).css("background-image", "url('" + file + "')")
+			});
 		});
 	}
 });
@@ -56,57 +64,62 @@ jQuery.fn.extend({
 	svg_icons : function(options) {
 		// Variables
 		var defaults = {
-			s_null : true,                  // Boolean   Set icons display size to zero (i.e. hide SVG on plain HTML). Default : true
-			s_default : 48,                 // Integer   Default icons display size in px. Default : 48
-			s_tiny : 24,                    // Integer   Tiny icons display size in px. Default : 24
-			s_small : 32,                   // Integer   Small icons display size in px. Default : 32
-			s_medium : 40,                  // Integer   Medium icons display size in px. Default : 48
-			s_large : 56,                   // Integer   Large icons display size in px. Default : 64
-			s_huge : 80,                    // Integer   Huge icons display size in px. Default : 80
-			i_classes : {                   // Object    Colored icons associative array (i.e. "icon_name" : "color")
-				"struggles" : "orange",       // Default : "orange"
-				"ourbody" : "fuschia",        // Default : "fuschia"
-				"intersec" : "red",           // Default : "red"
-				"internat" : "blue",          // Default : "blue"
-				"educult" : "turquoise",      // Default : "turquoise"
-				"ideas" : "golden",           // Default : "golden"
-				"syndicate" : "honey",        // Default : "honey"
-				"twitter" : "skyblue",        // Default : "skyblue"
-				"facebook" : "royalblue",     // Default : "royalblue"
-				"googleplus" : "firered",     // Default : "firered"
-				"tumblr" : "royalblue",       // Default : "royalblue"
-				"linkedin" : "electricblue",  // Default : "electricblue"
-				"pinterest" : "firered",      // Default : "firered"
-				"stumbleupon" : "gingerred"   // Default : "gingerred"
+			s_null : true,                          // Boolean   Set icons display size to zero (i.e. hide SVG on plain HTML). Default : true
+			s_default : 48,                         // Integer   Default icons display size in px. Default : 48
+			s_tiny : 24,                            // Integer   Tiny icons display size in px. Default : 24
+			s_small : 32,                           // Integer   Small icons display size in px. Default : 32
+			s_medium : 40,                          // Integer   Medium icons display size in px. Default : 48
+			s_large : 56,                           // Integer   Large icons display size in px. Default : 64
+			s_huge : 80,                            // Integer   Huge icons display size in px. Default : 80
+			i_selector : "[class*='icon-']",        // String    Define the original icon selector. Default : [class*='icon-']
+			i_classmatch : /icon-[a-z]*/,           // Regexp    Define the SVG icon id match from attribute class. Default : /icon-[a-z]*/
+			i_classname : "icon",                   // String    Define the output SVG icon holder class. Default : "icon"
+			i_classes : {                           // Object    Colored icons associative array (i.e. "icon_name" : "color")
+				"struggles" : "orange",               // Default : "orange"
+				"ourbody" : "fuschia",                // Default : "fuschia"
+				"intersec" : "red",                   // Default : "red"
+				"internat" : "blue",                  // Default : "blue"
+				"educult" : "turquoise",              // Default : "turquoise"
+				"ideas" : "golden",                   // Default : "golden"
+				"syndicate" : "honey",                // Default : "honey"
+				"twitter" : "skyblue",                // Default : "skyblue"
+				"facebook" : "royalblue",             // Default : "royalblue"
+				"googleplus" : "firered",             // Default : "firered"
+				"tumblr" : "royalblue",               // Default : "royalblue"
+				"linkedin" : "electricblue",          // Default : "electricblue"
+				"pinterest" : "firered",              // Default : "firered"
+				"stumbleupon" : "gingerred"           // Default : "gingerred"
 			}
 		};
 		var settings = $.extend({}, defaults, options);
 		// Loop
 		$(this).each(function() {
 			// Define object
-			var obj = $(this);
-			// Retrieve icon hypertext reference from object class
-			var c = obj.attr("class").match(/icon-[a-z]*/).toString();
-			var i = c.substr(5, c.length);
-			var k = "icon";
-			// Define icon color class from icon hypertext reference
-			if (settings.i_classes.hasOwnProperty(i)) {
-				k += " " + settings.i_classes[i];
-			}
-			// Set svg element width and height attributes
-			var s = settings.s_default;
-			if (settings.s_null == true) {s = 0}
-			else if (obj.hasClass("tiny")) {s = settings.s_tiny}
-			else if (obj.hasClass("small")) {s = settings.s_small}
-			else if (obj.hasClass("medium")) {s = settings.s_medium}
-			else if (obj.hasClass("large")) {s = settings.s_large}
-			else if (obj.hasClass("huge")) {s = settings.s_huge}
-			// Define svg icon html code
-			var h = "<svg viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
-			// Append svg icon html code
-			obj.removeClass(c);
-			obj.addClass(k);
-			obj.prepend(h);
+			var obj = $(this).find(settings.i_selector);
+			obj.each(function() {
+				// Retrieve icon hypertext reference from object class
+				var c = $(this).attr("class").match(settings.i_classmatch).toString();
+				var i = c.substr(5, c.length);
+				var k = settings.i_classname;
+				// Define icon color class from icon hypertext reference
+				if (settings.i_classes.hasOwnProperty(i)) {
+					k += " " + settings.i_classes[i];
+				}
+				// Set svg element width and height attributes
+				var s = settings.s_default;
+				if (settings.s_null == true) {s = 0}
+				else if ($(this).hasClass("tiny")) {s = settings.s_tiny}
+				else if ($(this).hasClass("small")) {s = settings.s_small}
+				else if ($(this).hasClass("medium")) {s = settings.s_medium}
+				else if ($(this).hasClass("large")) {s = settings.s_large}
+				else if ($(this).hasClass("huge")) {s = settings.s_huge}
+				// Define svg icon html code
+				var h = "<svg viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
+				// Append svg icon html code
+				$(this).removeClass(c);
+				$(this).addClass(k);
+				$(this).prepend(h);
+			});
 		});
 	}
 });
@@ -300,7 +313,7 @@ jQuery.fn.extend({
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
 								$(this).after(doT.compile(loadfile($app_root + "tmpl/confirmation_bar.tmpl"))); // insert confirmation_bar template
-								$(".validation-bar [class*='icon-']").svg_icons(); // reflow all icons of validation bar
+								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
 								$(".validation-bar").fadeIn("slow");
 							}
 						}
@@ -328,8 +341,8 @@ jQuery.fn.extend({
 var loap = (function() {
 	return {
 		update: function() {
-			$("[class*='icon-']").svg_icons(); // WARNING : set svg icons for whole document
-			$("[data-image]").user_pictures(); // WARNING : set user pictures for whole document
+			$(document).svg_icons(); // WARNING : set svg icons for whole document
+			$(document).user_pictures(); // WARNING : set user pictures for whole document
 		},
 		init: function() {
 			this.update();
@@ -352,7 +365,7 @@ function createAlertBox(msg, cls, id, scroll) {
 	var msg = msg || $app_msg.error, cls = cls || "error", id = id || "alert_box", scroll = scroll || true;
 	if ($("#" + id).length === 0) {
 		$("main > header").after(alert_box_template({"id" : id, "class" : cls, "text" : msg}));
-		$("#" + id + " [class*='icon-']").svg_icons(); // set svg icons contained by alert box
+		$("#" + id).svg_icons(); // set svg icons contained by alert box
 		$("#" + id).fadeIn(300); // show alert box
 		$("#" + id).parent().foundation("alert"); // reload Foundation alert plugin for alert box closest parent (i.e. alert-box cannot be closed bug fix)
 		if (scroll == true) {
@@ -495,7 +508,7 @@ function check_user_connect() {
 	}
 	if ((window.location.href.indexOf($login_page) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null)) {
 		set_user_connect(true); // enable user connection
-		$("#user_menu [data-image]").user_pictures(); // reload user pictures of user menu
+		$("#user_menu").user_pictures(); // reload user pictures of user menu
 		$(document).foundation("dropdown"); // reload Foundation Dropdown plugin for whole document (n.b. includes #user_connect and #user_menu)
 		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
 	}

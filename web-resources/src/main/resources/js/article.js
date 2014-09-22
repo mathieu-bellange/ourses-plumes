@@ -38,7 +38,7 @@ function displayArticle() {
 
 function processArticle(article) {
 	$("main > header").after(template(article));
-	$("section [class*='icon-']").svg_icons(); // reload svg icons for whole section
+	$("section").svg_icons(); // reload svg icons for whole section
 }
 /* ------------------------------------------------------------------ */
 /* # Events */
