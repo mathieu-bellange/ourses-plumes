@@ -14,7 +14,7 @@ Insert into ourses_authorization_info
   (id, roles_for_db)
 Values
   (1, 'Administratrice'),
-  (2, 'R&eacute;dactrice');
+  (2, 'Rédactrice');
 
 Insert into ourses_authentication_info
   (id, mail, credentials, version)

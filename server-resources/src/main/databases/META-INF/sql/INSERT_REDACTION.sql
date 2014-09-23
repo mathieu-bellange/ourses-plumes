@@ -14,10 +14,10 @@ Insert into rubrique
 Values
   (1, 'Luttes', 'struggles', 'luttes'),
   (2, 'Nos corps, nous-m&ecirc;mes', 'ourbody', 'nos-corps'),
-  (3, 'Intersectionnalit&eacute;', 'intersec', 'intersectionnalit&eacute;'),
+  (3, 'Intersectionnalit&eacute;', 'intersec', 'intersectionnalité'),
   (4, 'International', 'internat', 'international'),
-  (5, 'Education & Culture', 'educult', '&eacute;ducation-culture'),
-  (6, 'Id&eacute;es', 'ideas', 'id&eacute;es');
+  (5, 'Education & Culture', 'educult', 'éducation-culture'),
+  (6, 'Id&eacute;es', 'ideas', 'idées');
 
 Insert into tag
   (id, tag)
@@ -43,10 +43,10 @@ Values
   (8, 'titre 8', 'cannot delete', '<p>body</p>', null, '2014-01-27', '2014-02-05', 2, 2, 3, 1, '/articles/8', 'titre-8'),
   (9, 'titre 9', 'invalidate', '<p>body</p>', null, '2014-08-07', '2014-08-09', 2, 2, 3, 1, '/articles/9', 'titre-9'),
   (10, 'titre 10', 'not_invalidate', '<p>body</p>', null, '2014-06-01', '2014-06-01', 2, 2, 3, 0, '/articles/10', 'titre-10'),
-  (11, 'titre 11', 'get', '<p>body</p>', '2077-01-01', '2014-04-11', '2014-04-11', 2, 2, 3, 2, '/articles/intersectionnalit&eacute;/titre-11', 'titre-11'),
+  (11, 'titre 11', 'get', '<p>body</p>', '2077-01-01', '2014-04-11', '2014-04-11', 2, 2, 3, 2, '/articles/intersectionnalité/titre-11', 'titre-11'),
   (12, 'titre 12', 'get draft', '<p>body</p>', null, '2014-07-24', '2014-07-24', 2, 2, 3, 0, '/articles/12', 'titre-12'),
   (13, 'titre 13', 'get validate', '<p>body</p>', null, '2014-09-13', '2014-09-15', 2, 2, 3, 1, '/articles/13', 'titre-13'),
-  (14, 'titre 14', 'en ligne au 01/01/2010', '<p>body</p>', '2010-01-01', '2014-02-06', '2014-01-05', 3, 7, 5, 2, '/articles/&eacute;ducation-culture/titre-14', 'titre-14'),
+  (14, 'titre 14', 'en ligne au 01/01/2010', '<p>body</p>', '2010-01-01', '2014-02-06', '2014-01-05', 3, 7, 5, 2, '/articles/éducation-culture/titre-14', 'titre-14'),
   (15, 'titre 15', 'en ligne au 14/03/1982', '<p>body</p>', '1982-03-14', '2014-10-21', '2014-01-05', 2, 6, 1, 2, '/articles/luttes/titre-15', 'titre-15'),
   (16, 'titre 16', 'en ligne au 25/02/2007', '<p>body</p>', '2007-02-25', '2014-11-13', '2014-01-05', 2, 4, 4, 2, '/articles/international/titre-16', 'titre-16'),
   (17, 'titre 17', 'desc', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 0, '/articles/international/titre-17', 'titre-17'),
@@ -76,7 +76,7 @@ Values
     <h4 class="cyan">Un combat qui reste &agrave; mener</h4>
     <p>La question est loin d&rsquo;&ecirc;tre anecdotique, d&rsquo;une part parce que comme on l&rsquo;a vu, les jeux vid&eacute;os, mais aussi de fa&ccedil;on plus large le web, constituent des espaces sociaux dont l&rsquo;importance et le r�le sont croissants dans la soci&eacute;t&eacute; et parce qu&rsquo;ils repr&eacute;sentent des opportunit&eacute;s cr&eacute;atrices d&rsquo;une grande richesse dont il est intol&eacute;rable que certainEs soient ainsi excluEs, et qu&rsquo;il faut donc en continuer la critique politique et le combat pour l&rsquo;ouvrir aux diff&eacute;rentes minorit&eacute;s.</p>
     <p>Mais aussi parce que, au-del&agrave; du jeu vid&eacute;o lui-m&ecirc;me, les violences sexistes qui s&rsquo;y d&eacute;roulent sont un exemple tr&egrave;s r&eacute;v&eacute;lateur de la fa&ccedil;on dont les comportements sexistes, m&eacute;prisants, paternalistes participent d&rsquo;un syst&egrave;me d&rsquo;exclusion des femmes d&rsquo;un lieu social Comme certains le revendiquent d&rsquo;ailleurs explicitement.</p>', 
-    '2014-09-01', '2014-02-01', '2014-02-05', 6, 4, 5, 2, '/articles/&eacute;ducation-culture/sexisme-dans-les-jeux-vid&eacute;os-une-critique-impossible', 'sexisme-dans-les-jeux-vid&eacute;os-une-critique-impossible');
+    '2014-09-01', '2014-02-01', '2014-02-05', 6, 4, 5, 2, '/articles/éducation-culture/sexisme-dans-les-jeux-vidéos-une-critique-impossible', 'sexisme-dans-les-jeux-vidéos-une-critique-impossible');
 
 Insert into article_tag
   (id, tag_id, article_id)
