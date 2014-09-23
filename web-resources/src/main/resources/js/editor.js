@@ -103,13 +103,11 @@ function processArticle(article) {
 	if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 		pathPUT = "/rest" + window.location.pathname;
 		pathTitle = "/rest/articles/check/title?id=" + article.id; 
-	}
-	//sinon en création
-	else{
+	} else { //sinon en création
 		pathPUT = "/rest/articles/create";
 		pathTitle = "/rest/articles/check/title";
 	}
-	
+
 	$.getJSON("/rest/categories", function(json) {
 		// processCategory(json);
 		processCategory(json, article);
@@ -233,7 +231,7 @@ function processCategory(json, article) {
 function update_rubric() {
 	if ($("#rubric .select").children().size() == 0) {
 		// update text
-		$("#tag_rubric").text($("#rubric .select").text());
+		$("#tag_rubric").html($("#rubric .select").text());
 		// update color
 		$("#tag_rubric").removeClass();
 		$("form").removeClass(); // WARNING : using 'form' as topmost parent element
@@ -258,7 +256,7 @@ function update_rubric() {
 function update_category() {
 	if ($("#category .select").children().size() == 0) {
 		// update text
-		$("#tag_category").text($("#category .select").text());
+		$("#tag_category").html($("#category .select").text());
 		// update visibility
 		if ($("#tag_category").parent("dd").hasClass("hide")) {
 			$("#tag_category").parent("dd").removeClass("hide")
