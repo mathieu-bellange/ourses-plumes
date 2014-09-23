@@ -1968,7 +1968,7 @@ input:focus + button + .error + .autocomplete > ul {
 .article.edit .tags {
   position: relative;
   display: block;
-  padding-right: 10rem; /* WARNING : based upon after pseudo-element text width */
+  padding-right: 12rem; /* WARNING : based upon after pseudo-element text width */
 }
 .article.edit .tags:after {
   color: gainsboro;
