@@ -181,25 +181,12 @@ function processArticle(article) {
 function processRubric(json, article) {
 	$.each(json, function(i, obj) {
 		if (article.rubrique != null && article.rubrique.id == obj.id) {
-			$("#rubric .select").text(obj.rubrique); // reflow select value (i.e. asynchronous script conflict)
+			$("#rubric .select").html(obj.rubrique); // reflow select value (i.e. asynchronous script conflict)
 			var cls = "selected " + article.rubrique.classe;
 		} else {
 			var cls = "";
 		}
-		/*
-		var li = $("<li/>", {
-			"data-value": obj.id,
-			"data-color" : obj.classe,
-			"class" : cls
-		});
-		var span = $("<span/>",{
-			"class" : "icon-" + obj.classe + " small",
-			"style" : "margin-right: .25rem;"
-		});
-		li.text(obj.rubrique);
-		li.prepend(span);
-		*/
-		var li = "<li class='" + cls + "' data-value='"+ obj.id +"' data-color='" + obj.classe + "'><span class='icon-" + obj.classe + " small' style='margin-right: .25rem;'></span>" + obj.rubrique + "</li>"; // UTF-8 to HTML DB conversion fix
+		var li = "<li class='" + cls + "' data-value='"+ obj.id +"' data-color='" + obj.classe + "'><span class='icon-" + obj.classe + " small' style='margin-right: .25rem;'></span>" + obj.rubrique + "</li>";
 		$('#rubric ul').append(li);
 	});
 	$("#rubric").svg_icons(); // set svg icons for all icons contained by rubric
@@ -209,19 +196,12 @@ function processRubric(json, article) {
 function processCategory(json, article) {
 	$.each(json, function(i, obj) {
 		if (article.category != null && article.category.id == obj.id) {
-			$("#category .select").text(obj.category); // reflow select value (i.e. asynchronous script conflict)
+			$("#category .select").html(obj.category); // reflow select value (i.e. asynchronous script conflict)
 			var cls = "selected";
 		} else {
 			var cls = "";
 		}
-		/*
-		$('#category ul').append($("<li/>", {
-			"data-value": obj.id,
-			"class" : cls,
-			text: obj.category
-		}));
-		*/
-		var li = "<li class='" + cls + "' data-value='"+ obj.id +"'>" + obj.category + "</li>"; // UTF-8 to HTML DB conversion fix
+		var li = "<li class='" + cls + "' data-value='"+ obj.id +"'>" + obj.category + "</li>";
 		$("#category ul").append(li);
 	});
 	update_category()
@@ -459,7 +439,6 @@ function checkSummary() {
 }
 
 function checkBody() {
-	// if ($("#editor").text().length === 0) {
 	if (($("#editor").text().length == 0) || ($("#editor").length == 1 && $("#editor").children().hasClass("placeholder"))) {
 		$("#editor").set_validation(false);
 	} else {
