@@ -86,8 +86,10 @@ p {
 
 /* Paragraphs Indentation and Spacing */
 p {margin-bottom: 1.25em;}
+p.lead {margin-bottom: .5em;}
 p.collapse {margin-bottom: .625em;}
 p.collapse + p {text-indent: 2.5em;}
+p.placeholder {color: rgba(0, 0, 0, .375);}
 
 /* Lists */
 ul, ol, dl {
@@ -1227,7 +1229,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .alert-box > *:last-child {margin-bottom: 0;}
 
 .alert-box {
-  padding: .25rem 1.5rem; /* Foundation Override */
+  padding: .5rem 1.5rem; /* Foundation Override */
   line-height: 2rem; /* Foundation Override */
   background-color: #a8c;
   border: .15rem solid #759;
@@ -1245,7 +1247,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   text-decoration: none;
 }
 .alert-box .close:after {
-  margin-top: .25rem;
+  margin-top: .5rem;
   margin-right: .5rem;
   display: block;
 }
@@ -1658,6 +1660,77 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
           box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
 }
 
+/* ------------------------------------------------------------------ */
+/* # Autocomplete */
+/* ------------------------------------------------------------------ */
+
+.autocomplete {
+  font-size: 87.5%;
+  background-color: rgba(255, 0, 0, .5);
+  background-color: transparent;
+  transition: box-shadow .5s;
+}
+.autocomplete ul {
+  margin: 0 0 1rem;
+  list-style: none;
+  background-color: rgba(0, 255, 0, .5);
+  background-color: white;
+  border-width: 0 .125rem;
+  border-style: solid;
+  border-color: silver;
+}
+.autocomplete ul > li {
+  padding: 0 .5rem;
+  line-height: 200%;
+}
+.autocomplete ul > li.selected {
+  color: HighlightText;
+  background-color: Highlight;
+  font-weight: bold;
+}
+.autocomplete ul > li.selected mark {
+  color: white;
+  background-color: #d52;
+}
+.autocomplete ul > li.suggested-fetch {
+  font-weight: bold;
+}
+.autocomplete ul > li.suggested-fetch:after {
+  content: "Suggéré";
+  float: right;
+  color: darkgray;
+  font-size: 75%;
+  font-weight: bold;
+}
+.autocomplete ul > li.suggested-fetch.selected:after {
+  color: rgba(255, 255, 255, .5);
+}
+input:focus + button + .error + .autocomplete {
+  -webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+     -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+          box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+}
+input:focus + button + .error + .autocomplete > ul {
+  border-color: darkgray;
+}
+.css-debug .autocomplete ul > li:nth-child(odd) {
+  background-color: rgba(0, 255, 0, .5);
+}
+.css-debug .autocomplete ul > li:nth-child(even) {
+  background-color: rgba(0, 0, 255, .5);
+}
+
+/* ------------------------------------------------------------------ */
+/* # Validation Bar */
+/* ------------------------------------------------------------------ */
+
+.validation-bar {
+  display: none;
+  position: relative;
+  top: -.5rem;
+  line-height: 2rem;
+}
+
 /* ------------------------------------------------------------ */
 /* # Code Blocks */
 /* ------------------------------------------------------------ */
@@ -1686,17 +1759,6 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .code .attr {color: red;}
 .code .prop {color: purple;}
 .code .comment {color: green;}
-
-/* ------------------------------------------------------------------ */
-/* # Validation Bar */
-/* ------------------------------------------------------------------ */
-
-.validation-bar {
-  display: none;
-  position: relative;
-  top: -.5rem;
-  line-height: 2rem;
-}
 
 /* ------------------------------------------------------------------ */
 /* # Articles */

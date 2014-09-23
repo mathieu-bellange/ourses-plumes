@@ -70,10 +70,6 @@
 				<small class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
 
 				<!--Author-->
-				<!--
-				<label for="author">R&eacute;dactrice</label>
-				<input id="author" type="text" disabled>
-				-->
 				<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">Nadejda</span></span></h4>
 
 				<!--Date-->
@@ -151,22 +147,6 @@
 				<legend>Ind&eacute;xation</legend>
 
 				<!--Rubric-->
-				<!--
-				<div class="row collapse">
-					<div class="column small-12">
-						<label for="rubric">Rubrique <small class="red">*</small></label>
-							<select id="rubric">
-								<option disabled selected>&hellip;</option>
-								<option class="test" data-color="orange">Luttes</option>
-								<option data-color="magenta">Nos corps, nous-m&ecirc;mes</option>
-								<option data-color="red">Intersectionnalit&eacute;</option>
-								<option data-color="blue">International</option>
-								<option data-color="cyan">&Eacute;ducation & Culture</option>
-								<option data-color="yellow">Id&eacute;es</option>
-							</select>
-					</div>
-				</div>
-				-->
 				<label for="rubric">Rubrique <small class="red">*</small></label>
 				<div id="rubric" class="options-select validation" tabindex="0">
 					<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
@@ -182,23 +162,6 @@
 				<small class="error hide">La saisie de la rubrique est obligatoire</small>
 
 				<!--Category-->
-				<!--
-				<div class="row collapse">
-					<div class="column small-12">
-						<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
-						<select id="category">
-							<option disabled selected>&hellip;</option>
-							<option>Br&egrave;ve</option>
-							<option>Reportage</option>
-							<option>Dossier</option>
-							<option>Spotlight</option>
-							<option>Interview</option>
-							<option>Tribune</option>
-							<option>Revue du web</option>
-						</select>
-					</div>
-				</div>
-				-->
 				<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
 				<div id="category" class="options-select validation" tabindex="0">
 					<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
@@ -214,74 +177,28 @@
 				</div>
 				<small class="error hide">La saisie de la cat&eacute;gorie est obligatoire</small>
 
-				<!--Tags-->
-				<label for="tag">Tags</label>
 				<style>
-					/* Named Components */
-					#tag {}
+					/* TEMP : Tag styles */
+					#tag {display: inline-block; width: 18rem; height: 2.25rem; border-width: .125rem;}
 					#tag_add {margin-bottom: 0;}
-					/* Autocomplete */
-					.autocomplete {
-						font-size: 87.5%;
-						background-color: rgba(255, 0, 0, .5);
-						background-color: transparent;
-						transition: box-shadow .5s;
-					}
-					.autocomplete ul {
-						margin: 0 0 1rem;
-						list-style: none;
-						background-color: rgba(0, 255, 0, .5);
-						background-color: white;
-						border-width: 0 .125rem;
-						border-style: solid;
-						border-color: silver;
-					}
-					.autocomplete ul > li {
-						padding: 0 .5rem;
-						line-height: 200%;
-					}
-					.autocomplete ul > li.selected {
-						color: HighlightText;
-						background-color: Highlight;
-						font-weight: bold;
-					}
-					.autocomplete ul > li.selected mark {
-						color: white;
-						background-color: #d52;
-					}
-					.autocomplete ul > li.suggested-fetch {
-						font-weight: bold;
-					}
-					.autocomplete ul > li.suggested-fetch:after {
-						content: "Suggéré";
-						float: right;
-						color: darkgray;
-						font-size: 75%;
-						font-weight: bold;
-					}
-					.autocomplete ul > li.suggested-fetch.selected:after {
-						color: rgba(255, 255, 255, .5);
-					}
-					input:focus + button + .error + .autocomplete {
+					#tag_add + small.error {position: relative; top: 0; width: 18rem; z-index: 2;}
+					#tag_add + small.error + .autocomplete {position: relative; width: 18rem; z-index: 1;}
+					#tag.wrong {border-color: #c33;}
+					#tag.wrong:focus + #tag_add + small.error {
 						-webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
 							 -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
 										box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
 					}
-					input:focus + button + .error + .autocomplete > ul {
-						border-color: darkgray;
-					}
-					.css-debug .autocomplete ul > li:nth-child(odd) {
-						background-color: rgba(0, 255, 0, .5);
-					}
-					.css-debug .autocomplete ul > li:nth-child(even) {
-						background-color: rgba(0, 0, 255, .5);
-					}
 				</style>
+
+				<!--Tags-->
+				<label for="tag">Tags</label>
 				<div>
-					<input id="tag" class="validation" style="display: inline-block; height: 2.25rem; width: 16rem; border-width: .125rem;" type="text" placeholder="Une &eacute;tiquette au choix (32 carac.)" maxlength="32"><button id="tag_add" type="button" href="javascript:void(0)" class=" icon-add small" style=""></button>
-					<small id="tag_error" class="hide error" style="top: 0; width: 16rem;">Ce tag est déjà pris !</small>
-					<div class="autocomplete hide" style="position: relative; width: 16rem; z-index: 2;">
+					<input id="tag" class="validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class=" icon-add small"></button>
+					<small class="hide error">Ce tag est déjà pris !</small>
+					<div class="autocomplete hide">
 						<ul>
+							<!--
 							<li>Amphibien</li>
 							<li>Amphipode</li>
 							<li>Amphithéatre</li>
@@ -296,153 +213,53 @@
 							<li class="suggested-fetch" >Jeux vidéos</li>
 							<li>JEUX VIDEOS</li>
 							<li>Jeux_vidéos</li>
+							-->
 						</ul>
 					</div>
 				</div>
-				<div style="margin-bottom: 1rem;"><span style="font-size: 87.5%; color: dimgray;">Try it now ! Type <code>amp</code> or <code>jeu</code> in the input.</span></div>
+				<div style="margin-bottom: 1rem;"><span style="font-size: 87.5%; color: dimgray;">Try it now ! Type <code>amp</code>, <code>ban</code> or <code>jeu</code> in the input.</span></div>
 
 				<script>
-					// vars
-					var min_i = 3;
-					var max_displayed_items = 6;
-					var i = min_i;
-					var white_spaces_replacement = " "; // white spaces replacement
-					var accepted_chars_list = /[^\w\d\s\+\-\=\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i; // accepted chars list
-					// methods
-					function check_illegal_chars(str, reg) {
-						var reg = reg || accepted_chars_list;
-						if (reg.test(str)) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-					function check_error(selector, error_margin) {
-						var error_margin = error_margin || "";
-						if (check_illegal_chars($(selector).val()) == true) {
-							$(selector).css("margin-bottom", "0");
-							$(selector).nextAll("small.error").first().css("margin-bottom", error_margin);
-							$(selector).set_validation(false, "Caract&egrave;re(s) invalide(s)&thinsp;!");
-						} else if ($(selector).val().length === 0) {
-							$(selector).set_validation(true);
-							$(selector).removeClass("valid");
-						} else {
-							$(selector).set_validation(true);
-						}
-					}
-					// events
-					$("#tag").bind({
-						focus : function() {
-							$(this).css("margin-bottom", "0");
-							$(".autocomplete").removeClass("hide");
-							check_error(this, "0"); // check error
-						},
-						blur : function() {
-							$(this).val($(this).val().trim()); // remove white spaces
-							$(this).val($(this).val().replace(/\s+/g, white_spaces_replacement)); // replace white spaces
-							$(".autocomplete").addClass("hide");
-							$("#tag").css("margin-bottom", "");
-							check_error(this); // check error
-						},
-						keydown : function(e) {
-							if (e.which == 13 || e.which == 27) { // Enter or Escape
-								$(this).blur();
+
+					/* Tags automated reflow */
+					$("#tag").keyup(function(e) {
+						if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
+							var str = $(this).val();
+							if (str.length >= 3) {
+
+								var x =["Amphibien", "Amphipode", "Amphithéatre", "Amphore", "Amphotère", "Amplificateur", "Ampoule", "Amputation", "Band Apart", "Bandage", "Bande", "Bandeau", "Banderole", "Bandit", "Jeu ViDeo", "Jeux-vidéos", "Jeux  vidéos", "Jeux vidéos", "JEUX VIDEOS", "Jeux_vidéos"];
+
+								// query input value
+								var list = new Array;
+								switch (str.toLowerCase()) {
+									case "amp" :
+										list = ["1", "2", "3", "4", "5", "6", "7", "8"]
+										break;
+									case "ban" :
+										list = ["9", "10", "11", "12", "13", "14"]
+										break;
+									case "jeu" :
+										list = ["15", "16", "17", "18", "19", "20"]
+										break;
+								}
+
+								// check if value alreay exists
+								$(".autocomplete ul > li").each(function () {
+									var k = list.indexOf($(this).attr("data-id"));
+									if (k !== -1) {
+										list.splice(k , 1)
+									}
+								});
+
+								// reflow autocomplete with query result
+								for (i in list) {
+									$(".autocomplete ul").append("<li data-id='" + list[i] + "' class='hide'>" + x[list[i]] + "</li>");
+								}
+
+								// TODO : sort items
+
 							}
-							if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp, PageDown, End, Home or Up or Down
-								e.preventDefault();
-								index = 0;
-								var index = $(".autocomplete ul > li.selected").index();
-								if (index == -1) {
-									$(".autocomplete ul > li").not(".hide").first().addClass("selected");
-								}
-								if (e.which == 33) { // PageUp
-									$(".autocomplete ul > li").removeClass("selected");
-									$(".autocomplete ul > li").not(".hide").first().addClass("selected");
-								}
-								if (e.which == 34) { // PageDown
-									$(".autocomplete ul > li").removeClass("selected");
-									$(".autocomplete ul > li").not(".hide").last().addClass("selected");
-								}
-								if (e.which == 38 && index - 1 >= 0) { // Up
-									$(".autocomplete ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().addClass("selected");
-									if ($(".autocomplete ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().hasClass("selected")) {
-										$(".autocomplete ul > li:eq(" + index + ")").removeClass("selected");
-									}
-								}
-								if (e.which == 40) { // Down
-									$(".autocomplete ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().addClass("selected");
-									if ($(".autocomplete ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().hasClass("selected")) {
-										$(".autocomplete ul > li:eq(" + index + ")").removeClass("selected");
-									}
-								}
-								var s = $(".autocomplete ul > li.selected").text();
-								$(this).val(s);
-								// scroll to selected item
-								if ($(".autocomplete ul > li").hasClass("selected")) {
-									if ($(".autocomplete ul > li").not(".hide").first().hasClass("selected")) {
-										scrollTo($("#tag"), 250, $("#tag").outerHeight());
-									} else if ($(".autocomplete ul > li").not(".hide").last().hasClass("selected")) {
-										scrollTo($(".autocomplete ul > li.selected"), 250, $("#tag").outerHeight());
-									} else {
-										scrollTo($(".autocomplete ul > li.selected"), 0);
-									}
-								}
-							}
-						},
-						keyup : function(e) {
-							check_error(this, "0"); // check error
-							if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
-								$(".autocomplete ul > li").removeClass("selected"); // unselect all
-								if (e.which == 8 || e.which == 46) { // Backspace or Del
-									if (i > 0) {
-										i -= 1;
-									}
-								}
-								if ($(this).val().length >= min_i) {
-									var k = 0;
-									var m = $(this).val();
-									i = $(this).val().length;
-									$(".autocomplete ul > li").each(function() {
-										var r = $(this).text().slice(0, i);
-										if (r.toLowerCase() == m.toLowerCase() && k < max_displayed_items) {
-											var str = $(this).text();
-											var html = "<mark>" + str.slice(0, i) + "</mark>" + str.substr(i, str.length);
-											$(this).html(html);
-											$(this).removeClass("hide");
-											k++;
-										} else {
-											$(this).addClass("hide");
-										}
-									});
-									// scroll
-									if ($(".autocomplete").offset().top + $(".autocomplete").height() > $(window).height() + $(document).scrollTop()) {
-										scrollTo($(".autocomplete ul > li:visible").last(), 500, $("#tag").outerHeight());
-									} else {
-										scrollTo($(".autocomplete").parent(), 500, $("#tag").outerHeight());
-									}
-								} else {
-									$(".autocomplete ul > li").each(function() {
-										$(this).addClass("hide"); // hide all autocompletion items
-									});
-								}
-							}
-						},
-					});
-					$(".autocomplete ul > li").not("hide").bind({
-						mouseenter : function() {
-							$(this).siblings().removeClass("selected");
-							$(this).addClass("selected");
-							$("#tag").val($(this).text());
-							check_error("#tag", "0"); // check error
-						},
-						mouseleave : function() {
-							$(this).removeClass("selected");
 						}
-					});
-					$(document).ready(function() {
-						$(".autocomplete ul > li").each(function() {
-							$(this).addClass("hide"); // hide all autocompletion items
-						});
 					});
 				</script>
 
@@ -492,10 +309,14 @@
 				<legend>R&eacute;daction</legend>
 				<label for="classic_editor">Corps de texte <span class="text-silver">classic</span></label>
 				<textarea id="classic_editor">
+					<p class="placeholder">Le corps de l'article</p>
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
 					<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
 					<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
+					<!--
+					<p><iframe allowfullscreen="" frameborder="0" width="640" height="360" src="//www.youtube.com/embed/iUs2Wzupf1c?rel=0"></iframe></p>
+					-->
 				</textarea>
 			</fieldset>
 
@@ -503,11 +324,15 @@
 			<fieldset id="inline_editor_fieldset" class="transparent">
 				<legend class="hide">R&eacute;daction</legend>
 				<label for="inline_editor" class="hide">Corps de texte <span class="text-silver">inline</span></label>
-				<div id="inline_editor" class="inline-editor" contenteditable="true">
+				<div id="inline_editor" class="inline-editor" contenteditable="true" data-placeholder>
+					<p class="placeholder">Le corps de l'article</p>
+					<!--
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
 					<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
 					<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
+					<p><iframe allowfullscreen="" frameborder="0" width="640" height="360" src="//www.youtube.com/embed/iUs2Wzupf1c?rel=0"></iframe></p>
+					-->
 				</div>
 			</fieldset>
 
@@ -530,6 +355,7 @@
 				$("textarea").autosize({append: ""}); // Apply autosize plugin to all <textarea> of the page
 				$("textarea").add_confirmation_bar(); // Apply add_confirmation_bar plugin to all <textarea> of the page
 				$(".options-select").options_select(); // Apply options_select plugin to all .options-select of the page
+				$("#tag").autocomplete(); // Apply autocomplete plugin to #tag input
 			});
 		</script>
 		<script>
@@ -546,7 +372,8 @@
 			CKEDITOR.disableAutoInline = true;
 			CKEDITOR.inline("inline_editor", {
 				customConfig : $cke_config_path + "editor_settings.js",
-				contentsCss : "css/loap-main.css"
+				extraAllowedContent : {"p" : {classes : "placeholder", styles : "color"}},
+				contentsCss : "css/loap-main.css",
 			});
 		</script>
 	</body>

@@ -40,12 +40,59 @@ jQuery.fn.extend({
 	}
 });
 
+/* Placeholder
+ * Fake 'placeholder' attribute for compatibility purpose.
+ * 1. Set data-placeholder="myString"
+ * 2. Set data-placeholder and manually feed the element with <p class="placeholder">myString</p>.
+ */
+jQuery.fn.extend({
+	placeholder : function(options) {
+		// vars
+		var defaults = {
+			"attr" : "data-placeholder",            // String    Attribute name of the placeholder element. Default : "data-placeholder"
+			"class" : "placeholder",                // String    Class name of the placeholder element. Default : "placeholder"
+		};
+		var settings = $.extend({}, defaults, options);
+		// methods
+		function removePlaceholder(obj) {
+			if (obj.data("placeholder_value") === undefined) {
+				obj.data("placeholder_value", obj.find("." + settings.class).text()); // store placeholder
+				obj.find("." + settings.class).remove();
+			}
+		}
+		// loop
+		$(this).each(function () {
+			// events
+			$(this).on("click", "[" + settings.attr + "]", function() {
+				removePlaceholder($(this)); // erase placeholder
+			});
+			$(this).on("keypress", "[" + settings.attr + "]", function() {
+				removePlaceholder($(this)); // erase placeholder
+			});
+			$(this).on("blur", "[" + settings.attr + "]", function() {
+				if ($(this).text().trim().length === 0) {
+					$(this).html("<p class='" + settings.class + "'>" + $(this).data("placeholder_value") + "</p>"); // append placeholder
+					$(this).removeData("placeholder_value");
+				}
+			});
+			// init
+			$(document).ready(function() {
+				$("[" + settings.attr + "]").each(function() {
+					if ($(this).attr(settings.attr) !== "") {
+						$(this).html("<p class='" + settings.class + "'>" + $(this).attr(settings.attr) + "</p>");
+					}
+				});
+			});
+		});
+	}
+});
+
 /* User Pictures */
 jQuery.fn.extend({
 	user_pictures : function(options) {
 		// Variables
 		var defaults = {
-			attr : "data-image",            // String    Define the data attribute containing image URL. Default : "data-image"
+			attr : "data-image",  // String  Define the data attribute containing image URL. Default : "data-image"
 		};
 		var settings = $.extend({}, defaults, options);
 		// Loop
@@ -227,6 +274,153 @@ jQuery.fn.extend({
 	}
 });
 
+/* Autocomplete */
+jQuery.fn.extend({
+	autocomplete : function(options) {
+		// Variables
+		var defaults = {
+			selector : ".autocomplete",             // String    Selector of the element containing the <ul> feeded by the autocomplete. Default : ".autocomplete"
+			start_chars_num : 3,                    // Integer   The number of characters from which the autocomplete begins. Default : 3
+			max_displayed_items : 6,                // Integer   The number of displayed items in the autocomplete suggestions box. Default : 6
+			white_spaces_replacement : " ",         // String    Whites spaces are replaced by that string. Default : " "
+			accepted_chars_list : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i // Regexp. The valid characters pattern. Default : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/
+		};
+		var settings = $.extend({}, defaults, options);
+		var i = settings.start_chars_num; // internal
+		// methods
+		function check_error(selector, error_margin) {
+			var error_margin = error_margin || "";
+			if (settings.accepted_chars_list.test($(selector).val())) {
+				$(selector).css("margin-bottom", "0");
+				$(selector).nextAll("small.error").first().css("margin-bottom", error_margin);
+				$(selector).set_validation(false, "Caract&egrave;re(s) invalide(s)&thinsp;!");
+			} else if ($(selector).val().length === 0) {
+				$(selector).set_validation(true);
+				$(selector).removeClass("valid");
+			} else {
+				$(selector).set_validation(true);
+			}
+		}
+		// Loop
+		$(this).each(function() {
+			var self = $(this);
+			var autocomplete_selector = $(this).nextAll(settings.selector).first(); // this is suggestion list container
+			// events
+			$(this).bind({
+				focus : function() {
+					$(this).css("margin-bottom", "0");
+					autocomplete_selector.removeClass("hide");
+					check_error(this, "0"); // check error
+				},
+				blur : function() {
+					$(this).val($(this).val().trim()); // remove white spaces
+					$(this).val($(this).val().replace(/\s+/g, settings.white_spaces_replacement)); // replace white spaces
+					autocomplete_selector.addClass("hide");
+					$(this).css("margin-bottom", "");
+					check_error(this); // check error
+				},
+				keydown : function(e) {
+					if (e.which == 13 || e.which == 27) { // Enter or Escape
+						$(this).blur();
+					}
+					if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp, PageDown, End, Home or Up or Down
+						e.preventDefault();
+						index = 0;
+						var index = autocomplete_selector.find("ul > li.selected").index();
+						if (index == -1) {
+							autocomplete_selector.find("ul > li").not(".hide").first().addClass("selected");
+						}
+						if (e.which == 33) { // PageUp
+							autocomplete_selector.find("ul > li").removeClass("selected");
+							autocomplete_selector.find("ul > li").not(".hide").first().addClass("selected");
+						}
+						if (e.which == 34) { // PageDown
+							autocomplete_selector.find("ul > li").removeClass("selected");
+							autocomplete_selector.find("ul > li").not(".hide").last().addClass("selected");
+						}
+						if (e.which == 38 && index - 1 >= 0) { // Up
+							autocomplete_selector.find("ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().addClass("selected");
+							if (autocomplete_selector.find("ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().hasClass("selected")) {
+								autocomplete_selector.find("ul > li:eq(" + index + ")").removeClass("selected");
+							}
+						}
+						if (e.which == 40) { // Down
+							autocomplete_selector.find("ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().addClass("selected");
+							if (autocomplete_selector.find("ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().hasClass("selected")) {
+								autocomplete_selector.find("ul > li:eq(" + index + ")").removeClass("selected");
+							}
+						}
+						var s = autocomplete_selector.find("ul > li.selected").text();
+						$(this).val(s);
+						// scroll to selected item
+						if (autocomplete_selector.find("ul > li").hasClass("selected")) {
+							if (autocomplete_selector.find("ul > li").not(".hide").first().hasClass("selected")) {
+								scrollTo($(this), 250, $(this).outerHeight());
+							} else if (autocomplete_selector.find("ul > li").not(".hide").last().hasClass("selected")) {
+								scrollTo(autocomplete_selector.find("ul > li.selected"), 250, $(this).outerHeight());
+							} else {
+								scrollTo(autocomplete_selector.find("ul > li.selected"), 0);
+							}
+						}
+					}
+				},
+				keyup : function(e) {
+					check_error(this, "0"); // check error
+					if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
+						autocomplete_selector.find("ul > li").removeClass("selected"); // unselect all
+						if (e.which == 8 || e.which == 46) { // Backspace or Del
+							if (i > 0) {
+								i -= 1;
+							}
+						}
+						if ($(this).val().length >= settings.start_chars_num) {
+							var k = 0;
+							var m = $(this).val();
+							i = $(this).val().length;
+							autocomplete_selector.find("ul > li").each(function() {
+								var r = $(this).text().slice(0, i);
+								if (r.toLowerCase() == m.toLowerCase() && k < settings.max_displayed_items) {
+									var str = $(this).text();
+									var html = "<mark>" + str.slice(0, i) + "</mark>" + str.substr(i, str.length);
+									$(this).html(html);
+									$(this).removeClass("hide");
+									k++;
+								} else {
+									$(this).addClass("hide");
+								}
+							});
+							// scroll
+							if (autocomplete_selector.offset().top + autocomplete_selector.height() > $(window).height() + $(document).scrollTop()) {
+								scrollTo(autocomplete_selector.find("ul > li:visible").last(), 500, $(this).outerHeight());
+							} else {
+								scrollTo(autocomplete_selector.parent(), 500, $(this).outerHeight());
+							}
+						} else {
+							autocomplete_selector.find("ul > li").each(function() {
+								$(this).addClass("hide"); // hide all autocompletion items
+							});
+						}
+					}
+				},
+			});
+			autocomplete_selector.on("mouseenter", "ul > li", function() {
+				$(this).siblings().removeClass("selected");
+				$(this).addClass("selected");
+				self.val($(this).text());
+				check_error(self, "0"); // check error
+			});
+			autocomplete_selector.on("mouseleave", "ul > li", function() {
+				$(this).removeClass("selected");
+			});
+			$(document).ready(function() {
+				autocomplete_selector.find("ul > li").each(function() {
+					$(this).addClass("hide"); // hide all autocompletion items (if any)
+				});
+			});
+		});
+	}
+});
+
 /* Set Validation */
 jQuery.fn.extend({
 	set_validation : function(is_valid, err_msg, options) {
@@ -345,6 +539,7 @@ var loap = (function() {
 			$(document).user_pictures(); // WARNING : set user pictures for whole document
 		},
 		init: function() {
+			$(document).placeholder(); // set placeholder for whole document
 			this.update();
 		}
 	};

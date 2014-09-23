@@ -127,6 +127,7 @@ function processArticle(article) {
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
 		customConfig : $js_root + "editor_settings.js",
+		extraAllowedContent : {"p" : {classes : "placeholder", styles : "color"}},
 		contentsCss : $css_root + "loap-main.css"
 	});
 
@@ -155,12 +156,6 @@ function processArticle(article) {
 		},
 		focus: function() {
 			hide_error("#tag", true);
-		},
-		keydown: function(event) {
-			hide_error("#tag");
-			if (event.which == 13) { // Enter
-				add_tag("#tag", "#tags");
-			}
 		}
 	});
 	$("#tags").on("click", ".close", function() {
@@ -181,6 +176,7 @@ function processArticle(article) {
 	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
 	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
 	$("section").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
+	$("#tag").autocomplete(); // TEMP DEBUG : apply autocomplete plugin to #tag input
 	//loap.update(); // TEMP DEBUG : reload all loap plugins for whole document
 }
 
@@ -192,6 +188,7 @@ function processRubric(json, article) {
 		} else {
 			var cls = "";
 		}
+		/*
 		var li = $("<li/>", {
 			"data-value": obj.id,
 			"data-color" : obj.classe,
@@ -203,9 +200,11 @@ function processRubric(json, article) {
 		});
 		li.text(obj.rubrique);
 		li.prepend(span);
+		*/
+		var li = "<li class='" + cls + "' data-value='"+ obj.id +"' data-color='" + obj.classe + "'><span class='icon-" + obj.classe + " small' style='margin-right: .25rem;'></span>" + obj.rubrique + "</li>"; // UTF-8 to HTML DB conversion fix
 		$('#rubric ul').append(li);
 	});
-	$("#rubric").svg_icons(); // set svg icons for all icons contained in rubric
+	$("#rubric").svg_icons(); // set svg icons for all icons contained by rubric
 	update_rubric()
 }
 
@@ -217,11 +216,15 @@ function processCategory(json, article) {
 		} else {
 			var cls = "";
 		}
+		/*
 		$('#category ul').append($("<li/>", {
 			"data-value": obj.id,
 			"class" : cls,
 			text: obj.category
 		}));
+		*/
+		var li = "<li class='" + cls + "' data-value='"+ obj.id +"'>" + obj.category + "</li>"; // UTF-8 to HTML DB conversion fix
+		$("#category ul").append(li);
 	});
 	update_category()
 }
@@ -266,7 +269,7 @@ function update_category() {
 	}
 }
 
-/* Tags */
+/* Add New Tags */
 var tag_num_lim = 8;
 var tag_err_msg = ["Limite de tags autoris&eacute;e atteinte", "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie"];
 function add_tag(source, target) {
@@ -275,37 +278,42 @@ function add_tag(source, target) {
 	if (str !== "") {
 		// Check if maxium of tags allowed is reached
 		if ($(target).children("dd").length >= tag_num_lim) {
-			$(source).next("small.error").html(tag_err_msg[0]);
-			$(source).next("small.error").removeClass("hide");
+			$(source).css("margin-bottom", "0");
+			$(source).nextAll("small.error").first().html(tag_err_msg[0]);
+			$(source).nextAll("small.error").first().removeClass("hide");
 			is_valid = false;
 		} else {
 			// Check if tag already exists
 			$(target).children("dd").each(function() {
 				if ($(this).children().text() == str) {
-					$(source).next("small.error").html(tag_err_msg[1]);
-					$(source).next("small.error").removeClass("hide");
+					$(source).css("margin-bottom", "0");
+					$(source).nextAll("small.error").first().html(tag_err_msg[1]);
+					$(source).nextAll("small.error").first().removeClass("hide");
 					is_valid = false;
 				}
 			});
 		}
 		// Add tag to tags list
-		if (is_valid == true) {
+		if (is_valid == true && $(source).attr("data-invalid") !== "true") {
 			$(target).append("<dd data-alert data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
 			$(target).foundation("alert");
 			$(source).val("");
-			$(source).next("small.error").addClass("hide");
+			$(source).css("margin-bottom", "");
+			$(source).nextAll("small.error").first().addClass("hide");
 			if ($("#tags").css("display") == "none") {
 				$("#tags").fadeIn();
 			}
 		}
 	} else {
-		$(source).next("small.error").addClass("hide");
+		$(source).css("margin-bottom", "");
+		$(source).nextAll("small.error").first().addClass("hide");
 	}
 }
 function hide_error(obj, clear) {
 	var clear = clear || false;
-	if (!$(obj).next("small.error").hasClass("hide")) {
-		$(obj).next("small.error").addClass("hide")
+	if (!$(obj).nextAll("small.error").first().hasClass("hide")) {
+		$(obj).css("margin-bottom", "0");
+		$(obj).nextAll("small.error").first().addClass("hide")
 		if (clear) {
 			$(obj).val("");
 		}
@@ -453,7 +461,8 @@ function checkSummary() {
 }
 
 function checkBody() {
-	if ($("#editor").text().length === 0) {
+	// if ($("#editor").text().length === 0) {
+	if (($("#editor").text().length == 0) || ($("#editor").length == 1 && $("#editor").children().hasClass("placeholder"))) {
 		$("#editor").set_validation(false);
 	} else {
 		$("#editor").set_validation(true);
@@ -464,10 +473,6 @@ function checkBody() {
 /* # Persistent events */
 /* ------------------------------------------------------------------ */
 
-// Local vars for persistent events
-var editor_cfg = {
-	t_summary : 0
-};
 // Save button form check validation
 $("html").on("click", "#saveButton", function() {
 	checkTitleAJAX();
@@ -479,21 +484,31 @@ $("html").on("click", "#saveButton", function() {
 		sendArticle();
 	}
 });
-// Title  validation
+// Title validation
 $("html").on("blur", "#title", function() {
 	checkTitleAJAX();
 });
 // Summary check validation
+var t_summary = 0;
 $("html").on("focus", "#summary", function() {
-	clearTimeout(editor_cfg.t_summary);
+	clearTimeout(t_summary);
 	$("#summary").set_validation(true);
 });
 $("html").on("blur", "#summary", function() {
-	editor_cfg.t_summary = setTimeout(function() {
+	t_summary = setTimeout(function() {
 		checkSummary();
 	}, 250);
 });
+// Body validation
+$("html").on("blur", "#editor", function() {
+	checkBody();
+});
 // Tags add new element
+$("html").on("keydown", "#tag", function(event) {
+	if (event.which == 13) { // Enter
+		add_tag("#tag", "#tags");
+	}
+});
 $("html").on("click", "#tag_add", function() {
 	add_tag("#tag", "#tags");
 });
