@@ -51,12 +51,12 @@ Values
     <h4 class="cyan">Un combat qui reste &agrave; mener</h4>
     <p>La question est loin d&rsquo;&ecirc;tre anecdotique, d&rsquo;une part parce que comme on l&rsquo;a vu, les jeux vid&eacute;os, mais aussi de fa&ccedil;on plus large le web, constituent des espaces sociaux dont l&rsquo;importance et le r&ocirc;le sont croissants dans la soci&eacute;t&eacute; et parce qu&rsquo;ils repr&eacute;sentent des opportunit&eacute;s cr&eacute;atrices d&rsquo;une grande richesse dont il est intol&eacute;rable que certainEs soient ainsi excluEs, et qu&rsquo;il faut donc en continuer la critique politique et le combat pour l&rsquo;ouvrir aux diff&eacute;rentes minorit&eacute;s.</p>
     <p>Mais aussi parce que, au-del&agrave; du jeu vid&eacute;o lui-m&ecirc;me, les violences sexistes qui s&rsquo;y d&eacute;roulent sont un exemple tr&egrave;s r&eacute;v&eacute;lateur de la fa&ccedil;on dont les comportements sexistes, m&eacute;prisants, paternalistes participent d&rsquo;un syst&egrave;me d&rsquo;exclusion des femmes d&rsquo;un lieu social Comme certains le revendiquent d&rsquo;ailleurs explicitement.</p>', 
-    '2014-09-01', '2014-02-01', '2014-02-05', 5, 4, 5, 2, '/articles/éducation-culture/sexisme-dans-les-jeux-vidéos-une-critique-impossible', 'sexisme-dans-les-jeux-vidéos-une-critique-impossible');
+    '2014-09-01', '2014-02-01', '2014-02-05', 4, 5, 5, 2, '/articles/éducation-culture/sexisme-dans-les-jeux-vidéos-une-critique-impossible', 'sexisme-dans-les-jeux-vidéos-une-critique-impossible');
 
 Insert into article_tag
   (id, tag_id, article_id)
 Values
   (1, 1, 1),
   (2, 2, 1),
-  (3, 6, 1),
+  (3, 3, 1),
   (4, 4, 1);
