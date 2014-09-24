@@ -156,17 +156,23 @@
 						handler.css("width", handler.outerWidth());
 						handler.css("position", "absolute");
 						handler.css("z-index", "10");
-						handler.children(".event-list").slideDown("fast");
+						$js_fx ? handler.children(".event-list").slideDown("fast") : handler.children(".event-list").show();
 					}
 				}, 400);
 			});
 			$("html").on("mouseleave", ".date-table .href-block.has-event", function() {
 				$(this).data("hover", false);
 				$(this).removeClass("mouseenter");
-				$(this).children(".event-list").slideUp("slow", function() {
+				if ($js_fx) {
+					$(this).children(".event-list").slideUp("slow", function() {
+						$(this).css("position", "relative");
+						$(this).css("z-index", "auto");
+					});
+				} else {
+					$(this).children(".event-list").hide();
 					$(this).css("position", "relative");
 					$(this).css("z-index", "auto");
-				});
+				}
 			});
 		</script>
 

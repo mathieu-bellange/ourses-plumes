@@ -91,6 +91,14 @@
 				<label for="summary" class="hide">R&eacute;sum&eacute; <small class="red">*</small></label>
 				<textarea id="summary" class="summary validation min" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)"></textarea>
 				<small class="error hide">La saisie du r&eacute;sum&eacute; est obligatoire</small>
+				<script>
+				$("html").on("keydown", "#summary", function(event) {
+					if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
+					toggle_tags();
+					$("#rubric").focus();
+					}
+				});
+				</script>
 
 				<!--Tags List-->
 				<dl class="tags inline-list clearfix" tabindex="0">
@@ -108,15 +116,19 @@
 						if ($(".tags").data("preventClick") !== "true" && $(".tags").data("preventToggle") !== "true") {
 							$(".tags").toggleClass("active");
 							if ($("#indexing").is(":visible")) {
-								$("#indexing").slideUp();
+								$js_fx ? $("#indexing").slideUp(250) : $("#indexing").hide();
 							} else {
 								$(".tags").data("preventToggle", "true");
-								$("#indexing").slideDown();
-								setTimeout(function() {
-									scrollTo($("#indexing"), 250, $("#indexing").height() + 16); // scroll to indexing box including tags
+								if ($js_fx) {
+									$("#indexing").slideDown(250, function() {
+										scrollTo($("#indexing"), 250, $("#tags").outerHeight() + 16);
+										$(".tags").removeData("preventToggle");
+									});
+								} else {
+									$("#indexing").show();
+									scrollTo($("#indexing"), 0, $("#tags").outerHeight() + 16);
 									$(".tags").removeData("preventToggle");
-									$("#rubric").focus();
-								}, 500);
+								}
 							}
 						}
 					}
@@ -144,7 +156,7 @@
 			</fieldset>
 
 			<fieldset id="indexing" style="display: none;">
-				<legend>Ind&eacute;xation</legend>
+				<legend class="hide">Ind&eacute;xation</legend>
 
 				<!--Rubric-->
 				<label for="rubric">Rubrique <small class="red">*</small></label>

@@ -1,4 +1,10 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Public variables */
+/* ------------------------------------------------------------------ */
+
+var tag_max = 8;        // Integer  Maxium of tags allowed. Default = 8;
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
@@ -27,7 +33,7 @@ if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 	});
 }
 // sinon c'est une création d'article
-else{
+else {
 	processArticle(new Article("", "", "", null, null, []));
 }
 
@@ -131,51 +137,35 @@ function processArticle(article) {
 
 	// bind events après le chargement du template par dot.js
 	$("#rubric").bind({
-		blur: function() {
+		blur : function() {
 			update_rubric();
 			// update validation
 			$("#rubric").set_validation($("#rubric li.selected").text().length !== 0);
 		},
-		click: function() {update_rubric();},
-		keyup: function() {update_rubric();}
+		click : function() {update_rubric();},
+		keyup : function() {update_rubric();}
 	});
 	$("#category").bind({
-		blur: function() {
+		blur : function() {
 			update_category();
 			// update validation
 			$("#category").set_validation($("#category li.selected").text().length !== 0);
 		},
-		click: function() {update_category();},
-		keyup: function() {update_category();}
-	});
-	$("#tag").bind({
-		blur: function() {
-			hide_error("#tag");
-		},
-		focus: function() {
-			hide_error("#tag", true);
-		}
-	});
-	$("#tags").on("click", ".close", function() {
-		setTimeout(function() {
-			if ($("#tags").children("dd").length == 2) {
-				if ($("#tag_rubric").parent("dd").hasClass("hide") && $("#tag_category").parent("dd").hasClass("hide")) {
-					$("#tags").fadeOut();
-				}
-			}
-		}, 500);
+		click : function() {update_category();},
+		keyup : function() {update_category();}
 	});
 
 	// recharge foundation pour les tags ajoutés directement par le template
 	if (article.tags.length > 0) {
 		$("#tags").foundation("alert");
 	}
+
+	// initialize plugins
 	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
 	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
 	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
 	$("section").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
 	$("#tag").autocomplete(); // TEMP DEBUG : apply autocomplete plugin to #tag input
-	//loap.update(); // TEMP DEBUG : reload all loap plugins for whole document
 }
 
 function processRubric(json, article) {
@@ -248,71 +238,57 @@ function update_category() {
 }
 
 /* Add New Tags */
-var tag_num_lim = 8;
-var tag_err_msg = ["Limite de tags autoris&eacute;e atteinte", "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie"];
 function add_tag(source, target) {
 	var str = $(source).val();
-	var is_valid = true;
 	if (str !== "") {
-		// Check if maxium of tags allowed is reached
-		if ($(target).children("dd").length >= tag_num_lim) {
+		// check if maxium of tags allowed is reached
+		if ($(target).children("dd").length >= tag_max) {
 			$(source).css("margin-bottom", "0");
-			$(source).nextAll("small.error").first().html(tag_err_msg[0]);
-			$(source).nextAll("small.error").first().removeClass("hide");
-			is_valid = false;
+			$(source).set_validation(false, $app_msg.tag_max);
 		} else {
-			// Check if tag already exists
+			// check if tag already exists in tags list
 			$(target).children("dd").each(function() {
 				if ($(this).children().text() == str) {
 					$(source).css("margin-bottom", "0");
-					$(source).nextAll("small.error").first().html(tag_err_msg[1]);
-					$(source).nextAll("small.error").first().removeClass("hide");
-					is_valid = false;
+					$(source).set_validation(false, $app_msg.tag_dup);
 				}
 			});
 		}
-		// Add tag to tags list
-		if (is_valid == true && $(source).attr("data-invalid") !== "true") {
+		// add tag to tags list if no error found
+		if ($(source).attr("data-invalid") !== "true") {
 			$(target).append("<dd data-alert data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
 			$(target).foundation("alert");
 			$(source).val("");
 			$(source).css("margin-bottom", "");
-			$(source).nextAll("small.error").first().addClass("hide");
-			if ($("#tags").css("display") == "none") {
-				$("#tags").fadeIn();
-			}
+			$(source).set_validation(true);
+			$(source).removeClass("valid");
 		}
 	} else {
 		$(source).css("margin-bottom", "");
-		$(source).nextAll("small.error").first().addClass("hide");
-	}
-}
-function hide_error(obj, clear) {
-	var clear = clear || false;
-	if (!$(obj).nextAll("small.error").first().hasClass("hide")) {
-		$(obj).css("margin-bottom", "0");
-		$(obj).nextAll("small.error").first().addClass("hide")
-		if (clear) {
-			$(obj).val("");
-		}
+		$(source).set_validation(true);
+		$(source).removeClass("valid");
 	}
 }
 
 /* Display indexation panel (i.e. tags editing) */
-function toggle_indexation() {
+function toggle_tags() {
 	$(".tags").blur();
 	if ($(".tags").data("preventClick") !== "true" && $(".tags").data("preventToggle") !== "true") {
 		$(".tags").toggleClass("active");
 		if ($("#indexing").is(":visible")) {
-			$("#indexing").slideUp();
+			$js_fx ? $("#indexing").slideUp(250) : $("#indexing").hide();
 		} else {
 			$(".tags").data("preventToggle", "true");
-			$("#indexing").slideDown();
-			setTimeout(function() {
-				scrollTo($("#indexing"), 250, $("#indexing").height() + 16); // scroll to indexing box including tags
+			if ($js_fx) {
+				$("#indexing").slideDown(250, function() {
+					scrollTo($("#indexing"), 250, $("#tags").outerHeight() + 16);
+					$(".tags").removeData("preventToggle");
+				});
+			} else {
+				$("#indexing").show();
+				scrollTo($("#indexing"), 0, $("#tags").outerHeight() + 16);
 				$(".tags").removeData("preventToggle");
-				$("#rubric").focus();
-			}, 500);
+			}
 		}
 	}
 }
@@ -412,7 +388,7 @@ function checkRubric() {
 	if ($("#rubric li.selected").text().length === 0) {
 		$("#rubric").set_validation(false);
 		if (!$("#indexing").is(":visible")) {
-			toggle_indexation();
+			toggle_tags();
 		}
 	} else {
 		$("#rubric").set_validation(true);
@@ -423,7 +399,7 @@ function checkCategory() {
 	if ($("#category li.selected").text().length === 0) {
 		$("#category").set_validation(false);
 		if (!$("#indexing").is(":visible")) {
-			toggle_indexation();
+			toggle_tags();
 		}
 	} else {
 		$("#category").set_validation(true);
@@ -465,6 +441,12 @@ $("html").on("click", "#saveButton", function() {
 $("html").on("blur", "#title", function() {
 	checkTitleAJAX();
 });
+$("html").on("keypress", "#title", function(event) {
+	if (event.which == 13) { // Enter
+		checkTitleAJAX();
+		$("#summary").focus();
+	}
+});
 // Summary check validation
 var t_summary = 0;
 $("html").on("focus", "#summary", function() {
@@ -476,11 +458,22 @@ $("html").on("blur", "#summary", function() {
 		checkSummary();
 	}, 250);
 });
+$("html").on("keydown", "#summary", function(event) {
+	if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
+	toggle_tags();
+	$("#rubric").focus();
+	}
+});
 // Body validation
 $("html").on("blur", "#editor", function() {
 	checkBody();
 });
-// Tags add new element
+// Tag new
+$("html").on("focus", "#tag", function() {
+	$(this).val(""); // erase
+	$(this).css("margin-bottom", "");
+	$(this).set_validation(true);
+});
 $("html").on("keydown", "#tag", function(event) {
 	if (event.which == 13) { // Enter
 		add_tag("#tag", "#tags");
@@ -498,10 +491,10 @@ $("html").on("mouseleave", ".tags dd", function() {
 });
 // Tags list toggle indexation display
 $("html").on("click", ".tags", function() {
-	toggle_indexation();
+	toggle_tags();
 });
 $("html").on("keypress", ".tags", function(e) {
 	if (e.which === 13) { // Enter
-		toggle_indexation();
+		toggle_tags();
 	}
 });

@@ -90,9 +90,14 @@
 				if (obj.data("is_sliding") !== "true") {
 					obj.data("is_sliding", "true");
 					obj.toggleClass("active");
-					obj.next(triggered).slideToggle(250, function() {
+					if ($js_fx) {
+						obj.next(triggered).slideToggle(250, function() {
+							obj.removeData("is_sliding");
+						});
+					} else {
+						obj.next(triggered).toggle();
 						obj.removeData("is_sliding");
-					});
+					}
 				}
 			});
 		</script>

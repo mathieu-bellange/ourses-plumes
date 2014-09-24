@@ -34,8 +34,9 @@ $build_compress         = false;                                // Boolean  Comp
 $build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
 $build_icons            = true;                                 // Boolean  Generate inline SVG icons into the document. Default = true
 $dev_toolbar            = true;                                 // Boolean  Create dev toolbar. Default = false
-$free_log               = true;                                 // Boolean  Disable abide validation for logger. Default = "false"
+$free_log               = true;                                 // Boolean  Disable abide validation for logger. Default = false
 $css_fx                 = true;                                 // Boolean  Enable CSS effects. Default = true
+$js_fx                  = true;                                 // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default = true
 $lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
 $null_link              = "javascript:void(0)";                 // String   Set null link value. Default = "javascript:void(0)"
 $page_title             = null;                                 // String   Register page title. Default = null
@@ -69,6 +70,9 @@ $svg_icons_fx_file      = $app_path.css + "loap-icons-fx.css";  // String   Stor
 /* Messages */
 $app_msg                = {                                     // Object   Define generic application messages.
 	"error" : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
+	"tag_dup" : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
+	"tag_max" : "Maximum de tags autoris&eacute;s atteint.",
+	"char_illegal" : "Caract&egrave;re invalide&thinsp;!",
 	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
 	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
 	"article_deleted" : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
@@ -125,7 +129,7 @@ if (isFileProtocol()) {
 /* # Prebuild processing */
 /* ------------------------------------------------------------------ */
 
-/* Private Variables */
+/* Prebuild vars */
 var IE_conditional_comments = [
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>",
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
@@ -156,7 +160,7 @@ var body_tags = [
 	{elem: "script", attr: {src: $app_root + "js/foundation/foundation.lib.js"}}
 ];
 
-/* Methods Declaration */
+/* Prebuild methods */
 function p_char(n, c) { // Print Character (n.b. for local use only)
 	var s = "";
 	if ($build_compress == false) {

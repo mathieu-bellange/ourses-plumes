@@ -17,7 +17,7 @@
 
 /* Scroll to (object) */
 function scrollTo(object, duration, spacing) {
-	var duration = typeof duration !== "undefined" ? duration : 0;
+	var duration = $js_fx ? (typeof duration !== "undefined" ? duration : 0) : 0;
 	var spacing = spacing || 0;
 	if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
 		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
@@ -43,7 +43,7 @@ jQuery.fn.extend({
 /* Placeholder
  * Fake 'placeholder' attribute for compatibility purpose.
  * 1. Set data-placeholder="myString"
- * 2. Set data-placeholder and manually feed the element with <p class="placeholder">myString</p>.
+ * 2. Set data-placeholder and manually feed the element with <p class="placeholder">myString</p>. (e.g. inline-editor -- doesn't support custom data-* attributes)
  */
 jQuery.fn.extend({
 	placeholder : function(options) {
@@ -202,17 +202,22 @@ jQuery.fn.extend({
 			// bind events
 			$(this).bind({
 				blur: function() {
-					$(this).find(settings.options).slideUp(settings.slide_duration);
+					$js_fx ? $(this).find(settings.options).slideUp(settings.slide_duration) : $(this).find(settings.options).hide();
 				},
 				keydown: function(event) {
 					// var str = $(this).find(settings.options + " > li.selected").text();
 					if (event.which == 27) { // Escape
 						$(this).blur();
 					}
-					if (event.which == 13 || event.which == 32) { // Enter OR Space
-						$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
+					if (event.which == 13 || event.which == 32) { // Enter or Space
+						if ($js_fx) {
+							$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
+								scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+							});
+						} else {
+							$(this).find(settings.options).toggle();
 							scrollTo($(self), false, $(self).find(settings.select).outerHeight());
-						});
+						}
 					}
 					if (event.which >= 33 && event.which <= 36 || event.which == 38 || event.which == 40) { // PageUp, PageDown, End, Home or Up or Down
 						event.preventDefault();
@@ -257,9 +262,14 @@ jQuery.fn.extend({
 				}
 			});
 			$(this).on("click", settings.select, function() {
-				$(this).next(settings.options).slideToggle(settings.slide_duration, function() {
+				if ($js_fx) {
+					$(this).next(settings.options).slideToggle(settings.slide_duration, function() {
+						scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+					});
+				} else {
+					$(this).next(settings.options).toggle();
 					scrollTo($(self), false, $(self).find(settings.select).outerHeight());
-				});
+				}
 			});
 			$(this).on("click", settings.options + " > li", function() {
 				if (!$(this).hasClass("disabled")) {
@@ -267,7 +277,7 @@ jQuery.fn.extend({
 					$(this).addClass("selected");
 					$(this).siblings().removeClass("selected");
 					$(this).parent(settings.options).prev(settings.select).text(str);
-					$(this).parent(settings.options).slideToggle(settings.slide_duration);
+					$js_fx ? $(this).parent(settings.options).slideToggle(settings.slide_duration) : $(this).parent(settings.options).toggle();
 				}
 			});
 		});
@@ -293,7 +303,9 @@ jQuery.fn.extend({
 			if (settings.accepted_chars_list.test($(selector).val())) {
 				$(selector).css("margin-bottom", "0");
 				$(selector).nextAll("small.error").first().css("margin-bottom", error_margin);
-				$(selector).set_validation(false, "Caract&egrave;re(s) invalide(s)&thinsp;!");
+				$(selector).set_validation(false, $app_msg.char_illegal);
+			} else if ($(selector).attr("data-invalid") == "true") {
+				// DO nothing ! An error from elsewhere is triggered
 			} else if ($(selector).val().length === 0) {
 				$(selector).set_validation(true);
 				$(selector).removeClass("valid");

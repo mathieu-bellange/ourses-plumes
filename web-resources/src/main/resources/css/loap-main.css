@@ -164,9 +164,9 @@ fieldset legend {
   border-top-left-radius: .375rem;
   border-top-right-radius: .375rem;
 }
-fieldset legend + *,
-fieldset legend + [type],
-fieldset legend + [class] {
+fieldset legend:not(.hide) + *,
+fieldset legend:not(.hide) + [type],
+fieldset legend:not(.hide) + [class] {
   margin-top: 2rem;
 }
 fieldset legend:only-child {
@@ -1670,6 +1670,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   background-color: transparent;
   transition: box-shadow .5s;
 }
+.css-fx .autocomplete {transition: box-shadow .5s;}
 .autocomplete ul {
   margin: 0 0 1rem;
   list-style: none;
@@ -1973,8 +1974,8 @@ input:focus + button + .error + .autocomplete > ul {
 .article.edit .tags:after {
   color: gainsboro;
   font-size: 1rem;
-  transition: all .25s ease;
 }
+.css-fx .article.edit .tags:after {transition: all .25s ease;}
 .article.edit .tags:hover:after,
 .article.edit .tags:focus:after,
 .article.edit .tags.active:after {
@@ -1989,9 +1990,7 @@ input:focus + button + .error + .autocomplete > ul {
 .article.edit .tags.active:after {
   content: "Masquer les tags";
 }
-.article.edit .tags dt > svg {
-  transition: all .25s ease;
-}
+.css-fx .article.edit .tags dt > svg {transition: all .25s ease;}
 .article.edit .tags:hover dt > svg,
 .article.edit .tags:focus dt > svg,
 .article.edit .tags.active dt > svg {
@@ -2003,11 +2002,9 @@ input:focus + button + .error + .autocomplete > ul {
   padding: .5rem;
   border: 1px solid transparent;
   background-color: white;
-  transition: box-shadow .75s; /* TEMP */
 }
-.article.edit .inline-editor:focus {
-  box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);
-}
+.css-fx .article.edit .inline-editor {transition: box-shadow .75s;}
+.css-fx .article.edit .inline-editor:focus {box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);}
 
 /* ------------------------------------------------------------------ */
 /* # Articles List */

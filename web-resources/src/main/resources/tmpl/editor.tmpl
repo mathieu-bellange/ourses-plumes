@@ -21,7 +21,7 @@
 
 							<!--Summary-->
 							<label for="summary" class="hide">R&eacute;sum&eacute; <small class="red">*</small></label>
-							<textarea id="summary" class="summary validation tiny" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description }}</textarea>
+							<textarea id="summary" class="summary validation min" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description }}</textarea>
 							<small class="error hide">La saisie du r&eacute;sum&eacute; est obligatoire</small>
 
 							<!--Tags List-->
@@ -37,7 +37,7 @@
 						</fieldset>
 
 						<fieldset id="indexing" style="display: none;">
-							<legend>Indexation</legend>
+							<legend class="hide">Ind&eacute;xation</legend>
 
 							<!--Rubric-->
 							<label for="rubric">Rubrique <small class="red">*</small></label>
