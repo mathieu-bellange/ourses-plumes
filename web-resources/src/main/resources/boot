@@ -18,17 +18,6 @@ $app_kwd                = ["Webzine", "F&eacute;minisme"];      // Array    Set 
 $app_desc               = "Un webzine f&eacute;ministe.";       // String   Set application keywords.
 $app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
 
-/* Security */
-$oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token. Default = "oursesAuthcToken"
-$oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo. Default = "oursesUserPseudo"
-$oursesUserRole         = "oursesUserRole";                     // String   Key of the User role. Default = "oursesUserRole"
-$oursesAccountId        = "oursesAccountId";                    // String   Key of the User account id. Default = "oursesAccountId"
-$oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id. Default = "oursesProfileId"
-$oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path. Default = "oursesAvatarPath"
-$redir_param            = "?redirection=";                      // String   URL param in the login page. Use for the redirection. Default = "?redirection="
-$role_admin             = "Administratrice"                     // String   Admin role. Default = "Administratrice"
-$role_redac             = "Rédactrice"                          // String   Redacter role. Default = "Rédactrice"
-
 /* Utility */
 $build_compress         = false;                                // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
 $build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
@@ -40,6 +29,17 @@ $js_fx                  = true;                                 // Boolean  Enab
 $lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
 $null_link              = "javascript:void(0)";                 // String   Set null link value. Default = "javascript:void(0)"
 $page_title             = null;                                 // String   Register page title. Default = null
+
+/* Security */
+$oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token. Default = "oursesAuthcToken"
+$oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo. Default = "oursesUserPseudo"
+$oursesUserRole         = "oursesUserRole";                     // String   Key of the User role. Default = "oursesUserRole"
+$oursesAccountId        = "oursesAccountId";                    // String   Key of the User account id. Default = "oursesAccountId"
+$oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id. Default = "oursesProfileId"
+$oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path. Default = "oursesAvatarPath"
+$redir_param            = "?redirection=";                      // String   URL param in the login page. Use for the redirection. Default = "?redirection="
+$role_admin             = "Administratrice"                     // String   Admin role. Default = "Administratrice"
+$role_redac             = "Rédactrice"                          // String   Redacter role. Default = "Rédactrice"
 
 /* Navigation */
 $login_page             = "/connexion";                         // String   URL of the login page. Default = "/connexion"
@@ -97,6 +97,9 @@ var $months = [                                                 // Array    Defi
 	"novembre",                                                   // String   Set November literal. Default "novembre"
 	"décembre"                                                    // String   Set December literal. Default "décembre"
 ];
+
+/* User prefs */
+$user_prefs_articles_filters = "oursesUserPrefsFiltersArticles" // String   Key of the articles filters user preferences in local storage. Default = "oursesUserPrefsFiltersArticles"
 
 /* ------------------------------------------------------------------ */
 /* # Navigation map relocation */

@@ -59,16 +59,16 @@
 				<section id="articles">
 					{{ onAuthc.done(function() { }}
 						{{? isAdmin() || isRedac() }}
-						<div class="clearfix">
+						<div class="articles-list-options clearfix">
 							<div class="left">
 								<dl id="filters_list" class="sub-nav toggle left">
 									<dt><a id="filter_icon" href="javascript:void(0)" class="left icon-filter" style="padding: 0;" title="Filtrer les articles" data-tooltip><span class="text">Filtrer</span></a></dt>
 									{{? isAdmin() }}
-									<dd class="active" style="display: none;"><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></dd>
+									<dd style="display: none;"><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></dd>
 									<dd style="display: none;"><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></dd>
 									{{?}}
-									<dd class="active" style="display: none;"><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></dd>
-									<dd class="active" style="display: none;"><a id="onlines" href="javascript:void(0)">En ligne</a></dd>
+									<dd style="display: none;"><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></dd>
+									<dd style="display: none;"><a id="onlines" href="javascript:void(0)">En ligne</a></dd>
 								</dl>
 							</div>
 							<div class="right">

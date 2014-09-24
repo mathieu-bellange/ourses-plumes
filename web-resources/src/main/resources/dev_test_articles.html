@@ -89,7 +89,7 @@
 		<section id="articles">
 
 			<!--Article Toolbar-->
-			<div class="clearfix" style="margin-bottom: 1rem;">
+			<div class="articles-list-options clearfix">
 
 				<div class="left">
 
@@ -108,50 +108,103 @@
 					<!--Sort-->
 					<dl id="filters_list" class="sub-nav toggle left">
 						<dt><a id="filter_icon" href="javascript:void(0)" class="left icon-filter" style="padding: 0;" title="Filtrer les articles" data-tooltip><span class="text">Filtrer</span></a></dt>
-						<dd class="active" style="display: none;"><a id="standbys" href="javascript:void(0)">À vérifier</a></dd>
+						<dd style="display: none;"><a id="standbys" href="javascript:void(0)">À vérifier</a></dd>
 						<dd style="display: none;"><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></dd>
-						<dd class="active" style="display: none;"><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></dd>
-						<dd class="active" style="display: none;"><a id="onlines" href="javascript:void(0)">En ligne</a></dd>
+						<dd style="display: none;"><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></dd>
+						<dd style="display: none;"><a id="onlines" href="javascript:void(0)">En ligne</a></dd>
 					</dl>
 					<script>
-						// Filter List
+
+						// DEBUG
+						if (localStorage.getItem($user_prefs_articles_filters) !== null) {
+							//console.log("user prefs is defined !"); // DEBUG
+						} else {
+							//console.log("user prefs not defined !"); // DEBUG
+						}
+
+						// vars -- WARNING : internal
+						var articles_filters_prefs_defaults = { // "selector" : "bool" -- toggler : element visible?
+							"#standbys" : "true",
+							"#others_drafts" : "false",
+							"#my_drafts" : "true",
+							"#onlines" : "true"
+						}
+						var articles_filters_cfg = { // "selector" : "selector" -- toggler : element to hide/show
+							"#standbys" : ".standby",
+							"#others_drafts" : ".draft .other",
+							"#my_drafts" : ".draft li:not(.other)",
+							"#onlines" : ".articles-list:not(.draft):not(.standby)"
+						};
+
+						// methods
+						function set_user_prefs_articles_filters(obj) { // register user prefs for articles filters in browser local storage
+							var obj = obj || articles_filters_cfg;
+							var usr = {};
+							for (n in obj) {
+								usr[n] = $(n).parent("dd").hasClass("active") ? "true" : "false";
+							}
+							//console.log("registered object = " + JSON.stringify(usr)); // DEBUG
+							localStorage.setItem($user_prefs_articles_filters, JSON.stringify(usr));
+						}
+						function get_user_prefs_articles_filters(defaults) { // retrieve user prefs for articles filters in browser local storage
+							var defaults = defaults || articles_filters_prefs_defaults;
+							if (localStorage.getItem($user_prefs_articles_filters) == null) {
+								//console.log("load defaults"); // DEBUG
+								return defaults;
+							} else {
+								//console.log("load user prefs"); // DEBUG
+								return JSON.parse(localStorage.getItem($user_prefs_articles_filters));
+							}
+						}
+						function check_filters_switches(obj) { // toggle articles lists visibility according to filters
+							var obj = obj || articles_filters_cfg;
+							for (key in obj) {
+								if ($(key).length > 0) { // if togger exists (n.b. role check is made in the template)
+									if ($(key).parent("dd").hasClass("active")) {
+										$(obj[key]).show();
+									} else {
+										$(obj[key]).hide();
+									}
+								}
+							}
+						}
+
+						// events
 						$("#filter_icon").click(function() {
 							$("#filter_icon").toggleClass("active");
 							$("#filter_icon").blur();
 						});
 						$("#filters_list").mouseenter(function() {
-							var self = $(this);
-							if ($(this).data("preventFading") !== "true") {
-								$(this).find("dd").fadeIn(500);
-							}
+							$(this).find("dd").finish();
+							$js_fx ? $(this).find("dd").fadeIn(250) : $(this).find("dd").show();
 						});
 						$("#filters_list").mouseleave(function() {
-							var self = $(this);
+							//console.log("register user prefs filters"); // DEBUG
+							set_user_prefs_articles_filters(); // register articles filters into user prefs on mouse leave
 							if (!$("#filter_icon").hasClass("active")) {
-								$(this).data("preventFading", "true");
-								$(this).find("dd").fadeOut(500, function() {
-									self.removeData("preventFading");
-								});
+								$js_fx ? $(this).find("dd").fadeOut(500) : $(this).find("dd").hide();
 							}
 						});
-						// Filter Switches
-						$("#filters_list #others_drafts").click(function() {
-							$(".draft .other").toggle();
-						});
-						$("#filters_list #my_drafts").click(function() {
-							$(".draft li:not(.other)").toggle();
-						});
-						$("#filters_list #standbys").click(function() {
-							$(".standby").toggle();
-						});
-						$("#filters_list #onlines").click(function() {
-							$(".articles-list:not(.draft):not(.standby)").toggle();
+						$("html").on("click", "#standbys, #others_drafts, #my_drafts, #onlines", function() { // filters togglers events */
+							$(this).parent("dd").toggleClass("active");
+							check_filters_switches();
 						});
 
-						$(document).ready(function() {
-							$("#filters_list").css({"margin" : "0", "padding" : "0", "line-height" : "2.5rem", "height": "2.5rem"});
-							$("#filters_list dd > a").css("cursor", "pointer");
+						// init
+						$(document).ready(function() { // set articles list visibility according to user prefs
+							var obj = get_user_prefs_articles_filters();
+							for (key in obj) {
+								if (obj[key] == "true") {
+									//console.log(key + " == true"); // DEBUG
+									$(key).parent("dd").addClass("active");
+								} else {
+									//console.log(key + " == false"); // DEBUG
+									$(key).parent("dd").removeClass("active");
+								}
+							}
+							check_filters_switches()
 						});
+
 					</script>
 				</div>
 

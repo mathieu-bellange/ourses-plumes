@@ -636,13 +636,13 @@ function dateToHTML(date) {
 
 /* Update user menu user name */
 function update_user_pseudo(pseudo){
-	window.localStorage.setItem($oursesUserPseudo,pseudo);
+	window.localStorage.setItem($oursesUserPseudo, pseudo);
 	$(".user-name").html(pseudo);
 }
 
 /* Update user menu user picture */
 function update_user_avatar(pathAvatar){
-	window.localStorage.setItem($oursesAvatarPath,pathAvatar);
+	window.localStorage.setItem($oursesAvatarPath, pathAvatar);
 	$("#user-avatar").attr("data-image",pathAvatar);
 	loap.update();
 }
@@ -1002,6 +1002,7 @@ $("html").on("click", ".disconnect", function() {
 			window.localStorage.removeItem($oursesAccountId);
 			window.localStorage.removeItem($oursesProfileId);
 			window.localStorage.removeItem($oursesAvatarPath);
+			//localStorage.removeItem($user_prefs_articles_filters); // TEMP : remove user prefs for articles filters
 			window.location.href = $home_page;
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -1199,12 +1200,12 @@ $(".accordion dd > a").click(function() {
 /* # Sub Navigation */
 /* ------------------------------------------------------------------ */
 
-/* Sub Navigation Toggler / Switcher */
+/* Sub Navigation Switcher */
 $("html").on("click", ".sub-nav dd a", function() {
-	if (!$(this).parent("dd").hasClass("unavailable") && !$(this).hasClass("disabled")) {
-		$(this).parent("dd").toggleClass("active"); // toggle
-		if (!$(this).parent("dd").parent(".sub-nav").hasClass("toggle")) {
-			$(this).parent("dd").siblings().removeClass("active"); // switch
+	if (!$(this).parent("dd").parent(".sub-nav").hasClass("toggle")) {
+		if (!$(this).parent("dd").hasClass("unavailable") && !$(this).hasClass("disabled")) {
+			$(this).parent("dd").toggleClass("active");
+			$(this).parent("dd").siblings().removeClass("active");
 		}
 	}
 });

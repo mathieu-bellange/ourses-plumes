@@ -2010,6 +2010,19 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Articles List */
 /* ------------------------------------------------------------------ */
 
+.articles-list-options {
+  margin-bottom: .5rem;
+  padding-bottom: .5rem;
+  border-bottom: .0625rem dotted gainsboro;
+}
+.articles-list-options dl {
+  margin: 0;
+  padding: 0;
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
+.articles-list-options dl > dd:not(.unavailable) > a:not(.disabled):link {cursor : pointer;}
+
 .articles-list {margin-bottom: 0;} /* TEMP : remove margin between lists */
 .articles-list li {}
 .articles-list li + li {margin-top: 0;} /* TEMP : remove margin between list items */

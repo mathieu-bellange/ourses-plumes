@@ -1,8 +1,18 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Internal */
+/* ------------------------------------------------------------------ */
+
+var articles_filters_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
+	"#standbys" : "true",                 // - Afficher les articles à valider par défaut ?
+	"#others_drafts" : "false",           // - Afficher les brouillons des autres par défaut ?
+	"#my_drafts" : "true",                // - Afficher mes brouillons par défaut ?
+	"#onlines" : "true"                   // - Afficher les articles en ligne par défaut ?
+}
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-//TODO externalisé
 var short_article_tmpl = doT.compile(loadfile($app_root + "tmpl/shortArticle.tmpl"));
 var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
 
@@ -10,7 +20,92 @@ var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-// Domain stuff goes here
+var articles_filters = (function() {
+	return {
+		update : function() {
+			var user_name = window.localStorage.getItem($oursesUserPseudo);
+			$("#articles_draft .author").each(function() {
+				if ($(this).text() != user_name) {
+					$(this).parents("li").addClass("other");
+					if ($("#filters_list #others_drafts").parent("dd").hasClass("active")) {
+						$(this).parents("li").show();
+					} else {
+						$(this).parents("li").hide();
+					}
+				}
+			});
+		},
+		init : function() {
+			// vars
+			var articles_filters_cfg = {
+				"#standbys" : ".standby",
+				"#others_drafts" : ".draft .other",
+				"#my_drafts" : ".draft li:not(.other)",
+				"#onlines" : ".articles-list:not(.draft):not(.standby)"
+			};
+			// methods
+			function set_user_prefs_articles_filters(obj) { // register user prefs for articles filters in browser local storage
+				var obj = obj || articles_filters_cfg;
+				var usr = {};
+				for (n in obj) {
+					usr[n] = $(n).parent("dd").hasClass("active") ? "true" : "false";
+				}
+				localStorage.setItem($user_prefs_articles_filters, JSON.stringify(usr));
+			}
+			function get_user_prefs_articles_filters(defaults) { // retrieve user prefs for articles filters in browser local storage
+				var defaults = defaults || articles_filters_prefs_defaults;
+				if (localStorage.getItem($user_prefs_articles_filters) == null) {
+					return defaults;
+				} else {
+					return JSON.parse(localStorage.getItem($user_prefs_articles_filters));
+				}
+			}
+			function check_filters_switches(obj) { // toggle articles lists visibility according to filters
+				var obj = obj || articles_filters_cfg;
+				for (key in obj) {
+					if ($(key).length > 0) { // if togger exists (n.b. role check is made in the template)
+						if ($(key).parent("dd").hasClass("active")) {
+							$(obj[key]).show();
+						} else {
+							$(obj[key]).hide();
+						}
+					}
+				}
+			}
+			// events
+			$("#filter_icon").click(function() {
+				$("#filter_icon").toggleClass("active");
+				$("#filter_icon").blur();
+			});
+			$("#filters_list").mouseenter(function() {
+				isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
+				$(this).find("dd").finish();
+				$js_fx ? $(this).find("dd").fadeIn(250) : $(this).find("dd").show();
+			});
+			$("#filters_list").mouseleave(function() {
+				set_user_prefs_articles_filters(); // register articles filters into user prefs on mouse leave
+				if (!$("#filter_icon").hasClass("active")) {
+					$js_fx ? $(this).find("dd").fadeOut(500) : $(this).find("dd").hide();
+				}
+			});
+			$("html").on("click", "#standbys, #others_drafts, #my_drafts, #onlines", function() { // filters togglers events
+				$(this).parent("dd").toggleClass("active");
+				check_filters_switches();
+			});
+			// init
+			this.update(); // set others drafts
+			var obj = get_user_prefs_articles_filters();
+			for (key in obj) { // set articles list visibility according to user prefs
+				if (obj[key] == "true") {
+					$(key).parent("dd").addClass("active");
+				} else {
+					$(key).parent("dd").removeClass("active");
+				}
+			}
+			check_filters_switches()
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # AJAX */
@@ -41,6 +136,7 @@ function deleteArticle(id) {
 		dataType : "json"
 	});
 }
+
 function validateArticle(id) {
 	$.ajax({
 		type : "PUT",
@@ -68,6 +164,7 @@ function validateArticle(id) {
 		dataType : "json"
 	});
 }
+
 function inValidateArticle(id) {
 	$.ajax({
 		type : "PUT",
@@ -95,6 +192,7 @@ function inValidateArticle(id) {
 		dataType : "json"
 	});
 }
+
 function publishArticle(id) {
 	$.ajax({
 		type : "PUT",
@@ -211,71 +309,10 @@ function displayArticles() {
 	});
 }
 
-var articles_filters = (function() {
-	return {
-		update : function () {
-			// Set others drafts
-			var user_name = window.localStorage.getItem($oursesUserPseudo);
-			$("#articles_draft .author").each(function() {
-				if ($(this).text() != user_name) {
-					$(this).parents("li").addClass("other");
-					if ($("#filters_list #others_drafts").parent("dd").hasClass("active")) {
-						$(this).parents("li").show();
-					} else {
-						$(this).parents("li").hide();
-					}
-				}
-			});
-		},
-		init : function() {
-			this.update();
-			// Set filters list CSS
-			$("#filters_list").css({"margin" : "0", "padding" : "0", "line-height" : "2.5rem", "height": "2.5rem"});
-			$("#filters_list dd > a").css("cursor", "pointer");
-			// Bind events
-			// Filters List
-			$("#filters_list").mouseenter(function() {
-				isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
-				if ($(this).data("preventFading") !== "true") {
-					$(this).find("dd").fadeIn(500);
-				}
-			});
-			$("#filters_list").mouseleave(function() {
-				var self = $(this);
-				if (!$("#filter_icon").hasClass("active")) {
-					self.data("preventFading", "true");
-					self.find("dd").fadeOut(500, function() {
-						self.removeData("preventFading");
-					});
-				}
-			});
-			$("#filters_list #filter_icon").click(function() {
-				$(this).toggleClass("active");
-				$(this).blur();
-			});
-			// Filters Toggles
-			$("#filters_list #others_drafts").click(function() {
-				$(".draft .other").toggle();
-			});
-			$("#filters_list #my_drafts").click(function() {
-				$(".draft li:not(.other)").toggle();
-			});
-			$("#filters_list #standbys").click(function() {
-				$(".standby").toggle();
-			});
-			$("#filters_list #onlines").click(function() {
-				$(".articles-list:not(.draft):not(.standby)").toggle();
-			});
-		}
-	};
-}());
-
 function processArticles(articles) {
+	// insert template
 	$("main > header").after(articles_tmpl(articles));
-	articles_filters.init(); // set articles filtering
-	$(document).foundation(); // reload all Foundation plugins
-	loap.update(); // reload loap plugins
-	// Events
+	// events
 	$("html").on("mouseenter", ".href-block", function() {
 		$(this).find(".validate").show();
 	});
@@ -300,6 +337,10 @@ function processArticles(articles) {
 	$("#write_article").mouseenter(function() {
 		isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
 	});
+	// init
+	articles_filters.init(); // set articles filtering
+	$(document).foundation(); // reload all Foundation plugins
+	loap.update(); // reload loap plugins
 }
 
 function processAfterValidation(article) {
