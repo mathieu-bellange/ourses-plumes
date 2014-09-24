@@ -149,6 +149,7 @@ function validateArticle(id) {
 			$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
 				$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				processAfterValidation(article);
+				$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -177,6 +178,7 @@ function inValidateArticle(id) {
 			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterInValidation(article);
+				$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -205,6 +207,7 @@ function publishArticle(id) {
 			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterPublish(article);
+				$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -232,6 +235,7 @@ function recallArticle(id) {
 			$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
 				$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				processAfterRecall(article);
+				$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
