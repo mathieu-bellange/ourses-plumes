@@ -25,28 +25,28 @@
 				/rest/authc = anon
 				/rest/authc/connected = oursesAuthc
 				
-				/rest/authz/isadmin = oursesAuthc, oursesAuthz[Administratrice]
-				/rest/authz/isredac = oursesAuthc, oursesAuthz[Rédactrice]
-				/rest/authz/roles = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/authz/isadmin = oursesAuthc, oursesAuthz[admin]
+				/rest/authz/isredac = oursesAuthc, oursesAuthz[writer]
+				/rest/authz/roles = oursesAuthc, oursesAuthz[admin]
 				
-				/rest/account = oursesAuthc, oursesAuthz[Administratrice]
-				/rest/account/create = oursesAuthc, oursesAuthz[Administratrice]
-				/rest/account/*/role = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/account = oursesAuthc, oursesAuthz[admin]
+				/rest/account/create = oursesAuthc, oursesAuthz[admin]
+				/rest/account/*/role = oursesAuthc, oursesAuthz[admin]
 				/rest/account/* = oursesAuthc
 				
 				/rest/avatars/create = oursesAuthc
 				
-				/rest/articles/*/publish = oursesAuthc, oursesAuthz[Administratrice]
-				/rest/articles/*/recall = oursesAuthc, oursesAuthz[Rédactrice]
-				/rest/articles/*/invalidate = oursesAuthc, oursesAuthz[Rédactrice]
-				/rest/articles/*/validate = oursesAuthc, oursesAuthz[Rédactrice]
-				/rest/articles/create = oursesAuthc, oursesAuthz[Rédactrice]
-				/rest/articles/* = oursesAuthc, oursesAuthz[Rédactrice]
-				/rest/articles/check/* = oursesAuthc, oursesAuthz[Rédactrice]
+				/rest/articles/*/publish = oursesAuthc, oursesAuthz[admin]
+				/rest/articles/*/recall = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/*/invalidate = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/*/validate = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/create = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/* = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/check/* = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/*/* = anon
 				
 				
-				/rest/github = oursesAuthc, oursesAuthz[Administratrice]
+				/rest/github = oursesAuthc, oursesAuthz[admin]
 				
 				/** = noSessionCreation
 	        </value>

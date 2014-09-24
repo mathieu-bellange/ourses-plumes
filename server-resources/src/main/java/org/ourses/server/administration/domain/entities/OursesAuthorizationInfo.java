@@ -62,6 +62,17 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
         this.mainRole = mainRole;
         this.roles = RolesUtil.rolesForShiro(mainRole);
     }
+    
+    @Column(name = "label")
+    private String label;
+    
+    public String getLabel() {
+    	return label;
+    }
+    
+    public void setLabel(String label) {
+    	this.label = label;
+    }
 
     /**
      * The internal roles collection.
@@ -161,6 +172,7 @@ public class OursesAuthorizationInfo implements AuthorizationInfo {
     public OursesAuthzInfoDTO toOursesAuthzInfoDTO(){
     	OursesAuthzInfoDTO oursesAuthzInfoDTO = new OursesAuthzInfoDTO(mainRole);
     	oursesAuthzInfoDTO.setId(id);
+    	oursesAuthzInfoDTO.setLabel(label);
     	return oursesAuthzInfoDTO;
     }
     

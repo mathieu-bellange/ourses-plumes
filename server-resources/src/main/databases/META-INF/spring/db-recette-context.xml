@@ -13,7 +13,7 @@
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://localhost:5432/postgres"/>
         <property name="username" value="postgres"/>
-        <property name="password" value="08082011"/>
+        <property name="password" value="Metallica66%"/>
     </bean>
 	<!--  Transaction Manager -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

@@ -18,7 +18,7 @@
 								<td>
 									<select>
 									{{~ roles :item }}
-										<option value="{{= item.id }}"{{ if (account.role.id == item.id) { out+=' selected'; } }}>{{= item.role }}</option>
+										<option value="{{= item.id }}"{{ if (account.role.id == item.id) { out+=' selected'; } }}>{{= item.label }}</option>
 									{{~}}
 									</select>
 								</td>

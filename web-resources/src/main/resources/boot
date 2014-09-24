@@ -38,8 +38,8 @@ $oursesAccountId        = "oursesAccountId";                    // String   Key 
 $oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id. Default = "oursesProfileId"
 $oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path. Default = "oursesAvatarPath"
 $redir_param            = "?redirection=";                      // String   URL param in the login page. Use for the redirection. Default = "?redirection="
-$role_admin             = "Administratrice"                     // String   Admin role. Default = "Administratrice"
-$role_redac             = "Rédactrice"                          // String   Redacter role. Default = "Rédactrice"
+$role_admin             = "admin"                     			// String   Admin role. Default = "Administratrice"
+$role_redac             = "writer"                          	// String   Redacter role. Default = "Rédactrice"
 
 /* Navigation */
 $login_page             = "/connexion";                         // String   URL of the login page. Default = "/connexion"

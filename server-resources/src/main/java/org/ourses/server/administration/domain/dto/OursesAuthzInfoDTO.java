@@ -14,6 +14,9 @@ public class OursesAuthzInfoDTO {
 
     @JsonProperty("role")
     private String role;
+    
+    @JsonProperty("label")
+    private String label;
 
     public OursesAuthzInfoDTO() {
         super();
@@ -43,6 +46,14 @@ public class OursesAuthzInfoDTO {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public String getLabel(){
+    	return label;
+    }
+    
+    public void setLabel(String label) {
+    	this.label = label;
+    }
 
     public OursesAuthorizationInfo toOursesAuthorizationInfo() {
         OursesAuthorizationInfo oursesAuthorizationInfo = new OursesAuthorizationInfo(this.id, this.role);
@@ -68,5 +79,6 @@ public class OursesAuthzInfoDTO {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj, "id");
     }
+
 
 }

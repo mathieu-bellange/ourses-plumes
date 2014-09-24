@@ -11,10 +11,10 @@ Values
   ('odc@gmail.com', 'token_odc', '2077-01-01 00:00:00');
 
 Insert into ourses_authorization_info
-  (id, roles_for_db)
+  (id, roles_for_db, label)
 Values
-  (1, 'Administratrice'),
-  (2, 'Rédactrice');
+  (1, 'admin','Administratrice'),
+  (2, 'writer','R&eacute;dactrice');
 
 Insert into ourses_authentication_info
   (id, mail, credentials, version)

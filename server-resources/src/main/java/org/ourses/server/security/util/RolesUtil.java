@@ -8,8 +8,8 @@ import com.google.common.collect.Sets;
 
 public final class RolesUtil {
 
-    public static final String ADMINISTRATRICE = "Administratrice";
-    public static final String REDACTRICE = "Rédactrice";
+    public static final String ADMINISTRATRICE = "admin";
+    public static final String REDACTRICE = "writer";
     public static final String LECTEUR_LECTRICE = "Lecteur/Lectrice";
 
     /**
