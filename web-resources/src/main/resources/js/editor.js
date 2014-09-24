@@ -115,16 +115,16 @@ function processArticle(article) {
 	}
 
 	$.getJSON("/rest/categories", function(json) {
-		// processCategory(json);
 		processCategory(json, article);
-		//TODO injection de la valeur de l'article
-		// alert(article.category.id);
-		// alert(article.category.category);
 	 });
 
 	$.getJSON("/rest/rubriques", function(json) {
 		processRubric(json, article);
-		//TODO injection de la valeur de l'article
+	});
+	
+	$.getJSON("/rest/tags?criteria=", function(json) {
+		processSuggestTags(json);
+		$("#tag").autocomplete(); // TEMP DEBUG : apply autocomplete plugin to #tag input
 	});
 
 	// Initialize inline CKEditor with custom config
@@ -165,7 +165,6 @@ function processArticle(article) {
 	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
 	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
 	$("section").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
-	$("#tag").autocomplete(); // TEMP DEBUG : apply autocomplete plugin to #tag input
 }
 
 function processRubric(json, article) {
@@ -195,6 +194,13 @@ function processCategory(json, article) {
 		$("#category ul").append(li);
 	});
 	update_category()
+}
+
+function processSuggestTags(json){
+	$.each(json, function(i, obj) {
+		var li = "<li data-value='"+ obj.id +"'>" + obj.tag + "</li>";
+		$(".autocomplete ul").append(li);
+	});
 }
 
 /* maj de la combo rubrique */
