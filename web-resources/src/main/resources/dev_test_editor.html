@@ -172,6 +172,11 @@
 					</ul>
 				</div>
 				<small class="error hide">La saisie de la rubrique est obligatoire</small>
+				<script>
+					$("label[for='rubric']").click(function() {
+						force_focus("#" + $(this).attr("for"));
+					});
+				</script>
 
 				<!--Category-->
 				<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
@@ -188,6 +193,11 @@
 					</ul>
 				</div>
 				<small class="error hide">La saisie de la cat&eacute;gorie est obligatoire</small>
+				<script>
+					$("label[for='category']").click(function() {
+						force_focus("#" + $(this).attr("for"));
+					});
+				</script>
 
 				<style>
 					/* TEMP : Tag styles */

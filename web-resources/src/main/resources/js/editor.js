@@ -498,3 +498,6 @@ $("html").on("keypress", ".tags", function(e) {
 		toggle_tags();
 	}
 });
+// Options Select Labels
+$("html").on("click", "label[for='rubric']", function() {force_focus("#" + $(this).attr("for"));});
+$("html").on("click", "label[for='category']", function() {force_focus("#" + $(this).attr("for"));});

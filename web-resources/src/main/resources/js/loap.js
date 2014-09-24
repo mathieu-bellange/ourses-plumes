@@ -30,6 +30,16 @@ function scrollTo(object, duration, spacing) {
 	}
 }
 
+/* Force focus */
+function force_focus(selector) {
+	$(selector).focus();
+	if ($js_fx) {
+		$(selector)
+			.animate({"opacity" : ".25"}, 125)
+			.animate({"opacity" : "1"}, 250);
+	}
+}
+
 /* Cursor Position */
 jQuery.fn.extend({
 	cursor_position : function(start, end) {
