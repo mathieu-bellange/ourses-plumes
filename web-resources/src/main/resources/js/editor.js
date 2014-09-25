@@ -131,7 +131,7 @@ function processArticle(article) {
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
 		customConfig : $js_root + "editor_settings.js",
-		extraAllowedContent : {"p" : {classes : "placeholder", styles : "color"}},
+		extraAllowedContent : {"span" : {classes : "placeholder"}},
 		contentsCss : $css_root + "loap-main.css"
 	});
 
@@ -421,7 +421,7 @@ function checkSummary() {
 }
 
 function checkBody() {
-	if (($("#editor").text().length == 0) || ($("#editor").length == 1 && $("#editor").children().hasClass("placeholder"))) {
+	if ($("#editor").text().length == 0 || $("#editor").children().hasClass("placeholder")) {
 		$("#editor").set_validation(false);
 	} else {
 		$("#editor").set_validation(true);

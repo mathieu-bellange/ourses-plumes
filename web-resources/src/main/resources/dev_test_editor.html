@@ -347,7 +347,7 @@
 				<legend class="hide">R&eacute;daction</legend>
 				<label for="inline_editor" class="hide">Corps de texte <span class="text-silver">inline</span></label>
 				<div id="inline_editor" class="inline-editor" contenteditable="true" data-placeholder>
-					<p class="placeholder">Le corps de l'article</p>
+					<span class="placeholder">Le corps de l'article</span>
 					<!--
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
@@ -394,7 +394,7 @@
 			CKEDITOR.disableAutoInline = true;
 			CKEDITOR.inline("inline_editor", {
 				customConfig : $cke_config_path + "editor_settings.js",
-				extraAllowedContent : {"p" : {classes : "placeholder", styles : "color"}},
+				extraAllowedContent : {"span" : {classes : "placeholder"}},
 				contentsCss : "css/loap-main.css",
 			});
 		</script>

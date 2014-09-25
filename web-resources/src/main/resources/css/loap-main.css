@@ -89,7 +89,6 @@ p {margin-bottom: 1.25em;}
 p.lead {margin-bottom: .5em;}
 p.collapse {margin-bottom: .625em;}
 p.collapse + p {text-indent: 2.5em;}
-p.placeholder {color: rgba(0, 0, 0, .375);}
 
 /* Lists */
 ul, ol, dl {
@@ -308,6 +307,8 @@ select > option {
 :-ms-input-placeholder { /* IE 10+ */
   color: rgba(0, 0, 0, .5);
 }
+
+.placeholder {color: rgba(0, 0, 0, .375);}
 
 /* ------------------------------------------------------------------ */
 /* # Font Sizing */

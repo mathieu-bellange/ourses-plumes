@@ -59,10 +59,13 @@ jQuery.fn.extend({
 	placeholder : function(options) {
 		// vars
 		var defaults = {
+			"tag" : "span",                         // String    The tag of the placeholder element. Default : "span"
 			"attr" : "data-placeholder",            // String    Attribute name of the placeholder element. Default : "data-placeholder"
 			"class" : "placeholder",                // String    Class name of the placeholder element. Default : "placeholder"
+			"delay" : 750                           // Integer   Timeout before checking empty field value on blur. Default : 500
 		};
 		var settings = $.extend({}, defaults, options);
+		var t = 0;
 		// methods
 		function removePlaceholder(obj) {
 			if (obj.data("placeholder_value") === undefined) {
@@ -74,22 +77,30 @@ jQuery.fn.extend({
 		$(this).each(function () {
 			// events
 			$(this).on("click", "[" + settings.attr + "]", function() {
+				clearTimeout(t);
 				removePlaceholder($(this)); // erase placeholder
 			});
-			$(this).on("keypress", "[" + settings.attr + "]", function() {
-				removePlaceholder($(this)); // erase placeholder
+			$(this).on("keypress", "[" + settings.attr + "]", function(event) {
+				if (event.which !== 9) { // Tab
+					removePlaceholder($(this)); // erase placeholder
+				}
 			});
 			$(this).on("blur", "[" + settings.attr + "]", function() {
-				if ($(this).text().trim().length === 0) {
-					$(this).html("<p class='" + settings.class + "'>" + $(this).data("placeholder_value") + "</p>"); // append placeholder
-					$(this).removeData("placeholder_value");
-				}
+				var self = $(this);
+				t = setTimeout(function() {
+					if (!$("#cke_inline_editor").is(":visible")) {
+						if (self.find("iframe").length == 0 && self.text().trim().length == 0) {
+							self.html("<" + settings.tag + " class='" + settings.class + "'>" + self.data("placeholder_value") + "</" + settings.tag + ">"); // append placeholder
+							self.removeData("placeholder_value");
+						}
+					}
+				}, settings.delay);
 			});
 			// init
 			$(document).ready(function() {
 				$("[" + settings.attr + "]").each(function() {
 					if ($(this).attr(settings.attr) !== "") {
-						$(this).html("<p class='" + settings.class + "'>" + $(this).attr(settings.attr) + "</p>");
+						$(this).html("<span class='" + settings.class + "'>" + $(this).attr(settings.attr) + "</span>");
 					}
 				});
 			});
@@ -664,6 +675,7 @@ function ajax_error(jqXHR, textStatus, errorThrown){
 /* Check if user is authenticated */
 var onAuthc = $.ajax({
 	url : "/rest/authc/connected",
+	async : false,
 	processData : false,
 	beforeSend : function(jqXHR) {
 		header_authentication(jqXHR);
@@ -1002,7 +1014,6 @@ $("html").on("click", ".disconnect", function() {
 			window.localStorage.removeItem($oursesAccountId);
 			window.localStorage.removeItem($oursesProfileId);
 			window.localStorage.removeItem($oursesAvatarPath);
-			//localStorage.removeItem($user_prefs_articles_filters); // TEMP : remove user prefs for articles filters
 			window.location.href = $home_page;
 		},
 		error : function(jqXHR, status, errorThrown) {
