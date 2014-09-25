@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Main File
  * Require jQuery Library
- * ver. 0.0.7
+ * ver. 1.0.0
  */
 
 /* ------------------------------------------------------------------ */

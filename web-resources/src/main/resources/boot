@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Loader
  * No dependency
- * ver. 0.0.7
+ * ver. 1.0.0
  */
 
 /* ------------------------------------------------------------------ */
@@ -13,7 +13,7 @@
 $org_url                = "http://www.ourses-plumes.org/";      // String   Set organization URL.
 $org_name               = "Les Ourses &agrave; plumes";         // String   Set organization name.
 $app_name               = "Webzine f&eacute;ministe";           // String   Set application name.
-$app_ver                = "0.0.7";                              // String   Set application version.
+$app_ver                = "1.0.0";                              // String   Set application version.
 $app_kwd                = ["Webzine", "F&eacute;minisme"];      // Array    Set application keywords.
 $app_desc               = "Un webzine f&eacute;ministe.";       // String   Set application keywords.
 $app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
@@ -23,7 +23,7 @@ $build_compress         = false;                                // Boolean  Comp
 $build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
 $build_icons            = true;                                 // Boolean  Generate inline SVG icons into the document. Default = true
 $dev_toolbar            = true;                                 // Boolean  Create dev toolbar. Default = false
-$free_log               = true;                                 // Boolean  Disable abide validation for logger. Default = false
+$free_log               = false;                                // Boolean  Disable abide validation for logger. Default = false
 $css_fx                 = true;                                 // Boolean  Enable CSS effects. Default = true
 $js_fx                  = true;                                 // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default = true
 $lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
