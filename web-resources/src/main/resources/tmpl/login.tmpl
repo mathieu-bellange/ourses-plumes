@@ -1,17 +1,11 @@
 ﻿				<section id="login">
-					<form id="login_form"{{= $free_log == true ? "" : " data-abide" }} onsubmit="return false;" class="small-10 small-offset-1 medium-8 medium-offset-2 large-6 large-offset-3">
+					<form id="login_form" onsubmit="return false;" class="small-10 small-offset-1 medium-8 medium-offset-2 large-6 large-offset-3">
 						<fieldset>
 							<legend>Authentification</legend>
-							<input id="user_login" type="text" placeholder="Adresse e-mail"{{= $free_log ? " value='nadejda@pussyriot.ru'" : " required pattern='alpha'" }}>
-							{{? $free_log == false }}
-							<small class="error">Identifiant requis&nbsp;!</small>
-							{{?}}
+							<input id="user_login" type="text" placeholder="Adresse e-mail"{{= $free_log ? " value='nadejda@pussyriot.ru'" : "" }}>
 							<div class="row collapse">
 								<div class="column small-8 medium-9">
-									<input id="user_password" type="password" placeholder="Mot de passe"{{= $free_log ? "" : " required pattern='alpha'" }}>
-									{{? $free_log == false }}
-									<small class="error">Mot de passe requis&nbsp;!</small>
-									{{?}}
+									<input id="user_password" type="password" placeholder="Mot de passe">
 								</div>
 								<div class="column small-4 medium-3">
 									<input id="user_connection" type="submit" class="connect-switch button small postfix" value="Connexion">
