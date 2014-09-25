@@ -17,7 +17,7 @@ public class ITAvatarResources {
 
     private static final String PATH_GET_UNKNOWN_AVATAR = "/rest/avatars/666";
     private static final String PATH_PUT_AVATAR = "/rest/avatars/create";
-    private static final String PATH_AFTER_PUT_AVATAR = "/rest/avatars/1";
+    private static final String PATH_AFTER_PUT_AVATAR = "/rest/avatars/50";
 
     @Test
     public void shouldNotGetUnknownAvatar() {
@@ -45,7 +45,7 @@ public class ITAvatarResources {
         AvatarDTO dto = clientResponse.getEntity(AvatarDTO.class);
         assertThat(dto).isNotNull();
         assertThat(dto.getId()).isEqualTo(50l);
-        assertThat(dto.getPath()).isEqualTo("/avatars/1");
+        assertThat(dto.getPath()).isEqualTo("/rest/avatars/50");
         uri = UriBuilder.fromPath(PATH_AFTER_PUT_AVATAR).build();
         clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(200);

@@ -469,8 +469,7 @@ public class ITArticleResources {
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
         assertThat(article).isNotNull();
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
-        assertThat(article.getPath()).isEqualTo(
-                "/articles/" + article.getRubrique().getRubrique().toLowerCase() + "/titre-6");
+        assertThat(article.getPath()).isEqualTo("/articles/" + article.getRubrique().getPath() + "/titre-6");
         assertThat(article.getTitleBeautify()).isEqualTo("titre-6");
     }
 

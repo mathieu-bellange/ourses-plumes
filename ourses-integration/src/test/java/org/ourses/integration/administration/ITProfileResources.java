@@ -16,7 +16,6 @@ import org.ourses.server.administration.domain.dto.CoupleDTO;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.dto.SocialLinkDTO;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
-import org.ourses.server.security.util.RolesUtil;
 
 import com.google.common.collect.Sets;
 import com.sun.jersey.api.client.ClientResponse;
@@ -39,7 +38,7 @@ public class ITProfileResources {
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         String role = clientResponse.getEntity(String.class);
-        assertThat(role).isEqualTo(RolesUtil.ADMINISTRATRICE);
+        assertThat(role).isEqualTo("Administratrice");
     }
 
     @Test

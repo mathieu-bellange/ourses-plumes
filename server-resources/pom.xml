@@ -255,14 +255,10 @@
 			<version>${spring-ebean-version}</version>
 		</dependency>
 	</dependencies>
-
+	
 	<profiles>
 		<profile>
 			<id>dev</id>
-			<properties>
-				<spring.db.context>db-dev-context.xml</spring.db.context>
-				<logback.level>DEBUG</logback.level>
-			</properties>
 			<build>
 				<resources>
 					<resource>
@@ -279,13 +275,6 @@
 		</profile>
 		<profile>
 			<id>recette</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<spring.db.context>db-recette-context.xml</spring.db.context>
-				<logback.level>INFO</logback.level>
-			</properties>
 			<build>
 				<resources>
 					<resource>

@@ -63,7 +63,7 @@ public class AvatarHelperTest {
 
     @Test
     public void shouldNotAcceptImg() {
-        when(img.length()).thenReturn(200001l);
+        when(img.length()).thenReturn(204801l);
         assertThat(helper.isOk(img)).isFalse();
     }
 
