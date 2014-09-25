@@ -121,6 +121,9 @@
 							<small class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
 						</fieldset>
 
+						<!--Author-->
+						<p class="author"><strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($oursesUserPseudo) }}</strong></p>
+
 						<!--Validation Buttons-->
 						<div class="text-center" style="margin-top: 1rem;">
 							<input id="saveButton" class="button tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip data-options="disable_for_touch:true">
