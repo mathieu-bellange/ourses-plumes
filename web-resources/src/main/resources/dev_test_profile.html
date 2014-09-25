@@ -15,7 +15,7 @@
 			</svg>
 			<h4>Voir</h4>
 			<label for="show_user_profile_show">Vue Profil</label>
-			<input id="show_user_profile_show" type="checkbox" name="show" value="user-profile-show">
+			<input id="show_user_profile_show" type="checkbox" name="show" value="user-profile-show" checked>
 			<label for="show_user_profile_update">Mise à jour Profil</label>
 			<input id="show_user_profile_update" type="checkbox" name="show" value="user-profile-update" checked>
 			<label for="show_user_articles_list">Liste des articles</label>
@@ -53,143 +53,146 @@
 		});
 		</script>
 
-		<!--User Profile Show-->
-		<div class="row panel radius user-profile user-profile-show">
-			<div class="column small-12 medium-5 large-4 text-center">
-				<!--User picture-->
-				<span class="picture large cover radius max-height" data-image="img/usr/usr-nadejda.jpg">Nadejda</span>
-			</div>
-			<div class="column small-12 medium-7 large-8">
-				<div class="clearfix" style="position: relative;">
-					<!--Pseudo-->
-					<h3 class="user-name">MyUsername</h3>
-					<!--Role-->
-					<h4 class="user-role">MyRole</h4>
+		<div id="container" style="margin-left: 12.5%; width: 75%;">
+
+			<!--User Profile Show-->
+			<div class="row panel radius user-profile user-profile-show">
+				<div class="column small-12 medium-5 large-4 text-center">
+					<!--User picture-->
+					<span class="picture large cover radius max-height" data-image="img/usr/usr-nadejda.jpg">Nadejda</span>
 				</div>
-				<!--User links-->
-				<ul id="user_links_icons" class="inline-list block">
-					<li><a href="javascript:void(0)" class="icon-mail"><span class="hide">Adresse mail</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-link"><span class="hide">Page perso</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-twitter"><span class="hide">Twitter</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-facebook"><span class="hide">Facebook</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-googleplus"><span class="hide">Google+</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-linkedin"><span class="hide">LinkedIn</span></a></li>
-				</ul>
-				<p class="user-desc">MyDescription</p>
-			</div>
-			<!--User Articles List-->
-			<div class="column small-12 small-centered">
-				<ul class="no-bullet related-list">
-					<li><span class="icon-educult small"><span class="hide">Éducation & Culture</span></span> <a href="#">Sexisme dans les jeux-vidéos, une critique impossible ?</a> <span class="info-tip"></span>
-						<div class="summary" style="display: none;">
-							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
-							Ces dernières années sur le net et dans les milieux féministes anglophones et francophones, des débats et discussions sont nés autour de la question des représentations sexistes dans les jeux-vidéos et des comportements sexistes parmi les joueurs. Les réactions de rejet particulièrement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux déchaînements qu’ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant à s’interroger sur la possibilité même de mener une telle réflexion.
-						</div>
-					</li>
-					<li><span class="icon-ourbody small"><span class="hide">Nos corps, nous-mêmes</span></span> <a href="#">Stérilisation : « Une femme qui décide de ne pas vouloir avoir des enfants, c’est toujours louche »</a> <span class="info-tip"></span>
-						<div class="summary" style="display: none;">
-							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
-							Se faire stériliser en France relève d’un vrai combat pour les femmes qui veulent y recourir. Elles se heurtent aux refus des médecins, qui posent leurs propres conditions. Véronique Séhier, co-présidente Planning Familial, a répondu à nos questions sur ce sujet tabou dans notre société.
-						</div>
-					</li>
-					<li><span class="icon-intersec small"><span class="hide">Intersectionnalité</span></span> <a href="#">Naturalisation et paupérisation du travail des femmes : le cas des services à la personne</a> <span class="info-tip"></span>
-						<div class="summary" style="display: none;">
-							<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
-							Les services à la personne constituent une part non négligeable de l’emploi et de l’économie.  Avec 1,8 million de salariéEs (sans compter les assistantes maternelles), ils dépassent même le nombre d’équivalent temps plein du secteur de la construction (qui en compte 1,347 million). Pourtant, l’invisibilisation de ce pan de l’économie va de pair avec sa dévalorisation sociale.
-						</div>
-					</li>
-					<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Pas de date" data-tooltip>Lorem Ipsum Dolor Sit Amet</a></li>
-					<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Date masquée" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01" class="hide"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
-					<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Date à la suite" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
-					<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Date à la fin de la ligne" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01" class="right"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
-				</ul>
-			</div>
-		</div>
-
-		<script>
-			/* User Articles List Info Box Slider */
-			var triggerer = ".info-tip";
-			var triggered = ".summary";
-			$(triggerer).click(function() {
-				var obj = $(this);
-				if (obj.data("is_sliding") !== "true") {
-					obj.data("is_sliding", "true");
-					obj.toggleClass("active");
-					if ($js_fx) {
-						obj.next(triggered).slideToggle(250, function() {
-							obj.removeData("is_sliding");
-						});
-					} else {
-						obj.next(triggered).toggle();
-						obj.removeData("is_sliding");
-					}
-				}
-			});
-		</script>
-
-		<!--User Profile Update--->
-		<div class="row panel radius user-profile user-profile-update">
-			<div class="column small-12 medium-5 large-4 text-center">
-
-				<!--User picture-->
-				<div style="display: inline-block; width: 256px;">
-					<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="img/usr/usr-nadejda.jpg">Nadejda</a>
-					<input id="avatar_file" type="file">
-					<div class="progress radius">
-						<span class="meter" style="width: 100%;">100</span>
+				<div class="column small-12 medium-7 large-8">
+					<div class="clearfix" style="position: relative;">
+						<!--Pseudo-->
+						<h3 class="user-name">MyUsername</h3>
+						<!--Role-->
+						<h4 class="user-role">MyRole</h4>
 					</div>
+					<!--User links-->
+					<ul id="user_links_icons" class="inline-list block">
+						<li><a href="javascript:void(0)" class="icon-mail"><span class="hide">Adresse mail</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-link"><span class="hide">Page perso</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-twitter"><span class="hide">Twitter</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-facebook"><span class="hide">Facebook</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-googleplus"><span class="hide">Google+</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-linkedin"><span class="hide">LinkedIn</span></a></li>
+					</ul>
+					<p class="user-desc">MyDescription</p>
+				</div>
+				<!--User Articles List-->
+				<div class="column small-12 small-centered">
+					<ul class="no-bullet related-list">
+						<li><span class="icon-educult small"><span class="hide">Éducation & Culture</span></span> <a href="#">Sexisme dans les jeux-vidéos, une critique impossible ?</a> <span class="info-tip"></span>
+							<div class="summary" style="display: none;">
+								<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+								Ces dernières années sur le net et dans les milieux féministes anglophones et francophones, des débats et discussions sont nés autour de la question des représentations sexistes dans les jeux-vidéos et des comportements sexistes parmi les joueurs. Les réactions de rejet particulièrement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux déchaînements qu’ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant à s’interroger sur la possibilité même de mener une telle réflexion.
+							</div>
+						</li>
+						<li><span class="icon-ourbody small"><span class="hide">Nos corps, nous-mêmes</span></span> <a href="#">Stérilisation : « Une femme qui décide de ne pas vouloir avoir des enfants, c’est toujours louche »</a> <span class="info-tip"></span>
+							<div class="summary" style="display: none;">
+								<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+								Se faire stériliser en France relève d’un vrai combat pour les femmes qui veulent y recourir. Elles se heurtent aux refus des médecins, qui posent leurs propres conditions. Véronique Séhier, co-présidente Planning Familial, a répondu à nos questions sur ce sujet tabou dans notre société.
+							</div>
+						</li>
+						<li><span class="icon-intersec small"><span class="hide">Intersectionnalité</span></span> <a href="#">Naturalisation et paupérisation du travail des femmes : le cas des services à la personne</a> <span class="info-tip"></span>
+							<div class="summary" style="display: none;">
+								<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
+								Les services à la personne constituent une part non négligeable de l’emploi et de l’économie.  Avec 1,8 million de salariéEs (sans compter les assistantes maternelles), ils dépassent même le nombre d’équivalent temps plein du secteur de la construction (qui en compte 1,347 million). Pourtant, l’invisibilisation de ce pan de l’économie va de pair avec sa dévalorisation sociale.
+							</div>
+						</li>
+						<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Pas de date" data-tooltip>Lorem Ipsum Dolor Sit Amet</a></li>
+						<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Date masquée" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01" class="hide"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
+						<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Date à la suite" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
+						<li><span class="icon-rubric small"></span> <a href="#" class="tip-top" title="Date à la fin de la ligne" data-tooltip>Lorem Ipsum Dolor Sit Amet</a> <time datetime="2014-09-01" class="right"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time></li>
+					</ul>
+				</div>
+			</div>
+
+			<script>
+				/* User Articles List Info Box Slider */
+				var triggerer = ".info-tip";
+				var triggered = ".summary";
+				$(triggerer).click(function() {
+					var obj = $(this);
+					if (obj.data("is_sliding") !== "true") {
+						obj.data("is_sliding", "true");
+						obj.toggleClass("active");
+						if ($js_fx) {
+							obj.next(triggered).slideToggle(250, function() {
+								obj.removeData("is_sliding");
+							});
+						} else {
+							obj.next(triggered).toggle();
+							obj.removeData("is_sliding");
+						}
+					}
+				});
+			</script>
+
+			<!--User Profile Update--->
+			<div class="row panel radius user-profile user-profile-update">
+				<div class="column small-12 medium-5 large-4 text-center">
+
+					<!--User picture-->
+					<div style="display: inline-block; width: 256px;">
+						<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="img/usr/usr-nadejda.jpg">Nadejda</a>
+						<input id="avatar_file" type="file">
+						<div class="progress radius">
+							<span class="meter" style="width: 100%;">100</span>
+						</div>
+					</div>
+
+				</div>
+				<div class="column small-12 medium-7 large-8">
+
+					<!--Disabled-->
+					<label for="pseudo_disabled" class="left red">Disabled (attribute 'disabled' is set)</label>
+					<input id="pseudo_disabled" class="user-name validation-icon" type="text" value="MyUsername" disabled="disabled">
+					<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
+
+					<!--Readonly-->
+					<label for="pseudo_readonly" class="left red">Readonly (attribute 'readonly' is set)</label>
+					<input id="pseudo_readonly" class="user-name validation-icon" type="text" value="MyUsername" readonly="readonly">
+					<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
+
+					<label for="pseudo" class=" red">Enabled (default)</label>
+					<div class="clearfix" style="position: relative;">
+						<!--Default-->
+						<input id="pseudo" class="user-name validation-icon" type="text" maxlength="24" value="MyUsername" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+						<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
+						<!--User role-->
+						<h4 id="role" class="user-role">MyRole</h4>
+					</div>
+
+					<!--User links-->
+					<div id="user-link">
+						<span class="prefix text-small left"></span>
+						<input class="left" type="text" placeholder="L&rsquo;adresse internet de votre lien">
+					</div>
+					<ul id="user_links_icons" class="inline-list block">
+						<li><a href="javascript:void(0)" class="icon-mail"><span class="hide">Adresse mail</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-link" data-url-prefix="http://"><span class="hide">Page perso</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-twitter" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-facebook" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-googleplus" data-url-prefix="https://plus.google.com/"><span class="hide">Google+</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-linkedin" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
+					</ul>
+
+					<!--User description disabled-->
+					<label for="description_disabled" class="red">Disabled (attribute 'disabled' is set)</label>
+					<textarea id="description_disabled" class="user-desc min" maxlength="255" disabled="disabled" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
+					<!--User description readonly-->
+					<label for="description_readonly" class="red">Readonly (attribute 'readonly' is set)</label>
+					<textarea id="description_readonly" class="user-desc min" maxlength="255" readonly="readonly" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
+					<!--User description default-->
+					<label for="description" class="red">Enabled (default)</label>
+					<textarea id="description" class="user-desc min" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
+
 				</div>
 
 			</div>
-			<div class="column small-12 medium-7 large-8">
-
-				<!--Disabled-->
-				<label for="pseudo_disabled" class="left red">Disabled (attribute 'disabled' is set)</label>
-				<input id="pseudo_disabled" class="user-name validation-icon" type="text" value="MyUsername" disabled="disabled">
-				<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
-
-				<!--Readonly-->
-				<label for="pseudo_readonly" class="left red">Readonly (attribute 'readonly' is set)</label>
-				<input id="pseudo_readonly" class="user-name validation-icon" type="text" value="MyUsername" readonly="readonly">
-				<small id="pseudoError" class="error hide">Le pseudo ne peut &ecirc;tre vide</small>
-
-				<label for="pseudo" class=" red">Enabled (default)</label>
-				<div class="clearfix" style="position: relative;">
-					<!--Default-->
-					<input id="pseudo" class="user-name validation-icon" type="text" value="MyUsername" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
-					<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
-					<!--User role-->
-					<h4 id="role" class="user-role">MyRole</h4>
-				</div>
-
-				<!--User links-->
-				<div id="user-link">
-					<span class="prefix text-small left"></span>
-					<input class="left" type="text" placeholder="L&rsquo;adresse internet de votre lien">
-				</div>
-				<ul id="user_links_icons" class="inline-list block">
-					<li><a href="javascript:void(0)" class="icon-mail"><span class="hide">Adresse mail</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-link" data-url-prefix="http://"><span class="hide">Page perso</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-twitter" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-facebook" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-googleplus" data-url-prefix="https://plus.google.com/"><span class="hide">Google+</span></a></li>
-					<li><a href="javascript:void(0)" class="icon-linkedin" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
-				</ul>
-
-				<!--User description disabled-->
-				<label for="description_disabled" class="red">Disabled (attribute 'disabled' is set)</label>
-				<textarea id="description_disabled" class="user-desc min" maxlength="255" disabled="disabled" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-				<!--User description readonly-->
-				<label for="description_readonly" class="red">Readonly (attribute 'readonly' is set)</label>
-				<textarea id="description_readonly" class="user-desc min" maxlength="255" readonly="readonly" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-				<!--User description default-->
-				<label for="description" class="red">Enabled (default)</label>
-				<textarea id="description" class="user-desc min" maxlength="255" placeholder="MyTextareaPlaceholder">MyDescription</textarea>
-
-			</div>
-
 		</div>
 
 		<!--The very big trash-->
@@ -331,10 +334,15 @@
 					var screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
 					if (window.matchMedia("(min-width: " + screen_width + "px)").matches) {
 						var clear = clear || false;
+						$("h3.user-name").css("padding-right", $("#role").outerWidth());
+						$("input.user-name").css("padding-right", parseFloat($("#role").width()) + parseFloat($("body").css("font-size").replace("px", "")));
 						$("#role").css({
 							"color" : (clear ? "" : "gray"),
 							"text-shadow" : (clear ? "" : "none")
 						});
+					} else {
+						$("h3.user-name").css("padding-right", "");
+						$("input.user-name").css("padding-right", "");
 					}
 				}
 				// Bind Events
@@ -344,6 +352,10 @@
 					focus: function() {update_role_display();},
 					blur: function() {if (!$(this).is(":focus")) {update_role_display(true);}}
 				});
+				$(window).resize(function() {
+					update_role_display(true);
+				});
+				update_role_display(true);
 			}
 
 			// Define Icons Input Variables

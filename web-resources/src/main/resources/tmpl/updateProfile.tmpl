@@ -17,7 +17,7 @@
 						<div class="column small-12 medium-7 large-8">
 							<div class="clearfix" style="position: relative;">
 								<!--Pseudo-->
-								<input id="pseudo" class="user-name" type="text" value="{{= data.pseudo }}" class="validation disable" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+								<input id="pseudo" class="user-name" type="text" value="{{= data.pseudo }}" maxlength="24" class="validation disable" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
 								<small class="error hide">Le nom d&rsquo;utilisatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
 								<!--Role-->
 								<h4 id="role" class="user-role">{{= window.localStorage.getItem($oursesUserRole) }}</h4>

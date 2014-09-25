@@ -1,4 +1,11 @@
 /* ------------------------------------------------------------------ */
+/* # Public vars */
+/* ------------------------------------------------------------------ */
+
+var username_max_chars = 24;
+var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+
+/* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
@@ -126,7 +133,7 @@ function checkPseudoAJAX(couple) {
 			// erreur 403, normal le pseudo est soit vide soit déjà pris
 			if (jqXHR.status == 403) {
 				pseudoTimeoutValid = setTimeout(function() {
-					selector.set_validation(false);
+					selector.set_validation(false, "Le nom d&rsquo;utilisatrice doit obligatoirement &ecirc;tre renseign&eacute;");
 					$(selector).css("margin-bottom", "0");
 					role_display.update(); // here's the trick ! fancy stuff ;)
 					}, 500);
@@ -199,7 +206,7 @@ function save(couple) {
 /* ------------------------------------------------------------------ */
 
 /* User Name */
-$("html").on("focus","#pseudo", function(event) {
+$("html").on("focus", "#pseudo", function(event) {
 	memoryCouple = new Couple(pseudoProperty,$(this).val());
 });
 $("html").on("keypress","#pseudo", function(event) {
@@ -207,22 +214,27 @@ $("html").on("keypress","#pseudo", function(event) {
 		$(this).blur();
 	}
 });
-$("html").on("keydown","#pseudo", function(event) {
+$("html").on("keydown", "#pseudo", function(event) {
 	if (event.which == 27) { // Escape
 		$(this).val(memoryCouple.value); // recall last value on cancel
 		$(this).blur();
 	}
 });
-$("html").on("blur","#pseudo", function(event) {
-	var couple = new Couple(pseudoProperty,$("#pseudo").val());
-	modifiyCouple(couple);
+$("html").on("blur", "#pseudo", function(event) {
+	if ($(this).val().length > username_max_chars) {
+		$(this).set_validation(false, "Le nom d&rsquo;utilisatrice est trop long&nbsp;!");
+		$(this).css("margin-bottom", "0");
+	} else {
+		var couple = new Couple(pseudoProperty,$("#pseudo").val());
+		modifiyCouple(couple);
+	}
 });
 
 /* User Description */
-$("html").on("focus","#description", function(event) {
+$("html").on("focus", "#description", function(event) {
 	memoryCouple = new Couple(descriptionProperty, $("#description").val());
 });
-$("html").on("blur","#description", function(event) {
+$("html").on("blur", "#description", function(event) {
 	var couple = new Couple(descriptionProperty, $(this).val());
 	modifiyCouple(couple);
 });
@@ -385,12 +397,17 @@ var role_display = (function() {
 	return {
 		update : function(clear) { // Set role display according to device width
 			var clear = clear || false;
-			var screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+			var screen_width = role_display_screen_width;
 			if (window.matchMedia("(min-width: " + screen_width + "px)").matches) {
+				$("h3.user-name").css("padding-right", $("#role").outerWidth());
+				$("input.user-name").css("padding-right", parseFloat($("#role").width()) + parseFloat($("body").css("font-size").replace("px", "")));
 				$("#role").css({
 					"color" : (clear ? "" : "gray"),
 					"text-shadow" : (clear ? "" : "none")
 				});
+			} else {
+				$("h3.user-name").css("padding-right", "");
+				$("input.user-name").css("padding-right", "");
 			}
 		},
 		clear : function() { // Alias of update method with clear argument
@@ -398,6 +415,10 @@ var role_display = (function() {
 		},
 		init : function() { // Bind role display events to pseudo
 			var self = this;
+			self.clear();
+			$(window).resize(function() {
+				self.clear();
+			});
 			$("#pseudo").bind({
 				mouseenter: function() {
 					self.update();

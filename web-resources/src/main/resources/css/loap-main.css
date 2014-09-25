@@ -666,6 +666,7 @@ kbd,
 .user-nav .user-name {
   margin-top: 0;
   color: white;
+  word-break: break-all;
   background-color: #d4a;
 }
 .user-nav ul {
@@ -2403,16 +2404,13 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .user-profile .inline-list {margin-bottom: 0;}
 .user-profile .user-name {
-  height: 3rem;
   margin-top: 0;
-  padding: .5rem;
+  padding: .625rem .5rem;
   color: white;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  font-size: 175%;
+  word-break: break-all;
   background-color: #759;
 }
-.user-profile .user-role {}
 .user-profile .user-desc {
   padding: .375rem;
   text-align: justify;
@@ -2460,12 +2458,11 @@ input:focus + button + .error + .autocomplete > ul {
   content: "Déposez !";
 }
 .user-profile input.user-name {
-  height: auto;
+  height: 3rem;
   padding-top: 0;
   padding-bottom: 0;
-  padding-left: .5rem;
+  padding-left: .4375rem;
   font-family: "Oswald", sans-serif;
-  font-size: 2em;
   line-height: 150%;
   color: white;
   border-color: transparent;
@@ -2476,8 +2473,8 @@ input:focus + button + .error + .autocomplete > ul {
   color: rgba(255, 255, 255, .5);
   text-shadow: 1px 1px rgba(0,0,0,.125);
 }
-.user-profile input.user-name:hover:-ms-input-placeholder, /* IE 10+ */
-.user-profile input.user-name:focus:-ms-input-placeholder {
+.user-profile input.user-name:hover:-ms-input-placeholder,
+.user-profile input.user-name:focus:-ms-input-placeholder { /* IE 10+ */
   color: rgba(0, 0, 0, .25);
   text-shadow: none;
 }
@@ -2485,13 +2482,10 @@ input:focus + button + .error + .autocomplete > ul {
   color: rgba(255, 255, 255, .5);
   text-shadow: 1px 1px rgba(0,0,0,.125);
 }
-.user-profile input.user-name:hover::-webkit-input-placeholder, /* Chrome */
-.user-profile input.user-name:focus::-webkit-input-placeholder {
+.user-profile input.user-name:hover::-webkit-input-placeholder,
+.user-profile input.user-name:focus::-webkit-input-placeholder { /* Chrome */
   color: rgba(0, 0, 0, .25);
   text-shadow: none;
-}
-.user-profile #role {
-  top: 1px; /* FIX : this is a for #pseudo borders */
 }
 .user-profile textarea.user-desc {
   position: relative;
@@ -2555,17 +2549,12 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Below are styles for user role on the box */
 @media (min-width: 1023px) { /* TEMP : media queries instructions should be placed at the end of the file */
-  .user-profile .user-name {
-    padding-right: 10rem; /* WARNING : inconstant property ; based upon .user-role max-width (computed with string 'Administratrice' as max value) */
-  }
   .user-profile .user-role {
     position: absolute;
     top: 0;
     right: 0;
     margin: 0;
     padding: 0 .5rem;
-    width: 9rem; /* WARNING : inconstant property ; based upon .user-role max-width (computed with string 'Administratrice' as max value) */
-    height: 3rem;
     line-height: 3rem;
     text-align: right;
     font-size: 133%;
