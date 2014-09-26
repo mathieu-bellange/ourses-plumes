@@ -135,7 +135,7 @@ function checkPseudoAJAX(couple) {
 				pseudoTimeoutValid = setTimeout(function() {
 					selector.set_validation(false, "Le nom d&rsquo;utilisatrice doit obligatoirement &ecirc;tre renseign&eacute;");
 					$(selector).css("margin-bottom", "0");
-					role_display.update(); // here's the trick ! fancy stuff ;)
+					role_display.update();
 					}, 500);
 			}
 			// autre erreur rollback du pseudo et affichage d'un alerte générique
@@ -163,8 +163,8 @@ function getProfile() {
 				$("textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas
 				create_icons_input(user_links_icons_input); // process icons input for user links
 				role_display.init(); // apply role display changing
-				processAvatar();
 				loap.update(); // re-update loap for user picture
+				processAvatar();
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -445,145 +445,150 @@ var role_display = (function() {
 /* # Drag 'n' Drop File Upload */
 /* ------------------------------------------------------------------ */
 
-// XHR Object
-if (!XMLHttpRequest.prototype.sendAsBinary) {
-	XMLHttpRequest.prototype.sendAsBinary = function(sData) {
-		var nBytes = sData.length, ui8Data = new Uint8Array(nBytes);
-		for (var nIdx = 0; nIdx < nBytes; nIdx++) {
-			ui8Data[nIdx] = sData.charCodeAt(nIdx) & 0xff;
-		}
-		/* send as ArrayBufferView...: */
-		this.send(ui8Data);
-		/* ...or as ArrayBuffer (legacy)...: this.send(ui8Data.buffer); */
-	};
-}
-
-// Get File
-function handler() {
-	if (this.readyState == this.DONE) {
-		if (this.status == 200) { // success!
-			var avatar = JSON.parse(this.response);
-			save(new Couple(avatarProperty, avatar.id));
-		} else { // fail...
-			createAlertBox();
-		}
-	}
-}
-
-// Open and Send Files
-function readfiles(files) {
-	var formData = new FormData(); // Here's IE bug ! FormData() isn't recognized by that browser
-	for (var i = 0; i < files.length; i++) {
-		var file = files[i];
-		// check file type
-		if (!file.type.match("image.*")) {
-			createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", "warning");
-			continue;
-		}
-		// max 200 KB
-		if (file.size <= 204800) {
-			// show progress bar
-			show_progress_bar();
-			var reader = new FileReader();
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = handler;
-			xhr.upload.addEventListener("progress", updateProgress, false);
-			xhr.upload.addEventListener("load", transferComplete, false);
-			xhr.upload.addEventListener("error", transferFailed, false);
-			xhr.open("POST", "/rest/avatars/create");
-			if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
-				xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
-			}
-			reader.onload = function(e) {
-				xhr.sendAsBinary(e.target.result);
-			};
-			reader.readAsBinaryString(file);
-		} else {
-			createAlertBox("Votre image ne doit pas d&eacute;passer 200 Ko", "warning"); // Matthieuuuuu !!!! Participe (dé)passé !
-		}
-	}
-}
-
-// Locals
-var t_progress = 0;
-var h_selector = "#avatar";
-
-function show_progress_bar() {
-	clearTimeout(t_progress);
-	$(h_selector).nextAll(".progress").first().removeClass("secondary warning alert success");
-	$(h_selector).nextAll(".progress").first().show();
-}
-
-function processAvatar() {
+function processAvatar(options) {
 	// vars
-	var id = "avatar"; // A tribute to James Cameron ?
-	var cls = "dragon" // Parce que ça marche des flammes :D
-	var holder = document.getElementById(id);
-	var selector = "#" + id;
+	var defaults = {
+		"selector" : "#avatar",           // String   A James Cameron tribute ;) Default : "#avatar"
+		"classname" : "dragon",           // String   Hu ? Smaug should have been a good name for this too ... Default : "dragon"
+		"max_file_size" : 204800,         // Integer  Maximum file size allowed on upload (kilobytes). Default : 204800
+		"progress_hide_delay" : 2000,     // Integer  Delay during which progress bar is visible after file upload (milliseconds). Default : 2000
+		"progress_fade_duration" : 1000,  // Integer  Duration of the progress bar fading effect (milliseconds). Default : 1000
+	};
+	var settings = $.extend({}, defaults, options);
+	var o_progress = $(settings.selector).nextAll(".progress").first(); // internal
+	var t_progress = 0; // internal
+	// methods
+	function show_progress_bar() {
+		clearTimeout(t_progress);
+		o_progress.removeClass("secondary warning alert success");
+		o_progress.show();
+	}
+	function updateProgress(event) {
+		if (event.lengthComputable) {
+			var p = (event.loaded / event.total * 100 | 0); // completed percentage
+			o_progress.find(".meter").text(p);
+			o_progress.find(".meter").css("width", p + "%");
+		}
+	}
+	function transferComplete(event) {
+		o_progress.removeClass("secondary warning alert");
+		o_progress.addClass("success");
+		t_progress = setTimeout(function() {
+			$js_fx ? o_progress.fadeOut(settings.progress_fade_duration) : o_progress.hide();
+		}, settings.progress_hide_delay);
+	}
+	function transferFailed(event) {
+		o_progress.removeClass("secondary warning success");
+		o_progress.addClass("alert");
+		t_progress = setTimeout(function() {
+			$js_fx ? o_progress.fadeOut(settings.progress_fade_duration) : o_progress.hide();
+		}, settings.progress_hide_delay);
+	}
+	function get_avatar_server_response() {
+		if (this.readyState == this.DONE) {
+			if (this.status == 200) { // OK
+				var avatar = JSON.parse(this.response);
+				save(new Couple(avatarProperty, avatar.id));
+			} else {
+				// console.log("HTTP error = " + this.status)
+				createAlertBox();
+			}
+		}
+	}
+	function readfiles(files) {
+		// var formData = new FormData(); // USELESS UNUSED BUG : FormData() isn't recognized by IE9, as well as Blob(), FileList(), FileReader(), etc.
+		// console.log("FileList() = " + files[0].name); // DEBUG : data may not be outputed by some browsers (like FF), so check the first array key value instead
+		for (var i = 0; i < files.length; i++) {
+			var file = files[i];
+			// check file type
+			if (!file.type.match("image.*")) {
+				createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", "warning");
+				continue;
+			}
+			// max 200 KB
+			if (file.size <= settings.max_file_size) {
+				// display file upload progess bar
+				show_progress_bar();
+				// set up AJAX request
+				var reader = new FileReader(); // WARNING : unsupported by IE 9 and below
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = get_avatar_server_response; // define XHR response event
+				xhr.upload.addEventListener("progress", updateProgress, false);
+				xhr.upload.addEventListener("load", transferComplete, false);
+				xhr.upload.addEventListener("error", transferFailed, false);
+				xhr.open("POST", "/rest/avatars/create");
+				header_authentication(xhr); // check authc token
+				reader.onload = function(event) {
+					xhr.sendAsRawData(event.target.result); // send image as binary
+					/* UNUSED : send as blob
+					 * Server should be told to parse sent blob object and insert it to database
+					 * Without proper service this won't works ...
+					 */
+					/*
+					var raw_data = event.target.result;
+					// console.log("raw_data = " + raw_data); // DEBUG
+					var blob_data = new Blob([raw_data], {"type" : "image/jpeg"});
+					// console.log("blob_data = " + JSON.stringify(blob_data)); // DEBUG
+					xhr.send(blob_data);
+					*/
+				};
+				reader.readAsBinaryString(file);
+			} else {
+				createAlertBox("Votre image ne doit pas d&eacute;passer " + (settings.max_file_size / 1024) + " Ko", "warning");
+			}
+		}
+	}
 	// events
-	holder.ondragover = function() {
-		if ($(selector).data("drag_on") !== "true") {
-			$(selector).data("drag_on", "true");
-			$(selector).focus();
-			$(selector).addClass(cls);
+	$("html").on("dragenter", settings.selector, function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	});
+	$("html").on("dragover", settings.selector, function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		if ($(settings.selector).data("drag_on") !== "true") {
+			$(settings.selector).data("drag_on", "true");
+			$(settings.selector).focus();
+			$(settings.selector).addClass(settings.classname);
 		}
 		return false;
-	};
-	holder.ondragend = function() {
+	});
+	$("html").on("dragend", settings.selector, function() {
+		event.preventDefault();
+		event.stopPropagation();
 		return false;
-	};
-	holder.ondrop = function(e) {
+	});
+	$("html").on("drop", settings.selector, function(event) {
+		event.preventDefault();
+		event.stopPropagation();
 		// reset avatar display
-		if ($(selector).data("drag_on") === "true") {
-			$(selector).removeData(cls);
-			$(selector).blur();
-			$(selector).removeClass(cls);
+		if ($(settings.selector).data("drag_on") === "true") {
+			$(settings.selector).removeData(settings.classname);
+			$(settings.selector).blur();
+			$(settings.selector).removeClass(settings.classname);
 		}
 		// start file upload
-		e.preventDefault();
-		readfiles(e.dataTransfer.files);
-	};
-	holder.onfocus = function() {
-		$(selector).next($("input[file]")).fadeIn(250);
-		if ($(selector).next($("input[file]")).attr("id") === undefined) {
-			$(selector).next($("input[file]")).attr("id", $(selector).attr("id") + "_file");
-			$(selector + "_file").bind({
+		var data = event.originalEvent.dataTransfer.files;
+		readfiles(data); // DEBUG : IE 9 receives 'undefined' ; method not supported (IE 10 should retrieve FileList properly)
+	});
+	$("html").on("click", settings.selector, function() {
+		$(settings.selector).focus();
+		$js_fx ? $(settings.selector).next($("input[file]")).fadeIn(250) : $(settings.selector).next($("input[file]")).show();
+		if ($(settings.selector).next($("input[file]")).attr("id") === undefined) {
+			$(settings.selector).next($("input[file]")).attr("id", $(settings.selector).attr("id") + "_file");
+			$(settings.selector + "_file").bind({
 				change : function() {
 					// start file upload
-					readfiles(this.files);
+					var data = this.files;
+					readfiles(data); // DEBUG : IE 9 receives 'undefined' ; '.files' not supported anyway (IE 10 should retrieve FileList properly)
 				}
 			});
 		}
-	};
-	holder.onblur = function() {
-		$(selector).next($("input[file]")).fadeOut(250);
-	}
-}
-
-// XHR upload events
-function updateProgress(event) {
-	var selector = h_selector;
-	if (event.lengthComputable) {
-		var p = (event.loaded / event.total * 100 | 0); // completed percentage
-		$(selector).nextAll(".progress").first().find(".meter").text(p);
-		$(selector).nextAll(".progress").first().find(".meter").css("width", p + "%");
-	}
-}
-function transferComplete(event) {
-	var selector = h_selector;
-	$(selector).nextAll(".progress").first().removeClass("secondary warning alert");
-	$(selector).nextAll(".progress").first().addClass("success");
-	t_progress = setTimeout(function() {
-		$(selector).nextAll(".progress").first().fadeOut(1000);
-	}, 2000);
-}
-function transferFailed(event) {
-	var selector = h_selector;
-	$(selector).nextAll(".progress").first().removeClass("secondary warning success");
-	$(selector).nextAll(".progress").first().addClass("alert");
-	t_progress = setTimeout(function() {
-		$(selector).nextAll(".progress").first().fadeOut(1000);
-	}, 2000);
+	});
+	$("html").on("blur", settings.selector, function() {
+		$js_fx ? $(settings.selector).next($("input[file]")).fadeOut(250) : $(settings.selector).next($("input[file]")).hide();
+	});
 }
 
 /* ------------------------------------------------------------------ */

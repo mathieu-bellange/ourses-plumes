@@ -615,12 +615,12 @@ function getDateTime(date) { // passe une date en param pour obtenir une string 
 	var month;
 	var day;
 	var numMonth = date.getMonth() + 1;
-	if (numMonth < 10){
+	if (numMonth < 10) {
 		month = "0" + numMonth.toString();
 	}else{
 		month = numMonth.toString();
 	}
-	if (date.getDate() <10){
+	if (date.getDate() <10) {
 		day = "0" + date.getDate().toString();
 	}else{
 		day = date.getDate().toString();
@@ -646,28 +646,28 @@ function dateToHTML(date) {
 }
 
 /* Update user menu user name */
-function update_user_pseudo(pseudo){
+function update_user_pseudo(pseudo) {
 	window.localStorage.setItem($oursesUserPseudo, pseudo);
 	$(".user-name").html(pseudo);
 }
 
 /* Update user menu user picture */
-function update_user_avatar(pathAvatar){
+function update_user_avatar(pathAvatar) {
 	window.localStorage.setItem($oursesAvatarPath, pathAvatar);
 	$("#user-avatar").attr("data-image",pathAvatar);
 	loap.update();
 }
 
 /* Check authentication before sending AJAX requests */
-function header_authentication(xhr){
-	if (window.localStorage.getItem($oursesAuthcToken) !== undefined){
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+function header_authentication(xhr) {
+	if (window.localStorage.getItem($oursesAuthcToken) !== undefined) {
+		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // check authc token
 	}
 }
 
 /* Redirect on HTTP response status unauthorized after AJAX request */
-function ajax_error(jqXHR, textStatus, errorThrown){
-	if (jqXHR.status == 401){
+function ajax_error(jqXHR, textStatus, errorThrown) {
+	if (jqXHR.status == 401) {
 		window.location.href = $login_page;
 	}
 }
