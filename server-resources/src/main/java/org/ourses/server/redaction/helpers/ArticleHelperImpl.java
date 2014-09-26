@@ -2,6 +2,7 @@ package org.ourses.server.redaction.helpers;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.text.StrBuilder;
@@ -234,21 +235,22 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Collection<? extends Article> findOnline() {
-        return Article.findOnline();
+    public Collection<? extends Article> findOnline(Map<String, String> parameters) {
+        return Article.findOnline(parameters);
     }
 
     @Override
-    public Collection<? extends Article> findToCheckAndDraft(Long profileId, String token) {
+    public Collection<? extends Article> findToCheckAndDraft(Long profileId, String token,
+            Map<String, String> parameters) {
         Set<Article> articles = Sets.newHashSet();
         OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
         // Je suis admin
         if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {
-            articles.addAll(Article.findToCheckAndDraft());
+            articles.addAll(Article.findToCheckAndDraft(parameters));
         }
         // je suis redac, j'ai accès à mes brouillons
         else if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
-            articles.addAll(Article.findToCheckAndDraft(profileId));
+            articles.addAll(Article.findToCheckAndDraft(profileId, parameters));
         }
         return articles;
     }

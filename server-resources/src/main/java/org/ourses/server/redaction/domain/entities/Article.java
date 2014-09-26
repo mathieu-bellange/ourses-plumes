@@ -3,6 +3,8 @@ package org.ourses.server.redaction.domain.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,6 +20,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -47,6 +50,9 @@ public class Article implements Serializable {
 	 * 
 	 */
     private static final long serialVersionUID = -6748991147610491255L;
+
+    @Transient
+    public static final String CRITERIA_TAG = "tag";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "article_seq_gen")
@@ -197,14 +203,18 @@ public class Article implements Serializable {
         return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
-    public static Set<Article> findToCheckAndDraft() {
-        return Ebean.find(Article.class).where()
-                .or(Expr.eq("status", ArticleStatus.AVERIFIER), Expr.eq("status", ArticleStatus.BROUILLON)).findSet();
+    public static Set<Article> findToCheckAndDraft(Map<String, String> parameters) {
+        ExpressionList<Article> req = Ebean.find(Article.class).where()
+                .or(Expr.eq("status", ArticleStatus.AVERIFIER), Expr.eq("status", ArticleStatus.BROUILLON));
+        addCriteria(req, parameters);
+        return req.findSet();
     }
 
-    public static Collection<? extends Article> findToCheckAndDraft(Long idProfile) {
-        return Ebean.find(Article.class).where().eq("profile.id", idProfile)
-                .or(Expr.eq("status", ArticleStatus.BROUILLON), Expr.eq("status", ArticleStatus.AVERIFIER)).findSet();
+    public static Collection<? extends Article> findToCheckAndDraft(Long idProfile, Map<String, String> parameters) {
+        ExpressionList<Article> req = Ebean.find(Article.class).where().eq("profile.id", idProfile)
+                .or(Expr.eq("status", ArticleStatus.BROUILLON), Expr.eq("status", ArticleStatus.AVERIFIER));
+        addCriteria(req, parameters);
+        return req.findSet();
     }
 
     public static Collection<? extends Article> findProfileArticles(Long profileId) {
@@ -212,8 +222,25 @@ public class Article implements Serializable {
                 .eq("status", ArticleStatus.ENLIGNE).lt("publishedDate", DateTime.now().toDate()).findSet();
     }
 
-    public static Set<Article> findOnline() {
-        return Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).findSet();
+    public static Set<Article> findOnline(Map<String, String> parameters) {
+        ExpressionList<Article> req = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE);
+        addCriteria(req, parameters);
+        return req.findSet();
+    }
+
+    private static void addCriteria(ExpressionList<Article> req, Map<String, String> parameters) {
+        // ajoute des critères optionnelles
+        for (Entry<String, String> entrySet : parameters.entrySet()) {
+            if (entrySet.getValue() != null) {
+                switch (entrySet.getKey()) {
+                case CRITERIA_TAG:
+                    req.add(Expr.eq("tags.tag", entrySet.getValue()));
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
     }
 
     public static Article findArticle(long id) {

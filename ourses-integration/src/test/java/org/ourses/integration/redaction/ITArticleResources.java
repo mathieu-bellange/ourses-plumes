@@ -116,6 +116,21 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldReadPublishArticleByTag() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("tag", "tag%201")
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        for (ArticleDTO art : articles) {
+            assertThat(art.getTags()).onProperty("tag").contains("tag 1");
+        }
+    }
+
+    @Test
     public void shouldReadAllPublishArticleAndIsOwnDraftToCheck() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
@@ -143,6 +158,23 @@ public class ITArticleResources {
             }
         });
         assertThat(toChecks).onProperty("profile.pseudo").containsOnly("jpetit");
+    }
+
+    @Test
+    public void shouldReadPublishArticleAndIsOwnDraftToCheckByTag() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+        params.add("tag", "tag 1");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        for (ArticleDTO art : articles) {
+            assertThat(art.getTags()).onProperty("tag").contains("tag 1");
+        }
     }
 
     @Test

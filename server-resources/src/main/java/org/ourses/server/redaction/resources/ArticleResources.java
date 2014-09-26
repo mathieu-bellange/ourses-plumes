@@ -1,5 +1,6 @@
 package org.ourses.server.redaction.resources;
 
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -25,6 +26,7 @@ import org.ourses.server.redaction.helpers.ArticleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.ClientResponse.Status;
@@ -88,19 +90,22 @@ public class ArticleResources {
 
     @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    String token, @QueryParam(value = "tag")
+    String tag) {
         ResponseBuilder responseBuilder;
         Set<Article> articles = Sets.newHashSet();
+        Map<String, String> parameters = Maps.newHashMap();
+        parameters.put(Article.CRITERIA_TAG, tag);
         if (token != null) {
             // recherche le profil associé
             Profile profile = profileHelper.findProfileByAuthcToken(token);
             // Je suis connecté
             if (profile != null) {
-                articles.addAll(articleHelper.findToCheckAndDraft(profile.getId(),token));
+                articles.addAll(articleHelper.findToCheckAndDraft(profile.getId(), token, parameters));
             }
         }
         // push les articles en ligne pour tous les utilisateurs
-        articles.addAll(articleHelper.findOnline());
+        articles.addAll(articleHelper.findOnline(parameters));
         // passage en DTO
         Set<ArticleDTO> articlesDto = Sets.newHashSet();
         for (Article article : articles) {
