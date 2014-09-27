@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Main Cascading Style Sheet
  * Includes Basics and Responsive Design
- * ver. 1.0.0
+ * ver. 1.0.1
  */
 
 /* ------------------------------------------------------------------ */
@@ -1816,29 +1816,29 @@ input:focus + button + .error + .autocomplete > ul {
 .article > p {
   text-align: justify;
 }
-.article > p.author {
+.article p.author {
   text-align: right;
   font-variant: small-caps;
 }
-.article > p.author:before {
+.article p.author:before {
   content: "—";
   margin-right: .5rem;
 }
-.article > p.author > a:not(.label):not(.close) {
+.article p.author > a:not(.label):not(.close) {
   padding: .125rem .25rem;
   color: black;
   font-weight: bold;
   text-decoration: none;
   border-radius: .25rem;
 }
-.article > p.author > a:not(.label):not(.close):hover,
-.article > p.author > a:not(.label):not(.close):focus {
+.article p.author > a:not(.label):not(.close):hover,
+.article p.author > a:not(.label):not(.close):focus {
   color: white;
 }
-.article > p.author > a:not(.label):not(.close):hover {
+.article p.author > a:not(.label):not(.close):hover {
   background-color: dimgray;
 }
-.article > p.author > a:not(.label):not(.close):focus {
+.article p.author > a:not(.label):not(.close):focus {
   background-color: #333;
 }
 

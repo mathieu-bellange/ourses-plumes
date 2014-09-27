@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Inline Icons Cascading Style Sheet
  * Require CSS Main File
- * ver. 1.0.0
+ * ver. 1.0.1
  */
 
 /* ------------------------------------------------------------------ */
@@ -25,6 +25,7 @@
 }
 
 /* SVG Icons Sizing */
+.icon.share > svg {width: 20px; height: 20px;} /* 20px */
 .icon.tiny > svg {width: 1.5rem; height: 1.5rem;} /* 24px */
 .icon.small > svg {width: 2rem; height: 2rem;} /* 32px */
 .icon.medium > svg {width: 2.5rem; height: 2.5rem;} /* 40px */
@@ -43,6 +44,7 @@ a.icon:not(.button) {
 }
 a.icon.round:not(.button) {border-radius: 100%;}
 a.icon.radius:not(.button) {border-radius: .5rem;}
+a.icon.share:not(.button) {border-radius: 3px;}
 a.icon:not(.button):not(.disabled):not(.no-bg):focus,
 a.icon:not(.button):not(.disabled):not(.no-bg):hover,
 a.icon.active:not(.button):not(.disabled):not(.no-bg) {
@@ -68,6 +70,12 @@ a.icon:not(.button):not(.disabled):focus > .text,
 a.icon:not(.button):not(.disabled):active > .text,
 a.icon.active:not(.button):not(.disabled) > .text {
   color: white;
+}
+a.icon.share:not(.button) > .text {
+  margin-right: 5px;
+  font-weight: bold;
+  font-variant: normal;
+  text-transform: none;
 }
 
 button.icon,
@@ -170,6 +178,26 @@ a.icon.electricblue.active:not(.button):not(.disabled):not(.no-bg) {background-c
 a.icon.gingerred:not(.button):not(.disabled):not(.no-bg):focus,
 a.icon.gingerred:not(.button):not(.disabled):not(.no-bg):hover,
 a.icon.gingerred.active:not(.button):not(.disabled):not(.no-bg) {background-color: #e42;}
+
+/* Colored text */
+/*
+a.icon.orange:not(.button):not(.disabled):not(.no-bg) > .text {color: #f73;}
+a.icon.fuschia:not(.button):not(.disabled):not(.no-bg) > .text {color: #e2a;}
+a.icon.red:not(.button):not(.disabled):not(.no-bg) > .text {color: #c33;}
+a.icon.blue:not(.button):not(.disabled):not(.no-bg) > .text {color: #36c;}
+a.icon.turquoise:not(.button):not(.disabled):not(.no-bg) > .text {color: #399;}
+a.icon.golden:not(.button):not(.disabled):not(.no-bg) > .text {color: #ca0;}
+a.icon.honey:not(.button):not(.disabled):not(.no-bg) > .text {color: #fa0;}
+a.icon.skyblue:not(.button):not(.disabled):not(.no-bg) > .text {color: #0be;}
+a.icon.royalblue:not(.button):not(.disabled):not(.no-bg) > .text {color: #359;}
+a.icon.firered:not(.button):not(.disabled):not(.no-bg) > .text {color: #b33;}
+a.icon.electricblue:not(.button):not(.disabled):not(.no-bg) > .text {color: #18c;}
+a.icon.gingerred:not(.button):not(.disabled):not(.no-bg) > .text {color: #e42;}
+
+a.icon:hover:not(.button):not(.disabled):not(.no-bg) > .text,
+a.icon:focus:not(.button):not(.disabled):not(.no-bg) > .text,
+a.icon.active:not(.button):not(.disabled):not(.no-bg) > .text {color: white;}
+*/
 
 /* Javascript Mouse Events Fixes */
 a.icon:after {

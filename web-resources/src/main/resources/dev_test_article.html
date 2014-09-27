@@ -6,19 +6,61 @@
 	</head>
 	<body>
 
+		<!--Twitter Widget-->
+		<!--
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		-->
+
+		<!--Facebook Widget-->
+		<!--
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.0";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		-->
+
+		<!--GooglePlus Widget-->
+		<!--
+		<script src="https://apis.google.com/js/platform.js" async defer>
+			{lang: 'fr'}
+		</script>
+		-->
+
+		<!--LinkedIn Widget-->
+		<!--
+		<script src="//platform.linkedin.com/in.js" type="text/javascript">
+			lang: fr_FR
+		</script>
+		-->
+
 		<h2 class="red">Article <small>.article</small></h2>
 
 		<article class="article ideas">
+
+			<!--Title-->
 			<h2 class="title">Le titre de l'article</h2>
+
+			<!--Author-->
 			<h4 class="author"><a href="javascript:void(0)" class="icon-author" rel="author" title="Auteure"><span class="text">Nadejda</span></a></h4>
+
+			<!--Date-->
 			<time class="date icon-date small" datetime="2014-09-01"><small class="text"><span class="hide">Publi&eacute; le </span>1<sup>er</sup> septembre 2014</small></time>
+
+			<!--Summary-->
 			<p class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+
+			<!--Tags-->
 			<dl class="tags inline-list clearfix">
 				<dt><span class="icon-tag small" title="Tags"><strong class="hide">Tags</strong></span></dt>
 				<dd><a href="javascript:void(0)" rel="tag" class="label radius ideas">Idées</a></dd>
 				<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">Catégorie</a></dd>
 				<dd><a href="javascript:void(0)" rel="tag" class="label radius">Un tag</a></dd>
 			</dl>
+
 			<!--TEMP : DO NOT REMOVE-->
 			<!--
 			<figure>
@@ -26,13 +68,122 @@
 				<figcaption>Joueuses de World of Tank, 27 ao&ucirc;t 2011</figcaption>
 			</figure>
 			-->
+
+			<!--Article Body-->
 			<h4>Un inter-titre</h4>
 			<p>Lorem ipsum dolor sit amet, <a href="javascript:void(0)">consectetur adipiscing elit</a>. Vivamus egestas dignissim consectetur. Aenean feugiat ligula at mi varius ultricies. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. <a href="javascript:void(0)">Etiam quis convallis tellus</a>. Duis id metus malesuada, aliquet tellus vel, lobortis massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla malesuada pulvinar mauris, sed finibus orci ullamcorper luctus.</p>
 			<div class="callout">Vivamus egestas dignissim consectetur.</div>
 			<p>Quisque risus ipsum, volutpat non fermentum ut, sodales sit amet eros. Aliquam iaculis sit amet mi vestibulum faucibus. Aliquam velit ligula, scelerisque vitae egestas dictum, efficitur nec arcu. Donec egestas ultricies ligula, eu condimentum est maximus eget. Class aptent taciti sociosqu <a href="javascript:void(0)">ad litora torquent</a> per conubia nostra, per inceptos himenaeos. Vivamus eget augue a velit finibus ultrices. Praesent tempus venenatis dapibus. Phasellus justo velit, laoreet ac tellus id, tempus feugiat massa. Maecenas feugiat luctus ipsum. Nulla nec dui rhoncus, dignissim mauris at, suscipit felis.</p>
 			<h4>Un autre inter-titre</h4>
 			<p>Aliquam mollis lorem eget neque porttitor, eu imperdiet libero blandit. Nam efficitur, leo at semper fringilla, ligula ex sollicitudin mauris, id ultricies diam erat nec lacus. Duis <a href="javascript:void(0)">sagittis eu justo</a> id porta. Nullam faucibus neque fringilla enim blandit dictum. Aenean aliquet, elit vitae eleifend varius, leo dui vehicula sapien, a commodo lacus mauris hendrerit massa. Nullam ut urna massa. <a href="javascript:void(0)">Curabitur sit amet</a> fringilla urna, vel volutpat orci. Etiam enim metus, <a href="javascript:void(0)">tristique in purus in</a>, cursus accumsan erat. Curabitur sem nulla, pharetra a viverra a, sagittis vitae diam. Donec mattis porta scelerisque. Aenean et tincidunt magna. Sed posuere dolor a mi imperdiet, et rutrum felis pretium. Sed ornare vulputate.</p>
-			<p class="author"><a href="javascript:void(0)" class="tip-top" rel="author" title="Voir le profil" data-tooltip>Nadejda</a></p>
+
+			<!--Article Footer-->
+			<div class="clearfix">
+
+				<!--Author-->
+				<p class="author right"><span class="hide">Par </span><a href="javascript:void(0)" class="tip-top" rel="author" title="Voir le profil" data-tooltip>Nadejda</a></p>
+
+				<!--Sharing-->
+				<h4 class="hide">Partager</h4>
+
+				<ul class="inline-list left">
+
+					<!--Share by Mail-->
+					<li><a id="share_mail" href="mailto:" class="icon-mail share tip-top" title="Partager par mail" data-tooltip><span class="text">Mail</span></a></li>
+
+					<!--Share on Twitter-->
+					<!--
+					<li><a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-dnt="true">Partager</a></li>
+					<script>
+					$(document).ready(function() {
+						setTimeout(function() {
+						$(".twitter-share-button").html("Partager");
+						}, 2500);
+					});
+					</script>
+					-->
+					<li><a id="share_twitter" href="" class="icon-twitter share tip-top" title="Partager sur Twitter" data-tooltip><span class="text">Twitter</span></a></li>
+
+					<!--Share on Facebook-->
+					<!--
+					<li><div class="fb-share-button" data-layout="button" style="margin-top: -4px;"></div></li>
+					<script>
+					$(document).ready(function() {
+						setTimeout(function() {
+						$(".fb-share-button > span").css("vertical-align","top");
+						}, 2500);
+					});
+					</script>
+					-->
+					<li><a id="share_facebook" href="" class="icon-facebook share tip-top" title="Partager sur Facebook" data-tooltip><span class="text">Facebook</span></a></li>
+
+					<!--Share on GooglePlus-->
+					<!--
+					<li><div class="g-plus" data-action="share" data-annotation="none"></div></li>
+					-->
+					<li><a id="share_googleplus" href="" class="icon-googleplus share tip-top" title="Partager sur Google+" data-tooltip><span class="text">Google+</span></a></li>
+
+					<!--Share on LinkedIn-->
+					<!--
+					<li><script type="IN/Share"></script></li>
+					-->
+					<li><a id="share_linkedin" href="" class="icon-linkedin share tip-top" title="Partager sur LinkedIn" data-tooltip><span class="text">LinkedIn</span></a></li>
+
+				</ul>
+
+			</div>
+
+			<script>
+
+				var share = (function() {
+					return {
+						init : function(options) {
+							// vars
+							var defaults = {
+								"target" : "popup",             // String   Window type for the share plugin. Allowed values are "popup", "new" or "none". Default : "popup"
+								"popup" : {                     // Object   Popup configuration.
+									"menubar" : false,            // Boolean  Set menu bar visibility. Default : false
+									"toolbar" : false,            // Boolean  Set tool bar visibility. Default : false
+									"resizable" : true,           // Boolean  Allow popup resize. Default : true
+									"scrollbars" : true,          // Boolean  Set scrollbars visibility. Default : true
+									"width" : 500,                // Integer  Set popup width (px). Default : 500
+									"height" : 320                // Integer  Set popup height (px). Default : 320
+								}
+							};
+							var settings = $.extend({}, defaults, options);
+							// events
+							$(document).ready(function() {
+								var article_url = window.location;
+								var article_title = encodeURI($(".article h2.title").text());
+								var article_summary = encodeURI($(".article p.summary").text());
+								var article_source = encodeURI($org_name);
+								var mail_href = "mailto:?subject=" + $org_name + encodeURI(" : ") + article_title + "&body=" + encodeURI("Quelqu'un vous a invité à lire ") + article_title + encodeURI(" sur ") + article_source + encodeURI(" : ") + article_url + encodeURI("\n\nBonne lecture !");
+								$("#share_mail").attr("href", mail_href);
+								var twitter_href = "https://twitter.com/share";
+								$("#share_twitter").attr("href", twitter_href);
+								var facebook_href = "https://www.facebook.com/share.php?u=" + article_url;
+								$("#share_facebook").attr("href", facebook_href);
+								var googleplus_href = "https://plus.google.com/share?url=" + article_url;
+								$("#share_googleplus").attr("href", googleplus_href);
+								var linkedin_href = "http://www.linkedin.com/shareArticle?mini=true&url=" + article_url + "&title=" + article_title + "&summary=" + article_summary + "&source=" + article_source;
+								$("#share_linkedin").attr("href", linkedin_href);
+								if (settings.target == "popup") {
+									$("html").on("click", "#share_twitter, #share_facebook, #share_googleplus, #share_linkedin", function() {
+										window.open(this.href, "", "menubar=" + (settings.popup.menubar ? "yes" : "no") + ",toolbar=" + (settings.popup.toolbar ? "yes" : "no") + ",resizable=" + (settings.popup.resizable ? "yes" : "no") + ",scrollbars=" + (settings.popup.scrollbars ? "yes" : "no") + ",width=" + settings.popup.width + ",height=" + settings.popup.height);
+										return false;
+									});
+								} else if (settings.target == "new") {
+									$("#share_twitter, #share_facebook, #share_googleplus, #share_linkedin").attr("target", "_blank");
+								}
+							});
+						}
+					}
+				}());
+
+				share.init();
+
+			</script>
+
 		</article>
 
 		<!--Related Articles-->

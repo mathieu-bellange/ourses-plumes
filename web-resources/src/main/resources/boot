@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Loader
  * No dependency
- * ver. 1.0.0
+ * ver. 1.0.1
  */
 
 /* ------------------------------------------------------------------ */
@@ -11,12 +11,22 @@
 
 /* Whois */
 $org_url                = "http://www.ourses-plumes.org/";      // String   Set organization URL.
-$org_name               = "Les Ourses &agrave; plumes";         // String   Set organization name.
-$app_name               = "Webzine f&eacute;ministe";           // String   Set application name.
-$app_ver                = "1.0.0";                              // String   Set application version.
-$app_kwd                = ["Webzine", "F&eacute;minisme"];      // Array    Set application keywords.
-$app_desc               = "Un webzine f&eacute;ministe.";       // String   Set application keywords.
+$org_name               = "Les Ourses à plumes";                // String   Set organization name.
+$app_name               = "Webzine féministe";                  // String   Set application name.
+$app_ver                = "1.0.1";                              // String   Set application version.
+$app_kwd                = ["Webzine", "Féminisme"];             // Array    Set application keywords.
+$app_desc               = "Un webzine féministe.";              // String   Set application keywords.
 $app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
+
+/* Organization */
+$org = {
+	"mail" : "mailto:oursesaplumes@gmail.com",
+	"newsletter" : null,
+	"mailinglist" : null,
+	"twitter" : "https://twitter.com/OursesaPlumes",
+	"facebook" : "https://www.facebook.com/pages/Les-Ourses-%C3%A0-plumes/223829591145074",
+	"wordpress" : "http://incubateurdesourses.wordpress.com/",
+};
 
 /* Utility */
 $build_compress         = false;                                // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
@@ -38,8 +48,8 @@ $oursesAccountId        = "oursesAccountId";                    // String   Key 
 $oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id. Default = "oursesProfileId"
 $oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path. Default = "oursesAvatarPath"
 $redir_param            = "?redirection=";                      // String   URL param in the login page. Use for the redirection. Default = "?redirection="
-$role_admin             = "admin"                     			// String   Admin role. Default = "Administratrice"
-$role_redac             = "writer"                          	// String   Redacter role. Default = "Rédactrice"
+$role_admin             = "admin"                               // String   Admin role. Default = "Administratrice"
+$role_redac             = "writer"                              // String   Redacter role. Default = "Rédactrice"
 
 /* Navigation */
 $login_page             = "/connexion";                         // String   URL of the login page. Default = "/connexion"
@@ -52,18 +62,19 @@ $articles               = "/articles";                          // String   URL 
 $new_article            = "/articles/nouveau";                  // String   URL of a new article Default = "/articles/nouveau"
 
 $app_root               = "/";                                  // String   Set application base URL. Default = "/"
-$js_root                = $app_root + "js/";                    // String   Set js root. Default = "js/"
-$css_root               = $app_root + "css/";                   // String   Set js root. Default = "css/"
-$img_root               = $app_root + "img/";                   // String   Set js root. Default = "img/"
+$js_root                = $app_root + "js/";                    // String   Set js root. Default = "/js/"
+$css_root               = $app_root + "css/";                   // String   Set js root. Default = "/css/"
+$img_root               = $app_root + "img/";                   // String   Set js root. Default = "/img/"
 
 $app_path               = {                                     // Object   Set application path to files.
-	js: $app_root + "js/",                                        // String   Path to scripts. Default = "js/"
-	css: $app_root + "css/",                                      // String   Path to style sheets. Default = "css/"
-	img: $app_root + "img/",                                      // String   Path to images. Default = "img/"
-	fnt: $app_root + "fnt/",                                      // String   Path to fonts. Default = "fnt/"
-	tmpl: $app_root + "tmpl/"                                     // String   Path to templates. Default = "tmpl/"
+	js: $app_root + "js/",                                        // String   Path to scripts. Default = "/js/"
+	css: $app_root + "css/",                                      // String   Path to style sheets. Default = "/css/"
+	img: $app_root + "img/",                                      // String   Path to images. Default = "/img/"
+	fnt: $app_root + "fnt/",                                      // String   Path to fonts. Default = "/fnt/"
+	tmpl: $app_root + "tmpl/"                                     // String   Path to templates. Default = "/tmpl/"
 };
 
+/* Internal */
 $svg_icons_file         = $app_path.img + "ui/ui-iconset.svg";  // String   Store URL of SVG icons file. Default = "img/ui/ui-iconset.svg"
 $svg_icons_fx_file      = $app_path.css + "loap-icons-fx.css";  // String   Store URL of SVG icons effects file. Default = "css/loap-icons-fx.css"
 
