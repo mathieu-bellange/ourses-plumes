@@ -121,8 +121,18 @@
 							<small class="error hide">La saisie du corps de l&rsquo;article est obligatoire</small>
 						</fieldset>
 
-						<!--Author-->
-						<p class="author"><strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($oursesUserPseudo) }}</strong></p>
+						<div class="clearfix">
+							<!--Author-->
+							<p class="author right"><strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($oursesUserPseudo) }}</strong></p>
+							<!--Share-->
+							<ul class="inline-list left">
+								<li><a id="share_mail" href="javascript:void(0)" class="icon-mail share tip-top" title="par mail" data-tooltip><span class="text">Mail</span></a></li>
+								<li><a id="share_twitter" href="javascript:void(0)" class="icon-twitter share tip-top" title="sur Twitter" data-tooltip><span class="text">Twitter</span></a></li>
+								<li><a id="share_facebook" href="javascript:void(0)" class="icon-facebook share tip-top" title="sur Facebook" data-tooltip><span class="text">Facebook</span></a></li>
+								<li><a id="share_googleplus" href="javascript:void(0)" class="icon-googleplus share tip-top" title="sur Google+" data-tooltip><span class="text">Google+</span></a></li>
+								<li><a id="share_linkedin" href="javascript:void(0)" class="icon-linkedin share tip-top" title="sur LinkedIn" data-tooltip><span class="text">LinkedIn</span></a></li>
+							</ul>
+						</div>
 
 						<!--Validation Buttons-->
 						<div class="text-center" style="margin-top: 1rem;">

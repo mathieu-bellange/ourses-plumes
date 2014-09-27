@@ -4,6 +4,73 @@
 
 var tag_max = 8;        // Integer  Maxium of tags allowed. Default = 8;
 
+var share = (function() {
+	return {
+		init : function(options) {
+			// vars
+			var defaults = {
+				"mail" : true,
+				"twitter" : true,
+				"facebook" : true,
+				"googleplus" : false,
+				"linkedin" : false
+			};
+			var settings = $.extend({}, defaults, options);
+			// methods
+			function update_tooltips(obj) {
+				if (obj.hasClass("active")) {
+					obj.attr("title", "D&eacute;sactiver le partage " + obj.data("tooltip-postfix"))
+					reload_tooltip(obj);
+				} else {
+					obj.attr("title", "Activer le partage " + obj.data("tooltip-postfix"))
+					reload_tooltip(obj);
+				}
+			}
+			// events
+			$("html").on("mouseenter", "#share_mail, #share_twitter, #share_facebook, #share_googleplus, #share_linkedin", function() {
+				if ($(this).hasClass("disabled")) {
+					$(this).css({"cursor" : "pointer", "border-color": "silver", "opacity" : "1"});
+				}
+			});
+			$("html").on("mouseleave", "#share_mail, #share_twitter, #share_facebook, #share_googleplus, #share_linkedin", function() {
+				if ($(this).hasClass("disabled")) {
+					$(this).css({"cursor" : "", "border-color": "transparent", "opacity" : ""});
+				}
+			});
+			$("html").on("click", "#share_mail, #share_twitter, #share_facebook, #share_googleplus, #share_linkedin", function() {
+				$(this).toggleClass("disabled");
+				$(this).toggleClass("active");
+				$(this).css("border-color", "transparent");
+				update_tooltips($(this));
+			});
+			// init
+			$("#share_mail, #share_twitter, #share_facebook, #share_googleplus, #share_linkedin").css("border", ".0625rem dashed transparent");
+			$("#share_mail, #share_twitter, #share_facebook, #share_googleplus, #share_linkedin").each(function() {
+				var expr = undefined; // TODO : this is what is returned by AJAX query ; check wether a share link has ever been allowed (i.e. this is article's edition case)
+				var u_id = $(this).attr("id").substr(6, $(this).attr("id").length);
+				// check share link activation
+				if (expr !== undefined) {
+					if (expr) {
+						$(this).addClass("active");
+					} else {
+						$(this).addClass("disabled");
+					}
+				} else if (settings.hasOwnProperty(u_id)) { // use defaults if no AJAX query defined (i.e. this is article's creation case)
+					if (settings[u_id]) {
+						$(this).addClass("active");
+					} else {
+						$(this).addClass("disabled");
+					}
+				}
+				// set share link tooltip
+				var str = $(this).attr("title");
+				$(this).data("tooltip-postfix", str);
+				update_tooltips($(this));
+			});
+		}
+	}
+}());
+
 /* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
@@ -165,6 +232,7 @@ function processArticle(article) {
 	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
 	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
 	$("section").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
+	share.init(); // TEMP DEBUG : set share links
 }
 
 function processRubric(json, article) {

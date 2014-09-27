@@ -50,8 +50,7 @@ a.icon:not(.button):not(.disabled):not(.no-bg):hover,
 a.icon.active:not(.button):not(.disabled):not(.no-bg) {
   background-color: dimgray;
 }
-a.icon:not(.button):not(.disabled):not(.no-bg):active,
-a.icon.active:not(.button):not(.disabled):not(.no-bg) {
+a.icon:not(.button):not(.disabled):not(.no-bg):active {
   box-shadow: 0 0 5rem 0 rgba(0, 0, 0, .375) inset; /* WARNING : based on 'huge' size */
 }
 a.icon:not(.button):not(.disabled):focus > svg,

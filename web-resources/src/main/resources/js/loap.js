@@ -604,7 +604,7 @@ function createAlertBox(msg, cls, id, scroll) {
 
 /* Reload Tooltip */
 function reload_tooltip(obj) {
-	var tooltip_id = obj.attr("data-selector");
+	var tooltip_id = obj.attr("id");
 	var tooltip_value = obj.attr("title");
 	$("[data-selector='" + tooltip_id + "']").last().html(tooltip_value + "<span class='nub'></span>");
 }
