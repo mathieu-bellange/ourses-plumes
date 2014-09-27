@@ -51,6 +51,11 @@ function modifiyCouple(couple) { // Pair storing
 	}
 }
 
+// Display user role
+function processRole(role) {
+	$js_fx ? $("#role").html(role).fadeIn(500) : $("#role").html(role).show();
+}
+
 // Data to HTML association method for user links
 function processSocialLinks(socialLinks) {
 	for (var i = 0; i < socialLinks.length; i++) {
@@ -148,6 +153,21 @@ function checkPseudoAJAX(couple) {
 	});
 }
 
+function getRole(pseudo) {
+	$.ajax({
+		type : "GET",
+		url : "/rest/profile/" + pseudo + "/authz",
+		contentType : "application/json; charset=utf-8",
+		success : function(role, status, jqxhr) {
+			processRole(role);
+		},
+		error : function(jqXHR, status, errorThrown) {
+			createAlertBox();
+		},
+		dataType : "text"
+	});
+}
+
 function getProfile() {
 	var profileId = window.localStorage.getItem($oursesProfileId);
 	if(profileId != null) {
@@ -158,6 +178,7 @@ function getProfile() {
 			success : function(profile, status, jqxhr) {
 				var profile_template = doT.compile(loadfile($app_root + "tmpl/updateProfile.tmpl")); // create template
 				$("main > header").after(profile_template(profile)); // process template
+				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
 				$("textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas
 				$("textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas

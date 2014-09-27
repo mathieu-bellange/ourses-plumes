@@ -14,7 +14,7 @@ function processProfile(profile) {
 }
 
 function processRole(role) {
-	$(".user-role").text(role).fadeIn();
+	$js_fx ? $(".user-role").html(role).fadeIn(500) : $(".user-role").html(role).show();
 }
 
 function processArticles(articles){
@@ -73,7 +73,7 @@ function displayProfile() {
 	var path = window.location.pathname.replace("/profils","");
 	$.ajax({
 		type : "GET",
-		url : "/rest/profile" +  path,
+		url : "/rest/profile" + path,
 		contentType : "application/json; charset=utf-8",
 		success : function(profile, status, jqxhr) {
 			processProfile(profile);
