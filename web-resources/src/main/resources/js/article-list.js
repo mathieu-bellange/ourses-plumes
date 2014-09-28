@@ -120,15 +120,23 @@ function deleteArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(noData, status, jqxhr) {
-			$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function() {
-				$(".validate button[data-delete='" + id + "']").parents("li").remove();
-			});
-		},
-		error : function(jqXHR, status, errorThrown) {
-			if (jqXHR.status == 404) {
+			if ($conf.js_fx) {
 				$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function() {
 					$(".validate button[data-delete='" + id + "']").parents("li").remove();
 				});
+			} else {
+				$(".validate button[data-delete='" + id + "']").parents("li").remove();
+			}
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404) {
+				if ($conf.js_fx) {
+					$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function() {
+						$(".validate button[data-delete='" + id + "']").parents("li").remove();
+					});
+				} else {
+					$(".validate button[data-delete='" + id + "']").parents("li").remove();
+				}
 			} else {
 				createAlertBox();
 			}
@@ -146,18 +154,28 @@ function validateArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
+			if ($conf.js_fx) {
+				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
+					$(".validate button[data-validate='" + id + "']").parents("li").remove();
+					processAfterValidation(article);
+					$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+				});
+			} else {
 				$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				processAfterValidation(article);
 				$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			});
+			}
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				createAlertBox($msg.article_deleted, "default");
-				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
+				if ($conf.js_fx) {
+					$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
+						$(".validate button[data-validate='" + id + "']").parents("li").remove();
+					});
+				} else {
 					$(".validate button[data-validate='" + id + "']").parents("li").remove();
-				});
+				}
 			} else {
 				createAlertBox();
 			}
@@ -175,18 +193,28 @@ function inValidateArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+			if ($conf.js_fx) {
+				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+					processAfterInValidation(article);
+					$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+				});
+			} else {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterInValidation(article);
 				$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			});
+			}
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				createAlertBox($msg.article_offcheck, "default");
-				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+				if ($conf.js_fx) {
+					$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+						$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+					});
+				} else {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-				});
+				}
 			} else {
 				createAlertBox();
 			}
@@ -204,18 +232,28 @@ function publishArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+			if ($conf.js_fx) {
+				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+					processAfterPublish(article);
+					$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+				});
+			} else {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterPublish(article);
 				$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			});
+			}
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				createAlertBox($msg.article_offcheck, "default");
-				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+				if ($conf.js_fx) {
+					$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
+						$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
+					});
+				} else {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-				});
+				}
 			} else {
 				createAlertBox();
 			}
@@ -232,19 +270,29 @@ function recallArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
+			if ($conf.js_fx) {
+				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
+					$(".validate button[data-recall='" + id + "']").parents("li").remove();
+					processAfterRecall(article);
+					$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+				});
+			} else {
 				$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				processAfterRecall(article);
 				$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			});
+			}
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
 				createAlertBox($msg.article_offline, "default");
-				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
+				if ($conf.js_fx) {
+					$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
+						$(".validate button[data-recall='" + id + "']").parents("li").remove();
+					});
+				} else {
 					$(".validate button[data-recall='" + id + "']").parents("li").remove();
-				});
+				}
 			} else {
 				createAlertBox();
 			}

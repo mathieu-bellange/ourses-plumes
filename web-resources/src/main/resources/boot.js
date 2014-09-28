@@ -76,8 +76,8 @@ $conf = {
 	"js_fx"              : true,                                  // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default : true
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
 	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
-	"null_links"         : false,                                 // Boolean  Show or not null links. Default : false * NOT YET IMPLEMENTED !
-	"page_title"         : true                                   // Boolean  Show or not page title. Default : true * NOT YET IMPLEMENTED !
+	"page_title"         : true,                                  // Boolean  Display page title. If set to 'false' the organization name only will appear in the title bar. Default : true
+	"null_links"         : "javascript:void(0)"                   // String   Set the hypertext referer for null links. Default : "javascript:void(0)" * UNUSED (for now)
 }
 
 /* Constants */
@@ -119,7 +119,6 @@ $loc = {                                                        // Object   Set 
 
 /* Images */
 $img = {
-	"ico"                   : $loc.img + "ico/",                  // String   Path to web icons. Default : "/img/ico/"
 	"pub"                   : $loc.img + "pub/",                  // String   Path to public images. Default : "/img/pub/"
 	"svg"                   : $loc.img + "svg/",                  // String   Path to scalable vectors graphics. Default : "/img/svg/"
 	"ui"                    : $loc.img + "ui/",                   // String   Path to user interface graphics. Default : "/img/ui/"
@@ -150,26 +149,26 @@ $msg = {
 
 /* Navigation */
 $nav = {
-	"about"            : {"url" : null,                 "title" : "FAQ"},
-	"account_list"     : {"url" : "/comptes",           "title" : "Lister les comptes"},
-	"account_add"      : {"url" : null,                 "title" : "Ajouter un compte"},
-	"account_edit"     : {"url" : "/parametres/compte", "title" : "Mon compte"},
-	"agenda"           : {"url" : null,                 "title" : "Agenda"},
-	"article_list"     : {"url" : "/articles",          "title" : "Tous les articles"},
-	"article_view"     : {"url" : null,                 "title" : null},
-	"article_add"      : {"url" : "/articles/nouveau",  "title" : "Écrire un article"},
-	"article_edit"     : {"url" : null,                 "title" : "Modifier un article"},
-	"bug_add"          : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
-	"contact"          : {"url" : null,                 "title" : "Nous contacter"},
-	"error"            : {"url" : null,                 "title" : "Erreur"},
-	"home"             : {"url" : "/",                  "title" : "Accueil"},
-	"login"            : {"url" : "/connexion",         "title" : "Connexion"},
-	"partners"         : {"url" : null,                 "title" : "Nos copines"},
-	"profile_view"     : {"url" : null,                 "title" : null},
-	"profile_edit"     : {"url" : "/parametres/profil", "title" : "Mon profil"},
-	"privacy_policy"   : {"url" : null,                 "title" : "Politique de confidentialité"},
-	"terms_of_use"     : {"url" : null,                 "title" : "Conditions d'utilisation"},
-	"thanks"           : {"url" : null,                 "title" : "Remerciements"}
+	"about"                 : {"url" : null,                 "title" : "FAQ"},
+	"account_list"          : {"url" : "/comptes",           "title" : "Lister les comptes"},
+	"account_add"           : {"url" : null,                 "title" : "Ajouter un compte"},
+	"account_edit"          : {"url" : "/parametres/compte", "title" : "Mon compte"},
+	"agenda"                : {"url" : null,                 "title" : "Agenda"},
+	"article_list"          : {"url" : "/articles",          "title" : "Tous les articles"},
+	"article_view"          : {"url" : null,                 "title" : null},
+	"article_add"           : {"url" : "/articles/nouveau",  "title" : "Écrire un article"},
+	"article_edit"          : {"url" : null,                 "title" : "Modifier un article"},
+	"bug_add"               : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
+	"contact"               : {"url" : null,                 "title" : "Nous contacter"},
+	"error"                 : {"url" : null,                 "title" : "Erreur"},
+	"home"                  : {"url" : "/",                  "title" : "Accueil"},
+	"login"                 : {"url" : "/connexion",         "title" : "Connexion"},
+	"partners"              : {"url" : null,                 "title" : "Nos copines"},
+	"profile_view"          : {"url" : null,                 "title" : null},
+	"profile_edit"          : {"url" : "/parametres/profil", "title" : "Mon profil"},
+	"privacy_policy"        : {"url" : null,                 "title" : "Politique de confidentialité"},
+	"terms_of_use"          : {"url" : null,                 "title" : "Conditions d'utilisation"},
+	"thanks"                : {"url" : null,                 "title" : "Remerciements"}
 };
 
 /* Prefs */

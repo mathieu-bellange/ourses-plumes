@@ -507,7 +507,7 @@ jQuery.fn.extend({
 		// methods
 		function valid(obj, cancel) {
 			var cancel = cancel || false;
-			$(".validation-bar").fadeOut("fast");
+			$conf.js_fx ? $(".validation-bar").fadeOut("fast") : $(".validation-bar").hide();
 			$(".validation-bar").remove();
 			if (cancel) {
 				obj.val(str);
@@ -541,7 +541,7 @@ jQuery.fn.extend({
 							if ($(".validation-bar").length === 0) {
 								$(this).after(doT.compile(loadfile($loc.tmpl + "snippet_confirmation_bar.tmpl"))); // insert confirmation_bar template
 								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
-								$(".validation-bar").fadeIn("slow");
+								$conf.js_fx ? $(".validation-bar").fadeIn("slow") : $(".validation-bar").show();
 							}
 						}
 					}
@@ -594,7 +594,7 @@ function createAlertBox(msg, cls, id, scroll) {
 	if ($("#" + id).length === 0) {
 		$("main > header").after(alert_box_template({"id" : id, "class" : cls, "text" : msg}));
 		$("#" + id).svg_icons(); // set svg icons contained by alert box
-		$("#" + id).fadeIn(300); // show alert box
+		$conf.js_fx ? $("#" + id).fadeIn(300) : $("#" + id).show(); // show alert box
 		$("#" + id).parent().foundation("alert"); // reload Foundation alert plugin for alert box closest parent (i.e. alert-box cannot be closed bug fix)
 		if (scroll == true) {
 			scrollTo($("#" + id), 500, $("#" + id).innerHeight()); // scroll to alert box
@@ -647,8 +647,9 @@ function dateToHTML(date) {
 
 /* Set page title */
 function set_page_title(str) {
-	var s = $("html > head > title").text();
-	$("html > head > title").html(s + " - " + str);
+	if ($conf.page_title) {
+		$("title").html($("title").text() + " - " + str);
+	}
 }
 
 /* Update user menu user name */
@@ -813,7 +814,9 @@ if ($build.container) {
 
 if ($build.icons) {
 	// Process SVG Icons
-		$("body").prepend("<style type='text/css'>" + loadfile($file.icons_fx) + "</style>"); // append SVG effects
+		if ($conf.svg_fx) {
+			$("body").prepend("<style type='text/css'>" + loadfile($file.icons_fx) + "</style>"); // append SVG effects
+		}
 		$("body").prepend(loadfile($file.icons)); // append SVG icons
 }
 
@@ -1333,7 +1336,7 @@ var autosize_cfg = {append: ""};
 var f_tooltip_cfg = {
 	"touch_close_text": "Appuyez pour fermer",
 	"disable_for_touch": true,
-	"hover_delay": 500
+	"hover_delay": 750
 };
 
 /* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */

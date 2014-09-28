@@ -287,7 +287,7 @@ function create_icons_input(options) {
 		"icons_selector" : "[class*='icon']", // BUG : SVG icons are generated after function initialization ; so the only selector available at this time is class containing keyword 'icon' (i.e. switch from "[class*='icon-']" to ".icon")
 		"icons_title_prefix" : "",
 		"icons_tooltip" : true,
-		"animation_delay" : 250
+		"animation_delay" : ($conf.js_fx ? 250 : 0)
 	};
 	// vars
 	var options = $.extend({}, defaults, options);

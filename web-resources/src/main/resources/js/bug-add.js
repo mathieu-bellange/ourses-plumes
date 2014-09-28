@@ -24,7 +24,7 @@ function GithubBug(title,body) {
 
 /* TEMP : to be removed */
 $(".alert-box .close").on('click', function(event) {
-	$(this).fadeOut(500);
+	$conf.js_fx ? $(this).fadeOut(500) : $(this).hide();
 });
 
 $( "#new-bug" ).submit(function( event ) {
@@ -53,7 +53,7 @@ $( "#new-bug" ).submit(function( event ) {
 				$("#bug-alert").remove("error");
 				$("#bug-alert").addClass("success");
 				$("#bug-alert-message").text("Le bug a été correctement créé");
-				$("#bug-alert").fadeIn(500);
+				$conf.js_fx ? $("#bug-alert").fadeIn(500) : $("#bug-alert").show();
 				$("#bug-title").val("");
 				$("#bug-body").val("");
 			},
@@ -61,7 +61,7 @@ $( "#new-bug" ).submit(function( event ) {
 				$("#bug-alert").remove("success");
 				$("#bug-alert").addClass("error");
 				$("#bug-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-				$("#bug-alert").fadeIn(500);
+				$conf.js_fx ? $("#bug-alert").fadeIn(500) : $("#bug-alert").show();
 			},
 			dataType : "json"
 		});

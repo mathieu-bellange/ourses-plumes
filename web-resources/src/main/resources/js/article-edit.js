@@ -306,7 +306,7 @@ function update_rubric() {
 			$("#tag_rubric").parent("dd").removeClass("hide")
 		}
 		if ($("#tags").css("display") == "none") {
-			$("#tags").fadeIn();
+			$conf.js_fx ? $("#tags").fadeIn(500) : $("#tags").show();
 		}
 	}
 }
@@ -321,7 +321,7 @@ function update_category() {
 			$("#tag_category").parent("dd").removeClass("hide")
 		}
 		if ($("#tags").css("display") == "none") {
-			$("#tags").fadeIn();
+			$conf.js_fx ? $("#tags").fadeIn(500) : $("#tags").show();
 		}
 	}
 }
