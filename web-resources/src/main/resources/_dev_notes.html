@@ -6,13 +6,14 @@
 	</head>
 	<body>
 		<script>
-			isAdministratrice();
+			load();
 		</script>
 		<script>
-			load("accounts.js");
+			$("main > header").after(doT.compile(loadfile($loc.tmpl + "_dev_notes.tmpl")));
 		</script>
 		<script>
 			$(document).foundation();
+			loap.update()
 		</script>
 	</body>
 </html>

@@ -157,7 +157,7 @@ $nav = {
 	"new_article"           : "/articles/nouveau",                // String   URL of a new article Default : "/articles/nouveau"
 	"my_account_page"       : "/parametres/compte",               // String   URL of my account page Default : "/parametres/compte"
 	"my_profile_page"       : "/parametres/profil",               // String   URL of my profile page Default : "/parametres/profil"
-	"bug_tracker_page"      : "/bug-tracker",                     // String   URL of the bug tracker page Default : "/bug-tracker"
+	"bug_tracker_page"      : "/bug/nouveau",                     // String   URL of the bug tracker page Default : "/bug-tracker"
 };
 
 /* Prefs */
@@ -181,7 +181,7 @@ var head_tags = [
 	{elem: "meta", attr: {name: "keywords", content: $app.kwd.toString()}},
 	{elem: "meta", attr: {name: "description", content: $app.desc}},
 	{elem: "meta", attr: {name: "generator", content: $app.genr}},
-	{elem: "link", attr: {href: $loc.img + "ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
+	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
 	{elem: "link", attr: {href: $loc.css + "normalize.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
@@ -190,7 +190,7 @@ var head_tags = [
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
-	{elem: "script", attr: {src: $loc.js + "dot/dot.settings.js"}},
+	{elem: "script", attr: {src: $loc.js + "conf-dot.js"}},
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
 	{elem: "!--[gt IE 9]", text: IE_conditional_comments[2] + lb() + tb(2) + "<![endif]-->"}
 ];

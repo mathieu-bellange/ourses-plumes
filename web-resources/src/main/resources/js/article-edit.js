@@ -88,7 +88,7 @@ var share = (function() {
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($loc.tmpl + "editor.tmpl"));
+var template = doT.compile(loadfile($loc.tmpl + "article-edit.tmpl"));
 // si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
 if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 	$.ajax({
@@ -210,7 +210,7 @@ function processArticle(article) {
 	// Initialize inline CKEditor with custom config
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
-		customConfig : $loc.js + "editor_settings.js",
+		customConfig : $loc.js + "conf-cke.js",
 		extraAllowedContent : {"span" : {classes : "placeholder"}},
 		contentsCss : $loc.css + "loap-main.css"
 	});

@@ -3,18 +3,17 @@
 	<head>
 		<meta charset="utf-8">
 		<script src="boot"></script>
-		<script src="/js/ckeditor/ckeditor.js"></script>
-		<script src="/js/ckeditor/adapters/jquery.js"></script>
 	</head>
 	<body>
 		<script>
-			isRedactrice();
+			load();
 		</script>
 		<script>
-			load("editor.js");
+			$("main > header").after(doT.compile(loadfile($loc.tmpl + "_dev_samples.tmpl")));
 		</script>
 		<script>
 			$(document).foundation();
+			loap.update()
 		</script>
 	</body>
 </html>

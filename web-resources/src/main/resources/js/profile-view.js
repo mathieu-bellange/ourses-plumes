@@ -2,8 +2,8 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($loc.tmpl + "profile.tmpl"));
-var templateProfileArticles = doT.compile(loadfile($loc.tmpl + "profile_article.tmpl"));
+var template = doT.compile(loadfile($loc.tmpl + "profile-view.tmpl"));
+var templateProfileArticles = doT.compile(loadfile($loc.tmpl + "profile-article-list.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

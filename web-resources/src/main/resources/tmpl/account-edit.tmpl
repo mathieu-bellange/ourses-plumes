@@ -1,0 +1,27 @@
+﻿				<section id="updateAccount">
+					<form id="updateBearAccount" class="small-10 small-offset-1 medium-8 medium-offset-2 large-6 large-offset-3" onsubmit="return false;">
+						<fieldset>
+							<legend>L&acute;adresse mail li&eacute;e &agrave; mon compte</legend>
+							<input id="mail" type="text" value="{{= data.mail }}" disabled>
+						</fieldset>
+						<fieldset class="important">
+							<legend>Changer mon mot de passe</legend>
+							<div>
+								<label for="oldPassword">Ancien mot de passe&nbsp;<sup class="medium red">*</sup></label>
+								<input id="oldPassword" class="validation" maxlength="20" type="password" autocomplete="off" placeholder="Le mot de passe que vous utilisez actuellement">
+								<small class="error hide">Ancien mot de passe requis</small>
+							</div>
+							<div>
+								<label for="newPassword">Nouveau mot de passe&nbsp;<sup class="medium red">*</sup></label>
+								<input id="newPassword" class="validation" type="password" maxlength="20" autocomplete="off" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre">
+								<small class="error hide">Mot de passe invalide (minimum 7 caract&egrave;res dont un chiffre)</small>
+							</div>
+							<div>
+								<label for="confirmPassword">Confirmation du mot de passe&nbsp;<sup	class="medium red">*</sup></label>
+								<input id="confirmPassword" class="validation" type="password" maxlength="20" autocomplete="off" placeholder="Minimum 7 caract&egrave;res, une minuscule et un chiffre">
+								<small class="error hide">Confirmation du mot de passe incorrect</small>
+							</div>
+							<input class="button right" id="confirm" type="submit" value="Valider">
+						</fieldset>
+					</form>
+				</section>

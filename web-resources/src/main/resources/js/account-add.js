@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("main > header").after(loadfile($loc.tmpl + "account.tmpl"));
+$("main > header").after(loadfile($loc.tmpl + "account-add.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

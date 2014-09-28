@@ -318,7 +318,7 @@
 					}
 					CKEDITOR.instances["classic_editor"].destroy(); // Destroy classic editor instance
 					CKEDITOR.replace("classic_editor", { // Reinitialize classic editor instance with rubric class
-						customConfig : $cke_config_path + "editor_settings.js",
+						customConfig : $cke_config_path + "conf-cke.js",
 						contentsCss : "css/loap-main.css",
 						bodyClass : "article " + cls,
 						toolbarLocation : "bottom"
@@ -485,7 +485,7 @@
 			$(document).foundation();
 			// Initialize classic CKEditor with custom config
 			CKEDITOR.replace("classic_editor", {
-				customConfig : $cke_config_path + "editor_settings.js",
+				customConfig : $cke_config_path + "conf-cke.js",
 				contentsCss : "css/loap-main.css",
 				bodyClass : "article",
 				toolbarLocation : "bottom"
@@ -493,7 +493,7 @@
 			// Initialize inline CKEditor with custom config
 			CKEDITOR.disableAutoInline = true;
 			CKEDITOR.inline("inline_editor", {
-				customConfig : $cke_config_path + "editor_settings.js",
+				customConfig : $cke_config_path + "conf-cke.js",
 				extraAllowedContent : {"span" : {classes : "placeholder"}},
 				contentsCss : "css/loap-main.css",
 			});

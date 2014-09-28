@@ -13,8 +13,8 @@ var articles_filters_prefs_defaults = { // Les filtres d'affichage de la liste d
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var short_article_tmpl = doT.compile(loadfile($loc.tmpl + "shortArticle.tmpl"));
-var articles_tmpl = doT.compile(loadfile($loc.tmpl + "articles.tmpl"));
+var short_article_tmpl = doT.compile(loadfile($loc.tmpl + "article-item.tmpl"));
+var articles_tmpl = doT.compile(loadfile($loc.tmpl + "article-list.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

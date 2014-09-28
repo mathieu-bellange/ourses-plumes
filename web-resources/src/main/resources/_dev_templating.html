@@ -81,8 +81,8 @@
 			load();
 		</script>
 		<script>
-			var test_data = JSON.parse(loadfile($loc.json + "dev_templating.json")), // define data
-					test_template = loadfile($loc.tmpl + "dev_templating.tmpl"), // define template
+			var test_data = JSON.parse(loadfile($loc.json + "_dev_templating.json")), // define data
+					test_template = loadfile($loc.tmpl + "_dev_templating.tmpl"), // define template
 					test_compile = doT.compile(test_template); // compile template
 			$("#dev_external_templating").append(test_compile(test_data)); // apply compiled data to DOM
 		</script>

@@ -539,7 +539,7 @@ jQuery.fn.extend({
 							obj.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
-								$(this).after(doT.compile(loadfile($loc.tmpl + "confirmation_bar.tmpl"))); // insert confirmation_bar template
+								$(this).after(doT.compile(loadfile($loc.tmpl + "snippet_confirmation_bar.tmpl"))); // insert confirmation_bar template
 								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
 								$(".validation-bar").fadeIn("slow");
 							}
@@ -588,7 +588,7 @@ var loap = (function() {
  */
 
 /* Create Alert Box */
-var alert_box_template = doT.compile(loadfile($loc.tmpl + "alert_box.tmpl"));
+var alert_box_template = doT.compile(loadfile($loc.tmpl + "snippet_alert_box.tmpl"));
 function createAlertBox(msg, cls, id, scroll) {
 	var msg = msg || $msg.error, cls = cls || "error", id = id || "alert_box", scroll = scroll || true;
 	if ($("#" + id).length === 0) {
@@ -771,7 +771,7 @@ if ($build.container) {
 	$("#main").append("<main class='main-pane'>");
 	// Process toolbar template
 	if (typeof $build.toolbar !== undefined && $build.toolbar == true) {
-		$("body").prepend(doT.compile(loadfile($loc.tmpl + "toolbar.tmpl")));
+		$("body").prepend(doT.compile(loadfile($loc.tmpl + "_dev_toolbar.tmpl")));
 	}
 	// Process sidebar template
 	$("#main").prepend(doT.compile(loadfile($loc.tmpl + "sidebar.tmpl")));

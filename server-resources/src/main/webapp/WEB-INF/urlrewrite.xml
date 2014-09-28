@@ -13,71 +13,69 @@
 
 	<!--Redirections HTML-->
 	<rule>
-		<note>redirection vers la page d'ajout d'un bug github</note>
-		<from>^/bug-tracker$</from>
-		<to>/bug-tracker.html</to>
-	</rule>
-
-	<rule>
-		<note>redirection vers la page du compte</note>
-		<from>^/comptes/nouveau$</from>
-		<to>/account.html</to>
-	</rule>
-	
-	<rule>
-		<note>redirection vers la page de modification de mon compte</note>
-		<from>^/parametres/compte$</from>
-		<to>/updateAccount.html</to>
-	</rule>
-	
-	<rule>
-		<note>redirection vers la page de modification de mon profil</note>
-		<from>^/parametres/profil$</from>
-		<to>/updateProfile.html</to>
-	</rule>
-	
-	<rule>
-		<note>redirection vers la page d'un profil</note>
-		<from>^/profils/(.*)$</from>
-		<to>/profile.html</to>
-	</rule>
-
-	<rule>
-		<note>redirection vers la page des listes de comptes</note>
-		<from>^/comptes$</from>
-		<to>/accounts.html</to>
-	</rule>
-	
-	<rule>
 		<note>redirection vers la page de connexion</note>
 		<from>^/connexion$</from>
 		<to>/login.html</to>
-	</rule>
-	
+	</rule>	
+
 	<rule>
-		<note>redirection vers la page de création d'un article</note>
-		<from>^/articles/nouveau$</from>
-		<to>/editor.html</to>
+		<note>redirection vers la page d'ajout d'un bug github</note>
+		<from>^/bug/nouveau$</from>
+		<to>/bug-add.html</to>
 	</rule>
-	
+
+	<rule>
+		<note>redirection vers la liste des comptes</note>
+		<from>^/comptes$</from>
+		<to>/account-list.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page de création d'un compte</note>
+		<from>^/comptes/nouveau$</from>
+		<to>/account-add.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page de modification de mon compte</note>
+		<from>^/parametres/compte$</from>
+		<to>/account-edit.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page d'affichage d'un profil</note>
+		<from>^/profils/(.*)$</from>
+		<to>/profile-view.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page de modification de mon profil</note>
+		<from>^/parametres/profil$</from>
+		<to>/profile-edit.html</to>
+	</rule>
+
 	<rule>
 		<note>redirection vers la liste des articles</note>
 		<from>^/articles$</from>
-		<to>/articles.html</to>
-	</rule>
-	
-	
-	<rule>
-		<note>redirection vers la page d'un article</note>
-		<from>^/articles/(.*)/(.*)$</from>
-		<to>/article.html</to>
-	</rule>
-	
-	<rule>
-		<note>redirection vers la page d'update d'un article</note>
-		<from>^/articles/([0-9]+)$</from>
-		<to>/editor.html</to>
+		<to>/article-list.html</to>
 	</rule>
 
+	<rule>
+		<note>redirection vers la page de création d'un article</note>
+		<from>^/articles/nouveau$</from>
+		<to>/article-edit.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page d'affichage d'un article</note>
+		<from>^/articles/(.*)/(.*)$</from>
+		<to>/article-view.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page de modification d'un article</note>
+		<from>^/articles/([0-9]+)$</from>
+		<to>/article-edit.html</to>
+	</rule>
 
 </urlrewrite>

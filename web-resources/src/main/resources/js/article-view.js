@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($loc.tmpl + "article.tmpl"));
+var template = doT.compile(loadfile($loc.tmpl + "article-view.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
