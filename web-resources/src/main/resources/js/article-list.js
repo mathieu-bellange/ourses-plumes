@@ -304,7 +304,7 @@ function recallArticle(id) {
 function displayArticles() {
 	$.ajax({
 		type : "GET",
-		url : "/rest/articles",
+		url : "/rest/articles" + window.location.search,
 		beforeSend: function(request) {
 			header_authentication(request);
 		},
