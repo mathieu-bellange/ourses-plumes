@@ -6,117 +6,9 @@
  */
 
 /* ------------------------------------------------------------------ */
-/* # Public Variables */
+/* # Public methods */
 /* ------------------------------------------------------------------ */
 
-/* Whois */
-$org_url                = "http://www.ourses-plumes.org/";      // String   Set organization URL.
-$org_name               = "Les Ourses à plumes";                // String   Set organization name.
-$app_name               = "Webzine féministe";                  // String   Set application name.
-$app_ver                = "1.0.1";                              // String   Set application version.
-$app_kwd                = ["Webzine", "Féminisme"];             // Array    Set application keywords.
-$app_desc               = "Un webzine féministe.";              // String   Set application keywords.
-$app_genr               = null;                                 // String   Set application generator (i.e. the software used for dev).
-
-/* Organization */
-$org = {
-	"mail" : "mailto:oursesaplumes@gmail.com",
-	"newsletter" : null,
-	"mailinglist" : null,
-	"twitter" : "https://twitter.com/OursesaPlumes",
-	"facebook" : "https://www.facebook.com/pages/Les-Ourses-%C3%A0-plumes/223829591145074",
-	"wordpress" : "http://incubateurdesourses.wordpress.com/",
-};
-
-/* Utility */
-$build_compress         = false;                                // Boolean  Compress generated content (i.e. remove tabs and line ends). Default = false
-$build_container        = true;                                 // Boolean  Generate container elements (i.e. sidebar, header, footer). Default = true
-$build_icons            = true;                                 // Boolean  Generate inline SVG icons into the document. Default = true
-$dev_toolbar            = true;                                 // Boolean  Create dev toolbar. Default = false
-$free_log               = false;                                // Boolean  Disable abide validation for logger. Default = false
-$css_fx                 = true;                                 // Boolean  Enable CSS effects. Default = true
-$js_fx                  = true;                                 // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default = true
-$lib_ext                = "";                                   // String   JS libraries additional extension. Default = ".min"
-$null_link              = "javascript:void(0)";                 // String   Set null link value. Default = "javascript:void(0)"
-$page_title             = null;                                 // String   Register page title. Default = null
-
-/* Security */
-$oursesAuthcToken       = "oursesAuthcToken";                   // String   Key of the authentication token. Default = "oursesAuthcToken"
-$oursesUserPseudo       = "oursesUserPseudo";                   // String   Key of the User pseudo. Default = "oursesUserPseudo"
-$oursesUserRole         = "oursesUserRole";                     // String   Key of the User role. Default = "oursesUserRole"
-$oursesAccountId        = "oursesAccountId";                    // String   Key of the User account id. Default = "oursesAccountId"
-$oursesProfileId        = "oursesProfileId";                    // String   Key of the User account id. Default = "oursesProfileId"
-$oursesAvatarPath       = "oursesAvatarPath";                   // String   Key of the Avatar path. Default = "oursesAvatarPath"
-$redir_param            = "?redirection=";                      // String   URL param in the login page. Use for the redirection. Default = "?redirection="
-$role_admin             = "admin"                               // String   Admin role. Default = "Administratrice"
-$role_redac             = "writer"                              // String   Redacter role. Default = "Rédactrice"
-
-/* Navigation */
-$login_page             = "/connexion";                         // String   URL of the login page. Default = "/connexion"
-$accounts_page          = "/comptes";                           // String   URL of the accounts page Default = "/comptes"
-$bug_tracker_page       = "/bug-tracker";                       // String   URL of the bug tracker page Default = "/bug-tracker"
-$home_page              = "/";                                  // String   URL of the home page Default = "/"
-$my_account_page        = "/parametres/compte";                 // String   URL of my account page Default = "/parametres/compte"
-$my_profile_page        = "/parametres/profil";                 // String   URL of my profile page Default = "/parametres/profil"
-$articles               = "/articles";                          // String   URL of list of articles page Default = "/articles"
-$new_article            = "/articles/nouveau";                  // String   URL of a new article Default = "/articles/nouveau"
-
-$app_root               = "/";                                  // String   Set application base URL. Default = "/"
-$js_root                = $app_root + "js/";                    // String   Set js root. Default = "/js/"
-$css_root               = $app_root + "css/";                   // String   Set js root. Default = "/css/"
-$img_root               = $app_root + "img/";                   // String   Set js root. Default = "/img/"
-
-$app_path               = {                                     // Object   Set application path to files.
-	js: $app_root + "js/",                                        // String   Path to scripts. Default = "/js/"
-	css: $app_root + "css/",                                      // String   Path to style sheets. Default = "/css/"
-	img: $app_root + "img/",                                      // String   Path to images. Default = "/img/"
-	fnt: $app_root + "fnt/",                                      // String   Path to fonts. Default = "/fnt/"
-	tmpl: $app_root + "tmpl/"                                     // String   Path to templates. Default = "/tmpl/"
-};
-
-/* Internal */
-$svg_icons_file         = $app_path.img + "ui/ui-iconset.svg";  // String   Store URL of SVG icons file. Default = "img/ui/ui-iconset.svg"
-$svg_icons_fx_file      = $app_path.css + "loap-icons-fx.css";  // String   Store URL of SVG icons effects file. Default = "css/loap-icons-fx.css"
-
-/* Messages */
-$app_msg                = {                                     // Object   Define generic application messages.
-	"error" : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
-	"tag_dup" : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
-	"tag_max" : "Maximum de tags autoris&eacute;s atteint.",
-	"char_illegal" : "Caract&egrave;re invalide&thinsp;!",
-	"form_invalid" : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
-	"form_incomplete" : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
-	"article_deleted" : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
-	"article_offcheck" : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
-	"article_offline" : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
-	"account_updated" : "Compte mis &agrave; jour avec succ&egrave;s",
-	"something_weird_happened" : "Un truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
-}
-
-/* Timing */
-var $months = [                                                 // Array    Define literals for months.
-	"janvier",                                                    // String   Set January literal. Default "janvier"
-	"février",                                                    // String   Set February literal. Default "février"
-	"mars",                                                       // String   Set March literal. Default "mars"
-	"avril",                                                      // String   Set April literal. Default "avril"
-	"mai",                                                        // String   Set May literal. Default "mai"
-	"juin",                                                       // String   Set June literal. Default "juin","
-	"juillet",                                                    // String   Set July literal. Default "juillet"
-	"août",                                                       // String   Set August literal. Default "août"
-	"septembre",                                                  // String   Set September literal. Default "septembre"
-	"octobre",                                                    // String   Set October literal. Default "octobre"
-	"novembre",                                                   // String   Set November literal. Default "novembre"
-	"décembre"                                                    // String   Set December literal. Default "décembre"
-];
-
-/* User prefs */
-$user_prefs_articles_filters = "oursesUserPrefsFiltersArticles" // String   Key of the articles filters user preferences in local storage. Default = "oursesUserPrefsFiltersArticles"
-
-/* ------------------------------------------------------------------ */
-/* # Navigation map relocation */
-/* ------------------------------------------------------------------ */
-
-/* Methods */
 function isFileProtocol() {
 	if (window.location.href.split("/")[0].slice(0,4) === "file") {
 		return true;
@@ -129,15 +21,149 @@ function isLocalHost() {
 	}
 }
 
-/* Processing */
-if (isFileProtocol()) {
-	$app_root = ""; // Set relative base URL while serverless
-	$js_root = "js/";
-	$css_root = "css/";
-	$img_root = "img/";
-	$svg_icons_file = "img/ui/ui-iconset.svg";
-	$svg_icons_fx_file = "css/loap-icons-fx.css";
+/* ------------------------------------------------------------------ */
+/* # Public variables */
+/* ------------------------------------------------------------------ */
+
+/* Organization */
+$org = {
+	"name"               : "Les Ourses à plumes",                 // String   Organization name.
+	"d_name"             : "http://www.ourses-plumes.org/",       // String   Organization domain name.
+	"mail"               : "mailto:oursesaplumes@gmail.com",      // String   Organization mail.
+	"newsletter"         : null,                                  // String   Organization newsletter.
+	"mailinglist"        : null,                                  // String   Organization mailinglist.
+	"twitter"            : "https://twitter.com/OursesaPlumes",
+	"facebook"           : "https://www.facebook.com/pages/Les-Ourses-%C3%A0-plumes/223829591145074",
+	"wordpress"          : "http://incubateurdesourses.wordpress.com/"
+};
+
+/* Application */
+$app = {
+	"name"               : "Webzine féministe",                   // String   Application name.
+	"ver"                : "1.0.1",                               // String   Application version.
+	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev", "test" or "rtw" (release to web).
+	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
+	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
+	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
+	"root"               : isFileProtocol() ? "" : "/",           // String   Application base URL. Default : "/"
+};
+
+/* Authentication */
+$auth = {
+	"token"              : "oursesAuthcToken",                    // String   Local storage key of the authentication token. Default : "oursesAuthcToken"
+	"user_name"          : "oursesUserPseudo",                    // String   Local storage key of the user name. Default : "oursesUserPseudo"
+	"user_role"          : "oursesUserRole",                      // String   Local storage key of the user role. Default : "oursesUserRole"
+	"account_id"         : "oursesAccountId",                     // String   Local storage key of the user account id. Default : "oursesAccountId"
+	"profile_id"         : "oursesProfileId",                     // String   Local storage key of the user profile id. Default : "oursesProfileId"
+	"avatar_path"        : "oursesAvatarPath",                    // String   Local storage key of the avatar path. Default : "oursesAvatarPath"
+	"redir_param"        : "?redirection=",                       // String   Parameter added to the login page URL for the redirection. Default : "?redirection="
+	"role_admin"         : "admin",                               // String   Administrator user level access key. Default : "admin"
+	"role_redac"         : "writer"                               // String   Moderator user level access key. Default : "writer"
+};
+
+/* Build */
+$build = {
+	"compress"           : false,                                 // Boolean  Compress generated content (i.e. remove tabs and line ends). Default : true
+	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
+	"toolbar"            : true,                                  // Boolean  Create dev toolbar. Default : false
+	"icons"              : true                                   // Boolean  Create SVG icons. Default : true
+};
+
+/* Configuration */
+$conf = {
+	"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
+	"css_fx"             : true,                                  // Boolean  Enable CSS effects on HTML elements (i.e. multiple backgrounds, transitions, animations, box shadows, text shadows and ribbons). Default : true
+	"js_fx"              : true,                                  // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default : true
+	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
+	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
+	"null_links"         : false,                                 // Boolean  Show or not null links. Default : false * NOT YET IMPLEMENTED !
+	"page_title"         : true                                   // Boolean  Show or not page title. Default : true * NOT YET IMPLEMENTED !
 }
+
+/* Constants */
+$const = {
+	"days" : [                                                    // Array    Define literals for days.
+		"lundi",                                                    // String   Set Monday literal.
+		"mardi",                                                    // String   Set Tuesday literal.
+		"mercredi",                                                 // String   Set Wenesday literal.
+		"jeudi",                                                    // String   Set Thursday literal.
+		"vendredi",                                                 // String   Set Friday literal.
+		"samedi",                                                   // String   Set Saturday literal.
+		"dimanche",                                                 // String   Set Sunday literal.
+	],
+	"months" : [                                                  // Array    Define literals for months.
+		"janvier",                                                  // String   Set January literal.
+		"février",                                                  // String   Set February literal.
+		"mars",                                                     // String   Set March literal.
+		"avril",                                                    // String   Set April literal.
+		"mai",                                                      // String   Set May literal.
+		"juin",                                                     // String   Set June literal.
+		"juillet",                                                  // String   Set July literal.
+		"août",                                                     // String   Set August literal.
+		"septembre",                                                // String   Set September literal.
+		"octobre",                                                  // String   Set October literal.
+		"novembre",                                                 // String   Set November literal.
+		"décembre"                                                  // String   Set December literal.
+	]
+}
+
+/* Location */
+$loc = {                                                        // Object   Set application path to files.
+	"js"                    : $app.root + "js/",                  // String   Path to scripts. Default : "/js/"
+	"css"                   : $app.root + "css/",                 // String   Path to style sheets. Default : "/css/"
+	"img"                   : $app.root + "img/",                 // String   Path to images. Default : "/img/"
+	"fnt"                   : $app.root + "fnt/",                 // String   Path to web fonts. Default : "/fnt/"
+	"json"                  : $app.root + "json/",                // String   Path to JSON objects. Default : "/json/"
+	"tmpl"                  : $app.root + "tmpl/"                 // String   Path to templates. Default : "/tmpl/"
+};
+
+/* Images */
+$img = {
+	"ico"                   : $loc.img + "ico/",                  // String   Path to web icons. Default : "/img/ico/"
+	"pub"                   : $loc.img + "pub/",                  // String   Path to public images. Default : "/img/pub/"
+	"svg"                   : $loc.img + "svg/",                  // String   Path to scalable vectors graphics. Default : "/img/svg/"
+	"ui"                    : $loc.img + "ui/",                   // String   Path to user interface graphics. Default : "/img/ui/"
+	"usr"                   : $loc.img + "usr/",                  // String   Path to user pictures. Default : "/img/usr/"
+	"web"                   : $loc.img + "web/"                   // String   Path to web images. Default : "/img/web/"
+}
+
+/* Files */
+$file = {
+	"icons"                 : $img.ui + "ui-iconset.svg",         // String   Store URL of SVG icons file. Default : "/img/ui/ui-iconset.svg"
+	"icons_fx"              : $loc.css + "icons-fx.css"           // String   Store URL of SVG icons effects file. Default : "/css/icons-fx.css"
+};
+
+/* Messages */
+$msg = {
+	"error"                 : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
+	"tag_dup"               : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
+	"tag_max"               : "Maximum de tags autoris&eacute;s atteint.",
+	"char_illegal"          : "Caract&egrave;re invalide&thinsp;!",
+	"form_invalid"          : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
+	"form_incomplete"       : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
+	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
+	"article_offcheck"      : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
+	"article_offline"       : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
+	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
+	"sumething_weird"       : "Un esp&egrave;ce de truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
+};
+
+/* Navigation */
+$nav = {
+	"home_page"             : "/",                                // String   URL of the home page Default : "/"
+	"login_page"            : "/connexion",                       // String   URL of the login page. Default : "/connexion"
+	"accounts_page"         : "/comptes",                         // String   URL of the accounts page Default : "/comptes"
+	"articles"              : "/articles",                        // String   URL of list of articles page Default : "/articles"
+	"new_article"           : "/articles/nouveau",                // String   URL of a new article Default : "/articles/nouveau"
+	"my_account_page"       : "/parametres/compte",               // String   URL of my account page Default : "/parametres/compte"
+	"my_profile_page"       : "/parametres/profil",               // String   URL of my profile page Default : "/parametres/profil"
+	"bug_tracker_page"      : "/bug-tracker",                     // String   URL of the bug tracker page Default : "/bug-tracker"
+};
+
+/* Prefs */
+$prefs = {
+	"articles_filters"      : "oursesUserPrefsFiltersArticles"    // String   Local storage key of the articles filters user preferences. Default : "oursesUserPrefsFiltersArticles"
+};
 
 /* ------------------------------------------------------------------ */
 /* # Prebuild processing */
@@ -150,34 +176,33 @@ var IE_conditional_comments = [
 ];
 var head_tags = [
 	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
-	{elem: "meta", attr: {name: "author", content: $org_name}},
-	{elem: "meta", attr: {name: "application-name", content: $app_name}},
-	{elem: "meta", attr: {name: "keywords", content: $app_kwd.toString()}},
-	{elem: "meta", attr: {name: "description", content: $app_desc}},
-	{elem: "meta", attr: {name: "generator", content: $app_genr}},
-	{elem: "link", attr: {href: $app_root + "img/ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
-	//{elem: "link", attr: {href: $app_root + "css/normalize.css", rel: "stylesheet"}}, // UNUSED
-	{elem: "link", attr: {href: $app_root + "css/foundation.css", rel: "stylesheet"}},
-	{elem: "link", attr: {href: $app_root + "css/loap-main.css", rel: "stylesheet"}},
-	{elem: "link", attr: {href: $app_root + "css/loap-icons.css", rel: "stylesheet"}},
-	{elem: "link", attr: {href: $app_root + "css/loap-fx.css", rel: "stylesheet"}},
-	{elem: "script", attr: {src: $app_root + "js/modernizr/modernizr" + $lib_ext +".js"}},
-	{elem: "script", attr: {src: $app_root + "js/jquery/jquery-2.x" + $lib_ext + ".js"}},
-	{elem: "script", attr: {src: $app_root + "js/jquery/jquery.autosize" + $lib_ext + ".js"}},
-	{elem: "script", attr: {src: $app_root + "js/dot/dot" + $lib_ext + ".js"}},
-	{elem: "script", attr: {src: $app_root + "js/dot/dot.settings.js"}},
+	{elem: "meta", attr: {name: "author", content: $org.name}},
+	{elem: "meta", attr: {name: "application-name", content: $app.name}},
+	{elem: "meta", attr: {name: "keywords", content: $app.kwd.toString()}},
+	{elem: "meta", attr: {name: "description", content: $app.desc}},
+	{elem: "meta", attr: {name: "generator", content: $app.genr}},
+	{elem: "link", attr: {href: $loc.img + "ico/loap-icon-64x64.png", rel: "icon", type: "image/x-icon"}},
+	{elem: "link", attr: {href: $loc.css + "normalize.css", rel: "stylesheet"}},
+	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
+	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
+	{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
+	{elem: "script", attr: {src: $loc.js + "modernizr/modernizr" + $conf.lib_ext +".js"}},
+	{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
+	{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
+	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
+	{elem: "script", attr: {src: $loc.js + "dot/dot.settings.js"}},
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
 	{elem: "!--[gt IE 9]", text: IE_conditional_comments[2] + lb() + tb(2) + "<![endif]-->"}
 ];
 var body_tags = [
-	{elem: "script", attr: {src: $app_root + "js/loap.js"}},
-	{elem: "script", attr: {src: $app_root + "js/foundation/foundation.lib.js"}}
+	{elem: "script", attr: {src: $loc.js + "loap.js"}},
+	{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js"}},
 ];
 
 /* Prebuild methods */
 function p_char(n, c) { // Print Character (n.b. for local use only)
 	var s = "";
-	if ($build_compress == false) {
+	if ($build.compress == false) {
 		for (var i = 0; i < n; i++) {
 			s += c;
 		}
@@ -217,7 +242,7 @@ function b_html(array) { // Build HTML Elements
 
 function load(script) { // Define Postbuild Processing
 	if (typeof script !== "undefined") {
-		body_tags.splice(-1, 0, {elem: "script", attr: {src: $js_root + script}});
+		body_tags.splice(-1, 0, {elem: "script", attr: {src: $loc.js + script}});
 	}
 	document.write(b_html(body_tags));
 }
@@ -308,13 +333,13 @@ function isAuthenticated() {
 		var redirection = window.location.pathname;
 		xhr.open("GET", "/rest/authc/connected", false); // define request arguments
 		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401){
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				var loginParam = $redir_param + redirection;
-				window.location.href = $login_page + loginParam;
+				var loginParam = $auth.redir_param + redirection;
+				window.location.href = $nav.login_page + loginParam;
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error
@@ -329,17 +354,17 @@ function isAdministratrice() {
 		var redirection = window.location.pathname;
 		xhr.open("GET", "/rest/authz/isadmin", false); // define request arguments
 		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401){
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				var loginParam = $redir_param + redirection;
-				window.location.href = $login_page + loginParam;
+				var loginParam = $auth.redir_param + redirection;
+				window.location.href = $nav.login_page + loginParam;
 			}
 			else if (xhr.status == 403){
 				console.log("Forbidden ! Redirect to the login page."); // unauthorized
-				window.location.href = $home_page;
+				window.location.href = $nav.home_page;
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error
@@ -354,17 +379,17 @@ function isRedactrice() {
 		var redirection = window.location.pathname;
 		xhr.open("GET", "/rest/authz/isredac", false); // define request arguments
 		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // set authc token
+		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401){
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				var loginParam = $redir_param + redirection;
-				window.location.href = $login_page + loginParam;
+				var loginParam = $auth.redir_param + redirection;
+				window.location.href = $nav.login_page + loginParam;
 			}
 			else if (xhr.status == 403){
 				console.log("Forbidden ! Redirect to the login page."); // unauthorized
-				window.location.href = $home_page;
+				window.location.href = $nav.home_page;
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error

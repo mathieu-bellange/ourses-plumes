@@ -17,7 +17,7 @@
 
 /* Scroll to (object) */
 function scrollTo(object, duration, spacing) {
-	var duration = $js_fx ? (typeof duration !== "undefined" ? duration : 0) : 0;
+	var duration = $conf.js_fx ? (typeof duration !== "undefined" ? duration : 0) : 0;
 	var spacing = spacing || 0;
 	if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
 		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
@@ -33,7 +33,7 @@ function scrollTo(object, duration, spacing) {
 /* Force focus */
 function force_focus(selector) {
 	$(selector).focus();
-	if ($js_fx) {
+	if ($conf.js_fx) {
 		$(selector)
 			.animate({"opacity" : ".25"}, 125)
 			.animate({"opacity" : "1"}, 250);
@@ -223,7 +223,7 @@ jQuery.fn.extend({
 			// bind events
 			$(this).bind({
 				blur: function() {
-					$js_fx ? $(this).find(settings.options).slideUp(settings.slide_duration) : $(this).find(settings.options).hide();
+					$conf.js_fx ? $(this).find(settings.options).slideUp(settings.slide_duration) : $(this).find(settings.options).hide();
 				},
 				keydown: function(event) {
 					// var str = $(this).find(settings.options + " > li.selected").text();
@@ -231,7 +231,7 @@ jQuery.fn.extend({
 						$(this).blur();
 					}
 					if (event.which == 13 || event.which == 32) { // Enter or Space
-						if ($js_fx) {
+						if ($conf.js_fx) {
 							$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
 								scrollTo($(self), false, $(self).find(settings.select).outerHeight());
 							});
@@ -283,7 +283,7 @@ jQuery.fn.extend({
 				}
 			});
 			$(this).on("click", settings.select, function() {
-				if ($js_fx) {
+				if ($conf.js_fx) {
 					$(this).next(settings.options).slideToggle(settings.slide_duration, function() {
 						scrollTo($(self), false, $(self).find(settings.select).outerHeight());
 					});
@@ -298,7 +298,7 @@ jQuery.fn.extend({
 					$(this).addClass("selected");
 					$(this).siblings().removeClass("selected");
 					$(this).parent(settings.options).prev(settings.select).text(str);
-					$js_fx ? $(this).parent(settings.options).slideToggle(settings.slide_duration) : $(this).parent(settings.options).toggle();
+					$conf.js_fx ? $(this).parent(settings.options).slideToggle(settings.slide_duration) : $(this).parent(settings.options).toggle();
 				}
 			});
 		});
@@ -324,7 +324,7 @@ jQuery.fn.extend({
 			if (settings.accepted_chars_list.test($(selector).val())) {
 				$(selector).css("margin-bottom", "0");
 				$(selector).nextAll("small.error").first().css("margin-bottom", error_margin);
-				$(selector).set_validation(false, $app_msg.char_illegal);
+				$(selector).set_validation(false, $msg.char_illegal);
 			} else if ($(selector).attr("data-invalid") == "true") {
 				// DO nothing ! An error from elsewhere is triggered
 			} else if ($(selector).val().length === 0) {
@@ -539,7 +539,7 @@ jQuery.fn.extend({
 							obj.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
-								$(this).after(doT.compile(loadfile($app_root + "tmpl/confirmation_bar.tmpl"))); // insert confirmation_bar template
+								$(this).after(doT.compile(loadfile($loc.tmpl + "confirmation_bar.tmpl"))); // insert confirmation_bar template
 								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
 								$(".validation-bar").fadeIn("slow");
 							}
@@ -588,9 +588,9 @@ var loap = (function() {
  */
 
 /* Create Alert Box */
-var alert_box_template = doT.compile(loadfile($app_root + "tmpl/alert_box.tmpl"));
+var alert_box_template = doT.compile(loadfile($loc.tmpl + "alert_box.tmpl"));
 function createAlertBox(msg, cls, id, scroll) {
-	var msg = msg || $app_msg.error, cls = cls || "error", id = id || "alert_box", scroll = scroll || true;
+	var msg = msg || $msg.error, cls = cls || "error", id = id || "alert_box", scroll = scroll || true;
 	if ($("#" + id).length === 0) {
 		$("main > header").after(alert_box_template({"id" : id, "class" : cls, "text" : msg}));
 		$("#" + id).svg_icons(); // set svg icons contained by alert box
@@ -636,7 +636,7 @@ function dateToString(date) {
 	if (date.getDate() === 1) {
 		day += "er";
 	}
-	month = $months[date.getMonth()];
+	month = $const.months[date.getMonth()];
 	return day + " " + month + " " + year;
 }
 
@@ -647,28 +647,28 @@ function dateToHTML(date) {
 
 /* Update user menu user name */
 function update_user_pseudo(pseudo) {
-	window.localStorage.setItem($oursesUserPseudo, pseudo);
+	window.localStorage.setItem($auth.user_name, pseudo);
 	$(".user-name").html(pseudo);
 }
 
 /* Update user menu user picture */
 function update_user_avatar(pathAvatar) {
-	window.localStorage.setItem($oursesAvatarPath, pathAvatar);
+	window.localStorage.setItem($auth.avatar_path, pathAvatar);
 	$("#user-avatar").attr("data-image",pathAvatar);
 	loap.update();
 }
 
 /* Check authentication before sending AJAX requests */
 function header_authentication(xhr) {
-	if (window.localStorage.getItem($oursesAuthcToken) !== undefined) {
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($oursesAuthcToken)); // check authc token
+	if (window.localStorage.getItem($auth.token) !== undefined) {
+		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // check authc token
 	}
 }
 
 /* Redirect on HTTP response status unauthorized after AJAX request */
 function ajax_error(jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {
-		window.location.href = $login_page;
+		window.location.href = $nav.login_page;
 	}
 }
 
@@ -685,13 +685,13 @@ var onAuthc = $.ajax({
 
 /* Check if user is an admin according to localStorage -- alias method */
 function isAdmin() {
-	if (window.localStorage.getItem($oursesUserRole) == $role_admin) {
+	if (window.localStorage.getItem($auth.user_role) == $auth.role_admin) {
 		return true;
 	}
 }
 /* Check if user is a writer according to localStorage -- alias method */
 function isRedac() {
-	if (window.localStorage.getItem($oursesUserRole) == $role_redac) {
+	if (window.localStorage.getItem($auth.user_role) == $auth.role_redac) {
 		return true;
 	}
 }
@@ -712,10 +712,10 @@ function set_user_connect(user_logged_in) {
 			$("#user_connect svg use").attr("xlink:href", "#icon-menu");
 		}
 		$("#user_connect").data("enable", "true");
-		$(".fast-nav").after(doT.compile(loadfile($app_root + "tmpl/user_nav.tmpl"))); // Process user menu template
+		$(".fast-nav").after(doT.compile(loadfile($loc.tmpl + "user_nav.tmpl"))); // Process user menu template
 	} else {
 		//$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
-		$("#user_connect").attr("href", $login_page); // ajoute le lien vers la page de connexion
+		$("#user_connect").attr("href", $nav.login_page); // ajoute le lien vers la page de connexion
 		$("#user_connect").parent("span").attr("title", "S&rsquo;identifier");
 		//$("#user_connect").parent("span").attr("data-tooltip");
 		$("#user_connect").removeAttr("data-dropdown");
@@ -732,16 +732,16 @@ function set_user_connect(user_logged_in) {
 
 /* Check user connect */
 function check_user_connect() {
-	if ((window.location.href.indexOf($login_page) == -1) && (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null)) { // if current page != connexion
+	if ((window.location.href.indexOf($nav.login_page) == -1) && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) { // if current page != connexion
 		isAuthenticated(); // check if auth token hasn't expired
 	}
-	if ((window.location.href.indexOf($login_page) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null)) {
+	if ((window.location.href.indexOf($nav.login_page) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) {
 		set_user_connect(true); // enable user connection
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 		$(document).foundation("dropdown"); // reload Foundation Dropdown plugin for whole document (n.b. includes #user_connect and #user_menu)
 		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
 	}
-	if (($("#user_connect").data("enable") == "true") && (window.localStorage.getItem($oursesUserPseudo) === undefined || window.localStorage.getItem($oursesUserPseudo) === null)) {
+	if (($("#user_connect").data("enable") == "true") && (window.localStorage.getItem($auth.user_name) === undefined || window.localStorage.getItem($auth.user_name) === null)) {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
 		set_user_connect(false); // disable user connection
 		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
@@ -759,30 +759,30 @@ function check_user_connect() {
  */
 
 // Process build
-if (typeof $css_fx !== "undefined" && $css_fx == true) {
+if ($conf.css_fx) {
 	$("body").addClass("css-fx");
 }
 
-if (typeof $build_container !== "undefined" && $build_container == true) {
+if ($build.container) {
 	// Apply standard layout (i.e. two columns view) class to body
 	$("body").addClass("standard-layout");
 	// Create HTML skeleton
 	$("body").prepend("<div id='main' class='frame'>");
 	$("#main").append("<main class='main-pane'>");
 	// Process toolbar template
-	if ($dev_toolbar == true) {
-		$("body").prepend(doT.compile(loadfile($app_root + "tmpl/toolbar.tmpl")));
+	if (typeof $build.toolbar !== undefined && $build.toolbar == true) {
+		$("body").prepend(doT.compile(loadfile($loc.tmpl + "toolbar.tmpl")));
 	}
 	// Process sidebar template
-	$("#main").prepend(doT.compile(loadfile($app_root + "tmpl/sidebar.tmpl")));
+	$("#main").prepend(doT.compile(loadfile($loc.tmpl + "sidebar.tmpl")));
 	// Process header template
-	$(".main-pane").prepend(doT.compile(loadfile($app_root + "tmpl/header.tmpl")));
+	$(".main-pane").prepend(doT.compile(loadfile($loc.tmpl + "header.tmpl")));
 
 	// Set user connection depending on browser local storage domain log
-	if (window.location.href.indexOf($login_page) > -1) {
+	if (window.location.href.indexOf($nav.login_page) > -1) {
 		set_user_connect(false);
 	} else {
-		if (window.localStorage.getItem($oursesUserPseudo) !== undefined && window.localStorage.getItem($oursesUserPseudo) !== null) {
+		if (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null) {
 			set_user_connect(true);
 		} else {
 			set_user_connect(false);
@@ -795,9 +795,9 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	});
 
 	// Process footer template
-	$(".main-pane").append(doT.compile(loadfile($app_root + "tmpl/footer.tmpl")));
+	$(".main-pane").append(doT.compile(loadfile($loc.tmpl + "footer.tmpl")));
 	// Process slider template -- this is the tricky part
-	var news_list_tmpl = doT.compile(loadfile($app_root + "tmpl/news_list.tmpl"));
+	var news_list_tmpl = doT.compile(loadfile($loc.tmpl + "news_list.tmpl"));
 	$(document).ready(function() {
 		$(".main-pane > header").append(news_list_tmpl());
 		$(".news-list").foundation("orbit"); // reload Foundation Orbit Slider plugin ; Foundation need to be loaded one time before that for the list to appear inline
@@ -805,10 +805,10 @@ if (typeof $build_container !== "undefined" && $build_container == true) {
 	});
 }
 
-if (typeof $build_icons !== "undefined" && $build_icons == true) {
+if ($build.icons) {
 	// Process SVG Icons
-		$("body").prepend("<style type='text/css'>" + loadfile($svg_icons_fx_file) + "</style>"); // append SVG effects
-		$("body").prepend(loadfile($svg_icons_file)); // append SVG icons
+		$("body").prepend("<style type='text/css'>" + loadfile($file.icons_fx) + "</style>"); // append SVG effects
+		$("body").prepend(loadfile($file.icons)); // append SVG icons
 }
 
 /* ------------------------------------------------------------------ */
@@ -874,7 +874,7 @@ $(document).on("keydown", function(event) {
 
 /* Toolbar CSS Toggle Checker */
 $(document).ready(function() {
-	if (typeof $css_fx !== "undefined" && $css_fx == false) {
+	if (typeof $conf.css_fx !== "undefined" && $conf.css_fx == false) {
 		$("#_css_fx_toggle").addClass("active");
 	}
 });
@@ -1006,15 +1006,15 @@ $("html").on("click", ".disconnect", function() {
 		type : "POST",
 		url : "/rest/authc/logout",
 		contentType : "application/json; charset=utf-8",
-		data : window.localStorage.getItem($oursesAuthcToken),
+		data : window.localStorage.getItem($auth.token),
 		success : function(data, status, jqxhr) {
-			window.localStorage.removeItem($oursesAuthcToken);
-			window.localStorage.removeItem($oursesUserPseudo);
-			window.localStorage.removeItem($oursesUserRole);
-			window.localStorage.removeItem($oursesAccountId);
-			window.localStorage.removeItem($oursesProfileId);
-			window.localStorage.removeItem($oursesAvatarPath);
-			window.location.href = $home_page;
+			window.localStorage.removeItem($auth.token);
+			window.localStorage.removeItem($auth.user_name);
+			window.localStorage.removeItem($auth.user_role);
+			window.localStorage.removeItem($auth.account_id);
+			window.localStorage.removeItem($auth.profile_id);
+			window.localStorage.removeItem($auth.avatar_path);
+			window.location.href = $nav.home_page;
 		},
 		error : function(jqXHR, status, errorThrown) {
 		},
@@ -1324,9 +1324,16 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 
 /* Autosize jQuery plugin custom settings */
 var autosize_cfg = {append: ""};
+var f_tooltip_cfg = {
+	"touch_close_text": "Appuyez pour fermer",
+	"disable_for_touch": true,
+	"hover_delay": 500
+};
 
 /* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */
 $(document).ready(function() {
+	var f = Foundation.libs;
+	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // NOTE : override fucking Foundation fucking libs
 	$("textarea").autosize(autosize_cfg); // WARNING : compatibility need to be checked on IE10
 	loap.init();
 });

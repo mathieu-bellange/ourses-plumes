@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($app_root + "tmpl/article.tmpl"));
+var template = doT.compile(loadfile($loc.tmpl + "article.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -29,8 +29,8 @@ var share = (function() {
 				var article_url = window.location;
 				var article_title = encodeURI($(".article h2.title").text());
 				var article_summary = encodeURI($(".article p.summary").text());
-				var article_source = encodeURI($org_name);
-				var mail_href = "mailto:?subject=" + $org_name + encodeURI(" : ") + article_title + "&body=" + encodeURI("Quelqu'un vous a invité à lire ") + article_title + encodeURI(" sur ") + article_source + encodeURI(" : ") + article_url + encodeURI("\n\nBonne lecture !");
+				var article_source = encodeURI($org.name);
+				var mail_href = "mailto:?subject=" + $org.name + encodeURI(" : ") + article_title + "&body=" + encodeURI("Quelqu'un vous a invité à lire ") + article_title + encodeURI(" sur ") + article_source + encodeURI(" : ") + article_url + encodeURI("\n\nBonne lecture !");
 				$("#share_mail").attr("href", mail_href);
 				var twitter_href = "https://twitter.com/share";
 				$("#share_twitter").attr("href", twitter_href);
@@ -70,7 +70,7 @@ function displayArticle() {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
+				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
 			} else {
 				createAlertBox();
 			}

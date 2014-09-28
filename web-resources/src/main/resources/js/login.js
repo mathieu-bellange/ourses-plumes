@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("main > header").after(doT.compile(loadfile($app_root + "tmpl/login.tmpl")));
+$("main > header").after(doT.compile(loadfile($loc.tmpl + "login.tmpl")));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -30,17 +30,17 @@ function connection(){
 		contentType : "application/json; charset=utf-8",
 		data : authc.json(),
 		success : function(authcUser, textStatus, jqXHR) {
-			window.localStorage.setItem($oursesAccountId, authcUser.accountId);
-			window.localStorage.setItem($oursesProfileId, authcUser.profileId);
-			window.localStorage.setItem($oursesAuthcToken, authcUser.token);
-			window.localStorage.setItem($oursesUserPseudo, authcUser.pseudo);
-			window.localStorage.setItem($oursesUserRole, authcUser.role);
-			window.localStorage.setItem($oursesAvatarPath, authcUser.avatar);
-			var redirection = window.location.search.replace($redir_param, "");
+			window.localStorage.setItem($auth.account_id, authcUser.accountId);
+			window.localStorage.setItem($auth.profile_id, authcUser.profileId);
+			window.localStorage.setItem($auth.token, authcUser.token);
+			window.localStorage.setItem($auth.user_name, authcUser.pseudo);
+			window.localStorage.setItem($auth.user_role, authcUser.role);
+			window.localStorage.setItem($auth.avatar_path, authcUser.avatar);
+			var redirection = window.location.search.replace($auth.redir_param, "");
 			if (redirection != "") {
 				window.location.href = redirection;
 			} else {
-				window.location.href = $home_page;
+				window.location.href = $nav.home_page;
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {

@@ -14,13 +14,13 @@
 											<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
 										</p>
 										{{? data.status == "BROUILLON" }}
-											{{? data.profile.id == window.localStorage.getItem($oursesProfileId)}}
+											{{? data.profile.id == window.localStorage.getItem($auth.profile_id)}}
 												<a href="{{= data.path }}">Lire l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" style="cursor: default;"></a>
 											{{?}}
 										{{?? data.status == "AVERIFIER"}}
-											{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+											{{? window.localStorage.getItem($auth.user_role) == $auth.role_admin}}
 												<a href="{{= data.path }}">Lire l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" style="cursor: default;"></a>
@@ -32,20 +32,20 @@
 										<div class="validate" style="display: none;">
 											<!--delete for Drafts-->
 											<button class="small" data-delete="{{= data.id }}">Supprimer</button>
-											{{? data.profile.id == window.localStorage.getItem($oursesProfileId)}}
+											{{? data.profile.id == window.localStorage.getItem($auth.profile_id)}}
 												<button class="alert small" data-validate="{{= data.id }}">Valider</button>
 											{{?}}
 										</div>
 										{{?? data.status == "AVERIFIER" }}
 											<!--Validation for Standbys-->
 											<div class="validate" style="display: none;">
-												{{? window.localStorage.getItem($oursesUserRole) == $role_admin}}
+												{{? window.localStorage.getItem($auth.user_role) == $auth.role_admin}}
 													<button class="small success" data-publish="{{= data.id }}">Publier</button>
 												{{?}}
 												<button class="alert small" data-invalidate="{{= data.id }}">Invalider</button>
 											</div>
 										{{?? data.status == "ENLIGNE" }}
-											{{? window.localStorage.getItem($oursesUserRole) == $role_admin || data.profile.id == window.localStorage.getItem($oursesProfileId)}}
+											{{? window.localStorage.getItem($auth.user_role) == $auth.role_admin || data.profile.id == window.localStorage.getItem($auth.profile_id)}}
 												<div class="validate" style="display: none;">
 													<!--Validation for Standbys-->
 													<button class="small success" data-recall="{{= data.id }}">Rappeler</button>

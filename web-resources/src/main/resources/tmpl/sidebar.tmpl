@@ -1,11 +1,11 @@
 ﻿			<!--Main Title-->
-			<h1 class="text-center print-only">Les Ourses &agrave; plumes</h1>
-			<h4 class="text-center print-only">{{= $org_url }}</h4>
+			<h1 class="text-center print-only">{{= $org.name }}</h1>
+			<h4 class="text-center print-only">{{= $org.d_name }}</h4>
 			<!--Nav Pane-->
 			<aside class="nav-pane text-center hide-for-print">
 				<!--Logo-->
 				<div class="logo">
-					<a href="{{= $home_page }}"><span></span></a>
+					<a href="{{= $nav.home_page }}"><span></span></a>
 				</div>
 				<!--Main Navigation-->
 				<h2 class="hide">Navigation interne</h2>
@@ -13,9 +13,9 @@
 				<h4 class="hide">Sections</h4>
 				<nav class="main-nav">
 					<ul>
-						<li><a href="{{= $articles }}">Articles</a></li>
+						<li><a href="{{= $nav.articles }}">Articles</a></li>
 						<li><a href="javascript:void(0)" class="disabled">Agenda</a></li>
-						<li><a href="{{= $app_root + 'about.html' }}">FAQ</a></li>
+						<li><a href="{{= $app.root + 'about.html' }}">FAQ</a></li>
 						<li><a href="javascript:void(0)" class="disabled">Nos copines</a></li>
 						<li><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
 					</ul>

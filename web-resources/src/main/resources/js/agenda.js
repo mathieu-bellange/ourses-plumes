@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("main > header").after(loadfile($app_root + "tmpl/agenda.tmpl"));
+$("main > header").after(loadfile($loc.tmpl + "agenda.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -29,14 +29,14 @@ $("html").on("mouseenter", ".date-table .href-block.has-event", function() {
 			handler.css("width", handler.outerWidth());
 			handler.css("position", "absolute");
 			handler.css("z-index", "10");
-			$js_fx ? handler.children(".event-list").slideDown("fast") : handler.children(".event-list").show();
+			$conf.js_fx ? handler.children(".event-list").slideDown("fast") : handler.children(".event-list").show();
 		}
 	}, 400);
 });
 $("html").on("mouseleave", ".date-table .href-block.has-event", function() {
 	$(this).data("hover", false);
 	$(this).removeClass("mouseenter");
-	if ($js_fx) {
+	if ($conf.js_fx) {
 		$(this).children(".event-list").slideUp("slow", function() {
 			$(this).css("position", "relative");
 			$(this).css("z-index", "auto");

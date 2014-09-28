@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("main > header").after(loadfile($app_root + "tmpl/index.tmpl"));
+$("main > header").after(loadfile($loc.tmpl + "index.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

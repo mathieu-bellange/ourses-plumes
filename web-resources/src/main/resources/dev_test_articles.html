@@ -116,7 +116,7 @@
 					<script>
 
 						// DEBUG
-						if (localStorage.getItem($user_prefs_articles_filters) !== null) {
+						if (localStorage.getItem($prefs.articles_filters) !== null) {
 							//console.log("user prefs is defined !"); // DEBUG
 						} else {
 							//console.log("user prefs not defined !"); // DEBUG
@@ -144,16 +144,16 @@
 								usr[n] = $(n).parent("dd").hasClass("active") ? "true" : "false";
 							}
 							//console.log("registered object = " + JSON.stringify(usr)); // DEBUG
-							localStorage.setItem($user_prefs_articles_filters, JSON.stringify(usr));
+							localStorage.setItem($prefs.articles_filters, JSON.stringify(usr));
 						}
 						function get_user_prefs_articles_filters(defaults) { // retrieve user prefs for articles filters in browser local storage
 							var defaults = defaults || articles_filters_prefs_defaults;
-							if (localStorage.getItem($user_prefs_articles_filters) == null) {
+							if (localStorage.getItem($prefs.articles_filters) == null) {
 								//console.log("load defaults"); // DEBUG
 								return defaults;
 							} else {
 								//console.log("load user prefs"); // DEBUG
-								return JSON.parse(localStorage.getItem($user_prefs_articles_filters));
+								return JSON.parse(localStorage.getItem($prefs.articles_filters));
 							}
 						}
 						function check_filters_switches(obj) { // toggle articles lists visibility according to filters
@@ -176,13 +176,13 @@
 						});
 						$("#filters_list").mouseenter(function() {
 							$(this).find("dd").finish();
-							$js_fx ? $(this).find("dd").fadeIn(250) : $(this).find("dd").show();
+							$conf.js_fx ? $(this).find("dd").fadeIn(250) : $(this).find("dd").show();
 						});
 						$("#filters_list").mouseleave(function() {
 							//console.log("register user prefs filters"); // DEBUG
 							set_user_prefs_articles_filters(); // register articles filters into user prefs on mouse leave
 							if (!$("#filter_icon").hasClass("active")) {
-								$js_fx ? $(this).find("dd").fadeOut(500) : $(this).find("dd").hide();
+								$conf.js_fx ? $(this).find("dd").fadeOut(500) : $(this).find("dd").hide();
 							}
 						});
 						$("html").on("click", "#standbys, #others_drafts, #my_drafts, #onlines", function() { // filters togglers events */
@@ -540,7 +540,7 @@
 		</script>
 
 		<script>
-			$build_container = false;
+			$build.container = false;
 			load();
 		</script>
 		<script>

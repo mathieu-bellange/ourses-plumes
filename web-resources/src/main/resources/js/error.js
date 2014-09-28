@@ -2,7 +2,7 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-$("main > header").after(loadfile($app_root + "tmpl/error.tmpl"));
+$("main > header").after(loadfile($loc.tmpl + "error.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

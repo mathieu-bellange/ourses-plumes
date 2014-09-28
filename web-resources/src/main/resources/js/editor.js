@@ -38,10 +38,23 @@ var share = (function() {
 				}
 			});
 			$("html").on("click", "#share_mail, #share_twitter, #share_facebook, #share_googleplus, #share_linkedin", function() {
+				var clone = $(this).clone();
 				$(this).toggleClass("disabled");
 				$(this).toggleClass("active");
 				$(this).css("border-color", "transparent");
 				update_tooltips($(this));
+				if ($conf.js_fx && $(this).hasClass("disabled")) {
+					var x = $(this).offset().left;
+					var y = $(this).offset().top;
+					var w = $(this).outerWidth();
+					clone.css({"position" : "absolute", "left" : x, "top" : y, "z-index" : "10"})
+					clone.appendTo("body");
+					clone.find("svg").animate({"height" : "40px", "width" : "40px"}, 375).animate({"height" : "20px", "width" : "20px"}, 250);
+					clone.find(".text").animate({"font-size" : "125%", "line-height" : "200%"}, 375).animate({"font-size" : "75%", "line-height" : "100%"}, 250);
+					clone.animate({"top" : (y - 10.0).toString() + "px"}, 125).animate({"top" : y.toString() + "px", "opacity" : 0}, 250, function() {
+						clone.remove();
+					});
+				}
 			});
 			// init
 			$("#share_mail, #share_twitter, #share_facebook, #share_googleplus, #share_linkedin").css("border", ".0625rem dashed transparent");
@@ -75,7 +88,7 @@ var share = (function() {
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($app_root + "tmpl/editor.tmpl"));
+var template = doT.compile(loadfile($loc.tmpl + "editor.tmpl"));
 // si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
 if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 	$.ajax({
@@ -91,7 +104,7 @@ if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				$("main > header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
+				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
 			} else {
 				createAlertBox();
 			}
@@ -197,9 +210,9 @@ function processArticle(article) {
 	// Initialize inline CKEditor with custom config
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
-		customConfig : $js_root + "editor_settings.js",
+		customConfig : $loc.js + "editor_settings.js",
 		extraAllowedContent : {"span" : {classes : "placeholder"}},
-		contentsCss : $css_root + "loap-main.css"
+		contentsCss : $loc.css + "loap-main.css"
 	});
 
 	// bind events après le chargement du template par dot.js
@@ -318,13 +331,13 @@ function add_tag(source, target) {
 		// check if maxium of tags allowed is reached
 		if ($(target).children("dd").length >= tag_max) {
 			$(source).css("margin-bottom", "0");
-			$(source).set_validation(false, $app_msg.tag_max);
+			$(source).set_validation(false, $msg.tag_max);
 		} else {
 			// check if tag already exists in tags list
 			$(target).children("dd").each(function() {
 				if ($(this).children().text() == str) {
 					$(source).css("margin-bottom", "0");
-					$(source).set_validation(false, $app_msg.tag_dup);
+					$(source).set_validation(false, $msg.tag_dup);
 				}
 			});
 		}
@@ -350,10 +363,10 @@ function toggle_tags() {
 	if ($(".tags").data("preventClick") !== "true" && $(".tags").data("preventToggle") !== "true") {
 		$(".tags").toggleClass("active");
 		if ($("#indexing").is(":visible")) {
-			$js_fx ? $("#indexing").slideUp(250) : $("#indexing").hide();
+			$conf.js_fx ? $("#indexing").slideUp(250) : $("#indexing").hide();
 		} else {
 			$(".tags").data("preventToggle", "true");
-			if ($js_fx) {
+			if ($conf.js_fx) {
 				$("#indexing").slideDown(250, function() {
 					scrollTo($("#indexing"), 250, $("#tags").outerHeight() + 16);
 					$(".tags").removeData("preventToggle");
@@ -405,14 +418,14 @@ function sendArticle() {
 				header_authentication(request);
 		 },
 		 success: function(jqXHR, status, errorThrown) {
-			 window.location.href = $articles;
+			 window.location.href = $nav.articles;
 		 },
 		 error: function(jqXHR, status, errorThrown) {
 			 ajax_error(jqXHR, status, errorThrown);
 				if (jqXHR.status == 403) {
 					checkTitleAJAX();
 				}else if (jqXHR.status == 404) {
-					createAlertBox($app_msg.article_deleted, "default");
+					createAlertBox($msg.article_deleted, "default");
 				} else {
 					createAlertBox();
 				}

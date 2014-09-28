@@ -37,7 +37,7 @@ function modifiyCouple(couple) { // Pair storing
 	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value) {
 		if (pseudoProperty == couple.property) {
 			// vérifie qu'il a pas resaisi son pseudo après une éventuelle erreur
-			if (couple.value != window.localStorage.getItem($oursesUserPseudo)) {
+			if (couple.value != window.localStorage.getItem($auth.user_name)) {
 				checkPseudoAJAX(couple);
 			}
 			// si c'est son pseudo, on se contente de virer l'erreur
@@ -53,7 +53,7 @@ function modifiyCouple(couple) { // Pair storing
 
 // Display user role
 function processRole(role) {
-	$js_fx ? $("#role").html(role).fadeIn(500) : $("#role").html(role).show();
+	$conf.js_fx ? $("#role").html(role).fadeIn(500) : $("#role").html(role).show();
 }
 
 // Data to HTML association method for user links
@@ -121,7 +121,7 @@ function checkPseudoAJAX(couple) {
 	var selector = $("#pseudo");
 	selector.set_validation(null);
 	var pseudo = selector.val();
-	var profileId = window.localStorage.getItem($oursesProfileId);
+	var profileId = window.localStorage.getItem($auth.profile_id);
 	$.ajax({
 		type : "POST",
 		url : "/rest/signup_check/pseudo?id=" + profileId,
@@ -169,14 +169,14 @@ function getRole(pseudo) {
 }
 
 function getProfile() {
-	var profileId = window.localStorage.getItem($oursesProfileId);
+	var profileId = window.localStorage.getItem($auth.profile_id);
 	if(profileId != null) {
 		$.ajax({
 			type : "GET",
 			url : "/rest/profile/" + profileId,
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
-				var profile_template = doT.compile(loadfile($app_root + "tmpl/updateProfile.tmpl")); // create template
+				var profile_template = doT.compile(loadfile($loc.tmpl + "updateProfile.tmpl")); // create template
 				$("main > header").after(profile_template(profile)); // process template
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
@@ -198,7 +198,7 @@ function getProfile() {
 };
 
 function save(couple) {
-	var profileId = window.localStorage.getItem($oursesProfileId);
+	var profileId = window.localStorage.getItem($auth.profile_id);
 	if(profileId != null) {
 		$.ajax({
 			type : "PUT",
@@ -495,14 +495,14 @@ function processAvatar(options) {
 		o_progress.removeClass("secondary warning alert");
 		o_progress.addClass("success");
 		t_progress = setTimeout(function() {
-			$js_fx ? o_progress.fadeOut(settings.progress_fade_duration) : o_progress.hide();
+			$conf.js_fx ? o_progress.fadeOut(settings.progress_fade_duration) : o_progress.hide();
 		}, settings.progress_hide_delay);
 	}
 	function transferFailed(event) {
 		o_progress.removeClass("secondary warning success");
 		o_progress.addClass("alert");
 		t_progress = setTimeout(function() {
-			$js_fx ? o_progress.fadeOut(settings.progress_fade_duration) : o_progress.hide();
+			$conf.js_fx ? o_progress.fadeOut(settings.progress_fade_duration) : o_progress.hide();
 		}, settings.progress_hide_delay);
 	}
 	function get_avatar_server_response() {
@@ -595,7 +595,7 @@ function processAvatar(options) {
 	});
 	$("html").on("click", settings.selector, function() {
 		$(settings.selector).focus();
-		$js_fx ? $(settings.selector).next($("input[file]")).fadeIn(250) : $(settings.selector).next($("input[file]")).show();
+		$conf.js_fx ? $(settings.selector).next($("input[file]")).fadeIn(250) : $(settings.selector).next($("input[file]")).show();
 		if ($(settings.selector).next($("input[file]")).attr("id") === undefined) {
 			$(settings.selector).next($("input[file]")).attr("id", $(settings.selector).attr("id") + "_file");
 			$(settings.selector + "_file").bind({
@@ -608,7 +608,7 @@ function processAvatar(options) {
 		}
 	});
 	$("html").on("blur", settings.selector, function() {
-		$js_fx ? $(settings.selector).next($("input[file]")).fadeOut(250) : $(settings.selector).next($("input[file]")).hide();
+		$conf.js_fx ? $(settings.selector).next($("input[file]")).fadeOut(250) : $(settings.selector).next($("input[file]")).hide();
 	});
 }
 

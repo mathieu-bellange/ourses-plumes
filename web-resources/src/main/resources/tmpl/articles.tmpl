@@ -15,7 +15,7 @@
 										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
 									</p>
 									{{? art.status == "BROUILLON" }}
-										{{? art.profile.id == window.localStorage.getItem($oursesProfileId) }}
+										{{? art.profile.id == window.localStorage.getItem($auth.profile_id) }}
 											<a href="{{= art.path }}">Lire l&rsquo;article</a>
 										{{??}}
 											<a href="javascript:void(0)" style="cursor: default;"></a>
@@ -33,7 +33,7 @@
 										<div class="validate" style="display: none;">
 											<!--delete for Drafts-->
 											<button class="small" data-delete="{{= art.id }}">Supprimer</button>
-											{{? art.profile.id == window.localStorage.getItem($oursesProfileId) }}
+											{{? art.profile.id == window.localStorage.getItem($auth.profile_id) }}
 												<button class="alert small" data-validate="{{= art.id }}">Valider</button>
 											{{?}}
 										</div>
@@ -46,7 +46,7 @@
 											<button class="alert small" data-invalidate="{{= art.id }}">Invalider</button>
 										</div>
 									{{?? art.status == "ENLIGNE" }}
-										{{? isAdmin() || art.profile.id == window.localStorage.getItem($oursesProfileId) }}
+										{{? isAdmin() || art.profile.id == window.localStorage.getItem($auth.profile_id) }}
 											<div class="validate" style="display: none;">
 												<!--Validation for Standbys-->
 												<button class="small success" data-recall="{{= art.id }}">Rappeler</button>
@@ -72,7 +72,7 @@
 								</dl>
 							</div>
 							<div class="right">
-								<a id="write_article" href="{{= $new_article }}" class="icon-article" title="R&eacute;diger un nouvel article" data-tooltip><span class="text">&Eacute;crire</span></a>
+								<a id="write_article" href="{{= $nav.new_article }}" class="icon-article" title="R&eacute;diger un nouvel article" data-tooltip><span class="text">&Eacute;crire</span></a>
 							</div>
 						</div>
 						{{?}}

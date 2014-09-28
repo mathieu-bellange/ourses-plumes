@@ -2,8 +2,8 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($app_root + "tmpl/profile.tmpl"));
-var templateProfileArticles = doT.compile(loadfile($app_root + "tmpl/profile_article.tmpl"));
+var template = doT.compile(loadfile($loc.tmpl + "profile.tmpl"));
+var templateProfileArticles = doT.compile(loadfile($loc.tmpl + "profile_article.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -14,7 +14,7 @@ function processProfile(profile) {
 }
 
 function processRole(role) {
-	$js_fx ? $(".user-role").html(role).fadeIn(500) : $(".user-role").html(role).show();
+	$conf.js_fx ? $(".user-role").html(role).fadeIn(500) : $(".user-role").html(role).show();
 }
 
 function processArticles(articles){
@@ -53,7 +53,7 @@ function attach_slider(attachee) {
 		if (obj.data("is_sliding") !== "true") {
 			obj.data("is_sliding", "true");
 			obj.toggleClass("active");
-			if ($js_fx) {
+			if ($conf.js_fx) {
 				obj.next(triggered).slideToggle(250, function() {
 					obj.removeData("is_sliding");
 				});
@@ -82,7 +82,7 @@ function displayProfile() {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404){
-				$("main > header").after(doT.compile(loadfile($app_root + "tmpl/error.tmpl")));
+				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
 			} else {
 				createAlertBox();
 			}

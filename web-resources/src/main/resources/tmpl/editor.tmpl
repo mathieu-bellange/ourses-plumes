@@ -12,7 +12,7 @@
 							<small class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
 
 							<!--Author-->
-							<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($oursesUserPseudo) }}</span></span></h4>
+							<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span></span></h4>
 
 							<!--Date-->
 							<!--
@@ -122,7 +122,7 @@
 
 						<div class="clearfix">
 							<!--Author-->
-							<p class="author right"><strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($oursesUserPseudo) }}</strong></p>
+							<p class="author right"><strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</strong></p>
 							<!--Share-->
 							<ul class="inline-list left">
 								<li><a id="share_mail" href="javascript:void(0)" class="icon-mail share tip-top" title="par mail" data-tooltip><span class="text">Mail</span></a></li>

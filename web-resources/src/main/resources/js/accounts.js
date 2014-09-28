@@ -29,7 +29,7 @@ function getAccount(){
 			header_authentication(request);
 		},
 		success : function(accounts, status, jqxhr) {
-			var accounts_template = doT.compile(loadfile($app_root + "tmpl/accounts.tmpl")); // create template
+			var accounts_template = doT.compile(loadfile($loc.tmpl + "accounts.tmpl")); // create template
 			$("main > header").after(accounts_template(accounts)); // process template
 		},
 		error : function(jqXHR, status, errorThrown) {

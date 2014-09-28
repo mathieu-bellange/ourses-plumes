@@ -13,8 +13,8 @@ var articles_filters_prefs_defaults = { // Les filtres d'affichage de la liste d
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var short_article_tmpl = doT.compile(loadfile($app_root + "tmpl/shortArticle.tmpl"));
-var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
+var short_article_tmpl = doT.compile(loadfile($loc.tmpl + "shortArticle.tmpl"));
+var articles_tmpl = doT.compile(loadfile($loc.tmpl + "articles.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -23,7 +23,7 @@ var articles_tmpl = doT.compile(loadfile($app_root + "tmpl/articles.tmpl"));
 var articles_filters = (function() {
 	return {
 		update : function() {
-			var user_name = window.localStorage.getItem($oursesUserPseudo);
+			var user_name = window.localStorage.getItem($auth.user_name);
 			$("#articles_draft .author").each(function() {
 				if ($(this).text() != user_name) {
 					$(this).parents("li").addClass("other");
@@ -50,14 +50,14 @@ var articles_filters = (function() {
 				for (n in obj) {
 					usr[n] = $(n).parent("dd").hasClass("active") ? "true" : "false";
 				}
-				localStorage.setItem($user_prefs_articles_filters, JSON.stringify(usr));
+				localStorage.setItem($prefs.articles_filters, JSON.stringify(usr));
 			}
 			function get_user_prefs_articles_filters(defaults) { // retrieve user prefs for articles filters in browser local storage
 				var defaults = defaults || articles_filters_prefs_defaults;
-				if (localStorage.getItem($user_prefs_articles_filters) == null) {
+				if (localStorage.getItem($prefs.articles_filters) == null) {
 					return defaults;
 				} else {
-					return JSON.parse(localStorage.getItem($user_prefs_articles_filters));
+					return JSON.parse(localStorage.getItem($prefs.articles_filters));
 				}
 			}
 			function check_filters_switches(obj) { // toggle articles lists visibility according to filters
@@ -80,12 +80,12 @@ var articles_filters = (function() {
 			$("#filters_list").mouseenter(function() {
 				isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
 				$(this).find("dd").finish();
-				$js_fx ? $(this).find("dd").fadeIn(250) : $(this).find("dd").show();
+				$conf.js_fx ? $(this).find("dd").fadeIn(250) : $(this).find("dd").show();
 			});
 			$("#filters_list").mouseleave(function() {
 				set_user_prefs_articles_filters(); // register articles filters into user prefs on mouse leave
 				if (!$("#filter_icon").hasClass("active")) {
-					$js_fx ? $(this).find("dd").fadeOut(500) : $(this).find("dd").hide();
+					$conf.js_fx ? $(this).find("dd").fadeOut(500) : $(this).find("dd").hide();
 				}
 			});
 			$("html").on("click", "#standbys, #others_drafts, #my_drafts, #onlines", function() { // filters togglers events
@@ -154,7 +154,7 @@ function validateArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($app_msg.article_deleted, "default");
+				createAlertBox($msg.article_deleted, "default");
 				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
 					$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				});
@@ -183,7 +183,7 @@ function inValidateArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($app_msg.article_offcheck, "default");
+				createAlertBox($msg.article_offcheck, "default");
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -212,7 +212,7 @@ function publishArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($app_msg.article_offcheck, "default");
+				createAlertBox($msg.article_offcheck, "default");
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -241,7 +241,7 @@ function recallArticle(id) {
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				createAlertBox($app_msg.article_offline, "default");
+				createAlertBox($msg.article_offline, "default");
 				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
 					$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				});

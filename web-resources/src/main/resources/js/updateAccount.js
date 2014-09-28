@@ -55,7 +55,7 @@ function clearForm() {
 /* ------------------------------------------------------------------ */
 
 function getAccount() {
-	var accountId = window.localStorage.getItem($oursesAccountId);
+	var accountId = window.localStorage.getItem($auth.account_id);
 	if(accountId != null) {
 		$.ajax({
 			type : "GET",
@@ -65,7 +65,7 @@ function getAccount() {
 				header_authentication(request);
 			},
 			success : function(account, status, jqxhr) {
-				var account_template = doT.compile(loadfile($app_root + "tmpl/updateAccount.tmpl")); // create template
+				var account_template = doT.compile(loadfile($loc.tmpl + "updateAccount.tmpl")); // create template
 				$("main > header").after(account_template(account)); // process template
 			},
 			error : function(jqXHR, status, errorThrown) {
@@ -110,14 +110,14 @@ function submitAccountAJAX() {
 	var bearAccount = new BearAccount($("#oldPassword").val(),$("#newPassword").val(),$("#confirmPassword").val());
 	$.ajax({
 		type : "PUT",
-		url : "/rest/account/" + window.localStorage.getItem($oursesAccountId),
+		url : "/rest/account/" + window.localStorage.getItem($auth.account_id),
 		contentType : "application/json; charset=utf-8",
 		data : bearAccount.json(),
 		beforeSend: function(request) {
 			header_authentication(request);
 		},
 		success : function(jqXHR, status, errorThrown) {
-			createAlertBox($app_msg.account_updated, "success");
+			createAlertBox($msg.account_updated, "success");
 			clearForm();
 		},
 		error : function(jqXHR, status, errorThrown) {
