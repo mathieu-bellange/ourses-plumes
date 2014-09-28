@@ -5,24 +5,24 @@
 						<dl class="sub-nav">
 							<dd data-magellan-arrival="main"><a href="#main" class="icon-up tiny"><strong class="hide">Haut de page</strong></a></dd>
 							<dd data-magellan-arrival="naming_chart"><a href="#naming_chart">Charte de nommage HTML</a></dd>
-							<dd data-magellan-arrival="html_chars"><a href="#html_chars">Caractères HTML</a></dd>
+							<dd data-magellan-arrival="html_chars"><a href="#html_chars">Caract&egrave;res HTML</a></dd>
 							<dd data-magellan-arrival="workspace"><a href="#workspace">Espace de travail</a></dd>
 							<dd data-magellan-arrival="doc"><a href="#doc">Documentation</a></dd>
 						</dl>
 					</div>
-					<h2 class="red">Notes de d&eacute;veloppement <small>_dev_samples</small></h2>
+					<h2 class="red">Notes de d&eacute;veloppement <small>_dev_notes</small></h2>
 					<!--HTML Naming Chart-->
 					<h3 id="naming_chart">Charte de nommage HTML</h3>
 					<h4 class="subheader">Table de conversion</h4>
 					<table style="width: 100%;">
-						<tr><th>1.0.0</th><th>1.0.1</th><th>Fonctionnalité</th></tr>
-						<tr><td><strike class="red">account.html</strike></td><td><strong>account-add.html</strong></td><td class="text-steel">Créer un compte</td></tr>
+						<tr><th>1.0.0</th><th>1.0.1</th><th>Fonctionnalit&eacute; associ&eacute;e</th></tr>
+						<tr><td><strike class="red">account.html</strike></td><td><strong>account-add.html</strong></td><td class="text-steel">Cr&eacute;er un compte</td></tr>
 						<tr><td><strike class="red">accounts.html</strike></td><td><strong>account-list.html</strong></td><td class="text-steel">Lister les comptes</td></tr>
 						<tr><td>agenda.html</td><td>*</td><td class="text-steel">Agenda</td></tr>
 						<tr><td><strike class="red">article.html</strike></td><td><strong>article-view.html</strong></td><td class="text-steel">Voir un article</td></tr>
 						<tr><td><strike class="red">articles.html</strike></td><td><strong>article-list.html</strong></td><td class="text-steel">Lister les articles</td></tr>
 						<tr><td><strike class="red">bug-tracker.html</strike></td><td><strong>bug-add.html</strong></td><td class="text-steel">Signaler un bug</td></tr>
-						<tr><td><strike class="red">editor.html</strike></td><td><strong>article-edit.html</strong></td><td class="text-steel">Créer/Modifier un article</td></tr>
+						<tr><td><strike class="red">editor.html</strike></td><td><strong>article-edit.html</strong></td><td class="text-steel">Cr&eacute;er/Modifier un article</td></tr>
 						<tr><td>error.html</td><td>*</td><td class="text-steel">Erreur</td></tr>
 						<tr><td><strike class="red">home.html</strike></td><td class="red">DELETED</td><td>*</td></tr>
 						<tr><td>index.html</td><td>*</td><td class="text-steel">Accueil</td></tr>
@@ -32,28 +32,28 @@
 						<tr><td><strike class="red">updateProfile.html</strike></td><td><strong>profile-edit.html</strong></td><td class="text-steel">Modifier mon profil</td></tr>
 					</table>
 					<h4 class="subheader">Convention de nommage</h4>
-					<p><var class="green">Filename</var> = <var>Prefix</var> + <var>Suffix</var> + Extension</p>
-					<p><var class="green">Prefix</var> = any unique feature key word</p>
-					<p><var class="green">Suffix</var> = any unique action key word</p>
-					<ul>
-						<li>*-list</li>
-						<li>*-add (or -create ?)</li>
-						<li>*-edit</li>
-						<li>*-view (or -show ?)</li>
+					<p><var class="green"><strong>Nom de fichier</strong></var> = <var class="blue">Pr&eacute;fixe</var> + <var class="blue">Suffixe</var> + Extension</p>
+					<p><var class="green">Pr&eacute;fixe</var>&thinsp;: n&rsquo;importe quel nom de fonctionnalit&eacute;</p>
+					<p><var class="green">Suffixe</var>&thinsp;: n&rsquo;importe quel verbe transitif</p>
+					<ul class="no-bullet panel">
+						<li>&hellip;&thinsp;<strong>-list</strong></li>
+						<li>&hellip;&thinsp;<strong>-add</strong> <small>(or -create ?)</small></li>
+						<li>&hellip;&thinsp;<strong>-edit</strong></li>
+						<li>&hellip;&thinsp;<strong>-view</strong> <small>(or -show ?)</small></li>
 					</ul>
-					<h4 class="subheader">Règles de nommage</h4>
+					<h4 class="subheader">R&egrave;gles de nommage</h4>
 					<ol>
-						<li>NO plural : use singular only (non singular words can be confusing when coding)</li>
-						<li>NO uppercase : use lowercase only (URLs are case insensitive, some servers aren't)</li>
-						<li>NO underscore : use dash as separator (they say that underscore is EVIL for crawlers ...)</li>
+						<li><strong class="red">PAS de pluriel</strong>&thinsp;: n&rsquo;utiliser que le singulier (les mots au pluriel peuvent porter &agrave; confusion)</li>
+						<li><strong class="red">PAS de majuscules</strong>&thinsp;: n&rsquo;utiliser que des minuscules (les URL ne sont pas sensibles &agrave; la casse, certains serveurs le sont)</li>
+						<li><strong class="red">PAS de tiret bas</strong>&thinsp;: utiliser le tiret m&eacute;dian comme s&eacute;parateur (il para&icirc;t que le tiret bas c&rsquo;est le DIABLE pour les robots&thinsp;&hellip;)</li>
 					</ol>
 					<!--Characters Conversion-->
 					<h3 id="html_chars">Table de conversion HTML</h4>
-					<table>
-						<tr><th>UTF-8</th><th>Entité HTML numérique</th><th>Entité HTML symbolisée</th><th>Description<th></tr>
-						<tr><td>*</td><td>&amp;#160;</td><td>&amp;nbsp;</td><td>Espace insécable( No-Break Space)</td></tr>
+					<table style="width: 100%;">
+						<tr><th>UTF-8</th><th>Entit&eacute; HTML num&eacute;rique</th><th>Entit&eacute; HTML symbolis&eacute;e</th><th>Description<th></tr>
+						<tr><td>*</td><td>&amp;#160;</td><td>&amp;nbsp;</td><td>Espace ins&eacute;cable( No-Break Space)</td></tr>
 						<tr><td>*</td><td>&amp;#8201;</td><td>&amp;thinsp;</td><td>Espace fin (Thin Space)</td></tr>
-						<tr><td>*</td><td>&amp;#8239;</td><td>*</td><td>Espace fin insécable (Narrow No-Break Space)</td></tr>
+						<tr><td>*</td><td><strong class="blue">&amp;#8239;</strong></td><td>*</td><td>Espace fin ins&eacute;cable (Narrow No-Break Space)</td></tr>
 						<tr><td>“</td><td>&amp;#8220</td><td>&amp;ldquo;</td><td>Guillemet double gauche</td></tr>
 						<tr><td>”</td><td>&amp;#8221</td><td>&amp;rdquo;</td><td>Guillemet double droit</td></tr>
 						<tr><td>«</td><td>&amp;#171;</td><td>&amp;laquo;</td><td>Guillemet typographique gauche</td></tr>
@@ -64,61 +64,61 @@
 						<tr><td>…</td><td>&amp;#133;</td><td>&amp;hellip;</td><td>Points de suspension</td></tr>
 						<tr><td>§</td><td>&amp;#167;</td><td>&amp;sect;</td><td>Paragraphe</td></tr>
 						<tr><td>¶</td><td>&amp;#182;</td><td>&amp;para;</td><td>Pied de mouche</td></tr>
-						<tr><td>‼</td><td>&amp;#8252;</td><td>*</td><td>Double point d'exclamation</td></tr>
+						<tr><td>‼</td><td>&amp;#8252;</td><td>*</td><td>Double point d&rsquo;exclamation</td></tr>
 						<tr><td>©</td><td>&amp;#169;</td><td>&amp;copy;</td><td>Copyright</td></tr>
-						<tr><td>®</td><td>&amp;#174;</td><td>&amp;reg;</td><td>Marque déposée</td></tr>
-						<tr><td>Œ</td><td>&amp;#140;</td><td>&amp;OElig;</td><td>OE ligaturé majuscule</td></tr>
+						<tr><td>®</td><td>&amp;#174;</td><td>&amp;reg;</td><td>Marque d&eacute;pos&eacute;e</td></tr>
+						<tr><td>Œ</td><td>&amp;#140;</td><td>&amp;OElig;</td><td>OE ligatur&eacute; majuscule</td></tr>
 						<tr><td>À</td><td>&amp;#192;</td><td>&amp;Agrave;</td><td>A accent grave majuscule</td></tr>
-						<tr><td>Ç</td><td>&amp;#199;</td><td>&amp;Ccedil;</td><td>C cédille majuscule</td></tr>
+						<tr><td>Ç</td><td>&amp;#199;</td><td>&amp;Ccedil;</td><td>C c&eacute;dille majuscule</td></tr>
 						<tr><td>È</td><td>&amp;#200;</td><td>&amp;Egrave;</td><td>E accent grave majuscule</td></tr>
 						<tr><td>É</td><td>&amp;#201;</td><td>&amp;Eacute;</td><td>E accent aigu majuscule</td></tr>
 						<tr><td>Ê</td><td>&amp;#202;</td><td>&amp;Ecirc;</td><td>E accent circonflexe majuscule</td></tr>
-						<tr><td>Ë</td><td>&amp;#203;</td><td>&amp;Euml;</td><td>E tréma majuscule</td></tr>
+						<tr><td>Ë</td><td>&amp;#203;</td><td>&amp;Euml;</td><td>E tr&eacute;ma majuscule</td></tr>
 						<tr><td>±</td><td>&amp;#177;</td><td>&amp;plusmn;</td><td>Plus ou moins</td></tr>
 						<tr><td>×</td><td>&amp;#215;</td><td>&amp;times;</td><td>Fois</td></tr>
-						<tr><td>√</td><td>&amp;#8730;</td><td>*</td><td>Racine carrée</td></tr>
-						<tr><td>≈</td><td>&amp;#8776;</td><td>*</td><td>Presque égal</td></tr>
+						<tr><td>√</td><td>&amp;#8730;</td><td>*</td><td>Racine carr&eacute;e</td></tr>
+						<tr><td>≈</td><td>&amp;#8776;</td><td>*</td><td>Presque &eacute;gal</td></tr>
 						<tr><td>‰</td><td>&amp;#137;</td><td>*</td><td>Pour mille</td></tr>
 						<tr><td>¼</td><td>&amp;#188;</td><td>&amp;frac14;</td><td>Fraction un quart</td></tr>
 						<tr><td>½</td><td>&amp;#189;</td><td>&amp;frac12;</td><td>Fraction un demi</td></tr>
 						<tr><td>¾</td><td>&amp;#190;</td><td>&amp;frac34;</td><td>Fraction trois-quarts</td></tr>
-						<tr><td>†</td><td>&amp;#134;</td><td>&amp;dagger;</td><td>Obèle</td></tr>
-						<tr><td>‡</td><td>&amp;#135;</td><td>&amp;Dagger;</td><td>Double obèle</td></tr>
-						<tr><td>♀</td><td>&amp;#9792;</td><td>*</td><td>Signe féminin</td></tr>
+						<tr><td>†</td><td>&amp;#134;</td><td>&amp;dagger;</td><td>Ob&egrave;le</td></tr>
+						<tr><td>‡</td><td>&amp;#135;</td><td>&amp;Dagger;</td><td>Double ob&egrave;le</td></tr>
+						<tr><td>♀</td><td>&amp;#9792;</td><td>*</td><td>Signe f&eacute;minin</td></tr>
 						<tr><td>♂</td><td>&amp;#9794;</td><td>*</td><td>Signe masculin</td></tr>
-						<tr><td>↑</td><td>&amp;#8593;</td><td>&amp;uarr;</td><td>Flèche vers le haut</td></tr>
-						<tr><td>↓</td><td>&amp;#8595;</td><td>&amp;darr;</td><td>Flèche vers le bas</td></tr>
-						<tr><td>←</td><td>&amp;#8592;</td><td>&amp;larr;</td><td>Flèche vers la gauche</td></tr>
-						<tr><td>→</td><td>&amp;#8594;</td><td>&amp;rarr;</td><td>Flèche vers la droite</td></tr>
+						<tr><td>↑</td><td>&amp;#8593;</td><td>&amp;uarr;</td><td>Fl&egrave;che vers le haut</td></tr>
+						<tr><td>↓</td><td>&amp;#8595;</td><td>&amp;darr;</td><td>Fl&egrave;che vers le bas</td></tr>
+						<tr><td>←</td><td>&amp;#8592;</td><td>&amp;larr;</td><td>Fl&egrave;che vers la gauche</td></tr>
+						<tr><td>→</td><td>&amp;#8594;</td><td>&amp;rarr;</td><td>Fl&egrave;che vers la droite</td></tr>
 						<tr><td>•</td><td>&amp;#149;</td><td>&amp;bull;</td><td>Balle</td></tr>
 						<tr><td>◊</td><td>&amp;#9674;</td><td>&amp;loz;</td><td>Losange</td></tr>
 						<tr><td>○</td><td>&amp;#9675;</td><td>*</td><td>Cercle</td></tr>
-						<tr><td>■</td><td>&amp;#9632;</td><td>*</td><td>Carré</td></tr>
+						<tr><td>■</td><td>&amp;#9632;</td><td>*</td><td>Carr&eacute;</td></tr>
 						<tr><td>▲</td><td>&amp;#9650;</td><td>*</td><td>Triangle vers le haut</td></tr>
 						<tr><td>▼</td><td>&amp;#9660;</td><td>*</td><td>Triangle vers le bas</td></tr>
 						<tr><td>◄</td><td>&amp;#9668;</td><td>*</td><td>Triangle vers la gauche</td></tr>
 						<tr><td>►</td><td>&amp;#9658;</td><td>*</td><td>Triangle vers la droite</td></tr>
 						<tr><td>♥</td><td>&amp;#9829;</td><td>&amp;hearts;</td><td>Cœur</td></tr>
 						<tr><td>♦</td><td>&amp;#9830;</td><td>&amp;diams;</td><td>Carreau</td></tr>
-						<tr><td>♣</td><td>&amp;#9827;</td><td>&amp;clubs;</td><td>Trèfle</td></tr>
+						<tr><td>♣</td><td>&amp;#9827;</td><td>&amp;clubs;</td><td>Tr&egrave;fle</td></tr>
 						<tr><td>♠</td><td>&amp;#9824;</td><td>&amp;spades;</td><td>Pique</td></tr>
 					</table>
 					<!--Workspace-->
 					<h3 id="workspace">Espace de travail</h3>
 					<ul>
-						<li><a href="https://trello.com/b/7U4bA59k/ourses-a-plumes">Trello</a></li>
-						<li><a href="https://github.com/mathieu-bellange/ourses-plumes">GitHub</a></li>
-						<li><a href="http://ourses-alpha.herokuapp.com/">Heroku</a></li>
+						<li><a href="https://trello.com/b/7U4bA59k/ourses-a-plumes">Les Ourses &agrave; plumes sur Trello</a></li>
+						<li><a href="https://github.com/mathieu-bellange/ourses-plumes">Les Ourses &agrave; plumes sur GitHub</a></li>
+						<li><a href="http://ourses-alpha.herokuapp.com/">Les Ourses &agrave; plumes sur Heroku</a></li>
 					</ul>
 					<!--Documentation-->
 					<h3 id="doc">Documentation</h4>
 					<ul>
-						<li><a href="http://api.jquery.com/" target="_blank">jQuery API Documentation</a></li>
-						<li><a href="http://foundation.zurb.com/docs/" target="_blank">Foundation Docs</a></li>
-						<li><a href="http://www.w3schools.com/tags/default.asp" target="_blank">W3Schools HTML Reference</a></li>
-						<li><a href="http://www.w3schools.com/jsref/default.asp" target="_blank">W3Schools JS Reference</a></li>
-						<li><a href="http://www.w3schools.com/cssref/default.asp" target="_blank">W3Schools CSS Reference</a></li>
-						<li><a href="http://www.w3schools.com/svg/svg_reference.asp" target="_blank">W3Schools SVG Reference</a></li>
-						<li><a href="http://html-color-codes.info/color-names/" target="_blank">HTML Color Codes</a></li>
+						<li><a href="http://api.jquery.com/" target="_blank">Documentation jQuery</a></li>
+						<li><a href="http://foundation.zurb.com/docs/" target="_blank">Documentation de Foundation</a></li>
+						<li><a href="http://www.w3schools.com/tags/default.asp" target="_blank">R&eacute;f&eacute;rences HTML de W3Schools</a></li>
+						<li><a href="http://www.w3schools.com/jsref/default.asp" target="_blank">R&eacute;f&eacute;rences JS Reference de W3Schools</a></li>
+						<li><a href="http://www.w3schools.com/cssref/default.asp" target="_blank">R&eacute;f&eacute;rences CSS de W3Schools</a></li>
+						<li><a href="http://www.w3schools.com/svg/svg_reference.asp" target="_blank">R&eacute;f&eacute;rences SVG de W3Schools</a></li>
+						<li><a href="http://html-color-codes.info/color-names/" target="_blank">Codes couleurs HTML</a></li>
 					</ul>
 				</section>
