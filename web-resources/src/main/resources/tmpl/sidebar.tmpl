@@ -5,7 +5,7 @@
 			<aside class="nav-pane text-center hide-for-print">
 				<!--Logo-->
 				<div class="logo">
-					<a href="{{= $nav.home_page }}"><span></span></a>
+					<a href="{{= $nav.home.url }}"><span></span></a>
 				</div>
 				<!--Main Navigation-->
 				<h2 class="hide">Navigation interne</h2>
@@ -13,7 +13,7 @@
 				<h4 class="hide">Sections</h4>
 				<nav class="main-nav">
 					<ul>
-						<li><a href="{{= $nav.articles }}">Articles</a></li>
+						<li><a href="{{= $nav.article_list.url }}">Articles</a></li>
 						<li><a href="javascript:void(0)" class="disabled">Agenda</a></li>
 						<li><a href="{{= $app.root + 'about.html' }}">FAQ</a></li>
 						<li><a href="javascript:void(0)" class="disabled">Nos copines</a></li>

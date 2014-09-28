@@ -342,6 +342,7 @@ function processArticles(articles) {
 		isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
 	});
 	// init
+	set_page_title($nav.article_list.title);
 	articles_filters.init(); // set articles filtering
 	$(document).foundation(); // reload all Foundation plugins
 	loap.update(); // reload loap plugins

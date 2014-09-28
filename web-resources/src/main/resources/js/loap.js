@@ -645,6 +645,12 @@ function dateToHTML(date) {
 	return (dateToString(date).replace("1er", "1<sup>er</sup>").replace("é", "&eacute;").replace("û", "&ucirc;"));
 }
 
+/* Set page title */
+function set_page_title(str) {
+	var s = $("html > head > title").text();
+	$("html > head > title").html(s + " - " + str);
+}
+
 /* Update user menu user name */
 function update_user_pseudo(pseudo) {
 	window.localStorage.setItem($auth.user_name, pseudo);
@@ -668,7 +674,7 @@ function header_authentication(xhr) {
 /* Redirect on HTTP response status unauthorized after AJAX request */
 function ajax_error(jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {
-		window.location.href = $nav.login_page;
+		window.location.href = $nav.login.url;
 	}
 }
 
@@ -715,7 +721,7 @@ function set_user_connect(user_logged_in) {
 		$(".fast-nav").after(doT.compile(loadfile($loc.tmpl + "user_nav.tmpl"))); // Process user menu template
 	} else {
 		//$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
-		$("#user_connect").attr("href", $nav.login_page); // ajoute le lien vers la page de connexion
+		$("#user_connect").attr("href", $nav.login.url); // ajoute le lien vers la page de connexion
 		$("#user_connect").parent("span").attr("title", "S&rsquo;identifier");
 		//$("#user_connect").parent("span").attr("data-tooltip");
 		$("#user_connect").removeAttr("data-dropdown");
@@ -732,10 +738,10 @@ function set_user_connect(user_logged_in) {
 
 /* Check user connect */
 function check_user_connect() {
-	if ((window.location.href.indexOf($nav.login_page) == -1) && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) { // if current page != connexion
+	if ((window.location.href.indexOf($nav.login.url) == -1) && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) { // if current page != connexion
 		isAuthenticated(); // check if auth token hasn't expired
 	}
-	if ((window.location.href.indexOf($nav.login_page) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) {
+	if ((window.location.href.indexOf($nav.login.url) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) {
 		set_user_connect(true); // enable user connection
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 		$(document).foundation("dropdown"); // reload Foundation Dropdown plugin for whole document (n.b. includes #user_connect and #user_menu)
@@ -779,7 +785,7 @@ if ($build.container) {
 	$(".main-pane").prepend(doT.compile(loadfile($loc.tmpl + "header.tmpl")));
 
 	// Set user connection depending on browser local storage domain log
-	if (window.location.href.indexOf($nav.login_page) > -1) {
+	if (window.location.href.indexOf($nav.login.url) > -1) {
 		set_user_connect(false);
 	} else {
 		if (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null) {
@@ -1014,7 +1020,7 @@ $("html").on("click", ".disconnect", function() {
 			window.localStorage.removeItem($auth.account_id);
 			window.localStorage.removeItem($auth.profile_id);
 			window.localStorage.removeItem($auth.avatar_path);
-			window.location.href = $nav.home_page;
+			window.location.href = $nav.home.url;
 		},
 		error : function(jqXHR, status, errorThrown) {
 		},

@@ -10,6 +10,7 @@ var templateProfileArticles = doT.compile(loadfile($loc.tmpl + "profile-article-
 /* ------------------------------------------------------------------ */
 
 function processProfile(profile) {
+	set_page_title(profile.pseudo);
 	$("main > header").after(template(profile));
 }
 

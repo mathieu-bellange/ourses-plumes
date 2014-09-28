@@ -7,8 +7,8 @@
 	<!--Redirections JS-->
 	<rule>
 		<note>redirection du boot</note>
-		<from>^(.*)boot$</from>
-		<to>/boot</to>
+		<from>^(.*)boot.js$</from>
+		<to>/boot.js</to>
 	</rule>
 
 	<!--Redirections HTML-->
@@ -16,7 +16,7 @@
 		<note>redirection vers la page de connexion</note>
 		<from>^/connexion$</from>
 		<to>/login.html</to>
-	</rule>	
+	</rule>
 
 	<rule>
 		<note>redirection vers la page d'ajout d'un bug github</note>

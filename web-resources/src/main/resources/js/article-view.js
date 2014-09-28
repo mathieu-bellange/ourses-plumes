@@ -80,6 +80,7 @@ function displayArticle() {
 }
 
 function processArticle(article) {
+	set_page_title(article.title);
 	$("main > header").after(template(article));
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init();

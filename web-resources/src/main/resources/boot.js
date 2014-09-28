@@ -150,14 +150,26 @@ $msg = {
 
 /* Navigation */
 $nav = {
-	"home_page"             : "/",                                // String   URL of the home page Default : "/"
-	"login_page"            : "/connexion",                       // String   URL of the login page. Default : "/connexion"
-	"accounts_page"         : "/comptes",                         // String   URL of the accounts page Default : "/comptes"
-	"articles"              : "/articles",                        // String   URL of list of articles page Default : "/articles"
-	"new_article"           : "/articles/nouveau",                // String   URL of a new article Default : "/articles/nouveau"
-	"my_account_page"       : "/parametres/compte",               // String   URL of my account page Default : "/parametres/compte"
-	"my_profile_page"       : "/parametres/profil",               // String   URL of my profile page Default : "/parametres/profil"
-	"bug_tracker_page"      : "/bug/nouveau",                     // String   URL of the bug tracker page Default : "/bug-tracker"
+	"about"            : {"url" : null,                 "title" : "FAQ"},
+	"account_list"     : {"url" : "/comptes",           "title" : "Lister les comptes"},
+	"account_add"      : {"url" : null,                 "title" : "Ajouter un compte"},
+	"account_edit"     : {"url" : "/parametres/compte", "title" : "Mon compte"},
+	"agenda"           : {"url" : null,                 "title" : "Agenda"},
+	"article_list"     : {"url" : "/articles",          "title" : "Tous les articles"},
+	"article_view"     : {"url" : null,                 "title" : null},
+	"article_add"      : {"url" : "/articles/nouveau",  "title" : "Écrire un article"},
+	"article_edit"     : {"url" : null,                 "title" : "Modifier un article"},
+	"bug_add"          : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
+	"contact"          : {"url" : null,                 "title" : "Nous contacter"},
+	"error"            : {"url" : null,                 "title" : "Erreur"},
+	"home"             : {"url" : "/",                  "title" : "Accueil"},
+	"login"            : {"url" : "/connexion",         "title" : "Connexion"},
+	"partners"         : {"url" : null,                 "title" : "Nos copines"},
+	"profile_view"     : {"url" : null,                 "title" : null},
+	"profile_edit"     : {"url" : "/parametres/profil", "title" : "Mon profil"},
+	"privacy_policy"   : {"url" : null,                 "title" : "Politique de confidentialité"},
+	"terms_of_use"     : {"url" : null,                 "title" : "Conditions d'utilisation"},
+	"thanks"           : {"url" : null,                 "title" : "Remerciements"}
 };
 
 /* Prefs */
@@ -175,12 +187,14 @@ var IE_conditional_comments = [
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
 ];
 var head_tags = [
+	{elem: "meta", attr: {charset: "utf-8"}},
 	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
 	{elem: "meta", attr: {name: "author", content: $org.name}},
 	{elem: "meta", attr: {name: "application-name", content: $app.name}},
 	{elem: "meta", attr: {name: "keywords", content: $app.kwd.toString()}},
 	{elem: "meta", attr: {name: "description", content: $app.desc}},
 	{elem: "meta", attr: {name: "generator", content: $app.genr}},
+	{elem: "title", text: $org.name},
 	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
 	{elem: "link", attr: {href: $loc.css + "normalize.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
@@ -235,6 +249,8 @@ function b_html(array) { // Build HTML Elements
 		}
 		if (array[index].elem == "script") {
 			str += "</script>";
+		} else if (array[index].elem == "title") {
+			str += "</title>";
 		}
 	}
 	return str;
@@ -339,7 +355,7 @@ function isAuthenticated() {
 			if (xhr.status == 401){
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login_page + loginParam;
+				window.location.href = $nav.login.url + loginParam;
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error
@@ -360,11 +376,11 @@ function isAdministratrice() {
 			if (xhr.status == 401){
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login_page + loginParam;
+				window.location.href = $nav.login.url + loginParam;
 			}
 			else if (xhr.status == 403){
 				console.log("Forbidden ! Redirect to the login page."); // unauthorized
-				window.location.href = $nav.home_page;
+				window.location.href = $nav.home.url;
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error
@@ -385,11 +401,11 @@ function isRedactrice() {
 			if (xhr.status == 401){
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login_page + loginParam;
+				window.location.href = $nav.login.url + loginParam;
 			}
 			else if (xhr.status == 403){
 				console.log("Forbidden ! Redirect to the login page."); // unauthorized
-				window.location.href = $nav.home_page;
+				window.location.href = $nav.home.url;
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error

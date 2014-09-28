@@ -2,6 +2,8 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
+set_page_title($nav.login.title);
+
 $("main > header").after(doT.compile(loadfile($loc.tmpl + "login.tmpl")));
 
 /* ------------------------------------------------------------------ */
@@ -40,7 +42,7 @@ function connection(){
 			if (redirection != "") {
 				window.location.href = redirection;
 			} else {
-				window.location.href = $nav.home_page;
+				window.location.href = $nav.home.url;
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {

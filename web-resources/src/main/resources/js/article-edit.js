@@ -189,9 +189,11 @@ function processArticle(article) {
 	if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 		pathPUT = "/rest" + window.location.pathname;
 		pathTitle = "/rest/articles/check/title?id=" + article.id; 
+		set_page_title(article.title);
 	} else { //sinon en création
 		pathPUT = "/rest/articles/create";
 		pathTitle = "/rest/articles/check/title";
+		set_page_title($nav.article_add.title);
 	}
 
 	$.getJSON("/rest/categories", function(json) {
@@ -418,7 +420,7 @@ function sendArticle() {
 				header_authentication(request);
 		 },
 		 success: function(jqXHR, status, errorThrown) {
-			 window.location.href = $nav.articles;
+			 window.location.href = $nav.article_list.url;
 		 },
 		 error: function(jqXHR, status, errorThrown) {
 			 ajax_error(jqXHR, status, errorThrown);

@@ -2,6 +2,8 @@
 /* # Public vars */
 /* ------------------------------------------------------------------ */
 
+set_page_title($nav.profile_edit.title);
+
 var username_max_chars = 24;
 var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
 
