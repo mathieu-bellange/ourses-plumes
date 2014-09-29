@@ -72,13 +72,11 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: .25em; /* Foundation override */
   font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
   line-height: 150%; /* WARNING : using percent instead of rem ; should properly inherit real header size */
-  text-rendering: optimizeSpeed;
+  letter-spacing: -.0625em;
+  text-rendering: optimizeSpeed; /* Foundation override */
   color: black;
 }
-.css-fx h1, .css-fx h2, .css-fx h3, .css-fx h4, .css-fx h5, .css-fx h6 {
-  font-family: "Oswald", sans-serif;
-  text-rendering: geometricPrecision;
-}
+.css-fx h1, .css-fx h2, .css-fx h3, .css-fx h4, .css-fx h5, .css-fx h6 {letter-spacing: 0; font-family: "Oswald", sans-serif; text-rendering: geometricPrecision;}
 h1 {font-size: 3em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
 h2 {font-size: 2.5em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
 h3 {font-size: 2em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
@@ -178,13 +176,12 @@ fieldset legend {
   font-weight: normal;
   font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
   line-height: 2rem;
+  letter-spacing: -.0625em;
   background-color: transparent; /* Foundation override */
   border-top-left-radius: .375rem;
   border-top-right-radius: .375rem;
 }
-.css-fx fieldset legend {
-  font-family: "Oswald", sans-serif;
-}
+.css-fx fieldset legend {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 fieldset legend:not(.hide) + *,
 fieldset legend:not(.hide) + [type],
 fieldset legend:not(.hide) + [class] {
@@ -447,13 +444,12 @@ button, .button,
   font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
   font-weight: 900; /* BUG */
   line-height: 100%;
+  letter-spacing: -.0625em;
   border-width: .15rem;
   border-style: solid;
 }
 .css-fx button, .css-fx .button,
-.css-fx .prefix.button, .css-fx .postfix.button {
-  font-family: "Oswald", sans-serif;
-}
+.css-fx .prefix.button, .css-fx .postfix.button {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 
 button:visited, .button:visited {
   color: white; /* Chrome/IE link as button color Fix */
@@ -885,7 +881,8 @@ kbd,
 
 /* All Navs */
 .main-nav a, .fast-nav a, .user-nav a, .site-nav a {text-decoration: none;}
-.css-fx .main-nav ul li, .css-fx .fast-nav ul li, .css-fx .user-nav ul li {font-family: "Oswald", sans-serif;}
+.main-nav ul li, .fast-nav ul li, .user-nav ul li {letter-spacing: -.0625em;}
+.css-fx .main-nav ul li, .css-fx .fast-nav ul li, .css-fx .user-nav ul li {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 
 /* User Nav */
 .user-nav {
@@ -1763,10 +1760,9 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .orbit-slides-container blockquote {
   margin-bottom: 0;
   border-left: none;
+  letter-spacing: -.0625em;
 }
-.css-fx .orbit-slides-container blockquote {
-  font-family: "Oswald", sans-serif;
-}
+.css-fx .orbit-slides-container blockquote {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 .orbit-slides-container blockquote cite {
   margin-top: .75rem;
 }
@@ -2091,12 +2087,13 @@ input:focus + button + .error + .autocomplete > ul {
   color: gray;
   font-size: 150%;
   line-height: 150%;
+  letter-spacing: -.0625em;
   text-align: center;
   border: .25rem solid gray;
   border-left: 0;
   border-right: 0;
 }
-.css-fx .article .callout {font-family: "Oswald", sans-serif;}
+.css-fx .article .callout {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 [class*='cke_panel'] .callout { /* CKEditor Styles Menu */
   margin-bottom: 0; /* Fix margin bottom */
 }
@@ -2196,14 +2193,15 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: 0.5em;
   margin-bottom: 0.25em;
   font-size: 2.5em;
-  font-family: "Oswald",sans-serif;
   font-weight: normal;
   font-style: normal;
+  letter-spacing: -.0625em;
   height: auto;
   color: black;
   background-color: transparent;
   border-color: transparent;
 }
+.css-fx .article.edit .title {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 .article.edit .title + .error {
   margin-top: -.625rem; /* WARNING : vertical position adjustment */
 }
@@ -2240,11 +2238,9 @@ input:focus + button + .error + .autocomplete > ul {
   right: 1rem;
   color: silver;
   font-size: 1.75rem;
+  letter-spacing: -.0625em;
 }
-.css-fx .article.edit .tags:after {
-  font-family: "Oswald", sans-serif;
-  transition: all .25s ease;
-}
+.css-fx .article.edit .tags:after {letter-spacing: 0; font-family: "Oswald", sans-serif;transition: all .25s ease;}
 .article.edit .tags.active:after {
   content: "Masquer les tags";
 }
@@ -2374,6 +2370,7 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list.standby .href-block a:before {
   position: absolute;
   text-indent: 0; /* Revert hide text */
+  letter-spacing: -.0625em;
   -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
       -ms-transform: rotate(-90deg); /* IE 9 */
           transform: rotate(-90deg);
@@ -2381,9 +2378,7 @@ input:focus + button + .error + .autocomplete > ul {
       -ms-transform-origin: 50% 100%; /* IE 9 */
           transform-origin: 50% 100%;
 }
-.css-fx .articles-list .href-block a:before {
-  font-family: "Oswald", sans-serif;
-}
+.css-fx .articles-list .href-block a:before {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 
 /* Drafts */
 .articles-list.draft {}
@@ -2483,6 +2478,7 @@ input:focus + button + .error + .autocomplete > ul {
   width: 1.5rem;
   height: 1.5rem;
   line-height: 1.5rem;
+  letter-spacing: -.0625em;
   margin-top: -.75rem;
   color: dimgray;
   text-align: center;
@@ -2494,7 +2490,7 @@ input:focus + button + .error + .autocomplete > ul {
      -moz-transition: all .25s ease-out; /* TEMP */
           transition: all .25s ease-out; /* TEMP */
 }
-.css-fx .info-tip {font-family: "Oswald", sans-serif;}
+.css-fx .info-tip {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 .info-tip:hover {
   cursor: pointer;
   right: -.375rem;
@@ -2700,11 +2696,12 @@ input:focus + button + .error + .autocomplete > ul {
   height: 100%;
   text-align: center;
   font-size: 2rem;
+  letter-spacing: -.0625em;
   color: white;
   text-indent: 0;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 }
-.css-fx .user-profile a.picture {font-family: "Oswald", sans-serif;}
+.css-fx .user-profile a.picture {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 .user-profile a.picture:hover:before {
   background-color: rgba(255, 255, 255, .5);
 }
@@ -2727,12 +2724,13 @@ input:focus + button + .error + .autocomplete > ul {
   padding-bottom: 0;
   padding-left: .4375rem;
   line-height: 150%;
+  letter-spacing: -.0625em;
   color: white;
   border-color: transparent;
   background-color: #759;
   text-shadow: 1px 1px rgba(0,0,0,.5);
 }
-.css-fx .user-profile input.user-name {font-family: "Oswald", sans-serif;}
+.css-fx .user-profile input.user-name {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 .user-profile input.user-name:-ms-input-placeholder { /* IE 10+ */
   color: rgba(255, 255, 255, .5);
   text-shadow: 1px 1px rgba(0,0,0,.125);
@@ -2854,8 +2852,9 @@ input:focus + button + .error + .autocomplete > ul {
   color: silver;
   font-size: 175%;
   line-height: 200%;
+  letter-spacing: -.0625em;
 }
-.css-fx .date-table .href-block > time {font-family: "Oswald", sans-serif;}
+.css-fx .date-table .href-block > time {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 .date-table .href-block > ul {
   margin: 0 0 .25rem;
   list-style: none inside;
@@ -2899,8 +2898,9 @@ input:focus + button + .error + .autocomplete > ul {
   color: silver;
   font-size: 175%;
   line-height: 5rem;
+  letter-spacing: -.0625em;
 }
-.css-fx .date-list .href-block > time {font-family: "Oswald", sans-serif;}
+.css-fx .date-list .href-block > time {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 .date-list .href-block > ul {
   margin: 0 0 .25rem;
   list-style: none inside;
