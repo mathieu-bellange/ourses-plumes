@@ -15,6 +15,16 @@
  * Be carefull with them or beware Bilbo Baggin's mighty wrath !
  */
 
+/* Cut String */
+String.prototype.cut = function (start) {
+	return this.substr(start, this.length);
+};
+
+/* Truncate String */
+String.prototype.trunc = function (end) {
+	return this.substr(0, end);
+};
+
 /* Scroll to (object) */
 function scrollTo(object, duration, spacing) {
 	var duration = $conf.js_fx ? (typeof duration !== "undefined" ? duration : 0) : 0;
@@ -667,7 +677,7 @@ function update_user_avatar(pathAvatar) {
 
 /* Check authentication before sending AJAX requests */
 function header_authentication(xhr) {
-	if (window.localStorage.getItem($auth.token) !== undefined) {
+	if (localStorage !== undefined && window.localStorage.getItem($auth.token) !== undefined) {
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // check authc token
 	}
 }
@@ -755,6 +765,83 @@ function check_user_connect() {
 	}
 }
 
+/* Check prefs object */
+function has_prefs(prefs) {
+	if (localStorage !== undefined && localStorage.getItem(prefs) !== null) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/* Check pref value */
+function has_pref(prefs, key) {
+	if (localStorage !== undefined && localStorage.getItem(prefs) !== null) {
+		var p = JSON.parse(localStorage.getItem(prefs));
+		if (p[key] !== null) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
+
+/* Retrieve prefs object */
+function get_prefs(prefs) {
+	if (localStorage !== undefined && localStorage.getItem(prefs) !== null) {
+		return JSON.parse(localStorage.getItem(prefs));
+	}
+}
+
+/* Retrieve pref value */
+function get_pref(prefs, key) {
+	if (localStorage !== undefined && localStorage.getItem(prefs) !== null) {
+		var p = JSON.parse(localStorage.getItem(prefs));
+		return p[key];
+	}
+}
+
+/* Register prefs object */
+function set_prefs(prefs, hash) {
+	if (localStorage !== undefined) {
+		var p = JSON.parse(localStorage.getItem(prefs));
+		for (n in hash) {
+			p[n] = hash[n];
+		}
+		localStorage.setItem(prefs, JSON.stringify(p))
+	}
+}
+
+/* Register pref value */
+function set_pref(prefs, key, value) {
+	if (localStorage !== undefined) {
+		var p = JSON.parse(localStorage.getItem(prefs));
+		p[key] = value;
+		localStorage.setItem(prefs, JSON.stringify(p))
+	}
+}
+
+/* Delete prefs object */
+function remove_prefs(prefs) {
+	if (localStorage !== undefined) {
+		localStorage.removeItem(prefs);
+	}
+}
+
+/* Delete pref value */
+function remove_pref(prefs, key) {
+	if (localStorage !== undefined) {
+		var p = JSON.parse(localStorage.getItem(prefs)), h = {};
+		for (n in p) {
+			if (n !== key) {
+				h[n] = p[n];
+			}
+		}
+	}
+}
+
 /* ------------------------------------------------------------------ */
 /* # Build processing */
 /* ------------------------------------------------------------------ */
@@ -764,6 +851,24 @@ function check_user_connect() {
  * HTML files in order to handle none or multiple <section> cases and
  * prevent indent issues. The script seems to work properly that way.
  */
+
+/* Check app conf user prefs */
+(function() {
+	if (localStorage !== undefined && localStorage.getItem($prefs.app_conf) == null) {
+			var defaults = {
+			"css_fx" : $conf.css_fx,
+			"svg_fx" : $conf.svg_fx,
+			"js_fx" : $conf.js_fx,
+		};
+		set_prefs($prefs.app_conf, defaults); // register defaults to user prefs
+	} else {
+		if (has_prefs($prefs.app_conf)) { // retrieve user prefs
+			$conf.css_fx = get_pref($prefs.app_conf, "css_fx") ? true : false; // overwrite defaults
+			$conf.svg_fx = get_pref($prefs.app_conf, "svg_fx") ? true : false; // overwrite defaults
+			$conf.js_fx = get_pref($prefs.app_conf, "js_fx") ? true : false; // overwrite defaults
+		}
+	}
+}());
 
 // Process build
 if ($conf.css_fx) {
@@ -789,7 +894,7 @@ if ($build.container) {
 	if (window.location.href.indexOf($nav.login.url) > -1) {
 		set_user_connect(false);
 	} else {
-		if (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null) {
+		if (localStorage !== undefined && window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null) {
 			set_user_connect(true);
 		} else {
 			set_user_connect(false);
@@ -881,11 +986,19 @@ $(document).on("keydown", function(event) {
 	}
 });
 
-/* Toolbar CSS Toggle Checker */
-$(document).ready(function() {
-	if (typeof $conf.css_fx !== "undefined" && $conf.css_fx == false) {
-		$("#_css_fx_toggle").addClass("active");
-	}
+/* Toolbar Effects Toggler */
+$("#_css_fx_toggle, #_svg_fx_toggle, #_js_fx_toggle").click(function() {
+	$(this).toggleClass("active");
+	var str = $(this).attr("id").replace("_toggle", "").cut(1);
+	var val = $(this).hasClass("active") ? true : false;
+	set_pref($prefs.app_conf, str, val); // set user pref
+	$conf[str] = val; // overwrite global conf
+});
+$("#_css_fx_toggle").click(function() {
+	$("body").toggleClass("css-fx");
+});
+$("#_svg_fx_toggle").click(function() {
+	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "warning");
 });
 
 /* Toolbar Null Links Toggler */
@@ -932,12 +1045,6 @@ $("#_null_links_toggle").click(function() {
 		$(".pagination li .not-disabled").removeClass("not-disabled");
 	}
 	$(this).toggleClass("active");
-});
-
-/* Toolbar CSS Effects Toggler */
-$("#_css_fx_toggle").click(function() {
-	$(this).toggleClass("active");
-	$("body").toggleClass("css-fx");
 });
 
 /* Toolbar CSS Debug Toggler */
@@ -1003,6 +1110,19 @@ $("#toolbar .close").click(function() {
 		$("#main").css("margin-top", 0);
 	}
 	$("#toolbar").addClass("hide");
+});
+
+/* Toolbar Initialization */
+$(document).ready(function() {
+	if (get_pref($prefs.app_conf, "css_fx") == true) {
+		$("#_css_fx_toggle").addClass("active");
+	}
+	if (get_pref($prefs.app_conf, "svg_fx") == true) {
+		$("#_svg_fx_toggle").addClass("active");
+	}
+	if (get_pref($prefs.app_conf, "js_fx") == true) {
+		$("#_js_fx_toggle").addClass("active");
+	}
 });
 
 /* ------------------------------------------------------------------ */
@@ -1334,9 +1454,9 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 /* Autosize jQuery plugin custom settings */
 var autosize_cfg = {append: ""};
 var f_tooltip_cfg = {
-	"touch_close_text": "Appuyez pour fermer",
-	"disable_for_touch": true,
-	"hover_delay": 750
+	"touch_close_text" : "Appuyez pour fermer",
+	"disable_for_touch" : true,
+	"hover_delay" : 625
 };
 
 /* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */

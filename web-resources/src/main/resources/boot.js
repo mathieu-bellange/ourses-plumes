@@ -63,19 +63,19 @@ $auth = {
 
 /* Build */
 $build = {
-	"compress"           : false,                                 // Boolean  Compress generated content (i.e. remove tabs and line ends). Default : true
+	"compress"           : $app.stage == "rtw" ? true : false,    // Boolean  Compress generated content (i.e. remove tabs and line ends). Default : true
 	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
-	"toolbar"            : true,                                  // Boolean  Create dev toolbar. Default : false
+	"toolbar"            : $app.stage == "rtw" ? false : true,    // Boolean  Create dev toolbar. Default : false
 	"icons"              : true                                   // Boolean  Create SVG icons. Default : true
 };
 
 /* Configuration */
 $conf = {
+	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
 	"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
 	"css_fx"             : true,                                  // Boolean  Enable CSS effects on HTML elements (i.e. multiple backgrounds, transitions, animations, box shadows, text shadows and ribbons). Default : true
-	"js_fx"              : true,                                  // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default : true
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
-	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
+	"js_fx"              : true,                                  // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default : true
 	"page_title"         : true,                                  // Boolean  Display page title. If set to 'false' the organization name only will appear in the title bar. Default : true
 	"null_links"         : "javascript:void(0)"                   // String   Set the hypertext referer for null links. Default : "javascript:void(0)" * UNUSED (for now)
 }
@@ -173,6 +173,7 @@ $nav = {
 
 /* Prefs */
 $prefs = {
+	"app_conf"              : "oursesUserPrefsAppConf",           // String   Local storage key of the application configuration user preferences. Default : "oursesUserPrefsAppConf"
 	"articles_filters"      : "oursesUserPrefsFiltersArticles"    // String   Local storage key of the articles filters user preferences. Default : "oursesUserPrefsFiltersArticles"
 };
 

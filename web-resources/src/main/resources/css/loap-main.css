@@ -2919,8 +2919,14 @@ input:focus + button + .error + .autocomplete > ul {
 #toolbar a:focus {outline-offset: -.5rem;}
 #_null_links_toggle:before {content: 'Enable ';}
 #_null_links_toggle.active:before {content: 'Disable ';}
-#_css_fx_toggle:before {content: 'Hide ';}
-#_css_fx_toggle.active:before {content: 'Show ';}
+
+#_css_fx_toggle:before,
+#_svg_fx_toggle:before,
+#_js_fx_toggle:before {content: 'Show ';}
+#_css_fx_toggle.active:before ,
+#_svg_fx_toggle.active:before,
+#_js_fx_toggle.active:before {content: 'Hide ';}
+
 #toolbar [id*="_css_debug_"]:before {content: 'Markup ';}
 #toolbar [id*="_css_debug_"].active:before {content: 'Unmark ';}
 #_toolbar_stick_toggle:before {content: 'Undock ';}
