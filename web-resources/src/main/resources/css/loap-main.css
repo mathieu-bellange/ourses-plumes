@@ -51,7 +51,7 @@ html {
 body {
   padding: 1rem;
   font-size: 100%;
-  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   color: #333;
   background-image: none;
 }
@@ -70,7 +70,7 @@ body.standard-layout {
 h1, h2, h3, h4, h5, h6 {
   margin-top: .5em; /* Foundation override */
   margin-bottom: .25em; /* Foundation override */
-  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
   line-height: 150%; /* WARNING : using percent instead of rem ; should properly inherit real header size */
   letter-spacing: -.0625em;
   text-rendering: optimizeSpeed; /* Foundation override */
@@ -116,7 +116,7 @@ ul, ol, dl {
 /* Blockquotes */
 blockquote {
   font-size: 1em; /* WARNING : using em instead of rem ; blockquotes should properly inherit font size percent fix value from parents */
-  line-height: 133%; /* WARNING : using percent instead of rem ; should properly inherit real paragraph size */
+  line-height: 150%; /* WARNING : using percent instead of rem ; should properly inherit real paragraph size */
 }
 blockquote cite {
   font-size: 87.5%;
@@ -174,7 +174,7 @@ fieldset legend {
   color: darkgrey;
   font-size: 125%;
   font-weight: normal;
-  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   line-height: 2rem;
   letter-spacing: -.0625em;
   background-color: transparent; /* Foundation override */
@@ -441,7 +441,7 @@ label.error {
 
 button, .button,
 .prefix.button, .postfix.button {
-  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   font-weight: 900; /* BUG */
   line-height: 100%;
   letter-spacing: -.0625em;
@@ -1267,7 +1267,7 @@ kbd,
 .sub-nav {}
 .sub-nav dt, .sub-nav dd, .sub-nav li {
   margin: 0; /* Foundation override */
-  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
 }
 .css-fx .sub-nav dt, .sub-nav dd, .sub-nav li {font-family: "Nobile", sans-serif;}
 .sub-nav.toggle dt, .sub-nav.toggle dd, .sub-nav.toggle li {
@@ -1458,7 +1458,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 
 .alert-box {
   padding: .5rem 1.5rem; /* Foundation Override */
-  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   line-height: 2rem; /* Foundation Override */
   background-color: #a8c;
   border: .15rem solid #759;
@@ -1518,7 +1518,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* ------------------------------------------------------------------ */
 
 .label, a.label {
-  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   padding: .375rem .5rem;
   color: white;
   font-size: .75em;
