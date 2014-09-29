@@ -33,38 +33,58 @@ var index = 0; // internal
 $(document).ready(function() {
 	$(list_selector + " li:gt(" + (limit_items - 1) + ")").hide();
 	if ($(list_selector + " li").length >= limit_items) {
-		$(more_selector).show();
+		$conf.js_fx ? $(more_selector).fadeIn(250) : $(more_selector).show();
 	}
 });
 
 $("html").on("click", more_selector, function() {
 	if (!$(list_selector + " li").last().is(":visible")) {
 		index += 1;
-		$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").hide();
-		$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").show();
-		$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").hide();
+		if ($conf.js_fx) {
+			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").slideUp(250);
+			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").slideDown(250);
+			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").slideUp(250);
+		} else {
+			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").hide();
+			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").show();
+			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").hide();
+		}
 	}
 	if (($(list_selector + " li").length / limit_items) > (index) && ($(list_selector + " li").length / limit_items) <= (index + 1)) {
-		$(this).hide();
+		$conf.js_fx ? $(this).fadeOut(250) : $(this).hide();
 	}
 	if (index > 0) {
-		$(less_selector).show();
+		$conf.js_fx ? $(less_selector).fadeIn(250) : $(less_selector).show();
 	}
 });
 
 $("html").on("click", less_selector, function() {
 	if (index == 1) {
 		index -= 1;
-		$(list_selector + " li:lt(" + (limit_items + 1) + ")").show();
-		$(list_selector + " li:gt(" + (limit_items - 1) + ")").hide();
-		$(this).hide();
+		if ($conf.js_fx) {
+			$(list_selector + " li:lt(" + (limit_items + 1) + ")").slideDown(250);
+			$(list_selector + " li:gt(" + (limit_items - 1) + ")").slideUp(250);
+			$(this).fadeOut(250);
+		} else {
+			$(list_selector + " li:lt(" + (limit_items + 1) + ")").show();
+			$(list_selector + " li:gt(" + (limit_items - 1) + ")").hide();
+			$(this).hide();
+		}
 	} else if (!$(list_selector + " li").first().is(":visible")) {
 		index -= 1;
-		$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").hide();
-		$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").show();
-		$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").hide();
+		if ($conf.js_fx) {
+			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").slideUp(250);
+			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").slideDown(250);
+			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").slideUp(250);
+		} else {
+			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").hide();
+			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").show();
+			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").hide();
+		}
 	}
-	if (!$(list_selector + " li").last().is(":visible")) {
-		$(more_selector).show();
-	}
+	setTimeout(function() {
+		if (!$(list_selector + " li").last().is(":visible")) {
+			$conf.js_fx ? $(more_selector).fadeIn(250) : $(more_selector).show();
+		}
+	}, 250);
 });
