@@ -806,7 +806,7 @@ function get_pref(prefs, key) {
 /* Register prefs object */
 function set_prefs(prefs, hash) {
 	if (localStorage !== undefined) {
-		var p = JSON.parse(localStorage.getItem(prefs));
+		var p = JSON.parse(localStorage.getItem(prefs)) || {};
 		for (n in hash) {
 			p[n] = hash[n];
 		}
