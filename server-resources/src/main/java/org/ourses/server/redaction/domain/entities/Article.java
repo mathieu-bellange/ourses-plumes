@@ -20,7 +20,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -51,8 +50,8 @@ public class Article implements Serializable {
 	 */
     private static final long serialVersionUID = -6748991147610491255L;
 
-    @Transient
     public static final String CRITERIA_TAG = "tag";
+    public static final String CRITERIA_RUBRIQUE = "rubrique";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "article_seq_gen")
@@ -235,6 +234,9 @@ public class Article implements Serializable {
                 switch (entrySet.getKey()) {
                 case CRITERIA_TAG:
                     req.add(Expr.eq("tags.tag", entrySet.getValue()));
+                    break;
+                case CRITERIA_RUBRIQUE:
+                    req.add(Expr.eq("rubrique.path", entrySet.getValue()));
                     break;
                 default:
                     break;

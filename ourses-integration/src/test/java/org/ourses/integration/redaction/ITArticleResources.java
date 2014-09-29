@@ -131,6 +131,19 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldReadPublishArticleByRubrique() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("rubrique", "intersectionnalité")
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("rubrique.rubrique").containsOnly("Intersectionnalit&eacute;");
+    }
+
+    @Test
     public void shouldReadAllPublishArticleAndIsOwnDraftToCheck() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
@@ -175,6 +188,21 @@ public class ITArticleResources {
         for (ArticleDTO art : articles) {
             assertThat(art.getTags()).onProperty("tag").contains("tag 1");
         }
+    }
+
+    @Test
+    public void shouldReadPublishArticleAndIsOwnDraftToCheckByRubrique() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+        params.add("rubrique", "intersectionnalité");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("rubrique.rubrique").contains("Intersectionnalit&eacute;");
     }
 
     @Test

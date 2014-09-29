@@ -91,11 +91,13 @@ public class ArticleResources {
     @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
     String token, @QueryParam(value = "tag")
-    String tag) {
+    String tag, @QueryParam(value = "rubrique")
+    String rubrique) {
         ResponseBuilder responseBuilder;
         Set<Article> articles = Sets.newHashSet();
         Map<String, String> parameters = Maps.newHashMap();
         parameters.put(Article.CRITERIA_TAG, tag);
+        parameters.put(Article.CRITERIA_RUBRIQUE, rubrique);
         if (token != null) {
             // recherche le profil associé
             Profile profile = profileHelper.findProfileByAuthcToken(token);
