@@ -632,7 +632,7 @@ a.icon.active:not(.button):not(.disabled) > .text {
 }
 a.icon.share:not(.button) > .text {
   margin-right: 5px;
-  font-weight: bold;
+  font-weight: normal;
   font-variant: normal;
   text-transform: none;
 }
@@ -1073,7 +1073,6 @@ kbd,
   margin-left: .75rem;
   color: white;
   font-size: 1.15rem;
-  font-weight: bold;
   list-style: none;
   line-height: 48px;
 }
@@ -1522,7 +1521,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   padding: .375rem .5rem;
   color: white;
   font-size: .75em;
-  font-weight: bold;
+  font-weight: normal;
   font-style: normal;
   background-color: #a8c;
 }
@@ -2460,8 +2459,8 @@ input:focus + button + .error + .autocomplete > ul {
   padding: .125rem .25rem;
 }
 .related-list > li + li {margin-top: .5rem;}
-.related-list > li > a {font-weight: bold; font-size: 1.0625em; color: #444; text-decoration: none;}
-.related-list > li > a:hover {font-weight: bold; color: #222; text-decoration: underline;}
+.related-list > li > a {padding-right: 2rem; font-weight: bold; color: #444; text-decoration: none;}
+.related-list > li > a:hover {color: #222; text-decoration: underline;}
 .related-list .summary {
   position: relative;
   margin: .25rem 2rem 0 2rem;
@@ -2824,6 +2823,10 @@ input:focus + button + .error + .autocomplete > ul {
     opacity: .5;
     text-shadow: -1px -1px rgba(0, 0, 0, .5);
   }
+}
+
+.user-profile .related-list {
+  font-size: 87.5%; /* TEMP : font size adjustment */
 }
 
 /* ------------------------------------------------------------------ */
