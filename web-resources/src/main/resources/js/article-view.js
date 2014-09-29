@@ -26,10 +26,10 @@ var share = (function() {
 			var settings = $.extend({}, defaults, options);
 			// events
 			$(document).ready(function() {
-				var article_url = window.location;
-				var article_title = encodeURI($(".article h2.title").text());
-				var article_summary = encodeURI($(".article p.summary").text());
-				var article_source = encodeURI($org.name);
+				var article_url = encodeURI(window.location).replace("?", "%3F");
+				var article_title = encodeURI($(".article h2.title").text()).replace("?", "%3F");
+				var article_summary = encodeURI($(".article p.summary").text()).replace("?", "%3F");
+				var article_source = encodeURI($org.name).replace("?", "%3F");
 				var mail_href = "mailto:?subject=" + $org.name + encodeURI(" : ") + article_title + "&body=" + encodeURI("Quelqu'un vous a invité à lire ") + article_title + encodeURI(" sur ") + article_source + encodeURI(" : ") + article_url + encodeURI("\n\nBonne lecture !");
 				$("#share_mail").attr("href", mail_href);
 				var twitter_href = "https://twitter.com/share";
