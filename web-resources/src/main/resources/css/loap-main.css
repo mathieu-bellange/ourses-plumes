@@ -13,17 +13,29 @@
   font-family: "Oswald"; /* Oswald Book Font a.k.a Oswald Regular */
   src: url('../fnt/oswald.eot');
   src: url('../fnt/oswald.eot?#iefix') format('embedded-opentype'),
-  url('../fnt/oswald.woff') format('woff'),
-  url('../fnt/oswald.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
+       url('../fnt/oswald.woff') format('woff'),
+       url('../fnt/oswald.svg#oswald') format('svg');
+}
+
+@font-face {
+  font-family: "Nobile"; /* Nobile Regular */
+  src: url('../fnt/nobile.eot');
+  src: url('../fnt/nobile.eot?#iefix') format('embedded-opentype'),
+       url('../fnt/nobile.woff') format('woff'),
+       url('../fnt/nobile.svg#nobile') format('svg');
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { /* Chrome Webfont Antialiasing Fix */
+  /*
   @font-face {
     font-family: "Oswald";
-    src: url('../fnt/oswald.svg') format('svg');
+    src: url('../fnt/oswald.eot') format('eot');
   }
+  @font-face {
+    font-family: "Nobile";
+    src: url('../fnt/nobile.eot') format('eot');
+  }
+  */
 }
 
 /* ------------------------------------------------------------------ */
@@ -32,7 +44,6 @@
 
 html {
   font-size: 16px;
-  font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
@@ -40,9 +51,11 @@ html {
 body {
   padding: 1rem;
   font-size: 100%;
-  color: #222;
+  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  color: #333;
   background-image: none;
 }
+body.css-fx {font-family: "Nobile", sans-serif;}
 
 body.standard-layout {
   padding: 0;
@@ -57,9 +70,14 @@ body.standard-layout {
 h1, h2, h3, h4, h5, h6 {
   margin-top: .5em; /* Foundation override */
   margin-bottom: .25em; /* Foundation override */
-  font-family: "Oswald", sans-serif;
+  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
   line-height: 150%; /* WARNING : using percent instead of rem ; should properly inherit real header size */
+  text-rendering: optimizeSpeed;
   color: black;
+}
+.css-fx h1, .css-fx h2, .css-fx h3, .css-fx h4, .css-fx h5, .css-fx h6 {
+  font-family: "Oswald", sans-serif;
+  text-rendering: geometricPrecision;
 }
 h1 {font-size: 3em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
 h2 {font-size: 2.5em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
@@ -80,8 +98,10 @@ hgroup > *:last-child {margin-bottom: 0;}
 
 /* Paragraphs */
 p {
-  font-size: 1em; /* WARNING : using em instead of rem ; paragraphs should properly inherit font size percent fix value from parents */
-  line-height: 133%; /* WARNING : using percent instead of rem ; should properly inherit real paragraph size */
+  font-size: 1.0625em; /* WARNING : using em instead of rem ; paragraphs should properly inherit font size percent fix value from parents */
+  line-height: 150%; /* WARNING : using percent instead of rem ; should properly inherit real paragraph size */
+  text-align: justify;
+  text-rendering: optimizeLegibility;
 }
 
 /* Paragraphs Indentation and Spacing */
@@ -105,9 +125,8 @@ blockquote cite {
 }
 
 /* Links */
-a {text-decoration: underline;}
-a, a:link a:active, a:visited {color: darkorchid;}
-a:hover, a:focus {color: deeppink;}
+a, a:link a:active, a:visited {color: #668; text-decoration: underline;}
+a:hover, a:focus {color: #446;}
 
 /* Emphasis, Strong, Small */
 em {}
@@ -157,11 +176,14 @@ fieldset legend {
   color: darkgrey;
   font-size: 125%;
   font-weight: normal;
-  font-family: "Oswald", sans-serif;
+  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
   line-height: 2rem;
   background-color: transparent; /* Foundation override */
   border-top-left-radius: .375rem;
   border-top-right-radius: .375rem;
+}
+.css-fx fieldset legend {
+  font-family: "Oswald", sans-serif;
 }
 fieldset legend:not(.hide) + *,
 fieldset legend:not(.hide) + [type],
@@ -205,7 +227,7 @@ cite {
   font-style: normal;
 }
 cite.author { /* TEMP */
-  font-family: Liberation Serif, Droid Serif, Tinos, Times New Roman, serif;
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
   font-variant: small-caps;
   font-style: normal;
 }
@@ -314,7 +336,7 @@ select > option {
 /* # Font Sizing */
 /* ------------------------------------------------------------------ */
 
-.text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
+.css-fx .text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
 
 .text-tiny {font-size: 66%;}
 .text-small {font-size: 75%;}
@@ -422,11 +444,15 @@ label.error {
 
 button, .button,
 .prefix.button, .postfix.button {
-  font-family: "Oswald", sans-serif;
+  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
   font-weight: 900; /* BUG */
   line-height: 100%;
   border-width: .15rem;
   border-style: solid;
+}
+.css-fx button, .css-fx .button,
+.css-fx .prefix.button, .css-fx .postfix.button {
+  font-family: "Oswald", sans-serif;
 }
 
 button:visited, .button:visited {
@@ -798,7 +824,7 @@ kbd,
   border-width: .125rem;
   border-bottom-width: .25rem;
   border-bottom-color: gainsboro;
-  font-family: Liberation Mono, Droid Sans Mono, Cousine, Courier New, monospace;
+  font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
   padding: 0.25rem 0.25rem 0;
   -webkit-border-radius: .25rem;
   border-radius: .25rem;
@@ -859,7 +885,7 @@ kbd,
 
 /* All Navs */
 .main-nav a, .fast-nav a, .user-nav a, .site-nav a {text-decoration: none;}
-.main-nav ul li, .fast-nav ul li, .user-nav ul li {font-family: "Oswald", sans-serif;}
+.css-fx .main-nav ul li, .css-fx .fast-nav ul li, .css-fx .user-nav ul li {font-family: "Oswald", sans-serif;}
 
 /* User Nav */
 .user-nav {
@@ -1244,8 +1270,9 @@ kbd,
 .sub-nav {}
 .sub-nav dt, .sub-nav dd, .sub-nav li {
   margin: 0; /* Foundation override */
-  font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif; /* Foundation override */
+  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
 }
+.css-fx .sub-nav dt, .sub-nav dd, .sub-nav li {font-family: "Nobile", sans-serif;}
 .sub-nav.toggle dt, .sub-nav.toggle dd, .sub-nav.toggle li {
   margin: 0 .125rem;
 }
@@ -1430,14 +1457,16 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* ------------------------------------------------------------------ */
 
 .alert-box > *:first-child {margin-top: 0;}
-.alert-box > *:last-child {margin-bottom: 0;}
+.alert-box > *:last-child {margin-bottom: .5rem;}
 
 .alert-box {
   padding: .5rem 1.5rem; /* Foundation Override */
+  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
   line-height: 2rem; /* Foundation Override */
   background-color: #a8c;
   border: .15rem solid #759;
 }
+.css-fx .alert-box {font-family: "Nobile", sans-serif;}
 .alert-box .has-tip {
   display: inline-block;
   color: inherit;
@@ -1451,7 +1480,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   text-decoration: none;
 }
 .alert-box .close:after {
-  margin-top: .5rem;
+  margin-top: .25rem;
   margin-right: .5rem;
   display: block;
 }
@@ -1492,13 +1521,21 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* ------------------------------------------------------------------ */
 
 .label, a.label {
-  font-family: Liberation Sans, Droid Sans, Arimo, Arial, sans-serif;
-  padding: .35rem;
+  font-family: Tahoma, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  padding: .375rem .5rem;
   color: white;
-  font-size: 85%;
+  font-size: .75em;
   font-weight: bold;
   font-style: normal;
   background-color: #a8c;
+}
+.css-fx .label, .css-fx a.label {font-family: "Nobile", sans-serif;}
+.label.radius {
+  border-radius: .375rem; /* Foundation override */
+}
+.label.round {
+  padding-left: .75rem;
+  padding-right: .75rem;
 }
 a.label:hover, a.label:focus {color: white; background-color: #97b;}
 .label.secondary {color: white; background-color: silver;}
@@ -1724,9 +1761,11 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   color: #222;
 }
 .orbit-slides-container blockquote {
-  font-family: "Oswald", sans-serif;
   margin-bottom: 0;
   border-left: none;
+}
+.css-fx .orbit-slides-container blockquote {
+  font-family: "Oswald", sans-serif;
 }
 .orbit-slides-container blockquote cite {
   margin-top: .75rem;
@@ -1944,7 +1983,7 @@ input:focus + button + .error + .autocomplete > ul {
   position: relative;
   margin-bottom: 1rem;
   padding: 1rem;
-  font-family: monospace;
+  font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
   font-size: 87.5%;
   line-height: 200%;
   border: 1px solid silver;
@@ -2005,6 +2044,7 @@ input:focus + button + .error + .autocomplete > ul {
   color: gray;
   font-size: 90%;
   font-style: italic;
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
   border: .25rem solid silver;
   border-left-color: transparent;
   border-right-color: transparent;
@@ -2015,12 +2055,10 @@ input:focus + button + .error + .autocomplete > ul {
   border: 1px solid transparent;
 }
 
-.article > p {
-  text-align: justify;
-}
 .article p.author {
   text-align: right;
   font-variant: small-caps;
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
 }
 .article p.author:before {
   content: "—";
@@ -2051,7 +2089,6 @@ input:focus + button + .error + .autocomplete > ul {
   margin-left: 12.5%;
   margin-bottom: 1rem;
   color: gray;
-  font-family: "Oswald", sans-serif;
   font-size: 150%;
   line-height: 150%;
   text-align: center;
@@ -2059,6 +2096,7 @@ input:focus + button + .error + .autocomplete > ul {
   border-left: 0;
   border-right: 0;
 }
+.css-fx .article .callout {font-family: "Oswald", sans-serif;}
 [class*='cke_panel'] .callout { /* CKEditor Styles Menu */
   margin-bottom: 0; /* Fix margin bottom */
 }
@@ -2078,6 +2116,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* Standard Article Callout Rubrics Colors */
+/*
 .article.red .callout {color: #c33; border-color: #c33;}
 .article.orange .callout {color: #f63; border-color: #f63;}
 .article.yellow .callout {color: #ca0; border-color: #ca0;}
@@ -2086,26 +2125,39 @@ input:focus + button + .error + .autocomplete > ul {
 .article.blue .callout {color: #36c; border-color: #36c;}
 .article.purple .callout {color: #93c; border-color: #93c;}
 .article.magenta .callout {color: #e2a; border-color: #e2a;}
+*/
 
-/* Named Article Callout Rubrics Colors */
+/* Article Named Rubrics Colors */
 .article.intersec h4,
 .article.intersec a:not(.label):not(.close),
 .article.intersec .callout{color: #c33; border-color: #c33;}
+.article.intersec a:not(.label):not(.close):hover,
+.article.intersec a:not(.label):not(.close):focus {color: #822;}
 .article.struggles h4,
 .article.struggles a:not(.label):not(.close),
 .article.struggles .callout {color: #f63; border-color: #f63;}
+.article.struggles a:not(.label):not(.close):hover,
+.article.struggles a:not(.label):not(.close):focus {color: #931;}
 .article.ideas h4,
 .article.ideas a:not(.label):not(.close),
 .article.ideas .callout {color: #ca0; border-color: #ca0;}
+.article.ideas a:not(.label):not(.close):hover,
+.article.ideas a:not(.label):not(.close):focus {color: #761;}
 .article.educult h4,
 .article.educult a:not(.label):not(.close),
 .article.educult .callout {color: #399; border-color: #399;}
+.article.educult a:not(.label):not(.close):hover,
+.article.educult a:not(.label):not(.close):focus {color: #255;}
 .article.internat h4,
 .article.internat a:not(.label):not(.close),
 .article.internat .callout {color: #36c; border-color: #36c;}
+.article.internat a:not(.label):not(.close):hover,
+.article.internat a:not(.label):not(.close):focus {color: #248;}
 .article.ourbody h4,
 .article.ourbody a:not(.label):not(.close),
 .article.ourbody .callout {color: #e2a; border-color: #e2a;}
+.article.ourbody a:not(.label):not(.close):hover,
+.article.ourbody a:not(.label):not(.close):focus {color: #a17;}
 
 /* ------------------------------------------------------------------ */
 /* # Edit Articles */
@@ -2179,7 +2231,6 @@ input:focus + button + .error + .autocomplete > ul {
   color: gainsboro;
   font-size: 1rem;
 }
-.css-fx .article.edit .tags:after {transition: all .25s ease;}
 .article.edit .tags:hover:after,
 .article.edit .tags:focus:after,
 .article.edit .tags.active:after {
@@ -2189,7 +2240,10 @@ input:focus + button + .error + .autocomplete > ul {
   right: 1rem;
   color: silver;
   font-size: 1.75rem;
-  font-family: "Oswald";
+}
+.css-fx .article.edit .tags:after {
+  font-family: "Oswald", sans-serif;
+  transition: all .25s ease;
 }
 .article.edit .tags.active:after {
   content: "Masquer les tags";
@@ -2271,7 +2325,7 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list li .author {
   margin-left: .5rem;
   color: #222;
-  font-family: Liberation Serif, Droid Serif, Tinos, Times New Roman, serif;
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
   font-variant: small-caps;
 }
 
@@ -2320,13 +2374,15 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list.standby .href-block a:before {
   position: absolute;
   text-indent: 0; /* Revert hide text */
-  font-family: "Oswald", sans-serif;
   -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
       -ms-transform: rotate(-90deg); /* IE 9 */
           transform: rotate(-90deg);
   -webkit-transform-origin: 50% 100%; /* Chrome, Opera and Safari */
       -ms-transform-origin: 50% 100%; /* IE 9 */
           transform-origin: 50% 100%;
+}
+.css-fx .articles-list .href-block a:before {
+  font-family: "Oswald", sans-serif;
 }
 
 /* Drafts */
@@ -2409,14 +2465,13 @@ input:focus + button + .error + .autocomplete > ul {
   padding: .125rem .25rem;
 }
 .related-list > li + li {margin-top: .5rem;}
-.related-list > li > a {font-weight: bold; color: #444; text-decoration: none;}
+.related-list > li > a {font-weight: bold; font-size: 1.0625em; color: #444; text-decoration: none;}
 .related-list > li > a:hover {font-weight: bold; color: #222; text-decoration: underline;}
 .related-list .summary {
   position: relative;
   margin: .25rem 2rem 0 2rem;
   padding-top: .25rem;
   color: #666;
-  font-size: .875em;
   text-align: justify;
   border-top: 1px dotted silver;
 }
@@ -2430,7 +2485,6 @@ input:focus + button + .error + .autocomplete > ul {
   line-height: 1.5rem;
   margin-top: -.75rem;
   color: dimgray;
-  font-family: "Oswald";
   text-align: center;
   border-radius: 100%;
   background-color: whitesmoke;
@@ -2440,6 +2494,7 @@ input:focus + button + .error + .autocomplete > ul {
      -moz-transition: all .25s ease-out; /* TEMP */
           transition: all .25s ease-out; /* TEMP */
 }
+.css-fx .info-tip {font-family: "Oswald", sans-serif;}
 .info-tip:hover {
   cursor: pointer;
   right: -.375rem;
@@ -2620,6 +2675,8 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .user-profile .user-desc {
   padding: .375rem;
+  font-size: .9em;
+  line-height: 150%;
   text-align: justify;
 }
 
@@ -2642,12 +2699,12 @@ input:focus + button + .error + .autocomplete > ul {
   width: 100%;
   height: 100%;
   text-align: center;
-  font-family: "Oswald";
   font-size: 2rem;
   color: white;
   text-indent: 0;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 }
+.css-fx .user-profile a.picture {font-family: "Oswald", sans-serif;}
 .user-profile a.picture:hover:before {
   background-color: rgba(255, 255, 255, .5);
 }
@@ -2669,13 +2726,13 @@ input:focus + button + .error + .autocomplete > ul {
   padding-top: 0;
   padding-bottom: 0;
   padding-left: .4375rem;
-  font-family: "Oswald", sans-serif;
   line-height: 150%;
   color: white;
   border-color: transparent;
   background-color: #759;
   text-shadow: 1px 1px rgba(0,0,0,.5);
 }
+.css-fx .user-profile input.user-name {font-family: "Oswald", sans-serif;}
 .user-profile input.user-name:-ms-input-placeholder { /* IE 10+ */
   color: rgba(255, 255, 255, .5);
   text-shadow: 1px 1px rgba(0,0,0,.125);
@@ -2698,8 +2755,8 @@ input:focus + button + .error + .autocomplete > ul {
   position: relative;
   margin-bottom: 0;
   padding: .375rem;
-  font-size: 1em;
-  line-height: 133%;
+  font-size: .9em;
+  line-height: 150%;
   color: #222;
   border-color: transparent;
   background-color: transparent;
@@ -2796,9 +2853,9 @@ input:focus + button + .error + .autocomplete > ul {
   display: block;
   color: silver;
   font-size: 175%;
-  font-family: "Oswald", sans-serif;
   line-height: 200%;
 }
+.css-fx .date-table .href-block > time {font-family: "Oswald", sans-serif;}
 .date-table .href-block > ul {
   margin: 0 0 .25rem;
   list-style: none inside;
@@ -2841,9 +2898,9 @@ input:focus + button + .error + .autocomplete > ul {
   display: block;
   color: silver;
   font-size: 175%;
-  font-family: "Oswald", sans-serif;
   line-height: 5rem;
 }
+.css-fx .date-list .href-block > time {font-family: "Oswald", sans-serif;}
 .date-list .href-block > ul {
   margin: 0 0 .25rem;
   list-style: none inside;
