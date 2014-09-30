@@ -1341,11 +1341,12 @@ $(".accordion dd > a").click(function() {
 /* ------------------------------------------------------------------ */
 
 /* Sub Navigation Switcher */
-$("html").on("click", ".sub-nav dd a", function() {
-	if (!$(this).parent("dd").parent(".sub-nav").hasClass("toggle")) {
-		if (!$(this).parent("dd").hasClass("unavailable") && !$(this).hasClass("disabled")) {
-			$(this).parent("dd").toggleClass("active");
-			$(this).parent("dd").siblings().removeClass("active");
+$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
+	if (!$(this).parent("dd, dt, li").parent(".sub-nav").hasClass("toggle")) {
+		if (!$(this).parent("dd, dt, li").hasClass("unavailable") && !$(this).hasClass("disabled")) {
+			$(this).parent("dd, dt, li").toggleClass("active");
+			$(this).parent("dd, dt, li").siblings().removeClass("active");
+			$(this).blur();
 		}
 	}
 });

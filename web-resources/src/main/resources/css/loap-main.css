@@ -90,7 +90,7 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
 }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration: none;}
 
-hgroup {background-color: ivory; padding: 1rem; border: 1px solid gainsboro;}
+hgroup {background-color: ivory; padding: 1rem; border: .0625rem solid gainsboro;}
 hgroup > *:first-child {margin-top: 0;}
 hgroup > *:last-child {margin-bottom: 0;}
 
@@ -397,6 +397,7 @@ input.validation:focus {
 input.validation.wrong,
 input.validation.wrong:hover,
 input.validation.wrong:focus {
+  border-color: #c33; /* NEW */
   background-image: url('../img/ui/icon-wrong.png');
 }
 input.validation.valid,
@@ -418,7 +419,7 @@ input.validation.loading:focus {
 small.error {
   display: block;
   padding: 0.33333rem 0.5rem 0.5rem;
-  margin-top: -1px;
+  margin-top: -.0625rem;
   margin-bottom: 0.88889rem;
   font-size: 0.66667rem;
   font-weight: normal;
@@ -441,9 +442,8 @@ label.error {
 
 button, .button,
 .prefix.button, .postfix.button {
-  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
-  font-weight: 900; /* BUG */
   line-height: 100%;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   letter-spacing: -.0625em;
   border-width: .15rem;
   border-style: solid;
@@ -577,7 +577,7 @@ button.alert.active, .button.alert.active, button.error.active, .button.error.ac
   fill: dimgray;
   width: 2.5rem; /* WARNING : this is defaut width (i.e. medium) */
   height: 2.5rem; /* WARNING : this is defaut height (i.e. medium) */
-  padding: .075rem; /* WARNING : this is inner spacing adjustment (automatically deduced from element size) */
+  padding: .0625rem; /* WARNING : this is inner spacing adjustment (automatically deduced from element size) */
   vertical-align: middle;
 }
 .icon > .text {
@@ -822,7 +822,6 @@ kbd,
   border-bottom-color: gainsboro;
   font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
   padding: 0.25rem 0.25rem 0;
-  -webkit-border-radius: .25rem;
   border-radius: .25rem;
 }
 
@@ -1108,10 +1107,9 @@ kbd,
   top: 5%;
   width: 90%;
   height: 90%;
+  border-radius: 100%;
   background-color: rgba(170, 136, 204, .5);
   background-size: 50% 100%;
-  -webkit-border-radius: 100%;
-          border-radius: 100%;
 }
 .logo > a:hover {
   background-color: #ffc;
@@ -1263,32 +1261,49 @@ kbd,
 /* # Sub Navigation */
 /* ------------------------------------------------------------------ */
 
-.sub-nav {}
+.sub-nav {
+  margin: 0;
+  padding: 0;
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
 .sub-nav dt, .sub-nav dd, .sub-nav li {
-  margin: 0; /* Foundation override */
+  margin: 0 .25rem; /* Foundation override */
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
 }
-.css-fx .sub-nav dt, .sub-nav dd, .sub-nav li {font-family: "Nobile", sans-serif;}
-.sub-nav.toggle dt, .sub-nav.toggle dd, .sub-nav.toggle li {
-  margin: 0 .125rem;
+.css-fx .sub-nav dt, .css-fx .sub-nav dd, .css-fx .sub-nav li {
+  font-family: "Nobile", sans-serif;
 }
-.sub-nav dt a, .sub-nav dd a, .sub-nav li a {
-  padding: .375rem .5rem;
+.sub-nav dt a:not(.icon), .sub-nav dd a:not(.icon), .sub-nav li a:not(.icon) {
+  padding: .25rem .5rem; /* Foundation override */
+  vertical-align: middle;
 }
-.sub-nav dt a:hover, .sub-nav dd a:hover, .sub-nav li a:hover {}
-.sub-nav dt.active a, .sub-nav dd.active a, .sub-nav li.active a {
-  padding: .375rem .5rem; /* Foundation override */
+.sub-nav dt.active a:not(.icon), .sub-nav dd.active a:not(.icon), .sub-nav li.active a:not(.icon) {
+  border-radius: .375rem; /* Foundation override */
   background-color: #a8c;
 }
-/* DEBUG */
-/*
-.sub-nav dd:nth-child(odd) {background-color: red;}
-.sub-nav dd:nth-child(even) {background-color: yellow;}
-*/
-
-.sub-nav dt.active a:hover, .sub-nav dd.active a:hover, .sub-nav li.active a:hover {background-color: #a8c;}
-.sub-nav dt a.disabled:hover, .sub-nav dd a.disabled:hover, .sub-nav li a.disabled:hover {color: inherit;}
-.sub-nav dt.active a.disabled:hover, .sub-nav dd.active a.disabled:hover, .sub-nav li.active a.disabled:hover {color: white;}
+.sub-nav dt.active a:not(.icon):hover, .sub-nav dd.active a:not(.icon):hover, .sub-nav li.active a:not(.icon):hover {
+  background-color: #a8c;
+}
+.sub-nav dt a:not(.icon).disabled:hover, .sub-nav dd a:not(.icon).disabled:hover, .sub-nav li a:not(.icon).disabled:hover {
+  color: inherit;
+}
+.sub-nav dt.active a:not(.icon).disabled:hover, .sub-nav dd.active a:not(.icon).disabled:hover, .sub-nav li.active a:not(.icon).disabled:hover {
+  color: white;
+}
+.sub-nav dt a.icon, .sub-nav dd a.icon, .sub-nav li a.icon {
+  padding: .0625rem; /* Foundation override */
+  border-radius: .375rem; /* Foundation override */
+}
+.sub-nav dt.active a.icon:link, .sub-nav dd.active a.icon:link, .sub-nav li.active a.icon:link {
+  background-color: dimgray;
+}
+.sub-nav dt.active a.icon:link > svg, .sub-nav dd.active a.icon:link > svg, .sub-nav li.active a.icon:link > svg {
+  fill: white;
+}
+.sub-nav dd:not(.unavailable) a:not(.disabled):link, .sub-nav dt:not(.unavailable) a:not(.disabled):link, .sub-nav li:not(.unavailable) a:not(.disabled):link {
+  cursor : pointer;
+}
 
 /* ------------------------------------------------------------------ */
 /* # Pagination */
@@ -1336,14 +1351,8 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   .picture.large {width: 196px; height: 196px;}
 }
 
-.picture.radius {
-  -webkit-border-radius: .5rem;
-          border-radius: .5rem;
-}
-.picture.round {
-  -webkit-border-radius: 100%;
-          border-radius: 100%;
-}
+.picture.radius {border-radius: .5rem;}
+.picture.round {border-radius: 100%;}
 
 /* ------------------------------------------------------------------ */
 /* # Panels */
@@ -1353,8 +1362,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .panel > *:last-child {margin-bottom: 0;}
 
 .panel.radius {
-  -webkit-border-radius: .5rem; /* Foundation override */
-          border-radius: .5rem; /* Foundation override */
+  border-radius: .5rem; /* Foundation override */
 }
 
 .panel.callout {
@@ -1795,15 +1803,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   min-width: 75%;
   z-index: 50;
   left: 25%;
-  padding: 0;
-}
-[data-magellan-expedition] .sub-nav {
-  margin: 0;
-  padding: .5rem .75rem;
-}
-[data-magellan-expedition] .sub-nav dd {}
-[data-magellan-expedition] .sub-nav a {
-  line-height: 2.25rem; /* Foundation override */
+  padding: 0 1rem .5rem;
 }
 
 /* ------------------------------------------------------------ */
@@ -1823,7 +1823,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .options-select > .options {
   padding: .5rem;
   background-color: white;
-  border: 1px solid silver;
+  border: .0625rem solid silver;
 }
 .options-select:focus > .select,
 .options-select:focus > .select:hover,
@@ -1981,9 +1981,9 @@ input:focus + button + .error + .autocomplete > ul {
   font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
   font-size: 87.5%;
   line-height: 200%;
-  border: 1px solid silver;
+  border: .0625rem solid silver;
   background-color: whitesmoke;
-  overflow-x: auto;
+  overflow: hidden;
 }
 .code-block.radius {border-radius: .5rem;}
 .code-block > .num {
@@ -1991,8 +1991,12 @@ input:focus + button + .error + .autocomplete > ul {
   padding-right: .5rem;
   color: gray;
   border-right: .25rem solid silver;
+  overflow-x: auto;
 }
-.code {cursor: text;}
+.code-block > .code {
+  cursor: text;
+  overflow-x: auto;
+}
 .num + .code {margin-left: 2rem;}
 .code .tag {color: blue;}
 .code .attr {color: red;}
@@ -2047,7 +2051,7 @@ input:focus + button + .error + .autocomplete > ul {
 
 .article .tags {
   margin-bottom: 0;
-  border: 1px solid transparent;
+  border: .0625rem solid transparent;
 }
 
 .article p.author {
@@ -2253,7 +2257,7 @@ input:focus + button + .error + .autocomplete > ul {
 
 .article.edit .inline-editor {
   padding: .5rem;
-  border: 1px solid transparent;
+  border: .0625rem solid transparent;
   background-color: white;
 }
 .css-fx .article.edit .inline-editor {transition: box-shadow .75s;}
@@ -2272,34 +2276,17 @@ input:focus + button + .error + .autocomplete > ul {
   padding-bottom: .5rem;
   border-bottom: .0625rem dotted gainsboro;
 }
-.articles-list-options dl {
-  margin: 0;
-  padding: 0;
-  height: 2.5rem;
-  line-height: 2.5rem;
-}
-.articles-list-options dl > dd:not(.unavailable) > a:not(.disabled):link {cursor : pointer;}
 
 .articles-list {margin-bottom: 0;} /* TEMP : remove margin between lists */
 .articles-list li {}
 .articles-list li + li {margin-top: 0;} /* TEMP : remove margin between list items */
 .articles-list li h4,
 .articles-list li h5 {
-  font-size: 125%; /* H4 font size reduction instead of H5/H6 using for better raw HTML display */
-/*overflow: hidden; /* Hide overflowing content */
-/*text-overflow: ellipsis; /* Replace last characters of overflowing text by ellipsis */
-/*white-space: nowrap; /* Prevent text from returning to the line */
-}
-
-.articles-list li > h4,
-.articles-list li > h5 {
-/*max-width: 65%; /* TEMP : percent size for box overlapping preventing */
-/*max-width: 55%; /* BUG : box was overlapping icons ... reduce width a little bit more */
+  font-size: 125%;
 }
 
 .articles-list li > ul {
   margin: 0;
-/*background-color: transparent; /* DEBUG */
 }
 .articles-list li .href-block {
   padding: .5rem;
@@ -2307,7 +2294,6 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 .articles-list li .title {
-/*width: 10em; /* TEMP : fixed size for box overlapping preventing */
   margin-top: 0;
 }
 
@@ -2316,12 +2302,17 @@ input:focus + button + .error + .autocomplete > ul {
   font-size: 90%;
 }
 
-.articles-list li .date {margin-right: .5rem;}
+.articles-list li .date {
+  margin-right: .25rem;
+  color: gray;
+  color: rgba(0, 0, 0, .375);
+}
+
 .articles-list li .author {
   margin-left: .5rem;
-  color: #222;
   font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
   font-variant: small-caps;
+  color: #222;
 }
 
 .articles-list li > h4,
@@ -2329,15 +2320,15 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list li > ul > li {
   display: inline-block;
   position: relative;
+  margin: 0;
   height: 2rem; /* Fixed height for vertical align middle */
   line-height: 2rem; /* Fixed height for vertical align middle */
   vertical-align: middle;
-  margin: 0;
 }
 .articles-list li > ul > li {
   margin-left: .75rem;
-  color: gray;
   font-size: 75%;
+  color: gray;
 }
 .articles-list li > ul > li:first-child {
   margin-left: 0;
@@ -2399,16 +2390,15 @@ input:focus + button + .error + .autocomplete > ul {
   left: 0;
   color: darkgray;
 }
-.articles-list.draft .href-block:hover {
-/*background-color: white; /* UNUSED : drafts are uneditable */
-}
 .articles-list.draft .href-block:hover a {
-/*border-width: 1px; /* UNUSED : drafts are uneditable */
-/*border-style: solid; /* UNUSED : drafts are uneditable */
   border-color: silver;
 }
 .articles-list.draft .href-block:hover .summary {
   color: dimgray;
+}
+.articles-list.draft :not(.other) .href-block:hover .summary {
+  color: darkgray;
+  color: rgba(0, 0, 0, .375);
 }
 
 /* Standbys */
@@ -2467,7 +2457,7 @@ input:focus + button + .error + .autocomplete > ul {
   padding-top: .25rem;
   color: #666;
   text-align: justify;
-  border-top: 1px dotted silver;
+  border-top: .0625rem dotted silver;
 }
 .info-tip {
   position: absolute;
@@ -2483,7 +2473,7 @@ input:focus + button + .error + .autocomplete > ul {
   text-align: center;
   border-radius: 100%;
   background-color: whitesmoke;
-  border: 1px solid darkgray;
+  border: .0625rem solid darkgray;
   opacity: .5;
   -webkit-transition: all .25s ease-out; /* TEMP */
      -moz-transition: all .25s ease-out; /* TEMP */
@@ -2604,7 +2594,7 @@ input:focus + button + .error + .autocomplete > ul {
 @media only screen and (min-width: 40.063em) {
 .comment-list .comment .column:nth-child(2) {padding: 0 .5rem;} /* TEMP : Add left and right padding to second column (i.e. topic + date + post) for medium and large displays */
 }
-.comment-list .comment {border-top: 1px solid silver;}
+.comment-list .comment {border-top: .0625rem solid silver;}
 
 .comment-list .topic {margin-bottom: .125rem;}
 .comment-list .topic h5 {display: inline-block; margin: 0; font-size: 1.125em; color: #ccb;}
@@ -2878,12 +2868,6 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Date List */
 /* ------------------------------------------------------------------ */
 
-.date-list-sorting {}
-
-/* ------------------------------------------------------------------ */
-/* # Date List */
-/* ------------------------------------------------------------------ */
-
 .date-list {
   display: table;
   width: 100%;
@@ -2941,7 +2925,7 @@ input:focus + button + .error + .autocomplete > ul {
   white-space: nowrap; /* Hide text */
   overflow: hidden; /* Hide text */
   z-index: 1; /* Places the link above the div */
-  border: 1px solid silver;
+  border: .0625rem solid silver;
 }
 .href-block a:hover,
 .href-block a:focus {
