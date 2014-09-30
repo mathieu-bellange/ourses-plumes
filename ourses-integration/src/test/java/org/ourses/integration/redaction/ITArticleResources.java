@@ -234,6 +234,27 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldReadArticleByCategoryTagAndRubrique() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+        params.add("category", "Interview");
+        params.add("tag", "sexisme");
+        params.add("rubrique", "international");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("category.category").containsOnly("Interview");
+        assertThat(articles).onProperty("rubrique.rubrique").contains("International");
+        for (ArticleDTO art : articles) {
+            assertThat(art.getTags()).onProperty("tag").contains("sexisme");
+        }
+    }
+
+    @Test
     public void shouldReadAllPublishArticleAndDraftAndValidate() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
