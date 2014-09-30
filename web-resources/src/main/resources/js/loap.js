@@ -1137,12 +1137,7 @@ $("html").on("click", ".disconnect", function() {
 		contentType : "application/json; charset=utf-8",
 		data : window.localStorage.getItem($auth.token),
 		success : function(data, status, jqxhr) {
-			window.localStorage.removeItem($auth.token);
-			window.localStorage.removeItem($auth.user_name);
-			window.localStorage.removeItem($auth.user_role);
-			window.localStorage.removeItem($auth.account_id);
-			window.localStorage.removeItem($auth.profile_id);
-			window.localStorage.removeItem($auth.avatar_path);
+			clear_user_info();
 			window.location.href = $nav.home.url;
 		},
 		error : function(jqXHR, status, errorThrown) {

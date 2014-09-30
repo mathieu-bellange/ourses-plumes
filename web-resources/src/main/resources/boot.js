@@ -332,6 +332,16 @@ var async = async || false, method = method || "GET", send = send || null, respo
 	}
 }
 
+
+function clear_user_info() {
+	window.localStorage.removeItem($auth.token);
+	window.localStorage.removeItem($auth.user_name);
+	window.localStorage.removeItem($auth.user_role);
+	window.localStorage.removeItem($auth.account_id);
+	window.localStorage.removeItem($auth.profile_id);
+	window.localStorage.removeItem($auth.avatar_path);
+}
+
 /* ------------------------------------------------------------------ */
 /* # Security */
 /* ------------------------------------------------------------------ */
@@ -356,6 +366,7 @@ function isAuthenticated() {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $auth.redir_param + redirection;
 				window.location.href = $nav.login.url + loginParam;
+				clear_user_info();
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error
@@ -377,6 +388,7 @@ function isAdministratrice() {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $auth.redir_param + redirection;
 				window.location.href = $nav.login.url + loginParam;
+				clear_user_info();
 			}
 			else if (xhr.status == 403){
 				console.log("Forbidden ! Redirect to the login page."); // unauthorized
@@ -399,12 +411,13 @@ function isRedactrice() {
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401){
-				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
+				console.log("Unauthorized ! Redirect to the login page."); // unauthorized non connecté
 				var loginParam = $auth.redir_param + redirection;
 				window.location.href = $nav.login.url + loginParam;
+				clear_user_info();
 			}
 			else if (xhr.status == 403){
-				console.log("Forbidden ! Redirect to the login page."); // unauthorized
+				console.log("Forbidden ! Redirect to the login page."); // unauthorized pas les droits requis
 				window.location.href = $nav.home.url;
 			}
 		} catch(err) {
