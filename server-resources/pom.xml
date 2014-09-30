@@ -259,9 +259,6 @@
 	<profiles>
 		<profile>
 			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<spring.db.context>db-dev-context.xml</spring.db.context>
 				<logback.level>DEBUG</logback.level>
@@ -282,6 +279,9 @@
 		</profile>
 		<profile>
 			<id>recette</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<spring.db.context>db-recette-context.xml</spring.db.context>
 				<logback.level>INFO</logback.level>
