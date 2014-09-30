@@ -149,7 +149,7 @@ $msg = {
 
 /* Navigation */
 $nav = {
-	"about"                 : {"url" : null,                 "title" : "FAQ"},
+	"about"                 : {"url" : "/faq",               "title" : "FAQ"},
 	"account_list"          : {"url" : "/comptes",           "title" : "Lister les comptes"},
 	"account_add"           : {"url" : null,                 "title" : "Ajouter un compte"},
 	"account_edit"          : {"url" : "/parametres/compte", "title" : "Mon compte"},

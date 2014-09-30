@@ -19,6 +19,12 @@
 	</rule>
 
 	<rule>
+		<note>redirection vers la faq</note>
+		<from>^/faq$</from>
+		<to>/about.html</to>
+	</rule>
+
+	<rule>
 		<note>redirection vers la page d'ajout d'un bug github</note>
 		<from>^/bug/nouveau$</from>
 		<to>/bug-add.html</to>
