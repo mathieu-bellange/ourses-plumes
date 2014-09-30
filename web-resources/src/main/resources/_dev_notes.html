@@ -9,6 +9,36 @@
 		</script>
 		<script>
 			$("main > header").after(doT.compile(loadfile($loc.tmpl + "_dev_notes.tmpl")));
+			/* CSS Units Converter */
+			$("#css_unit_px").keydown(function(e) {
+				if (e.which == 46) { // Suppr
+					$(this).val(0);
+				} else if ((e.which >= 64 && e.which <= 90)) { // From A to Z
+					e.preventDefault();
+				} else if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp or PageDown or or Up or Down
+					var i = $(this).val();
+					switch (e.which) {
+						case 33 : // PageUp
+							$(this).val(parseInt(i) + 10);
+							break;
+						case 34 : // PageDown
+							$(this).val(parseInt(i) - 10);
+							break;
+						case 38 : // Up
+							$(this).val(parseInt(i) + 1);
+							break;
+						case 40 : // Down
+							$(this).val(parseInt(i) - 1);
+							break;
+					}
+				}
+			});
+			$("#css_unit_px").keyup(function(e) {
+				if (e.which == 13 || e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40 || (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) { // Enter or PageUp or PageDown or or Up or Down or from 0 to 9 or from Numpad 0 to Numpad 9
+					$("#css_unit_rem").val($(this).val() / $("#css_unit_base").val());
+				}
+			});
+
 		</script>
 		<script>
 			$(document).foundation();

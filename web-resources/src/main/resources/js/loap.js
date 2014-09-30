@@ -366,7 +366,7 @@ jQuery.fn.extend({
 					if (e.which == 13 || e.which == 27) { // Enter or Escape
 						$(this).blur();
 					}
-					if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp, PageDown, End, Home or Up or Down
+					if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp or PageDown or or Up or Down
 						e.preventDefault();
 						index = 0;
 						var index = autocomplete_selector.find("ul > li.selected").index();
