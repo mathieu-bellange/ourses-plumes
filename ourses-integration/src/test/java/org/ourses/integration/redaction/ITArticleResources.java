@@ -144,6 +144,19 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldReadPublishArticleByCategory() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("category", "Interview")
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("category.category").containsOnly("Interview");
+    }
+
+    @Test
     public void shouldReadAllPublishArticleAndIsOwnDraftToCheck() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
@@ -203,6 +216,21 @@ public class ITArticleResources {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
         assertThat(articles).onProperty("rubrique.rubrique").contains("Intersectionnalit&eacute;");
+    }
+
+    @Test
+    public void shouldReadPublishArticleAndIsOwnDraftToCheckByCategory() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+        params.add("category", "Brèves");
+        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("category.category").containsOnly("Brèves");
     }
 
     @Test

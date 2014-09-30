@@ -8,7 +8,7 @@
 						<dl class="tags inline-list clearfix">
 							<dt><span class="icon-tag small" title="Tags"><strong class="hide">Tags</strong></span></dt>
 							<dd><a href="/articles?rubrique={{= data.rubrique.path }}" rel="tag" class="label radius {{= data.rubrique.classe }}">{{= data.rubrique.rubrique }}</a></dd>
-							<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">{{= data.category.category }}</a></dd>
+							<dd><a href="/articles?category={{= data.category.category }}" rel="tag" class="label radius inverse">{{= data.category.category }}</a></dd>
 							{{~ data.tags : tag }}
 								<dd><a href="/articles?tag={{= tag.tag }}" rel="tag" class="label radius">{{= tag.tag }}</a></dd>
 							{{~}}

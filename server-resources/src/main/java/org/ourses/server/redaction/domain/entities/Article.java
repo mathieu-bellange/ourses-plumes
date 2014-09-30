@@ -52,6 +52,7 @@ public class Article implements Serializable {
 
     public static final String CRITERIA_TAG = "tag";
     public static final String CRITERIA_RUBRIQUE = "rubrique";
+    public static final String CRITERIA_CATEGORY = "category";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "article_seq_gen")
@@ -237,6 +238,9 @@ public class Article implements Serializable {
                     break;
                 case CRITERIA_RUBRIQUE:
                     req.add(Expr.eq("rubrique.path", entrySet.getValue()));
+                    break;
+                case CRITERIA_CATEGORY:
+                    req.add(Expr.eq("category.category", entrySet.getValue()));
                     break;
                 default:
                     break;

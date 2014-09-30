@@ -1,13 +1,12 @@
 Insert into category
   (id, category)
 Values
-  (1, 'Br&egrave;ves'),
+  (1, 'Brèves'),
   (2, 'Reportage'),
-  (3, 'Dossier'),
-  (4, 'Spotlights'),
-  (5, 'Interview'),
-  (6, 'Tribune'),
-  (7, 'Revue du web');
+  (3, 'Spotlights'),
+  (4, 'Interview'),
+  (5, 'Tribune'),
+  (6, 'Revue du web');
 
 Insert into rubrique
   (id, rubrique, classe, path)
@@ -46,8 +45,8 @@ Values
   (11, 'titre 11', 'get', '<p>body</p>', '2077-01-01', '2014-04-11', '2014-04-11', 2, 2, 3, 2, '/articles/intersectionnalité/titre-11', 'titre-11'),
   (12, 'titre 12', 'get draft', '<p>body</p>', null, '2014-07-24', '2014-07-24', 2, 2, 3, 0, '/articles/12', 'titre-12'),
   (13, 'titre 13', 'get validate', '<p>body</p>', null, '2014-09-13', '2014-09-15', 2, 2, 3, 1, '/articles/13', 'titre-13'),
-  (14, 'titre 14', 'en ligne au 01/01/2010', '<p>body</p>', '2010-01-01', '2014-02-06', '2014-01-05', 3, 7, 5, 2, '/articles/éducation-culture/titre-14', 'titre-14'),
-  (15, 'titre 15', 'en ligne au 14/03/1982', '<p>body</p>', '1982-03-14', '2014-10-21', '2014-01-05', 2, 6, 1, 2, '/articles/luttes/titre-15', 'titre-15'),
+  (14, 'titre 14', 'en ligne au 01/01/2010', '<p>body</p>', '2010-01-01', '2014-02-06', '2014-01-05', 3, 6, 5, 2, '/articles/éducation-culture/titre-14', 'titre-14'),
+  (15, 'titre 15', 'en ligne au 14/03/1982', '<p>body</p>', '1982-03-14', '2014-10-21', '2014-01-05', 2, 5, 1, 2, '/articles/luttes/titre-15', 'titre-15'),
   (16, 'titre 16', 'en ligne au 25/02/2007', '<p>body</p>', '2007-02-25', '2014-11-13', '2014-01-05', 2, 4, 4, 2, '/articles/international/titre-16', 'titre-16'),
   (17, 'titre 17', 'desc', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 0, '/articles/international/titre-17', 'titre-17'),
   (18, 'titre 18', 'invalidate own', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 1, '/articles/18', 'titre-18'),
