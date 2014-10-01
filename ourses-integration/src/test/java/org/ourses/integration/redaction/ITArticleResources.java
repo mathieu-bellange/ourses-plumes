@@ -53,6 +53,7 @@ public class ITArticleResources {
     private static final String PATH_INVALDIATE_ANOTHER = "/rest/articles/19/invalidate";
     private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
     private static final String PATH_GET_PUBLISH = "/rest/articles/éducation-culture/titre-14";
+    private static final String PATH_GET_PUBLISH_IN_UPDATE = "/rest/articles/22";
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
     private static final String PATH_GET_VALIDATE = "/rest/articles/13";
     private static final String PATH_GET_ALL = "/rest/articles";
@@ -290,6 +291,16 @@ public class ITArticleResources {
         assertThat(article.getPath()).isNotNull();
         assertThat(article.getTitleBeautify()).isNotNull();
         assertThat(article.getTags()).isNotEmpty();
+    }
+
+    @Test
+    public void shouldNotUpdatePublishArticle() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_GET_PUBLISH_IN_UPDATE).build();
+
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
     @Test
