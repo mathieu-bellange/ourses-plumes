@@ -29,8 +29,7 @@ public class MailHelperImpl implements MailHelper {
             .compile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
 
     private static final String SHARING_SUBJECT_PREFIX = "Les Ourses à plumes : ";
-    private static final String SHARING_BODY_PREFIX = "Quelqu'un vous a invité à lire ";
-    private static final String SHARING_BODY_POSTFIX = " sur Les Ourses à plumes : http://{}  Bonne lecture !";
+    private static final String SHARING_BODY = "Quelqu'un vous a invité à lire <a href=\"http://{1}{2}\">{0}</a> sur <a href=\"http://{1}\">Les Ourses à plumes</a>. Bonne lecture !";
 
     @Override
     public boolean isMailValid(String mail) {
@@ -47,6 +46,9 @@ public class MailHelperImpl implements MailHelper {
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
+        
+        logger.info(EnvironnementVariable.SHARE_MAIL_ACCOUNT);
+        logger.info(EnvironnementVariable.SHARE_MAIL_PASSWORD);
 
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
             @Override
@@ -63,8 +65,7 @@ public class MailHelperImpl implements MailHelper {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
             message.setSubject(SHARING_SUBJECT_PREFIX.concat(article.getTitle()));
             message.setText(
-                    SHARING_BODY_PREFIX.concat(article.getTitle()).concat(
-                            SHARING_BODY_POSTFIX.replace("{}", hostName + article.getPath())), "utf-8", "html");
+                    SHARING_BODY.replace("{0}", article.getTitle()).replace("{1}", hostName).replace("{2}", article.getPath()), "utf-8", "html");
             logger.info(message.getFrom()[0].toString());
             logger.info(message.getRecipients(Message.RecipientType.TO)[0].toString());
             logger.info(message.getContent().toString());

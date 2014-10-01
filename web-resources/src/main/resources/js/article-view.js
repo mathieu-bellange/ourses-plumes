@@ -29,9 +29,11 @@ var share = (function() {
 				var article_url = encodeURI(window.location).replace("?", "%3F");
 				var article_title = encodeURI($(".article h2.title").text()).replace("?", "%3F");
 				var article_summary = encodeURI($(".article p.summary").text()).replace("?", "%3F");
-				var article_source = encodeURI($org.name).replace("?", "%3F");
-				var mail_href = "mailto:?subject=" + $org.name + encodeURI(" : ") + article_title + "&body=" + encodeURI("Quelqu'un vous a invité à lire ") + article_title + encodeURI(" sur ") + article_source + encodeURI(" : ") + article_url + encodeURI("\n\nBonne lecture !");
-				$("#share_mail").attr("href", mail_href);
+				var article_source = encodeURI($org.name).replace("?", "%3F");				
+				$("#share_mail").on("click", function(){
+					//TODO do it with the user mail ! :D
+					shareByMail($(this).attr("data-article"), "lny.mrt@gmail.com");
+				});
 				var twitter_href = "https://twitter.com/share";
 				$("#share_twitter").attr("href", twitter_href);
 				var facebook_href = "https://www.facebook.com/share.php?u=" + article_url;
@@ -74,6 +76,22 @@ function displayArticle() {
 			} else {
 				createAlertBox();
 			}
+		},
+		dataType : "json"
+	});
+}
+
+function shareByMail(articleId, mail){
+	$.ajax({
+		type : "PUT",
+		data : mail,
+		url : "/rest/articles/" + articleId + "/share",
+		contentType : "application/json; charset=utf-8",
+		success : function(article, status, jqxhr) {
+			
+		},
+		error : function(jqXHR, status, errorThrown) {
+			createAlertBox();
 		},
 		dataType : "json"
 	});
