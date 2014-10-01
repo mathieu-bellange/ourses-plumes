@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Loader
  * No dependency
- * ver. 1.0.1
+ * ver. 1.0.2
  */
 
 /* ------------------------------------------------------------------ */
@@ -40,7 +40,7 @@ $org = {
 /* Application */
 $app = {
 	"name"               : "Webzine féministe",                   // String   Application name.
-	"ver"                : "1.0.1",                               // String   Application version.
+	"ver"                : "1.0.2",                               // String   Application version.
 	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev", "test" or "rtw" (release to web).
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
