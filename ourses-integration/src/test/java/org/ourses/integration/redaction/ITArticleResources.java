@@ -62,6 +62,7 @@ public class ITArticleResources {
     private static final String PATH_RECALL_REDAC_OWN = "/rest/articles/20/recall";
     private static final String PATH_RECALL_ANOTHER = "/rest/articles/21/recall";
     private static final String PATH_RECALL_DRAFT = "/rest/articles/3/recall";
+    private static final String PATH_SHARE_MAIL = "/rest/articles/22/share";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -734,6 +735,22 @@ public class ITArticleResources {
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
         // status attendu 401
         assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    public void shouldShareByMail() {
+        URI uri = UriBuilder.fromPath(PATH_SHARE_MAIL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, "mymail@gmail.com");
+        assertThat(clientResponse.getStatus()).isEqualTo(204);
+    }
+
+    @Test
+    public void shouldNotShareByMail() {
+        URI uri = UriBuilder.fromPath(PATH_SHARE_MAIL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, "mymail");
+        assertThat(clientResponse.getStatus()).isEqualTo(500);
     }
 
     private ArticleDTO newArticle(String title) {

@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.ourses.server.administration.helpers.BearAccountHelper;
+import org.ourses.server.newsletter.helper.MailHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -21,6 +22,8 @@ public class SignUpResources {
 
     @Autowired
     BearAccountHelper accountHelper;
+    @Autowired
+    private MailHelper mailHelper;
 
     @POST
     @Path("/pseudo")
@@ -37,7 +40,7 @@ public class SignUpResources {
     @Path("/mail")
     public Response checkMail(String mail) {
         Status status = Status.FORBIDDEN;
-        if (accountHelper.isMailValid(mail) && accountHelper.isNewMail(mail)) {
+        if (mailHelper.isMailValid(mail) && accountHelper.isNewMail(mail)) {
             status = Status.NO_CONTENT;
         }
         return Response.status(status).build();

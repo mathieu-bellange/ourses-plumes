@@ -25,6 +25,7 @@ import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullExc
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
 import org.ourses.server.administration.helpers.BearAccountHelper;
+import org.ourses.server.newsletter.helper.MailHelper;
 import org.ourses.server.security.helpers.SecurityHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,8 @@ public class BearAccountResources {
     private BearAccountHelper helper;
     @Autowired
     private SecurityHelper securityHelper;
+    @Autowired
+    private MailHelper mailHelper;
 
     @PUT
     @Path("/create")
@@ -55,7 +58,7 @@ public class BearAccountResources {
         }
         try {
             // test si login/mail/password ok
-            if (helper.isNewMail(bearAccountDTO.getMail()) && helper.isMailValid(bearAccountDTO.getMail())
+            if (helper.isNewMail(bearAccountDTO.getMail()) && mailHelper.isMailValid(bearAccountDTO.getMail())
                     && helper.isPseudoValid(pseudo) && helper.isNewPseudo(pseudo, null)
                     && helper.isPasswordValid(bearAccountDTO.getPassword())) {
                 // on créé par défaut un compte en rédactrice

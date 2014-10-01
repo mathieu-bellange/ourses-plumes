@@ -29,8 +29,6 @@ public interface BearAccountHelper {
 
     boolean isPasswordValid(String password);
 
-    boolean isMailValid(String mail);
-
     BearAccount create(BearAccount account) throws AccountProfileNullException, AccountAuthcInfoNullException,
             AccountAuthzInfoNullException;
 

@@ -264,4 +264,18 @@ public class ArticleResources {
         }
         return responseBuilder.build();
     }
+
+    @PUT
+    @Path("/{id}/share")
+    public Response sharingByMail(@PathParam("id")
+    long id, String mail) {
+        ResponseBuilder responseBuilder;
+        if (mail != null) {
+            responseBuilder = Response.status(Status.NO_CONTENT);
+        }
+        else {
+            responseBuilder = Response.status(Status.INTERNAL_SERVER_ERROR);
+        }
+        return responseBuilder.build();
+    }
 }

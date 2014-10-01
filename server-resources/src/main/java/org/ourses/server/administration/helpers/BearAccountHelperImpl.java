@@ -60,11 +60,6 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     }
 
     @Override
-    public boolean isMailValid(String mail) {
-        return !Strings.isNullOrEmpty(mail) && BearAccountUtil.mailPattern.matcher(mail).matches();
-    }
-
-    @Override
     public boolean isPseudoValid(String pseudo) {
         return !Strings.isNullOrEmpty(pseudo);
     }
