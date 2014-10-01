@@ -47,8 +47,8 @@ public class MailHelperImpl implements MailHelper {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
         
-        logger.info(EnvironnementVariable.SHARE_MAIL_ACCOUNT);
-        logger.info(EnvironnementVariable.SHARE_MAIL_PASSWORD);
+        logger.info(" login " + EnvironnementVariable.SHARE_MAIL_ACCOUNT);
+        logger.info("password" + EnvironnementVariable.SHARE_MAIL_PASSWORD);
 
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
             @Override
@@ -66,9 +66,9 @@ public class MailHelperImpl implements MailHelper {
             message.setSubject(SHARING_SUBJECT_PREFIX.concat(article.getTitle()));
             message.setText(
                     SHARING_BODY.replace("{0}", article.getTitle()).replace("{1}", hostName).replace("{2}", article.getPath()), "utf-8", "html");
-            logger.info(message.getFrom()[0].toString());
-            logger.info(message.getRecipients(Message.RecipientType.TO)[0].toString());
-            logger.info(message.getContent().toString());
+            logger.info("from " + message.getFrom()[0].toString());
+            logger.info("to " + message.getRecipients(Message.RecipientType.TO)[0].toString());
+            logger.info("content " + message.getContent().toString());
             Transport.send(message);
         }
         catch (MessagingException e) {
