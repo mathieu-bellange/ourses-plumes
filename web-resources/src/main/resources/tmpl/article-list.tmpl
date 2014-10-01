@@ -43,7 +43,7 @@
 											{{? isAdmin() }}
 												<button class="small success" data-publish="{{= art.id }}">Publier</button>
 											{{?}}
-											<button class="alert small" data-invalidate="{{= art.id }}">Invalider</button>
+											<button class="alert small" data-invalidate="{{= art.id }}">Renvoyer</button>
 										</div>
 									{{?? art.status == "ENLIGNE" }}
 										{{? isAdmin() || art.profile.id == window.localStorage.getItem($auth.profile_id) }}

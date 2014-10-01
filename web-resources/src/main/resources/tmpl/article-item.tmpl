@@ -42,7 +42,7 @@
 												{{? window.localStorage.getItem($auth.user_role) == $auth.role_admin}}
 													<button class="small success" data-publish="{{= data.id }}">Publier</button>
 												{{?}}
-												<button class="alert small" data-invalidate="{{= data.id }}">Invalider</button>
+												<button class="alert small" data-invalidate="{{= data.id }}">Renvoyer</button>
 											</div>
 										{{?? data.status == "ENLIGNE" }}
 											{{? window.localStorage.getItem($auth.user_role) == $auth.role_admin || data.profile.id == window.localStorage.getItem($auth.profile_id)}}
