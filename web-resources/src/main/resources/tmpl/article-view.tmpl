@@ -1,6 +1,6 @@
 ﻿				<!--Article-->
 				<section id="{{= data.beautify_title }}">
-					<article class="article {{= data.rubrique.classe }}">
+					<article class="article {{= data.rubrique.classe }} clearfix">
 						<h2 class="title">{{= data.title }}</h2>
 						<h4 class="author"><a href="{{= data.profile.path }}" class="icon-author" rel="author" title="Auteure"><span class="text">{{= data.profile.pseudo }}</span></a></h4>
 						<time class="date icon-date small" pubdate="{{= getDateTime(new Date(data.publishedDate)) }}"><small class="text"><span class="hide">Publi&eacute; le </span>{{= dateToHTML(new Date(data.publishedDate)) }}</small></time>
