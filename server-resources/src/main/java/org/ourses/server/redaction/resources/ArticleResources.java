@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.helpers.ProfileHelper;
+import org.ourses.server.newsletter.helper.MailHelper;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
@@ -41,6 +42,8 @@ public class ArticleResources {
     private ProfileHelper profileHelper;
     @Autowired
     private ArticleHelper articleHelper;
+    @Autowired
+    private MailHelper mailHelper;
 
     @POST
     @Path("/check/title")
@@ -268,9 +271,11 @@ public class ArticleResources {
     @PUT
     @Path("/{id}/share")
     public Response sharingByMail(@PathParam("id")
-    long id, String mail) {
+    long id, String mail, @HeaderParam(HttpHeaders.HOST)
+    String hostName) {
         ResponseBuilder responseBuilder;
-        if (mail != null) {
+        if (mailHelper.isMailValid(mail)) {
+            mailHelper.shareArticle(hostName, mail, id);
             responseBuilder = Response.status(Status.NO_CONTENT);
         }
         else {

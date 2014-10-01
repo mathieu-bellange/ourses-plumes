@@ -741,7 +741,7 @@ public class ITArticleResources {
     public void shouldShareByMail() {
         URI uri = UriBuilder.fromPath(PATH_SHARE_MAIL).build();
         ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, "mymail@gmail.com");
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, "mbellange@gmail.com");
         assertThat(clientResponse.getStatus()).isEqualTo(204);
     }
 

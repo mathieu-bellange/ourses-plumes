@@ -19,6 +19,7 @@
 		<guava-version>14.0.1</guava-version>
 		<jsr-305-version>2.0.1</jsr-305-version>
 		<joda-time-version>2.2</joda-time-version>
+		<javax-mail-version>1.4.5</javax-mail-version>
 
 		<!-- aop -->
 		<aspectjrt-version>1.7.1</aspectjrt-version>
@@ -54,14 +55,19 @@
 			<version>${javax-servlet-version}</version>
 		</dependency>
 		<dependency>
-				<groupId>org.tuckey</groupId>
-				<artifactId>urlrewritefilter</artifactId>
-				<version>${urlrewriter-version}</version>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>${urlrewriter-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.3-1102-jdbc41</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javax-mail-version}</version>
 		</dependency>
 
 		<!-- commons -->
