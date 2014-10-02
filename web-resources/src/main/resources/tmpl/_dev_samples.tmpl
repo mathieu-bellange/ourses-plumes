@@ -3,8 +3,9 @@
 					<!--Magellan Sticky Navigation-->
 					<div data-magellan-expedition="fixed">
 						<dl class="sub-nav">
-							<dd data-magellan-arrival="main"><a href="#main" class="icon-up tiny"><strong class="hide">Haut de page</strong></a></dd>
+							<dd data-magellan-arrival="main"><a href="#main" class="icon-up small"><strong class="hide">Haut de page</strong></a></dd>
 							<dd data-magellan-arrival="typography"><a href="#typography">Typographie</a></dd>
+							<dd data-magellan-arrival="boxes"><a href="#boxes">Bo&icirc;tes</a></dd>
 							<dd data-magellan-arrival="buttons"><a href="#buttons">Boutons</a></dd>
 							<dd data-magellan-arrival="icons"><a href="#icons">Ic&ocirc;nes</a></dd>
 							<dd data-magellan-arrival="forms"><a href="#forms">Formulaires</a></dd>
@@ -65,6 +66,8 @@ def helloworld (universe) {
 					<p>La variable <var>universe</var> est locale tandis que la variable <var>@world</var> est instanci&eacute;e.</p>
 					<p>La m&eacute;thode <code>print "hello"</code> va sortir <samp>hello</samp> sur la console de l&rsquo;application.</p>
 					<p><span class="label radius">Astuce</span> Vous pouvez appuyer sur la touche <kbd>Tab</kbd> et sur <kbd>Shift+Tab</kbd> pour naviguer.</p>
+					<!--Boxes-->
+					<h3 id="boxes">Bo&icirc;tes</h3>
 					<!--Alert Boxes-->
 					<h4 class="subheader">Bo&icirc;tes d&rsquo;alerte <small>.alert-box</small></h4>
 					<div class="row">
@@ -101,6 +104,38 @@ def helloworld (universe) {
 						<span class="label alert">Alerte</span>
 						<span class="label error">Erreur</span>
 					</p>
+					<!--Sub Navigation-->
+					<h4 class="subheader">Sous-navigation <small>.sub-nav</small></h4>
+					<p>
+						<dl class="sub-nav">
+							<dt><a href="javascript:void(0)" class="icon-up small"></a></dt>
+							<dd><a href="javascript:void(0)">Normal</a></dd>
+							<dd><a href="javascript:void(0)" class="unavailable">Indisponible</a></dd>
+							<dd><a href="javascript:void(0)" class="disabled">D&eacute;sactiv&eacute;</a></dd>
+							<dd><span class="red">Activateur</span> <small class="silver">(par d&eacute;faut)</small></dd>
+						</dl>
+					</p>
+					<p>
+						<dl class="sub-nav toggle">
+							<dt><a href="javascript:void(0)" class="icon-up small"></a></dt>
+							<dd><a href="javascript:void(0)">Normal</a></dd>
+							<dd><a href="javascript:void(0)" class="unavailable">Indisponible</a></dd>
+							<dd><a href="javascript:void(0)" class="disabled">D&eacute;sactiv&eacute;</a></dd>
+							<dd><span class="red">Commutateur</span> <small class="silver">.toggle</small></dd>
+						</dl>
+					</p>
+
+					<div class="code-block radius">
+						<pre class="num">1<br>2<br>3<br>4<br>5<br>6</pre>
+						<pre class="code">
+<span class="tag">&lt;dl</span> <span class="attr">class</span>=<span class="prop">"sub-nav <mark>toggle</mark>"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;dt&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"<mark>icon</mark>-up small"</span><span class="tag">&gt;</span><span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span><span class="tag">&gt;</span>Normal<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/dd&gt;</span>
+  <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"<mark>unavailable</mark>"</span><span class="tag">&gt;</span>Indisponible<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/dd&gt;</span>
+  <span class="tag">&lt;dd&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="prop">"javascript:void(0)"</span> <span class="attr">class</span>=<span class="prop">"<mark>disabled</mark>"</span><span class="tag">&gt;</span>D&eacute;sactiv&eacute;<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/dd&gt;</span>
+<span class="tag">&lt;/dl&gt;</span>
+</pre>
+					</div>
 					<!--Buttons-->
 					<h3 id="buttons">Boutons <small>.button</small></h3>
 					<h4 class="subheader">Position</h4>
