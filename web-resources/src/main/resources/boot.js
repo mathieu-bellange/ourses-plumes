@@ -140,6 +140,8 @@ $msg = {
 	"char_illegal"          : "Caract&egrave;re invalide&thinsp;!",
 	"form_invalid"          : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
 	"form_incomplete"       : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
+	"account_updated"       : "Compte mis à jour avec succ&egrave;&thinsp;!",
+	"account_deleted"       : "Compte supprim&eacute;&thinsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
 	"article_offcheck"      : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
 	"article_offline"       : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",

@@ -1,4 +1,13 @@
 /* ------------------------------------------------------------------ */
+/* # Public vars */
+/* ------------------------------------------------------------------ */
+
+var account_list = {              // This is global var for this module
+	"alert_timeout" : 1500,         // Integer   Time before update alert box disapear. Default = 1500
+	"alert_fadeout" : 500           // Integer   Duration of the alert box fade effet. Default = 500
+};
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
@@ -10,7 +19,7 @@ set_page_title($nav.account_list.title);
 
 roles = null;
 
-function OurseAuthzInfo(id,role){
+function OurseAuthzInfo(id, role) {
 	this.role = role;
 	this.id = id;
 	this.json = function() {
@@ -22,17 +31,18 @@ function OurseAuthzInfo(id,role){
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
-function getAccount(){
+function getAccount() {
 	$.ajax({
 		type : "GET",
 		url : "/rest/account",
 		contentType : "application/json; charset=utf-8",
-		beforeSend: function(request){
+		beforeSend: function(request) {
 			header_authentication(request);
 		},
 		success : function(accounts, status, jqxhr) {
 			var accounts_template = doT.compile(loadfile($loc.tmpl + "account-list.tmpl")); // create template
 			$("main > header").after(accounts_template(accounts)); // process template
+			loap.update(); // update main module
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -48,17 +58,24 @@ function getAccount(){
 
 function updateEvent(id) {
 	// compte dans l'event
-	var roleUrl = "/rest/account/"+id+"/role";
-	var role = new OurseAuthzInfo($("#accountsTable tr[data-account-id="+id+"] select").val(),$("#accountsTable tr[data-account-id="+id+"] select option:selected").text());
+	var roleUrl = "/rest/account/" + id + "/role";
+	var role = new OurseAuthzInfo($("#accountsTable tr[data-account-id=" + id + "] select").val(), $("#accountsTable tr[data-account-id=" + id + "] select option:selected").text());
 	$.ajax({
 		type : "PUT",
 		url : roleUrl,
 		contentType : "application/json; charset=utf-8",
-		beforeSend: function(request){
+		beforeSend: function(request) {
 			header_authentication(request);
 		},
 		data : role.json(),
 		success : function(data, status, jqxhr) {
+			var i = "update_" + id;
+			createAlertBox($msg.account_updated, "success", i);
+			setTimeout(function() {
+				$("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
+					$("#" + i).remove();
+				});
+			}, account_list.alert_timeout);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -68,16 +85,23 @@ function updateEvent(id) {
 	});
 };
 
-function deleteEvent(id){ 
+function deleteEvent(id) {
 	$.ajax({
 		type : "DELETE",
-		url : "/rest/account/"+id,
+		url : "/rest/account/" + id,
 		contentType : "application/json; charset=utf-8",
-		beforeSend: function(request){
+		beforeSend: function(request) {
 			header_authentication(request);
 		},
 		success : function(data, status, jqxhr) {
-			$("#accountsTable tr[data-account-id="+id+"]").remove();
+			$("#accountsTable tr[data-account-id=" + id + "]").remove();
+			var i = "delete_" + id;
+			createAlertBox($msg.account_deleted, "warning", i);
+			setTimeout(function() {
+				$("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
+					$("#" + i).remove();
+				});
+			}, account_list.alert_timeout);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -100,13 +124,12 @@ $("html").on("change", "#accountsTable [data-account-id] select", function() {
 /* # Build */
 /* ------------------------------------------------------------------ */
 
-// TEMP : should be better to delay this block after page loading
 $(document).ready(function() {
 	$.ajax({
 		type : "GET",
 		url : "/rest/authz/roles",
 		contentType : "application/json; charset=utf-8",
-		beforeSend: function(request){
+		beforeSend: function(request) {
 			header_authentication(request);
 		},
 		success : function(data, status, jqxhr) {

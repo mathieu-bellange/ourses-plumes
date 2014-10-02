@@ -233,6 +233,21 @@ cite.author { /* TEMP */
 .date {color: darkgray;} /* TEMP */
 
 /* ------------------------------------------------------------------ */
+/* # Tables */
+/* ------------------------------------------------------------------ */
+
+table {
+  border-color: silver; /* Foundation override*/
+}
+table th {
+  text-align: center;
+  background-color: whitesmoke;
+}
+table tr:nth-of-type(even) {
+  background-color: ghostwhite; /* Foundation override*/
+}
+
+/* ------------------------------------------------------------------ */
 /* # Inputs */
 /* ------------------------------------------------------------------ */
 
