@@ -266,7 +266,6 @@ function load(script) { // Define Postbuild Processing
 /* Process Prebuild */
 document.write(b_html(head_tags));
 
-
 /* ------------------------------------------------------------------ */
 /* # XMLHttpRequest */
 /* ------------------------------------------------------------------ */

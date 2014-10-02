@@ -52,7 +52,7 @@ function force_focus(selector) {
 
 /* Cursor Position */
 jQuery.fn.extend({
-	cursor_position : function(start, end) {
+	selectText : function(start, end) {
 		end = end || false;
 		obj = this.first().get(0);
 		obj.focus();
@@ -1138,7 +1138,6 @@ $("html").on("click", ".disconnect", function() {
 		data : window.localStorage.getItem($auth.token),
 		success : function(data, status, jqxhr) {
 			clear_user_info();
-			window.location.href = $nav.home.url;
 		},
 		error : function(jqXHR, status, errorThrown) {
 		},
@@ -1335,16 +1334,27 @@ $(".accordion dd > a").click(function() {
 /* # Sub Navigation */
 /* ------------------------------------------------------------------ */
 
-/* Sub Navigation Switcher */
-$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
-	if (!$(this).parent("dd, dt, li").parent(".sub-nav").hasClass("toggle")) {
-		if (!$(this).parent("dd, dt, li").hasClass("unavailable") && !$(this).hasClass("disabled")) {
-			$(this).parent("dd, dt, li").toggleClass("active");
-			$(this).parent("dd, dt, li").siblings().removeClass("active");
-			$(this).blur();
+$(document).ready(function() {
+	/* Sub Navigation Switcher */
+	$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
+		if ($(this).attr("id") == "search_button"
+		 || $(this).attr("id") == "filter_button"
+		 || $(this).parent("li").parent("ul").attr("id") == "search_filters"
+		 || $(this).parent("li").parent("ul").attr("id") == "filters_list") { // exception list ; rather ugly
+			// do nothing !
+		} else {
+			if (!$(this).hasClass("unavailable") && !$(this).hasClass("disabled")) {
+				if ($(this).parents(".sub-nav").hasClass("toggle")) { // toggle children only
+					$(this).parent("dt, dd, li").siblings().children("a").removeClass("active");
+				} else if ($(this).parents(".sub-nav").hasClass("toggle-all")) { // toggle even parents
+					$(this).parents("dl, ul").find("dd a, dt a, li a").not($(this)).removeClass("active");
+				}
+				$(this).toggleClass("active");
+				$(this).blur();
+			}
 		}
-	}
-});
+	});
+})
 
 /* ------------------------------------------------------------------ */
 /* # Pagination */

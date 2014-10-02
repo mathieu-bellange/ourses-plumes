@@ -308,7 +308,7 @@ function create_icons_input(options) {
 				$(options.input_container).css("box-shadow", "0 0 .25rem rgba(0, 0, 0, .5)");
 			});
 			obj.val(url);
-			obj.cursor_position(0, obj.val().length);
+			obj.selectText(0, obj.val().length);
 			$(options.input_container).css("width", "100%");
 			// set input prefix visibility
 			if (!url_prefix) {

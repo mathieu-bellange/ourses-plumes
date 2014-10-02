@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Main Cascading Style Sheet
  * Includes Basics and Responsive Design
- * ver. 1.0.1
+ * ver. 1.0.2
  */
 
 /* ------------------------------------------------------------------ */
@@ -90,7 +90,7 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
 }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration: none;}
 
-hgroup {background-color: ivory; padding: 1rem; border: .0625rem solid gainsboro;}
+hgroup {background-color: ivory; padding: 1rem; border: .125rem solid gainsboro;}
 hgroup > *:first-child {margin-top: 0;}
 hgroup > *:last-child {margin-bottom: 0;}
 
@@ -237,6 +237,23 @@ cite.author { /* TEMP */
 /* ------------------------------------------------------------------ */
 
 input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+textarea {
+  border: .125rem solid silver; /* Foundation override */
+}
+
+input[type="text"],
 input[type="text"]:focus,
 input[type="password"],
 input[type="password"]:focus,
@@ -270,6 +287,23 @@ textarea:focus {
   -webkit-transition: none; /* Foundation override */
      -moz-transition: none; /* Foundation override */
           transition: none; /* Foundation override */
+}
+
+input[type="text"].radius,
+input[type="password"].radius,
+input[type="date"].radius,
+input[type="datetime"].radius,
+input[type="datetime-local"].radius,
+input[type="month"].radius,
+input[type="week"].radius,
+input[type="email"].radius,
+input[type="number"].radius,
+input[type="search"].radius,
+input[type="tel"].radius,
+input[type="time"].radius,
+input[type="url"].radius,
+textarea.radius {
+  border-radius: .375rem; /* Foundation override */
 }
 
 /* Text Areas */
@@ -419,7 +453,7 @@ input.validation.loading:focus {
 small.error {
   display: block;
   padding: 0.33333rem 0.5rem 0.5rem;
-  margin-top: -.0625rem;
+  margin-top: -.125rem;
   margin-bottom: 0.88889rem;
   font-size: 0.66667rem;
   font-weight: normal;
@@ -434,6 +468,31 @@ label.error {
 
 .error.hide {
   display: none; /* Visibility fix */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Validation Boxes*/
+/* ------------------------------------------------------------------ */
+
+.validation-box {
+  position: relative;
+}
+.validation-box > input {
+  height: 100%;
+  margin: 0;
+}
+.validation-box > input.wrong {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.validation-box > input + .error {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  margin: 0;
+  border-bottom-left-radius: .375rem;
+  border-bottom-right-radius: .375rem;
+  z-index: 5;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1285,6 +1344,9 @@ kbd,
 .sub-nav dt a, .sub-nav dd a, .sub-nav li a {
   display: inline-block;
 }
+.sub-nav dt a:focus, .sub-nav dd a:focus, .sub-nav li a:focus {
+  outline-offset: -.25rem;
+}
 .sub-nav dt a:not(.icon), .sub-nav dd a:not(.icon), .sub-nav li a:not(.icon) {
   padding: .25rem .5rem; /* Foundation override */
   color: gray;
@@ -1343,7 +1405,7 @@ kbd,
   margin: 1rem 0 0;
   padding: .5rem;
   list-style: none;
-  border: .0625rem solid #333;
+  border: .125rem solid #333;
   border-radius: .75rem;
   background-color: #333;
   box-shadow: .25rem .25rem .5rem rgba(0, 0, 0, .25);
@@ -1908,7 +1970,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .options-select > .options {
   padding: .5rem;
   background-color: white;
-  border: .0625rem solid silver;
+  border: .125rem solid silver;
 }
 .options-select:focus > .select,
 .options-select:focus > .select:hover,
@@ -2066,7 +2128,7 @@ input:focus + button + .error + .autocomplete > ul {
   font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
   font-size: 87.5%;
   line-height: 200%;
-  border: .0625rem solid silver;
+  border: .125rem solid silver;
   background-color: whitesmoke;
   overflow: hidden;
 }
@@ -2136,7 +2198,7 @@ input:focus + button + .error + .autocomplete > ul {
 
 .article .tags {
   margin-bottom: 0;
-  border: .0625rem solid transparent;
+  border: .125rem solid transparent;
 }
 
 .article p.author {
@@ -2343,7 +2405,7 @@ input:focus + button + .error + .autocomplete > ul {
 
 .article.edit .inline-editor {
   padding: .5rem;
-  border: .0625rem solid transparent;
+  border: .125rem solid transparent;
   background-color: white;
 }
 .css-fx .article.edit .inline-editor {transition: box-shadow .75s;}
@@ -2360,7 +2422,7 @@ input:focus + button + .error + .autocomplete > ul {
 .tool-bar {
   margin-bottom: .5rem;
   padding-bottom: .5rem;
-  border-bottom: .0625rem dotted gainsboro;
+  border-bottom: .125rem dotted gainsboro;
 }
 .css-debug .tool-bar {
   background-color: rgba(255, 255, 0, .25);
@@ -2579,7 +2641,7 @@ input:focus + button + .error + .autocomplete > ul {
   padding-top: .25rem;
   color: #666;
   text-align: justify;
-  border-top: .0625rem dotted silver;
+  border-top: .125rem dotted silver;
 }
 .info-tip {
   position: absolute;
@@ -2595,7 +2657,7 @@ input:focus + button + .error + .autocomplete > ul {
   text-align: center;
   border-radius: 100%;
   background-color: whitesmoke;
-  border: .0625rem solid darkgray;
+  border: .125rem solid darkgray;
   opacity: .5;
   -webkit-transition: all .25s ease-out; /* TEMP */
      -moz-transition: all .25s ease-out; /* TEMP */
@@ -2716,7 +2778,7 @@ input:focus + button + .error + .autocomplete > ul {
 @media only screen and (min-width: 40.063em) {
 .comment-list .comment .column:nth-child(2) {padding: 0 .5rem;} /* TEMP : Add left and right padding to second column (i.e. topic + date + post) for medium and large displays */
 }
-.comment-list .comment {border-top: .0625rem solid silver;}
+.comment-list .comment {border-top: .125rem solid silver;}
 
 .comment-list .topic {margin-bottom: .125rem;}
 .comment-list .topic h5 {display: inline-block; margin: 0; font-size: 1.125em; color: #ccb;}
@@ -3047,7 +3109,7 @@ input:focus + button + .error + .autocomplete > ul {
   white-space: nowrap; /* Hide text */
   overflow: hidden; /* Hide text */
   z-index: 1; /* Places the link above the div */
-  border: .0625rem solid silver;
+  border: .125rem solid silver;
 }
 .href-block a:hover,
 .href-block a:focus {
