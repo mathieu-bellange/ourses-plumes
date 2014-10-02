@@ -2,7 +2,6 @@
  * Les Ourses à plumes
  * CKEditor Custom Config
  * http://docs.ckeditor.com/#!/api/CKEDITOR.config
- * ver. 1.0.0
  */
 
 CKEDITOR.editorConfig = function( config ) {

@@ -2,7 +2,6 @@
  * doT.js
  * Templating Library
  * https://github.com/olado/doT
- * ver. 1.0.1
  *
  * Copyright 2011, Laura Doktorova
  * Licensed under the MIT license.
