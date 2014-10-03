@@ -104,7 +104,15 @@ $const = {
 		"octobre",                                                  // String   Set October literal.
 		"novembre",                                                 // String   Set November literal.
 		"décembre"                                                  // String   Set December literal.
-	]
+	],
+	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i // Regexp
+	/*
+	 * Email address syntax
+	 * --------------------
+	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
+	 * second-level domain = at least one defined, max two defined, no length restriction
+	 * top-level domain = must be defined, min one char, max four chars
+	 */
 }
 
 /* Location */
@@ -138,8 +146,12 @@ $msg = {
 	"tag_dup"               : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
 	"tag_max"               : "Maximum de tags autoris&eacute;s atteint.",
 	"char_illegal"          : "Caract&egrave;re invalide&thinsp;!",
-	"form_invalid"          : "Le formulaire que vous avez soumis est invalide et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
+	"form_invalid"          : "Le formulaire que vous avez soumis est incorrect et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
 	"form_incomplete"       : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
+	"email_dup"             : "Le message a d&eacute;jà &eacute;t&eacute; envoy&eacute; à cette adresse.",
+	"email_sent"            : "Le message &eacute;lectronique a correctement &eacute;t&eacute; envoy&eacute;.",
+	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&thinsp;&hellip;",
+	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&thinsp;!",
 	"account_updated"       : "Compte mis à jour avec succ&egrave;&thinsp;!",
 	"account_deleted"       : "Compte supprim&eacute;&thinsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",

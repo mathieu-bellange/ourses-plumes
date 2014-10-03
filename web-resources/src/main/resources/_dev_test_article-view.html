@@ -6,9 +6,12 @@
 	<body>
 
 		<!--Twitter Widget-->
+		<!--
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		-->
 
 		<!--Facebook Widget-->
+		<!--
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
 			var js, fjs = d.getElementsByTagName(s)[0];
@@ -17,16 +20,21 @@
 			js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.0";
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
+		-->
 
 		<!--GooglePlus Widget-->
+		<!--
 		<script src="https://apis.google.com/js/platform.js" async defer>
 			{lang: 'fr'}
 		</script>
+		-->
 
 		<!--LinkedIn Widget-->
+		<!--
 		<script src="//platform.linkedin.com/in.js" type="text/javascript">
 			lang: fr_FR
 		</script>
+		-->
 
 		<h2 class="red">Article <small>.article</small></h2>
 
@@ -80,7 +88,15 @@
 				<ul class="inline-list left">
 
 					<!--Share by Mail-->
-					<li><a id="share_mail" href="mailto:" class="icon-mail share tip-top" title="Partager par mail" data-tooltip><span class="text">Mail</span></a></li>
+					<li>
+						<a id="share_mail" href="javascript:void(0)" class="icon-mail share" title="Partager par mail" data-tooltip><span class="text">Mail</span></a>
+						<div class="send-box" style="display: none;">
+							<a href="javascript:void(0)" class="close right"></a>
+							<label for="share_mail_input">Partager par mail</label>
+							<input id="share_mail_input" class="validation" type="email" maxlength="255" placeholder="L&rsquo;adresse &eacute;lectronique de votre choix">
+							<small class="error hide"></small>
+						</div>
+					</li>
 
 					<!--Share on Twitter-->
 					<!--
@@ -93,7 +109,7 @@
 					});
 					</script>
 					-->
-					<li><a id="share_twitter" href="" class="icon-twitter share tip-top" title="Partager sur Twitter" data-tooltip><span class="text">Twitter</span></a></li>
+					<li><a id="share_twitter" href="" class="icon-twitter share" title="Partager sur Twitter" data-tooltip><span class="text">Twitter</span></a></li>
 
 					<!--Share on Facebook-->
 					<!--
@@ -106,50 +122,105 @@
 					});
 					</script>
 					-->
-					<li><a id="share_facebook" href="" class="icon-facebook share tip-top" title="Partager sur Facebook" data-tooltip><span class="text">Facebook</span></a></li>
+					<li><a id="share_facebook" href="" class="icon-facebook share" title="Partager sur Facebook" data-tooltip><span class="text">Facebook</span></a></li>
 
 					<!--Share on GooglePlus-->
 					<!--
 					<li><div class="g-plus" data-action="share" data-annotation="none"></div></li>
 					-->
-					<li><a id="share_googleplus" href="" class="icon-googleplus share tip-top" title="Partager sur Google+" data-tooltip><span class="text">Google+</span></a></li>
+					<li><a id="share_googleplus" href="" class="icon-googleplus share" title="Partager sur Google+" data-tooltip><span class="text">Google+</span></a></li>
 
 					<!--Share on LinkedIn-->
 					<!--
 					<li><script type="IN/Share"></script></li>
 					-->
-					<li><a id="share_linkedin" href="" class="icon-linkedin share tip-top" title="Partager sur LinkedIn" data-tooltip><span class="text">LinkedIn</span></a></li>
+					<li><a id="share_linkedin" href="" class="icon-linkedin share" title="Partager sur LinkedIn" data-tooltip><span class="text">LinkedIn</span></a></li>
 
 				</ul>
 
 			</div>
 
 			<script>
-
 				var share = (function() {
 					return {
 						init : function(options) {
 							// vars
+							var addr = []; // internal
 							var defaults = {
-								"target" : "popup",             // String   Window type for the share plugin. Allowed values are "popup", "new" or "none". Default : "popup"
-								"popup" : {                     // Object   Popup configuration.
-									"menubar" : false,            // Boolean  Set menu bar visibility. Default : false
-									"toolbar" : false,            // Boolean  Set tool bar visibility. Default : false
-									"resizable" : true,           // Boolean  Allow popup resize. Default : true
-									"scrollbars" : true,          // Boolean  Set scrollbars visibility. Default : true
-									"width" : 500,                // Integer  Set popup width (px). Default : 500
-									"height" : 320                // Integer  Set popup height (px). Default : 320
+								"fx_d"         : 375,            // Integer  Define effets duration in milliseconds. Default : 375
+								"target"       : "popup",        // String   Window type for the share plugin. Allowed values are "popup", "new" or "none". Default : "popup"
+								"popup"        : {               // Object   Popup configuration.
+									"menubar"    : false,          // Boolean  Set menu bar visibility. Default : false
+									"toolbar"    : false,          // Boolean  Set tool bar visibility. Default : false
+									"resizable"  : true,           // Boolean  Allow popup resize. Default : true
+									"scrollbars" : true,           // Boolean  Set scrollbars visibility. Default : true
+									"width"      : 500,            // Integer  Set popup width (px). Default : 500
+									"height"     : 320             // Integer  Set popup height (px). Default : 320
 								}
 							};
 							var settings = $.extend({}, defaults, options);
+							// methods
+							function open_box(obj, d) {
+								var w = obj.outerWidth();
+								var h = obj.outerHeight();
+								obj.css({"width" : 0, "height" : 0, "opacity" : 0}); // reset CSS values to default on completion
+								obj.children().not(".error").hide(); // hide children except error
+								obj.show().animate({"width" : w, "height" : h, "opacity" : 1 }, $conf.js_fx ? d : 0, function() {
+									obj.children().not(".error").show(); // show children except error
+									obj.css({"width" : "", "height" : "",}); // reset CSS values to default on completion
+									obj.find("input").first().focus(); // focus first field
+								});
+							}
+							function close_box(obj, d) {
+								obj.fadeOut($conf.js_fx ? d : 0);
+							}
 							// events
 							$(document).ready(function() {
 								var article_url = encodeURI(window.location).replace("?", "%3F");
 								var article_title = encodeURI($(".article h2.title").text()).replace("?", "%3F");
 								var article_summary = encodeURI($(".article p.summary").text()).replace("?", "%3F");
 								var article_source = encodeURI($org.name).replace("?", "%3F");
-								var mail_href = "mailto:?subject=" + $org.name + encodeURI(" : ") + article_title + "&body=" + encodeURI("Quelqu'un vous a invité à lire ") + article_title + encodeURI(" sur ") + article_source + encodeURI(" : ") + article_url + encodeURI("\n\nBonne lecture !");
-								$("#share_mail").attr("href", mail_href);
+								//var mail_href = "mailto:?subject=" + $org.name + encodeURI(" : ") + article_title + "&body=" + encodeURI("Quelqu'un vous a invité à lire ") + article_title + encodeURI(" sur ") + article_source + encodeURI(" : ") + article_url + encodeURI("\n\nBonne lecture !");
+								//$("#share_mail").attr("href", mail_href);
+								$("#share_mail").on("click", function() {
+									if ($(this).next(".send-box").is(":hidden")) {
+										$(this).next(".send-box").find("input").first().set_validation(true); // reset validation
+										$(this).next(".send-box").find("input").first().removeClass("valid"); // reset validation
+										$(this).next(".send-box").find("input").first().val(""); // reset value
+										open_box($(this).next(".send-box"), settings.fx_d);
+									} else {
+										close_box($(this).next(".send-box"), settings.fx_d);
+									}
+								});
+								$(".send-box").parent().css("position", "relative");
+								$(".send-box .close").on("click", function() {
+									close_box($(this).parent(".send-box"), settings.fx_d)
+								});
+								$(".send-box input").on("keydown", function(e) {
+									var email = $(this).val().trim().toLowerCase();
+									if (e.which == 13) { // Enter
+										$(this).val(email); // format value
+										if (email == 0) {
+											$(this).set_validation(false, $msg.email_empty);
+										} else if ($const.email.test(email)) {
+											if (addr.indexOf(email) == -1) {
+												addr.push(email); // register email to prevent multiple sending
+												$(this).set_validation(true);
+												//console.log("OK ! Mail has been sent to " + email); // DEBUG
+												//shareByMail($(this).attr("data-article"), email); // send email
+											} else { // email has already been sent
+												$(this).set_validation(false, $msg.email_dup);
+											}
+										} else { // email syntax is invalid
+											$(this).set_validation(false, $msg.email_invalid);
+										}
+									} else if (e.which == 27) { // Esc
+										close_box($(this).parent(".send-box"), settings.fx_d);
+									} else { // reset validation
+										$(this).set_validation(true, null, {"cls_valid" : null});
+										$(this).removeClass("valid");
+									}
+								});
 								var twitter_href = "https://twitter.com/share";
 								$("#share_twitter").attr("href", twitter_href);
 								var facebook_href = "https://www.facebook.com/share.php?u=" + article_url;
@@ -159,7 +230,7 @@
 								var linkedin_href = "http://www.linkedin.com/shareArticle?mini=true&url=" + article_url + "&title=" + article_title + "&summary=" + article_summary + "&source=" + article_source;
 								$("#share_linkedin").attr("href", linkedin_href);
 								if (settings.target == "popup") {
-									$("html").on("click", "#share_twitter, #share_facebook, #share_googleplus, #share_linkedin", function() {
+									$("#share_twitter, #share_facebook, #share_googleplus, #share_linkedin").on("click", function() {
 										window.open(this.href, "", "menubar=" + (settings.popup.menubar ? "yes" : "no") + ",toolbar=" + (settings.popup.toolbar ? "yes" : "no") + ",resizable=" + (settings.popup.resizable ? "yes" : "no") + ",scrollbars=" + (settings.popup.scrollbars ? "yes" : "no") + ",width=" + settings.popup.width + ",height=" + settings.popup.height);
 										return false;
 									});
@@ -170,17 +241,16 @@
 						}
 					}
 				}());
-
 				share.init();
-
 			</script>
 
 			<!--Share Widgets-->
-			<div>
+			<div class="hide">
 
 				<ul class="inline-list">
 
 					<!--Share on Twitter-->
+					<!--
 					<li><a href="https://twitter.com/share" class="twitter-share-button" data-count="true" data-dnt="true">Partager</a></li>
 					<script>
 					$(document).ready(function() {
@@ -189,15 +259,22 @@
 						}, 2500);
 					});
 					</script>
+					-->
 
 					<!--Share on Facebook-->
+					<!--
 					<li><div class="fb-share-button" data-layout="button_count" style="margin-top: -4px;"></div></li>
+					-->
 
 					<!--Share on GooglePlus-->
+					<!--
 					<li><div class="g-plus" data-action="share" data-annotation="bubble"></div></li>
+					-->
 
 					<!--Share on LinkedIn-->
+					<!--
 					<li><script type="IN/Share" data-counter="right"></script></li>
+					-->
 
 				</ul>
 
