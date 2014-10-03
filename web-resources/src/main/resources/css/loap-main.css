@@ -384,11 +384,11 @@ select > option {
 
 .css-fx .text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
 
-.text-tiny {font-size: 66%;}
-.text-small {font-size: 75%;}
+.text-tiny {font-size: 75%;}
+.text-small {font-size: 87.5%;}
 .text-medium {font-size: 100%;}
-.text-large {font-size: 133%;}
-.text-huge {font-size: 175%;}
+.text-large {font-size: 112.5%;}
+.text-huge {font-size: 133%;}
 
 /* ------------------------------------------------------------------ */
 /* # Font Coloring */
