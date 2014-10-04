@@ -611,6 +611,11 @@ function processAfterRecall(article) {
 	processAfterValidation(article);
 }
 
+
+function obtenirParametre (sVar) {
+	  return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
+
 /* ------------------------------------------------------------------ */
 /* # Events */
 /* ------------------------------------------------------------------ */
