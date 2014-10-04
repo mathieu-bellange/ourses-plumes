@@ -71,6 +71,7 @@ var share = (function() {
 								addr.push(email); // register email to prevent multiple sending
 								$(this).set_validation(true);
 								shareByMail($("#share_mail").attr("data-article"), email); // send email
+								close_box($("#share_mail").next(".send-box"), settings.fx_d);
 							} else { // email has already been sent
 								$(this).set_validation(false, $msg.email_dup);
 							}
