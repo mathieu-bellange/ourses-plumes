@@ -78,7 +78,14 @@ public class Article implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private ArticleStatus status;
 
-    public Long getId() {
+    public Article() {
+    }
+    
+    public Article(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -265,6 +272,10 @@ public class Article implements Serializable {
             query.ne("id", id);
         }
         return query.findRowCount();
+    }
+    
+    public static Set<Article> findRelatedArticles(long idArticle, long idRubrique){
+    	return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle).eq("rubrique.id", idRubrique).eq("status", ArticleStatus.ENLIGNE).findSet();
     }
 
     public void update(String... properties) {

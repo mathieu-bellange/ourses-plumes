@@ -1,6 +1,7 @@
 package org.ourses.server.redaction.helpers;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
@@ -40,4 +41,6 @@ public interface ArticleHelper {
     Collection<? extends Article> findToCheckAndDraft(Long profileId, String token, Map<String, String> criteria);
 
     Collection<? extends Article> findProfileArticles(Long profileId);
+    
+    List<Article> findThreeArticlesWithMostTagsInCommon(long idArticle);
 }

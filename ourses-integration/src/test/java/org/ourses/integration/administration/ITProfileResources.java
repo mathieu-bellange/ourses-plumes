@@ -339,6 +339,6 @@ public class ITProfileResources {
             }
         });
         assertThat(articles).onProperty("profile.id").containsOnly(2l);
-        assertThat(articles).onProperty("rubrique.rubrique").containsOnly("International", "Luttes");
+        assertThat(articles).onProperty("rubrique.rubrique").containsOnly("International");
     }
 }

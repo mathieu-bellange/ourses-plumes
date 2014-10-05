@@ -1,7 +1,11 @@
 package org.ourses.server.redaction.helpers;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,13 +16,19 @@ import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.domain.entities.Tag;
+import org.ourses.server.redaction.domain.utils.RelatedArticle;
 import org.ourses.server.security.domain.entities.OurseSecurityToken;
 import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.RolesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 @Component
@@ -31,6 +41,8 @@ public class ArticleHelperImpl implements ArticleHelper {
     private static final String OTHER_CHARAC_TO_ESCAPE = "\".!~*()";
     private static final String OTHER_CHARAC_TO_REPLACE = "'";
     private static final String URL_SEPARATOR = "-";
+    
+    Logger logger = LoggerFactory.getLogger(ArticleHelperImpl.class);
 
     @Autowired
     private SecurityHelper securityHelper;
@@ -262,6 +274,54 @@ public class ArticleHelperImpl implements ArticleHelper {
             articles.addAll(Article.findProfileArticles(profileId));
         }
         return articles;
+    }
+    
+    public List<Article> findThreeArticlesWithMostTagsInCommon(long idArticle){
+    	//On ramène l'article
+    	Article article = Article.findArticle(idArticle);  
+    	logger.info("Article: " + article);
+    	//On ramène les articles avec la même rubrique
+    	Set<Article> articlesMemeRubrique = Article.findRelatedArticles(article.getId(), article.getRubrique().getId());
+    	logger.info("Articles related: " + articlesMemeRubrique);
+    	return findThreeArticlesWithMostTagsInCommon( article, articlesMemeRubrique);
+    }
+    
+    @VisibleForTesting
+    protected List<Article> findThreeArticlesWithMostTagsInCommon(Article article, Set<Article> articlesMemeRubrique){    	
+    	Set<Tag> tagsArticle = article.getTags();
+    	logger.info("Article tags: " + tagsArticle);
+    	LinkedList<RelatedArticle> articlesByNbTags = new LinkedList<RelatedArticle>();
+    	//On ramène le nombre de tags en commun
+    	for(Article articleMemeRubrique : articlesMemeRubrique){
+    		Set<Tag> tagsArticleMemeRubrique = articleMemeRubrique.getTags();
+    		logger.info("Tags related: " + tagsArticleMemeRubrique);
+    		Integer nbTags = Sets.intersection(tagsArticle, tagsArticleMemeRubrique).size();
+    		logger.info("Nb tags en commun: " + nbTags);
+    		if(nbTags>0){
+    			RelatedArticle relatedArticle = new RelatedArticle(articleMemeRubrique, nbTags);    	
+    			logger.info("Article related: " + relatedArticle);
+    			articlesByNbTags.add(relatedArticle);
+    		}
+    	}
+    	Collections.sort(articlesByNbTags, new Comparator<RelatedArticle>() {
+
+			@Override
+			public int compare(RelatedArticle relatedArticle1, RelatedArticle relatedArticle2) {				
+				 return relatedArticle2.getNbTagsInCommon().compareTo(relatedArticle1.getNbTagsInCommon());
+			}
+		});
+    	logger.info("Articles related par nb tags: " + articlesByNbTags);
+    	int length = 3;
+    	if(articlesByNbTags.size()<3){
+    		length = articlesByNbTags.size();
+    	}
+    	return Lists.transform(articlesByNbTags.subList(0, length), new Function<RelatedArticle, Article>() {
+
+			@Override
+			public Article apply(RelatedArticle relatedArticle) {
+				return relatedArticle.getArticle();
+			}
+		});
     }
 
 }

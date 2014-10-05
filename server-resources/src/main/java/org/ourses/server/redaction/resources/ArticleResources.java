@@ -1,5 +1,6 @@
 package org.ourses.server.redaction.resources;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,6 +28,8 @@ import org.ourses.server.redaction.helpers.ArticleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
@@ -72,6 +75,23 @@ public class ArticleResources {
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
+    }
+    
+    @GET
+    @Path("/{id}/related")
+    public Response readRelated(@PathParam("id") long id) {
+    	ResponseBuilder responseBuilder;
+    	List<Article> relatedArticles = articleHelper.findThreeArticlesWithMostTagsInCommon(id);
+    	List<ArticleDTO> relatedArticlesDTO =Lists.transform(relatedArticles, new Function<Article, ArticleDTO>() {
+
+			@Override
+			public ArticleDTO apply(Article arg0) {				
+				return arg0.toArticleDTO();
+			}
+		});
+    	responseBuilder = Response.status(Status.OK).entity(relatedArticlesDTO);
+    	
+    	return responseBuilder.build();
     }
 
     @GET

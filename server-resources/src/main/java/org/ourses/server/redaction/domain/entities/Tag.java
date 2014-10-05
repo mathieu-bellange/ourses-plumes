@@ -38,7 +38,11 @@ public class Tag implements Serializable {
 
     }
 
-    @Id
+    public Tag(Long id) {
+		this.id = id;
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "tag_seq_gen")
     @SequenceGenerator(name = "tag_seq_gen", sequenceName = "tag_seq")
     private Long id;
@@ -88,5 +92,38 @@ public class Tag implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tag other = (Tag) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (tag == null) {
+			if (other.tag != null)
+				return false;
+		} else if (!tag.equals(other.tag))
+			return false;
+		return true;
+	}
+    
+    
 
 }

@@ -14,6 +14,8 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.fest.assertions.Condition;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
@@ -63,6 +65,7 @@ public class ITArticleResources {
     private static final String PATH_RECALL_ANOTHER = "/rest/articles/21/recall";
     private static final String PATH_RECALL_DRAFT = "/rest/articles/3/recall";
     private static final String PATH_SHARE_MAIL = "/rest/articles/22/share";
+    private static final String PATH_RELATED_ARTICLES = "/rest/articles/16/related";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -737,6 +740,7 @@ public class ITArticleResources {
         assertThat(clientResponse.getStatus()).isEqualTo(401);
     }
 
+    @Ignore
     @Test
     public void shouldShareByMail() {
         URI uri = UriBuilder.fromPath(PATH_SHARE_MAIL).build();
@@ -751,6 +755,29 @@ public class ITArticleResources {
         ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, "mymail");
         assertThat(clientResponse.getStatus()).isEqualTo(500);
+    }
+    
+    @Test
+    public void shouldDisplayRelatedArticles() {
+    	URI uri = UriBuilder.fromPath(PATH_RELATED_ARTICLES).build();
+    	ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
+        assertThat(articles).onProperty("rubrique.id").containsOnly(4L);
+        for(ArticleDTO articleDTO : articles){
+        	assertThat(articleDTO.getTags()).onProperty("id").satisfies(new Condition<Collection<?>>() {
+				
+				@Override
+				public boolean matches(Collection<?> arg0) {
+					return arg0.contains(3l) || arg0.contains(4l) || arg0.contains(5l) || arg0.contains(7l);
+				}
+			});
+        }
     }
 
     private ArticleDTO newArticle(String title) {
