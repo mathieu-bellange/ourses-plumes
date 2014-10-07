@@ -64,15 +64,17 @@ $auth = {
 /* Build */
 $build = {
 	"compress"           : $app.stage == "rtw" ? true : false,    // Boolean  Compress generated content (i.e. remove tabs and line ends). Default : true
-	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
 	"toolbar"            : $app.stage == "rtw" ? false : true,    // Boolean  Create dev toolbar. Default : false
-	"icons"              : true                                   // Boolean  Create SVG icons. Default : true
+	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
+	"icons"              : true,                                  // Boolean  Create SVG icons. Default : true
+	"slider"             : false,                                 // Boolean  Create Foundation orbit slider. Default : true
 };
 
 /* Configuration */
 $conf = {
 	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
 	"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
+	"css_debug"          : false,                                 // Boolean  Enable CSS debug on HTML elements (i.e. show background masks for all pages). Default : false
 	"css_fx"             : true,                                  // Boolean  Enable CSS effects on HTML elements (i.e. multiple backgrounds, transitions, animations, box shadows, text shadows and ribbons). Default : true
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
 	"js_fx"              : true,                                  // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default : true
@@ -105,14 +107,14 @@ $const = {
 		"novembre",                                                 // String   Set November literal.
 		"décembre"                                                  // String   Set December literal.
 	],
-	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i // Regexp
-	/*
+	/* --------------------
 	 * Email address syntax
 	 * --------------------
 	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
 	 * second-level domain = at least one defined, max two defined, no length restriction
 	 * top-level domain = must be defined, min one char, max four chars
 	 */
+	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i // Regexp
 }
 
 /* Location */
@@ -143,6 +145,11 @@ $file = {
 /* Messages */
 $msg = {
 	"error"                 : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
+	"connected"             : "Vous avez &eacute;t&eacute; connect&eacute;e au serveur.", // <br>Un rafra&icirc;chissement de la page peut &ecirc;tre n&eacute;cessaire.
+	"disconnected"          : "Vous avez &eacute;t&eacute; d&eacute;connect&eacute;e du serveur.", // <br>Veillez &agrave; enregistrer toute modification en cours avant de rafra&icirc;chir la page.
+	"user_connected"        : "Vous &ecirc;tes maintenant connect&eacute;e.",
+	"user_disconnected"     : "Vous &ecirc;tes maintenant d&eacute;connect&eacute;e.",
+	"session_expired"       : "Votre session a expir&eacute; et vous avez &eacute;t&eacute; d&eacute;connect&eacute;e du serveur.",
 	"tag_dup"               : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
 	"tag_max"               : "Maximum de tags autoris&eacute;s atteint.",
 	"char_illegal"          : "Caract&egrave;re invalide&thinsp;!",
@@ -210,7 +217,6 @@ var head_tags = [
 	{elem: "meta", attr: {name: "generator", content: $app.genr}},
 	{elem: "title", text: $org.name},
 	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
-	{elem: "link", attr: {href: $loc.css + "normalize.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
@@ -345,19 +351,44 @@ var async = async || false, method = method || "GET", send = send || null, respo
 	}
 }
 
-
-function clear_user_info() {
-	window.localStorage.removeItem($auth.token);
-	window.localStorage.removeItem($auth.user_name);
-	window.localStorage.removeItem($auth.user_role);
-	window.localStorage.removeItem($auth.account_id);
-	window.localStorage.removeItem($auth.profile_id);
-	window.localStorage.removeItem($auth.avatar_path);
-}
-
 /* ------------------------------------------------------------------ */
 /* # Security */
 /* ------------------------------------------------------------------ */
+
+/* Declare web storage support */
+var hasStorage = (function() {
+	return typeof window.localStorage !== "undefined" ? true : false;
+}());
+
+/* Check if user name is registred in local storage */
+function isRegAuthc() {
+	if (hasStorage && localStorage.getItem($auth.token) !== null) {
+		return true;
+	}
+}
+
+/* Check if user role is registred as an admin in local storage */
+function isRegAdmin() {
+	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $auth.role_admin) {
+		return true;
+	}
+}
+
+/* Check if user role is registred as a writer in local storage */
+function isRegRedac() {
+	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $auth.role_redac) {
+		return true;
+	}
+}
+
+/* Clear user local storage from registred globals */
+function clearStorage() {
+	var auth = ["token", "user_name", "user_role", "account_id", "profile_id", "avatar_path"];
+	for (n in auth) {
+		localStorage.removeItem($auth[auth[n]]);
+	}
+}
+
 /*
  * NOTE
  * Les fonctions ci-dessous contrôlent l'authentification du client.
@@ -379,7 +410,7 @@ function isAuthenticated() {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $auth.redir_param + redirection;
 				window.location.href = $nav.login.url + loginParam;
-				clear_user_info();
+				clearStorage();
 			}
 		} catch(err) {
 			console.log("HTTP request failed.\n " + err); // log server error
@@ -401,7 +432,7 @@ function isAdministratrice() {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
 				var loginParam = $auth.redir_param + redirection;
 				window.location.href = $nav.login.url + loginParam;
-				clear_user_info();
+				clearStorage();
 			}
 			else if (xhr.status == 403){
 				console.log("Forbidden ! Redirect to the login page."); // unauthorized
@@ -427,7 +458,7 @@ function isRedactrice() {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized non connecté
 				var loginParam = $auth.redir_param + redirection;
 				window.location.href = $nav.login.url + loginParam;
-				clear_user_info();
+				clearStorage();
 			}
 			else if (xhr.status == 403){
 				console.log("Forbidden ! Redirect to the login page."); // unauthorized pas les droits requis

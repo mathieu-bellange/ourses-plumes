@@ -10,7 +10,7 @@ $("main > header").after(loadfile($loc.tmpl + "bug-add.tmpl"));
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-function GithubBug(title,body) {
+function GithubBug(title, body) {
 	this.title = title;
 	this.body = body;
 	this.json = function() {
@@ -40,7 +40,7 @@ $( "#new-bug" ).submit(function( event ) {
 		"- platform : *" + navigator.platform + "*\n" +
 		"- outerWidth : *" + window.outerWidth + "*\n" +
 		"- innerWidth : *" + window.innerWidth + "*",
-		bug = new GithubBug($("#bug-title").val(),$("#bug-body").val() + clientBrowserInfos);
+		bug = new GithubBug($("#bug-title").val(), $("#bug-body").val() + clientBrowserInfos);
 		$.ajax({
 			type: "POST",
 			url: "/rest/github",

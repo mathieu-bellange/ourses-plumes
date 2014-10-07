@@ -46,13 +46,9 @@ function connection(){
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
-			if (jqXHR.status == 401){
-				var msg = "Login ou mot de passe incorrect";
-			} else {
-				var msg = $err_msg.err_default;
-			}
+			var msg = (jqXHR.status == 401 ? "Login ou mot de passe incorrect" : $msg.error);
 			if ($("#login-alert").length === 0) {
-				createAlertBox(msg, "alert", "login-alert", true);
+				createAlertBox(msg, "login_alert");
 			} else {
 				$("#login-alert > .text").text(msg);
 			}

@@ -15,14 +15,38 @@
  * Be carefull with them or beware Bilbo Baggin's mighty wrath !
  */
 
-/* Cut String */
-String.prototype.cut = function (start) {
-	return this.substr(start, this.length);
+/* Cut string
+ * Remove characters from a string up to an end point
+ * and return the result (e.g. "molebite".cut(4) becomes "bite")
+ */
+String.prototype.cut = function(end) {
+	return this.substr(end, this.length);
 };
 
-/* Truncate String */
-String.prototype.trunc = function (end) {
-	return this.substr(0, end);
+/* Truncate string
+ * Remove all characters from a string begining at a starting point
+ * and return the result (e.g. "molebite".trunc(4) becomes "mole")
+ */
+String.prototype.trunc = function(start) {
+	return this.substr(0, start);
+};
+
+/* Convert pixel string to root EM numeric
+ * From String to Float (e.g. "20px" becomes 1.25)
+ */
+String.prototype.toRem = function() {
+	var n = parseFloat(this.replace("px", ""));
+	var r = parseFloat(window.getComputedStyle(document.querySelector("body")).getPropertyValue("font-size").replace("px", ""));
+	return (n / r);
+};
+
+/* Convert root EM numeric to pixel string
+ * From Float to String (e.g. 1.25 becomes "20px")
+ */
+Number.prototype.toPx = function() {
+	var n = this;
+	var r = parseFloat(window.getComputedStyle(document.querySelector("body")).getPropertyValue("font-size").replace("px", ""));
+	return (n * r);
 };
 
 /* Scroll to (object) */
@@ -57,6 +81,20 @@ jQuery.fn.extend({
 		obj = this.first().get(0);
 		obj.focus();
 		obj.setSelectionRange(start, end || start);
+	}
+});
+
+/* Reload (Foundation) Tooltip
+ * NOTE : This a Foundation only extension.
+ * It handles tooltips for elements with ID defined or not.
+ */
+jQuery.fn.extend({
+	reload_tooltip : function(tip) {
+		var tip = tip || "";
+		$(this).each(function() {
+			var selector = ($(this).attr("id") !== undefined ? "[data-selector='" + $(this).attr("id") + "']" : "[id='" + $(this).attr("data-selector") + "']");
+			tip !== "" ? $(selector).html(tip + "<span class='nub'></span>") : $(selector).remove();
+		});
 	}
 });
 
@@ -315,6 +353,151 @@ jQuery.fn.extend({
 	}
 });
 
+/* Custom Slider */
+jQuery.fn.extend({
+	zlider: function(options) {
+		var defaults = {
+			"prev_selector"  : ".prev",        // Selector  Forward controller. Default : ".prev"
+			"next_selector"  : ".next",        // Selector  Backward controller. Default : ".next"
+			"inner_selector" : "ul",           // Selector  Inside box (i.e. the sliding content). Default : ".fast-nav ul"
+			"item_selector"  : "li",           // Selector  Items contained by the inner box. Default : "li"
+			"link_selector"  : "a",            // Selector  Links contained by each item. Default : "a"
+			"slide_duration" : 125,            // Duration  Length of the sliding effect. Default : 125
+			"resize_timeout" : 500,            // Duration  Time before slider is reset after window resize. Default : 500
+			"extra_spacing"  : 1,              // Integer   Additional safety spacing added to inside box (px). Default : 1
+		};
+		settings = $.extend({}, defaults, options);
+		$("[data-zlider]").each(function() {
+			// vars
+			var resize_count = 0;
+			var slide_count = 0;
+			var slide_step = 0;
+			var inner_left = 0;
+			var inner_width = 0;
+			var self = $(this);
+			// methods
+			function get_items_width(list, item, include_margin) { // obj, selector, [boolean]
+				var include_margin = include_margin || true, n = 0;
+				list.find(item).each(function() {
+					n += $(this).outerWidth(include_margin);
+				});
+				return n;
+			}
+			function set_items_focusability(list, item, width) { // obj, selector, numeric
+				var min_x = list.offset().left;
+				var max_x = list.offset().left + width;
+				list.find(item).each(function() {
+					var x = $(this).offset().left;
+					if (x > min_x && x < max_x) {
+						$(this).find(settings.link_selector).removeAttr("tabindex");
+					} else {
+						$(this).find(settings.link_selector).attr("tabindex", "-1");
+					}
+				});
+			}
+			function setup(obj) {
+				var outer_width = get_items_width(obj, settings.item_selector); // internal ; compute total width
+				if (obj.width() < outer_width) { // setup module if needed
+					$(".prev, .next").show(); // show slider controls
+					// define vars
+					var prev = {
+						"width" : obj.find(settings.prev_selector).width(),
+						"padding" : parseFloat(obj.find(settings.prev_selector).css("padding-right"))
+					};
+					var next = {
+						"width" : obj.find(settings.next_selector).width(),
+						"padding" : parseFloat(obj.find(settings.next_selector).css("padding-left"))
+					};
+					inner_left = prev.width;
+					inner_width = obj.width() - (prev.width + next.width + prev.padding + next.padding);
+					// proceed positioning and sizing
+					obj.find(settings.inner_selector).css("left", inner_left);
+					obj.find(settings.inner_selector).css("width", outer_width + settings.extra_spacing);
+					obj.find(settings.next_selector).find(settings.link_selector).addClass("disabled");
+					obj.find(settings.prev_selector).find(settings.link_selector).removeClass("disabled");
+					obj.find(settings.prev_selector).css({"padding-right" : "0", "background" : "none"});
+					slide_step = Math.floor(outer_width / inner_width); // compute sliding steps
+					set_items_focusability(obj, settings.item_selector, inner_width); // set items focusability
+				} else {
+					obj.find(settings.prev_selector + ", " + settings.next_selector).hide();
+					obj.find(settings.inner_selector).css("width", "auto");
+					obj.find(settings.inner_selector).css("left", "0");
+					slide_count = 0; // reset count
+				}
+			}
+			function slide(obj, dir, e) { // obj, forward|backward, mouse|keyboard
+				var dir_selector = (dir == "forward" ? settings.next_selector : settings.prev_selector);
+				var reverse_selector = (dir == "forward" ? settings.prev_selector : settings.next_selector);
+				var e_event = (e == "mouse" ? "mousedown" : "keydown");
+				obj.find(reverse_selector + " " + settings.link_selector).removeClass("disabled");
+				dir == "forward" ? obj.find(dir_selector).css({"padding-left" : "", "background" : ""}) : obj.find(dir_selector).css({"padding-right" : "", "background" : ""});
+				if (!obj.find(dir_selector).hasClass("disabled")) {
+					obj.find(dir_selector).find(settings.link_selector).data(e_event, true);
+					if (dir == "forward" ? slide_count < 0 : slide_count > -slide_step) {
+						dir == "forward" ? slide_count++ : slide_count--;
+						inner_left = (dir == "forward" ? inner_left + inner_width : inner_left - inner_width);
+						obj.find(settings.inner_selector).animate({"left" : inner_left}, $conf.js_fx ? settings.slide_duration : 0, function() {
+							set_items_focusability(obj, "li", inner_width);
+							if (dir == "forward" ? slide_count < 0 : slide_count > -slide_step) {
+								if ($conf.js_fx) {
+									if (obj.find(dir_selector).find(settings.link_selector).data(e_event) == true) {
+										if (e_event == "mousedown") {
+											obj.find(dir_selector).find(settings.link_selector).mousedown();
+										} else if (e_event == "keydown") {
+											obj.find(dir_selector).find(settings.link_selector).keydown();
+										}
+									}
+								}
+							} else {
+								obj.find(dir_selector).find(settings.link_selector).addClass("disabled");
+								dir == "forward" ? obj.find(reverse_selector).css({"padding-right" : "0", "background" : "none"}) : obj.find(reverse_selector).css({"padding-left" : "0", "background" : "none"});
+							}
+						});
+					} else {
+						obj.find(dir_selector).find(settings.link_selector).addClass("disabled");
+						dir == "forward" ? obj.find(reverse_selector).css({"padding-right" : "0", "background" : "none"}) : obj.find(reverse_selector).css({"padding-left" : "0", "background" : "none"});
+					}
+				}
+			}
+			// events
+			$(this).find(settings.prev_selector + " " + settings.link_selector).mousedown(function() {
+				slide(self, "backward", "mouse");
+			});
+			$(this).find(settings.next_selector + " " + settings.link_selector).mousedown(function() {
+				slide(self, "forward", "mouse");
+			});
+			$(this).find(settings.prev_selector + " " + settings.link_selector + ", " + settings.next_selector + " " + settings.link_selector).mouseup(function() {
+				$(this).removeData("mousedown");
+			});
+			$(this).find(settings.prev_selector + " " + settings.link_selector).keydown(function(e) {
+				if (e.which == 13) { // Enter
+					slide(self, "backward", "keyboard");
+				}
+			});
+			$(this).find(settings.next_selector + " " + settings.link_selector).keydown(function(e) {
+				if (e.which == 13) { // Enter
+					slide(self, "forward", "keyboard");
+				}
+			});
+			$(this).find(settings.prev_selector + " " + settings.link_selector + ", " + settings.next_selector + " " + settings.link_selector).keyup(function(e) {
+				if (e.which == 13) { // Enter
+					$(this).removeData("keydown");
+				}
+			});
+			$(window).resize(function() {
+				if (resize_count == 0) {
+					resize_count++;
+					setTimeout(function() {
+						resize_count = 0;
+						setup(self);
+					}, settings.resize_timeout);
+				}
+			});
+			setup($(this)); // init
+		});
+	}
+});
+
 /* Autocomplete */
 jQuery.fn.extend({
 	autocomplete : function(options) {
@@ -561,6 +744,56 @@ jQuery.fn.extend({
 	}
 });
 
+/* Create alert box
+ * Insert closable notification dialog after first matched element.
+ *
+ * NOTE : Though this extension uses Foundation CSS styles, it is has
+ * no dependences with Foundation alert plugin script.
+ *
+ * Arguments are optional.
+ * - msg  = text displayed in the alert box     [string]
+ * - id   = tag attribute of the alert box      [string]
+ * - opts = options list (see below)            [object]
+ *
+ * If a create_alert_box() instance is launched again with same 'id',
+ * then the alert box identified by that id will be updated instead
+ * of being erased. To create another box, define another id.
+ */
+var alert_box_template = doT.compile(loadfile($loc.tmpl + "snippet_alert_box.tmpl"));
+jQuery.fn.extend({
+	create_alert_box : function(msg, id, opts) {
+		var msg = msg || $msg.error, id = id || "alert_box";
+		var defs = {
+			"class"           : "error",              // String   CSS Class name of the alert box (null to none). Default : "error"
+			"icon"            : "warning",            // String   CSS Class name of the message icon (null to none). Default : "warning"
+			"timeout"         : 0,                    // Integer  Time before alert box fade out (zero to never). Default : 0
+			"scroll"          : true,                 // Boolean  Scroll to alert box after insertion. Default : true
+			"scroll_duration" : 500,                  // Integer  Duration of the scrolling effect. Default : 500
+			"fade_duration"   : 500                   // Integer  Duration of the fading effeet. Default : 500
+		};
+		var cfg = $.extend({}, defs, opts);
+		var sel = "#" + id; // internal
+		if ($(sel).length == 0) {
+			$(this).first().after(alert_box_template({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "text" : msg}));
+			$(sel).svg_icons(); // set svg icons contained by alert box
+			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
+			if (cfg.timeout > 0) {
+				setTimeout(function() {
+					$(sel).children().css("visibility", "hidden"); // mask box content
+					$(sel).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? cfg.fade_duration : 0, function() { // hide alert box
+						$(sel).remove(); // remove alert box
+					});
+				}, cfg.timeout);
+			}
+		} else { // update
+			$(sel).removeClass("info secondary alert error success warning");
+			$(sel).addClass(cfg["class"]);
+			$(sel).find(".text").html(msg);
+		}
+		if (cfg.scroll == true) { scrollTo($(sel), cfg.scroll_duration, $(sel).innerHeight()) } // scroll to alert box
+	}
+});
+
 /* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
@@ -582,8 +815,9 @@ var loap = (function() {
 			$(document).user_pictures(); // WARNING : set user pictures for whole document
 		},
 		init: function() {
-			$(document).placeholder(); // set placeholder for whole document
 			this.update();
+			$(document).placeholder(); // set placeholder for whole document
+			$(document).zlider();
 		}
 	};
 }());
@@ -597,26 +831,30 @@ var loap = (function() {
  * These are not parts of the module and aren't supposed to be reloaded.
  */
 
-/* Create Alert Box */
-var alert_box_template = doT.compile(loadfile($loc.tmpl + "snippet_alert_box.tmpl"));
-function createAlertBox(msg, cls, id, scroll) {
-	var msg = msg || $msg.error, cls = cls || "error", id = id || "alert_box", scroll = scroll || true;
-	if ($("#" + id).length === 0) {
-		$("main > header").after(alert_box_template({"id" : id, "class" : cls, "text" : msg}));
-		$("#" + id).svg_icons(); // set svg icons contained by alert box
-		$conf.js_fx ? $("#" + id).fadeIn(300) : $("#" + id).show(); // show alert box
-		$("#" + id).parent().foundation("alert"); // reload Foundation alert plugin for alert box closest parent (i.e. alert-box cannot be closed bug fix)
-		if (scroll == true) {
-			scrollTo($("#" + id), 500, $("#" + id).innerHeight()); // scroll to alert box
+/* Get URL search params */
+function get_url_search_params() {
+	var params = {};
+	var url = decodeURI(window.location.search).toLowerCase();
+	var arr = url.match(/^\?([^\?\|=:;,]+)$|([^\?\|=&:;,]+)=([^\?\|:;,]+)/i);
+	/* 0 = full matched result
+	 * 1 = global search query (e.g. 'zizi' in 'url?zizi')
+	 * 2 = specifier (e.g. 'rubrique' in 'url?rubrique=zizi')
+	 * 3 = specified search query (e.g. 'zizi' in 'url?rubrique=zizi')
+	 */
+	if (arr !== null) {
+		if (arr[1] !== undefined) { // search is global
+			return arr[1];
+		} else if (arr[2] !== undefined && arr[3] !== undefined) { // search is specific
+			params[arr[2]] = arr[3];
+			return params;
 		}
 	}
+	return null; // search is null
 }
 
-/* Reload Tooltip */
-function reload_tooltip(obj) {
-	var tooltip_id = obj.attr("id");
-	var tooltip_value = obj.attr("title");
-	$("[data-selector='" + tooltip_id + "']").last().html(tooltip_value + "<span class='nub'></span>");
+/* Insert alert box after header */
+function createAlertBox(msg, id, opts) {
+	$("main > header").create_alert_box(msg, id, opts);
 }
 
 /* Convert long date format to short numeric */
@@ -671,99 +909,161 @@ function update_user_pseudo(pseudo) {
 /* Update user menu user picture */
 function update_user_avatar(pathAvatar) {
 	window.localStorage.setItem($auth.avatar_path, pathAvatar);
-	$("#user-avatar").attr("data-image",pathAvatar);
-	loap.update();
+	$("#user_avatar").attr("data-image", pathAvatar); // define avatar
+	$("#user_menu").user_pictures(); // reload user image
 }
 
 /* Check authentication before sending AJAX requests */
 function header_authentication(xhr) {
-	if (localStorage !== undefined && window.localStorage.getItem($auth.token) !== undefined) {
+	if (hasStorage && window.localStorage.getItem($auth.token) !== undefined) {
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // check authc token
 	}
 }
 
 /* Redirect on HTTP response status unauthorized after AJAX request */
-function ajax_error(jqXHR, textStatus, errorThrown) {
-	if (jqXHR.status == 401) {
+function ajax_error(xhr, status, error) {
+	if (xhr.status == 401) {
 		window.location.href = $nav.login.url;
 	}
 }
 
-/* Check if user is authenticated */
-var onAuthc = $.ajax({
-	url : "/rest/authc/connected",
-	async : false,
-	processData : false,
-	beforeSend : function(jqXHR) {
-		header_authentication(jqXHR);
-	},
-	dataType : "text"
-});
-
-/* Check if user is an admin according to localStorage -- alias method */
-function isAdmin() {
-	if (window.localStorage.getItem($auth.user_role) == $auth.role_admin) {
-		return true;
-	}
-}
-/* Check if user is a writer according to localStorage -- alias method */
-function isRedac() {
-	if (window.localStorage.getItem($auth.user_role) == $auth.role_redac) {
-		return true;
-	}
+/* Check REST through customized AJAX request */
+function checkAJAX(done, fail, always, url) {
+	var done = done || (function() {}),
+			fail = fail || (function() {}),
+			always = always || (function() {});
+	$.ajax({
+		url : url,
+		processData : false,
+		beforeSend : function(jqXHR) {header_authentication(jqXHR)},
+		success : function() {done()},
+		error : function() {fail()},
+		complete : function() {always()},
+		dataType : "text"
+	});
 }
 
-/* Set user connect */
-function set_user_connect(user_logged_in) {
-	var user_logged_in = user_logged_in || false;
-	if (user_logged_in == true) {
-		$("#user_connect").attr("href", "javascript:void(0)"); // supprime le lien vers la page de connexion pour ajouter le menu utilisateur
-		$("#user_connect").attr("data-dropdown", "user_menu");
-		//$("#user_connect").attr("data-options", "is_hover:true"); // TEMP : disable user menu hover ; uncomment to re-enable
-		$("#user_connect").parent("span").attr("title", "Menu"); // TEMP : set tooltip title on hover
-		//$("#user_connect").parent("span").removeAttr("data-tooltip"); // TEMP : prevent tooltip disabling if hover
-		if ($("#user_connect").hasClass("icon-connect")) {
-			$("#user_connect").removeClass("icon-connect");
-			$("#user_connect").addClass("icon-menu");
-		} else {
-			$("#user_connect svg use").attr("xlink:href", "#icon-menu");
+/* Check if user is authenticated toward server */
+function checkAuthc(done, fail, always) {
+	checkAJAX(done, fail, always, "/rest/authc/connected")
+}
+
+/* Check if user is an admin toward server */
+function checkAdmin(done, fail, always) {
+	checkAJAX(done, fail, always, "/rest/authz/isadmin")
+}
+
+/* Check if user is a writer authenticated toward server */
+function checkRedac(done, fail, always) {
+	checkAJAX(done, fail, always, "/rest/authz/isredac")
+}
+
+/* Disconnect user */
+function disconnect(str) {
+	var str = str || null;
+	$.ajax({
+		type : "POST",
+		url : "/rest/authc/logout",
+		contentType : "application/json; charset=utf-8",
+		data : window.localStorage.getItem($auth.token),
+		success : function(data, status, jqXHR) {
+			clearStorage();
+			if (str !== null) {
+				createAlertBox(str, "alert_auth");
+			}
+		},
+		error : function(jqXHR, status, errorThrown) {
+		},
+		dataType : "json"
+	});
+}
+
+/* Set user connected
+ * A dirty mess lies below ...
+ * Now that user connected auth check has been deferred to ready state,
+ * it's useless to handle cases of plugins initialization.
+ * TODO : remove is_plugin_initialized? conditions
+ */
+
+function set_user_connected(is_connected) {
+	var is_connected = is_connected || false, sel = "#user_connect";
+	if (is_connected) {
+		/*
+		if ($(sel).hasClass("icon-connect")) { // svg_icons not loaded
+			$(sel).removeClass("icon-connect");
+			$(sel).addClass("icon-menu");
+		} else { // svg_icons loaded
+			$(sel + " svg use").attr("xlink:href", "#icon-menu");
 		}
-		$("#user_connect").data("enable", "true");
-		$(".fast-nav").after(doT.compile(loadfile($loc.tmpl + "user_nav.tmpl"))); // Process user menu template
-	} else {
-		//$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
-		$("#user_connect").attr("href", $nav.login.url); // ajoute le lien vers la page de connexion
-		$("#user_connect").parent("span").attr("title", "S&rsquo;identifier");
-		//$("#user_connect").parent("span").attr("data-tooltip");
-		$("#user_connect").removeAttr("data-dropdown");
-		//$("#user_connect").removeAttr("data-options"); // TEMP : disable user menu hover ; uncomment to re-enable
-		if ($("#user_connect").hasClass("icon-menu")) {
-			$("#user_connect").removeClass("icon-menu");
-			$("#user_connect").addClass("icon-connect");
-		} else {
-			$("#user_connect svg use").attr("xlink:href", "#icon-connect");
+		*/
+		$(sel + " svg use").attr("xlink:href", "#icon-menu");
+		$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
+		/*
+		if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
+			$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
+		} else { // Foundation tooltip plugin isn't initialized
+			$(sel).attr("title", "Menu"); // change title attribute before Foundation tooltip plugin initialize
 		}
-		$("#user_connect").data("enable", "false");
-	}
-}
-
-/* Check user connect */
-function check_user_connect() {
-	if ((window.location.href.indexOf($nav.login.url) == -1) && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) { // if current page != connexion
-		isAuthenticated(); // check if auth token hasn't expired
-	}
-	if ((window.location.href.indexOf($nav.login.url) == -1) && ($("#user_connect").data("enable") == "false") && (window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null)) {
-		set_user_connect(true); // enable user connection
+		*/
+		$(sel).data("connected", true); // register connected state in local data var
+		$(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
-		$(document).foundation("dropdown"); // reload Foundation Dropdown plugin for whole document (n.b. includes #user_connect and #user_menu)
-		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
-	}
-	if (($("#user_connect").data("enable") == "true") && (window.localStorage.getItem($auth.user_name) === undefined || window.localStorage.getItem($auth.user_name) === null)) {
+	} else {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
-		set_user_connect(false); // disable user connection
-		reload_tooltip($("#user_connect").parent("span")); // reflow Foundation tooltip
+		/*
+		if ($(sel).hasClass("icon-menu")) { // svg_icons not loaded
+			$(sel).removeClass("icon-menu");
+			$(sel).addClass("icon-connect");
+		} else { // svg_icons loaded
+			$(sel + " svg use").attr("xlink:href", "#icon-connect");
+		}
+		*/
+		$(sel + " svg use").attr("xlink:href", "#icon-connect");
+		$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
+		/*
+		if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
+			$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
+		} else { // Foundation tooltip plugin isn't initialized
+			$(sel).attr("title", "S&rsquo;identifier"); // change title attribute before Foundation tooltip plugin initialize
+		}
+		*/
+		$(sel).data("connected", false); // register connected state in local data var
 	}
 }
+
+// function set_user_connected(is_connected) {
+	// var is_connected = is_connected || false, sel = "#user_connect";
+	// if (is_connected) {
+		// if ($(sel).hasClass("icon-connect")) { // svg_icons not loaded
+			// $(sel).removeClass("icon-connect");
+			// $(sel).addClass("icon-menu");
+		// } else { // svg_icons loaded
+			// $(sel + " svg use").attr("xlink:href", "#icon-menu");
+		// }
+		// if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
+			// $(sel).reload_tooltip("Menu"); // reset Foundation tooltip
+		// } else { // Foundation tooltip plugin isn't initialized
+			// $(sel).attr("title", "Menu"); // change title attribute before Foundation tooltip plugin initialize
+		// }
+		// $(sel).data("connected", true); // register connected state in local data var
+		// $(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
+		// $("#user_menu").user_pictures(); // reload user pictures of user menu
+	// } else {
+		// $("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
+		// if ($(sel).hasClass("icon-menu")) { // svg_icons not loaded
+			// $(sel).removeClass("icon-menu");
+			// $(sel).addClass("icon-connect");
+		// } else { // svg_icons loaded
+			// $(sel + " svg use").attr("xlink:href", "#icon-connect");
+		// }
+		// if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
+			// $(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
+		// } else { // Foundation tooltip plugin isn't initialized
+			// $(sel).attr("title", "S&rsquo;identifier"); // change title attribute before Foundation tooltip plugin initialize
+		// }
+		// $(sel).data("connected", false); // register connected state in local data var
+	// }
+// }
 
 /* Check prefs object */
 function has_prefs(prefs) {
@@ -845,12 +1145,6 @@ function remove_pref(prefs, key) {
 /* ------------------------------------------------------------------ */
 /* # Build processing */
 /* ------------------------------------------------------------------ */
-/*
- * NOTE
- * Choice has been made to keep the two first <div> after <body> in
- * HTML files in order to handle none or multiple <section> cases and
- * prevent indent issues. The script seems to work properly that way.
- */
 
 /* Check app conf user prefs */
 (function() {
@@ -871,10 +1165,12 @@ function remove_pref(prefs, key) {
 }());
 
 // Process build
+if ($conf.css_debug) {
+	$("body").addClass("css-debug");
+}
 if ($conf.css_fx) {
 	$("body").addClass("css-fx");
 }
-
 if ($build.container) {
 	// Apply standard layout (i.e. two columns view) class to body
 	$("body").addClass("standard-layout");
@@ -890,31 +1186,21 @@ if ($build.container) {
 	// Process header template
 	$(".main-pane").prepend(doT.compile(loadfile($loc.tmpl + "header.tmpl")));
 
-	// Set user connection depending on browser local storage domain log
-	if (window.location.href.indexOf($nav.login.url) > -1) {
-		set_user_connect(false);
-	} else {
-		if (localStorage !== undefined && window.localStorage.getItem($auth.user_name) !== undefined && window.localStorage.getItem($auth.user_name) !== null) {
-			set_user_connect(true);
-		} else {
-			set_user_connect(false);
-		}
-	}
-
-	// Bind user connect event
-	$("#user_connect").mouseenter(function() {
-		check_user_connect()
-	});
-
 	// Process footer template
 	$(".main-pane").append(doT.compile(loadfile($loc.tmpl + "footer.tmpl")));
+
+	/* UNUSED*/
+	/*
 	// Process slider template -- this is the tricky part
-	var news_list_tmpl = doT.compile(loadfile($loc.tmpl + "news_list.tmpl"));
-	$(document).ready(function() {
-		$(".main-pane > header").append(news_list_tmpl());
-		$(".news-list").foundation("orbit"); // reload Foundation Orbit Slider plugin ; Foundation need to be loaded one time before that for the list to appear inline
-		$(window).resize(); // just a dummy instruction for getting the proper height
-	});
+	if ($build.slider) {
+		var news_list_tmpl = doT.compile(loadfile($loc.tmpl + "news_list.tmpl"));
+		$(document).ready(function() {
+			$(".main-pane > header").append(news_list_tmpl());
+			$(".news-list").foundation("orbit"); // reload Foundation Orbit Slider plugin ; Foundation need to be loaded one time before that for the list to appear inline
+			$(window).resize(); // just a dummy instruction for getting the proper height
+		});
+	}
+	*/
 }
 
 if ($build.icons) {
@@ -941,7 +1227,10 @@ $(document).ready(function() {
 		$(selector).removeClass("hide");
 	}
 });
+*/
 
+/* UNUSED */
+/*
 // Handle inner anchor click event ; need to check history.back() for inner anchors
 $("html").on("click", "[href*='#']", function() {
 	var arr = $(this).attr("href").split("#");
@@ -998,7 +1287,7 @@ $("#_css_fx_toggle").click(function() {
 	$("body").toggleClass("css-fx");
 });
 $("#_svg_fx_toggle").click(function() {
-	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "warning");
+	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "alert_conf", {"class" : "warning"});
 });
 
 /* Toolbar Null Links Toggler */
@@ -1048,49 +1337,11 @@ $("#_null_links_toggle").click(function() {
 });
 
 /* Toolbar CSS Debug Toggler */
-$("#_css_debug_icons_toggle").click(function() {
-	$(this).toggleClass("active");
-	$("[class*='icon-']").toggleClass("css-debug");
-});
-$("#_css_debug_nav_pane_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".nav-pane").toggleClass("css-debug");
-});
-$("#_css_debug_fast_nav_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".fast-nav").toggleClass("css-debug");
-});
-$("#_css_debug_site_nav_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".site-nav").toggleClass("css-debug");
-});
-$("#_css_debug_orbit_slider_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".orbit-container").toggleClass("css-debug");
-});
-$("#_css_debug_breadcrumbs_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".breadcrumbs").toggleClass("css-debug");
-});
-$("#_css_debug_accessibility_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".accessibility").toggleClass("css-debug");
-});
-$("#_css_debug_user_account_toggle").click(function() {
-	$(this).toggleClass("active");
-	$("#user-profile").toggleClass("css-debug");
-});
-$("#_css_debug_article_toggle").click(function() {
-	$(this).toggleClass("active");
-	$("article").toggleClass("css-debug");
-});
-$("#_css_debug_articles_list_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".articles-list").toggleClass("css-debug");
-});
-$("#_css_debug_comment_list_toggle").click(function() {
-	$(this).toggleClass("active");
-	$(".comment-list").toggleClass("css-debug");
+$("[id^='_css_debug_']").click(function() {
+	if (!$(this).hasClass("disabled")) {
+		$(this).toggleClass("active");
+		$("." + $(this).attr("id").cut(11)).toggleClass("css-debug");
+	}
 });
 
 /* Toolbar Stick Toggler */
@@ -1126,29 +1377,10 @@ $(document).ready(function() {
 });
 
 /* ------------------------------------------------------------------ */
-/* # Connect */
-/* ------------------------------------------------------------------ */
-
-/* Connect click Event */
-$("html").on("click", ".disconnect", function() {
-	$.ajax({
-		type : "POST",
-		url : "/rest/authc/logout",
-		contentType : "application/json; charset=utf-8",
-		data : window.localStorage.getItem($auth.token),
-		success : function(data, status, jqxhr) {
-			clear_user_info();
-		},
-		error : function(jqXHR, status, errorThrown) {
-		},
-		dataType : "json"
-	});
-});
-
-/* ------------------------------------------------------------------ */
 /* # Main Navigation */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
 /* Main Navigation Sub List Visibility Toggler */
 /*
 $(".main-nav [data-roll='sub-list']").mouseenter(function() {
@@ -1285,7 +1517,7 @@ function refresh_breadcrumbs(selector) {
 /* # Accessibility */
 /* ------------------------------------------------------------------ */
 
-/* UNUSED : put to top in update
+/* UNUSED */
 /*
 $(".accessibility .icon-textinc").click(function() {
 	if ($(".accessibility .icon-textdec").hasClass("active")) {
@@ -1308,27 +1540,17 @@ $(".accessibility .icon-textdec").click(function() {
 */
 
 /* ------------------------------------------------------------------ */
-/* # User Pictures */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED : put to top in update */
-/*
-$("[data-image]").each(function() {
-	var file = $(this).attr("data-image");
-	var dir = "img/";
-	$(this).css("background-image", "url('" + dir + file + "')")
-});
-*/
-
-/* ------------------------------------------------------------------ */
 /* # Accordions */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED for now ... maybe later ? */
 /* Accordion Active Switcher */
+/*
 $(".accordion dd > a").click(function() {
 	$(this).parent("dd").siblings().children().removeClass("active");
 	$(this).toggleClass("active");
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Sub Navigation */
@@ -1360,7 +1582,9 @@ $(document).ready(function() {
 /* # Pagination */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED for now ... maybe later ? */
 /* Pagination Switcher */
+/*
 $(".pagination li a").click(function() {
 	if (!$(this).parent("li").hasClass("unavailable")) {
 		if (!$(this).hasClass("disabled")) {
@@ -1369,6 +1593,7 @@ $(".pagination li a").click(function() {
 		}
 	}
 });
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Site Navigation */
@@ -1454,23 +1679,75 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 });
 
 /* ------------------------------------------------------------------ */
+/* # Alert Boxes */
+/* ------------------------------------------------------------------ */
+
+/* Close alert boxes */
+$("html").on("click", ".alert-box .close", function() {
+	var self = $(this).parent(".alert-box");
+	$(self).children().css("visibility", "hidden"); // mask box content
+	$(self).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? 500 : 0, function() { // hide alert box
+		self.remove();
+	});
+});
+
+/* ------------------------------------------------------------------ */
+/* # User Connect Events */
+/* ------------------------------------------------------------------ */
+
+/* Connection or User menu link */
+$("html").on("click", "#user_connect", function() {
+	var done = (function() {
+		if ($("#user_connect").data("connected") == true) {
+			$("#user_menu").toggle(); // show menu
+		} else {
+			set_user_connected(true); // connect user
+			createAlertBox($msg.connected, "alert_auth", {"class" : "success"})
+		}
+	});
+	var fail = (function() {
+		if ($("#user_connect").data("connected") == true) {
+			set_user_connected(false); // set not connected
+			disconnect($msg.disconnected); // disconnect
+		} else {
+			window.location.href = $nav.login.url; // redirect to the login page
+		}
+	});
+	checkAuthc(done, fail);
+});
+
+/* Disconnection link */
+$("html").on("click", ".disconnect", function() {
+	set_user_connected(false);
+	disconnect($msg.user_disconnected);
+});
+
+/* ------------------------------------------------------------------ */
 /* # Initialize */
 /* ------------------------------------------------------------------ */
 
-/* Autosize jQuery plugin custom settings */
-var autosize_cfg = {append: ""};
-var f_tooltip_cfg = {
-	"touch_close_text" : "Appuyez pour fermer",
-	"disable_for_touch" : true,
-	"hover_delay" : 625
+/* Define third-party on-the-fly custom settings */
+var autosize_cfg = {append: ""};              // Autosize jQuery plugin (i.e. remove line feed)
+var f_tooltip_cfg = {                         // Foundation Tooltip component
+	"touch_close_text" : "Appuyez pour fermer", // Translate message. Default : "Tap To Close"
+	"disable_for_touch" : true,                 // Global deactivation for touch devices. Default : false
+	"hover_delay" : 500                         // Increase time before tooltips appear. Default : 200
 };
 
-/* Initialize Autosize jQuery plugin for all <textarea> HTML tags without new line appending */
+/* Launch modules on document ready */
 $(document).ready(function() {
 	var f = Foundation.libs;
-	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // NOTE : override fucking Foundation fucking libs
-	$("textarea").autosize(autosize_cfg); // WARNING : compatibility need to be checked on IE10
-	loap.init();
+	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings -- NOTE : override fucking Foundation fucking libs
+	$("textarea").autosize(autosize_cfg); // Initialize Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
+	loap.init(); // Initialize owner module
+});
+
+/* Set user connected through AJAX on document ready */
+$(document).ready(function() {
+	var done = (function() { set_user_connected(true) });
+	var fail = (function() { set_user_connected(false) });
+	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
+	checkAuthc(done, fail, always);
 });
 
 /* Reload Autosize jQuery plugin on window resize */

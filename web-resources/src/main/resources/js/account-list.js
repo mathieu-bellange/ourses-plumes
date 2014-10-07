@@ -69,13 +69,12 @@ function updateEvent(id) {
 		},
 		data : role.json(),
 		success : function(data, status, jqxhr) {
-			var i = "update_" + id;
-			createAlertBox($msg.account_updated, "success", i);
-			setTimeout(function() {
-				$("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
-					$("#" + i).remove();
-				});
-			}, account_list.alert_timeout);
+			createAlertBox($msg.account_updated, "update_" + id, {"class" : "success", "timeout" : 2500});
+			// setTimeout(function() {
+				// $("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
+					// $("#" + i).remove();
+				// });
+			// }, account_list.alert_timeout);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -95,13 +94,12 @@ function deleteEvent(id) {
 		},
 		success : function(data, status, jqxhr) {
 			$("#accountsTable tr[data-account-id=" + id + "]").remove();
-			var i = "delete_" + id;
-			createAlertBox($msg.account_deleted, "warning", i);
-			setTimeout(function() {
-				$("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
-					$("#" + i).remove();
-				});
-			}, account_list.alert_timeout);
+			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : 2500});
+			// setTimeout(function() {
+				// $("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
+					// $("#" + i).remove();
+				// });
+			// }, account_list.alert_timeout);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);

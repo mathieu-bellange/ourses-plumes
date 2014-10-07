@@ -1,8 +1,12 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Pre Processing */
 /* ------------------------------------------------------------------ */
 
 set_page_title($nav.home.title);
+
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
 
 $("main > header").after(loadfile($loc.tmpl + "index.tmpl"));
 
@@ -22,69 +26,46 @@ $("main > header").after(loadfile($loc.tmpl + "index.tmpl"));
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-// vars
-var limit_items = 5;
-var list_selector = "#changes_list";
-var more_selector = "#show_more";
-var less_selector = "#show_less";
-
-var index = 0; // internal
-
-$(document).ready(function() {
-	$(list_selector + " li:gt(" + (limit_items - 1) + ")").hide();
-	if ($(list_selector + " li").length >= limit_items) {
-		$conf.js_fx ? $(more_selector).fadeIn(250) : $(more_selector).show();
-	}
-});
-
-$("html").on("click", more_selector, function() {
-	if (!$(list_selector + " li").last().is(":visible")) {
-		index += 1;
-		if ($conf.js_fx) {
-			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").slideUp(250);
-			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").slideDown(250);
-			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").slideUp(250);
-		} else {
-			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").hide();
-			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").show();
-			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").hide();
-		}
-	}
-	if (($(list_selector + " li").length / limit_items) > (index) && ($(list_selector + " li").length / limit_items) <= (index + 1)) {
-		$conf.js_fx ? $(this).fadeOut(250) : $(this).hide();
-	}
-	if (index > 0) {
-		$conf.js_fx ? $(less_selector).fadeIn(250) : $(less_selector).show();
-	}
-});
-
-$("html").on("click", less_selector, function() {
-	if (index == 1) {
-		index -= 1;
-		if ($conf.js_fx) {
-			$(list_selector + " li:lt(" + (limit_items + 1) + ")").slideDown(250);
-			$(list_selector + " li:gt(" + (limit_items - 1) + ")").slideUp(250);
-			$(this).fadeOut(250);
-		} else {
-			$(list_selector + " li:lt(" + (limit_items + 1) + ")").show();
-			$(list_selector + " li:gt(" + (limit_items - 1) + ")").hide();
-			$(this).hide();
-		}
-	} else if (!$(list_selector + " li").first().is(":visible")) {
-		index -= 1;
-		if ($conf.js_fx) {
-			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").slideUp(250);
-			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").slideDown(250);
-			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").slideUp(250);
-		} else {
-			$(list_selector + " li:lt(" + (limit_items * index + 1) + ")").hide();
-			$(list_selector + " li:gt(" + (limit_items * index - 1) + ")").show();
-			$(list_selector + " li:gt(" + (limit_items * (index + 1) - 1) + ")").hide();
-		}
-	}
+/* Close */
+$(".row .close").click(function() {
+	var columns = $(this).parents(".row").find(".column"),
+			column = $(this).parents(".column").first();
 	setTimeout(function() {
-		if (!$(list_selector + " li").last().is(":visible")) {
-			$conf.js_fx ? $(more_selector).fadeIn(250) : $(more_selector).show();
+		columns.addClass("small-centered medium-centered large-centered");
+		column.remove();
+	}, 500);
+});
+
+/* Tiny Lovely Slider for Changelog :D */
+$(document).ready(function() {
+	var list = "#changes_list", less = "#show_less", more = "#show_more";
+	var max = $(list).find("li").length, lim = 8, num = max / lim;
+	if (num > 1) { $(more).removeClass("disabled") } // activate more
+	var index = 0; // internal
+	$(less).click(function() {
+		if (index > 0) {
+			$(list).animate({
+				"top" : parseFloat($(list).css("top")) + (lim * (2.0).toPx())
+			}, 250); // slide
+			index--; // decrement
+			$(more).removeClass("disabled"); // activate more
+			if (index == 0) {
+				$(this).addClass("disabled"); //deactivate self
+			}
 		}
-	}, 250);
+	});
+	$(more).click(function() {
+		if (num > index + 1) {
+			$(list).animate({
+				"top" : parseFloat($(list).css("top")) - (lim * (2.0).toPx())
+			}, 250); // slide
+			index++; // increment
+			// activate less
+			$(less).removeClass("disabled");
+			if (index + 1 > num) {
+				$(this).addClass("disabled"); // deactivate self
+			}
+		}
+	});
+	$(less + ", " + more).click(function() { $(this).blur()} );
 });

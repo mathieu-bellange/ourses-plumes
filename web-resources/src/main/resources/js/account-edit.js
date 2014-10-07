@@ -1,8 +1,14 @@
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Pre Processing */
 /* ------------------------------------------------------------------ */
 
 set_page_title($nav.account_edit.title);
+
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
+
+var account_template = doT.compile(loadfile($loc.tmpl + "account-edit.tmpl")); // create template
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -67,7 +73,6 @@ function getAccount() {
 				header_authentication(request);
 			},
 			success : function(account, status, jqxhr) {
-				var account_template = doT.compile(loadfile($loc.tmpl + "account-edit.tmpl")); // create template
 				$("main > header").after(account_template(account)); // process template
 			},
 			error : function(jqXHR, status, errorThrown) {
@@ -119,7 +124,7 @@ function submitAccountAJAX() {
 			header_authentication(request);
 		},
 		success : function(jqXHR, status, errorThrown) {
-			createAlertBox($msg.account_updated, "success");
+			createAlertBox($msg.account_updated, null, {"class" : "success"});
 			clearForm();
 		},
 		error : function(jqXHR, status, errorThrown) {

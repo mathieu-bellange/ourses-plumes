@@ -1,11 +1,21 @@
 /* ------------------------------------------------------------------ */
-/* # Public vars */
+/* # Pre Processing */
 /* ------------------------------------------------------------------ */
 
 set_page_title($nav.profile_edit.title);
 
+/* ------------------------------------------------------------------ */
+/* # Public vars */
+/* ------------------------------------------------------------------ */
+
 var username_max_chars = 24;
 var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
+
+var profile_template = doT.compile(loadfile($loc.tmpl + "profile-edit.tmpl")); // create template
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -178,7 +188,6 @@ function getProfile() {
 			url : "/rest/profile/" + profileId,
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
-				var profile_template = doT.compile(loadfile($loc.tmpl + "profile-edit.tmpl")); // create template
 				$("main > header").after(profile_template(profile)); // process template
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
@@ -400,11 +409,8 @@ function create_icons_input(options) {
 		$(options.icons_container + " " + options.icons_selector).each(function() {
 			var str = $(this).attr("title");
 			if (typeof str !== "undefined" && str != "") {
-				$(this).attr("title", options.icons_title_prefix + str);
 				if (options.icons_tooltip) {
-					$(this).addClass("tip-top");
-					$(this).attr("data-tooltip", "");
-					$(options.icons_container).foundation("tooltip");
+					$(this).reload_tooltip(options.icons_title_prefix + str);
 				}
 			}
 			check_icons_enabling($(this));
@@ -525,7 +531,7 @@ function processAvatar(options) {
 			var file = files[i];
 			// check file type
 			if (!file.type.match("image.*")) {
-				createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", "warning");
+				createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", null, {"class" : "warning"});
 				continue;
 			}
 			// max 200 KB
@@ -557,7 +563,7 @@ function processAvatar(options) {
 				};
 				reader.readAsBinaryString(file);
 			} else {
-				createAlertBox("Votre image ne doit pas d&eacute;passer " + (settings.max_file_size / 1024) + " Ko", "warning");
+				createAlertBox("Votre image ne doit pas d&eacute;passer " + (settings.max_file_size / 1024) + " Ko", null, {"class" : "warning"});
 			}
 		}
 	}

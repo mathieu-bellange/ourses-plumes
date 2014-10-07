@@ -1,4 +1,10 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Pre Processing */
+/* ------------------------------------------------------------------ */
+
+set_page_title($nav.article_list.title); // set page title
+
+/* ------------------------------------------------------------------ */
 /* # Public vars */
 /* ------------------------------------------------------------------ */
 
@@ -9,18 +15,32 @@ var article_list_prefs_defaults = { // Les filtres d'affichage de la liste d'art
 	"onlines" : "true"                     // Afficher les articles en ligne par défaut ?
 }
 
+var article_list_cfg = {
+	"fade_duration" : 500
+};
+
 /* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var short_article_tmpl = doT.compile(loadfile($loc.tmpl + "article-item.tmpl"));
-var articles_tmpl = doT.compile(loadfile($loc.tmpl + "article-list.tmpl"));
+var startup = false;
+
+var article_tool_tmpl = doT.compile(loadfile($loc.tmpl + "article-tool.tmpl"));
+var article_list_tmpl = doT.compile(loadfile($loc.tmpl + "article-list.tmpl"));
+var article_item_tmpl = doT.compile(loadfile($loc.tmpl + "article-item.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-var article_list_tools = (function() {
+var article_list_tools = (function(options) {
+	var defaults = {
+		"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
+		"search_spacing"        : 4.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
+		"search_load_delay"     : 1000,   // Integer  Time before search input expand on page load. Default : 1000
+		"anim_duration"         : 500     // Integer  Time during which animations are played. Default : 500
+	};
+	var settings = $.extend({}, defaults, options);
 	return {
 		init: function() {
 			// methods
@@ -32,14 +52,14 @@ var article_list_tools = (function() {
 				var d = $conf.js_fx ? (d || 0) : 0;
 				$("#filters_list").fadeOut(d);
 			}
-			function open_search(d) {
-				var d = $conf.js_fx ? (d || 0) : 0;
-				$("#search_filters").slideDown(d / 2);
+			function open_search(d, f) {
+				var d = $conf.js_fx ? (d || 0) : 0, f = f || false;
+				if (f) { $("#search_filters").slideDown(d / 2) }
 				var w = $(".tool-bar").innerWidth() // compute search input width
 				 - $("#search_button").outerWidth(true)
 				 - $("#filter_button").outerWidth(true)
 				 - $("#write_article").outerWidth(true)
-				 - (2.0 * $("html").css("font-size").replace("px", "")); // arbitrary safety spacing (2rem)
+				 - (f ? settings.search_spacing.toPx() : (settings.search_spacing * 2).toPx()); // arbitrary safety spacing (2rem / 4rem)
 				var h = $("#search_field").css("height");
 				$("#search_field").css({ // reset css
 					"width" : "0",
@@ -50,7 +70,7 @@ var article_list_tools = (function() {
 				});
 				$("#search_field").removeClass("hide");
 				$("#search_field").animate({"width" : w, "height" : h, "margin-top" : "0", "opacity" : "1"}, d, function() {
-					$("#search").focus(); // focus search input
+					if (f) { $("#search").focus() } // focus search input
 				});
 			}
 			function close_search(d) {
@@ -72,9 +92,9 @@ var article_list_tools = (function() {
 						$("#filter_button").removeClass("active");
 						close_filters();
 					}
-					open_search(500);
+					open_search(settings.anim_duration, true);
 				} else {
-					close_search(500);
+					close_search(settings.anim_duration);
 				}
 			});
 			$("#filter_button").click(function() {
@@ -84,13 +104,13 @@ var article_list_tools = (function() {
 				if ($(this).hasClass("active")) {
 					if ($("#search_button").hasClass("active")) {
 						$("#search_button").removeClass("active");
-						close_search(250);
-						open_filters(250, 250);
+						close_search(settings.anim_duration / 2);
+						open_filters(settings.anim_duration / 2, settings.anim_duration /2);
 					} else {
-						open_filters(500)
+						open_filters(settings.anim_duration)
 					}
 				} else {
-					close_filters(500);
+					close_filters(settings.anim_duration);
 				}
 			});
 			$("#search_filters li a").click(function() {
@@ -100,31 +120,29 @@ var article_list_tools = (function() {
 				var str = $("#search").val();
 				var f = $(this).attr("data-search");
 				if ($("#search").data("filter")) {
-					str = str.replace($("#search").data("filter"), ""); // clear search filter
+					str = str.replace($("#search").data("filter") + settings.search_delimiter, ""); // remove filter from search value
 				}
 				$("#search").data("filter", f);
 				if ($(this).hasClass("active")) {
-					str = f + str;
-					$("#search").val(str);
+					str = f + settings.search_delimiter + str;
 				} else {
-					$("#search").val(str);
-					f = "";
+					f = ""; // set search filter to empty
+					$("#search").data("filter", f); // reset filter in search data
 				}
-				$("#search").focus();
-				$("#search").selectText(f.length, str.length);
+				$("#search").val(str); // reset search value
+				$("#search").focus(); // focus search input
+				$("#search").selectText((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
 			});
 			$("#filters_list li a").click(function() {
 				if ($("#filter_button").hasClass("orange")) {
 					$("#filter_button").removeClass("orange");
-					$("#articles_filters_alert").fadeOut($conf.js_fx ? 250 : 0, function() {
-						$("#articles_filters_alert").remove();
-					});
+					$("#articles_filters_alert").remove();
 				}
 				$(this).toggleClass("active");
 				var c = $(this).clone();
 				if ($(this).hasClass("active")) {
 					if ($conf.js_fx) {
-						$(this).animate({"opacity" : ".5"}, 125).animate({"opacity" : "1"}, 250);
+						$(this).animate({"opacity" : ".5"}, settings.anim_duration / 4).animate({"opacity" : "1"}, settings.anim_duration / 2);
 					}
 				} else {
 					if ($conf.js_fx) {
@@ -134,7 +152,14 @@ var article_list_tools = (function() {
 						c.css({"position" : "absolute", "left" : x, "top" : y, "padding" : ".5rem", "font-size" : ".9em", "z-index" : "10"})
 						c.appendTo("body");
 						c.addClass("label radius");
-						c.animate({"left" : (x - w / 4).toString() + "px", "top" : (y - 16.0).toString() + "px", "padding" : ".75rem", "font-size" : "1.35em"}, 125).animate({"top" : (y - 8.0).toString() + "px", "opacity" : 0}, 250, function() {
+						c.animate({
+							"left" : (x - w / 4).toString() + "px",
+							"top" : (y - 16.0).toString() + "px",
+							"padding" : ".75rem",
+							"font-size" : "1.35em",
+							"opacity" : ".75"
+						}, settings.anim_duration / 4)
+						.animate({"top" : (y + 8.0).toString() + "px", "opacity" : 0}, settings.anim_duration / 4, function() {
 							c.remove();
 						});
 					}
@@ -146,45 +171,58 @@ var article_list_tools = (function() {
 			$("#search_filters").mouseleave(function() {
 				$(this).removeData("hover");
 				if (!$("#search").is(":focus")) {
-					$(this).slideUp($conf.js_fx ? 250 : 0);
+					$(this).slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
 				}
 			});
 			$("#search").blur(function() {
 				if ($("#search_filters").data("hover") !== true) {
 					$("#search_filters").finish();
 					if ($("#search_filters").is(":visible")) {
-						$("#search_filters").slideUp($conf.js_fx ? 250 : 0);
+						$("#search_filters").slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
 					}
 				}
 			});
 			$("#search").focus(function() {
 				$("#search_filters").finish();
 				if ($("#search_filters").is(":hidden")) {
-					$("#search_filters").slideDown($conf.js_fx ? 250 : 0);
+					$("#search_filters").slideDown($conf.js_fx ? settings.anim_duration / 2 : 0);
 				}
 			});
 			$("#search").keyup(function(e) {
 				var f = $("#search").data("filter") || "";
-				var s = $(this).val().replace(f, "");
+				var s = $(this).val().trim().replace(f + settings.search_delimiter, "");
 				if (e.which == 27) { // Escape
 					$("#search_button").removeClass("active");
-					close_search(500);
+					close_search(settings.anim_duration);
 				} else if (e.which == 13) { // Enter
-					if (s.trim().length == 0) {
+					if (s.length == 0) {
 						$(this).set_validation(false, "Le champ de recherche est vide &hellip;");
-					} else if (s.trim().length > 0 && s.trim().length <= 2) {
+					} else if (s.length > 0 && s.length <= 2) {
 						$(this).set_validation(false, "La recherche doit comporter au moins trois lettres.");
+					/* ============================================== */
+					/* # Check illegal chars */
+					/* ============================================== */
+					/* forbidden chars -- '?', '&',  '=' (replaced by whitespaces below)
+					 * illegal chars   -- '/', '\', '@' (warn user)
+					 * special chars   -- ':', ',' ';' (delimiters are allowed but not yet implemented)
+					 */
+					} else if (/[\/\\@]/.test(s)) {
+						$(this).set_validation(false, $msg.char_illegal);
 					} else {
-						$(this).val((f !== "" ? f : "") + s.trim());
+						/* ============================================ */
+						/* # Replace forbidden and special chars */
+						/* ============================================ */
+						s = s.replace(/[\?=]/g, "").replace(/[\s&]+/, " ");
+						$(this).val((f !== "" ? f + settings.search_delimiter : "") + s); // reset search value in search input after chars replacement
 						$(this).blur();
-						// =========================================================
-						// # HERE : search is OK -- put you want below ;)
-						// ---------------------------------------------------------
-						alert("Vous avez recherché '" + s.trim() + "'" + (f !== "" ? " dans les " + f.trunc(f.length - 1) + "s" : "") + "."); // DEBUG
-						// =========================================================
+						/* ============================================ */
+						/* # Display articles with URL search params */
+						/* ============================================ */
+						window.history.pushState("", "", "?" + (f !== "" ? f + "=" : "") + s.replace(/\s/g, "&")); // live update address bar without reloading document (HTML5 method)
+						displayArticles("?" + f + "=" + s); // display articles with params
 					}
-				} else if (s.trim() == 0 || s.trim().length > 2) {
-					$(this).set_validation(true, null, {"cls_valid" : ""});
+				} else if (s == 0 || s.length > 2) {
+					$(this).set_validation(true, null, {"cls_valid" : ""}); // reset validation
 				}
 			});
 			$(window).resize(function() {
@@ -192,11 +230,40 @@ var article_list_tools = (function() {
 				 - $("#search_button").outerWidth(true)
 				 - $("#filter_button").outerWidth(true)
 				 - $("#write_article").outerWidth(true)
-				 - (2.0 * $("html").css("font-size").replace("px", "")); // arbitrary safety spacing (2rem)
+				 - settings.search_spacing.toPx(); // arbitrary safety spacing (2rem)
 				$("#search_field").css("width", w);
 			});
-			// process
-			$("#search").val(""); // clear search input on page load (i.e. prevent search filters bugs)
+			/* ================================================ */
+			/* # Retrieve URL search params */
+			/* ================================================ */
+			var p = get_url_search_params();
+			if (p !== null) {
+				if (typeof p === "string") { // this is a search query
+					$("#search").val(p.replace(/&/g, " ")); // feed search input with url search query
+				} else if (typeof p === "object") { // this is search params (i.e. specifier + search query)
+					var f = null;
+					$("#search_filters li a").each(function() {
+						if (p.hasOwnProperty($(this).attr("data-search"))) {
+							$(this).addClass("active");
+							f = $(this).attr("data-search");
+							$("#search").data("filter", f);
+						}
+					});
+					if (f == null) {
+						$("#search").val(p[Object.keys(p)[0]].replace(/&/g, " ")); // feed search input with url search params (value only)
+					} else {
+						$("#search").val(f + settings.search_delimiter + p[f].replace(/&/g, " ")); // feed search input with url search params
+					}
+				}
+				$("#search_button").toggleClass("active");
+				setTimeout(function() {
+					if (!$("#filter_button").hasClass("active")) {
+						open_search(settings.anim_duration);
+					}
+				}, settings.search_load_delay);
+			} else {
+				$("#search").val(""); // clear search input (i.e. prevent any filtering bug)
+			}
 		}
 	}
 }());
@@ -269,19 +336,20 @@ var article_list_prefs = (function() {
 			for (key in prefs) {
 				if (prefs[key] == "true") {
 					$("#" + key).addClass("active");
+					if ($("#filters_list").find("#" + key).length > 0) {
+						k++; // increment var if item exists and is set on
+					}
 				} else {
 					$("#" + key).removeClass("active");
-					if ($("#filters_list").find("#" + key).length > 0) {
-						k++;
-					}
 				}
 			}
-			if (isAdmin() || isRedac()) {
-				if ($("#filters_list").children().size() <= k) { // all switches are off
-					$("#filter_button").addClass("active orange");
+			if ((isRegAdmin() || isRegRedac()) && k == 0) { // all switches are off
+				$("#filter_button").addClass("orange");
+				if (!window.location.search) { // no search params in url -- open filters
+					$("#filter_button").addClass("active");
 					$("#filters_list").fadeIn($conf.js_fx ? 250 : 0);
-					createAlertBox("Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.", "warning", "articles_filters_alert");
 				}
+				createAlertBox("Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.", "articles_filters_alert", {"class" : "warning"});
 			}
 			check_filters_switches()
 		}
@@ -301,23 +369,15 @@ function deleteArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(noData, status, jqxhr) {
-			if ($conf.js_fx) {
-				$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function() {
-					$(".validate button[data-delete='" + id + "']").parents("li").remove();
-				});
-			} else {
+			$(".validate button[data-delete='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-delete='" + id + "']").parents("li").remove();
-			}
+			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				if ($conf.js_fx) {
-					$(".validate button[data-delete='" + id + "']").parents("li").fadeOut("slow", function() {
-						$(".validate button[data-delete='" + id + "']").parents("li").remove();
-					});
-				} else {
+				$(".validate button[data-delete='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-delete='" + id + "']").parents("li").remove();
-				}
+				});
 			} else {
 				createAlertBox();
 			}
@@ -335,28 +395,18 @@ function validateArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			if ($conf.js_fx) {
-				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
-					$(".validate button[data-validate='" + id + "']").parents("li").remove();
-					processAfterValidation(article);
-					$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-				});
-			} else {
+			$(".validate button[data-validate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				processAfterValidation(article);
-				$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			}
+				//$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_deleted, "default");
-				if ($conf.js_fx) {
-					$(".validate button[data-validate='" + id + "']").parents("li").fadeOut("slow", function() {
-						$(".validate button[data-validate='" + id + "']").parents("li").remove();
-					});
-				} else {
+				createAlertBox($msg.article_deleted, null, {"class" : null});
+				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-validate='" + id + "']").parents("li").remove();
-				}
+				});
 			} else {
 				createAlertBox();
 			}
@@ -374,28 +424,18 @@ function inValidateArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			if ($conf.js_fx) {
-				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
-					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-					processAfterInValidation(article);
-					$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-				});
-			} else {
+			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterInValidation(article);
-				$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			}
+				//$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offcheck, "default");
-				if ($conf.js_fx) {
-					$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
-						$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-					});
-				} else {
+				createAlertBox($msg.article_offcheck, null, {"class" : null});
+				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-				}
+				});
 			} else {
 				createAlertBox();
 			}
@@ -413,28 +453,18 @@ function publishArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			if ($conf.js_fx) {
-				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
-					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-					processAfterPublish(article);
-					$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-				});
-			} else {
+			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterPublish(article);
-				$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			}
+				//$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offcheck, "default");
-				if ($conf.js_fx) {
-					$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut("slow", function() {
-						$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-					});
-				} else {
+				createAlertBox($msg.article_offcheck, null, {"class" : null});
+				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
-				}
+				});
 			} else {
 				createAlertBox();
 			}
@@ -442,6 +472,7 @@ function publishArticle(id) {
 		dataType : "json"
 	});
 }
+
 function recallArticle(id) {
 	$.ajax({
 		type : "PUT",
@@ -451,29 +482,19 @@ function recallArticle(id) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			if ($conf.js_fx) {
-				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
-					$(".validate button[data-recall='" + id + "']").parents("li").remove();
-					processAfterRecall(article);
-					$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-				});
-			} else {
+			$(".validate button[data-recall='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				processAfterRecall(article);
-				$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-			}
+				//$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offline, "default");
-				if ($conf.js_fx) {
-					$(".validate button[data-recall='" + id + "']").parents("li").fadeOut("slow", function() {
-						$(".validate button[data-recall='" + id + "']").parents("li").remove();
-					});
-				} else {
+				createAlertBox($msg.article_offline, null, {"class" : null});
+				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-recall='" + id + "']").parents("li").remove();
-				}
+				});
 			} else {
 				createAlertBox();
 			}
@@ -482,10 +503,11 @@ function recallArticle(id) {
 	});
 }
 
-function displayArticles() {
+function displayArticles(url_params) {
+	var url_params = url_params || window.location.search;
 	$.ajax({
 		type : "GET",
-		url : "/rest/articles" + window.location.search,
+		url : "/rest/articles" + url_params,
 		beforeSend: function(request) {
 			header_authentication(request);
 		},
@@ -533,7 +555,31 @@ function displayArticles() {
 				// a doit être égal à b
 				return 0;
 			});
-			processArticles({"drafts" : brouillons, "toCheck" : aVerifier, "onLine" : enLigne});
+			var data = {"drafts" : brouillons, "toCheck" : aVerifier, "onLine" : enLigne};
+
+			//////////////////////////////////////////////////////////////////
+			if (startup !== true) {
+				$("main > header").after(article_tool_tmpl(data)); // process toolbar (if required)
+			} else {
+				$(".articles-list").detach(); // clear articles list (if any)
+			}
+
+			processArticles(data);
+
+			if (startup !== true) {
+				startup = true;
+				article_list_tools.init(); // set up articles list tools
+				article_list_prefs.init(); // set up articles list user prefs
+				$(".tool-bar").svg_icons(); // reload icons only for toolbar
+				//$(document).foundation(); // reload all Foundation plugins -- UNUSED (tooltips removed)
+			} else {
+				article_list_prefs.update() // update drafts
+			}
+			// always
+			//loap.update(); // reload loap plugins (for icons) -- USELESS
+			$("#articles").svg_icons(); // reload icons only for articles
+			//////////////////////////////////////////////////////////////////
+
 		},
 		error : function(jqXHR, status, errorThrown) {
 			createAlertBox();
@@ -544,7 +590,7 @@ function displayArticles() {
 
 function processArticles(articles) {
 	// insert template
-	$("main > header").after(articles_tmpl(articles));
+	$(".tool-bar").after(article_list_tmpl(articles)); // process articles
 	// events
 	$("html").on("mouseenter", ".href-block", function() {
 		$(this).find(".validate").show();
@@ -568,18 +614,32 @@ function processArticles(articles) {
 		recallArticle($(this).attr("data-recall"));
 	});
 	$("#write_article").mouseenter(function() {
-		isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
+		//isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
+		var fail = (function() {
+			if ($("#user_connect").data("connected") == true) {
+				$("#write_article").parent("dt").parent("dl").detach();
+				set_user_connected(false); // set not connected
+				disconnect($msg.disconnected); // disconnect
+			}
+		});
+		checkAuthc(null, fail);
 	});
 	// init
-	set_page_title($nav.article_list.title);
+	//////////////////////////////////////////////////////////////////////
+	/* TEMP DEBUG BULLSHIT BELOW */
+	/*
 	article_list_tools.init(); // set up articles list tools
 	article_list_prefs.init(); // set up articles list user prefs
 	$(document).foundation(); // reload all Foundation plugins
 	loap.update(); // reload loap plugins
+	*/
+	//////////////////////////////////////////////////////////////////////
 }
 
 function processAfterValidation(article) {
-	$("#articles_standby").prepend(short_article_tmpl(article));
+	$("#articles_standby").prepend(article_item_tmpl(article));
+	$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
@@ -589,7 +649,9 @@ function processAfterValidation(article) {
 }
 
 function processAfterInValidation(article) {
-	$("#articles_draft").prepend(short_article_tmpl(article));
+	$("#articles_draft").prepend(article_item_tmpl(article));
+	$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
 	});
@@ -600,7 +662,9 @@ function processAfterInValidation(article) {
 }
 
 function processAfterPublish(article) {
-	$("#articles_publish").prepend(short_article_tmpl(article));
+	$("#articles_publish").prepend(article_item_tmpl(article));
+	$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+	$("#articles_publish li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_publish li:first .validate button[data-recall]").click(function() {
 		recallArticle($(this).attr("data-recall"));
 	});
