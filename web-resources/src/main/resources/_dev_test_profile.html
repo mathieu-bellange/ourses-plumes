@@ -53,14 +53,13 @@
 		</script>
 
 		<div id="container" style="margin-left: 12.5%; width: 75%;">
-
 			<!--User Profile Show-->
 			<div class="row panel radius user-profile user-profile-show">
-				<div class="column small-12 medium-5 large-4 text-center">
+				<div class="column small-24 medium-10 large-8 text-center">
 					<!--User picture-->
 					<span class="picture large cover radius max-height" data-image="img/usr/usr-nadejda.jpg">Nadejda</span>
 				</div>
-				<div class="column small-12 medium-7 large-8">
+				<div class="column small-24 medium-14 large-16">
 					<div class="clearfix" style="position: relative;">
 						<!--Pseudo-->
 						<h3 class="user-name">MyUsername</h3>
@@ -68,18 +67,18 @@
 						<h4 class="user-role">MyRole</h4>
 					</div>
 					<!--User links-->
-					<ul id="user_links_icons" class="inline-list block">
-						<li><a href="javascript:void(0)" class="icon-mail"><span class="hide">Adresse mail</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-link"><span class="hide">Page perso</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-twitter"><span class="hide">Twitter</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-facebook"><span class="hide">Facebook</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-googleplus"><span class="hide">Google+</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-linkedin"><span class="hide">LinkedIn</span></a></li>
+					<ul id="user_links_icons" class="inline-list">
+						<li><a href="javascript:void(0)" class="icon-mail tip-top" title="Adresse email" data-tooltip><span class="hide">Adresse mail</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-link tip-top" title="Blog ou page perso" data-tooltip><span class="hide">Page perso</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-twitter tip-top" title="Twitter" data-tooltip><span class="hide">Twitter</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-facebook tip-top" title="Facebook" data-tooltip><span class="hide">Facebook</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-googleplus tip-top" title="Google+" data-tooltip><span class="hide">Google+</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-linkedin tip-top" title="LinkedIn" data-tooltip><span class="hide">LinkedIn</span></a></li>
 					</ul>
 					<p class="user-desc">MyDescription</p>
 				</div>
 				<!--User Articles List-->
-				<div class="column small-12 small-centered">
+				<div class="column small-24">
 					<ul class="no-bullet related-list">
 						<li><span class="icon-educult small"><span class="hide">Éducation & Culture</span></span> <a href="#">Sexisme dans les jeux-vidéos, une critique impossible ?</a> <span class="info-tip"></span>
 							<div class="summary" style="display: none;">
@@ -130,7 +129,7 @@
 
 			<!--User Profile Update--->
 			<div class="row panel radius user-profile user-profile-update">
-				<div class="column small-12 medium-5 large-4 text-center">
+				<div class="column small-24 medium-10 large-8 text-center">
 
 					<!--User picture-->
 					<div style="display: inline-block; width: 256px;">
@@ -142,7 +141,7 @@
 					</div>
 
 				</div>
-				<div class="column small-12 medium-7 large-8">
+				<div class="column small-24 medium-14 large-16">
 
 					<!--Disabled-->
 					<label for="pseudo_disabled" class="left red">Disabled (attribute 'disabled' is set)</label>
@@ -168,13 +167,13 @@
 						<span class="prefix text-small left"></span>
 						<input class="left" type="text" placeholder="L&rsquo;adresse internet de votre lien">
 					</div>
-					<ul id="user_links_icons" class="inline-list block">
-						<li><a href="javascript:void(0)" class="icon-mail"><span class="hide">Adresse mail</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-link" data-url-prefix="http://"><span class="hide">Page perso</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-twitter" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-facebook" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-googleplus" data-url-prefix="https://plus.google.com/"><span class="hide">Google+</span></a></li>
-						<li><a href="javascript:void(0)" class="icon-linkedin" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
+					<ul id="user_links_icons" class="inline-list">
+						<li><a href="javascript:void(0)" class="icon-mail tip-top" title="1" data-tooltip><span class="hide">Adresse mail</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-link tip-top" title="2" data-tooltip data-url-prefix="http://"><span class="hide">Page perso</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-twitter tip-top" title="2" data-tooltip data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-facebook tip-top" title="3" data-tooltip data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-googleplus tip-top" title="4" data-tooltip data-url-prefix="https://plus.google.com/"><span class="hide">Google+</span></a></li>
+						<li><a href="javascript:void(0)" class="icon-linkedin tip-top" title="5" data-tooltip data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
 					</ul>
 
 					<!--User description disabled-->
@@ -316,11 +315,10 @@
 					$(options.icons_container).css({"position" : "relative", "top" : "0", "margin-bottom" : icons_container_margin_bottom, "transition" : "top " + options.animation_delay + "ms, margin-bottom " + options.animation_delay + "ms"});
 					$(options.icons_container + " " + options.icons_selector).each(function() {
 						var str = $(this).text();
-						$(this).attr("title", options.icons_title_prefix + str);
-						if (options.icons_tooltip) {
-							$(this).addClass("tip-top");
-							$(this).attr("data-tooltip", "");
-							$(options.icons_container).foundation("tooltip");
+						if (typeof str !== "undefined" && str != "") {
+							if (options.icons_tooltip) {
+								$(this).reload_tooltip(options.icons_title_prefix + str);
+							}
 						}
 						check_icons_enabling($(this));
 					});
