@@ -3,12 +3,12 @@
 					<!--First Row-->
 					<div class="row panel radius user-profile">
 						<!--First Column-->
-						<div class="column small-12 medium-5 large-4 text-center">
+						<div class="column small-24 medium-10 large-8 text-center">
 							<!--User picture-->
 							<span class="picture large cover radius max-height" data-image="{{= data.avatar.path }}">{{= data.pseudo }}</span>
 						</div>
 						<!--Second Column-->
-						<div class="column small-12 medium-7 large-8">
+						<div class="column small-24 medium-14 large-16">
 							<div class="clearfix" style="position: relative;">
 								<!--Pseudo-->
 								<h3 class="user-name">{{= data.pseudo }}</h3>
@@ -16,7 +16,7 @@
 								<h4 class="user-role" style="display: none;"></h4>
 							</div>
 							<!--User links-->
-							<ul id="user_links_icons" class="inline-list block">
+							<ul id="user_links_icons" class="inline-list">
 								{{~ data.socialLinks :socialLink }}
 									<li><a href="{{= socialLink.path }}" class="icon-{{= socialLink.network }} tip-top" title="{{= socialLink.description }}" data-tooltip><span class="hide">{{= socialLink.description }}</span></a></li>
 								{{~}}
@@ -24,12 +24,14 @@
 							<p class="user-desc">{{= data.description === null ? "" : data.description }}</p>
 						</div>
 						<!--User Articles List-->
-						<div id="articles" class="column small-12 small-centered">
-						<!--	<ul class="no-bullet related-list">
+						<div id="articles" class="column small-24">
+						<!--
+							<ul class="no-bullet related-list">
 								<li><span class="icon-rubric small"><span class="hide">Rubrique</span></span> <a href="#">Titre de l'article</a> <span class="info-tip"></span>
 									<div class="summary" style="display: none;"><time datetime="2014-09-01"><small class="text-silver">Date de publication</small></time> Résumé</div>
 								</li>
-							</ul> -->
+							</ul>
+						-->
 						</div>
 					</div>
 				</section>

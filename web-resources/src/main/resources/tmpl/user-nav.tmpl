@@ -1,12 +1,12 @@
 ﻿					<!--User Nav-->
-					<nav id="user_menu" class="user-nav f-dropdown" data-dropdown-content>
+					<nav id="user_menu" class="user-nav text-center" style="display: none;">
 						<h3 class="hide">Menu utilisateur</h3>
 						<h4 class="user-name">{{= window.localStorage.getItem($auth.user_name) }}</h4>
 						<ul>
-							<li><span id="user-avatar" class="picture medium" data-image="{{= window.localStorage.getItem($auth.avatar_path) }}">Image</span></li>
+							<li><span id="user_avatar" class="picture medium radius" data-image="{{= window.localStorage.getItem($auth.avatar_path) }}">Image</span></li>
 							<li><a href="{{= $nav.account_edit.url }}">Mon compte</a></li>
 							<li><a href="{{= $nav.profile_edit.url }}">Mon profil</a></li>
-							{{? window.localStorage.getItem($auth.user_role) == $auth.role_admin }}
+							{{? isRegAdmin() }}
 								<li><a href="{{= $nav.account_list.url }}">Lister les comptes</a></li>
 								<li><a href="{{= $nav.bug_add.url }}">Signaler un bug</a></li>
 							{{?}}

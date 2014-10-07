@@ -20,7 +20,7 @@
 												<a href="javascript:void(0)" style="cursor: default;"></a>
 											{{?}}
 										{{?? data.status == "AVERIFIER" }}
-											{{? isAdmin() }}
+											{{? isRegAdmin() }}
 												<a href="{{= data.path }}">Lire l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" style="cursor: default;"></a>
@@ -39,13 +39,13 @@
 										{{?? data.status == "AVERIFIER" }}
 											<!--Validation for Standbys-->
 											<div class="validate" style="display: none;">
-												{{? isAdmin() }}
+												{{? isRegAdmin() }}
 													<button class="small success" data-publish="{{= data.id }}">Publier</button>
 												{{?}}
 												<button class="alert small" data-invalidate="{{= data.id }}">Renvoyer</button>
 											</div>
 										{{?? data.status == "ENLIGNE" }}
-											{{? isAdmin() || data.profile.id == window.localStorage.getItem($auth.profile_id) }}
+											{{? isRegAdmin() || data.profile.id == window.localStorage.getItem($auth.profile_id) }}
 												<div class="validate" style="display: none;">
 													<!--Validation for Standbys-->
 													<button class="small success" data-recall="{{= data.id }}">Rappeler</button>

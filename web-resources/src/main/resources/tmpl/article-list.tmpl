@@ -20,7 +20,7 @@
 											<a href="javascript:void(0)" style="cursor: default;"></a>
 										{{?}}
 									{{?? art.status == "AVERIFIER" }}
-										{{? isAdmin() }}
+										{{? isRegAdmin() }}
 											<a href="{{= art.path }}">Lire l&rsquo;article</a>
 										{{??}}
 											<a href="javascript:void(0)" style="cursor: default;"></a>
@@ -39,13 +39,13 @@
 									{{?? art.status == "AVERIFIER" }}
 										<div class="validate" style="display: none;">
 											<!--Validation for Standbys-->
-											{{? isAdmin() }}
+											{{? isRegAdmin() }}
 												<button class="small success" data-publish="{{= art.id }}">Publier</button>
 											{{?}}
 											<button class="alert small" data-invalidate="{{= art.id }}">Renvoyer</button>
 										</div>
 									{{?? art.status == "ENLIGNE" }}
-										{{? isAdmin() || art.profile.id == window.localStorage.getItem($auth.profile_id) }}
+										{{? isRegAdmin() || art.profile.id == window.localStorage.getItem($auth.profile_id) }}
 											<div class="validate" style="display: none;">
 												<!--Validation for Standbys-->
 												<button class="small success" data-recall="{{= art.id }}">Rappeler</button>
@@ -56,55 +56,12 @@
 								#}}
 				<!--Articles-->
 				<section id="articles">
-					<!--Articles Toolbar-->
-					<div class="tool-bar clearfix">
-						<!--Search-->
-						<dl class="sub-nav toggle left">
-							<dt class="sub-list stack small">
-								<a id="search_button" class="icon-search" href="javascript:void(0)"><span class="text">Chercher</span></a>
-								<ul id="search_filters" style="display: none;">
-									<li><a href="javascript:void(0)" data-search="titre:">Titre</a></li>
-									<li><a href="javascript:void(0)" data-search="tag:">Tag</a></li>
-									<li><a href="javascript:void(0)" data-search="rubrique:">Rubrique</a></li>
-									<li><a href="javascript:void(0)" data-search="catégorie:">Cat&eacute;gorie</a></li>
-								</ul>
-							</dt>
-						</dl>
-						<div id="search_field" class="validation-box left hide">
-							<input id="search" class="validation radius" type="text" maxlength="64" placeholder="Votre recherche (p. ex. zizi)">
-							<small class="error hide"></small>
-						</div>
-						{{ onAuthc.done(function() { }}
-						{{? isAdmin() || isRedac() }}
-						<!--Filters-->
-						<dl class="sub-nav left">
-							<dt class="sub-list">
-								<a id="filter_button" class="icon-filter" href="javascript:void(0)"><span class="text">Filtrer</span></a>
-								<ul id="filters_list" class="small" style="display: none;">
-									{{? isAdmin() }}
-									<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
-									<li><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
-									{{?}}
-									<li><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></li>
-									<li><a id="onlines" href="javascript:void(0)">Publi&eacute;s</a></li>
-								</ul>
-							</dt>
-						</dl>
-						<!--Write-->
-						<dl class="sub-nav right">
-							<dt>
-								<a id="write_article" href="{{= $nav.article_add.url }}" class="icon-article medium" title="{{= $nav.article_add.title }}" data-tooltip><span class="text">&Eacute;crire</span></a>
-							</dt>
-						</dl>
-						{{?}}
-						{{ }); }}
-					</div>
 					<ul id="articles_draft" class="no-bullet articles-list draft">
 						{{~ data.drafts :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
-					{{? isAdmin() }}
+					{{? isRegAdmin() }}
 					<ul id="articles_standby" class="no-bullet articles-list standby">
 						{{~ data.toCheck :value }}
 							<li>{{# def.article:value }}</li>

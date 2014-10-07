@@ -30,7 +30,7 @@
 								<dd class="hide"><span id="tag_rubric" class="label radius">&hellip;</span></dd>
 								<dd class="hide"><span id="tag_category" class="label radius inverse">&hellip;</span></dd>
 								{{~ data.tags : tag }}
-									<dd data-alert="" data-tag=""><span data-id="{{= tag.id }}" class="label radius">{{= tag.tag }}<a href="javascript:void(0)" class="close"></a></span></dd>
+									<dd data-tag=""><span data-id="{{= tag.id }}" class="label radius">{{= tag.tag }}<a href="javascript:void(0)" class="close"></a></span></dd>
 								{{~}}
 							</dl>
 
@@ -63,11 +63,11 @@
 								<div class="column">
 									<label for="tag">Tags</label>
 								</div>
-								<div class="column small-9">
+								<div class="column small-16">
 									<input id="tag" class="validation" type="text" placeholder="Une &eacute;tiquette au choix pour indexer l&rsquo;article (32 caract&egrave;res maximum)" maxlength="32">
 									<small id="tag_error" class="error hide">Ce tag est d&eacute;j&agrave; pris !</small>
 								</div>
-								<div class="column small-3">
+								<div class="column small-8">
 									<input id="tag_add" type="button" value="Ajouter" href="javascript:void(0)" class="button postfix">
 								</div>
 							</div>

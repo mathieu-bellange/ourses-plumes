@@ -3,7 +3,7 @@
 					<!--First Row-->
 					<div class="row panel radius user-profile">
 						<!--First Column-->
-						<div class="column small-12 medium-5 large-4 text-center">
+						<div class="column small-24 medium-10 large-8 text-center">
 							<!--User picture-->
 							<div style="display: inline-block; width: 256px;">
 								<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
@@ -14,7 +14,7 @@
 							</div>
 						</div>
 						<!--Second Column-->
-						<div class="column small-12 medium-7 large-8">
+						<div class="column small-24 medium-14 large-16">
 							<div class="clearfix" style="position: relative;">
 								<!--Pseudo-->
 								<input id="pseudo" class="user-name" type="text" value="{{= data.pseudo }}" maxlength="24" class="validation disable" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
@@ -27,13 +27,13 @@
 								<span class="prefix text-small left"></span>
 								<input class="left" type="text" placeholder="L&rsquo;URL de votre lien">
 							</div>
-							<ul id="user_links_icons" class="inline-list block">
-								<li><a href="javascript:void(0)" class="icon-mail" title="adresse e-mail" data-id="0"><span class="hide">Mail</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-link" title="blog ou page perso" data-id="1" data-url-prefix="http://"><span class="hide">Lien perso</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-twitter" title="compte Twitter" data-id="2" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-facebook" title="compte Facebook" data-id="3" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-googleplus" title="page Google+" data-id="4" data-url-prefix="https://plus.google.com/"><span class="hide">GooglePlus</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-linkedin" title="profil LinkedIn" data-id="5" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
+							<ul id="user_links_icons" class="inline-list">
+								<li><a href="javascript:void(0)" class="icon-mail tip-top" title="Adresse mail" data-tooltip data-id="0"><span class="hide">Mail</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-link tip-top" title="Blog ou page perso" data-tooltip data-id="1" data-url-prefix="http://"><span class="hide">Lien perso</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-twitter tip-top" title="Compte Twitter" data-tooltip data-id="2" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-facebook tip-top" title="Compte Facebook" data-tooltip data-id="3" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-googleplus tip-top" title="Page Google+" data-tooltip data-id="4" data-url-prefix="https://plus.google.com/"><span class="hide">GooglePlus</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-linkedin tip-top" title="Profil LinkedIn" data-tooltip data-id="5" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
 							</ul>
 							<!--Description-->
 							<textarea id="description" class="user-desc min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description === null ? "" : data.description }}</textarea>

@@ -1,5 +1,7 @@
-﻿					<div{{= typeof data.id !== "undefined" ? " id=" + data.id : "" }} class="alert-box radius text-center{{= typeof data.class !== 'undefined' ? ' ' + data.class : '' }}" style="display: none;" data-alert>
-						<span class="icon-warning small white"></span>
+﻿					<div{{= typeof data.id !== "undefined" ? " id=" + data.id : "" }} class="alert-box radius text-center {{= typeof data.class !== 'undefined' ? ' ' + data.class : '' }}" style="display: none;">
+						{{? data.icon !== null }}
+						<span class="icon-{{= data.icon }} small white"></span>
+						{{?}}
 						<span class="text">{{= data.text }}</span>
-						<a href="javascript:void(0)" class="close"></a>
+						<a href="javascript:void(0)" class="close"></a><span class="hide">Fermer<span>
 					</div>
