@@ -1,7 +1,8 @@
 ﻿/*
  * Les Ourses à plumes
  * Main Cascading Style Sheet
- * Includes Basics and Responsive Design
+ * Includes Basics, CSS Effects and Responsive Design
+ * Includes Normalize 3.0.1 | MIT License | git.io/normalize
  * ver. 1.0.2
  */
 
@@ -17,13 +18,15 @@
        url('../fnt/oswald.svg#oswald') format('svg');
 }
 
+/*
 @font-face {
-  font-family: "Nobile"; /* Nobile Regular */
+  font-family: "Nobile";
   src: url('../fnt/nobile.eot');
   src: url('../fnt/nobile.eot?#iefix') format('embedded-opentype'),
        url('../fnt/nobile.woff') format('woff'),
        url('../fnt/nobile.svg#nobile') format('svg');
 }
+*/
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { /* Chrome Webfont Antialiasing Fix */
   /*
@@ -44,22 +47,59 @@
 
 html {
   font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
+  font-family: sans-serif; /* Normalize 3.0.1 : Set default font family to sans-serif. */
+  -webkit-text-size-adjust: 100%; /* Normalize 3.0.1 : Prevent iOS text size adjust after orientation change, without disabling user zoom. */
+      -ms-text-size-adjust: 100%; /* Normalize 3.0.1 : Prevent iOS text size adjust after orientation change, without disabling user zoom. */
 }
 
 body {
+  margin: 0; /* Normalize 3.0.1 : Remove default margin. */
   padding: 1rem;
   font-size: 100%;
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
-  color: #333;
+  color: #404040;
   background-image: none;
 }
-body.css-fx {font-family: "Nobile", sans-serif;}
+/*body.css-fx {font-family: "Nobile", sans-serif;}*/
 
 body.standard-layout {
   padding: 0;
   background-color: #324;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Generic Containers */
+/* ------------------------------------------------------------------ */
+
+div {} /* Block container */
+span {} /* Inline container */
+
+/* ------------------------------------------------------------------ */
+/* # Specific Containers */
+/* ------------------------------------------------------------------ */
+
+main {
+  display: block; /* Normalize 3.0.1 : Correct `block` display not defined for `main` in IE 11. */
+}
+aside,
+header,
+footer,
+section,
+article {
+  display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
+}
+
+hgroup { /* Headers Grouping */
+  display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
+  background-color: ivory;
+  padding: 1rem;
+  border: .125rem solid gainsboro;
+}
+hgroup > *:first-child {margin-top: 0;}
+hgroup > *:last-child {margin-bottom: 0;}
+
+nav { /* Navigation links list */
+  display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
 }
 
 /* ------------------------------------------------------------------ */
@@ -90,10 +130,6 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
 }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration: none;} /* TEMP : links underline fix */
 
-hgroup {background-color: ivory; padding: 1rem; border: .125rem solid gainsboro;}
-hgroup > *:first-child {margin-top: 0;}
-hgroup > *:last-child {margin-bottom: 0;}
-
 /* Paragraphs */
 p {
   font-size: 1.0625em; /* WARNING : using em instead of rem ; paragraphs should properly inherit font size percent fix value from parents */
@@ -109,47 +145,235 @@ p.collapse {margin-bottom: .625em;}
 p.collapse + p {text-indent: 2.5em;}
 
 /* Lists */
-ul, ol, dl {
+ul, ol {
   font-size: 1em; /* WARNING : using em instead of rem ; lists should properly inherit font size percent fix value from parents */
 }
 
-/* Blockquotes */
-blockquote {
-  font-size: 1em; /* WARNING : using em instead of rem ; blockquotes should properly inherit font size percent fix value from parents */
-  line-height: 150%; /* WARNING : using percent instead of rem ; should properly inherit real paragraph size */
-}
-blockquote cite {
-  font-size: 87.5%;
-}
-
 /* Links */
+a {
+  background: transparent; /* Normalize 3.0.1 : Remove the gray background color from active links in IE 10. */
+}
+a:active, a:hover {
+  outline: 0; /* Normalize 3.0.1 : Improve readability when focused and also mouse hovered in all browsers. */
+}
 a, a:link a:active, a:visited {color: #668; text-decoration: underline;}
 a:hover, a:focus {color: #446;}
 
-/* Emphasis, Strong, Small */
-em {}
-strong {}
-small {font-size: 87.5%;}
+/* Line Breaks */
+hr { /* Horizontal Rule */
+  height: 0; /* Normalize 3.0.1 : Address differences between Firefox and other browsers. */
+  border-style: dashed;
+  border-color: lightgray;
+  -moz-box-sizing: content-box; /* Normalize 3.0.1 : Address differences between Firefox and other browsers. */
+       box-sizing: content-box; /* Normalize 3.0.1 : Address differences between Firefox and other browsers. */
+}
+br {} /* Line Break */
+wbr {} /* Word Break Opportunity */
 
-/* Exponential and Indicial */
-sup, sub {font-size: 66%; line-height: .1em;}
+/* ------------------------------------------------------------------ */
+/* # Semantic Mark-ups */
+/* ------------------------------------------------------------------ */
 
-/* Deleted */
-del {
+i {} /* Alernate voice or mood mark-up, taxonomic phrase, technical term, idiomatic expression or sentence from another language */
+b {} /* Key words in a document abstract, product names in a review or any key word that can be semantically distinguished from content. */
+em {} /* Stress emphasized text */
+strong {} /* Some text of strong importance */
+b, strong {
+  font-weight: bold; /* Normalize 3.0.1 : Address style set to `bolder` in Firefox 4+, Safari, and Chrome. */
+}
+
+/* Edition */
+u {} /* Misspelled words */
+s {} /* Text no longer correct, accurate or relevant */
+ins {} /* Inserted or added text */
+del { /* Deleted or removed text */
   color: darkred;
 }
 
-/* Horizontal Rule */
-hr {border-style: dashed; border-color: lightgray;}
+/* Small prints */
+small {font-size: 87.5%;} /* Small or fine prints like disclaimers, caveats, legal restrictions, or copyrights */
 
-/* Forms */
-label {
+/* Exponential and Indicial */
+sup, sub {
+  position: relative; /* Normalize 3.0.1 : Prevent `sub` and `sup` affecting `line-height` in all browsers. */
+  font-size: 66%;
+  line-height: .1em;
+  vertical-align: baseline; /* Normalize 3.0.1 : Prevent `sub` and `sup` affecting `line-height` in all browsers. */
+}
+sup {
+  top: -.5em; /* Normalize 3.0.1 : Prevent `sub` and `sup` affecting `line-height` in all browsers. */
+}
+sub {
+  bottom: -.25em; /* Normalize 3.0.1 : Prevent `sub` and `sup` affecting `line-height` in all browsers. */
+}
+
+/* Abbreviations and acronyms */
+abbr {} /* Any abbreviation or acronym */
+abbr[title] {
+  border-bottom: 1px dotted; /* Normalize 3.0.1 : Address styling not present in IE 8/9/10/11, Safari, and Chrome. */
+}
+
+/* Marked text ; */
+mark { /* Any text needs to highlighted for any reason up to redacter */
+  background: #ff0; /* Normalize 3.0.1 : Address styling not present in IE 8/9. */
+  color: #000; /* Normalize 3.0.1 : Address styling not present in IE 8/9. */
+}
+
+/* Quotations */
+q {} /* Any type of quotation */
+cite {font-style: normal;} /* The title of a work (e.g. a book, a song, a movie, a TV show, a painting, a sculpture, etc.) */
+blockquote > cite {font-size: 87.5%;}
+blockquote { /* Section that is quoted from another source */
+  font-size: 1em; /* WARNING : using em instead of rem ; blockquotes should properly inherit font size percent fix value from parents */
+  line-height: 150%; /* WARNING : using percent instead of rem ; should properly inherit real paragraph size */
+}
+
+/* Definitions */
+dfn { /* Definition term */
+  font-style: italic; /* Normalize 3.0.1 : Address styling not present in Safari and Chrome. */
+}
+dl {font-size: 1em} /* Definition list */
+dl > dt {} /* Definition term */
+dl > dd {} /* Definition content */
+
+/* Code */
+pre, code, samp, kbd, var {
+  font-family: monospace, monospace; /* Normalize 3.0.1 : Address odd `em`-unit font size rendering in all browsers. */
+  font-size: 1em; /* Normalize 3.0.1 : Address odd `em`-unit font size rendering in all browsers. */
+}
+pre { /* Preformatted text block */
+  overflow: auto; /* Normalize 3.0.1 : Contain overflow in all browsers. */
+}
+code {} /* Code block */
+samp {} /* Sample output from a computer program */
+kbd { /* Keyboard input */
+  padding: 0.25rem 0.25rem 0;
+  font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
+  color: #333;
+  border-color: lightgrey;
+  border-style: solid;
+  border-width: .125rem;
+  border-bottom-width: .25rem;
+  border-bottom-color: gainsboro;
+  border-radius: .25rem;
+  background-color: ghostwhite;
+}
+var {} /* Variable */
+
+/* UNUSED */
+/*
+cite.author {
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
+  font-variant: small-caps;
+  font-style: normal;
+}
+*/
+
+a[rel="author"] {
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
+  font-variant: small-caps;
+  font-style: normal;
+  text-decoration: none; /* TEMP : links underline fix */
+}
+
+/* Date */
+time {color: darkgray;}
+
+/* UNUSED */
+/*
+.date {color: darkgray;}
+*/
+
+/* Addresses */
+address {} /* Contact information for the author/owner of a document or an article */
+
+/* Details */
+/* WARNING TEMP : only shown in webkit browsers ;
+ * a js plugin has to be made to adapt it to ohters */
+details {}
+details > summary{}
+details, summary {
+  display: block; /* Normalize 3.0.1 : Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox. */
+}
+
+/* Datalists*/
+datalist {}
+datalist > option {}
+
+/* Programmatics */
+dialog {}
+menu {}
+menu > menuitem {}
+
+/* Objects */
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; /* Normalize 3.0.1 : Correct `inline-block` display not defined in IE 8/9. */
+  vertical-align: baseline; /* Normalize 3.0.1 : Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera. */
+}
+audio:not([controls]) {
+  display: none; /* Normalize 3.0.1 : Prevent modern browsers from displaying `audio` without controls. */
+  height: 0; /* Normalize 3.0.1 : Remove excess height in iOS 5 devices. */
+}
+template {
+  display: none; /* Normalize 3.0.1 : Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22. */
+}
+[hidden] {
+  display: none; /* Normalize 3.0.1 : Address `[hidden]` styling not present in IE 8/9/10. */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Tables */
+/* ------------------------------------------------------------------ */
+
+table {
+  border-color: silver; /* Foundation override*/
+  border-collapse: collapse; /* Normalize 3.0.1 : Remove most spacing between table cells. */
+  border-spacing: 0; /* Normalize 3.0.1 : Remove most spacing between table cells. */
+}
+table th {
+  text-align: center;
+  background-color: whitesmoke;
+}
+table td,
+table th {
+  padding: 0; /* Normalize 3.0.1 : Remove most spacing between table cells. */
+}
+table tr:nth-of-type(even) {
+  background-color: ghostwhite; /* Foundation override*/
+}
+
+/* ------------------------------------------------------------------ */
+/* # Images */
+/* ------------------------------------------------------------------ */
+
+img {
+  border: 0; /* Normalize 3.0.1 : Remove border when inside `a` element in IE 8/9/10. */
+  -ms-interpolation-mode: bicubic; /* Foundation override */
+}
+figure {
   display: inline-block;
-  cursor: default; /* Foundation override */
+  margin: 1rem 0;
 }
-label[for] {
-  cursor: pointer;
+figure > img {
+  width: 100%;
 }
+figure > figcaption {
+  display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
+  margin: .25rem 0;
+  font-size: 90%;
+  color: gray;
+}
+svg:not(:root) {
+  overflow: hidden; /* Normalize 3.0.1 : Correct overflow not hidden in IE 9/10/11. */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Fieldsets */
+/* ------------------------------------------------------------------ */
+
 fieldset {
   position: relative;
   min-height: 3.25rem;
@@ -165,7 +389,7 @@ fieldset > div[class*=row]:last-child > *, /* TEMP : Remove bottom margin for la
 fieldset > div[class*=row]:last-child > div[class*=column] > * { /* TEMP : Remove bottom margin for all columns childs of last row */
   margin-bottom: 0;
 }
-fieldset legend {
+fieldset > legend {
   top: 0;
   position: absolute;
   width: 100%;
@@ -178,16 +402,17 @@ fieldset legend {
   line-height: 2rem;
   letter-spacing: -.0625em;
   background-color: transparent; /* Foundation override */
+  border: 0; /* 1 */ /* Normalize 3.0.1 : Correct `color` not being inherited in IE 8/9/10/11. */
   border-top-left-radius: .375rem;
   border-top-right-radius: .375rem;
 }
-.css-fx fieldset legend {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-fieldset legend:not(.hide) + *,
-fieldset legend:not(.hide) + [type],
-fieldset legend:not(.hide) + [class] {
+.css-fx fieldset > legend {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+fieldset > legend:not(.hide) + *,
+fieldset > legend:not(.hide) + [type],
+fieldset > legend:not(.hide) + [class] {
   margin-top: 2rem;
 }
-fieldset legend:only-child {
+fieldset > legend:only-child {
   border-radius: .375rem;
 }
 
@@ -201,55 +426,56 @@ fieldset.transparent {
   background-color: transparent;
   border-color: transparent;
 }
-fieldset.transparent legend {
+fieldset.transparent > legend {
   line-height: 0;
-}
-
-/* Figures */
-figure {
-  display: inline-block;
-  margin: 1rem 0;
-}
-figure img {
-  width: 100%;
-}
-figure figcaption {
-  margin: .25rem 0;
-  font-size: 90%;
-  color: gray;
-}
-
-/* Author */
-cite {
-  font-style: normal;
-}
-cite.author { /* TEMP */
-  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
-  font-variant: small-caps;
-  font-style: normal;
-}
-
-/* Date */
-.date {color: darkgray;} /* TEMP */
-
-/* ------------------------------------------------------------------ */
-/* # Tables */
-/* ------------------------------------------------------------------ */
-
-table {
-  border-color: silver; /* Foundation override*/
-}
-table th {
-  text-align: center;
-  background-color: whitesmoke;
-}
-table tr:nth-of-type(even) {
-  background-color: ghostwhite; /* Foundation override*/
 }
 
 /* ------------------------------------------------------------------ */
 /* # Inputs */
 /* ------------------------------------------------------------------ */
+
+/* Labels */
+label {
+  display: inline-block;
+  cursor: default; /* Foundation override */
+}
+label[for] {
+  cursor: pointer;
+}
+
+/* Inputs */
+input, select, optgroup, textarea { /* Normalize 3.0.1 : Known limitation: by default, Chrome and Safari on OS X allow very limited styling of `select`, unless a `border` property is set. */
+  color: inherit; /* Normalize 3.0.1 : Correct color not being inherited. Known issue: affects color of disabled elements. */
+  font: inherit; /* Normalize 3.0.1 : Correct font properties not being inherited. */
+  margin: 0; /* Normalize 3.0.1 : Address margins set differently in Firefox 4+, Safari, and Chrome. */
+}
+
+input {
+  line-height: normal; /* Normalize 3.0.1 : Address Firefox 4+ setting `line-height` on `input` using `!important` in the UA stylesheet. */
+}
+
+input[type="checkbox"],
+input[type="radio"] { /* Normalize 3.0.1 : It's recommended that you don't attempt to style these elements. Firefox's implementation doesn't respect box-sizing, padding, or width. */
+  box-sizing: border-box; /* 1 */ /* Normalize 3.0.1 : Address box sizing set to `content-box` in IE 8/9/10. */
+  padding: 0; /* 2 */ /* Normalize 3.0.1 : Remove excess padding in IE 8/9/10. */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto; /* Normalize 3.0.1 : Fix the cursor style for Chrome's increment/decrement buttons. For certain `font-size` values of the `input`, it causes the cursor style of the decrement button to change from `default` to `text`. */
+}
+
+input[type="search"] {
+  -webkit-appearance: textfield; /* Normalize 3.0.1 : Address `appearance` set to `searchfield` in Safari and Chrome. */
+  -moz-box-sizing: content-box; /* Normalize 3.0.1 : Address `box-sizing` set to `border-box` in Safari and Chrome (include `-moz` to future-proof). */
+  -webkit-box-sizing: content-box; /* Normalize 3.0.1 : Address `appearance` set to `searchfield` in Safari and Chrome. */
+  box-sizing: content-box; /* Normalize 3.0.1 : Address `box-sizing` set to `border-box` in Safari and Chrome (include `-moz` to future-proof). */
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; /* Normalize 3.0.1 : Remove inner padding and search cancel button in Safari and Chrome on OS X. Safari (but not Chrome) clips the cancel button when the search input has padding (and `textfield` appearance). */
+}
 
 input[type="text"],
 input[type="password"],
@@ -265,6 +491,7 @@ input[type="tel"],
 input[type="time"],
 input[type="url"],
 textarea {
+  font-size: .875rem; /* Foundation override */
   border: .125rem solid silver; /* Foundation override */
 }
 
@@ -325,6 +552,7 @@ textarea.radius {
 textarea {
   min-height: 6.25rem; /* 4 x line height + padding + scrollbar spacing (.25rem) */
   line-height: 1.25rem;
+  overflow: auto; /* Normalize 3.0.1 : Remove default vertical scrollbar in IE 8/9/10/11. */
   resize: vertical;
 }
 textarea.min {
@@ -346,6 +574,9 @@ textarea.large {
 }
 
 /* Selects */
+select {
+  text-transform: none; /* Normalize 3.0.1 : Address inconsistent `text-transform` inheritance for `button` and `select`. All other form control elements do not inherit `text-transform` values. Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera. Correct `select` style inheritance in Firefox. */
+}
 select:hover {
   cursor: pointer;
 }
@@ -353,211 +584,19 @@ select > option {
   padding: .5rem;
   background-color: white;
 }
-
-/* ------------------------------------------------------------------ */
-/* # Input Fixes */
-/* ------------------------------------------------------------------ */
-
-.prefix, .postfix {
-  padding: 0 .75rem;
+select > optgroup {
+  font-weight: bold; /* Normalize 3.0.1 : Don't inherit the `font-weight` (applied by a rule above). NOTE : the default cannot safely be changed in Chrome and Safari on OS X. */
 }
-.prefix.button, .postfix.button {
-  padding: 0; /* Foundation Override */
-}
-
-/* ------------------------------------------------------------------ */
-/* # Placeholders */
-/* ------------------------------------------------------------------ */
-
-::-webkit-input-placeholder { /* Chrome */
-  color: rgba(0, 0, 0, .5);
-}
-:-ms-input-placeholder { /* IE 10+ */
-  color: rgba(0, 0, 0, .5);
-}
-
-.placeholder {color: rgba(0, 0, 0, .375);}
-
-/* ------------------------------------------------------------------ */
-/* # Font Sizing */
-/* ------------------------------------------------------------------ */
-
-.css-fx .text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
-
-.text-tiny {font-size: 75%;}
-.text-small {font-size: 87.5%;}
-.text-medium {font-size: 100%;}
-.text-large {font-size: 112.5%;}
-.text-huge {font-size: 133%;}
-
-/* ------------------------------------------------------------------ */
-/* # Font Coloring */
-/* ------------------------------------------------------------------ */
-
-.text-white {color: #fff;}
-.text-silver {color: #999;}
-.text-steel {color: #666;}
-.text-iron {color: #222;}
-.text-black {color: #000;}
-
-/* Named Rubrics Colors */
-.red, li.red > a {color: #c33;}
-a.red:hover, a.red:focus, li.red > a:hover, li.red > a:focus {color: #822;}
-.orange, li.orange > a {color: #f63;}
-a.orange:hover, a.orange:focus, li.orange > a:hover, li.orange > a:focus {color: #931;}
-.yellow, li.yellow > a {color: #ca0;}
-a.yellow:hover, a.yellow:focus, li.yellow > a:hover, li.yellow > a:focus {color: #761;}
-.green, li.green > a {color: #393;}
-a.green:hover, a.green:focus, li.green > a:hover, li.green > a:focus {color: #252;}
-.cyan, li.cyan > a {color: #399;}
-a.cyan:hover, a.cyan:focus, li.cyan > a:hover, li.cyan > a:focus {color: #255;}
-.blue, li.blue > a {color: #36c;}
-a.blue:hover, a.blue:focus, li.blue > a:hover, li.blue > a:focus {color: #248;}
-.purple, li.purple > a {color: #93c;}
-a.purple:hover, a.purple:focus, li.purple > a:hover, li.purple > a:focus {color: #517;}
-.magenta, li.magenta > a {color: #e2a;}
-a.magenta:hover, a.magenta:focus, li.magenta > a:hover, li.magenta > a:focus {color: #a17;}
-
-/* Literal Rubrics Colors */
-h1.intersec, h2.intersec, h3.intersec, h4.intersec, h5.intersec, h6.intersec, a.intersec, li.intersec > a {color: #c33;}
-a.intersec:hover, a.intersec:focus, li.intersec > a:hover, li.intersec > a:focus {color: #822;}
-h1.struggles, h2.struggles, h3.struggles, h4.struggles, h5.struggles, h6.struggles, a.struggles, li.struggles > a {color: #f63;}
-a.struggles:hover, a.struggles:focus, li.struggles > a:hover, li.struggles > a:focus {color: #931;}
-h1.ideas, h2.ideas, h3.ideas, h4.ideas, h5.ideas, h6.ideas, a.ideas, li.ideas > a {color: #ca0;}
-a.ideas:hover, a.ideas:focus, li.ideas > a:hover, li.ideas > a:focus {color: #761;}
-h1.educult, h2.educult, h3.educult, h4.educult, h5.educult, h6.educult, a.educult, li.educult > a {color: #399;}
-a.educult:hover, a.educult:focus, li.educult > a:hover, li.educult > a:focus {color: #255;}
-h1.internat, h2.internat, h3.internat, h4.internat, h5.internat, h6.internat, a.internat, li.internat > a {color: #36c;}
-a.internat:hover, a.internat:focus, li.internat > a:hover, li.internat > a:focus {color: #248;}
-h1.ourbody, h2.ourbody, h3.ourbody, h4.ourbody, h5.ourbody, h6.ourbody, a.ourbody, li.ourbody > a {color: #e2a;}
-a.ourbody:hover, a.ourbody:focus, li.ourbody > a:hover, li.ourbody > a:focus {color: #a17;}
-
-/* ------------------------------------------------------------------ */
-/* # Validation */
-/* ------------------------------------------------------------------ */
-
-input.validation,
-input.validation:hover,
-input.validation:focus {
-  padding-right: 32px;
-  background-repeat: no-repeat;
-  background-position: right center;
-}
-input.validation.wrong,
-input.validation.wrong:hover,
-input.validation.wrong:focus {
-  border-color: #c33; /* NEW */
-  background-image: url('../img/ui/icon-wrong.png');
-}
-input.validation.valid,
-input.validation.valid:hover,
-input.validation.valid:focus {
-  background-image: url('../img/ui/icon-valid.png');
-}
-input.validation.loading,
-input.validation.loading:hover,
-input.validation.loading:focus {
-  background-image: url('../img/ui/icon-loading.gif');
-}
-
-.validation + small.error { /* Position fix */
-  position: relative;
-  top: -1rem;
-}
-
-small.error {
-  display: block;
-  padding: 0.33333rem 0.5rem 0.5rem;
-  margin-top: -.125rem;
-  margin-bottom: 0.88889rem;
-  font-size: 0.66667rem;
-  font-weight: normal;
-  font-style: italic;
-  background: #c33;
-  color: #fff;
-}
-
-label.error {
-  color: #c33;
-}
-
-.error.hide {
-  display: none; /* Visibility fix */
-}
-
-/* ------------------------------------------------------------------ */
-/* # Validation Boxes */
-/* ------------------------------------------------------------------ */
-
-.validation-box {
-  position: relative;
-}
-.validation-box > input {
-  height: 100%;
-  margin: 0;
-}
-.validation-box > input.wrong {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.validation-box > input + .error {
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  margin: 0;
-  border-bottom-left-radius: .375rem;
-  border-bottom-right-radius: .375rem;
-  z-index: 5;
-}
-
-/* ------------------------------------------------------------------ */
-/* # Send Boxes */
-/* ------------------------------------------------------------------ */
-
-.send-box {
-  position: absolute;
-  bottom: 2rem;
-  left: 0;
-  width: 20rem;
-  padding: 0 .75rem 0;
-  background-color: rgba(255, 255, 0, 1);
-  background-color: whitesmoke;
-  background: linear-gradient(180deg, whitesmoke 0%, #f0f0f0 100%);
-  border: .125rem solid silver;
-  border-radius: .375rem;
-  box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
-  z-index: 10;
-}
-.send-box:before {
-  content: "";
-  position: absolute;
-  display: inline-box;
-  bottom: -1rem;
-  left: 1rem;
-  width: 1rem;
-  height: 1rem;
-  border: .5rem solid transparent;
-  border-top-color: silver;
-}
-.send-box:after {
-  content: "";
-  position: absolute;
-  display: inline-box;
-  bottom: -.875rem;
-  left: 1rem;
-  width: 1rem;
-  height: 1rem;
-  border: .5rem solid transparent;
-  border-top-color: #f0f0f0;
-}
-.send-box > .error{
-  margin-bottom: 0;
-  line-height: 100%;
-}
+select > optgroup > option {}
 
 /* ------------------------------------------------------------------ */
 /* # Buttons */
 /* ------------------------------------------------------------------ */
+
+button {
+  overflow: visible; /* Normalize 3.0.1 : Address `overflow` set to `hidden` in IE 8/9/10/11. */
+  text-transform: none; /* Normalize 3.0.1 : Address inconsistent `text-transform` inheritance for `button` and `select`. All other form control elements do not inherit `text-transform` values. Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera. Correct `select` style inheritance in Firefox. */
+}
 
 button, .button,
 .prefix.button, .postfix.button {
@@ -586,11 +625,6 @@ button, .button, button.small, .button.small, button.large, .button.large {
 }
 button.tiny, .button.tiny {
   padding: .375em .5em;
-}
-
-button::-moz-focus-inner { /* Firefox extra button spacing fix */
-  padding: 0;
-  border: 0;
 }
 
 /* Buttons Positioning */
@@ -683,6 +717,236 @@ button.alert:active, .button.alert:active, button.error:active, .button.error:ac
 button.alert.active, .button.alert.active, button.error.active, .button.error.active {
   background-color: #930;
 }
+
+/* ------------------------------------------------------------------ */
+/* # Inputs Validation */
+/* ------------------------------------------------------------------ */
+
+input.validation,
+input.validation:hover,
+input.validation:focus {
+  padding-right: 32px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+input.validation.wrong,
+input.validation.wrong:hover,
+input.validation.wrong:focus {
+  border-color: #c33; /* NEW */
+  background-image: url('../img/ui/icon-wrong.png');
+}
+input.validation.valid,
+input.validation.valid:hover,
+input.validation.valid:focus {
+  background-image: url('../img/ui/icon-valid.png');
+}
+input.validation.loading,
+input.validation.loading:hover,
+input.validation.loading:focus {
+  background-image: url('../img/ui/icon-loading.gif');
+}
+
+.validation + small.error { /* Position fix */
+  position: relative;
+  top: -1rem;
+}
+
+small.error {
+  display: block;
+  padding: 0.33333rem 0.5rem 0.5rem;
+  margin-top: -.125rem;
+  margin-bottom: 0.88889rem;
+  font-size: 0.66667rem;
+  font-weight: normal;
+  font-style: italic;
+  background: #c33;
+  color: #fff;
+}
+[data-abide] .error small.error {
+  background: #c33; /* Foundation override */
+}
+
+label.error {
+  color: #c33;
+}
+.error label.error {
+  color: #c33; /* Foundation override */
+}
+
+.error.hide {
+  display: none; /* Visibility fix */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Input Fixes */
+/* ------------------------------------------------------------------ */
+
+input::-moz-focus-inner,
+button::-moz-focus-inner { /* Firefox extra spacing fix */
+  border: 0;
+  padding: 0;
+}
+
+button,
+html input[type="button"], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
+  cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
+}
+
+button[disabled],
+html input[disabled] {
+  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
+}
+
+.prefix, .postfix {
+  padding: 0 .75rem;
+}
+.prefix.button, .postfix.button {
+  padding: 0; /* Foundation Override */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Inputs Placeholders */
+/* ------------------------------------------------------------------ */
+
+::-webkit-input-placeholder { /* Chrome */
+  color: rgba(0, 0, 0, .5);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(0, 0, 0, .5);
+}
+
+.placeholder {color: rgba(0, 0, 0, .375);}
+
+/* ------------------------------------------------------------------ */
+/* # Validation Boxes */
+/* ------------------------------------------------------------------ */
+
+.validation-box {
+  position: relative;
+}
+.validation-box > input {
+  height: 100%;
+  margin: 0;
+}
+.validation-box > input.wrong {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.validation-box > input + .error {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  margin: 0;
+  border-bottom-left-radius: .375rem;
+  border-bottom-right-radius: .375rem;
+  z-index: 5;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Send Boxes */
+/* ------------------------------------------------------------------ */
+
+.send-box {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 20rem;
+  padding: 0 .75rem 0;
+  background-color: rgba(255, 255, 0, 1);
+  background-color: whitesmoke;
+  background: linear-gradient(180deg, whitesmoke 0%, #f0f0f0 100%);
+  border: .125rem solid silver;
+  border-radius: .375rem;
+  box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
+  z-index: 10;
+}
+.send-box:before {
+  content: "";
+  position: absolute;
+  display: inline-box;
+  bottom: -1rem;
+  left: 1rem;
+  width: 1rem;
+  height: 1rem;
+  border: .5rem solid transparent;
+  border-top-color: silver;
+}
+.send-box:after {
+  content: "";
+  position: absolute;
+  display: inline-box;
+  bottom: -.875rem;
+  left: 1rem;
+  width: 1rem;
+  height: 1rem;
+  border: .5rem solid transparent;
+  border-top-color: #f0f0f0;
+}
+.send-box > .error{
+  margin-bottom: 0;
+  line-height: 100%;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Text Sizing */
+/* ------------------------------------------------------------------ */
+
+.css-fx .text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
+
+.text-tiny {font-size: 75%;}
+.text-small {font-size: 87.5%;}
+.text-medium {font-size: 100%;}
+.text-large {font-size: 112.5%;}
+.text-huge {font-size: 125%;}
+
+/* ------------------------------------------------------------------ */
+/* # Text Coloring */
+/* ------------------------------------------------------------------ */
+
+.text-white {color: white;}
+.text-platinum {color: #e0e0e0;}
+.text-silver {color: silver;}
+.text-steel {color: #a0a0a0;}
+.text-gray {color: gray;}
+.text-charcoal {#606060}
+.text-carbon {#404040}
+.text-coal {#202020}
+.text-black {color: black;}
+
+/* Named Rubrics Colors */
+.red, li.red > a {color: #c33;}
+a.red:hover, a.red:focus, li.red > a:hover, li.red > a:focus {color: #822;}
+.orange, li.orange > a {color: #f63;}
+a.orange:hover, a.orange:focus, li.orange > a:hover, li.orange > a:focus {color: #931;}
+.yellow, li.yellow > a {color: #ca0;}
+a.yellow:hover, a.yellow:focus, li.yellow > a:hover, li.yellow > a:focus {color: #761;}
+.green, li.green > a {color: #393;}
+a.green:hover, a.green:focus, li.green > a:hover, li.green > a:focus {color: #252;}
+.cyan, li.cyan > a {color: #399;}
+a.cyan:hover, a.cyan:focus, li.cyan > a:hover, li.cyan > a:focus {color: #255;}
+.blue, li.blue > a {color: #36c;}
+a.blue:hover, a.blue:focus, li.blue > a:hover, li.blue > a:focus {color: #248;}
+.purple, li.purple > a {color: #93c;}
+a.purple:hover, a.purple:focus, li.purple > a:hover, li.purple > a:focus {color: #517;}
+.magenta, li.magenta > a {color: #e2a;}
+a.magenta:hover, a.magenta:focus, li.magenta > a:hover, li.magenta > a:focus {color: #a17;}
+
+/* Literal Rubrics Colors */
+h1.intersec, h2.intersec, h3.intersec, h4.intersec, h5.intersec, h6.intersec, a.intersec, li.intersec > a {color: #c33;}
+a.intersec:hover, a.intersec:focus, li.intersec > a:hover, li.intersec > a:focus {color: #822;}
+h1.struggles, h2.struggles, h3.struggles, h4.struggles, h5.struggles, h6.struggles, a.struggles, li.struggles > a {color: #f63;}
+a.struggles:hover, a.struggles:focus, li.struggles > a:hover, li.struggles > a:focus {color: #931;}
+h1.ideas, h2.ideas, h3.ideas, h4.ideas, h5.ideas, h6.ideas, a.ideas, li.ideas > a {color: #ca0;}
+a.ideas:hover, a.ideas:focus, li.ideas > a:hover, li.ideas > a:focus {color: #761;}
+h1.educult, h2.educult, h3.educult, h4.educult, h5.educult, h6.educult, a.educult, li.educult > a {color: #399;}
+a.educult:hover, a.educult:focus, li.educult > a:hover, li.educult > a:focus {color: #255;}
+h1.internat, h2.internat, h3.internat, h4.internat, h5.internat, h6.internat, a.internat, li.internat > a {color: #36c;}
+a.internat:hover, a.internat:focus, li.internat > a:hover, li.internat > a:focus {color: #248;}
+h1.ourbody, h2.ourbody, h3.ourbody, h4.ourbody, h5.ourbody, h6.ourbody, a.ourbody, li.ourbody > a {color: #e2a;}
+a.ourbody:hover, a.ourbody:focus, li.ourbody > a:hover, li.ourbody > a:focus {color: #a17;}
 
 /* ------------------------------------------------------------------ */
 /* # Icons */
@@ -931,24 +1195,6 @@ a.disabled {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Keystrokes */
-/* ------------------------------------------------------------------ */
-
-kbd,
-.keystroke {
-  background-color: ghostwhite;
-  border-color: lightgrey;
-  color: #333;
-  border-style: solid;
-  border-width: .125rem;
-  border-bottom-width: .25rem;
-  border-bottom-color: gainsboro;
-  font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
-  padding: 0.25rem 0.25rem 0;
-  border-radius: .25rem;
-}
-
-/* ------------------------------------------------------------------ */
 /* # Containers */
 /* ------------------------------------------------------------------ */
 
@@ -1004,57 +1250,7 @@ kbd,
 /* All Navs */
 .main-nav a, .fast-nav a, .user-nav a, .site-nav a {text-decoration: none;} /* TEMP : links underline fix */
 .main-nav ul li, .fast-nav ul li, .user-nav ul li {letter-spacing: -.0625em;}
-.css-fx .main-nav ul li, .css-fx .fast-nav ul li, .css-fx .user-nav ul li {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-
-/* User Nav */
-.user-nav {
-  padding: .5rem;
-  background-color: white;
-}
-.user-nav .user-name {
-  margin-top: 0;
-  color: white;
-  word-wrap: break-word; /* Fix long strings */
-  background-color: #d4a;
-}
-.user-nav ul {
-  margin-left: 0;
-  line-height: 150%;
-  list-style: none;
-}
-.user-nav ul li {
-  font-size: 115%;
-}
-.user-nav ul li .picture {
-  margin-bottom: .5rem;
-}
-.user-nav ul li .disconnect {
-  font-size: 125%;
-  line-height: 133%;
-  color: #c00;
-}
-.user-nav ul li a {
-  display: block;
-  color: #222;
-  border: .25rem solid transparent;
-  border-left: 0;
-  border-right: 0;
-}
-.user-nav ul li a:hover {
-  color: white;
-  background-color: silver;
-}
-.user-nav ul li a:active,
-.user-nav ul li a.current{
-  color: gray;
-  border-color: gray;
-}
-.user-nav ul li a.current:hover,
-.user-nav ul li a.current:focus,
-.user-nav ul li a.current:active {
-  cursor: default;
-  background-color: transparent;
-}
+.css-fx .main-nav ul li a, .css-fx .fast-nav ul li a, .css-fx .user-nav ul li a {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 
 /* Main Nav */
 .main-nav {}
@@ -1101,40 +1297,63 @@ kbd,
 
 /* Fast Nav */
 .fast-nav {
+  position: relative;
+  height: 2.5rem; /* WARNING : fixed height */
+  width: ; /* WARNING : fluid design width = .main-width - 2.5rem */
   margin-bottom: .5rem;
+  vertical-align: middle;
+  overflow: hidden;
 }
-.fast-nav ul {vertical-align: middle;}
-.fast-nav ul li {
-  margin: 0 .5rem 0 0;
+.fast-nav > .prev,
+.fast-nav > .next {
+  position: absolute;
+  top: 0;
+  padding: .25rem 0;
+  z-index: 1;
 }
-.fast-nav ul li:last-child {
-  margin-right: 0;
+.fast-nav > .prev {
+  left: 0;
+  padding-right: 7.5%; /* NOTE : fixed width used by JS for size calculation (i.e. gradient length) */
+  background: linear-gradient(90deg, white 33.333333333333333333333333333333%, rgba(255, 255, 255, 0) 100%);
 }
-.fast-nav ul li a:not(.icon) {
+.fast-nav > .next {
+  right: 0;
+  padding-left: 7.5%; /* NOTE : fixed width used by JS for size calculation (i.e. gradient length) */
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, white 66.666666666666666666666666666667%);
+}
+.fast-nav > .prev > a,
+.fast-nav > .next > a {
+  width: 2rem; /* NOTE : fixed width used by JS for size calculation (based upon .icon.small width) */
+}
+.fast-nav > ul {
+  position: absolute;
+  display: block;
+  top: 0;
+  left : 0;
+  margin: 0;
+  padding: .25rem 0;
+  font-size: 0;
+  list-style: none;
+}
+.fast-nav > ul > li {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 1.15rem;
+}
+.fast-nav > ul > li + li{
+  margin-left: .5rem;
+}
+.fast-nav > ul > li > a:not(.icon) {
   padding: 0 .5rem;
-  font-size: 1.15em;
+  font-size: 1.15rem;
   border-width: .25rem 0;
   border-style: solid;
   border-color: transparent;
 }
-.fast-nav .red a:hover,
-.fast-nav .orange a:hover,
-.fast-nav .yellow a:hover,
-.fast-nav .green a:hover,
-.fast-nav .cyan a:hover,
-.fast-nav .blue a:hover,
-.fast-nav .purple a:hover,
-.fast-nav .magenta a:hover {
+.fast-nav > ul > li > a:hover {
   color: white;
 }
-.fast-nav .red a:focus,
-.fast-nav .orange a:focus,
-.fast-nav .yellow a:focus,
-.fast-nav .green a:focus,
-.fast-nav .cyan a:focus,
-.fast-nav .blue a:focus,
-.fast-nav .purple a:focus,
-.fast-nav .magenta a:focus {
+.fast-nav > ul > li > a:focus {
   outline-offset: -.125rem;
 }
 /* Red */
@@ -1170,13 +1389,101 @@ kbd,
 .fast-nav .magenta a:active {border-color: #a17;}
 .fast-nav .magenta a.current {border-color: #e2a;}
 
-.fast-nav ul li a.current:hover,
-.fast-nav ul li a.current:focus,
-.fast-nav ul li a.current:active {
+.fast-nav > ul > li > a.current:hover,
+.fast-nav > ul > li > a.current:focus,
+.fast-nav > ul > li > a.current:active {
   cursor: default;
   color: inherit;
   border-color: inherit;
   background-color: inherit;
+}
+
+/* User Connect */
+.user-connect {
+  position: relative;
+  margin-right: .5rem;
+}
+
+/* User Nav */
+.user-nav {
+  display: inline-block;
+  position: absolute;
+  top: 3.5rem;
+  right: -.5rem;
+  width: 14rem; /* TEMP */
+  padding: .5rem;
+  background-color: white;
+  border: .125rem solid silver;
+  z-index: 10;
+}
+.user-nav:before,
+.user-nav:after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  border: .75rem solid transparent;
+}
+.user-nav:before {
+  top: -1.5rem;
+  border-bottom-color: silver;
+}
+.user-nav:after {
+  top: -1.375rem;
+  border-bottom-color: white;
+}
+.user-nav .user-name {
+  margin-top: 0;
+  color: white;
+  word-wrap: break-word; /* Fix long strings */
+  background-color: #d4a;
+}
+.user-nav ul {
+  margin-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+.user-nav ul li {
+  font-size: 1.25rem;
+  line-height: 2rem;
+}
+.user-nav ul li a {
+  display: block;
+  color: #202020;
+  border: .25rem solid transparent;
+  border-left: 0;
+  border-right: 0;
+}
+.user-nav ul li a:hover,
+.user-nav ul li a:focus {
+  color: white;
+  background-color: silver;
+}
+.user-nav ul li a:active,
+.user-nav ul li a.current {
+  color: gray;
+  border-color: gray;
+}
+.user-nav ul li a.current:hover,
+.user-nav ul li a.current:focus,
+.user-nav ul li a.current:active {
+  cursor: default;
+  background-color: transparent;
+}
+.user-nav ul li a.disconnect {
+  color: #c33;
+  font-size: 125%;
+  border-color: transparent;
+  background-color: transparent;
+}
+.user-nav ul li a.disconnect:hover,
+.user-nav ul li a.disconnect:focus {
+  color: white;
+  background-color: #c33;
+}
+.user-nav ul li a.disconnect:active {
+  background-color: #202020;
 }
 
 /* Site Nav */
@@ -1272,7 +1579,7 @@ kbd,
   display: inline-block;
   margin-left: auto; /* Foundation override */
   overflow: visible; /* Foundation override */
-  }
+}
 .inline-list:last-child,
 .inline-list > li:last-child {
   margin-left: 0; /* Foundation override */
@@ -1295,23 +1602,18 @@ kbd,
   display: none; /* Visibility fix */
 }
 
-/* Block Inline Lists */
+/* Block Inline Lists -- UNUSED */
+/*
 .inline-list.block {
   display: block;
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Block Grids */
 /* ------------------------------------------------------------------ */
 
 [class*="block-grid-"] {margin: 0;} /* Foundation override */
-
-/* ------------------------------------------------------------------ */
-/* # Tooltips */
-/* ------------------------------------------------------------------ */
-
-[class^="icon-"].has-tip,
-[class*="icon-"].has-tip {border-bottom: none;}
 
 /* ------------------------------------------------------------------ */
 /* # Images Thumbnails */
@@ -1402,9 +1704,7 @@ kbd,
   text-transform: none; /* Foundation override */
 }
 
-.css-fx .sub-nav dt, .css-fx .sub-nav dd, .css-fx .sub-nav li {font-family: "Nobile", sans-serif;}
-.css-debug .sub-nav dt:nth-child(odd), .css-debug .sub-nav dd:nth-child(odd), .css-debug .sub-nav li:nth-child(odd) {background-color: rgba(0, 255, 0, .25);}
-.css-debug .sub-nav dt:nth-child(even), .css-debug .sub-nav dd:nth-child(even), .css-debug .sub-nav li:nth-child(even) {background-color: rgba(0, 0, 255, .25);}
+/*.css-fx .sub-nav dt, .css-fx .sub-nav dd, .css-fx .sub-nav li {font-family: "Nobile", sans-serif;}*/
 
 .sub-nav dt a, .sub-nav dd a, .sub-nav li a {
   display: inline-block;
@@ -1681,13 +1981,9 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   line-height: 2rem; /* Foundation Override */
   background-color: #a8c;
   border: .15rem solid #759;
+  transition: none; /* Foundation Override */
 }
-.css-fx .alert-box {font-family: "Nobile", sans-serif;}
-.alert-box .has-tip {
-  display: inline-block;
-  color: inherit;
-  border-color: inherit;
-}
+/*.css-fx .alert-box {font-family: "Nobile", sans-serif;}*/
 .alert-box .close {
   top: 0; /* Foundation Override */
   margin: 0; /* Foundation Override */
@@ -1744,7 +2040,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   font-style: normal;
   background-color: #a8c;
 }
-.css-fx .label, .css-fx a.label {font-family: "Nobile", sans-serif;}
+/*.css-fx .label, .css-fx a.label {font-family: "Nobile", sans-serif;}*/
 .label.radius {
   border-radius: .375rem; /* Foundation override */
 }
@@ -1818,6 +2114,16 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 .tooltip {}
+.has-tip {
+  cursor: help;
+  font-weight: initial; /* Foundation override */
+  color: inherit;  /* Foundation override */
+  border-bottom: .125rem dotted rgba(0, 0, 0, .25); /* Foundation override */
+}
+.has-tip:hover, .has-tip:focus {
+  color: inherit; /* Foundation override */
+  border-bottom-color: rgba(0, 0, 0, .375); /* Foundation override */
+}
 
 /* ------------------------------------------------------------------ */
 /* # Clearing Lightbox */
@@ -1918,7 +2224,10 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
  * It must remains a truly cosmetic feature.
  */
 
-.orbit-container {padding-bottom: 1.5%;}
+.orbit-container {
+  padding-bottom: 1.5%;
+  padding: 0; /* UNUSED */
+}
 .orbit-container .orbit-prev,
 .orbit-container .orbit-next {
   width: 48px;
@@ -1940,12 +2249,14 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .orbit-container .orbit-next > span {border: 0;}
 .orbit-timer {}
 .orbit-progress {}
-.orbit-slide-number {}
-.orbit-slides-container {}
 .orbit-bullets {margin: -.25rem 0 0;}
-.orbit-slides-container {}
+.orbit-slide-number {}
+.orbit-slides-container {
+  margin: 0;
+}
 .orbit-slides-container li {
   display: table;
+  width: 100%;
 }
 .orbit-slides-container .orbit-headline {
   display: table-cell;
@@ -2164,19 +2475,13 @@ input:focus + button + .error + .autocomplete {
 input:focus + button + .error + .autocomplete > ul {
   border-color: darkgray;
 }
-.css-debug .autocomplete ul > li:nth-child(odd) {
-  background-color: rgba(0, 255, 0, .5);
-}
-.css-debug .autocomplete ul > li:nth-child(even) {
-  background-color: rgba(0, 0, 255, .5);
-}
 
 /* ------------------------------------------------------------------ */
 /* # Validation Bar */
 /* ------------------------------------------------------------------ */
 
 .validation-bar {
-  display: none;
+  display: none; /* Visibility fix */
   position: relative;
   top: -.5rem;
   line-height: 2rem;
@@ -2480,7 +2785,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Sub Navigation Bar */
+/* # Tool Bar */
 /* ------------------------------------------------------------------ */
 
 .tool-bar {
@@ -2488,39 +2793,7 @@ input:focus + button + .error + .autocomplete > ul {
   padding-bottom: .5rem;
   border-bottom: .125rem dotted gainsboro;
 }
-.css-debug .tool-bar {
-  background-color: rgba(255, 255, 0, .25);
-}
 
-/*
-.tool-bar > .tool-box {}
-.tool-bar > .tool-box > a {}
-.tool-bar > .tool-box > .tool-list {}
-.tool-bar > .tool-box > .tool-list > li {}
-.tool-bar > .tool-box > .tool-list > li > a {}
-
-.tool-bar > .tool-box.inline {}
-.tool-bar > .tool-box.inline > a {}
-.tool-bar > .tool-box.inline > .tool-list {}
-.tool-bar > .tool-box.inline > .tool-list > li {}
-.tool-bar > .tool-box.inline > .tool-list > li > a {}
-*/
-
-/*
-.articles-list-options dl {}
-
-.articles-list-options dl dt, .articles-list-options dl dd {
-  display: table-cell;
-  padding: .5rem;
-}
-.articles-list-options dl dt a, .articles-list-options dl dd a {
-  background-color: black;
-  border-radius: .5rem;
-  padding: .125rem .5rem ;
-}
-.css-debug .articles-list-options dl dt:nth-child(odd), .articles-list-options dl dd:nth-child(odd) {background-color: rgba(0, 255, 0, .5);}
-.css-debug .articles-list-options dl dt:nth-child(even), .articles-list-options dl dd:nth-child(even) {background-color: rgba(0, 0, 255, .5);}
-*/
 /* ------------------------------------------------------------------ */
 /* # Articles List */
 /* ------------------------------------------------------------------ */
@@ -3219,16 +3492,14 @@ input:focus + button + .error + .autocomplete > ul {
 #toolbar a:focus {outline-offset: -.5rem;}
 #_null_links_toggle:before {content: 'Enable ';}
 #_null_links_toggle.active:before {content: 'Disable ';}
-
 #_css_fx_toggle:before,
 #_svg_fx_toggle:before,
 #_js_fx_toggle:before {content: 'Show ';}
 #_css_fx_toggle.active:before ,
 #_svg_fx_toggle.active:before,
 #_js_fx_toggle.active:before {content: 'Hide ';}
-
-#toolbar [id*="_css_debug_"]:before {content: 'Markup ';}
-#toolbar [id*="_css_debug_"].active:before {content: 'Unmark ';}
+#toolbar [id^="_css_debug_"]:not(.disabled):before {content: 'Markup ';}
+#toolbar [id^="_css_debug_"]:not(.disabled).active:before {content: 'Unmark ';}
 #_toolbar_stick_toggle:before {content: 'Undock ';}
 #_toolbar_stick_toggle.active:before {content: 'Dock ';}
 
@@ -3244,7 +3515,7 @@ input:focus + button + .error + .autocomplete > ul {
 #dev_testbar > input[type="range"] {margin: 0; vertical-align: middle;}
 
 /* ------------------------------------------------------------------ */
-/* # Font Sizing */
+/* # Responsive Font Sizing */
 /* ------------------------------------------------------------------ */
 
 /* Hi-res */
@@ -3305,71 +3576,99 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Display Sizing */
+/* # Fluid Containers Sizing */
 /* ------------------------------------------------------------------ */
 
 /* Hi-res */
 @media (min-width: 2880px) {
   .frame {left: 16.66666666666667%; width: 66.66666666666667%;}
+  .fast-nav {width: 94.8958333333333%;}
   [data-magellan-expedition] {left: 33.3333333333333%; min-width: 50%;}
 }
 @media (min-width: 2720px) and (max-width: 2879px) {
   .frame {left: 16.1764705882353%; width: 67.64705882352941%;}
+  .fast-nav {width: 94.8007246376812%;}
   [data-magellan-expedition] {left: 33.0882352941177%; min-width: 50.7352941176471%;}
 }
 @media (min-width: 2560px) and (max-width: 2719px) {
   .frame {left: 15.625%; width: 68.75%;}
+  .fast-nav {width: 94.6969696969697%;}
   [data-magellan-expedition] {left: 32.8125%; min-width: 51.5625%;}
 }
 @media (min-width: 2400px) and (max-width: 2559px) {
   .frame {left: 15%; width: 70%;}
+  .fast-nav {width: 94.5833333333333%;}
   [data-magellan-expedition] {left: 32.5%; min-width: 52.5%;}
 }
 @media (min-width: 2240px) and (max-width: 2399px) {
   .frame {left: 14.28571428571429%; width: 71.42857142857143%;}
+  .fast-nav {width: 94.4583333333333%;}
   [data-magellan-expedition] {left: 32.1428571428572%; min-width: 53.5714285714286%;}
 }
 @media (min-width: 2080px) and (max-width: 2239px) {
   .frame {left: 13.46153846153846%; width: 73.07692307692308%;}
+  .fast-nav {width: 94.3201754385965%;}
   [data-magellan-expedition] {left: 31.7307692307692%; min-width: 54.8076923076923%;}
 }
 @media (min-width: 1920px) and (max-width: 2079px) {
   .frame {left: 12.5%; width: 75%;}
+  .fast-nav {width: 94.1666666666667%;}
   [data-magellan-expedition] {left: 31.25%; min-width: 56.25%;}
 }
 @media (min-width: 1760px) and (max-width: 1919px) {
   .frame {left: 11.36363636363637%; width: 77.27272727272727%;}
+  .fast-nav {width: 93.9950980392157%;}
   [data-magellan-expedition] {left: 30.6818181818182%; min-width: 57.9545454545454%;}
 }
 
 /* Medium-res */
 @media (min-width: 1600px) and (max-width: 1759px) {
   .frame {left: 10%; width: 80%;}
+  .fast-nav {width: 93.8020833333333%;}
   [data-magellan-expedition] {left: 30%; min-width: 60%;}
 }
 @media (min-width: 1440px) and (max-width: 1599px) {
   .frame {left: 6.25%; width: 87.5%;}
+  .fast-nav {width: 93.8888888888889%;}
   [data-magellan-expedition] {left: 28.125%; min-width: 65.625%;}
 }
 @media (min-width: 1280px) and (max-width: 1439px) {
   .frame {left: 3.125%; width: 93.75%;}
+  .fast-nav {width: 93.7777777777778%;}
   [data-magellan-expedition] {left: 26.5625%; min-width: 70.3125%;}
 }
 @media (min-width: 1120px) and (max-width: 1279px) {
   .frame {left: 1.785714285714285%; width: 96.42857142857143%;}
+  .fast-nav {width: 93.3024691358025%;}
   [data-magellan-expedition] {left: 25.8928571428571%; min-width: 72.3214285714286%;}
 }
 
 /* Low-res */
+@media (min-width: 960px) and (max-width: 1119px) {
+  .fast-nav {width: 92.7083333333333%;}
+}
+@media (min-width: 800px) and (max-width: 959px) {
+  /*.fast-nav ul li a {font-size: 90%;} /* TEMP : font size adjustment for 800px to 959px display width */
+  .fast-nav {width: 91.5416666666667%;}
+}
+@media (min-width: 640px) and (max-width: 799px) {
+  .fast-nav {width: 92.34375%;}
+}
+@media (min-width: 480px) and (max-width: 639px) {
+  .fast-nav {width: 90.15625%;}
+}
+@media (max-width: 479px) {
+  .fast-nav {width: 85.78125%;}
+}
+
+/* ------------------------------------------------------------------ */
+/* # Various Responsive Sizing */
+/* ------------------------------------------------------------------ */
+
 @media (max-width: 1119px) {
   .frame > .nav-pane {
     border-left: 0;
   }
-}
-@media (min-width: 960px) and (max-width: 1119px) {
-}
-@media (min-width: 800px) and (max-width: 959px) {
-  .fast-nav ul li a {font-size: 90%;} /* TEMP : font size adjustment for 800px to 959px display width */
 }
 @media (max-width: 799px) {
   .frame > .nav-pane,
@@ -3394,6 +3693,7 @@ input:focus + button + .error + .autocomplete > ul {
     width: 33.33333333333333%;
     line-height: 3rem;
   }
+  /*
   .fast-nav {
     margin: 0;
     width: 100%;
@@ -3405,8 +3705,9 @@ input:focus + button + .error + .autocomplete > ul {
   }
   .fast-nav [class*='icon-'] {
     position: relative;
-    left: 40%; /* TEMP : center icon in box */
+    left: 40%;
   }
+  */
   [data-magellan-expedition] {
     width: 100%;
     left: 0;

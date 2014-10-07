@@ -15,35 +15,35 @@
 /* ------------------------------------------------------------------ */
 
 /* Effects transition */
-.icon.blur use,
-.icon.glow use,
-.icon.shadow use,
-.icon.bevel use {transition: all .25s;} /* TEMP */
+.css-fx .icon.blur use,
+.css-fx .icon.glow use,
+.css-fx .icon.shadow use,
+.css-fx .icon.bevel use {transition: all .25s;} /* TEMP */
 
 /* Blur Effect */
-.icon.blur use {filter: url(#blur);} 
-a.blur:not(.disabled):focus use, a.blur:not(.disabled):hover use,
-button.blur:not(.disabled):focus use, button.blur:not(.disabled):hover use {}
-a.blur:not(.disabled):active use, a.blur.active use,
-button.blur:not(.disabled):active use, button.blur.active use {opacity: .5;}
+.css-fx .icon.blur use {filter: url(#blur);} 
+.css-fx a.blur:not(.disabled):focus use, .css-fx a.blur:not(.disabled):hover use,
+.css-fx button.blur:not(.disabled):focus use, .css-fx button.blur:not(.disabled):hover use {}
+.css-fx a.blur:not(.disabled):active use, .css-fx a.blur.active use,
+.css-fx button.blur:not(.disabled):active use, .css-fx button.blur.active use {opacity: .5;}
 
 /* Glow Effect */
-.icon.glow use {filter: url(#glow);}
-a.glow:not(.disabled):focus use, a.glow:not(.disabled):hover use,
-button.glow:not(.disabled):focus use, button.glow:not(.disabled):hover use {}
-a.glow:not(.disabled):active use, a.glow.active use,
-button.glow:not(.disabled):active use, button.glow.active use {filter: url(#blur);}
+.css-fx .icon.glow use {filter: url(#glow);}
+.css-fx a.glow:not(.disabled):focus use, .css-fx a.glow:not(.disabled):hover use,
+.css-fx button.glow:not(.disabled):focus use, .css-fx button.glow:not(.disabled):hover use {}
+.css-fx a.glow:not(.disabled):active use, .css-fx a.glow.active use,
+.css-fx button.glow:not(.disabled):active use, .css-fx button.glow.active use {filter: url(#blur);}
 
 /* Shadow Effect */
-.icon.shadow use {filter: url(#shadow);}
-a.shadow:not(.disabled):focus use, a.shadow:not(.disabled):hover use,
-button.shadow:not(.disabled):focus use, button.shadow:not(.disabled):hover use {}
-a.shadow:not(.disabled):active use, a.shadow.active use,
-button.shadow:not(.disabled):active use, button.shadow.active use {filter: url(#shadow_over);}
+.css-fx .icon.shadow use {filter: url(#shadow);}
+.css-fx a.shadow:not(.disabled):focus use, .css-fx a.shadow:not(.disabled):hover use,
+.css-fx button.shadow:not(.disabled):focus use, .css-fx button.shadow:not(.disabled):hover use {}
+.css-fx a.shadow:not(.disabled):active use, .css-fx a.shadow.active use,
+.css-fx button.shadow:not(.disabled):active use, .css-fx button.shadow.active use {filter: url(#shadow_over);}
 
 /* Bevel Effect */
-.icon.bevel use {filter: url(#bevel); opacity: .5; fill: rgba(0, 0, 0, .75);}
-a.bevel:not(.disabled):focus use, a.bevel:not(.disabled):hover use,
-button.bevel:not(.disabled):focus use, button.bevel:not(.disabled):hover use {filter: url(#glow); opacity: 1; fill: white;}
-a.bevel:not(.disabled):active use, a.bevel.active use,
-button.bevel:not(.disabled):active use, button.bevel.active use {filter: url(#blur); opacity: .5;}
+.css-fx .icon.bevel use {filter: url(#bevel); opacity: .5; fill: rgba(0, 0, 0, .75);}
+.css-fx a.bevel:not(.disabled):focus use, .css-fx a.bevel:not(.disabled):hover use,
+.css-fx button.bevel:not(.disabled):focus use, .css-fx button.bevel:not(.disabled):hover use {filter: url(#glow); opacity: 1; fill: white;}
+.css-fx a.bevel:not(.disabled):active use, .css-fx a.bevel.active use,
+.css-fx button.bevel:not(.disabled):active use, .css-fx button.bevel.active use {filter: url(#blur); opacity: .5;}

@@ -107,7 +107,7 @@
 .css-fx .frame > .nav-pane input:focus {box-shadow: 1px 1px 2.5px 0 rgba(0, 0, 0, .5) inset, 1px 1px 0 0 rgba(255, 255, 255, .25), 0 0 .75rem .25rem #a8c;}
 
 /* Navs */
-.css-fx .user-nav {box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);}
+.css-fx .user-nav {box-shadow: .125rem .125rem .5rem .125rem rgba(0, 0, 0, .25);}
 .css-fx .user-nav .user-name {text-shadow: .05rem .05rem .05rem rgba(0, 0, 0, .5);}
 .css-fx .main-nav {
   -webkit-transition: top .5s ease-out; /* Sliding effect */
@@ -279,89 +279,128 @@
 /* ------------------------------------------------------------------ */
 
 /* Icons */
-[class^="icon-"].css-debug, [class*="icon-"].css-debug {background-color: rgba(255, 255, 0, .5);}
+.css-debug.icon {background-color: rgba(255, 255, 0, .25);}
+.css-debug.icon > svg {background-color: rgba(0, 255, 0, .25);}
+.css-debug.icon > .text {background-color: rgba(0, 255, 255, .25);}
+
+/* Frame */
 
 /* Nav Pane */
-.css-debug.nav-pane {background-color: rgba(0, 255, 255, .25);}
-.css-debug.nav-pane .logo {background-color: rgba(255, 0, 0, .25);}
-.css-debug.nav-pane .main-nav {background-color: rgba(255, 0, 255, .25);}
-.css-debug.nav-pane .main-nav ul {background-color: rgba(0, 255, 0, .25);}
-.css-debug.nav-pane .main-nav li {background-color: rgba(255, 255, 0, .25);}
+.css-debug .nav-pane {background-color: rgba(255, 255, 0, .25);}
+.css-debug .nav-pane .logo {background-color: rgba(255, 0, 0, .25);}
+.css-debug .nav-pane ul {background-color: rgba(255, 0, 255, .25);}
+.css-debug .nav-pane ul li:nth-child(odd) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .nav-pane ul li:nth-child(even) {background-color: rgba(0, 0, 255, .25);}
+
+/* Main Pane */
+
+/* Header */
+.css-debug .header .right {background-color: rgba(0, 0, 255, .25);} /* user-connect icon container */
+
+/* Section */
+
+/* Footer */
+
+/* Main Nav */
 
 /* Fast Nav */
-.css-debug.fast-nav {background-color: rgba(255, 0, 255, .25);}
+.css-debug .fast-nav {background-color: rgba(255, 255, 0, .25);}
+.css-debug .fast-nav .prev,
+.css-debug .fast-nav .next {background: rgba(255, 0, 0, .25);}
+.css-debug .fast-nav ul {background-color: rgba(255, 0, 255, .25);}
+.css-debug .fast-nav ul li:nth-child(odd) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .fast-nav ul li:nth-child(even) {background-color: rgba(0, 0, 255, .25);}
+
 
 /* Site Nav */
-.css-debug.site-nav {background-color: rgba(0, 255, 255, .25);}
-.css-debug.site-nav ul li {background-color: rgba(255, 0, 0, .5);}
-.css-debug.site-nav ul li:before {background-color: rgba(0, 0, 255, .25);}
-.css-debug.site-nav [class^="icon-"], .site-nav.css-debug [class*="icon-"] {background-color: rgba(0, 255, 0, .25);}
+.css-debug .site-nav {background-color: rgba(0, 255, 255, .25);}
+.css-debug .site-nav ul li {background-color: rgba(255, 0, 0, .5);}
+.css-debug .site-nav ul li:before {background-color: rgba(0, 0, 255, .25);}
 
 /* Accessibility */
-.css-debug.accessibility {background-color: rgba(255, 0, 0, .25);}
-.css-debug.accessibility ul {background-color: rgba(0, 255, 0, .25);}
-.css-debug.accessibility ul li {background-color: rgba(0, 0, 255, .25);}
+/*
+.css-debug .accessibility {background-color: rgba(255, 0, 0, .25);}
+.css-debug .accessibility ul {background-color: rgba(0, 255, 0, .25);}
+.css-debug .accessibility ul li {background-color: rgba(0, 0, 255, .25);}
+*/
 
 /* Breadcrumbs */
-.css-debug.breadcrumbs {background-color: rgba(255, 0, 0, .25);}
-.css-debug.breadcrumbs ul {background-color: rgba(0, 255, 0, .25);}
-.css-debug.breadcrumbs ul li {background-color: rgba(0, 0, 255, .25);}
+/*
+.css-debug .breadcrumbs {background-color: rgba(255, 0, 0, .25);}
+.css-debug .breadcrumbs ul {background-color: rgba(0, 255, 0, .25);}
+.css-debug .breadcrumbs ul li {background-color: rgba(0, 0, 255, .25);}
+*/
+
+/* Sub Navs */
+.css-debug .sub-nav dt:nth-child(odd),
+.css-debug .sub-nav dd:nth-child(odd),
+.css-debug .sub-nav li:nth-child(odd) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .sub-nav dt:nth-child(even),
+.css-debug .sub-nav dd:nth-child(even),
+.css-debug .sub-nav li:nth-child(even) {background-color: rgba(0, 0, 255, .25);}
 
 /* Orbit Slider */
-.css-debug.orbit-container h1:nth-child(odd),
-.css-debug.orbit-container h2:nth-child(odd),
-.css-debug.orbit-container h3:nth-child(odd),
-.css-debug.orbit-container h5:nth-child(odd),
-.css-debug.orbit-container h4:nth-child(odd),
-.css-debug.orbit-container h6:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
-.css-debug.orbit-container h1:nth-child(even),
-.css-debug.orbit-container h2:nth-child(even),
-.css-debug.orbit-container h3:nth-child(even),
-.css-debug.orbit-container h5:nth-child(even),
-.css-debug.orbit-container h4:nth-child(even),
-.css-debug.orbit-container h6:nth-child(even) {background-color: rgba(0, 255, 0, .25);}
-.css-debug.orbit-container blockquote {background-color: rgba(255, 255, 0, .25);}
-.css-debug.orbit-container blockquote cite {background-color: rgba(0, 255, 255, .25);}
+.css-debug .orbit-container {background-color: rgba(255, 255, 0, .25); /* DEBUG */}
+.css-debug .orbit-container h1:nth-child(odd),
+.css-debug .orbit-container h2:nth-child(odd),
+.css-debug .orbit-container h3:nth-child(odd),
+.css-debug .orbit-container h5:nth-child(odd),
+.css-debug .orbit-container h4:nth-child(odd),
+.css-debug .orbit-container h6:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
+.css-debug .orbit-container h1:nth-child(even),
+.css-debug .orbit-container h2:nth-child(even),
+.css-debug .orbit-container h3:nth-child(even),
+.css-debug .orbit-container h5:nth-child(even),
+.css-debug .orbit-container h4:nth-child(even),
+.css-debug .orbit-container h6:nth-child(even) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .orbit-container blockquote {background-color: rgba(255, 255, 0, .25);}
+.css-debug .orbit-container blockquote cite {background-color: rgba(0, 255, 255, .25);}
+.css-debug .orbit-slides-container {background-color: rgba(255, 0, 0, .25);}
+
+/* Autocomplete */
+.css-debug .autocomplete ul > li:nth-child(odd) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .autocomplete ul > li:nth-child(even) {background-color: rgba(0, 0, 255, .25);}
+
+/* Toolbar */
+.css-debug .tool-bar {background-color: rgba(255, 255, 0, .25);}
 
 /* Articles */
-.css-debug [class*='icon-'] {background-color: rgba(255, 0, 255, .5);}
-.css-debug.article .topic .title {background-color: rgba(255, 0, 0, .5);}
-.css-debug.article .topic .author {background-color: rgba(0, 255, 0, .5);}
-.css-debug.article .topic .date {background-color: rgba(0, 0, 255, .5);}
-.css-debug.article .topic .summary {background-color: rgba(255, 255, 0, .5);}
-.css-debug.article .topic .tags {background-color: rgba(0, 0, 255, .5);}
-.css-debug.article .column h1,
-.css-debug.article .column h2,
-.css-debug.article .column h3,
-.css-debug.article .column h4,
-.css-debug.article .column h5,
-.css-debug.article .column h6 {background-color: rgba(255, 255, 0, .25);}
-.css-debug.article .column p {background-color: rgba(0, 255, 255, .25);}
-.css-debug.article .column p + p:last-child {background-color: rgba(255, 0, 0, .25);}
-.css-debug.article .column > *:first-child {background-color: rgba(255, 0, 0, .5);}
-.css-debug.article .column > *:last-child {background-color: rgba(0, 0, 255, .5);}
-.css-debug.article .column > .author {background-color: rgba(0, 255, 0, .5);}
-.css-debug.article .column .callout {background-color: rgba(255, 0, 255, .5);}
-.css-debug.article .column .collapse {background-color: rgba(0, 255, 0, .5);}
+.css-debug .article .title {background-color: rgba(255, 0, 0, .25);}
+.css-debug .article .author:not(p) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .article .date {background-color: rgba(0, 0, 255, .25);}
+.css-debug .article .summary {background-color: rgba(255, 255, 0, .25);}
+.css-debug .article .tags {background-color: rgba(0, 255, 255, .25);}
+.css-debug .article h1,
+.css-debug .article h2,
+.css-debug .article h3,
+.css-debug .article h4,
+.css-debug .article h5,
+.css-debug .article h6 {background-color: rgba(255, 0, 0, .25);}
+.css-debug .article p {background-color: rgba(255, 255, 0, .25);}
+.css-debug .article p + p:last-child {background-color: rgba(255, 0, 255, .25);}
+.css-debug .article > *:first-child {background-color: rgba(255, 0, 0, .25);}
+.css-debug .article > *:last-child {background-color: rgba(0, 0, 255, .25);}
+.css-debug .article p.author {background-color: rgba(0, 255, 255, .25);}
+.css-debug .article .callout {background-color: rgba(255, 0, 255, .25);}
 
 /* Articles List */
-.css-debug.articles-list li:nth-child(odd) {background-color: rgba(255, 0, 0, .5);}
-.css-debug.articles-list li:nth-child(even) {background-color: rgba(255, 255, 0, .5);}
-.css-debug.articles-list li h4 {background-color: rgba(0, 255, 0, .5);}
-.css-debug.articles-list li h5 {background-color: rgba(0, 255, 255, .5);}
-.css-debug.articles-list li > ul {background-color: rgba(0, 255, 255, .5);}
-.css-debug.articles-list li .href-block {}
-.css-debug.articles-list li .title {background-color: rgba(0, 255, 0, .5);}
-.css-debug.articles-list li .summary {background-color: rgba(255, 0, 0, .5);}
-.css-debug.articles-list li .date {background-color: rgba(255, 255, 0, .5);}
-.css-debug.articles-list li .author {background-color: rgba(0, 255, 0, .5);}
+.css-debug .articles-list li:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
+.css-debug .articles-list li:nth-child(even) {background-color: rgba(255, 255, 0, .25);}
+.css-debug .articles-list li h4 {background-color: rgba(0, 255, 0, .25);}
+.css-debug .articles-list li h5 {background-color: rgba(0, 255, 255, .25);}
+.css-debug .articles-list li > ul {background-color: rgba(0, 255, 255, .25);}
+.css-debug .articles-list li .href-block {}
+.css-debug .articles-list li .title {background-color: rgba(0, 255, 0, .25);}
+.css-debug .articles-list li .summary {background-color: rgba(255, 0, 0, .25);}
+.css-debug .articles-list li .date {background-color: rgba(255, 255, 0, .25);}
+.css-debug .articles-list li .author {background-color: rgba(0, 255, 0, .25);}
 
 /* Comment List */
-.css-debug.comment-list .column:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
-.css-debug.comment-list .column:nth-child(even) {background-color: rgba(0, 255, 0, .25);}
-.css-debug.comment-list .topic {background-color: rgba(0, 0, 255, .25);}
-.css-debug.comment-list .date {background-color: rgba(255, 255, 0, .25);}
-.css-debug.comment-list .post {background-color: rgba(255, 0, 255, .25);}
+.css-debug .comment-list .column:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
+.css-debug .comment-list .column:nth-child(even) {background-color: rgba(0, 255, 0, .25);}
+.css-debug .comment-list .topic {background-color: rgba(0, 0, 255, .25);}
+.css-debug .comment-list .date {background-color: rgba(255, 255, 0, .25);}
+.css-debug .comment-list .post {background-color: rgba(255, 0, 255, .25);}
 
 /* User Profile */
 .css-debug .user-profile .user-name {background-color: rgba(0, 0, 255, .25);}
