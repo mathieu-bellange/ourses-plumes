@@ -4,7 +4,7 @@
 
 set_page_title($nav.bug_add.title);
 
-$("main > header").after(loadfile($loc.tmpl + "bug-add.tmpl"));
+$("main > header").after(loadfile($loc.tmpl + "bug-report.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

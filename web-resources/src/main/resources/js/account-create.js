@@ -4,7 +4,7 @@
 
 set_page_title($nav.account_add.title);
 
-$("main > header").after(loadfile($loc.tmpl + "account-add.tmpl"));
+$("main > header").after(loadfile($loc.tmpl + "account-create.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

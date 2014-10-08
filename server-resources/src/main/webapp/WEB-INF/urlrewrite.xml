@@ -27,7 +27,7 @@
 	<rule>
 		<note>redirection vers la page d'ajout d'un bug github</note>
 		<from>^/bug/nouveau$</from>
-		<to>/bug-add.html</to>
+		<to>/bug-report.html</to>
 	</rule>
 
 	<rule>
@@ -39,7 +39,7 @@
 	<rule>
 		<note>redirection vers la page de création d'un compte</note>
 		<from>^/comptes/nouveau$</from>
-		<to>/account-add.html</to>
+		<to>/account-create.html</to>
 	</rule>
 
 	<rule>
