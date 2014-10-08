@@ -906,6 +906,7 @@ html input[disabled] {
 /* # Text Coloring */
 /* ------------------------------------------------------------------ */
 
+/* Text Colors */
 .text-white {color: white;}
 .text-platinum {color: #e0e0e0;}
 .text-silver {color: silver;}
@@ -915,6 +916,11 @@ html input[disabled] {
 .text-carbon {#404040}
 .text-coal {#202020}
 .text-black {color: black;}
+
+/* Text Visibility */
+.text-hidden {visibility: hidden;}
+.text-transparent {color: transparent;}
+.text-translucid {opacity: .5;}
 
 /* Named Rubrics Colors */
 .red, li.red > a {color: #c33;}
@@ -1181,9 +1187,15 @@ a.disabled {
 /* ------------------------------------------------------------------ */
 
 .close {
+  font-size: 1.5rem;
+  font-weight: bold;
   text-decoration: none; /* TEMP : links underline fix */
+  opacity: .5;
 }
-
+.close:hover,
+.close:focus {
+  opacity: 1;
+}
 .close:after,
 [class^="close-"]:after,
 [class*="close-"]:after,
@@ -1191,7 +1203,6 @@ a.disabled {
 [class*="-close"]:after,
 [class*="-close-"]:after {
   content: "×";
-  margin: .25em;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1410,7 +1421,7 @@ a.disabled {
   position: absolute;
   top: 3.5rem;
   right: -.5rem;
-  width: 14rem; /* TEMP */
+  width: 16rem; /* TEMP */
   padding: .5rem;
   background-color: white;
   border: .125rem solid silver;
@@ -1433,11 +1444,29 @@ a.disabled {
   top: -1.375rem;
   border-bottom-color: white;
 }
-.user-nav .user-name {
-  margin-top: 0;
-  color: white;
-  word-wrap: break-word; /* Fix long strings */
+.user-nav div:first-of-type {
+  margin-bottom: .5rem;
   background-color: #d4a;
+  line-height: 2.5rem;
+}
+.user-nav .close {
+  display: inline-block;
+  float: right;
+  width: 15%;
+  color: white;
+  line-height: inherit;
+  text-align: center;
+}
+.user-nav .user-name {
+  display: inline-block;
+  float: left;
+  width: 85%;
+  margin: 0;
+  padding-left: .5rem;
+  font-size: 1.5rem;
+  color: white;
+  line-height: inherit;
+  word-wrap: break-word; /* Fix long strings */
 }
 .user-nav ul {
   margin-left: 0;
@@ -1988,6 +2017,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   top: 0; /* Foundation Override */
   margin: 0; /* Foundation Override */
   padding: 0; /* Foundation Override */
+  font-size: 1.5rem; /* Foundation Override */
   line-height: inherit; /* Foundation Override */
 }
 .alert-box .close:after {
@@ -2032,12 +2062,10 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* ------------------------------------------------------------------ */
 
 .label, a.label {
-  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
-  padding: .375rem .5rem;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
+  padding: .375rem; /* Foundation override */
   color: white;
-  font-size: .75em;
-  font-weight: normal;
-  font-style: normal;
+  font-size: .875rem; /* Foundation override */
   background-color: #a8c;
 }
 /*.css-fx .label, .css-fx a.label {font-family: "Nobile", sans-serif;}*/
@@ -2090,13 +2118,15 @@ a.label.internat:hover, a.label.internat:focus {background-color: #248;}
 .label.ourbody {background-color: #e2a;}
 a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 
+/* Hide */
 .label.hide {display: none;} /* Visibility fix */
 
+/* Close */
 .label .close {
-  color: white;
-  opacity: .5;
+  margin-left: .25rem;
+  font-size: 1rem;
+  color: inherit;
 }
-.label .close:hover {opacity: .75;}
 
 /* ------------------------------------------------------------------ */
 /* # Pagination */

@@ -1,7 +1,10 @@
 ﻿					<!--User Nav-->
 					<nav id="user_menu" class="user-nav text-center" style="display: none;">
 						<h3 class="hide">Menu utilisateur</h3>
-						<h4 class="user-name">{{= window.localStorage.getItem($auth.user_name) }}</h4>
+						<div class="clearfix">
+							<a href="javascript:void(0)" class="close"></a><span class="hide">Fermer</span>
+							<h4 class="user-name">{{= window.localStorage.getItem($auth.user_name) }}</h4>
+						</div>
 						<ul>
 							<li><span id="user_avatar" class="picture medium radius" data-image="{{= window.localStorage.getItem($auth.avatar_path) }}">Image</span></li>
 							<li><a href="{{= $nav.account_edit.url }}">Mon compte</a></li>

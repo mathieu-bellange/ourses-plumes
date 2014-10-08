@@ -397,7 +397,7 @@ jQuery.fn.extend({
 			}
 			function setup(obj) {
 				var outer_width = get_items_width(obj, settings.item_selector); // internal ; compute total width
-				if (obj.width() < outer_width) { // setup module if needed
+				if (obj.width() < outer_width) { // setup component if needed
 					$(".prev, .next").show(); // show slider controls
 					// define vars
 					var prev = {
@@ -764,12 +764,12 @@ jQuery.fn.extend({
 	create_alert_box : function(msg, id, opts) {
 		var msg = msg || $msg.error, id = id || "alert_box";
 		var defs = {
-			"class"           : "error",              // String   CSS Class name of the alert box (null to none). Default : "error"
-			"icon"            : "warning",            // String   CSS Class name of the message icon (null to none). Default : "warning"
-			"timeout"         : 0,                    // Integer  Time before alert box fade out (zero to never). Default : 0
-			"scroll"          : true,                 // Boolean  Scroll to alert box after insertion. Default : true
-			"scroll_duration" : 500,                  // Integer  Duration of the scrolling effect. Default : 500
-			"fade_duration"   : 500                   // Integer  Duration of the fading effeet. Default : 500
+			"class"           : "error",    // String   CSS Class name of the alert box (null to none). Default : "error"
+			"icon"            : "warning",  // String   CSS Class name of the message icon (null to none). Default : "warning"
+			"timeout"         : 0,          // Integer  Time before alert box fade out (zero to never). Default : 0
+			"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
+			"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
+			"fade_duration"   : 500         // Integer  Duration of the fading effeet. Default : 500
 		};
 		var cfg = $.extend({}, defs, opts);
 		var sel = "#" + id; // internal
@@ -795,6 +795,106 @@ jQuery.fn.extend({
 });
 
 /* ------------------------------------------------------------------ */
+/* # Components (global) */
+/* ------------------------------------------------------------------ */
+
+var user_menu = (function() {
+	return {
+		init : function(opts) {
+			// vars
+			var defs = {
+				"target"   : "#user_menu",      // String    jQuery selector of user menu. Default : "#user_menu"
+				"trigger"  : "#user_connect",   // String    jQuery selector of user menu trigger. Default : "#user_connected"
+				"duration" : 500,               // Numeric   Animation base duration for open and close events (millisecond). Default : 500
+				"timeout"  : 1000               // Numeric   Time before user menu disappears when focus is lost (millisecond). Default : 1000
+			};
+			var cfg = $.extend({}, defs, opts);
+			var user_menu_timeout = 0; // internal
+			// functions
+			function show_menu(sel, d) {
+				var d = d || cfg.duration;
+				$(sel).css({"opacity" : "0"});
+				$(sel).show();
+				$(sel).find("a").first().focus();
+				$(sel).animate({
+					"opacity" : "1"
+				}, $conf.js_fx ? d : 0, function() {
+					$(sel).data("open", true);
+				});
+			}
+			function hide_menu(sel, d) {
+				var d = d || cfg.duration / 2;
+				$(sel).animate({
+					"opacity" : ""
+				}, $conf.js_fx ? d : 0, function() {
+					$(sel).hide()
+					$(sel).data("open", false);
+				});
+			}
+			function open_menu(sel) {
+				$(sel).finish()
+				show_menu(sel);
+			}
+			function close_menu(sel) {
+				$(sel).finish()
+				clearTimeout(user_menu_timeout);
+				hide_menu(sel);
+			}
+			// events
+			$("html").on("click", cfg.trigger, function() {
+				var done = (function() {
+					if ($(cfg.trigger).data("connected") == true) {
+						$(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
+					} else {
+						set_user_connected(true); // connect user
+						createAlertBox($msg.connected, "alert_auth", {"class" : "success"})
+					}
+				});
+				var fail = (function() {
+					if ($(cfg.trigger).data("connected") == true) {
+						set_user_connected(false); // set not connected
+						disconnect($msg.disconnected); // disconnect
+					} else {
+						window.location.href = $nav.login.url; // redirect to the login page
+					}
+				});
+				////////////////////////////////////////////////////////////////
+				// Local TEST block : can be removed
+				////////////////////////////////////////////////////////////////
+				// set_user_connected(true); // connect user
+				// $(cfg.trigger).data("connected", true);
+				// $(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
+				////////////////////////////////////////////////////////////////
+				checkAuthc(done, fail);
+				$(this).toggleClass("active");
+				$(this).blur();
+				////////////////////////////////////////////////////////////////
+			});
+			$("html").on("keydown", cfg.target, function(e) {
+				if (e.which == 27) { // Esc
+					close_menu(cfg.target);
+				}
+			});
+			$("html").on("focus", cfg.target + " a", function() {
+				clearTimeout(user_menu_timeout);
+			});
+			$("html").on("blur", cfg.target + " a", function() {
+				user_menu_timeout = setTimeout(function() {
+					hide_menu(cfg.target);
+				}, cfg.timeout);
+			});
+			$("html").on("click", cfg.target + " .disconnect", function() {
+				set_user_connected(false);
+				disconnect($msg.user_disconnected);
+			});
+			$("html").on("click", cfg.target + " .close", function(e) {
+				close_menu(cfg.target);
+			});
+		}
+	}
+}());
+
+/* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
 /*
@@ -817,7 +917,8 @@ var loap = (function() {
 		init: function() {
 			this.update();
 			$(document).placeholder(); // set placeholder for whole document
-			$(document).zlider();
+			$(document).zlider(); // launch zlider for whole document
+			user_menu.init(); // setup user menu
 		}
 	};
 }());
@@ -979,91 +1080,23 @@ function disconnect(str) {
 }
 
 /* Set user connected
- * A dirty mess lies below ...
- * Now that user connected auth check has been deferred to ready state,
- * it's useless to handle cases of plugins initialization.
- * TODO : remove is_plugin_initialized? conditions
+ * NOTE : connected auth check has been deferred to ready state.
  */
-
 function set_user_connected(is_connected) {
 	var is_connected = is_connected || false, sel = "#user_connect";
 	if (is_connected) {
-		/*
-		if ($(sel).hasClass("icon-connect")) { // svg_icons not loaded
-			$(sel).removeClass("icon-connect");
-			$(sel).addClass("icon-menu");
-		} else { // svg_icons loaded
-			$(sel + " svg use").attr("xlink:href", "#icon-menu");
-		}
-		*/
 		$(sel + " svg use").attr("xlink:href", "#icon-menu");
 		$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
-		/*
-		if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
-			$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
-		} else { // Foundation tooltip plugin isn't initialized
-			$(sel).attr("title", "Menu"); // change title attribute before Foundation tooltip plugin initialize
-		}
-		*/
 		$(sel).data("connected", true); // register connected state in local data var
 		$(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 	} else {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
-		/*
-		if ($(sel).hasClass("icon-menu")) { // svg_icons not loaded
-			$(sel).removeClass("icon-menu");
-			$(sel).addClass("icon-connect");
-		} else { // svg_icons loaded
-			$(sel + " svg use").attr("xlink:href", "#icon-connect");
-		}
-		*/
 		$(sel + " svg use").attr("xlink:href", "#icon-connect");
 		$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
-		/*
-		if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
-			$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
-		} else { // Foundation tooltip plugin isn't initialized
-			$(sel).attr("title", "S&rsquo;identifier"); // change title attribute before Foundation tooltip plugin initialize
-		}
-		*/
 		$(sel).data("connected", false); // register connected state in local data var
 	}
 }
-
-// function set_user_connected(is_connected) {
-	// var is_connected = is_connected || false, sel = "#user_connect";
-	// if (is_connected) {
-		// if ($(sel).hasClass("icon-connect")) { // svg_icons not loaded
-			// $(sel).removeClass("icon-connect");
-			// $(sel).addClass("icon-menu");
-		// } else { // svg_icons loaded
-			// $(sel + " svg use").attr("xlink:href", "#icon-menu");
-		// }
-		// if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
-			// $(sel).reload_tooltip("Menu"); // reset Foundation tooltip
-		// } else { // Foundation tooltip plugin isn't initialized
-			// $(sel).attr("title", "Menu"); // change title attribute before Foundation tooltip plugin initialize
-		// }
-		// $(sel).data("connected", true); // register connected state in local data var
-		// $(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
-		// $("#user_menu").user_pictures(); // reload user pictures of user menu
-	// } else {
-		// $("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
-		// if ($(sel).hasClass("icon-menu")) { // svg_icons not loaded
-			// $(sel).removeClass("icon-menu");
-			// $(sel).addClass("icon-connect");
-		// } else { // svg_icons loaded
-			// $(sel + " svg use").attr("xlink:href", "#icon-connect");
-		// }
-		// if ($(sel).attr("title") == "") { // Foundation tooltip plugin is initialized
-			// $(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
-		// } else { // Foundation tooltip plugin isn't initialized
-			// $(sel).attr("title", "S&rsquo;identifier"); // change title attribute before Foundation tooltip plugin initialize
-		// }
-		// $(sel).data("connected", false); // register connected state in local data var
-	// }
-// }
 
 /* Check prefs object */
 function has_prefs(prefs) {
@@ -1212,37 +1245,6 @@ if ($build.icons) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Active Section Toggler */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$(document).ready(function() {
-	var url = window.location.pathname;
-	var q = /[a-zA-Z-_]*\.(?:html|htm)/;
-	var page = url.match(q);
-	var selector = location.hash // assumed it's section id
-	if ($(selector).hasClass("hide")) { // Show active section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-	}
-});
-*/
-
-/* UNUSED */
-/*
-// Handle inner anchor click event ; need to check history.back() for inner anchors
-$("html").on("click", "[href*='#']", function() {
-	var arr = $(this).attr("href").split("#");
-	var selector = "#" + arr[1];
-	if ($(selector).hasClass("hide")) { // Show active section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-}
-});
-*/
-
-/* ------------------------------------------------------------------ */
 /* # Toolbar */
 /* ------------------------------------------------------------------ */
 
@@ -1377,12 +1379,167 @@ $(document).ready(function() {
 });
 
 /* ------------------------------------------------------------------ */
+/* # Links */
+/* ------------------------------------------------------------------ */
+
+/* UNUSED */
+/*
+// Links Focus Fix (for Chrome)
+$("html").on("click", "a", function() {
+	if (!$(this).is(":focus")) {
+		// $(this).focus(); // BUG : conflict with CKEditor combo boxes
+	}
+});
+*/
+
+/* ------------------------------------------------------------------ */
+/* # Active Section Toggler */
+/* ------------------------------------------------------------------ */
+
+/* UNUSED */
+/*
+$(document).ready(function() {
+	var url = window.location.pathname;
+	var q = /[a-zA-Z-_]*\.(?:html|htm)/;
+	var page = url.match(q);
+	var selector = location.hash // assumed it's section id
+	if ($(selector).hasClass("hide")) { // Show active section
+		$(".main-pane > section").addClass("hide");
+		$(selector).removeClass("hide");
+	}
+});
+*/
+
+/* UNUSED */
+/*
+// Handle inner anchor click event ; need to check history.back() for inner anchors
+$("html").on("click", "[href*='#']", function() {
+	var arr = $(this).attr("href").split("#");
+	var selector = "#" + arr[1];
+	if ($(selector).hasClass("hide")) { // Show active section
+		$(".main-pane > section").addClass("hide");
+		$(selector).removeClass("hide");
+}
+});
+*/
+
+/* ------------------------------------------------------------------ */
+/* # Accordions */
+/* ------------------------------------------------------------------ */
+
+/* UNUSED (for now) */
+/* Accordion Active Switcher */
+/*
+$(".accordion dd > a").click(function() {
+	$(this).parent("dd").siblings().children().removeClass("active");
+	$(this).toggleClass("active");
+});
+*/
+
+/* ------------------------------------------------------------------ */
+/* # Alert Boxes */
+/* ------------------------------------------------------------------ */
+
+/* Close Alert Boxes */
+$(document).ready(function() {
+	$("html").on("click", ".alert-box .close", function() {
+		var self = $(this).parent(".alert-box");
+		$(self).children().css("visibility", "hidden"); // mask box content
+		$(self).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? 500 : 0, function() { // hide alert box
+			self.remove();
+		});
+	});
+});
+
+/* ------------------------------------------------------------------ */
+/* # Pagination */
+/* ------------------------------------------------------------------ */
+
+/* UNUSED (for now) */
+/*
+$(".pagination li a").click(function() {
+	if (!$(this).parent("li").hasClass("unavailable")) {
+		if (!$(this).hasClass("disabled")) {
+			$(this).parent("li").siblings().removeClass("current");
+			$(this).parent("li").toggleClass("current");
+		}
+	}
+});
+*/
+
+/* ------------------------------------------------------------------ */
+/* # Navigation */
+/* ------------------------------------------------------------------ */
+
+/* UNUSED */
+/*
+// Disabled Flag for Pseudo-element :before
+// Get Fucky feat. Farrel Williams,
+// jQuery doesn't recognize pseudo-elements
+$(document).ready(function() {
+	$(".site-nav ul li .disabled").parent("li:before").css("opacity", .5);
+});
+*/
+
+/* UNUSED */
+/*
+// Display Section Switchers
+$("html").on("click", "[data-show]", function() {
+	var selector = "#" + $(this).attr("data-show")
+	if ($(selector).hasClass("hide")) {
+		// Display section
+		$(".main-pane > section").addClass("hide");
+		$(selector).removeClass("hide");
+		// Refresh Breadcrumbs
+		refresh_breadcrumbs($(this));
+	}
+});
+*/
+
+// Navigation Links Current Switcher
+$("html").on("click", "[class*='-nav'] ul li a", function() {
+	var selector = $(this);
+	if (!selector.hasClass("no-current")) {
+		if (!selector.hasClass("disabled")) {
+			$("[class*='-nav'] ul li a").removeClass("current");
+		}
+		selector.not(".disabled").addClass("current");
+	}
+});
+
+/* ------------------------------------------------------------------ */
+/* # Sub Navigation */
+/* ------------------------------------------------------------------ */
+
+/* Toggle Sub Navigation Links */
+$(document).ready(function() {
+	$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
+		if ($(this).attr("id") == "search_button"
+		 || $(this).attr("id") == "filter_button"
+		 || $(this).parent("li").parent("ul").attr("id") == "search_filters"
+		 || $(this).parent("li").parent("ul").attr("id") == "filters_list") { // exception list ; rather ugly
+			// do nothing !
+		} else {
+			if (!$(this).hasClass("unavailable") && !$(this).hasClass("disabled")) {
+				if ($(this).parents(".sub-nav").hasClass("toggle")) { // toggle children only
+					$(this).parent("dt, dd, li").siblings().children("a").removeClass("active");
+				} else if ($(this).parents(".sub-nav").hasClass("toggle-all")) { // toggle even parents
+					$(this).parents("dl, ul").find("dd a, dt a, li a").not($(this)).removeClass("active");
+				}
+				$(this).toggleClass("active");
+				$(this).blur();
+			}
+		}
+	});
+});
+
+/* ------------------------------------------------------------------ */
 /* # Main Navigation */
 /* ------------------------------------------------------------------ */
 
 /* UNUSED */
-/* Main Navigation Sub List Visibility Toggler */
 /*
+// Main Navigation Sub List Visibility Toggler
 $(".main-nav [data-roll='sub-list']").mouseenter(function() {
 	var handler = $(this);
 	handler.data("hover", true);
@@ -1396,10 +1553,10 @@ $(".main-nav .sub-list ul").mouseenter(function() {
 	$(this).data("hover", true);
 });
 $(".main-nav").mouseenter(function() {
-	clearTimeout(main_nav_sub_list_close_timeout);
+	clearTimeout(main_nav_sub_listimeout_timeout);
 });
 $(".main-nav").mouseleave(function() {
-	main_nav_sub_list_close_timeout = setTimeout(function() {
+	main_nav_sub_listimeout_timeout = setTimeout(function() {
 		if ($(".main-nav .sub-list ul").data("hover") != true) {
 			$(".main-nav .sub-list ul").slideUp("fast");
 		}
@@ -1538,189 +1695,6 @@ $(".accessibility .icon-textdec").click(function() {
 	$("section").toggleClass("text-small");
 });
 */
-
-/* ------------------------------------------------------------------ */
-/* # Accordions */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED for now ... maybe later ? */
-/* Accordion Active Switcher */
-/*
-$(".accordion dd > a").click(function() {
-	$(this).parent("dd").siblings().children().removeClass("active");
-	$(this).toggleClass("active");
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Sub Navigation */
-/* ------------------------------------------------------------------ */
-
-$(document).ready(function() {
-	/* Sub Navigation Switcher */
-	$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
-		if ($(this).attr("id") == "search_button"
-		 || $(this).attr("id") == "filter_button"
-		 || $(this).parent("li").parent("ul").attr("id") == "search_filters"
-		 || $(this).parent("li").parent("ul").attr("id") == "filters_list") { // exception list ; rather ugly
-			// do nothing !
-		} else {
-			if (!$(this).hasClass("unavailable") && !$(this).hasClass("disabled")) {
-				if ($(this).parents(".sub-nav").hasClass("toggle")) { // toggle children only
-					$(this).parent("dt, dd, li").siblings().children("a").removeClass("active");
-				} else if ($(this).parents(".sub-nav").hasClass("toggle-all")) { // toggle even parents
-					$(this).parents("dl, ul").find("dd a, dt a, li a").not($(this)).removeClass("active");
-				}
-				$(this).toggleClass("active");
-				$(this).blur();
-			}
-		}
-	});
-})
-
-/* ------------------------------------------------------------------ */
-/* # Pagination */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED for now ... maybe later ? */
-/* Pagination Switcher */
-/*
-$(".pagination li a").click(function() {
-	if (!$(this).parent("li").hasClass("unavailable")) {
-		if (!$(this).hasClass("disabled")) {
-			$(this).parent("li").siblings().removeClass("current");
-			$(this).parent("li").toggleClass("current");
-		}
-	}
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Site Navigation */
-/* ------------------------------------------------------------------ */
-
-// Disabled Flag for Pseudo-element :before
-/* UNUSED -- Get Fucky feat. Farrel Williams */
-/*
-$(document).ready(function() {
-	$(".site-nav ul li .disabled").parent("li:before").css("opacity", .5);
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Links Focus Fix (for Chrome) */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$("html").on("click", "a", function() {
-	if (!$(this).is(":focus")) {
-		// $(this).focus(); // BUG : conflict with CKEditor combo boxes
-	}
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Links Display Switchers */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$("[data-show]").click(function() {
-	var selector = "#" + $(this).attr("data-show")
-	if ($(selector).hasClass("hide")) {
-		// Display section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-		// Refresh Breadcrumbs
-		refresh_breadcrumbs($(this));
-	}
-});
-
-// Attach event for now and the future to 'html'
-$("html").on("click", "[data-show]", function() {
-	var selector = "#" + $(this).attr("data-show")
-	if ($(selector).hasClass("hide")) {
-		// Display section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-		// Refresh Breadcrumbs
-		refresh_breadcrumbs($(this));
-	}
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Links Current Switchers */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$("[class*='-nav'] ul li a").click(function() { // WARNING : [class$='-nav'] is false if any class is put after (e.g. 'hide')
-	var selector = $(this);
-	if (!selector.hasClass("no-current")) {
-		if (!selector.hasClass("disabled")) {
-			$("[class*='-nav'] ul li a").removeClass("current") // WARNING : [class$='-nav'] is false if any class is put after (e.g. 'hide')
-		}
-		selector.not(".disabled").addClass("current");
-	}
-});
-*/
-
-/* Attach event for now and the future to 'html' */
-$("html").on("click", "[class*='-nav'] ul li a", function() {
-	var selector = $(this);
-	if (!selector.hasClass("no-current")) {
-		if (!selector.hasClass("disabled")) {
-			$("[class*='-nav'] ul li a").removeClass("current");
-		}
-		selector.not(".disabled").addClass("current");
-	}
-});
-
-/* ------------------------------------------------------------------ */
-/* # Alert Boxes */
-/* ------------------------------------------------------------------ */
-
-/* Close alert boxes */
-$("html").on("click", ".alert-box .close", function() {
-	var self = $(this).parent(".alert-box");
-	$(self).children().css("visibility", "hidden"); // mask box content
-	$(self).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? 500 : 0, function() { // hide alert box
-		self.remove();
-	});
-});
-
-/* ------------------------------------------------------------------ */
-/* # User Connect Events */
-/* ------------------------------------------------------------------ */
-
-/* Connection or User menu link */
-$("html").on("click", "#user_connect", function() {
-	var done = (function() {
-		if ($("#user_connect").data("connected") == true) {
-			$("#user_menu").toggle(); // show menu
-		} else {
-			set_user_connected(true); // connect user
-			createAlertBox($msg.connected, "alert_auth", {"class" : "success"})
-		}
-	});
-	var fail = (function() {
-		if ($("#user_connect").data("connected") == true) {
-			set_user_connected(false); // set not connected
-			disconnect($msg.disconnected); // disconnect
-		} else {
-			window.location.href = $nav.login.url; // redirect to the login page
-		}
-	});
-	checkAuthc(done, fail);
-});
-
-/* Disconnection link */
-$("html").on("click", ".disconnect", function() {
-	set_user_connected(false);
-	disconnect($msg.user_disconnected);
-});
 
 /* ------------------------------------------------------------------ */
 /* # Initialize */

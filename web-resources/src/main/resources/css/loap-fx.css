@@ -311,6 +311,9 @@
 .css-debug .fast-nav ul li:nth-child(odd) {background-color: rgba(0, 255, 0, .25);}
 .css-debug .fast-nav ul li:nth-child(even) {background-color: rgba(0, 0, 255, .25);}
 
+/* User Nav */
+.css-debug .user-nav .close {background-color: rgba(0, 0, 255, .25);}
+.css-debug .user-nav .user-name {background-color: rgba(0, 255, 0, .25);}
 
 /* Site Nav */
 .css-debug .site-nav {background-color: rgba(0, 255, 255, .25);}
