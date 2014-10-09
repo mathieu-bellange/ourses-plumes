@@ -329,21 +329,47 @@ template {
 /* ------------------------------------------------------------------ */
 
 table {
-  border-color: silver; /* Foundation override*/
+  width: 100%;
+  border-color: gainsboro; /* Foundation override*/
   border-collapse: collapse; /* Normalize 3.0.1 : Remove most spacing between table cells. */
   border-spacing: 0; /* Normalize 3.0.1 : Remove most spacing between table cells. */
 }
 table th {
-  text-align: center;
-  background-color: whitesmoke;
+  background-color: #f0f0f0;
 }
 table td,
 table th {
   padding: 0; /* Normalize 3.0.1 : Remove most spacing between table cells. */
 }
 table tr:nth-of-type(even) {
-  background-color: ghostwhite; /* Foundation override*/
+  background-color: white; /* Foundation override*/
 }
+table tr:nth-of-type(odd) {
+  background-color: whitesmoke; /* Foundation override*/
+}
+table tr th,
+table tr td {
+  padding: .375rem; /* Foundation override*/
+}
+table thead tr td,
+table tfoot tr td,
+table tbody tr td,
+table tr td {
+  line-height: auto; /* Foundation override*/
+}
+table thead tr th,
+table tfoot tr th,
+table tbody tr th,
+table tr th {
+  line-height: 1.5rem; /* Foundation override*/
+  border-bottom: .125rem solid gainsboro; /* TEMP */
+}
+
+/* Tables sizing */
+table.x-compact tr td {line-height: .5rem;}
+table.compact tr td {line-height: .75rem;}
+table.expanded tr td {line-height: 1.75rem;}
+table.x-expanded tr td {line-height: 2rem;}
 
 /* ------------------------------------------------------------------ */
 /* # Images */
