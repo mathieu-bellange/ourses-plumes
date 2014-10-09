@@ -388,11 +388,9 @@
 							// methods
 							function update_tooltips(obj) {
 								if (obj.hasClass("active")) {
-									obj.attr("title", "D&eacute;sactiver le partage " + obj.data("tooltip-postfix"))
-									reload_tooltip(obj);
+									obj.reload_tooltip("D&eacute;sactiver le partage " + obj.data("tooltip-postfix"));
 								} else {
-									obj.attr("title", "Activer le partage " + obj.data("tooltip-postfix"))
-									reload_tooltip(obj);
+									obj.reload_tooltip("Activer le partage " + obj.data("tooltip-postfix"));
 								}
 							}
 							// events

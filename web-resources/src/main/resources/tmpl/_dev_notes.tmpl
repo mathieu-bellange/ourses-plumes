@@ -2,45 +2,126 @@
 				<section>
 					<!--Magellan Sticky Navigation-->
 					<div data-magellan-expedition="fixed">
-						<dl class="sub-nav">
+						<dl class="sub-nav toggle">
 							<dd data-magellan-arrival="main"><a href="#main" class="icon-up tiny"><strong class="hide">Haut de page</strong></a></dd>
-							<dd data-magellan-arrival="naming_chart"><a href="#naming_chart">Charte de nommage HTML</a></dd>
+							<dd data-magellan-arrival="naming_chart"><a href="#naming_chart">Noms de fichiers HTML</a></dd>
 							<dd data-magellan-arrival="html_chars"><a href="#html_chars">Caract&egrave;res HTML</a></dd>
-							<dd data-magellan-arrival="css_units"><a href="#css_units">Unit&eacute;s</a></dd>
+							<dd data-magellan-arrival="css_units"><a href="#css_units">Unit&eacute;s CSS</a></dd>
+							<dd data-magellan-arrival="css_colors"><a href="#css_colors">Couleurs CSS</a></dd>
 							<dd data-magellan-arrival="workspace"><a href="#workspace">Espace de travail</a></dd>
 							<dd data-magellan-arrival="doc"><a href="#doc">Documentation</a></dd>
 						</dl>
 					</div>
 					<h2 class="red">Notes de d&eacute;veloppement <small>_dev_notes</small></h2>
 					<!--HTML Naming Chart-->
-					<h3 id="naming_chart">Charte de nommage HTML</h3>
-					<h4 class="subheader">Table de conversion</h4>
-					<table style="width: 100%;">
-						<tr><th>1.0.0</th><th>1.0.1</th><th>Fonctionnalit&eacute; associ&eacute;e</th></tr>
-						<tr><td><strike class="red">account.html</strike></td><td><strong>account-add.html</strong></td><td class="text-charcoal">Ajouter un compte</td></tr>
-						<tr><td><strike class="red">accounts.html</strike></td><td><strong>account-list.html</strong></td><td class="text-charcoal">Lister les comptes</td></tr>
-						<tr><td>agenda.html</td><td>*</td><td class="text-charcoal">Agenda</td></tr>
-						<tr><td><strike class="red">article.html</strike></td><td><strong>article-view.html</strong></td><td class="text-charcoal">Voir un article</td></tr>
-						<tr><td><strike class="red">articles.html</strike></td><td><strong>article-list.html</strong></td><td class="text-charcoal">Lister les articles</td></tr>
-						<tr><td><strike class="red">bug-tracker.html</strike></td><td><strong>bug-add.html</strong></td><td class="text-charcoal">Signaler un bug</td></tr>
-						<tr><td><strike class="red">editor.html</strike></td><td><strong>article-edit.html</strong></td><td class="text-charcoal">&Eacute;crire/Modifier un article</td></tr>
-						<tr><td>error.html</td><td>*</td><td class="text-charcoal">Erreur</td></tr>
-						<tr><td><strike class="red">home.html</strike></td><td class="red">DELETED</td><td>*</td></tr>
-						<tr><td>index.html</td><td>*</td><td class="text-charcoal">Accueil</td></tr>
-						<tr><td>login.html</td><td>*</td><td class="text-charcoal">Connexion</td></tr>
-						<tr><td><strike class="red">profile.html</strike></td><td><strong>profile-view.html</strong></td><td class="text-charcoal">Voir un profil</td></tr>
-						<tr><td><strike class="red">updateAccount.html</strike></td><td><strong>account-edit.html</strong></td><td class="text-charcoal">Modifier mon compte</td></tr>
-						<tr><td><strike class="red">updateProfile.html</strike></td><td><strong>profile-edit.html</strong></td><td class="text-charcoal">Modifier mon profil</td></tr>
+					<h3 id="naming_chart">Noms de fichiers HTML</h3>
+					<table class="expanded">
+						<tr>
+							<th>Fonctionnalit&eacute;</th>
+							<th>1.0.0</th>
+							<th>1.0.1</th>
+							<th>1.0.2</th>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Ajouter un compte</td>
+							<td><del>account.html</del></td>
+							<td><del>account-add.html</del></td>
+							<td><ins>account-create.html</ins></td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Lister les comptes</td>
+							<td><del>accounts.html</del></td>
+							<td><ins>account-list.html</ins></td>
+							<td>account-list.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Agenda</td>
+							<td>agenda.html</td>
+							<td>agenda.html</td>
+							<td>agenda.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Voir un article</td>
+							<td><del>article.html</del></td>
+							<td><ins>article-view.html</ins></td>
+							<td>article-view.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Lister les articles</td>
+							<td><del>articles.html</del></td>
+							<td><ins>article-list.html</ins></td>
+							<td>article-list.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Signaler un bug</td>
+							<td><del>bug-tracker.html</del></td>
+							<td><del>bug-add.html</del></td>
+							<td><ins>bug-report.html</ins></td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">&Eacute;crire/Modifier un article</td>
+							<td><del>editor.html</del></td>
+							<td><ins>article-edit.html</ins></td>
+							<td>article-edit.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Erreur</td>
+							<td>error.html</td>
+							<td>error.html</td>
+							<td>error.html</td>
+						</tr>
+						<tr>
+							<td>Accueil</td>
+							<td><del>home.html</del></td>
+							<td>*</td>
+							<td>*</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Index</td>
+							<td>index.html</td>
+							<td>index.html</td>
+							<td>index.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Connexion</td>
+							<td>login.html</td>
+							<td>login.html</td>
+							<td>login.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Voir un profil</td>
+							<td><del>profile.html</del></td>
+							<td><ins>profile-view.html</ins></td>
+							<td>profile-view.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Modifier mon compte</td>
+							<td><del>updateAccount.html</del></td>
+							<td><ins>account-edit.html</ins></td>
+							<td>account-edit.html</td>
+						</tr>
+						<tr>
+							<td class="text-charcoal">Modifier mon profil</td>
+							<td><del>updateProfile.html</del></td>
+							<td><ins>profile-edit.html</ins></td>
+							<td>profile-edit.html</td>
+						</tr>
 					</table>
 					<h4 class="subheader">Convention de nommage</h4>
-					<p><var class="green"><strong>Nom de fichier</strong></var> = <var class="blue">Pr&eacute;fixe</var> + <var class="blue">Suffixe</var> + Extension</p>
-					<p><var class="green">Pr&eacute;fixe</var>&thinsp;: n&rsquo;importe quel nom de fonctionnalit&eacute;</p>
-					<p><var class="green">Suffixe</var>&thinsp;: n&rsquo;importe quel verbe transitif</p>
-					<ul class="no-bullet panel">
-						<li>&hellip;&thinsp;<strong>-list</strong></li>
-						<li>&hellip;&thinsp;<strong>-add</strong> <small>(or -create ?)</small></li>
-						<li>&hellip;&thinsp;<strong>-edit</strong></li>
-						<li>&hellip;&thinsp;<strong>-view</strong> <small>(or -show ?)</small></li>
+					<div class="panel callout">
+						<strong class="green">Nom de fichier HTML</strong> = <strong class="blue">Pr&eacute;fixe</strong> + <strong class="blue">Suffixe</strong> + Extension
+					</div>
+					<ul>
+						<li><strong class="blue">Pr&eacute;fixe</strong>&thinsp;: nom de la fonctionnalit&eacute;</li>
+						<li>
+							<strong class="blue">Suffixe</strong>&thinsp;: verbe transitif pr&eacute;c&eacute;d&eacute; d&rsquo;un tiret
+							<ul class="no-bullet">
+								<li><span class="text-translucid">&hellip;</span><b>-list</b></li>
+								<li><span class="text-translucid">&hellip;</span><b>-make</b></li>
+								<li><span class="text-translucid">&hellip;</span><b>-edit</b></li>
+								<li><span class="text-translucid">&hellip;</span><b>-view</b></li>
+							</ul>
+						</li>
 					</ul>
 					<h4 class="subheader">R&egrave;gles de nommage</h4>
 					<ol>
@@ -48,10 +129,10 @@
 						<li><strong class="red">PAS de majuscules</strong>&thinsp;: n&rsquo;utiliser que des minuscules (les URL ne sont pas sensibles &agrave; la casse, certains serveurs le sont)</li>
 						<li><strong class="red">PAS de tiret bas</strong>&thinsp;: utiliser le tiret m&eacute;dian comme s&eacute;parateur (il para&icirc;t que le tiret bas c&rsquo;est le DIABLE pour les robots&thinsp;&hellip;)</li>
 					</ol>
-					<!--Characters Conversion-->
-					<h3 id="html_chars">Table de conversion HTML</h4>
-					<table style="width: 100%;">
-						<tr><th>UTF-8</th><th>Entit&eacute; HTML num&eacute;rique</th><th>Entit&eacute; HTML symbolis&eacute;e</th><th>Description<th></tr>
+					<!--HTML Characters-->
+					<h3 id="html_chars">Caract&egrave;res HTML</h4>
+					<table class="compact">
+						<tr><th>UTF-8</th><th>Entit&eacute; HTML num&eacute;rique</th><th>Entit&eacute; HTML symbolis&eacute;e</th><th>Description</th></tr>
 						<tr><td>*</td><td><samp>&amp;#160;</samp></td><td><samp>&amp;nbsp;</samp></td><td>Espace ins&eacute;cable( No-Break Space)</td></tr>
 						<tr><td>*</td><td><samp>&amp;#8201;</samp></td><td><samp><strong class="red">&amp;thinsp;</strong></samp></td><td>Espace fin (Thin Space)</td></tr>
 						<tr><td>*</td><td><samp><strong class="green">&amp;#8239;</strong></samp></td><td>*</td><td>Espace fin ins&eacute;cable (Narrow No-Break Space)</td></tr>
@@ -104,12 +185,10 @@
 						<tr><td>♣</td><td><samp>&amp;#9827;</samp></td><td><samp>&amp;clubs;</samp></td><td>Tr&egrave;fle</td></tr>
 						<tr><td>♠</td><td><samp>&amp;#9824;</samp></td><td><samp>&amp;spades;</samp></td><td>Pique</td></tr>
 					</table>
-					<!--Units-->
+					<!--CSS Units-->
 					<h3 id="css_units">Unit&eacute;s CSS</h3>
-					<h4 class="subheader">Table de conversion</h4>
-					<table style="width: 100%;">
-						<caption>Base 16px</caption>
-						<tr><th>Pixel</th><th>REM</th><th>EM</th><th>Pourcent</th></tr>
+					<table class="compact">
+						<tr><th>Pixel</th><th>Root EM</th><th>EM</th><th>Pourcentage</th></tr>
 						<tr><td><samp>1px</samp></td><samp><td><samp>.0625rem</samp></td><samp><td><samp>.0625em</samp></td><samp><td><samp>6.25%</samp></td><samp></tr>
 						<tr><td><samp>2px</samp></td><samp><td><samp>.125rem</samp></td><samp><td><samp>.125em</samp></td><samp><td><samp>12.5%</samp></td><samp></tr>
 						<tr><td><samp>4px</samp></td><samp><td><samp>.25rem</samp></td><samp><td><samp>.25em</samp></td><samp><td><samp>25%</samp></td><samp></tr>
@@ -117,34 +196,219 @@
 						<tr><td><samp>8px</samp></td><samp><td><samp>.5rem</samp></td><samp><td><samp>.5em</samp></td><samp><td><samp>50%</samp></td><samp></tr>
 						<tr><td><samp>10px</samp></td><samp><td><samp>.625rem</samp></td><samp><td><samp>.625em</samp></td><samp><td><samp>62.5%</samp></td><samp></tr>
 						<tr><td><samp>12px</samp></td><samp><td><samp>.75rem</samp></td><samp><td><samp>.75em</samp></td><samp><td><samp>75%</samp></td><samp></tr>
-						<tr><td><samp>16px</samp></td><samp><td><samp>1rem</samp></td><samp><td><samp>1em</samp></td><samp><td><samp>100%</samp></td><samp></tr>
+						<tr style="background-color: cornsilk; font-weight: bold; border: .125rem solid gainsboro;"><td><samp>16px</samp></td><samp><td><samp>1rem</samp></td><samp><td><samp>1em</samp></td><samp><td><samp>100%</samp></td><samp></tr>
 						<tr><td><samp>24px</samp></td><samp><td><samp>1.5rem</samp></td><samp><td><samp>1.5em</samp></td><samp><td><samp>150%</samp></td><samp></tr>
 						<tr><td><samp>32px</samp></td><samp><td><samp>2rem</samp></td><samp><td><samp>2em</samp></td><samp><td><samp>200%</samp></td><samp></tr>
 						<tr><td><samp>48px</samp></td><samp><td><samp>3rem</samp></td><samp><td><samp>3em</samp></td><samp><td><samp>300%</samp></td><samp></tr>
 						<tr><td><samp>64px</samp></td><samp><td><samp>4rem</samp></td><samp><td><samp>4em</samp></td><samp><td><samp>400%</samp></td><samp></tr>
 					</table>
+					<style>
+						#css_unit_base {
+							padding-right: 1.5rem;
+						}
+						.px-unit:after {
+							position: absolute;
+							display: inline-block;
+							content: "px";
+							top: .5rem;
+							right: .5rem;
+							font-size: .875rem;
+							opacity: .5;
+						}
+					</style>
 					<div class="row collapse">
 						<div class="column small-2">
 							<span class="prefix">Base <small class="text-silver">(px)</small></span>
 						</div>
-						<div class="column small-2">
+						<div class="column small-4 px-unit">
 							<input id="css_unit_base" type="text" value="16" class="text-right">
 						</div>
-
-						<div class="column small-3 small-push-1">
-							<input id="css_unit_px" class="text-right" type="text" value="0" placeholder="Valeur en px">
+						<div class="column small-4 small-push-1">
+							<input id="css_unit_px" class="text-right" type="text" value="0" placeholder="Unit&eacute; en px">
 						</div>
 						<div class="column small-2 small-push-1">
 							<span class="postfix">px</span>
 						</div>
-
-						<div class="column small-3 small-push-2">
-							<input id="css_unit_rem" class="text-right" type="text" placeholder="Valeur en rem" readonly>
+						<div class="column small-4 small-push-2">
+							<input id="css_unit_rem" class="text-right" type="text" value="0" placeholder="Unit&eacute; en rem">
 						</div>
 						<div class="column small-2 small-push-2 end">
 							<span class="postfix">rem</span>
 						</div>
 					</div>
+					<!--CSS Colors-->
+					<h3 id="css_colors">Couleurs CSS</h3>
+					<dl id="css_colors_toggle" class="sub-nav toggle" style="margin-bottom: 1rem;">
+						<dd><a href="javascript:void(0)" data-show="black">Noir</a></dd>
+						<dd><a href="javascript:void(0)" data-show="white">Blanc</a></dd>
+						<dd><a href="javascript:void(0)" data-show="grey">Gris</a></dd>
+						<dd><a href="javascript:void(0)" data-show="red">Rouge</a></dd>
+						<dd><a href="javascript:void(0)" data-show="pink">Rose</a></dd>
+						<dd><a href="javascript:void(0)" data-show="orange">Orange</a></dd>
+						<dd><a href="javascript:void(0)" data-show="brown">Brun</a></dd>
+						<dd><a href="javascript:void(0)" data-show="yellow">Jaune</a></dd>
+						<dd><a href="javascript:void(0)" data-show="green">Vert</a></dd>
+						<dd><a href="javascript:void(0)" data-show="cyan">Turquoise</a></dd>
+						<dd><a href="javascript:void(0)" data-show="blue">Bleu</a></dd>
+						<dd><a href="javascript:void(0)" data-show="purple">Violet</a></dd>
+						<dd><a href="javascript:void(0)" data-show="magenta">Magenta</a></dd>
+					</dl>
+					<table id="css_colors_table" class="expanded">
+						<tr>
+							<th>&nbsp;</th>
+							<th>Nom CSS</th>
+							<th>Triplet Hexa</th>
+							<th>Code RVB</th>
+							<th>Nom usuel</th>
+						</tr>
+						<tr><td></td><td>aliceblue</td><td>#f0f8ff</td><td>rgb(240, 248, 255)</td><td>Alice Blue</td></tr>
+						<tr><td></td><td>antiquewhite</td><td>#faebd7</td><td>rgb(250, 235, 215)</td><td>Antique White</td></tr>
+						<tr><td></td><td>aqua</td><td>#00ffff</td><td>rgb(0, 255, 255)</td><td>Aqua</td></tr>
+						<tr><td></td><td>aquamarine</td><td>#7fffd4</td><td>rgb(127, 255, 212)</td><td>Aqua Marine</td></tr>
+						<tr><td></td><td>azure</td><td>#f0ffff</td><td>rgb(240, 255, 255)</td><td>Azure</td></tr>
+						<tr><td></td><td>beige</td><td>#f5f5dc</td><td>rgb(245, 245, 220)</td><td>Beige</td></tr>
+						<tr><td></td><td>bisque</td><td>#ffe4c4</td><td>rgb(255, 228, 196)</td><td>Bisque</td></tr>
+						<tr><td></td><td>black</td><td>#000000</td><td>rgb(0, 0, 0)</td><td>Black</td></tr>
+						<tr><td></td><td>blanchedalmond</td><td>#ffebcd</td><td>rgb(255, 235, 205)</td><td>Blanched Almond</td></tr>
+						<tr><td></td><td>blue</td><td>#0000ff</td><td>rgb(0, 0, 255)</td><td>Blue</td></tr>
+						<tr><td></td><td>blueviolet</td><td>#8a2be2</td><td>rgb(138, 43, 226)</td><td>Blue Violet</td></tr>
+						<tr><td></td><td>brown</td><td>#a52a2a</td><td>rgb(165, 42, 42)</td><td>Brown</td></tr>
+						<tr><td></td><td>burlywood</td><td>#deb887</td><td>rgb(222, 184, 135)</td><td>Burly Wood</td></tr>
+						<tr><td></td><td>cadetblue</td><td>#5f9ea0</td><td>rgb(95, 158, 160)</td><td>Cadet Blue</td></tr>
+						<tr><td></td><td>chartreuse</td><td>#7fff00</td><td>rgb(127, 255, 0)</td><td>Chartreuse</td></tr>
+						<tr><td></td><td>chocolate</td><td>#d2691e</td><td>rgb(210, 105, 30)</td><td>Chocolate</td></tr>
+						<tr><td></td><td>coral</td><td>#ff7f50</td><td>rgb(255, 127, 80)</td><td>Coral</td></tr>
+						<tr><td></td><td>cornflowerblue</td><td>#6495ed</td><td>rgb(100, 149, 237)</td><td>Corn Flower Blue</td></tr>
+						<tr><td></td><td>cornsilk</td><td>#fff8dc</td><td>rgb(255, 248, 220)</td><td>Corn Silk</td></tr>
+						<tr><td></td><td>crimson</td><td>#dc143c</td><td>rgb(220, 20, 60)</td><td>Crimson</td></tr>
+						<tr><td></td><td>cyan</td><td>#00ffff</td><td>rgb(0, 255, 255)</td><td>Cyan</td></tr>
+						<tr><td></td><td>darkblue</td><td>#00008b</td><td>rgb(0, 0, 139)</td><td>Dark Blue</td></tr>
+						<tr><td></td><td>darkcyan</td><td>#008b8b</td><td>rgb(0, 139, 139)</td><td>Dark Cyan</td></tr>
+						<tr><td></td><td>darkgoldenrod</td><td>#b8860b</td><td>rgb(184, 134, 11)</td><td>Dark Golden Rod</td></tr>
+						<tr><td></td><td>darkgray</td><td>#a9a9a9</td><td>rgb(169, 169, 169)</td><td>Dark Gray</td></tr>
+						<tr><td></td><td>darkgreen</td><td>#006400</td><td>rgb(0, 100, 0)</td><td>Dark Green</td></tr>
+						<tr><td></td><td>darkgrey</td><td>#a9a9a9</td><td>rgb(169, 169, 169)</td><td>Dark Grey</td></tr>
+						<tr><td></td><td>darkkhaki</td><td>#bdb76b</td><td>rgb(189, 183, 107)</td><td>Dark Khaki</td></tr>
+						<tr><td></td><td>darkmagenta</td><td>#8b008b</td><td>rgb(139, 0, 139)</td><td>Dark Magenta</td></tr>
+						<tr><td></td><td>darkolivegreen</td><td>#556b2f</td><td>rgb(85, 107, 47)</td><td>Dark Olive Green</td></tr>
+						<tr><td></td><td>darkorange</td><td>#ff8c00</td><td>rgb(255, 140, 0)</td><td>Dark Orange</td></tr>
+						<tr><td></td><td>darkorchid</td><td>#9932cc</td><td>rgb(153, 50, 204)</td><td>Dark Orchid</td></tr>
+						<tr><td></td><td>darkred</td><td>#8b0000</td><td>rgb(139, 0, 0)</td><td>Dark Red</td></tr>
+						<tr><td></td><td>darksalmon</td><td>#e9967a</td><td>rgb(233, 150, 122)</td><td>Dark Salmon</td></tr>
+						<tr><td></td><td>darkseagreen</td><td>#8fbc8f</td><td>rgb(143, 188, 143)</td><td>Dark Sea Green</td></tr>
+						<tr><td></td><td>darkslateblue</td><td>#483d8b</td><td>rgb(72, 61, 139)</td><td>Dark Slate Blue</td></tr>
+						<tr><td></td><td>darkslategray</td><td>#2f4f4f</td><td>rgb(47, 79, 79)</td><td>Dark Slate Gray</td></tr>
+						<tr><td></td><td>darkslategrey</td><td>#2f4f4f</td><td>rgb(47, 79, 79)</td><td>Dark Slate Grey</td></tr>
+						<tr><td></td><td>darkturquoise</td><td>#00ced1</td><td>rgb(0, 206, 209)</td><td>Dark Turquoise</td></tr>
+						<tr><td></td><td>darkviolet</td><td>#9400d3</td><td>rgb(148, 0, 211)</td><td>Dark Violet</td></tr>
+						<tr><td></td><td>deeppink</td><td>#ff1493</td><td>rgb(255, 20, 147)</td><td>Deep Pink</td></tr>
+						<tr><td></td><td>deepskyblue</td><td>#00bfff</td><td>rgb(0, 191, 255)</td><td>Deep Sky Blue</td></tr>
+						<tr><td></td><td>dimgray</td><td>#696969</td><td>rgb(105, 105, 105)</td><td>Dim Gray</td></tr>
+						<tr><td></td><td>dimgrey</td><td>#696969</td><td>rgb(105, 105, 105)</td><td>Dim Grey</td></tr>
+						<tr><td></td><td>dodgerblue</td><td>#1e90ff</td><td>rgb(30, 144, 255)</td><td>Dodger Blue</td></tr>
+						<tr><td></td><td>firebrick</td><td>#b22222</td><td>rgb(178, 34, 34)</td><td>Fire Brick</td></tr>
+						<tr><td></td><td>floralwhite</td><td>#fffaf0</td><td>rgb(255, 250, 240)</td><td>Floral White</td></tr>
+						<tr><td></td><td>forestgreen</td><td>#228b22</td><td>rgb(34, 139, 34)</td><td>Forest Green</td></tr>
+						<tr><td></td><td>fuchsia</td><td>#ff00ff</td><td>rgb(255, 0, 255)</td><td>Fuschia</td></tr>
+						<tr><td></td><td>gainsboro</td><td>#dcdcdc</td><td>rgb(220, 220, 220)</td><td>Gainsboro</td></tr>
+						<tr><td></td><td>ghostwhite</td><td>#f8f8ff</td><td>rgb(248, 248, 255)</td><td>Ghost White</td></tr>
+						<tr><td></td><td>gold</td><td>#ffd700</td><td>rgb(255, 215, 0)</td><td>Gold</td></tr>
+						<tr><td></td><td>goldenrod</td><td>#daa520</td><td>rgb(218, 165, 32)</td><td>Golden Rod</td></tr>
+						<tr><td></td><td>gray</td><td>#808080</td><td>rgb(128, 128, 128)</td><td>Gray</td></tr>
+						<tr><td></td><td>green</td><td>#008000</td><td>rgb(0, 128, 0)</td><td>Green</td></tr>
+						<tr><td></td><td>greenyellow</td><td>#adff2f</td><td>rgb(173, 255, 47)</td><td>Green Yellow</td></tr>
+						<tr><td></td><td>grey</td><td>#808080</td><td>rgb(128, 128, 128)</td><td>Grey</td></tr>
+						<tr><td></td><td>honeydew</td><td>#f0fff0</td><td>rgb(240, 255, 240)</td><td>Honey Dew</td></tr>
+						<tr><td></td><td>hotpink</td><td>#ff69b4</td><td>rgb(255, 105, 180)</td><td>Hot Pink</td></tr>
+						<tr><td></td><td>indianred</td><td>#cd5c5c</td><td>rgb(205, 92, 92)</td><td>Indian Red</td></tr>
+						<tr><td></td><td>indigo</td><td>#4b0082</td><td>rgb(75, 0, 130)</td><td>Indigo</td></tr>
+						<tr><td></td><td>ivory</td><td>#fffff0</td><td>rgb(255, 255, 240)</td><td>Ivory</td></tr>
+						<tr><td></td><td>khaki</td><td>#f0e68c</td><td>rgb(240, 230, 140)</td><td>Khaki</td></tr>
+						<tr><td></td><td>lavender</td><td>#e6e6fa</td><td>rgb(230, 230, 250)</td><td>Lavender</td></tr>
+						<tr><td></td><td>lavenderblush</td><td>#fff0f5</td><td>rgb(255, 240, 245)</td><td>Lavender Blush</td></tr>
+						<tr><td></td><td>lawngreen</td><td>#7cfc00</td><td>rgb(124, 252, 0)</td><td>Lawn Green</td></tr>
+						<tr><td></td><td>lemonchiffon</td><td>#fffacd</td><td>rgb(255, 250, 205)</td><td>Lemon Chiffon</td></tr>
+						<tr><td></td><td>lightblue</td><td>#add8e6</td><td>rgb(173, 216, 230)</td><td>Light Blue</td></tr>
+						<tr><td></td><td>lightcoral</td><td>#f08080</td><td>rgb(240, 128, 128)</td><td>Light Coral</td></tr>
+						<tr><td></td><td>lightcyan</td><td>#e0ffff</td><td>rgb(224, 255, 255)</td><td>Light Cyan</td></tr>
+						<tr><td></td><td>lightgoldenrodyellow</td><td>#fafad2</td><td>rgb(250, 250, 210)</td><td>Light Golden Rod Yellow</td></tr>
+						<tr><td></td><td>lightgray</td><td>#d3d3d3</td><td>rgb(211, 211, 211)</td><td>Light Gray</td></tr>
+						<tr><td></td><td>lightgreen</td><td>#90ee90</td><td>rgb(144, 238, 144)</td><td>Light Green</td></tr>
+						<tr><td></td><td>lightgrey</td><td>#d3d3d3</td><td>rgb(211, 211, 211)</td><td>Light Grey</td></tr>
+						<tr><td></td><td>lightpink</td><td>#ffb6c1</td><td>rgb(255, 182, 193)</td><td>Light Pink</td></tr>
+						<tr><td></td><td>lightsalmon</td><td>#ffa07a</td><td>rgb(255, 160, 122)</td><td>Light Salmon</td></tr>
+						<tr><td></td><td>lightseagreen</td><td>#20b2aa</td><td>rgb(32, 178, 170)</td><td>Light Sea Green</td></tr>
+						<tr><td></td><td>lightskyblue</td><td>#87cefa</td><td>rgb(135, 206, 250)</td><td>Light Sky Blue</td></tr>
+						<tr><td></td><td>lightslategray</td><td>#778899</td><td>rgb(119, 136, 153)</td><td>Light Slate Gray</td></tr>
+						<tr><td></td><td>lightslategrey</td><td>#778899</td><td>rgb(119, 136, 153)</td><td>Light Slate Grey</td></tr>
+						<tr><td></td><td>lightsteelblue</td><td>#b0c4de</td><td>rgb(176, 196, 222)</td><td>Light Steel Blue</td></tr>
+						<tr><td></td><td>lightyellow</td><td>#ffffe0</td><td>rgb(255, 255, 224)</td><td>Light Yellow</td></tr>
+						<tr><td></td><td>lime</td><td>#00ff00</td><td>rgb(0, 255, 0)</td><td>Lime</td></tr>
+						<tr><td></td><td>limegreen</td><td>#32cd32</td><td>rgb(50, 205, 50)</td><td>Lime Green</td></tr>
+						<tr><td></td><td>linen</td><td>#faf0e6</td><td>rgb(250, 240, 230)</td><td>Linen</td></tr>
+						<tr><td></td><td>magenta</td><td>#ff00ff</td><td>rgb(255, 0, 255)</td><td>Magenta</td></tr>
+						<tr><td></td><td>maroon</td><td>#800000</td><td>rgb(128, 0, 0)</td><td>Maroon</td></tr>
+						<tr><td></td><td>mediumaquamarine</td><td>#66cdaa</td><td>rgb(102, 205, 170)</td><td>Medium Aqua Marine</td></tr>
+						<tr><td></td><td>mediumblue</td><td>#0000cd</td><td>rgb(0, 0, 205)</td><td>Medium Blue</td></tr>
+						<tr><td></td><td>mediumorchid</td><td>#ba55d3</td><td>rgb(186, 85, 211)</td><td>Medium Orchid</td></tr>
+						<tr><td></td><td>mediumpurple</td><td>#9370db</td><td>rgb(147, 112, 219)</td><td>Medium Purple</td></tr>
+						<tr><td></td><td>mediumseagreen</td><td>#3cb371</td><td>rgb(60, 179, 113)</td><td>Medium Sea Green</td></tr>
+						<tr><td></td><td>mediumslateblue</td><td>#7b68ee</td><td>rgb(123, 104, 238)</td><td>Medium Slate Blue</td></tr>
+						<tr><td></td><td>mediumspringgreen</td><td>#00fa9a</td><td>rgb(0, 250, 154)</td><td>Medium Spring Green</td></tr>
+						<tr><td></td><td>mediumturquoise</td><td>#48d1cc</td><td>rgb(72, 209, 204)</td><td>Medium Turquoise</td></tr>
+						<tr><td></td><td>mediumvioletred</td><td>#c71585</td><td>rgb(199, 21, 133)</td><td>Medium Violet Red</td></tr>
+						<tr><td></td><td>midnightblue</td><td>#191970</td><td>rgb(25, 25, 112)</td><td>Midnight Blue</td></tr>
+						<tr><td></td><td>mintcream</td><td>#f5fffa</td><td>rgb(245, 255, 250)</td><td>Mint Cream</td></tr>
+						<tr><td></td><td>mistyrose</td><td>#ffe4e1</td><td>rgb(255, 228, 225)</td><td>Misty Rose</td></tr>
+						<tr><td></td><td>moccasin</td><td>#ffe4b5</td><td>rgb(255, 228, 181)</td><td>Moccasin</td></tr>
+						<tr><td></td><td>navajowhite</td><td>#ffdead</td><td>rgb(255, 222, 173)</td><td>Navajo White</td></tr>
+						<tr><td></td><td>navy</td><td>#000080</td><td>rgb(0, 0, 128)</td><td>Navy</td></tr>
+						<tr><td></td><td>oldlace</td><td>#fdf5e6</td><td>rgb(253, 245, 230)</td><td>Old Lace</td></tr>
+						<tr><td></td><td>olive</td><td>#808000</td><td>rgb(128, 128, 0)</td><td>Olive</td></tr>
+						<tr><td></td><td>olivedrab</td><td>#6b8e23</td><td>rgb(107, 142, 35)</td><td>Olive Drab</td></tr>
+						<tr><td></td><td>orange</td><td>#ffa500</td><td>rgb(255, 165, 0)</td><td>Orange</td></tr>
+						<tr><td></td><td>orangered</td><td>#ff4500</td><td>rgb(255, 69, 0)</td><td>Orange Red</td></tr>
+						<tr><td></td><td>orchid</td><td>#da70d6</td><td>rgb(218, 112, 214)</td><td>Orchid</td></tr>
+						<tr><td></td><td>palegoldenrod</td><td>#eee8aa</td><td>rgb(238, 232, 170)</td><td>Pale Golden Rod</td></tr>
+						<tr><td></td><td>palegreen</td><td>#98fb98</td><td>rgb(152, 251, 152)</td><td>Pale Green</td></tr>
+						<tr><td></td><td>paleturquoise</td><td>#afeeee</td><td>rgb(175, 238, 238)</td><td>Pale Turquoise</td></tr>
+						<tr><td></td><td>palevioletred</td><td>#db7093</td><td>rgb(219, 112, 147)</td><td>Pale Violet Red</td></tr>
+						<tr><td></td><td>papayawhip</td><td>#ffefd5</td><td>rgb(255, 239, 213)</td><td>Papayawhip</td></tr>
+						<tr><td></td><td>peachpuff</td><td>#ffdab9</td><td>rgb(255, 218, 185)</td><td>Peach Puff</td></tr>
+						<tr><td></td><td>peru</td><td>#cd853f</td><td>rgb(205, 133, 63)</td><td>Peru</td></tr>
+						<tr><td></td><td>pink</td><td>#ffc0cb</td><td>rgb(255, 192, 203)</td><td>Pink</td></tr>
+						<tr><td></td><td>plum</td><td>#dda0dd</td><td>rgb(221, 160, 221)</td><td>Plum</td></tr>
+						<tr><td></td><td>powderblue</td><td>#b0e0e6</td><td>rgb(176, 224, 230)</td><td>Powder Blue</td></tr>
+						<tr><td></td><td>purple</td><td>#800080</td><td>rgb(128, 0, 128)</td><td>Purple</td></tr>
+						<tr><td></td><td>red</td><td>#ff0000</td><td>rgb(255, 0, 0)</td><td>Red</td></tr>
+						<tr><td></td><td>rosybrown</td><td>#bc8f8f</td><td>rgb(188, 143, 143)</td><td>Rosy Brown</td></tr>
+						<tr><td></td><td>royalblue</td><td>#4169e1</td><td>rgb(65, 105, 225)</td><td>Royal Blue</td></tr>
+						<tr><td></td><td>saddlebrown</td><td>#8b4513</td><td>rgb(139, 69, 19)</td><td>Saddle Brown</td></tr>
+						<tr><td></td><td>salmon</td><td>#fa8072</td><td>rgb(250, 128, 114)</td><td>Salmon</td></tr>
+						<tr><td></td><td>sandybrown</td><td>#f4a460</td><td>rgb(244, 164, 96)</td><td>Sandy Brown</td></tr>
+						<tr><td></td><td>seagreen</td><td>#2e8b57</td><td>rgb(46, 139, 87)</td><td>Sea Green</td></tr>
+						<tr><td></td><td>seashell</td><td>#fff5ee</td><td>rgb(255, 245, 238)</td><td>Sea Shell</td></tr>
+						<tr><td></td><td>sienna</td><td>#a0522d</td><td>rgb(160, 82, 45)</td><td>Sienna</td></tr>
+						<tr><td></td><td>silver</td><td>#c0c0c0</td><td>rgb(192, 192, 192)</td><td>Silver</td></tr>
+						<tr><td></td><td>skyblue</td><td>#87ceeb</td><td>rgb(135, 206, 235)</td><td>Sky Blue</td></tr>
+						<tr><td></td><td>slateblue</td><td>#6a5acd</td><td>rgb(106, 90, 205)</td><td>Slate Blue</td></tr>
+						<tr><td></td><td>slategray</td><td>#708090</td><td>rgb(112, 128, 144)</td><td>Slate Gray</td></tr>
+						<tr><td></td><td>slategrey</td><td>#708090</td><td>rgb(112, 128, 144)</td><td>Slate Grey</td></tr>
+						<tr><td></td><td>snow</td><td>#fffafa</td><td>rgb(255, 250, 250)</td><td>Snow</td></tr>
+						<tr><td></td><td>springgreen</td><td>#00ff7f</td><td>rgb(0, 255, 127)</td><td>Spring Green</td></tr>
+						<tr><td></td><td>steelblue</td><td>#4682b4</td><td>rgb(70, 130, 180)</td><td>Steel Blue</td></tr>
+						<tr><td></td><td>tan</td><td>#d2b48c</td><td>rgb(210, 180, 140)</td><td>Tan</td></tr>
+						<tr><td></td><td>teal</td><td>#008080</td><td>rgb(0, 128, 128)</td><td>Teal</td></tr>
+						<tr><td></td><td>thistle</td><td>#d8bfd8</td><td>rgb(216, 191, 216)</td><td>Thistle</td></tr>
+						<tr><td></td><td>tomato</td><td>#ff6347</td><td>rgb(255, 99, 71)</td><td>Tomato</td></tr>
+						<tr><td></td><td>turquoise</td><td>#40e0d0</td><td>rgb(64, 224, 208)</td><td>Turquoise</td></tr>
+						<tr><td></td><td>violet</td><td>#ee82ee</td><td>rgb(238, 130, 238)</td><td>Violet</td></tr>
+						<tr><td></td><td>wheat</td><td>#f5deb3</td><td>rgb(245, 222, 179)</td><td>Wheat</td></tr>
+						<tr><td></td><td>white</td><td>#ffffff</td><td>rgb(255, 255, 255)</td><td>White</td></tr>
+						<tr><td></td><td>whitesmoke</td><td>#f5f5f5</td><td>rgb(245, 245, 245)</td><td>White Smoke</td></tr>
+						<tr><td></td><td>yellow</td><td>#ffff00</td><td>rgb(255, 255, 0)</td><td>Yellow</td></tr>
+						<tr><td></td><td>yellowgreen</td><td>#9acd32</td><td>rgb(154, 205, 50)</td><td>Yellow Green</td></tr>
+					</table>
 					<!--Workspace-->
 					<h3 id="workspace">Espace de travail</h3>
 					<ul>
