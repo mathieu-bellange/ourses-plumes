@@ -18,7 +18,7 @@
 								<td><a href="mailto:{{= account.mail }}">{{= account.mail }}</a></td>
 								<td>
 									{{? account.profile.pseudo == localStorage.getItem($auth.user_name) }}
-									<input type="text" value="{{ localStorage.getItem($auth.user_role) == $auth.role_admin ? out+='Administrarice' : out+='R&eacute;dactrice'; }}" disabled>
+									<input type="text" value="{{ localStorage.getItem($auth.user_role) == $conf.role_admin ? out+='Administrarice' : out+='R&eacute;dactrice'; }}" disabled>
 									{{??}}
 									<select>
 									{{~ roles :item }}

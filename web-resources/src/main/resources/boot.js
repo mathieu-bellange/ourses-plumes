@@ -56,9 +56,6 @@ $auth = {
 	"account_id"         : "oursesAccountId",                     // String   Local storage key of the user account id. Default : "oursesAccountId"
 	"profile_id"         : "oursesProfileId",                     // String   Local storage key of the user profile id. Default : "oursesProfileId"
 	"avatar_path"        : "oursesAvatarPath",                    // String   Local storage key of the avatar path. Default : "oursesAvatarPath"
-	"redir_param"        : "?redirection=",                       // String   Parameter added to the login page URL for the redirection. Default : "?redirection="
-	"role_admin"         : "admin",                               // String   Administrator user level access key. Default : "admin"
-	"role_redac"         : "writer"                               // String   Moderator user level access key. Default : "writer"
 };
 
 /* Build */
@@ -79,7 +76,9 @@ $conf = {
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
 	"js_fx"              : true,                                  // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default : true
 	"page_title"         : true,                                  // Boolean  Display page title. If set to 'false' the organization name only will appear in the title bar. Default : true
-	"null_links"         : "javascript:void(0)"                   // String   Set the hypertext referer for null links. Default : "javascript:void(0)" * UNUSED (for now)
+	"redir_param"        : "?redirection=",                       // String   Parameter added to the login page URL for the redirection. Default : "?redirection="
+	"role_admin"         : "admin",                               // String   Administrator user level access key. Default : "admin"
+	"role_redac"         : "writer"                               // String   Moderator user level access key. Default : "writer"
 }
 
 /* Constants */
@@ -198,13 +197,19 @@ $prefs = {
 	"articles_filters"      : "oursesUserPrefsFiltersArticles"    // String   Local storage key of the articles filters user preferences. Default : "oursesUserPrefsFiltersArticles"
 };
 
+/* REST */
+$rest = {
+	"authc"                 : "/rest/authc/connected",            // String   URL for REST service connected. Default : "/rest/authc/connected"
+	"admin"                 : "/rest/authz/isadmin",              // String   URL for REST service isadmin. Default : "/rest/authz/isadmin"
+	"redac"                 : "/rest/authz/isredac"               // String   URL for REST service isredac. Default : "/rest/authz/isredac"
+}
+
 /* ------------------------------------------------------------------ */
 /* # Prebuild processing */
 /* ------------------------------------------------------------------ */
 
 /* Prebuild vars */
 var IE_conditional_comments = [
-	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>",
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
 ];
 var head_tags = [
@@ -339,7 +344,7 @@ var async = async || false, method = method || "GET", send = send || null, respo
 		try {
 			xhr.send(send); // send request to server
 		} catch(err) {
-			console.log(file + " not found.\n " + err); // log server error
+			console.log(file + " not found.\n" + err); // log server error
 		}
 		if (response == "xml") {
 			return xhr.responseXML; // return XML response from server
@@ -369,23 +374,23 @@ function isRegAuthc() {
 
 /* Check if user role is registred as an admin in local storage */
 function isRegAdmin() {
-	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $auth.role_admin) {
+	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $conf.role_admin) {
 		return true;
 	}
 }
 
 /* Check if user role is registred as a writer in local storage */
 function isRegRedac() {
-	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $auth.role_redac) {
+	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $conf.role_redac) {
 		return true;
 	}
 }
 
 /* Clear user local storage from registred globals */
-function clearStorage() {
-	var auth = ["token", "user_name", "user_role", "account_id", "profile_id", "avatar_path"];
-	for (n in auth) {
-		localStorage.removeItem($auth[auth[n]]);
+function clearStorage(hash) {
+	var hash = hash || $auth;
+	for (n in hash) {
+		localStorage.removeItem(hash[n]);
 	}
 }
 
@@ -398,76 +403,30 @@ function clearStorage() {
  * À appeler en HTTPS pour ne pas transporter le token en clair.
  */
 
-function isAuthenticated() {
+function checkAuthz(url, async, redir, flush) {
+	var url = url || $rest.authc, async = async || false, redir = redir || false, flush = flush || false;
 	if (typeof xhr !== "undefined") {
-		var redirection = window.location.pathname;
-		xhr.open("GET", "/rest/authc/connected", false); // define request arguments
+		var loc = window.location.pathname;
+		xhr.open("GET", url, async); // define request arguments
 		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
 		try {
 			xhr.send(null); // send request to server
-			if (xhr.status == 401){
+			if (xhr.status == 401) {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login.url + loginParam;
-				clearStorage();
+				if (redir) { window.location.href = $nav.login.url + $conf.redir_param + loc }
+				if (flush) { clearStorage() }
+			} else if (xhr.status == 403) {
+				console.log("Forbidden ! Redirect to the home page."); // forbidden
+				if (redir) { window.location.href = $nav.home.url }
 			}
-		} catch(err) {
-			console.log("HTTP request failed.\n " + err); // log server error
-		}
-	} else {
-		console.log("XMLHttpRequest not supported."); // log client error
-	}
+		} catch(err) { console.log("HTTP request failed.\n" + err) } // log server error
+	} else { console.log("XMLHttpRequest not supported.") } // log client error
 }
-
-function isAdministratrice() {
-	if (typeof xhr !== "undefined") {
-		var redirection = window.location.pathname;
-		xhr.open("GET", "/rest/authz/isadmin", false); // define request arguments
-		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
-		try {
-			xhr.send(null); // send request to server
-			if (xhr.status == 401){
-				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login.url + loginParam;
-				clearStorage();
-			}
-			else if (xhr.status == 403){
-				console.log("Forbidden ! Redirect to the login page."); // unauthorized
-				window.location.href = $nav.home.url;
-			}
-		} catch(err) {
-			console.log("HTTP request failed.\n " + err); // log server error
-		}
-	} else {
-		console.log("XMLHttpRequest not supported."); // log client error
-	}
+function checkAuth() {
+	checkAuthz(null, null, true, true);
 }
-
-function isRedactrice() {
-	if (typeof xhr !== "undefined") {
-		var redirection = window.location.pathname;
-		xhr.open("GET", "/rest/authz/isredac", false); // define request arguments
-		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
-		try {
-			xhr.send(null); // send request to server
-			if (xhr.status == 401){
-				console.log("Unauthorized ! Redirect to the login page."); // unauthorized non connecté
-				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login.url + loginParam;
-				clearStorage();
-			}
-			else if (xhr.status == 403){
-				console.log("Forbidden ! Redirect to the login page."); // unauthorized pas les droits requis
-				window.location.href = $nav.home.url;
-			}
-		} catch(err) {
-			console.log("HTTP request failed.\n " + err); // log server error
-		}
-	} else {
-		console.log("XMLHttpRequest not supported."); // log client error
-	}
+function checkRole(role) {
+	var url = (role == $conf.role_admin ? $rest.admin : $rest.redac);
+	checkAuthz(url, null, true, true);
 }

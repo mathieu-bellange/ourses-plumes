@@ -723,7 +723,7 @@ jQuery.fn.extend({
 						}
 						obj.trigger('autosize.resize') // force autosize (i.e. wrong size on cancel bug fix)
 					},
-					keydown: function(event) {
+					keyup: function(event) {
 						if (event.which == 27) { // Escape
 							valid(obj, true);
 							obj.blur();
@@ -1046,17 +1046,17 @@ function checkAJAX(done, fail, always, url) {
 
 /* Check if user is authenticated toward server */
 function checkAuthc(done, fail, always) {
-	checkAJAX(done, fail, always, "/rest/authc/connected")
+	checkAJAX(done, fail, always, $rest.authc)
 }
 
 /* Check if user is an admin toward server */
 function checkAdmin(done, fail, always) {
-	checkAJAX(done, fail, always, "/rest/authz/isadmin")
+	checkAJAX(done, fail, always, $rest.admin)
 }
 
 /* Check if user is a writer authenticated toward server */
 function checkRedac(done, fail, always) {
-	checkAJAX(done, fail, always, "/rest/authz/isredac")
+	checkAJAX(done, fail, always, $rest.redac)
 }
 
 /* Disconnect user */
@@ -1211,29 +1211,15 @@ if ($build.container) {
 	$("body").prepend("<div id='main' class='frame'>");
 	$("#main").append("<main class='main-pane'>");
 	// Process toolbar template
-	if (typeof $build.toolbar !== undefined && $build.toolbar == true) {
+	if (typeof $build.toolbar !== "undefined" && $build.toolbar == true) {
 		$("body").prepend(doT.compile(loadfile($loc.tmpl + "_dev_toolbar.tmpl")));
 	}
 	// Process sidebar template
 	$("#main").prepend(doT.compile(loadfile($loc.tmpl + "sidebar.tmpl")));
 	// Process header template
 	$(".main-pane").prepend(doT.compile(loadfile($loc.tmpl + "header.tmpl")));
-
 	// Process footer template
 	$(".main-pane").append(doT.compile(loadfile($loc.tmpl + "footer.tmpl")));
-
-	/* UNUSED*/
-	/*
-	// Process slider template -- this is the tricky part
-	if ($build.slider) {
-		var news_list_tmpl = doT.compile(loadfile($loc.tmpl + "news_list.tmpl"));
-		$(document).ready(function() {
-			$(".main-pane > header").append(news_list_tmpl());
-			$(".news-list").foundation("orbit"); // reload Foundation Orbit Slider plugin ; Foundation need to be loaded one time before that for the list to appear inline
-			$(window).resize(); // just a dummy instruction for getting the proper height
-		});
-	}
-	*/
 }
 
 if ($build.icons) {

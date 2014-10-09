@@ -241,11 +241,11 @@ function processArticle(article) {
 	}
 
 	// initialize plugins
-	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
-	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
-	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
-	$("section").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
-	//share.init(); // TEMP DEBUG : set share links * UNUSED for NOW
+	$("section textarea").autosize({append: ""}); // apply autosize after AJAX request for whole section
+	$("section textarea").add_confirmation_bar(); // apply add_confirmation_bar plugin to all textarea of the page after AJAX request for whole section
+	$("section .options-select").options_select(); // apply options_select plugin to all .options-select of the page after AJAX request for whole section
+	$("section").svg_icons(); // reload svg icons after AJAX request for whole section
+	//share.init(); // UNUSED (for now) : set share links
 }
 
 function processRubric(json, article) {

@@ -38,7 +38,7 @@ function connection(){
 			window.localStorage.setItem($auth.user_name, authcUser.pseudo);
 			window.localStorage.setItem($auth.user_role, authcUser.role);
 			window.localStorage.setItem($auth.avatar_path, authcUser.avatar);
-			var redirection = window.location.search.replace($auth.redir_param, "");
+			var redirection = window.location.search.replace($conf.redir_param, "");
 			if (redirection != "") {
 				window.location.href = redirection;
 			} else {

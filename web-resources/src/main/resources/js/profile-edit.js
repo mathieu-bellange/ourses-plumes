@@ -191,8 +191,8 @@ function getProfile() {
 				$("main > header").after(profile_template(profile)); // process template
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
-				$("textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas
-				$("textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas
+				$("section textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas for whole section
+				$("section textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas for whole section
 				create_icons_input(user_links_icons_input); // process icons input for user links
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
