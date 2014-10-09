@@ -1,7 +1,7 @@
 Insert into category
   (id, category)
 Values
-  (1, 'Brèves'),
+  (1, 'Br&egrave;ves'),
   (2, 'Reportage'),
   (3, 'Spotlights'),
   (4, 'Interview'),
