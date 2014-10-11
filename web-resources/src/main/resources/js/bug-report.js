@@ -1,10 +1,35 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Pre Processing */
+/* ------------------------------------------------------------------ */
+
+// set_page_title($nav.bug_add.title);
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.bug_add.title);
+// $("main > header").after(loadfile($loc.tmpl + "bug-report.tmpl"));
 
-$("main > header").after(loadfile($loc.tmpl + "bug-report.tmpl"));
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true);
+loadfile($loc.tmpl + "bug-report.tmpl", function(response) {
+	bug_tracker_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.bug_report.title);
+	/* Insert template */
+	$("main > header").after(bug_tracker_tmpl);
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -19,19 +44,10 @@ function GithubBug(title, body) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-/* TEMP : to be removed */
-$(".alert-box .close").on('click', function(event) {
-	$conf.js_fx ? $(this).fadeOut(500) : $(this).hide();
-});
-
-$( "#new-bug" ).submit(function( event ) {
-	// BUG :
-	// checkValidity() is an HTML 5 native method not supported by I9 and lower
-	// check if input content > 0 instead
-	// if (document.getElementById("new-bug").checkValidity()){
+$("html").on("submit", "#new-bug", function() {
 	if ($("#bug-title").val() != "" && $("#bug-body").val() != "") {
 		var clientBrowserInfos = "\n***\n" +
 		"- appName : *" + navigator.appName + "*\n" +

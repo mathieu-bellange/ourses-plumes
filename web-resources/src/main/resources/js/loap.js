@@ -6,6 +6,53 @@
  */
 
 /* ------------------------------------------------------------------ */
+/* # Files loading declaration */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * These are asynchronous requests.
+ */
+
+var file_pool = { // varname : filename -- filename will be replaced by template on execution
+// Templates
+"confirmation_bar_tmpl" : $loc.tmpl + "snippet_confirmation_bar.tmpl",
+"alert_box_tmpl"        : $loc.tmpl + "snippet_alert_box.tmpl",
+"dev_toolbar_tmpl"      : $loc.tmpl + "_dev_toolbar.tmpl",
+"user_nav_tmpl"         : $loc.tmpl + "user-nav.tmpl",
+"sidebar_tmpl"          : $loc.tmpl + "sidebar.tmpl",
+"header_tmpl"           : $loc.tmpl + "header.tmpl",
+"footer_tmpl"           : $loc.tmpl + "footer.tmpl",
+// CSS
+"icons_fx_file"         : $file.icons_fx,
+// SVG
+"icons_file"            : $file.icons
+}
+
+var files_readied = 0; // internal -- number of files to load
+var files_ready   = 0; // internal -- number of files loaded
+
+$.holdReady(true); // hold document ready event
+
+function checkReady() {
+	files_ready++;
+	if (files_ready == files_readied) {
+		$.holdReady(false); // release document ready event
+	}
+}
+
+function setFileCallback(varname) {
+	return function(XHRresponse) {
+		file_pool[varname] = XHRresponse;
+		checkReady();
+	}
+}
+
+for (varname in file_pool) {
+	files_readied++;
+	loadfile(file_pool[varname], setFileCallback(varname));
+}
+
+/* ------------------------------------------------------------------ */
 /* # Core */
 /* ------------------------------------------------------------------ */
 /*
@@ -145,12 +192,10 @@ jQuery.fn.extend({
 				}, settings.delay);
 			});
 			// init
-			$(document).ready(function() {
-				$("[" + settings.attr + "]").each(function() {
-					if ($(this).attr(settings.attr) !== "") {
-						$(this).html("<span class='" + settings.class + "'>" + $(this).attr(settings.attr) + "</span>");
-					}
-				});
+			$("[" + settings.attr + "]").each(function() {
+				if ($(this).attr(settings.attr) !== "") {
+					$(this).html("<span class='" + settings.class + "'>" + $(this).attr(settings.attr) + "</span>");
+				}
 			});
 		});
 	}
@@ -501,7 +546,7 @@ jQuery.fn.extend({
 /* Autocomplete */
 jQuery.fn.extend({
 	autocomplete : function(options) {
-		// Variables
+		// vars
 		var defaults = {
 			selector : ".autocomplete",             // String    Selector of the element containing the <ul> feeded by the autocomplete. Default : ".autocomplete"
 			start_chars_num : 3,                    // Integer   The number of characters from which the autocomplete begins. Default : 3
@@ -527,7 +572,7 @@ jQuery.fn.extend({
 				$(selector).set_validation(true);
 			}
 		}
-		// Loop
+		// loop
 		$(this).each(function() {
 			var self = $(this);
 			var autocomplete_selector = $(this).nextAll(settings.selector).first(); // this is suggestion list container
@@ -638,10 +683,9 @@ jQuery.fn.extend({
 			autocomplete_selector.on("mouseleave", "ul > li", function() {
 				$(this).removeClass("selected");
 			});
-			$(document).ready(function() {
-				autocomplete_selector.find("ul > li").each(function() {
-					$(this).addClass("hide"); // hide all autocompletion items (if any)
-				});
+			// init
+			autocomplete_selector.find("ul > li").each(function() {
+				$(this).addClass("hide"); // hide all autocompletion items (if any)
 			});
 		});
 	}
@@ -732,7 +776,8 @@ jQuery.fn.extend({
 							obj.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
-								$(this).after(doT.compile(loadfile($loc.tmpl + "snippet_confirmation_bar.tmpl"))); // insert confirmation_bar template
+								// $(this).after(doT.compile(loadfile($loc.tmpl + "snippet_confirmation_bar.tmpl"))); // insert confirmation_bar template
+								$(this).after(doT.compile(file_pool.confirmation_bar_tmpl)); // insert confirmation_bar template
 								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
 								$conf.js_fx ? $(".validation-bar").fadeIn("slow") : $(".validation-bar").show();
 							}
@@ -759,7 +804,7 @@ jQuery.fn.extend({
  * then the alert box identified by that id will be updated instead
  * of being erased. To create another box, define another id.
  */
-var alert_box_template = doT.compile(loadfile($loc.tmpl + "snippet_alert_box.tmpl"));
+// var alert_box_template = doT.compile(loadfile($loc.tmpl + "snippet_alert_box.tmpl"));
 jQuery.fn.extend({
 	create_alert_box : function(msg, id, opts) {
 		var msg = msg || $msg.error, id = id || "alert_box";
@@ -910,11 +955,11 @@ var user_menu = (function() {
 
 var loap = (function() {
 	return {
-		update: function() {
+		update : function() {
 			$(document).svg_icons(); // WARNING : set svg icons for whole document
 			$(document).user_pictures(); // WARNING : set user pictures for whole document
 		},
-		init: function() {
+		init : function() {
 			this.update();
 			$(document).placeholder(); // set placeholder for whole document
 			$(document).zlider(); // launch zlider for whole document
@@ -985,7 +1030,7 @@ function dateToString(date) {
 	if (date.getDate() === 1) {
 		day += "er";
 	}
-	month = $const.months[date.getMonth()];
+	month = $time.months[date.getMonth()];
 	return day + " " + month + " " + year;
 }
 
@@ -1088,7 +1133,8 @@ function set_user_connected(is_connected) {
 		$(sel + " svg use").attr("xlink:href", "#icon-menu");
 		$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
 		$(sel).data("connected", true); // register connected state in local data var
-		$(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
+		// $(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
+		$(".user-connect").append(doT.compile(file_pool.user_nav_tmpl)); // process user menu template
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 	} else {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
@@ -1176,7 +1222,7 @@ function remove_pref(prefs, key) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Build processing */
+/* # Process user prefs */
 /* ------------------------------------------------------------------ */
 
 /* Check app conf user prefs */
@@ -1197,6 +1243,61 @@ function remove_pref(prefs, key) {
 	}
 }());
 
+/* ------------------------------------------------------------------ */
+/* # Build processing */
+/* ------------------------------------------------------------------ */
+
+function process_build() {
+	// console.log("build processing start"); // DEBUG
+
+	// Register Alert Box Template
+	alert_box_template = doT.compile(file_pool.alert_box_tmpl);
+
+	// Process build
+	if ($conf.css_debug) {
+		$("body").addClass("css-debug");
+		// console.log("build css debug on"); // DEBUG
+	}
+	if ($conf.css_fx) {
+		$("body").addClass("css-fx");
+		// console.log("build css fx on"); // DEBUG
+	}
+
+	if ($build.container) {
+		// console.log("build container on"); // DEBUG
+
+		// Apply standard layout (i.e. two columns view) class to body
+		$("body").addClass("standard-layout");
+		// Create HTML skeleton
+		$("body").prepend("<div id='main' class='frame'>");
+		$("#main").append("<main class='main-pane'>");
+
+		// Process toolbar template
+		if (typeof $build.toolbar !== "undefined" && $build.toolbar == true) {
+			// console.log("build toolbar on"); // DEBUG
+			$("body").prepend(doT.compile(file_pool.dev_toolbar_tmpl));
+		}
+
+		// Process sidebar template
+		$("#main").prepend(doT.compile(file_pool.sidebar_tmpl));
+		// Process header template
+		$(".main-pane").prepend(doT.compile(file_pool.header_tmpl));
+		// Process footer template
+		$(".main-pane").append(doT.compile(file_pool.footer_tmpl));
+	}
+	if ($build.icons) {
+		// console.log("build icons on"); // DEBUG
+		// Process SVG Icons
+			if ($conf.svg_fx) {
+				// console.log("build icons fx on"); // DEBUG
+				$("body").prepend("<style type='text/css'>" + file_pool.icons_fx_file + "</style>"); // append SVG effects
+			}
+			$("body").prepend(file_pool.icons_file); // append SVG icons
+	}
+	// console.log("build processing finish"); // DEBUG
+}
+
+/*
 // Process build
 if ($conf.css_debug) {
 	$("body").addClass("css-debug");
@@ -1221,7 +1322,6 @@ if ($build.container) {
 	// Process footer template
 	$(".main-pane").append(doT.compile(loadfile($loc.tmpl + "footer.tmpl")));
 }
-
 if ($build.icons) {
 	// Process SVG Icons
 		if ($conf.svg_fx) {
@@ -1229,6 +1329,7 @@ if ($build.icons) {
 		}
 		$("body").prepend(loadfile($file.icons)); // append SVG icons
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Toolbar */
@@ -1264,34 +1365,27 @@ $(document).on("keydown", function(event) {
 });
 
 /* Toolbar Effects Toggler */
-$("#_css_fx_toggle, #_svg_fx_toggle, #_js_fx_toggle").click(function() {
+$("html").on("click", "#_css_fx_toggle, #_svg_fx_toggle, #_js_fx_toggle", function() {
 	$(this).toggleClass("active");
 	var str = $(this).attr("id").replace("_toggle", "").cut(1);
 	var val = $(this).hasClass("active") ? true : false;
 	set_pref($prefs.app_conf, str, val); // set user pref
 	$conf[str] = val; // overwrite global conf
 });
-$("#_css_fx_toggle").click(function() {
+$("html").on("click", "#_css_fx_toggle", function() {
 	$("body").toggleClass("css-fx");
 });
-$("#_svg_fx_toggle").click(function() {
+$("html").on("click", "#_svg_fx_toggle", function() {
 	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "alert_conf", {"class" : "warning"});
 });
 
 /* Toolbar Null Links Toggler */
-$("#_null_links_toggle").click(function() {
+$("html").on("click", "#_null_links_toggle", function() {
 	if (!$(this).hasClass("active")) {
 		// Navs
 		$("nav ul li .disabled").addClass("not-disabled");
 		$("nav ul li[class^='icon-'] .disabled").parent("li").addClass("enabled"); // Navs Icons
 		$("nav ul li .disabled").removeClass("disabled");
-		/* UNUSED */
-		/*
-		// Accessibility Icons
-		$(".accessibility ul li .disabled").addClass("enabled");
-		$(".accessibility ul li .disabled").addClass("not-disabled");
-		$(".accessibility ul li .disabled").removeClass("disabled");
-		*/
 		// Sub Navigation
 		$(".sub-nav dd .disabled").addClass("enabled");
 		$(".sub-nav dd .disabled").addClass("not-disabled");
@@ -1305,13 +1399,6 @@ $("#_null_links_toggle").click(function() {
 		$("nav ul li .not-disabled").addClass("disabled");
 		$("nav ul li[class^='icon-'] .not-disabled").parent("li").removeClass("enabled"); // Navs Icons
 		$("nav ul li .not-disabled").removeClass("not-disabled");
-		/* UNUSED */
-		/*
-		// Accessibility Icons
-		$(".accessibility ul li .not-disabled").addClass("disabled");
-		$(".accessibility ul li .not-disabled").removeClass("enabled");
-		$(".accessibility ul li .not-disabled").removeClass("not-disabled");
-		*/
 		// Sub Navigation
 		$(".sub-nav dd .not-disabled").addClass("disabled");
 		$(".sub-nav dd .not-disabled").removeClass("enabled");
@@ -1325,7 +1412,7 @@ $("#_null_links_toggle").click(function() {
 });
 
 /* Toolbar CSS Debug Toggler */
-$("[id^='_css_debug_']").click(function() {
+$("html").on("click", "[id^='_css_debug_']", function() {
 	if (!$(this).hasClass("disabled")) {
 		$(this).toggleClass("active");
 		$("." + $(this).attr("id").cut(11)).toggleClass("css-debug");
@@ -1333,7 +1420,7 @@ $("[id^='_css_debug_']").click(function() {
 });
 
 /* Toolbar Stick Toggler */
-$("#_toolbar_stick_toggle").click(function() {
+$("html").on("click", "#_toolbar_stick_toggle", function() {
 	$(this).toggleClass("active");
 	$("#toolbar").toggleClass("fixed");
 	if ($("#main").css("margin-top") != "45px") {
@@ -1344,145 +1431,31 @@ $("#_toolbar_stick_toggle").click(function() {
 });
 
 /* Close Toolbar Toggler */
-$("#toolbar .close").click(function() {
+$("html").on("click", "#toolbar .close", function() {
 	if ($("#main").css("margin-top") != 0) {
 		$("#main").css("margin-top", 0);
 	}
 	$("#toolbar").addClass("hide");
 });
 
-/* Toolbar Initialization */
-$(document).ready(function() {
-	if (get_pref($prefs.app_conf, "css_fx") == true) {
-		$("#_css_fx_toggle").addClass("active");
-	}
-	if (get_pref($prefs.app_conf, "svg_fx") == true) {
-		$("#_svg_fx_toggle").addClass("active");
-	}
-	if (get_pref($prefs.app_conf, "js_fx") == true) {
-		$("#_js_fx_toggle").addClass("active");
-	}
-});
-
-/* ------------------------------------------------------------------ */
-/* # Links */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-// Links Focus Fix (for Chrome)
-$("html").on("click", "a", function() {
-	if (!$(this).is(":focus")) {
-		// $(this).focus(); // BUG : conflict with CKEditor combo boxes
-	}
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Active Section Toggler */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$(document).ready(function() {
-	var url = window.location.pathname;
-	var q = /[a-zA-Z-_]*\.(?:html|htm)/;
-	var page = url.match(q);
-	var selector = location.hash // assumed it's section id
-	if ($(selector).hasClass("hide")) { // Show active section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-	}
-});
-*/
-
-/* UNUSED */
-/*
-// Handle inner anchor click event ; need to check history.back() for inner anchors
-$("html").on("click", "[href*='#']", function() {
-	var arr = $(this).attr("href").split("#");
-	var selector = "#" + arr[1];
-	if ($(selector).hasClass("hide")) { // Show active section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-}
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Accordions */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED (for now) */
-/* Accordion Active Switcher */
-/*
-$(".accordion dd > a").click(function() {
-	$(this).parent("dd").siblings().children().removeClass("active");
-	$(this).toggleClass("active");
-});
-*/
-
 /* ------------------------------------------------------------------ */
 /* # Alert Boxes */
 /* ------------------------------------------------------------------ */
 
 /* Close Alert Boxes */
-$(document).ready(function() {
-	$("html").on("click", ".alert-box .close", function() {
-		var self = $(this).parent(".alert-box");
-		$(self).children().css("visibility", "hidden"); // mask box content
-		$(self).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? 500 : 0, function() { // hide alert box
-			self.remove();
-		});
+$("html").on("click", ".alert-box .close", function() {
+	var self = $(this).parent(".alert-box");
+	$(self).children().css("visibility", "hidden"); // mask box content
+	$(self).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? 500 : 0, function() { // hide alert box
+		self.remove();
 	});
 });
-
-/* ------------------------------------------------------------------ */
-/* # Pagination */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED (for now) */
-/*
-$(".pagination li a").click(function() {
-	if (!$(this).parent("li").hasClass("unavailable")) {
-		if (!$(this).hasClass("disabled")) {
-			$(this).parent("li").siblings().removeClass("current");
-			$(this).parent("li").toggleClass("current");
-		}
-	}
-});
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Navigation */
 /* ------------------------------------------------------------------ */
 
-/* UNUSED */
-/*
-// Disabled Flag for Pseudo-element :before
-// Get Fucky feat. Farrel Williams,
-// jQuery doesn't recognize pseudo-elements
-$(document).ready(function() {
-	$(".site-nav ul li .disabled").parent("li:before").css("opacity", .5);
-});
-*/
-
-/* UNUSED */
-/*
-// Display Section Switchers
-$("html").on("click", "[data-show]", function() {
-	var selector = "#" + $(this).attr("data-show")
-	if ($(selector).hasClass("hide")) {
-		// Display section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-		// Refresh Breadcrumbs
-		refresh_breadcrumbs($(this));
-	}
-});
-*/
-
-// Navigation Links Current Switcher
+/* Navigation Links Current Switcher */
 $("html").on("click", "[class*='-nav'] ul li a", function() {
 	var selector = $(this);
 	if (!selector.hasClass("no-current")) {
@@ -1498,189 +1471,24 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 /* ------------------------------------------------------------------ */
 
 /* Toggle Sub Navigation Links */
-$(document).ready(function() {
-	$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
-		if ($(this).attr("id") == "search_button"
-		 || $(this).attr("id") == "filter_button"
-		 || $(this).parent("li").parent("ul").attr("id") == "search_filters"
-		 || $(this).parent("li").parent("ul").attr("id") == "filters_list") { // exception list ; rather ugly
-			// do nothing !
-		} else {
-			if (!$(this).hasClass("unavailable") && !$(this).hasClass("disabled")) {
-				if ($(this).parents(".sub-nav").hasClass("toggle")) { // toggle children only
-					$(this).parent("dt, dd, li").siblings().children("a").removeClass("active");
-				} else if ($(this).parents(".sub-nav").hasClass("toggle-all")) { // toggle even parents
-					$(this).parents("dl, ul").find("dd a, dt a, li a").not($(this)).removeClass("active");
-				}
-				$(this).toggleClass("active");
-				$(this).blur();
+$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
+	if ($(this).attr("id") == "search_button"
+	 || $(this).attr("id") == "filter_button"
+	 || $(this).parent("li").parent("ul").attr("id") == "search_filters"
+	 || $(this).parent("li").parent("ul").attr("id") == "filters_list") { // exception list ; rather ugly
+		// do nothing !
+	} else {
+		if (!$(this).hasClass("unavailable") && !$(this).hasClass("disabled")) {
+			if ($(this).parents(".sub-nav").hasClass("toggle")) { // toggle children only
+				$(this).parent("dt, dd, li").siblings().children("a").removeClass("active");
+			} else if ($(this).parents(".sub-nav").hasClass("toggle-all")) { // toggle even parents
+				$(this).parents("dl, ul").find("dd a, dt a, li a").not($(this)).removeClass("active");
 			}
+			$(this).toggleClass("active");
+			$(this).blur();
 		}
-	});
-});
-
-/* ------------------------------------------------------------------ */
-/* # Main Navigation */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-// Main Navigation Sub List Visibility Toggler
-$(".main-nav [data-roll='sub-list']").mouseenter(function() {
-	var handler = $(this);
-	handler.data("hover", true);
-	main_nav_sub_list_open_timeout = setTimeout(function() {
-		if (handler.data("hover") == true) {
-			$(".main-nav .sub-list ul").slideDown("fast");
-		}
-	}, 400);
-});
-$(".main-nav .sub-list ul").mouseenter(function() {
-	$(this).data("hover", true);
-});
-$(".main-nav").mouseenter(function() {
-	clearTimeout(main_nav_sub_listimeout_timeout);
-});
-$(".main-nav").mouseleave(function() {
-	main_nav_sub_listimeout_timeout = setTimeout(function() {
-		if ($(".main-nav .sub-list ul").data("hover") != true) {
-			$(".main-nav .sub-list ul").slideUp("fast");
-		}
-	}, 400);
-});
-$(".main-nav [data-roll='sub-list']").mouseleave(function() {
-	$(".main-nav .sub-list ul").data("hover", false);
-	clearTimeout(main_nav_sub_list_open_timeout);
-});
-$(".main-nav .sub-list ul").mouseleave(function() {
-	$(this).data("hover", false);
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Breadcrumbs */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-function refresh_breadcrumbs(selector) {
-	// Selector comes from breadcrumbs
-	if (selector.parents("ul").hasClass("breadcrumbs")) {
-		var index = ($(".breadcrumbs li").index(selector.parent("li")));
-		$(".breadcrumbs li:gt(" + (index) + ")").remove();
-		selector.parent("li").addClass("current");
 	}
-	// Selector comes from a nav
-	else if (selector.parent("li").parent("ul").parent().is("nav")) {
-		switch(selector.parent("li").parent("ul").parent("nav").attr("class")) {
-			case "toolbar-nav":
-				var str = "Dev Tools";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-			case "user-nav":
-				var str = "Nadejda"; // TEMP : need to retrieve username somehow
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-			case "main-nav":
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				// If is sub-list
-					// Erase level 2 and above
-				break;
-			case "fast-nav":
-				// Erase level 2 and above
-				break;
-			case "site-nav":
-				var str = "Les Ourses &agrave; plumes";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-		}
-		var str = selector.text();
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-	// Selector comes from an articles-list
-	else if (selector.parent("div").parent("li").parent("ul").hasClass("articles-list")) {
-		switch(selector.parent("div").parent("li").parent("ul").parent("section").attr("id")) {
-			case "latest":
-				var str = "&Agrave; la une";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-			case "articles":
-				var str = "Articles";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-		}
-		var str = $("#" + selector.attr("data-show") + " h2 > span").text().slice(0, -1); // TEMP
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-	// Selector comes from user-list
-	else if (selector.parents("section").attr("id") == "user-list") {
-		$(".breadcrumbs li:last-child").removeClass("current");
-		var str = $("#" + selector.attr("data-show") + " h2").text(); // TEMP
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-	// Selector comes from an article
-	else if (selector.parents("article").hasClass("article")) {
-		$(".breadcrumbs li:last-child").removeClass("current");
-		var str = $("#" + selector.attr("data-show") + " h2").text(); // TEMP
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-}
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Accessibility */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$(".accessibility .icon-textinc").click(function() {
-	if ($(".accessibility .icon-textdec").hasClass("active")) {
-		$(".accessibility .icon-textdec").removeClass("active");
-		$("section").removeClass("text-small");
-	}
-	$(this).toggleClass("active");
-	$(this).blur();
-	$("section").toggleClass("text-large");
 });
-$(".accessibility .icon-textdec").click(function() {
-	if ($(".accessibility .icon-textinc").hasClass("active")) {
-		$(".accessibility .icon-textinc").removeClass("active");
-		$("section").removeClass("text-large");
-	}
-	$(this).toggleClass("active");
-	$(this).blur();
-	$("section").toggleClass("text-small");
-});
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Initialize */
@@ -1694,14 +1502,31 @@ var f_tooltip_cfg = {                         // Foundation Tooltip component
 	"hover_delay" : 500                         // Increase time before tooltips appear. Default : 200
 };
 
-/* Launch modules on document ready */
+/* Initialize modules on document ready state */
 $(document).ready(function() {
+	//////////////////////////////////////////////////////////////////////
+	process_build()
+	//////////////////////////////////////////////////////////////////////
+	if (typeof loax !== "undefined") {
+		loax();
+	}
+	//////////////////////////////////////////////////////////////////////
 	var f = Foundation.libs;
 	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings -- NOTE : override fucking Foundation fucking libs
-	$("textarea").autosize(autosize_cfg); // Initialize Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
+	//////////////////////////////////////////////////////////////////////
+	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
+	$(document).foundation(); // Initialize Foundation module
 	loap.init(); // Initialize owner module
 });
 
+/* Reload modules on window resize event */
+$(window).on("resize", function() {
+	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin
+});
+
+////////////////////////////////////////////////////////////////////////
+// WARNING : bad things below ...
+////////////////////////////////////////////////////////////////////////
 /* Set user connected through AJAX on document ready */
 $(document).ready(function() {
 	var done = (function() { set_user_connected(true) });
@@ -1709,8 +1534,16 @@ $(document).ready(function() {
 	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
 	checkAuthc(done, fail, always);
 });
-
-/* Reload Autosize jQuery plugin on window resize */
-$(window).on("resize", function() {
-	$("textarea").autosize(autosize_cfg);
+////////////////////////////////////////////////////////////////////////
+/* Toolbar Initialization */
+$(document).ready(function() {
+	if (get_pref($prefs.app_conf, "css_fx") == true) {
+		$("#_css_fx_toggle").addClass("active");
+	}
+	if (get_pref($prefs.app_conf, "svg_fx") == true) {
+		$("#_svg_fx_toggle").addClass("active");
+	}
+	if (get_pref($prefs.app_conf, "js_fx") == true) {
+		$("#_js_fx_toggle").addClass("active");
+	}
 });

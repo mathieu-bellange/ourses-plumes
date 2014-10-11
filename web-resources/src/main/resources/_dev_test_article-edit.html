@@ -8,7 +8,7 @@
 			// TEMP : Set route CKEditor configuration file route
 			var loc = location.href.split("/");
 			loc.splice(loc.length - 1, 1);
-			$cke_config_path = isFileProtocol() ? loc.join("/") + "/" + $loc.js : $loc.js;
+			$cke_config_path = isFileProtocol ? loc.join("/") + "/" + $loc.js : $loc.js;
 		</script>
 	</head>
 	<body>

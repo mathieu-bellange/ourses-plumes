@@ -202,7 +202,7 @@
 										$(this).val(email); // format value
 										if (email == 0) {
 											$(this).set_validation(false, $msg.email_empty);
-										} else if ($const.email.test(email)) {
+										} else if ($regx.email.test(email)) {
 											if (addr.indexOf(email) == -1) {
 												addr.push(email); // register email to prevent multiple sending
 												$(this).set_validation(true);

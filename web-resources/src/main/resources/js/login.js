@@ -1,16 +1,41 @@
 /* ------------------------------------------------------------------ */
+/* # Pre Processing */
+/* ------------------------------------------------------------------ */
+
+// set_page_title($nav.login.title);
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.login.title);
+// $("main > header").after(doT.compile(loadfile($loc.tmpl + "login.tmpl")));
 
-$("main > header").after(doT.compile(loadfile($loc.tmpl + "login.tmpl")));
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true);
+loadfile($loc.tmpl + "login.tmpl", function(response) {
+	login_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.login.title);
+	/* Insert template */
+	$("main > header").after(login_tmpl);
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-var $accounts_redirection = "accounts";
+//var $accounts_redirection = "accounts"; //??????????????????
 
 function Authentication(login, password){
 	this.login = login;
@@ -61,6 +86,6 @@ function connection(){
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-$("#user_connection").on("click", function() {
+$("html").on("click", "#user_connection", function() {
 	connection();
 });

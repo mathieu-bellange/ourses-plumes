@@ -1,4 +1,10 @@
 /* ------------------------------------------------------------------ */
+/* # Pre Processing */
+/* ------------------------------------------------------------------ */
+
+// set_page_title($nav.account_list.title);
+
+/* ------------------------------------------------------------------ */
 /* # Public vars */
 /* ------------------------------------------------------------------ */
 
@@ -8,10 +14,40 @@ var account_list = {              // This is global var for this module
 };
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.account_list.title);
+$.holdReady(true);
+loadfile($loc.tmpl + "account-list.tmpl", function(response) {
+	account_list_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.account_list.title);
+	/* Process */
+	$.ajax({
+		type : "GET",
+		url : "/rest/authz/roles",
+		contentType : "application/json; charset=utf-8",
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success : function(data, status, jqxhr) {
+			roles = data;
+			getAccount();
+		},
+		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			createAlertBox();
+		}
+	});
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -40,8 +76,8 @@ function getAccount() {
 			header_authentication(request);
 		},
 		success : function(accounts, status, jqxhr) {
-			var accounts_template = doT.compile(loadfile($loc.tmpl + "account-list.tmpl")); // create template
-			$("main > header").after(accounts_template(accounts)); // process template
+			// var accounts_template = doT.compile(loadfile($loc.tmpl + "account-list.tmpl")); // create template
+			$("main > header").after(account_list_tmpl(accounts)); // process template
 			loap.update(); // update main module
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -70,11 +106,6 @@ function updateEvent(id) {
 		data : role.json(),
 		success : function(data, status, jqxhr) {
 			createAlertBox($msg.account_updated, "update_" + id, {"class" : "success", "timeout" : 2500});
-			// setTimeout(function() {
-				// $("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
-					// $("#" + i).remove();
-				// });
-			// }, account_list.alert_timeout);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -95,11 +126,6 @@ function deleteEvent(id) {
 		success : function(data, status, jqxhr) {
 			$("#accountsTable tr[data-account-id=" + id + "]").remove();
 			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : 2500});
-			// setTimeout(function() {
-				// $("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
-					// $("#" + i).remove();
-				// });
-			// }, account_list.alert_timeout);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -122,21 +148,21 @@ $("html").on("change", "#accountsTable [data-account-id] select", function() {
 /* # Build */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	$.ajax({
-		type : "GET",
-		url : "/rest/authz/roles",
-		contentType : "application/json; charset=utf-8",
-		beforeSend: function(request) {
-			header_authentication(request);
-		},
-		success : function(data, status, jqxhr) {
-			roles = data;
-			getAccount();
-		},
-		error : function(jqXHR, status, errorThrown) {
-			ajax_error(jqXHR, status, errorThrown);
-			createAlertBox();
-		}
-	});
-});
+// $(document).ready(function() {
+	// $.ajax({
+		// type : "GET",
+		// url : "/rest/authz/roles",
+		// contentType : "application/json; charset=utf-8",
+		// beforeSend: function(request) {
+			// header_authentication(request);
+		// },
+		// success : function(data, status, jqxhr) {
+			// roles = data;
+			// getAccount();
+		// },
+		// error : function(jqXHR, status, errorThrown) {
+			// ajax_error(jqXHR, status, errorThrown);
+			// createAlertBox();
+		// }
+	// });
+// });

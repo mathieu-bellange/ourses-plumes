@@ -1,10 +1,35 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Pre Processing */
+/* ------------------------------------------------------------------ */
+
+// set_page_title($nav.agenda.title);
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.agenda.title);
+// $("main > header").after(loadfile($loc.tmpl + "agenda.tmpl"));
 
-$("main > header").after(loadfile($loc.tmpl + "agenda.tmpl"));
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true);
+loadfile($loc.tmpl + "agenda.tmpl", function(response) {
+	agenda_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.agenda.title);
+	/* Insert template */
+	$("main > header").after(agenda_tmpl);
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -19,7 +44,7 @@ $("main > header").after(loadfile($loc.tmpl + "agenda.tmpl"));
 // AJAX stuff goes here
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
 $("html").on("mouseenter", ".date-table .href-block.has-event", function() {

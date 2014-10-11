@@ -2,19 +2,40 @@
 /* # Pre Processing */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.account_edit.title);
+// set_page_title($nav.account_edit.title);
 
 /* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var account_template = doT.compile(loadfile($loc.tmpl + "account-edit.tmpl")); // create template
+// var account_template = doT.compile(loadfile($loc.tmpl + "account-edit.tmpl")); // create template
+
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true);
+loadfile($loc.tmpl + "account-edit.tmpl", function(response) {
+	account_edit_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.account_edit.title);
+	/* Insert template */
+	$("main > header").after(account_edit_tmpl);
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-function BearAccount(oldPassword,newPassword,confirmPassword) {
+function BearAccount(oldPassword, newPassword, confirmPassword) {
 	this.oldPassword = oldPassword;
 	this.newPassword = newPassword;
 	this.confirmPassword = confirmPassword;
@@ -145,12 +166,13 @@ function submitAccountAJAX() {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	getAccount();
-});
+// $(document).ready(function() {
+	// getAccount();
+// });
+
 $("html").on("submit","#updateBearAccount",function(event) {
 	if (isFormValid()) {
 		submitAccountAJAX();

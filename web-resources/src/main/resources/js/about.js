@@ -1,10 +1,35 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Pre Processing */
+/* ------------------------------------------------------------------ */
+
+// set_page_title($nav.about.title);
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.about.title);
+// $("main > header").after(loadfile($loc.tmpl + "about.tmpl"));
 
-$("main > header").after(loadfile($loc.tmpl + "about.tmpl"));
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true);
+loadfile($loc.tmpl + "about.tmpl", function(response) {
+	about_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.about.title);
+	/* Insert template */
+	$("main > header").after(about_tmpl);
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -19,7 +44,7 @@ $("main > header").after(loadfile($loc.tmpl + "about.tmpl"));
 // AJAX stuff goes here
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
 // jQuery events go here

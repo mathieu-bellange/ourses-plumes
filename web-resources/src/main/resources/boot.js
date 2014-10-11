@@ -6,9 +6,22 @@
  */
 
 /* ------------------------------------------------------------------ */
-/* # Public methods */
+/* # Private variables */
 /* ------------------------------------------------------------------ */
 
+var isFileProtocol = (function() {
+	if (window.location.href.split("/")[0].slice(0,4) === "file") {
+		return true;
+	}
+}());
+
+var isLocalHost = (function() {
+	if (window.location.hostname === "localhost") {
+		return true;
+	}
+}());
+
+/*
 function isFileProtocol() {
 	if (window.location.href.split("/")[0].slice(0,4) === "file") {
 		return true;
@@ -20,6 +33,7 @@ function isLocalHost() {
 		return true;
 	}
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Public variables */
@@ -45,7 +59,7 @@ $app = {
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
-	"root"               : isFileProtocol() ? "" : "/",           // String   Application base URL. Default : "/"
+	"root"               : isFileProtocol ? "" : "/",           // String   Application base URL. Default : "/"
 };
 
 /* Authentication */
@@ -81,8 +95,8 @@ $conf = {
 	"role_redac"         : "writer"                               // String   Moderator user level access key. Default : "writer"
 }
 
-/* Constants */
-$const = {
+/* Time */
+$time = {
 	"days" : [                                                    // Array    Define literals for days.
 		"lundi",                                                    // String   Set Monday literal.
 		"mardi",                                                    // String   Set Tuesday literal.
@@ -105,15 +119,7 @@ $const = {
 		"octobre",                                                  // String   Set October literal.
 		"novembre",                                                 // String   Set November literal.
 		"décembre"                                                  // String   Set December literal.
-	],
-	/* --------------------
-	 * Email address syntax
-	 * --------------------
-	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
-	 * second-level domain = at least one defined, max two defined, no length restriction
-	 * top-level domain = must be defined, min one char, max four chars
-	 */
-	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i // Regexp
+	]
 }
 
 /* Location */
@@ -171,14 +177,14 @@ $msg = {
 $nav = {
 	"about"                 : {"url" : "/faq",               "title" : "FAQ"},
 	"account_list"          : {"url" : "/comptes",           "title" : "Lister les comptes"},
-	"account_add"           : {"url" : null,                 "title" : "Ajouter un compte"},
+	"account_create"        : {"url" : null,                 "title" : "Ajouter un compte"},
 	"account_edit"          : {"url" : "/parametres/compte", "title" : "Mon compte"},
 	"agenda"                : {"url" : null,                 "title" : "Agenda"},
 	"article_list"          : {"url" : "/articles",          "title" : "Tous les articles"},
 	"article_view"          : {"url" : null,                 "title" : null},
 	"article_add"           : {"url" : "/articles/nouveau",  "title" : "Écrire un article"},
 	"article_edit"          : {"url" : null,                 "title" : "Modifier un article"},
-	"bug_add"               : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
+	"bug_report"            : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
 	"contact"               : {"url" : null,                 "title" : "Nous contacter"},
 	"error"                 : {"url" : null,                 "title" : "Erreur"},
 	"home"                  : {"url" : "/",                  "title" : "Accueil"},
@@ -191,11 +197,23 @@ $nav = {
 	"thanks"                : {"url" : null,                 "title" : "Remerciements"}
 };
 
-/* Prefs */
+/* Preferences */
 $prefs = {
 	"app_conf"              : "oursesUserPrefsAppConf",           // String   Local storage key of the application configuration user preferences. Default : "oursesUserPrefsAppConf"
 	"articles_filters"      : "oursesUserPrefsFiltersArticles"    // String   Local storage key of the articles filters user preferences. Default : "oursesUserPrefsFiltersArticles"
 };
+
+/* Regular Expressions */
+$regx = {
+	/* -------------------------------------------------------------------
+	 * Email address regular expression syntax
+	 * -------------------------------------------------------------------
+	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
+	 * second-level domain = at least one defined, max two defined, no length restriction
+	 * top-level domain = must be defined, min one char, max four chars
+	 */
+	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i // Regexp
+}
 
 /* REST */
 $rest = {
@@ -283,7 +301,13 @@ function b_html(array) { // Build HTML Elements
 
 function load(script) { // Define Postbuild Processing
 	if (typeof script !== "undefined") {
-		body_tags.splice(-1, 0, {elem: "script", attr: {src: $loc.js + script}});
+		if (typeof script == "string") {
+			body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script}});
+		} else if (typeof script == "object") {
+			for (k in script) {
+				body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script[k]}});
+			}
+		}
 	}
 	document.write(b_html(body_tags));
 }
@@ -313,9 +337,9 @@ XMLHttpRequest.prototype.sendAsRawData = function(sData) {
  * Below is a simple HTTP file request object.
  */
 
-var xhr = (function() {
+function getXHR() {
 	if (typeof XMLHttpRequest !== "undefined") {
-		if (isFileProtocol() && navigator.appName == "Microsoft Internet Explorer") {
+		if (isFileProtocol && navigator.appName == "Microsoft Internet Explorer") {
 			return new ActiveXObject("Microsoft.XMLHTTP") // Internet Explorer > 9 from local files
 		} else {
 			return new XMLHttpRequest(); // Firefox, Chrome, Opera
@@ -325,7 +349,22 @@ var xhr = (function() {
 	} else {
 		console.log("File loading failed. XMLHttpRequest and ActiveXObject deactivated or not supported.");
 	}
-}());
+}
+
+var xhr = getXHR();
+// var xhr = (function() {
+	// if (typeof XMLHttpRequest !== "undefined") {
+		// if (isFileProtocol() && navigator.appName == "Microsoft Internet Explorer") {
+			// return new ActiveXObject("Microsoft.XMLHTTP") // Internet Explorer > 9 from local files
+		// } else {
+			// return new XMLHttpRequest(); // Firefox, Chrome, Opera
+		// }
+	// } else if (typeof ActiveXObject !== "undefined") {
+		// return new ActiveXObject("Microsoft.XMLHTTP"); // Internet Explorer < 9
+	// } else {
+		// console.log("File loading failed. XMLHttpRequest and ActiveXObject deactivated or not supported.");
+	// }
+// }());
 
 /*
  * NOTE
@@ -333,6 +372,30 @@ var xhr = (function() {
  * The function has been named accordingly to doT.js
  */
 
+function loadfile(url, callback) {
+	var xhr = getXHR(), callback = callback || function(response) {return response};
+	if (typeof xhr !== "undefined") {
+		xhr.open("GET", url, true); // define request arguments
+		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
+		if (navigator.appName != "Microsoft Internet Explorer") { // request plain text for any browser except IE
+			xhr.overrideMimeType("text/plain"); // prevent request header bugs
+		}
+		xhr.addEventListener("load", function() {
+			if (this.readyState == 4) {
+				if (isFileProtocol || this.status == 200) {
+					callback(this.response);
+				}
+			}
+		}, false);
+		try {
+			xhr.send(); // send request to server
+		} catch(err) {
+			console.log(url + " not found.\n" + err); // log server error
+			callback(""); // return empty -- if no file is found, then nothing will be processed but the script execution won't be stopped
+		}
+	}
+}
+/*
 function loadfile(file, async, method, send, response) {
 var async = async || false, method = method || "GET", send = send || null, response = response || "text"; // default params
 	if (typeof xhr !== "undefined") {
@@ -355,6 +418,7 @@ var async = async || false, method = method || "GET", send = send || null, respo
 		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
 	}
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Security */
@@ -403,11 +467,11 @@ function clearStorage(hash) {
  * À appeler en HTTPS pour ne pas transporter le token en clair.
  */
 
-function checkAuthz(url, async, redir, flush) {
-	var url = url || $rest.authc, async = async || false, redir = redir || false, flush = flush || false;
+function checkAuthz(url, redir, flush) {
+	var url = url || $rest.authc, redir = redir || false, flush = flush || false;
 	if (typeof xhr !== "undefined") {
 		var loc = window.location.pathname;
-		xhr.open("GET", url, async); // define request arguments
+		xhr.open("GET", url, false); // define request arguments
 		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
 		try {
@@ -424,9 +488,9 @@ function checkAuthz(url, async, redir, flush) {
 	} else { console.log("XMLHttpRequest not supported.") } // log client error
 }
 function checkAuth() {
-	checkAuthz(null, null, true, true);
+	checkAuthz(null, true, true);
 }
 function checkRole(role) {
 	var url = (role == $conf.role_admin ? $rest.admin : $rest.redac);
-	checkAuthz(url, null, true, true);
+	checkAuthz(url, true, true);
 }

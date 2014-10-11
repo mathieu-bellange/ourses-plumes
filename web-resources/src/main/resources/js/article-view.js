@@ -2,7 +2,26 @@
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($loc.tmpl + "article-view.tmpl"));
+// var template = doT.compile(loadfile($loc.tmpl + "article-view.tmpl"));
+
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true);
+loadfile($loc.tmpl + "article-view.tmpl", function(response) {
+	article_view_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Process */
+	displayArticle();
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -66,7 +85,7 @@ var share = (function() {
 						$(this).val(email); // format value
 						if (email == 0) {
 							$(this).set_validation(false, $msg.email_empty);
-						} else if ($const.email.test(email)) {
+						} else if ($regx.email.test(email)) {
 							if (addr.indexOf(email) == -1) {
 								addr.push(email); // register email to prevent multiple sending
 								$(this).set_validation(true);
@@ -150,15 +169,15 @@ function shareByMail(articleId, mail){
 
 function processArticle(article) {
 	set_page_title(article.title);
-	$("main > header").after(template(article));
+	$("main > header").after(article_view_tmpl(article));
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	displayArticle();
-});
+// $(document).ready(function() {
+	// displayArticle();
+// });

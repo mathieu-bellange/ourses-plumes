@@ -2,7 +2,13 @@
 /* # Pre Processing */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.profile_edit.title);
+// set_page_title($nav.profile_edit.title);
+
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
+
+// var profile_template = doT.compile(loadfile($loc.tmpl + "profile-edit.tmpl")); // create template
 
 /* ------------------------------------------------------------------ */
 /* # Public vars */
@@ -12,10 +18,25 @@ var username_max_chars = 24;
 var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-var profile_template = doT.compile(loadfile($loc.tmpl + "profile-edit.tmpl")); // create template
+$.holdReady(true);
+loadfile($loc.tmpl + "profile-edit.tmpl", function(response) {
+	profile_edit_tpml = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.profile_edit.title);
+	/* Process */
+	getProfile(); // process page template feeded with DB values through AJAX
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -188,7 +209,7 @@ function getProfile() {
 			url : "/rest/profile/" + profileId,
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
-				$("main > header").after(profile_template(profile)); // process template
+				$("main > header").after(profile_edit_tpml(profile)); // process template
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
 				$("section textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas for whole section
@@ -621,10 +642,10 @@ function processAvatar(options) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Initialization */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
 // Page Load
-$(document).ready(function() {
-	getProfile(); // process page template feeded with DB values through AJAX
-});
+// $(document).ready(function() {
+	// getProfile(); // process page template feeded with DB values through AJAX
+// });

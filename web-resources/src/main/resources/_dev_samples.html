@@ -5,14 +5,22 @@
 	</head>
 	<body>
 		<script>
+			//$("main > header").after(doT.compile(loadfile($loc.tmpl + "_dev_samples.tmpl")));
+
+			$.holdReady(true);
+			loadfile($loc.tmpl + "_dev_samples.tmpl", function(response) {
+				dev_samples_tmpl = doT.compile(response);
+				$.holdReady(false);
+			});
+
+			var loax = (function() {
+				/* Insert Template */
+				$("main > header").after(dev_samples_tmpl);
+			});
+
+		</script>
+		<script>
 			load();
-		</script>
-		<script>
-			$("main > header").after(doT.compile(loadfile($loc.tmpl + "_dev_samples.tmpl")));
-		</script>
-		<script>
-			$(document).foundation();
-			loap.update()
 		</script>
 	</body>
 </html>

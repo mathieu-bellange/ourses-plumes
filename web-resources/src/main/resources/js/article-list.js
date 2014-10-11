@@ -2,7 +2,15 @@
 /* # Pre Processing */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.article_list.title); // set page title
+// set_page_title($nav.article_list.title); // set page title
+
+/* ------------------------------------------------------------------ */
+/* # Templating */
+/* ------------------------------------------------------------------ */
+
+// var article_tool_tmpl = doT.compile(loadfile($loc.tmpl + "article-tool.tmpl"));
+// var article_list_tmpl = doT.compile(loadfile($loc.tmpl + "article-list.tmpl"));
+// var article_item_tmpl = doT.compile(loadfile($loc.tmpl + "article-item.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Public vars */
@@ -21,12 +29,35 @@ var article_list_cfg = {
 };
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-var article_tool_tmpl = doT.compile(loadfile($loc.tmpl + "article-tool.tmpl"));
-var article_list_tmpl = doT.compile(loadfile($loc.tmpl + "article-list.tmpl"));
-var article_item_tmpl = doT.compile(loadfile($loc.tmpl + "article-item.tmpl"));
+$.holdReady(true);
+loadfile($loc.tmpl + "article-tool.tmpl", function(response) {
+	article_tool_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+$.holdReady(true);
+loadfile($loc.tmpl + "article-list.tmpl", function(response) {
+	article_list_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+$.holdReady(true);
+loadfile($loc.tmpl + "article-item.tmpl", function(response) {
+	article_item_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.article_list.title);
+	/* Process */
+	displayArticles();
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -658,6 +689,6 @@ function obtenirParametre(sVar) {
 /* # Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	displayArticles();
-});
+// $(document).ready(function() {
+	// displayArticles();
+// });

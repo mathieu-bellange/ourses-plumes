@@ -1,10 +1,35 @@
 /* ------------------------------------------------------------------ */
+/* # Pre Processing */
+/* ------------------------------------------------------------------ */
+
+// set_page_title($nav.account_create.title);
+
+/* ------------------------------------------------------------------ */
 /* # Templating */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.account_add.title);
+// $("main > header").after(loadfile($loc.tmpl + "account-create.tmpl"));
 
-$("main > header").after(loadfile($loc.tmpl + "account-create.tmpl"));
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true);
+loadfile($loc.tmpl + "account-create.tmpl", function(response) {
+	account_create_tmpl = doT.compile(response);
+	$.holdReady(false);
+});
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	/* Set page title */
+	set_page_title($nav.account_create.title);
+	/* Insert template */
+	$("main > header").after(account_create_tmpl);
+});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -29,10 +54,6 @@ function isFormValid() {
 	var isPasswordValid = !$("#password").attr("data-invalid");
 	return isPseudoValid && isMailValid && isPasswordValid;
 }
-
-/* ------------------------------------------------------------------ */
-/* # DOM manipulation */
-/* ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ */
 /* # AJAX */
@@ -151,36 +172,33 @@ function submitAccountAJAX() {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$("#bearAccount").submit(function(event) {
+$("html").on("submit", "#bearAccount", function(event) {
 	if (isFormValid()) {
 		submitAccountAJAX();
 	}
 });
-$("#pseudo").keyup(function(event) {
+
+$("html").on("keyup", "#pseudo", function(event) {
 	checkPseudoAJAX();
 });
-$("#pseudo").on("keypress", function() {
-  $(this).set_validation(null);
-});
-$("#mail").keyup(function(event) {
+$("html").on("keyup", "#mail", function(event) {
 	checkMailAJAX();
 });
-$("#mail").on("keypress", function() {
-	$(this).set_validation(null);
-});
-$("#password").keyup(function(event) {
+$("html").on("keyup", "#password", function(event) {
 	checkPasswordAJAX();
 });
-$("#password").on("keypress", function() {
+
+$("#pseudo, #mail, #password").on("keypress", function() {
 	$(this).set_validation(null);
 });
-$("#password").on("focus", function(event) {
+
+$("html").on("focus", "#password", function(event) {
 	$(this).attr("placeholder", "");
 });
-$("html").on("blur","#password", function(event) {
+$("html").on("blur", "#password", function(event) {
 	if ($(this).val().length == 0) {
 		$(this).attr("placeholder", "Minimum 7 caractères, une minuscule et un chiffre");
 	}
