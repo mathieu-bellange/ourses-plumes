@@ -19,9 +19,7 @@ var file_pool = { // varname : filename -- filename will be replaced by template
 "alert_box_tmpl"        : $loc.tmpl + "snippet_alert_box.tmpl",
 "dev_toolbar_tmpl"      : $loc.tmpl + "_dev_toolbar.tmpl",
 "user_nav_tmpl"         : $loc.tmpl + "user-nav.tmpl",
-"sidebar_tmpl"          : $loc.tmpl + "sidebar.tmpl",
-"header_tmpl"           : $loc.tmpl + "header.tmpl",
-"footer_tmpl"           : $loc.tmpl + "footer.tmpl",
+"frame_tmpl"          : $loc.tmpl + "frame.tmpl",
 // CSS
 "icons_fx_file"         : $file.icons_fx,
 // SVG
@@ -776,7 +774,6 @@ jQuery.fn.extend({
 							obj.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
-								// $(this).after(doT.compile(loadfile($loc.tmpl + "snippet_confirmation_bar.tmpl"))); // insert confirmation_bar template
 								$(this).after(doT.compile(file_pool.confirmation_bar_tmpl)); // insert confirmation_bar template
 								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
 								$conf.js_fx ? $(".validation-bar").fadeIn("slow") : $(".validation-bar").show();
@@ -804,7 +801,6 @@ jQuery.fn.extend({
  * then the alert box identified by that id will be updated instead
  * of being erased. To create another box, define another id.
  */
-// var alert_box_template = doT.compile(loadfile($loc.tmpl + "snippet_alert_box.tmpl"));
 jQuery.fn.extend({
 	create_alert_box : function(msg, id, opts) {
 		var msg = msg || $msg.error, id = id || "alert_box";
@@ -819,7 +815,7 @@ jQuery.fn.extend({
 		var cfg = $.extend({}, defs, opts);
 		var sel = "#" + id; // internal
 		if ($(sel).length == 0) {
-			$(this).first().after(alert_box_template({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "text" : msg}));
+			$(this).first().after(alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "text" : msg}));
 			$(sel).svg_icons(); // set svg icons contained by alert box
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
 			if (cfg.timeout > 0) {
@@ -904,7 +900,7 @@ var user_menu = (function() {
 					}
 				});
 				////////////////////////////////////////////////////////////////
-				// Local TEST block : can be removed
+				// Local TEST block for DEBUG
 				////////////////////////////////////////////////////////////////
 				// set_user_connected(true); // connect user
 				// $(cfg.trigger).data("connected", true);
@@ -1145,7 +1141,6 @@ function set_user_connected(is_connected) {
 		$(sel + " svg use").attr("xlink:href", "#icon-menu");
 		$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
 		$(sel).data("connected", true); // register connected state in local data var
-		// $(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
 		$(".user-connect").append(doT.compile(file_pool.user_nav_tmpl)); // process user menu template
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 	} else {
@@ -1267,88 +1262,29 @@ function remove_pref(prefs, key) {
 /* ------------------------------------------------------------------ */
 
 function process_build() {
-	// console.log("build processing start"); // DEBUG
-
-	// Register Alert Box Template
-	alert_box_template = doT.compile(file_pool.alert_box_tmpl);
-
-	// Process build
-	if ($conf.css_debug) {
-		$("body").addClass("css-debug");
-		// console.log("build css debug on"); // DEBUG
-	}
-	if ($conf.css_fx) {
-		$("body").addClass("css-fx");
-		// console.log("build css fx on"); // DEBUG
-	}
-
+	// Register alert box template
+	alert_box_tmpl = doT.compile(file_pool.alert_box_tmpl);
+	// Apply css debug
+	if ($conf.css_debug) { $("body").addClass("css-debug") }
+	// Apply css fx
+	if ($conf.css_fx) { $("body").addClass("css-fx"); }
+	// Build container
 	if ($build.container) {
-		// console.log("build container on"); // DEBUG
-
-		// Apply standard layout (i.e. two columns view) class to body
+		// Apply standard layout (i.e. two columns view)
 		$("body").addClass("standard-layout");
-		// Create HTML skeleton
-		$("body").prepend("<div id='main' class='frame'>");
-		$("#main").append("<main class='main-pane'>");
-
-		// Process toolbar template
-		if (typeof $build.toolbar !== "undefined" && $build.toolbar == true) {
-			// console.log("build toolbar on"); // DEBUG
-			$("body").prepend(doT.compile(file_pool.dev_toolbar_tmpl));
-		}
-
-		// Process sidebar template
-		$("#main").prepend(doT.compile(file_pool.sidebar_tmpl));
-		// Process header template
-		$(".main-pane").prepend(doT.compile(file_pool.header_tmpl));
-		// Process footer template
-		$(".main-pane").append(doT.compile(file_pool.footer_tmpl));
+		// Prepend frame
+		$("body").prepend(doT.compile(file_pool.frame_tmpl))
 	}
+	// Build toolbar template
+	if ($build.toolbar) { $("body").prepend(doT.compile(file_pool.dev_toolbar_tmpl)) }
+	// Build icons
 	if ($build.icons) {
-		// console.log("build icons on"); // DEBUG
-		// Process SVG Icons
-			if ($conf.svg_fx) {
-				// console.log("build icons fx on"); // DEBUG
-				$("body").prepend("<style type='text/css'>" + file_pool.icons_fx_file + "</style>"); // append SVG effects
-			}
-			$("body").prepend(file_pool.icons_file); // append SVG icons
+		// Prepend ppend SVG effects
+		if ($conf.svg_fx) { $("body").prepend("<style type='text/css'>" + file_pool.icons_fx_file + "</style>") }
+		// Prepend SVG icons
+		$("body").prepend(file_pool.icons_file);
 	}
-	// console.log("build processing finish"); // DEBUG
 }
-
-/*
-// Process build
-if ($conf.css_debug) {
-	$("body").addClass("css-debug");
-}
-if ($conf.css_fx) {
-	$("body").addClass("css-fx");
-}
-if ($build.container) {
-	// Apply standard layout (i.e. two columns view) class to body
-	$("body").addClass("standard-layout");
-	// Create HTML skeleton
-	$("body").prepend("<div id='main' class='frame'>");
-	$("#main").append("<main class='main-pane'>");
-	// Process toolbar template
-	if (typeof $build.toolbar !== "undefined" && $build.toolbar == true) {
-		$("body").prepend(doT.compile(loadfile($loc.tmpl + "_dev_toolbar.tmpl")));
-	}
-	// Process sidebar template
-	$("#main").prepend(doT.compile(loadfile($loc.tmpl + "sidebar.tmpl")));
-	// Process header template
-	$(".main-pane").prepend(doT.compile(loadfile($loc.tmpl + "header.tmpl")));
-	// Process footer template
-	$(".main-pane").append(doT.compile(loadfile($loc.tmpl + "footer.tmpl")));
-}
-if ($build.icons) {
-	// Process SVG Icons
-		if ($conf.svg_fx) {
-			$("body").prepend("<style type='text/css'>" + loadfile($file.icons_fx) + "</style>"); // append SVG effects
-		}
-		$("body").prepend(loadfile($file.icons)); // append SVG icons
-}
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Toolbar */
@@ -1371,9 +1307,9 @@ $(document).on("keydown", function(event) {
 		clearTimeout(toolbar_show.timer);
 		if ($("#_toolbar_stick_toggle").hasClass("active")) {
 			if ($("#toolbar").hasClass("hide")) {
-				$("#main").css("margin-top", "45px");
+				$(".frame").css("margin-top", "45px");
 			} else {
-				$("#main").css("margin-top", "0");
+				$(".frame").css("margin-top", "0");
 			}
 		}
 		$("#toolbar").toggleClass("hide");
@@ -1442,17 +1378,14 @@ $("html").on("click", "[id^='_css_debug_']", function() {
 $("html").on("click", "#_toolbar_stick_toggle", function() {
 	$(this).toggleClass("active");
 	$("#toolbar").toggleClass("fixed");
-	if ($("#main").css("margin-top") != "45px") {
-		$("#main").css("margin-top", "45px");
-	} else {
-		$("#main").css("margin-top", 0);
-	}
+	var n = $(".frame").css("margin-top") != "45px" ? "45px" : 0;
+	$(".frame").css("margin-top", n);
 });
 
 /* Close Toolbar Toggler */
 $("html").on("click", "#toolbar .close", function() {
-	if ($("#main").css("margin-top") != 0) {
-		$("#main").css("margin-top", 0);
+	if ($(".frame").css("margin-top") != 0) {
+		$(".frame").css("margin-top", 0)
 	}
 	$("#toolbar").addClass("hide");
 });
