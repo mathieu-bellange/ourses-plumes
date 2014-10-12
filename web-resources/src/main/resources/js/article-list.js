@@ -1,4 +1,29 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.article_list.title);
+			/* Process */
+			displayArticles();
+		}
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # Files Loading */
+/* ------------------------------------------------------------------ */
+
+var loax_pool = {
+	"article_tool_tmpl" : $loc.tmpl + "article-tool.tmpl",
+	"article_list_tmpl" : $loc.tmpl + "article-list.tmpl",
+	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
+}
+
+/* ------------------------------------------------------------------ */
 /* # Public vars */
 /* ------------------------------------------------------------------ */
 
@@ -13,27 +38,6 @@ var article_list_cfg = {
 	"fade_duration" : 500,                 // Integer   Duration for updated articles fade in/out. Default : 500
 	"page_startup"  : false                // Internal  DO NOT CHANGE THIS !!!
 };
-
-/* ------------------------------------------------------------------ */
-/* # Files Loading */
-/* ------------------------------------------------------------------ */
-
-var loax_pool = {
-	"article_tool_tmpl" : $loc.tmpl + "article-tool.tmpl",
-	"article_list_tmpl" : $loc.tmpl + "article-list.tmpl",
-	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
-}
-
-/* ------------------------------------------------------------------ */
-/* # Module */
-/* ------------------------------------------------------------------ */
-
-var loax = (function() {
-	/* Set page title */
-	set_page_title($nav.article_list.title);
-	/* Process */
-	displayArticles();
-});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

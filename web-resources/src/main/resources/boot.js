@@ -248,8 +248,8 @@ var head_tags = [
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
 var body_tags = [
-	{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js"}},
 	{elem: "script", attr: {src: $loc.js + "loap.js"}},
+	{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
 ];
 
 /* Prebuild methods */
@@ -298,10 +298,10 @@ function b_html(array) { // Build HTML Elements
 function load(script) { // Define Postbuild Processing
 	if (typeof script !== "undefined") {
 		if (typeof script == "string") {
-			body_tags.splice(-1, 0, {elem: "script", attr: {src: $loc.js + script}});
+			body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script}});
 		} else if (typeof script == "object") {
 			for (k in script) {
-				body_tags.splice(-1, 0, {elem: "script", attr: {src: $loc.js + script[k]}});
+				body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script[k]}});
 			}
 		}
 	}

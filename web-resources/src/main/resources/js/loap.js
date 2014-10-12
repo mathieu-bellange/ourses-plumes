@@ -6,12 +6,63 @@
  */
 
 /* ------------------------------------------------------------------ */
-/* # Files loading declaration */
+/* # Module */
 /* ------------------------------------------------------------------ */
 /*
  * NOTE
- * These are asynchronous requests.
+ * All instructions that need a refresh should be put below.
+ * That is mainly for anything launched by a generated element.
+ * It concerns append, prepend, wrap, before, after, insert, html, etc.
+ * Anything created after loading. This is an IIFE.
+ *
+ * Events have to be separatly attached for now and the future
+ * to a parent element (i.e. with 'on' or 'live' jQuery methods).
  */
+
+var loap = (function() {
+	return {
+		build : function() {
+			// Apply css debug
+			if ($conf.css_debug) { $("body").addClass("css-debug") }
+			// Apply css fx
+			if ($conf.css_fx) { $("body").addClass("css-fx"); }
+			// Build container
+			if ($build.container) {
+				// Apply standard layout (i.e. two columns view)
+				$("body").addClass("standard-layout");
+				// Prepend frame
+				$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
+			}
+			// Build toolbar template
+			if ($build.toolbar) { $("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1)) }
+			// Build icons
+			if ($build.icons) {
+				// Prepend ppend SVG effects
+				if ($conf.svg_fx) { $("body").prepend(file_pool.icons_fx_file).prepend(lb(1)) }
+				// Prepend SVG icons
+				$("body").prepend(file_pool.icons_file).prepend(lb(1));
+			}
+		},
+		update : function() {
+			$(document).svg_icons(); // WARNING : set svg icons for whole document
+			$(document).user_pictures(); // WARNING : set user pictures for whole document
+		},
+		init : function() {
+			/* Apply user settings */
+			check_user_connected()
+			set_toolbar_prefs()
+			/* Load components */
+			this.update();
+			$(document).placeholder(); // set placeholder for whole document
+			$(document).zlider(); // launch zlider for whole document
+			user_menu.init(); // setup user menu
+		}
+	};
+}());
+ 
+/* ------------------------------------------------------------------ */
+/* # Files loading declaration */
+/* ------------------------------------------------------------------ */
 
 var loap_pool = {
 //"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
@@ -31,11 +82,22 @@ var file_pool = $.extend({}, loap_pool, loax_pool);
 var files_readied = 0; // internal -- number of files to load
 var files_ready   = 0; // internal -- number of files loaded
 
+for (key in file_pool) {
+	files_readied++;
+}
+console.log("0 - xhr files readied : " + files_readied); // DEBUG
 $.holdReady(true); // hold document ready event
 
 function checkReady() {
 	files_ready++;
 	if (files_ready == files_readied) {
+		console.log("1 - xhr files loaded : " + files_ready); // DEBUG
+		console.log("2 - process loap build (i.e. insert xhr files into document)"); // DEBUG
+		loap.build(); // process primary build
+		if (typeof loax.build !== "undefined") {
+			console.log("3 - process loax build (i.e. insert xhr files into document)"); // DEBUG
+			loax.build()
+		} // process auxiliary build
 		$.holdReady(false); // release document ready event
 	}
 }
@@ -48,7 +110,6 @@ function setFileCallback(varname) {
 }
 
 for (varname in file_pool) {
-	files_readied++;
 	loadfile(file_pool[varname], setFileCallback(varname));
 }
 
@@ -938,39 +999,6 @@ var user_menu = (function() {
 }());
 
 /* ------------------------------------------------------------------ */
-/* # Module */
-/* ------------------------------------------------------------------ */
-/*
- * NOTE
- * All instructions that need a refresh should be put below.
- * That is mainly for anything launched by a generated element.
- * It concerns append, prepend, wrap, before, after, insert, html, etc.
- * Anything created after loading. This is an IIFE.
- *
- * Events have to be separatly attached for now and the future
- * to a parent element (i.e. with 'on' or 'live' jQuery methods).
- */
-
-var loap = (function() {
-	return {
-		update : function() {
-			$(document).svg_icons(); // WARNING : set svg icons for whole document
-			$(document).user_pictures(); // WARNING : set user pictures for whole document
-		},
-		init : function() {
-			/* Apply user settings */
-			check_user_connected()
-			set_toolbar_prefs()
-			/* Load components */
-			this.update();
-			$(document).placeholder(); // set placeholder for whole document
-			$(document).zlider(); // launch zlider for whole document
-			user_menu.init(); // setup user menu
-		}
-	};
-}());
-
-/* ------------------------------------------------------------------ */
 /* # Build methods declaration */
 /* ------------------------------------------------------------------ */
 /*
@@ -1260,33 +1288,6 @@ function remove_pref(prefs, key) {
 }());
 
 /* ------------------------------------------------------------------ */
-/* # Build processing */
-/* ------------------------------------------------------------------ */
-
-function process_build() {
-	// Apply css debug
-	if ($conf.css_debug) { $("body").addClass("css-debug") }
-	// Apply css fx
-	if ($conf.css_fx) { $("body").addClass("css-fx"); }
-	// Build container
-	if ($build.container) {
-		// Apply standard layout (i.e. two columns view)
-		$("body").addClass("standard-layout");
-		// Prepend frame
-		$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
-	}
-	// Build toolbar template
-	if ($build.toolbar) { $("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1)) }
-	// Build icons
-	if ($build.icons) {
-		// Prepend ppend SVG effects
-		if ($conf.svg_fx) { $("body").prepend(file_pool.icons_fx_file).prepend(lb(1)) }
-		// Prepend SVG icons
-		$("body").prepend(file_pool.icons_file).prepend(lb(1));
-	}
-}
-
-/* ------------------------------------------------------------------ */
 /* # Toolbar */
 /* ------------------------------------------------------------------ */
 
@@ -1454,20 +1455,22 @@ var f_tooltip_cfg = {                         // Foundation Tooltip component
 	"hover_delay" : 500                         // Increase time before tooltips appear. Default : 200
 };
 
-/* Initialize modules on document ready state */
+/* Initialize third-party modules */
 $(document).ready(function() {
-	/* Process Build */
-	process_build()
-	/* Initialize Auxiliary Module */
-	if (typeof loax !== "undefined") { loax() }
+	console.log("4 - document is ready ! now init modules"); // DEBUG
 	/* Apply Foundation custom config */
 	var f = Foundation.libs;
 	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings -- NOTE : override fucking Foundation fucking libs
 	/* Initialize third-party plugins */
 	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
+	console.log("5 - Foundation : OK"); // DEBUG
 	$(document).foundation(); // Initialize Foundation module
-	/* Initialize Primary Module */
-	loap.init(); // Initialize owner module
+	console.log("6 - loap : OK"); // DEBUG
+	loap.init(); // Initialize primary module
+	if (typeof loax.init !== "undefined") {
+		console.log("7 - loax : OK"); // DEBUG
+		loax.init(); // Initialize auxiliary module
+	}
 });
 
 /* Reload modules on window resize event */

@@ -1,9 +1,17 @@
 /* ------------------------------------------------------------------ */
-/* # Public vars */
+/* # Module */
 /* ------------------------------------------------------------------ */
 
-var username_max_chars = 24;
-var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.profile_edit.title);
+			/* Process */
+			getProfile(); // process page template feeded with DB values through AJAX
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Files Loading */
@@ -14,15 +22,11 @@ var loax_pool = {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Module */
+/* # Public vars */
 /* ------------------------------------------------------------------ */
 
-var loax = (function() {
-	/* Set page title */
-	set_page_title($nav.profile_edit.title);
-	/* Process */
-	getProfile(); // process page template feeded with DB values through AJAX
-});
+var username_max_chars = 24;
+var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

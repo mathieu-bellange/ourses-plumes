@@ -1,21 +1,25 @@
 /* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.login.title);
+			/* Insert template */
+			$("main > header").after(file_pool.login_tmpl).after(lb(1));
+		}
+	}
+}());
+
+/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
 var loax_pool = {
 	"login_tmpl" : $loc.tmpl + "login.tmpl"
 }
-
-/* ------------------------------------------------------------------ */
-/* # Module */
-/* ------------------------------------------------------------------ */
-
-var loax = (function() {
-	/* Set page title */
-	set_page_title($nav.login.title);
-	/* Insert template */
-	$("main > header").after(file_pool.login_tmpl).after(lb(1));
-});
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

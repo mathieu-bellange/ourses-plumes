@@ -1,8 +1,42 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Public variables */
+/* # Module */
 /* ------------------------------------------------------------------ */
 
-var tag_max = 8;        // Integer  Maxium of tags allowed. Default = 8;
+var loax = (function() {
+	return {
+		build : function() {
+			/* Process */
+			// si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
+			if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
+				$.ajax({
+					type: "GET",
+					url: "/rest" + window.location.pathname,
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function(request) {
+						header_authentication(request);
+					},
+					success: function(data, status, jqxhr) {
+						processArticle(data);
+					},
+					error: function(jqXHR, status, errorThrown) {
+						ajax_error(jqXHR, status, errorThrown);
+						if (jqXHR.status == 404) {
+							// $("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
+							window.location.href = "error.html"
+						} else {
+							createAlertBox();
+						}
+					},
+					dataType: "json"
+				});
+			}
+			// sinon c'est une création d'article
+			else {
+				processArticle(new Article("", "", "", null, null, []));
+			}
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Files Loading */
@@ -13,40 +47,10 @@ var loax_pool = {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Module */
+/* # Public variables */
 /* ------------------------------------------------------------------ */
 
-var loax = (function() {
-	/* Process */
-	// si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
-	if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
-		$.ajax({
-			type: "GET",
-			url: "/rest" + window.location.pathname,
-			contentType: "application/json; charset=utf-8",
-			beforeSend: function(request) {
-				header_authentication(request);
-			},
-			success: function(data, status, jqxhr) {
-				processArticle(data);
-			},
-			error: function(jqXHR, status, errorThrown) {
-				ajax_error(jqXHR, status, errorThrown);
-				if (jqXHR.status == 404) {
-					// $("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
-					window.location.href = "error.html"
-				} else {
-					createAlertBox();
-				}
-			},
-			dataType: "json"
-		});
-	}
-	// sinon c'est une création d'article
-	else {
-		processArticle(new Article("", "", "", null, null, []));
-	}
-});
+var tag_max = 8;        // Integer  Maxium of tags allowed. Default = 8;
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
