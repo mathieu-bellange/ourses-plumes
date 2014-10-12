@@ -548,11 +548,11 @@ jQuery.fn.extend({
 	autocomplete : function(options) {
 		// vars
 		var defaults = {
-			selector : ".autocomplete",             // String    Selector of the element containing the <ul> feeded by the autocomplete. Default : ".autocomplete"
-			start_chars_num : 3,                    // Integer   The number of characters from which the autocomplete begins. Default : 3
-			max_displayed_items : 6,                // Integer   The number of displayed items in the autocomplete suggestions box. Default : 6
-			white_spaces_replacement : " ",         // String    Whites spaces are replaced by that string. Default : " "
-			accepted_chars_list : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i // Regexp. The valid characters pattern. Default : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/
+			selector                 : ".autocomplete",  // String   Selector of the element containing the <ul> feeded by the autocomplete. Default : ".autocomplete"
+			start_chars_num          : 3,                // Integer  The number of characters from which the autocomplete begins. Default : 3
+			max_displayed_items      : 6,                // Integer  The number of displayed items in the autocomplete suggestions box. Default : 6
+			white_spaces_replacement : " ",              // String   Whites spaces are replaced by that string. Default : " "
+			accepted_chars_list      : $regx.tags        // Regexp   The valid characters pattern.
 		};
 		var settings = $.extend({}, defaults, options);
 		var i = settings.start_chars_num; // internal
@@ -960,6 +960,10 @@ var loap = (function() {
 			$(document).user_pictures(); // WARNING : set user pictures for whole document
 		},
 		init : function() {
+			/* Apply user settings */
+			check_user_connected()
+			set_toolbar_prefs()
+			/* Load components */
 			this.update();
 			$(document).placeholder(); // set placeholder for whole document
 			$(document).zlider(); // launch zlider for whole document
@@ -1061,7 +1065,7 @@ function update_user_avatar(pathAvatar) {
 
 /* Check authentication before sending AJAX requests */
 function header_authentication(xhr) {
-	if (hasStorage && window.localStorage.getItem($auth.token) !== undefined) {
+	if (hasStorage && window.localStorage.getItem($auth.token) !== null) {
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // check authc token
 	}
 }
@@ -1085,7 +1089,7 @@ function checkAJAX(done, fail, always, url) {
 		success : function() {done()},
 		error : function() {fail()},
 		complete : function() {always()},
-		dataType : "text"
+		dataType : "xml"
 	});
 }
 
@@ -1124,6 +1128,14 @@ function disconnect(str) {
 	});
 }
 
+/* Check user connected through AJAX (deferred to document ready state) */
+function check_user_connected() {
+	var done = (function() { set_user_connected(true) });
+	var fail = (function() { set_user_connected(false) });
+	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
+	checkAuthc(done, fail, always);
+}
+
 /* Set user connected
  * NOTE : connected auth check has been deferred to ready state.
  */
@@ -1142,6 +1154,13 @@ function set_user_connected(is_connected) {
 		$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
 		$(sel).data("connected", false); // register connected state in local data var
 	}
+}
+
+/* Set prefs on toolbar (deferred to document ready state) */
+function set_toolbar_prefs() {
+	if (get_pref($prefs.app_conf, "css_fx") == true) { $("#_css_fx_toggle").addClass("active") }
+	if (get_pref($prefs.app_conf, "svg_fx") == true) { $("#_svg_fx_toggle").addClass("active") }
+	if (get_pref($prefs.app_conf, "js_fx") == true) { $("#_js_fx_toggle").addClass("active") }
 }
 
 /* Check prefs object */
@@ -1504,46 +1523,21 @@ var f_tooltip_cfg = {                         // Foundation Tooltip component
 
 /* Initialize modules on document ready state */
 $(document).ready(function() {
-	//////////////////////////////////////////////////////////////////////
+	/* Process Build */
 	process_build()
-	//////////////////////////////////////////////////////////////////////
-	if (typeof loax !== "undefined") {
-		loax();
-	}
-	//////////////////////////////////////////////////////////////////////
+	/* Initialize Auxiliary Module */
+	if (typeof loax !== "undefined") { loax() }
+	/* Apply Foundation custom config */
 	var f = Foundation.libs;
 	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings -- NOTE : override fucking Foundation fucking libs
-	//////////////////////////////////////////////////////////////////////
+	/* Initialize third-party plugins */
 	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
 	$(document).foundation(); // Initialize Foundation module
+	/* Initialize Primary Module */
 	loap.init(); // Initialize owner module
 });
 
 /* Reload modules on window resize event */
 $(window).on("resize", function() {
 	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin
-});
-
-////////////////////////////////////////////////////////////////////////
-// WARNING : bad things below ...
-////////////////////////////////////////////////////////////////////////
-/* Set user connected through AJAX on document ready */
-$(document).ready(function() {
-	var done = (function() { set_user_connected(true) });
-	var fail = (function() { set_user_connected(false) });
-	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
-	checkAuthc(done, fail, always);
-});
-////////////////////////////////////////////////////////////////////////
-/* Toolbar Initialization */
-$(document).ready(function() {
-	if (get_pref($prefs.app_conf, "css_fx") == true) {
-		$("#_css_fx_toggle").addClass("active");
-	}
-	if (get_pref($prefs.app_conf, "svg_fx") == true) {
-		$("#_svg_fx_toggle").addClass("active");
-	}
-	if (get_pref($prefs.app_conf, "js_fx") == true) {
-		$("#_js_fx_toggle").addClass("active");
-	}
 });
