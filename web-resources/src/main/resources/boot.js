@@ -235,16 +235,21 @@ var head_tags = [
 	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
-	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "modernizr/modernizr" + $conf.lib_ext +".js"}},
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
-	{elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
+	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
+	// -------------------------------------------------------------------
+	// NOTE : IE execute in-page script before external scripts ... so in-page customized dot settings are not allowed
+	// -------------------------------------------------------------------
+	// {elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
+	// -------------------------------------------------------------------
+	{elem: "script", attr: {src: $loc.js + "conf-dot.js"}}, // IE Fix
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
 var body_tags = [
-	{elem: "script", attr: {src: $loc.js + "loap.js"}},
 	{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js"}},
+	{elem: "script", attr: {src: $loc.js + "loap.js"}},
 ];
 
 /* Prebuild methods */
@@ -293,10 +298,10 @@ function b_html(array) { // Build HTML Elements
 function load(script) { // Define Postbuild Processing
 	if (typeof script !== "undefined") {
 		if (typeof script == "string") {
-			body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script}});
+			body_tags.splice(-1, 0, {elem: "script", attr: {src: $loc.js + script}});
 		} else if (typeof script == "object") {
 			for (k in script) {
-				body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script[k]}});
+				body_tags.splice(-1, 0, {elem: "script", attr: {src: $loc.js + script[k]}});
 			}
 		}
 	}
@@ -305,6 +310,7 @@ function load(script) { // Define Postbuild Processing
 
 /* Process Prebuild */
 document.write(b_html(head_tags));
+
 
 /* ------------------------------------------------------------------ */
 /* # XMLHttpRequest */
@@ -357,13 +363,19 @@ function loadfile(url, callback) {
 		if (navigator.appName != "Microsoft Internet Explorer") { // request plain text for any browser except IE
 			xhr.overrideMimeType("text/plain"); // prevent request header bugs
 		}
-		xhr.addEventListener("load", function() {
-			if (this.readyState == 4) {
-				if (isFileProtocol || this.status == 200) {
-					callback(this.response);
+		if (navigator.appName == "Microsoft Internet Explorer") { // if IE then use onreadystatechange() instead of addEventListener and .responseText instead of .response
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && (isFileProtocol || xhr.status == 200)) {
+					callback(xhr.responseText);
 				}
 			}
-		}, false);
+		} else { // should be ok on any other browser
+			xhr.addEventListener("load", function() {
+				if (this.readyState == 4 && (isFileProtocol || this.status == 200)) {
+					callback(this.response);
+				}
+			}, false);
+		}
 		try {
 			xhr.send(); // send request to server
 		} catch(err) {
