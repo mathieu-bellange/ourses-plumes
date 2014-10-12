@@ -21,20 +21,6 @@ var isLocalHost = (function() {
 	}
 }());
 
-/*
-function isFileProtocol() {
-	if (window.location.href.split("/")[0].slice(0,4) === "file") {
-		return true;
-	}
-}
-
-function isLocalHost() {
-	if (window.location.hostname === "localhost") {
-		return true;
-	}
-}
-*/
-
 /* ------------------------------------------------------------------ */
 /* # Public variables */
 /* ------------------------------------------------------------------ */
@@ -212,7 +198,13 @@ $regx = {
 	 * second-level domain = at least one defined, max two defined, no length restriction
 	 * top-level domain = must be defined, min one char, max four chars
 	 */
-	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i // Regexp
+	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i, // Regexp
+	/* -------------------------------------------------------------------
+	 * Tags accepted characters list
+	 * -------------------------------------------------------------------
+	 * below is the allowed chars pattern
+	 */
+	"tags" : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i // Regexp
 }
 
 /* REST */
@@ -247,9 +239,8 @@ var head_tags = [
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
-	{elem: "script", attr: {src: $loc.js + "conf-dot.js"}},
-	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
-	{elem: "!--[gt IE 9]", text: IE_conditional_comments[2] + lb() + tb(2) + "<![endif]-->"}
+	{elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
+	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"},
 ];
 var body_tags = [
 	{elem: "script", attr: {src: $loc.js + "loap.js"}},
@@ -351,7 +342,6 @@ function getXHR() {
 	}
 }
 
-var xhr = getXHR();
 // var xhr = (function() {
 	// if (typeof XMLHttpRequest !== "undefined") {
 		// if (isFileProtocol() && navigator.appName == "Microsoft Internet Explorer") {
@@ -373,7 +363,8 @@ var xhr = getXHR();
  */
 
 function loadfile(url, callback) {
-	var xhr = getXHR(), callback = callback || function(response) {return response};
+	var callback = callback || function(response) {return response};
+	var xhr = getXHR();
 	if (typeof xhr !== "undefined") {
 		xhr.open("GET", url, true); // define request arguments
 		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
@@ -469,6 +460,7 @@ function clearStorage(hash) {
 
 function checkAuthz(url, redir, flush) {
 	var url = url || $rest.authc, redir = redir || false, flush = flush || false;
+	var xhr = getXHR();
 	if (typeof xhr !== "undefined") {
 		var loc = window.location.pathname;
 		xhr.open("GET", url, false); // define request arguments

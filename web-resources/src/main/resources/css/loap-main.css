@@ -243,7 +243,7 @@ kbd { /* Keyboard input */
   border-radius: .25rem;
   background-color: ghostwhite;
 }
-var {} /* Variable */
+var {font-style: normal; font-weight: bold;} /* Variable */
 
 /* UNUSED */
 /*
@@ -2557,6 +2557,10 @@ input:focus + button + .error + .autocomplete > ul {
 .code .attr {color: red;}
 .code .prop {color: purple;}
 .code .comment {color: green;}
+.code .var {color: crimson;}
+.code .val {color: sienna;}
+.code .key {color: midnightblue;}
+.code .pair {color: cadetblue;}
 
 /* ------------------------------------------------------------------ */
 /* # Articles */

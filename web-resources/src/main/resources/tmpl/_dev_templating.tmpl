@@ -207,4 +207,26 @@
 </pre>
 </div>
 </div>
+<h3>Customize settings</h3>
+<h4 class="subheader">Standard configuration</h4>
+<pre class="panel code">
+<var class="var">doT.templateSettings</var> = {
+	<span class="key">evaluate</span> : <span class="pair">regexp</span>,      <span class="comment">// parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)</span>
+	<span class="key">interpolate</span> : <span class="pair">regexp</span>,   <span class="comment">// parse a string as a javascript instruction and append it to the result function (n.b. this is default behaviour)</span>
+	<span class="key">encode</span> : <span class="pair">regexp</span>,        <span class="comment">// replace illegal characters by html numeric entities</span>
+	<span class="key">use</span> : <span class="pair">regexp</span>,           <span class="comment">// call partial template</span>
+	<span class="key">define</span> : <span class="pair">regexp</span>,        <span class="comment">// set partial template</span>
+	<span class="key">conditional</span> : <span class="pair">regexp</span>,   <span class="comment">// execute 'if, else if, else' structure</span>
+	<span class="key">iterate</span> : <span class="pair">regexp</span>,       <span class="comment">// loop an array</span>
+	<span class="key">varname</span> : <span class="pair">string</span>,       <span class="comment">// define the name of result function argument (i.e. the variable used for templating)</span>
+	<span class="key">strip</span> : <span class="pair">boolean</span>,        <span class="comment">// erase whitespaces in result output (including tabulations and line breaks -- minify/compress)</span>
+	<span class="key">append</span> : <span class="pair">boolean</span>,       <span class="comment">// define concatenated output result in a single line variable (i.e. use '+' operand instead of '+=' operand for 'out' var)</span>
+	<span class="key">selfcontained</span> : <span class="pair">boolean</span> <span class="comment">// include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)</span>
+};
+</pre>
+<h4 class="subheader">Custom configuration</h4>
+<pre class="panel callout code">
+<var class="var">doT.templateSettings.varname</var> = <span class="val">"<mark>data</mark>"</span>;
+<var class="var">doT.templateSettings.strip</var> = <span class="val">false</span>;
+</pre>
 </div>
