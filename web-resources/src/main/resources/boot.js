@@ -342,20 +342,6 @@ function getXHR() {
 	}
 }
 
-// var xhr = (function() {
-	// if (typeof XMLHttpRequest !== "undefined") {
-		// if (isFileProtocol() && navigator.appName == "Microsoft Internet Explorer") {
-			// return new ActiveXObject("Microsoft.XMLHTTP") // Internet Explorer > 9 from local files
-		// } else {
-			// return new XMLHttpRequest(); // Firefox, Chrome, Opera
-		// }
-	// } else if (typeof ActiveXObject !== "undefined") {
-		// return new ActiveXObject("Microsoft.XMLHTTP"); // Internet Explorer < 9
-	// } else {
-		// console.log("File loading failed. XMLHttpRequest and ActiveXObject deactivated or not supported.");
-	// }
-// }());
-
 /*
  * NOTE
  * Below is a simple synchronous file loader.
@@ -386,30 +372,6 @@ function loadfile(url, callback) {
 		}
 	}
 }
-/*
-function loadfile(file, async, method, send, response) {
-var async = async || false, method = method || "GET", send = send || null, response = response || "text"; // default params
-	if (typeof xhr !== "undefined") {
-		xhr.open(method, file, async); // define request arguments
-		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
-		if (navigator.appName != "Microsoft Internet Explorer") { // request plain text for any browser except IE
-			xhr.overrideMimeType("text/plain"); // prevent request header bugs
-		}
-		try {
-			xhr.send(send); // send request to server
-		} catch(err) {
-			console.log(file + " not found.\n" + err); // log server error
-		}
-		if (response == "xml") {
-			return xhr.responseXML; // return XML response from server
-		} else {
-			return xhr.responseText; // return Plain Text response from server
-		}
-	} else {
-		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
-	}
-}
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Security */
