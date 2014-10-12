@@ -1,25 +1,11 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// var template = doT.compile(loadfile($loc.tmpl + "profile-view.tmpl"));
-// var templateProfileArticles = doT.compile(loadfile($loc.tmpl + "profile-article-list.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "profile-view.tmpl", function(response) {
-	profile_view_tpml = doT.compile(response);
-	$.holdReady(false);
-});
-
-$.holdReady(true);
-loadfile($loc.tmpl + "profile-article-list.tmpl", function(response) {
-	profile_view_related_tpml = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"profile_view_tpml" : $loc.tmpl + "profile-view.tmpl",
+	"profile_view_related_tpml" : $loc.tmpl + "profile-view-related.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -34,8 +20,10 @@ var loax = (function() {
 /* ------------------------------------------------------------------ */
 
 function processProfile(profile) {
+	/* Set page title */
 	set_page_title(profile.pseudo);
-	$("main > header").after(profile_view_tpml(profile));
+	/* Insert template */
+	$("main > header").after(file_pool.profile_view_tpml(profile)).after(lb(1));
 }
 
 function processRole(role) {
@@ -51,7 +39,7 @@ function processArticles(articles) {
 		// a doit être égal à b
 		return 0;
 	});
-	$("#articles").append(profile_view_related_tpml(articles));
+	$("#articles").append(file_pool.profile_view_related_tpml(articles)).append(lb(1));
 	attach_slider(); // bind events on sliding elements
 	loap.update();
 }
@@ -150,6 +138,4 @@ function displayArticles(profileId) {
 /* # Live Events */
 /* ------------------------------------------------------------------ */
 
-// $(document).ready(function() {
-	// displayProfile();
-// });
+// jQuery events go here

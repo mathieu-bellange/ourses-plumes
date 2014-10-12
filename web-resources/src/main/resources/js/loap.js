@@ -13,18 +13,20 @@
  * These are asynchronous requests.
  */
 
-var file_pool = { // varname : filename -- filename will be replaced by template on execution
-// Templates
-"confirmation_bar_tmpl" : $loc.tmpl + "snippet_confirmation_bar.tmpl",
-"alert_box_tmpl"        : $loc.tmpl + "snippet_alert_box.tmpl",
-"dev_toolbar_tmpl"      : $loc.tmpl + "_dev_toolbar.tmpl",
-"user_nav_tmpl"         : $loc.tmpl + "user-nav.tmpl",
-"frame_tmpl"          : $loc.tmpl + "frame.tmpl",
-// CSS
-"icons_fx_file"         : $file.icons_fx,
-// SVG
-"icons_file"            : $file.icons
-}
+var loap_pool = {
+//"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
+	"confirmation_bar_tmpl"         : $loc.tmpl + "snippet_confirmation_bar.tmpl",
+	"alert_box_tmpl"                : $loc.tmpl + "snippet_alert_box.tmpl",
+	"dev_toolbar_tmpl"              : $loc.tmpl + "_dev_toolbar.tmpl",
+	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
+	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
+	"icons_fx_file"                 : $file.icons_fx,
+	"icons_file"                    : $file.icons
+};
+
+var loax_pool = loax_pool || null;
+
+var file_pool = $.extend({}, loap_pool, loax_pool);
 
 var files_readied = 0; // internal -- number of files to load
 var files_ready   = 0; // internal -- number of files loaded
@@ -40,7 +42,7 @@ function checkReady() {
 
 function setFileCallback(varname) {
 	return function(XHRresponse) {
-		file_pool[varname] = XHRresponse;
+		file_pool[varname] = doT.compile(XHRresponse);
 		checkReady();
 	}
 }
@@ -774,7 +776,7 @@ jQuery.fn.extend({
 							obj.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
-								$(this).after(doT.compile(file_pool.confirmation_bar_tmpl)); // insert confirmation_bar template
+								$(this).after(file_pool.confirmation_bar_tmpl); // insert confirmation_bar template
 								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
 								$conf.js_fx ? $(".validation-bar").fadeIn("slow") : $(".validation-bar").show();
 							}
@@ -815,7 +817,7 @@ jQuery.fn.extend({
 		var cfg = $.extend({}, defs, opts);
 		var sel = "#" + id; // internal
 		if ($(sel).length == 0) {
-			$(this).first().after(alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "text" : msg}));
+			$(this).first().after(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "text" : msg}));
 			$(sel).svg_icons(); // set svg icons contained by alert box
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
 			if (cfg.timeout > 0) {
@@ -1141,7 +1143,7 @@ function set_user_connected(is_connected) {
 		$(sel + " svg use").attr("xlink:href", "#icon-menu");
 		$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
 		$(sel).data("connected", true); // register connected state in local data var
-		$(".user-connect").append(doT.compile(file_pool.user_nav_tmpl)); // process user menu template
+		$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 	} else {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
@@ -1262,8 +1264,6 @@ function remove_pref(prefs, key) {
 /* ------------------------------------------------------------------ */
 
 function process_build() {
-	// Register alert box template
-	alert_box_tmpl = doT.compile(file_pool.alert_box_tmpl);
 	// Apply css debug
 	if ($conf.css_debug) { $("body").addClass("css-debug") }
 	// Apply css fx
@@ -1273,16 +1273,16 @@ function process_build() {
 		// Apply standard layout (i.e. two columns view)
 		$("body").addClass("standard-layout");
 		// Prepend frame
-		$("body").prepend(doT.compile(file_pool.frame_tmpl))
+		$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
 	}
 	// Build toolbar template
-	if ($build.toolbar) { $("body").prepend(doT.compile(file_pool.dev_toolbar_tmpl)) }
+	if ($build.toolbar) { $("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1)) }
 	// Build icons
 	if ($build.icons) {
 		// Prepend ppend SVG effects
-		if ($conf.svg_fx) { $("body").prepend("<style type='text/css'>" + file_pool.icons_fx_file + "</style>") }
+		if ($conf.svg_fx) { $("body").prepend(file_pool.icons_fx_file).prepend(lb(1)) }
 		// Prepend SVG icons
-		$("body").prepend(file_pool.icons_file);
+		$("body").prepend(file_pool.icons_file).prepend(lb(1));
 	}
 }
 

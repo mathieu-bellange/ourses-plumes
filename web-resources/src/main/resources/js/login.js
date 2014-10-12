@@ -1,24 +1,10 @@
 /* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.login.title);
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// $("main > header").after(doT.compile(loadfile($loc.tmpl + "login.tmpl")));
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "login.tmpl", function(response) {
-	login_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"login_tmpl" : $loc.tmpl + "login.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -28,14 +14,12 @@ var loax = (function() {
 	/* Set page title */
 	set_page_title($nav.login.title);
 	/* Insert template */
-	$("main > header").after(login_tmpl);
+	$("main > header").after(file_pool.login_tmpl).after(lb(1));
 });
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
-
-//var $accounts_redirection = "accounts"; //??????????????????
 
 function Authentication(login, password){
 	this.login = login;

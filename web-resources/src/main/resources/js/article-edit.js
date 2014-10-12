@@ -5,48 +5,12 @@
 var tag_max = 8;        // Integer  Maxium of tags allowed. Default = 8;
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// var template = doT.compile(loadfile($loc.tmpl + "article-edit.tmpl"));
-
-// si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
-// if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
-	// $.ajax({
-		// type: "GET",
-		// url: "/rest" + window.location.pathname,
-		// contentType: "application/json; charset=utf-8",
-		// beforeSend: function(request) {
-			// header_authentication(request);
-		// },
-		// success: function(data, status, jqxhr) {
-			// processArticle(data);
-		// },
-		// error: function(jqXHR, status, errorThrown) {
-			// ajax_error(jqXHR, status, errorThrown);
-			// if (jqXHR.status == 404) {
-				// $("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
-			// } else {
-				// createAlertBox();
-			// }
-		// },
-		// dataType: "json"
-	// });
-// }
-// sinon c'est une création d'article
-// else {
-	// processArticle(new Article("", "", "", null, null, []));
-// }
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "article-edit.tmpl", function(response) {
-	article_edit_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"article_edit_tmpl" : $loc.tmpl + "article-edit.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -226,8 +190,7 @@ function processArticle(article) {
 	// affiche le template en passant en param l'article
 	// la catégorie et la rubrique ne sont pas setté dans le template
 	// il faut attendre la récupération asynchrone des données 
-	// $("main > header").after(template(article));
-	$("main > header").after(article_edit_tmpl);
+	$("main > header").after(file_pool.article_edit_tmpl).after(lb(1));
 	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau 
 	// et aux draft en update avec comme path /articles/{id}
 
@@ -558,7 +521,7 @@ function checkBody() {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Persistent events */
+/* # Live events */
 /* ------------------------------------------------------------------ */
 
 // Save button form check validation

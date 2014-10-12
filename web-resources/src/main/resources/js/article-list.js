@@ -1,18 +1,4 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.article_list.title); // set page title
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// var article_tool_tmpl = doT.compile(loadfile($loc.tmpl + "article-tool.tmpl"));
-// var article_list_tmpl = doT.compile(loadfile($loc.tmpl + "article-list.tmpl"));
-// var article_item_tmpl = doT.compile(loadfile($loc.tmpl + "article-item.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Public vars */
 /* ------------------------------------------------------------------ */
 
@@ -32,21 +18,11 @@ var article_list_cfg = {
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "article-tool.tmpl", function(response) {
-	article_tool_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
-$.holdReady(true);
-loadfile($loc.tmpl + "article-list.tmpl", function(response) {
-	article_list_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
-$.holdReady(true);
-loadfile($loc.tmpl + "article-item.tmpl", function(response) {
-	article_item_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"article_tool_tmpl" : $loc.tmpl + "article-tool.tmpl",
+	"article_list_tmpl" : $loc.tmpl + "article-list.tmpl",
+	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -582,7 +558,7 @@ function displayArticles(url_params) {
 			});
 			var data = {"drafts" : brouillons, "toCheck" : aVerifier, "onLine" : enLigne};
 			if (article_list_cfg.startup !== true) { // this is first launch of the page
-				$("main > header").after(article_tool_tmpl(data)); // process toolbar
+				$("main > header").after(file_pool.article_tool_tmpl(data)).after(lb(1)); // process toolbar
 			} else { // this is not first launch of the page, articles lists need to be flushed
 				$(".articles-list").detach(); // clear articles list (if any)
 			}
@@ -606,7 +582,7 @@ function displayArticles(url_params) {
 }
 
 function processArticles(articles) {
-	$(".tool-bar").after(article_list_tmpl(articles)); // insert articles list template
+	$(".tool-bar").after(file_pool.article_list_tmpl(articles)).after(lb(1)); // insert articles list template
 	// bind events
 	$("html").on("mouseenter", ".href-block", function() {
 		$(this).find(".validate").show();
@@ -643,7 +619,7 @@ function processArticles(articles) {
 }
 
 function processAfterValidation(article) {
-	$("#articles_standby").prepend(article_item_tmpl(article));
+	$("#articles_standby").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
@@ -655,7 +631,7 @@ function processAfterValidation(article) {
 }
 
 function processAfterInValidation(article) {
-	$("#articles_draft").prepend(article_item_tmpl(article));
+	$("#articles_draft").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
@@ -668,7 +644,7 @@ function processAfterInValidation(article) {
 }
 
 function processAfterPublish(article) {
-	$("#articles_publish").prepend(article_item_tmpl(article));
+	$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 	$("#articles_publish li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_publish li:first .validate button[data-recall]").click(function() {
@@ -686,9 +662,7 @@ function obtenirParametre(sVar) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-// $(document).ready(function() {
-	// displayArticles();
-// });
+// jQuery events go here

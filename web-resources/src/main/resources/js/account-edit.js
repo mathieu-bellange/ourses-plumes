@@ -1,24 +1,10 @@
 /* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.account_edit.title);
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// var account_template = doT.compile(loadfile($loc.tmpl + "account-edit.tmpl")); // create template
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "account-edit.tmpl", function(response) {
-	account_edit_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"account_edit_tmpl" : $loc.tmpl + "account-edit.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -28,7 +14,7 @@ var loax = (function() {
 	/* Set page title */
 	set_page_title($nav.account_edit.title);
 	/* Insert template */
-	$("main > header").after(account_edit_tmpl);
+	$("main > header").after(file_pool.account_edit_tmpl).after(lb(1));
 });
 
 /* ------------------------------------------------------------------ */
@@ -168,10 +154,6 @@ function submitAccountAJAX() {
 /* ------------------------------------------------------------------ */
 /* # Live Events */
 /* ------------------------------------------------------------------ */
-
-// $(document).ready(function() {
-	// getAccount();
-// });
 
 $("html").on("submit","#updateBearAccount",function(event) {
 	if (isFormValid()) {

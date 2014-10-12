@@ -235,12 +235,12 @@ var head_tags = [
 	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
+	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "modernizr/modernizr" + $conf.lib_ext +".js"}},
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
-	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
 	{elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
-	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"},
+	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
 var body_tags = [
 	{elem: "script", attr: {src: $loc.js + "loap.js"}},

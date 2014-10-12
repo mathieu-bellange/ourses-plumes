@@ -1,24 +1,10 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.home.title);
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// $("main > header").after(loadfile($loc.tmpl + "index.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "index.tmpl", function(response) {
-	index_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"index_tmpl" : $loc.tmpl + "index.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -28,7 +14,7 @@ var loax = (function() {
 	/* Set page title */
 	set_page_title($nav.home.title);
 	/* Insert template */
-	$("main > header").after(index_tmpl);
+	$("main > header").after(file_pool.index_tmpl).after(lb(1));
 	/* Little Slider */
 	var list = "#changes_list", less = "#show_less", more = "#show_more";
 	var max = $(list).find("li").length, lim = 8, num = max / lim;

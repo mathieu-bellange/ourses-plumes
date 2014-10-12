@@ -1,24 +1,10 @@
 /* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.account_create.title);
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// $("main > header").after(loadfile($loc.tmpl + "account-create.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "account-create.tmpl", function(response) {
-	account_create_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"account_create_tmpl" : $loc.tmpl + "account-create.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -28,7 +14,7 @@ var loax = (function() {
 	/* Set page title */
 	set_page_title($nav.account_create.title);
 	/* Insert template */
-	$("main > header").after(account_create_tmpl);
+	$("main > header").after(file_pool.account_create_tmpl).after(lb(1));
 });
 
 /* ------------------------------------------------------------------ */

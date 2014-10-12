@@ -1,24 +1,10 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.agenda.title);
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// $("main > header").after(loadfile($loc.tmpl + "agenda.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "agenda.tmpl", function(response) {
-	agenda_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"agenda_tmpl" : $loc.tmpl + "agenda.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -28,7 +14,7 @@ var loax = (function() {
 	/* Set page title */
 	set_page_title($nav.agenda.title);
 	/* Insert template */
-	$("main > header").after(agenda_tmpl);
+	$("main > header").after(file_pool.agenda_tmpl).after(lb(1));
 });
 
 /* ------------------------------------------------------------------ */

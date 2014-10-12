@@ -1,24 +1,10 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.error.title);
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// $("main > header").after(loadfile($loc.tmpl + "error.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "error.tmpl", function(response) {
-	error_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"error_tmpl" : $loc.tmpl + "error.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -28,7 +14,7 @@ var loax = (function() {
 	/* Set page title */
 	set_page_title($nav.error.title);
 	/* Insert template */
-	$("main > header").after(error_tmpl);
+	$("main > header").after(file_pool.error_tmpl).after(lb(1));
 });
 
 /* ------------------------------------------------------------------ */

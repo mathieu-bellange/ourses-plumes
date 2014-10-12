@@ -1,18 +1,10 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// var template = doT.compile(loadfile($loc.tmpl + "article-view.tmpl"));
-
-/* ------------------------------------------------------------------ */
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "article-view.tmpl", function(response) {
-	article_view_tmpl = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"article_view_tmpl" : $loc.tmpl + "article-view.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -169,7 +161,7 @@ function shareByMail(articleId, mail){
 
 function processArticle(article) {
 	set_page_title(article.title);
-	$("main > header").after(article_view_tmpl(article));
+	$("main > header").after(file_pool.article_view_tmpl(article)).after(lb(1));
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
 }
@@ -178,6 +170,4 @@ function processArticle(article) {
 /* # Live Events */
 /* ------------------------------------------------------------------ */
 
-// $(document).ready(function() {
-	// displayArticle();
-// });
+// jQuery events go here

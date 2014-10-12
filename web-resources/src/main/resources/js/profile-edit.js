@@ -1,16 +1,4 @@
 /* ------------------------------------------------------------------ */
-/* # Pre Processing */
-/* ------------------------------------------------------------------ */
-
-// set_page_title($nav.profile_edit.title);
-
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-// var profile_template = doT.compile(loadfile($loc.tmpl + "profile-edit.tmpl")); // create template
-
-/* ------------------------------------------------------------------ */
 /* # Public vars */
 /* ------------------------------------------------------------------ */
 
@@ -21,11 +9,9 @@ var role_display_screen_width = 1023; // WARNING : Should be the same as CSS fil
 /* # Files Loading */
 /* ------------------------------------------------------------------ */
 
-$.holdReady(true);
-loadfile($loc.tmpl + "profile-edit.tmpl", function(response) {
-	profile_edit_tpml = doT.compile(response);
-	$.holdReady(false);
-});
+var loax_pool = {
+	"profile_edit_tpml" : $loc.tmpl + "profile-edit.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -95,10 +81,6 @@ function processSocialLinks(socialLinks) {
 		$(".icon-" + socialLinks[i].network.toLowerCase()).attr("data-url", socialLinks[i].socialUser);
 	}
 }
-
-/* ------------------------------------------------------------------ */
-/* # DOM manipulation */
-/* ------------------------------------------------------------------ */
 
 function majView(couple, updateInError) {
 	// en cas d'erreur, rollback les données à l'écran
@@ -209,7 +191,7 @@ function getProfile() {
 			url : "/rest/profile/" + profileId,
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
-				$("main > header").after(profile_edit_tpml(profile)); // process template
+				$("main > header").after(file_pool.profile_edit_tpml(profile)).after(lb(1)); // process template
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
 				$("section textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas for whole section
@@ -253,58 +235,6 @@ function save(couple) {
 		createAlertBox();
 	}
 }
-
-/* ------------------------------------------------------------------ */
-/* # Persistent Events */
-/* ------------------------------------------------------------------ */
-
-/* User Name */
-$("html").on("focus", "#pseudo", function(event) {
-	memoryCouple = new Couple(pseudoProperty,$(this).val());
-});
-$("html").on("keypress","#pseudo", function(event) {
-	if (event.which == 13) { // Enter
-		$(this).blur();
-	}
-});
-$("html").on("keydown", "#pseudo", function(event) {
-	if (event.which == 27) { // Escape
-		$(this).val(memoryCouple.value); // recall last value on cancel
-		$(this).blur();
-	}
-});
-$("html").on("blur", "#pseudo", function(event) {
-	if ($(this).val().length > username_max_chars) {
-		$(this).set_validation(false, "Le nom d&rsquo;utilisatrice est trop long&nbsp;!");
-		$(this).css("margin-bottom", "0");
-	} else {
-		var couple = new Couple(pseudoProperty,$("#pseudo").val());
-		modifiyCouple(couple);
-	}
-});
-
-/* User Description */
-$("html").on("focus", "#description", function(event) {
-	memoryCouple = new Couple(descriptionProperty, $("#description").val());
-});
-$("html").on("blur", "#description", function(event) {
-	var couple = new Couple(descriptionProperty, $(this).val());
-	modifiyCouple(couple);
-});
-
-/* User Links */
-$("html").on("focus", "#user-link input", function() {
-	memoryCouple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
-});
-$("html").on("blur", "#user-link input", function() {
-	var couple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
-	modifiyCouple(couple);
-});
-$("html").on("keypress", "#user-link input", function(event) {
-	if (event.which == 13) { // Enter
-		$(this).blur();
-	}
-});
 
 /* ------------------------------------------------------------------ */
 /* # Create Icons Input */
@@ -645,7 +575,50 @@ function processAvatar(options) {
 /* # Live Events */
 /* ------------------------------------------------------------------ */
 
-// Page Load
-// $(document).ready(function() {
-	// getProfile(); // process page template feeded with DB values through AJAX
-// });
+/* User Name */
+$("html").on("focus", "#pseudo", function(event) {
+	memoryCouple = new Couple(pseudoProperty,$(this).val());
+});
+$("html").on("keypress","#pseudo", function(event) {
+	if (event.which == 13) { // Enter
+		$(this).blur();
+	}
+});
+$("html").on("keydown", "#pseudo", function(event) {
+	if (event.which == 27) { // Escape
+		$(this).val(memoryCouple.value); // recall last value on cancel
+		$(this).blur();
+	}
+});
+$("html").on("blur", "#pseudo", function(event) {
+	if ($(this).val().length > username_max_chars) {
+		$(this).set_validation(false, "Le nom d&rsquo;utilisatrice est trop long&nbsp;!");
+		$(this).css("margin-bottom", "0");
+	} else {
+		var couple = new Couple(pseudoProperty,$("#pseudo").val());
+		modifiyCouple(couple);
+	}
+});
+
+/* User Description */
+$("html").on("focus", "#description", function(event) {
+	memoryCouple = new Couple(descriptionProperty, $("#description").val());
+});
+$("html").on("blur", "#description", function(event) {
+	var couple = new Couple(descriptionProperty, $(this).val());
+	modifiyCouple(couple);
+});
+
+/* User Links */
+$("html").on("focus", "#user-link input", function() {
+	memoryCouple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
+});
+$("html").on("blur", "#user-link input", function() {
+	var couple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
+	modifiyCouple(couple);
+});
+$("html").on("keypress", "#user-link input", function(event) {
+	if (event.which == 13) { // Enter
+		$(this).blur();
+	}
+});
