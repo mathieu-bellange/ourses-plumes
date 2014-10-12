@@ -469,7 +469,6 @@
 			load();
 		</script>
 		<script>
-			loap.update()
 			$(document).ready(function(){
 				//$("textarea").autosize({append: ""}); // Apply autosize plugin to all <textarea> of the page
 				$("textarea").add_confirmation_bar(); // Apply add_confirmation_bar plugin to all <textarea> of the page
@@ -478,21 +477,21 @@
 			});
 		</script>
 		<script>
-			// Initialize Foundation plugins
-			$(document).foundation();
-			// Initialize classic CKEditor with custom config
-			CKEDITOR.replace("classic_editor", {
-				customConfig : $cke_config_path + "conf-cke.js",
-				contentsCss : "css/loap-main.css",
-				bodyClass : "article",
-				toolbarLocation : "bottom"
-			});
-			// Initialize inline CKEditor with custom config
-			CKEDITOR.disableAutoInline = true;
-			CKEDITOR.inline("inline_editor", {
-				customConfig : $cke_config_path + "conf-cke.js",
-				extraAllowedContent : {"span" : {classes : "placeholder"}},
-				contentsCss : "css/loap-main.css",
+			$(document).ready(function(){
+				// Initialize classic CKEditor with custom config
+				CKEDITOR.replace("classic_editor", {
+					customConfig : $cke_config_path + "conf-cke.js",
+					contentsCss : "css/loap-main.css",
+					bodyClass : "article",
+					toolbarLocation : "bottom"
+				});
+				// Initialize inline CKEditor with custom config
+				CKEDITOR.disableAutoInline = true;
+				CKEDITOR.inline("inline_editor", {
+					customConfig : $cke_config_path + "conf-cke.js",
+					extraAllowedContent : {"span" : {classes : "placeholder"}},
+					contentsCss : "css/loap-main.css",
+				});
 			});
 		</script>
 	</body>

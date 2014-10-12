@@ -757,12 +757,6 @@
 				obj.addClass(k);
 				obj.prepend(h);
 			}
-			// Events
-			$(document).ready(function() {
-				$("[class*='icon-']").each(function() {
-					set_svg_icon($(this));
-				});
-			});
 		</script>
 
 		<script>
@@ -770,10 +764,11 @@
 			load();
 		</script>
 		<script>
-			loap.update()
-		</script>
-		<script>
-			$(document).foundation();
+			$(document).ready(function() {
+				$("[class*='icon-']").each(function() {
+					set_svg_icon($(this));
+				});
+			});
 		</script>
 	</body>
 </html>
