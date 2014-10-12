@@ -1,4 +1,17 @@
 /* ------------------------------------------------------------------ */
+/* # Globals */
+/* ------------------------------------------------------------------ */
+
+var loax_pool = {
+	"account_list_tmpl" : $loc.tmpl + "account-list.tmpl"
+}
+
+var account_list = {              // This is global var for this module
+	"alert_timeout" : 1500,         // Integer   Time before update alert box disapear. Default = 1500
+	"alert_fadeout" : 500           // Integer   Duration of the alert box fade effet. Default = 500
+};
+
+/* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
 
@@ -27,23 +40,6 @@ var loax = (function() {
 		}
 	}
 }());
-
-/* ------------------------------------------------------------------ */
-/* # Files Loading */
-/* ------------------------------------------------------------------ */
-
-var loax_pool = {
-	"account_list_tmpl" : $loc.tmpl + "account-list.tmpl"
-}
-
-/* ------------------------------------------------------------------ */
-/* # Public vars */
-/* ------------------------------------------------------------------ */
-
-var account_list = {              // This is global var for this module
-	"alert_timeout" : 1500,         // Integer   Time before update alert box disapear. Default = 1500
-	"alert_fadeout" : 500           // Integer   Duration of the alert box fade effet. Default = 500
-};
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

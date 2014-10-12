@@ -1,5 +1,4 @@
-﻿		<style type="text/css">
-			/*
+﻿			/*
 			 * Les Ourses à plumes
 			 * Icons Effects Cascading Style Sheet (inc. SVG filters references)
 			 * Require CSS Main File
@@ -48,4 +47,3 @@
 			.css-fx button.bevel:not(.disabled):focus use, .css-fx button.bevel:not(.disabled):hover use {filter: url(#glow); opacity: 1; fill: white;}
 			.css-fx a.bevel:not(.disabled):active use, .css-fx a.bevel.active use,
 			.css-fx button.bevel:not(.disabled):active use, .css-fx button.bevel.active use {filter: url(#blur); opacity: .5;}
-		</style>

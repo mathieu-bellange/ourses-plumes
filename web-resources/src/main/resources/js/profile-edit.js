@@ -1,4 +1,15 @@
 /* ------------------------------------------------------------------ */
+/* # Globals */
+/* ------------------------------------------------------------------ */
+
+var loax_pool = {
+	"profile_edit_tpml" : $loc.tmpl + "profile-edit.tmpl"
+}
+
+var username_max_chars = 24;
+var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+
+/* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
 
@@ -12,21 +23,6 @@ var loax = (function() {
 		}
 	}
 }());
-
-/* ------------------------------------------------------------------ */
-/* # Files Loading */
-/* ------------------------------------------------------------------ */
-
-var loax_pool = {
-	"profile_edit_tpml" : $loc.tmpl + "profile-edit.tmpl"
-}
-
-/* ------------------------------------------------------------------ */
-/* # Public vars */
-/* ------------------------------------------------------------------ */
-
-var username_max_chars = 24;
-var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

@@ -62,34 +62,29 @@
 		<!--Processed External Template will be put here-->
 		</section>
 		<script>
-
-			$.holdReady(true);
-			loadfile($loc.json + "_dev_templating.json", function(response) {
-				test_data = JSON.parse(response); // define data
-				$.holdReady(false);
-			});
-
-			$.holdReady(true);
-			loadfile($loc.tmpl + "_dev_templating.tmpl", function(response) {
-				test_template = response, // define template
-				test_compile = doT.compile(test_template); // compile template
-				$.holdReady(false);
-			});
-
+			var loax_pool = {
+				"test_data" : $loc.json + "_dev_templating.json", // define data
+				"templating_tmpl" : $loc.tmpl + "_dev_templating.tmpl" // define template
+			};
 			var loax = (function() {
-				/* Insert Template */
-				$("#dev_external_templating").append(test_compile(test_data)); // apply compiled data to DOM
-				/* Dev Test Bar */
-				$("[name='show']").each(function() {
-					var f = $(this).val();
-					if ($(this).is(":checked")) {
-						$("#" + f).show();
-					} else {
-						$("#" + f).hide();
+				return {
+					build : function() {
+						/* Insert Template */
+						$("#dev_external_templating").append(file_pool.templating_tmpl(file_pool.test_data)); // apply compiled data to DOM
+					},
+					init : function() {
+						/* Dev Test Bar */
+						$("[name='show']").each(function() {
+							var f = $(this).val();
+							if ($(this).is(":checked")) {
+								$("#" + f).show();
+							} else {
+								$("#" + f).hide();
+							}
+						});
 					}
-				});
-			});
-
+				}
+			}());
 		</script>
 		<script>
 			$build.container = false;

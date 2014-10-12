@@ -1,4 +1,26 @@
 ﻿/* ------------------------------------------------------------------ */
+/* # Globals */
+/* ------------------------------------------------------------------ */
+
+var loax_pool = {
+	"article_tool_tmpl" : $loc.tmpl + "article-tool.tmpl",
+	"article_list_tmpl" : $loc.tmpl + "article-list.tmpl",
+	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
+}
+
+var article_list_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
+	"standbys" : "true",                   // Afficher les articles à valider par défaut ?
+	"others_drafts" : "false",             // Afficher les brouillons des autres par défaut ?
+	"my_drafts" : "true",                  // Afficher mes brouillons par défaut ?
+	"onlines" : "true"                     // Afficher les articles en ligne par défaut ?
+}
+
+var article_list_cfg = {
+	"fade_duration" : 500,                 // Integer   Duration for updated articles fade in/out. Default : 500
+	"page_startup"  : false                // Internal  DO NOT CHANGE THIS !!!
+};
+
+/* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
 
@@ -12,32 +34,6 @@ var loax = (function() {
 		}
 	}
 }());
-
-/* ------------------------------------------------------------------ */
-/* # Files Loading */
-/* ------------------------------------------------------------------ */
-
-var loax_pool = {
-	"article_tool_tmpl" : $loc.tmpl + "article-tool.tmpl",
-	"article_list_tmpl" : $loc.tmpl + "article-list.tmpl",
-	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
-}
-
-/* ------------------------------------------------------------------ */
-/* # Public vars */
-/* ------------------------------------------------------------------ */
-
-var article_list_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
-	"standbys" : "true",                   // Afficher les articles à valider par défaut ?
-	"others_drafts" : "false",             // Afficher les brouillons des autres par défaut ?
-	"my_drafts" : "true",                  // Afficher mes brouillons par défaut ?
-	"onlines" : "true"                     // Afficher les articles en ligne par défaut ?
-}
-
-var article_list_cfg = {
-	"fade_duration" : 500,                 // Integer   Duration for updated articles fade in/out. Default : 500
-	"page_startup"  : false                // Internal  DO NOT CHANGE THIS !!!
-};
 
 /* ------------------------------------------------------------------ */
 /* # Domain */

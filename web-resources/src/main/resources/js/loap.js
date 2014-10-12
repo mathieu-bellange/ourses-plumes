@@ -6,121 +6,13 @@
  */
 
 /* ------------------------------------------------------------------ */
-/* # Module */
-/* ------------------------------------------------------------------ */
-/*
- * NOTE
- * All instructions that need a refresh should be put below.
- * That is mainly for anything launched by a generated element.
- * It concerns append, prepend, wrap, before, after, insert, html, etc.
- * Anything created after loading. This is an IIFE.
- *
- * Events have to be separatly attached for now and the future
- * to a parent element (i.e. with 'on' or 'live' jQuery methods).
- */
-
-var loap = (function() {
-	return {
-		build : function() {
-			// Apply css debug
-			if ($conf.css_debug) { $("body").addClass("css-debug") }
-			// Apply css fx
-			if ($conf.css_fx) { $("body").addClass("css-fx"); }
-			// Build container
-			if ($build.container) {
-				// Apply standard layout (i.e. two columns view)
-				$("body").addClass("standard-layout");
-				// Prepend frame
-				$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
-			}
-			// Build toolbar template
-			if ($build.toolbar) { $("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1)) }
-			// Build icons
-			if ($build.icons) {
-				// Prepend ppend SVG effects
-				if ($conf.svg_fx) { $("body").prepend(file_pool.icons_fx_file).prepend(lb(1)) }
-				// Prepend SVG icons
-				$("body").prepend(file_pool.icons_file).prepend(lb(1));
-			}
-		},
-		update : function() {
-			$(document).svg_icons(); // WARNING : set svg icons for whole document
-			$(document).user_pictures(); // WARNING : set user pictures for whole document
-		},
-		init : function() {
-			/* Apply user settings */
-			check_user_connected()
-			set_toolbar_prefs()
-			/* Load components */
-			this.update();
-			$(document).placeholder(); // set placeholder for whole document
-			$(document).zlider(); // launch zlider for whole document
-			user_menu.init(); // setup user menu
-		}
-	};
-}());
- 
-/* ------------------------------------------------------------------ */
-/* # Files loading declaration */
-/* ------------------------------------------------------------------ */
-
-var loap_pool = {
-//"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
-	"confirmation_bar_tmpl"         : $loc.tmpl + "snippet_confirmation_bar.tmpl",
-	"alert_box_tmpl"                : $loc.tmpl + "snippet_alert_box.tmpl",
-	"dev_toolbar_tmpl"              : $loc.tmpl + "_dev_toolbar.tmpl",
-	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
-	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
-	"icons_fx_file"                 : $file.icons_fx,
-	"icons_file"                    : $file.icons
-};
-
-var loax_pool = loax_pool || null;
-
-var file_pool = $.extend({}, loap_pool, loax_pool);
-
-var files_readied = 0; // internal -- number of files to load
-var files_ready   = 0; // internal -- number of files loaded
-
-for (key in file_pool) {
-	files_readied++;
-}
-console.log("0 - xhr files readied : " + files_readied); // DEBUG
-$.holdReady(true); // hold document ready event
-
-function checkReady() {
-	files_ready++;
-	if (files_ready == files_readied) {
-		console.log("1 - xhr files loaded : " + files_ready); // DEBUG
-		console.log("2 - process loap build (i.e. insert xhr files into document)"); // DEBUG
-		loap.build(); // process primary build
-		if (typeof loax.build !== "undefined") {
-			console.log("3 - process loax build (i.e. insert xhr files into document)"); // DEBUG
-			loax.build()
-		} // process auxiliary build
-		$.holdReady(false); // release document ready event
-	}
-}
-
-function setFileCallback(varname) {
-	return function(XHRresponse) {
-		file_pool[varname] = doT.compile(XHRresponse);
-		checkReady();
-	}
-}
-
-for (varname in file_pool) {
-	loadfile(file_pool[varname], setFileCallback(varname));
-}
-
-/* ------------------------------------------------------------------ */
 /* # Core */
 /* ------------------------------------------------------------------ */
 /*
  * NOTE
- * Below are methods and jQuery extensions required by the module.
- * They have to be called before anything else.
- * Be carefull with them or beware Bilbo Baggin's mighty wrath !
+ * Below are owner javascript prototypes extensions.
+ * They must be called before anything else.
+ * Well, at least if you can catch the rime of an ancient mariner ...
  */
 
 /* Cut string
@@ -156,6 +48,130 @@ Number.prototype.toPx = function() {
 	var r = parseFloat(window.getComputedStyle(document.querySelector("body")).getPropertyValue("font-size").replace("px", ""));
 	return (n * r);
 };
+
+/* ------------------------------------------------------------------ */
+/* # Globals */
+/* ------------------------------------------------------------------ */
+
+var loap_pool = {
+//"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
+	"confirmation_bar_tmpl"         : $loc.tmpl + "snippet_confirmation_bar.tmpl",
+	"alert_box_tmpl"                : $loc.tmpl + "snippet_alert_box.tmpl",
+	"dev_toolbar_tmpl"              : $loc.tmpl + "_dev_toolbar.tmpl",
+	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
+	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
+	"icons_fx_file"                 : $file.icons_fx,
+	"icons_file"                    : $file.icons
+};
+var loax_pool = loax_pool || null;
+var file_pool = $.extend({}, loap_pool, loax_pool);
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * All instructions that need a refresh should be put below.
+ * That is mainly for anything launched by a generated element.
+ * It concerns append, prepend, wrap, before, after, insert, html, etc.
+ * Anything created after loading. This is an IIFE.
+ *
+ * Events have to be separatly attached for now and the future
+ * to a parent element (i.e. with 'on' or 'live' jQuery methods).
+ */
+
+var loap = (function() {
+	return {
+		build : function() {
+			// Apply css debug
+			if ($conf.css_debug) { $("body").addClass("css-debug") }
+			// Apply css fx
+			if ($conf.css_fx) { $("body").addClass("css-fx"); }
+			// Build container
+			if ($build.container) {
+				// Apply standard layout (i.e. two columns view)
+				$("body").addClass("standard-layout");
+				// Prepend frame
+				$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
+			}
+			// Build toolbar template
+			if ($build.toolbar) { $("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1)) }
+			// Build icons
+			if ($build.icons) {
+				// Prepend SVG effects
+				if ($conf.svg_fx) {
+					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
+				}
+				// Prepend SVG icons
+				$("body").prepend(file_pool.icons_file).prepend(lb(1));
+			}
+		},
+		update : function() {
+			$(document).svg_icons(); // WARNING : set svg icons for whole document
+			$(document).user_pictures(); // WARNING : set user pictures for whole document
+		},
+		init : function() {
+			/* Apply user settings */
+			check_user_connected()
+			set_toolbar_prefs()
+			/* Load components */
+			this.update();
+			$(document).placeholder(); // set placeholder for whole document
+			$(document).zlider(); // launch zlider for whole document
+			user_menu.init(); // setup user menu
+		}
+	};
+}());
+ 
+/* ------------------------------------------------------------------ */
+/* # Files Loader */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true); // hold document ready event
+
+(function() {
+	// vars
+	var files_readied = 0; // internal -- number of files to load
+	var files_ready   = 0; // internal -- number of files loaded
+	// methods
+	function checkReady() {
+		files_ready++;
+		if (files_ready == files_readied) {
+			loap.build(); // process primary build
+			if (typeof loax !== "undefined" && loax.hasOwnProperty("build")) {
+				loax.build() // process auxiliary build
+			}
+			$.holdReady(false); // release document ready event
+		}
+	}
+	function setFileCallback(varname) {
+		return function(XHRresponse) {
+			if (file_pool[varname].cut(-4) == "tmpl") {
+				file_pool[varname] = doT.compile(XHRresponse);
+			} else if (file_pool[varname].cut(-4) == "json") {
+				file_pool[varname] = JSON.parse(XHRresponse);
+			} else {
+				file_pool[varname] = XHRresponse;
+			}
+			checkReady();
+		}
+	}
+	// process
+	for (key in file_pool) { files_readied++ }
+	for (varname in file_pool) {
+		loadfile(file_pool[varname], setFileCallback(varname));
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # Plugins */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * Below are methods and jQuery extensions required by the module.
+ * They have to be called before anything else.
+ * Be carefull with them or beware Bilbo Baggin's mighty wrath !
+ */
 
 /* Scroll to (object) */
 function scrollTo(object, duration, spacing) {
@@ -899,7 +915,7 @@ jQuery.fn.extend({
 });
 
 /* ------------------------------------------------------------------ */
-/* # Components (global) */
+/* # Components */
 /* ------------------------------------------------------------------ */
 
 var user_menu = (function() {
@@ -1457,19 +1473,15 @@ var f_tooltip_cfg = {                         // Foundation Tooltip component
 
 /* Initialize third-party modules */
 $(document).ready(function() {
-	console.log("4 - document is ready ! now init modules"); // DEBUG
 	/* Apply Foundation custom config */
 	var f = Foundation.libs;
 	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings -- NOTE : override fucking Foundation fucking libs
 	/* Initialize third-party plugins */
 	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
-	console.log("5 - Foundation : OK"); // DEBUG
 	$(document).foundation(); // Initialize Foundation module
-	console.log("6 - loap : OK"); // DEBUG
 	loap.init(); // Initialize primary module
-	if (typeof loax.init !== "undefined") {
-		console.log("7 - loax : OK"); // DEBUG
-		loax.init(); // Initialize auxiliary module
+	if (typeof loax !== "undefined" && loax.hasOwnProperty("init")) {
+		loax.init() // Initialize auxiliary module
 	}
 });
 
