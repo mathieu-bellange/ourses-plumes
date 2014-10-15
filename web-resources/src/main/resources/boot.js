@@ -136,14 +136,18 @@ $file = {
 /* Messages */
 $msg = {
 	"error"                 : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
+	"saving"                : "Enregistrement&hellip;",
+	"checking"              : "V&eacute;rification&hellip;",
 	"connected"             : "Vous avez &eacute;t&eacute; connect&eacute;e au serveur.", // <br>Un rafra&icirc;chissement de la page peut &ecirc;tre n&eacute;cessaire.
 	"disconnected"          : "Vous avez &eacute;t&eacute; d&eacute;connect&eacute;e du serveur.", // <br>Veillez &agrave; enregistrer toute modification en cours avant de rafra&icirc;chir la page.
 	"user_connected"        : "Vous &ecirc;tes maintenant connect&eacute;e.",
 	"user_disconnected"     : "Vous &ecirc;tes maintenant d&eacute;connect&eacute;e.",
 	"session_expired"       : "Votre session a expir&eacute; et vous avez &eacute;t&eacute; d&eacute;connect&eacute;e du serveur.",
 	"tag_dup"               : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
-	"tag_max"               : "Maximum de tags autoris&eacute;s atteint.",
+	"tag_max"               : "Maximum de tags&thinsp;!",
 	"char_illegal"          : "Caract&egrave;re invalide&thinsp;!",
+	"form_sent"             : "Le formulaire que vous avez soumis a bien &eacute;t&eacute; envoy&eacute;&thinsp;!",
+	"form_valid"            : "Le formulaire que vous avez soumis est correct et a &eacute;t&eacute; envoy&eacute;&thinsp;!",
 	"form_invalid"          : "Le formulaire que vous avez soumis est incorrect et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
 	"form_incomplete"       : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
 	"email_dup"             : "Le message a d&eacute;jà &eacute;t&eacute; envoy&eacute; à cette adresse.",

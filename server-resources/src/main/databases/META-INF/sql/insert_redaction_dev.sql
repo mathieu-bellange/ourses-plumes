@@ -27,7 +27,30 @@ Values
   (4, 'jeux vid&eacute;os'),
   (5, 'machisme'),
   (6, 'homophobie'),
-  (7, 'sept');
+  (7, 'sept'),
+  (8, 'amphibien'),
+  (9, 'amphipode'),
+  (10, 'amphith&eacute;atre'),
+  (11, 'amphore'),
+  (12, 'amphot&egrave;re'),
+  (13, 'amplificateur'),
+  (14, 'ampoule'),
+  (15, 'amputation'),
+  (16, 'band apart'),
+  (17, 'bandage'),
+  (18, 'bande'),
+  (19, 'bandeau'),
+  (20, 'banderole'),
+  (21, 'bandit'),
+  (22, 'jeu video'),
+  (23, 'jeux-vid&eacute;os'),
+  (24, 'jeux  vid&eacute;os'),
+  (25, 'jeux videos'),
+  (26, 'jeux_vid&eacute;os'),
+  (27, 'zizanie'),
+  (28, 'zizi'),
+  (29, 'zizi mou'),
+  (30, 'zizou');
 
 Insert into article
   (id, title, description, body, published_date, created_date, updated_date, profile_id, category_id, rubrique_id, status, path, title_beautify)

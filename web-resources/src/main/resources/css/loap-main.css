@@ -501,7 +501,9 @@ input[type="search"],
 input[type="tel"],
 input[type="time"],
 input[type="url"],
+input[type="color"],
 textarea {
+  height: 2.25rem; /* Foundation override */
   font-size: .875rem; /* Foundation override */
   border: .125rem solid silver; /* Foundation override */
 }
@@ -532,6 +534,8 @@ input[type="time"],
 input[type="time"]:focus,
 input[type="url"],
 input[type="url"]:focus,
+input[type="color"],
+input[type="color"]:focus,
 textarea,
 textarea:focus {
   -webkit-box-shadow: none; /* Foundation override */
@@ -601,6 +605,49 @@ select > optgroup {
 select > optgroup > option {}
 
 /* ------------------------------------------------------------------ */
+/* # Input Fixes */
+/* ------------------------------------------------------------------ */
+
+input::-moz-focus-inner,
+button::-moz-focus-inner { /* Firefox extra spacing fix */
+  border: 0;
+  padding: 0;
+}
+
+button,
+html input[type="button"], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
+  cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
+}
+
+button[disabled],
+html input[disabled] {
+  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
+}
+
+.prefix, .postfix {
+  padding: 0 .75rem;
+}
+.prefix.button, .postfix.button {
+  padding: 0; /* Foundation Override */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Inputs Placeholders */
+/* ------------------------------------------------------------------ */
+
+::-webkit-input-placeholder { /* Chrome */
+  color: rgba(0, 0, 0, .5);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(0, 0, 0, .5);
+}
+
+.placeholder {color: rgba(0, 0, 0, .375);}
+
+/* ------------------------------------------------------------------ */
 /* # Buttons */
 /* ------------------------------------------------------------------ */
 
@@ -614,7 +661,7 @@ button, .button,
   line-height: 100%;
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   letter-spacing: -.0625em;
-  border-width: .15rem;
+  border-width: .15rem; /* WARNING */
   border-style: solid;
 }
 .css-fx button, .css-fx .button,
@@ -677,15 +724,18 @@ button.secondary.disabled:hover, .button.secondary.disabled:hover,
 button.secondary[disabled]:hover, .button.secondary[disabled]:hover,
 button.secondary.disabled:focus, .button.secondary.disabled:focus,
 button.secondary[disabled]:focus, .button.secondary[disabled]:focus {
-  background-color: #ddd;
+  color: #444;
   border-color: #999;
+  background-color: #ddd;
 }
 button.secondary:hover, .button.secondary:hover,
 button.secondary:focus, .button.secondary:focus {
+  color: #444;
   background-color: #ccc;
 }
 button.secondary:active, .button.secondary:active,
 button.secondary.active, .button.secondary.active {
+  color: #444;
   background-color: #999;
 }
 
@@ -697,8 +747,8 @@ button.success.disabled:hover, .button.success.disabled:hover,
 button.success[disabled]:hover, .button.success[disabled]:hover,
 button.success.disabled:focus, .button.success.disabled:focus,
 button.success[disabled]:focus, .button.success[disabled]:focus {
-  background-color: #3a6;
   border-color: #274;
+  background-color: #3a6;
 }
 button.success:hover, .button.success:hover,
 button.success:focus, .button.success:focus {
@@ -717,8 +767,8 @@ button.alert.disabled:hover, .button.alert.disabled:hover, button.error.disabled
 button.alert[disabled]:hover, .button.alert[disabled]:hover, button.error[disabled]:hover, .button.error[disabled]:hover,
 button.alert.disabled:focus, .button.alert.disabled:focus, button.error.disabled:focus, .button.error.disabled:focus,
 button.alert[disabled]:focus, .button.alert[disabled]:focus, button.error[disabled]:focus, .button.error[disabled]:focus {
-  background-color: #d52;
   border-color: #930;
+  background-color: #d52;
 }
 button.alert:hover, .button.alert:hover, button.error:hover, .button.error:hover,
 button.alert:focus, .button.alert:focus, button.error:focus, .button.error:focus {
@@ -787,49 +837,6 @@ label.error {
 .error.hide {
   display: none; /* Visibility fix */
 }
-
-/* ------------------------------------------------------------------ */
-/* # Input Fixes */
-/* ------------------------------------------------------------------ */
-
-input::-moz-focus-inner,
-button::-moz-focus-inner { /* Firefox extra spacing fix */
-  border: 0;
-  padding: 0;
-}
-
-button,
-html input[type="button"], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
-input[type="reset"],
-input[type="submit"] {
-  -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
-  cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
-}
-
-button[disabled],
-html input[disabled] {
-  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
-}
-
-.prefix, .postfix {
-  padding: 0 .75rem;
-}
-.prefix.button, .postfix.button {
-  padding: 0; /* Foundation Override */
-}
-
-/* ------------------------------------------------------------------ */
-/* # Inputs Placeholders */
-/* ------------------------------------------------------------------ */
-
-::-webkit-input-placeholder { /* Chrome */
-  color: rgba(0, 0, 0, .5);
-}
-:-ms-input-placeholder { /* IE 10+ */
-  color: rgba(0, 0, 0, .5);
-}
-
-.placeholder {color: rgba(0, 0, 0, .375);}
 
 /* ------------------------------------------------------------------ */
 /* # Validation Boxes */
@@ -1178,6 +1185,7 @@ a.icon > svg {
 /* Anchors */
 a.disabled {
   cursor: default;
+/*outline: none;*/ /* TEMP : need to think about that ... */
   opacity: .5;
 }
 [class*="-nav"] ul li a.disabled,
@@ -2083,47 +2091,67 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   padding-left: .75rem;
   padding-right: .75rem;
 }
-a.label:hover, a.label:focus {color: white; background-color: #97b;}
-.label.secondary {color: white; background-color: silver;}
-a.label.secondary:hover, a.label.secondary:focus {background-color: darkgray;}
+
+a.label:hover, a.label:focus {color: white;}
+a.label.inverse:hover, a.label.inverse:focus {background-color: gray;}
+
+.css-fx a.label:not(.undefined):hover, .css-fx a.label:not(.undefined):focus {box-shadow: 0 0 2rem rgba(0, 0, 0, .25) inset;}
+
+a.label:active, a.label.active {background-color: #97b;}
+.label.secondary {background-color: silver;}
+a.label.secondary:active, a.label.secondary.active {background-color: darkgray;}
 .label.success {background-color: #3a6;}
-a.label.success:hover, a.label.success:focus {background-color: #295;}
+a.label.success:active, a.label.success.active {background-color: #295;}
 .label.alert, .label.error {background-color: #d52;}
-a.label.alert:hover, a.label.alert:focus, a.label.error:hover, a.label.error:focus {background-color: #930;}
+a.label.alert:active, a.label.alert.active, a.label.error:active, a.label.error.active {background-color: #930;}
 .label.inverse {background-color: #444;}
-a.label.inverse:hover, a.label.inverse:focus {background-color: #777;}
+a.label.inverse:active, a.label.inverse.active {background-color: #777;}
+
+.label.undefined {color: silver; border: .125rem dashed gainsboro; background-color: transparent;}
+a.label.undefined:hover, a.label.undefined:focus {color: gray; border-color: silver; background: whitesmoke;}
+a.label.undefined:active, a.label.undefined.active {color: dimgray; border-color: transparent; background-color: rgb(232, 232, 232);}
+
+.label.wrong {color: #c33; border-color: rgba(208, 48, 48, .5); background-color: transparent;}
+a.label.wrong:hover, a.label.wrong:focus {color: rgba(208, 48, 48, .75); border-color: #c33; background-color: snow;}
+a.label.wrong:active, a.label.wrong.active {color: #c33; border-color: transparent; background-color: rgba(208, 48, 48, .125);}
+
+.label.disabled,
+a.label.disabled:hover,
+a.label.disabled:focus,
+a.label.disabled:active,
+a.label.disabled.active {color: gray; border-color: transparent; background-color: transparent;}
 
 /* Colors*/
 .label.red, a.label.red {background-color: #c33;}
-a.label.red:hover, a.label.red:focus {background-color: #822;}
+a.label.red:active, a.label.red.active {background-color: #822;}
 .label.orange {background-color: #f63;}
-a.label.orange:hover, a.label.orange:focus {background-color: #931;}
+a.label.orange:active, a.label.orange.active {background-color: #931;}
 .label.yellow {background-color: #ca0;}
-a.label.yellow:hover, a.label.yellow:focus {background-color: #761;}
+a.label.yellow:active, a.label.yellow.active {background-color: #761;}
 .label.green {background-color: #393;}
-a.label.green:hover, a.label.green:focus {background-color: #252;}
+a.label.green:active, a.label.green.active {background-color: #252;}
 .label.cyan {background-color: #399;}
-a.label.cyan:hover, a.label.cyan:focus {background-color: #255;}
+a.label.cyan:active, a.label.cyan.active {background-color: #255;}
 .label.blue {background-color: #36c;}
-a.label.blue:hover, a.label.blue:focus {background-color: #248;}
+a.label.blue:active, a.label.blue.active {background-color: #248;}
 .label.purple {background-color: #93c;}
-a.label.purple:hover, a.label.purple:focus {background-color: #517;}
+a.label.purple:active, a.label.purple.active {background-color: #517;}
 .label.magenta {background-color: #e2a;}
-a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
+a.label.magenta:active, a.label.magenta.active {background-color: #a17;}
 
 /* Named Rubrics Colors */
 .label.intersec, a.label.intersec {background-color: #c33;}
-a.label.intersec:hover, a.label.intersec:focus {background-color: #822;}
+a.label.intersec:active, a.label.intersec.active {background-color: #822;}
 .label.struggles {background-color: #f63;}
-a.label.struggles:hover, a.label.struggles:focus {background-color: #931;}
+a.label.struggles:active, a.label.struggles.active {background-color: #931;}
 .label.ideas {background-color: #ca0;}
-a.label.ideas:hover, a.label.ideas:focus {background-color: #761;}
+a.label.ideas:active, a.label.ideas.active {background-color: #761;}
 .label.educult {background-color: #399;}
-a.label.educult:hover, a.label.educult:focus {background-color: #255;}
+a.label.educult:active, a.label.educult.active {background-color: #255;}
 .label.internat {background-color: #36c;}
-a.label.internat:hover, a.label.internat:focus {background-color: #248;}
+a.label.internat:active, a.label.internat.active {background-color: #248;}
 .label.ourbody {background-color: #e2a;}
-a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
+a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 
 /* Hide */
 .label.hide {display: none;} /* Visibility fix */
@@ -2415,7 +2443,9 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   border-color: darkgray;
 }
 .options-select.wrong > .select,
-.options-select:focus.wrong > .select {
+.options-select.wrong > .options,
+.options-select:focus.wrong > .select,
+.options-select:focus.wrong > .options {
   border-color: #c33;
 }
 .options-select > .options {
@@ -2424,7 +2454,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   margin-bottom: 0;
   list-style: none;
   border-top: 0;
-  z-index: 100;
+  z-index: 10;
 }
 .options-select > .options > li {
   padding: .25rem .5rem;
@@ -2467,26 +2497,26 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   font-size: 87.5%;
   background-color: rgba(255, 0, 0, .5);
   background-color: transparent;
-  transition: box-shadow .5s;
 }
 .css-fx .autocomplete {transition: box-shadow .5s;}
 .autocomplete ul {
   margin: 0 0 1rem;
   list-style: none;
-  background-color: rgba(0, 255, 0, .5);
-  background-color: white;
   border-width: 0 .125rem;
   border-style: solid;
   border-color: silver;
+  background-color: rgba(0, 255, 0, .5);
+  background-color: white;
 }
 .autocomplete ul > li {
   padding: 0 .5rem;
   line-height: 200%;
 }
 .autocomplete ul > li.selected {
+  cursor: pointer;
   color: HighlightText;
-  background-color: Highlight;
   font-weight: bold;
+  background-color: Highlight;
 }
 .autocomplete ul > li.selected mark {
   color: white;
@@ -2505,7 +2535,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .autocomplete ul > li.suggested-fetch.selected:after {
   color: rgba(255, 255, 255, .5);
 }
-input:focus + button + .error + .autocomplete {
+.css-fx input:focus + button + .error + .autocomplete {
   -webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
      -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
           box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
@@ -2566,7 +2596,11 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Articles */
 /* ------------------------------------------------------------------ */
 
-.article .title {padding: 0 .5rem;}
+.article .title {
+  margin-top: 0;
+  margin-bottom: .5rem;
+  padding: 0 .5rem;
+}
 
 .article .author:not(p) {
   display: inline-block;
@@ -2725,8 +2759,6 @@ input:focus + button + .error + .autocomplete > ul {
 /* Below are shared mimic styles */
 .article.edit .title:hover,
 .article.edit .summary:hover,
-.article.edit .tags:hover,
-.article.edit .tags:focus,
 .article.edit .inline-editor:hover {
   cursor: pointer;
   border-style: dotted;
@@ -2752,8 +2784,6 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Below are specific mimic styles */
 .article.edit .title {
-  margin-top: 0.5em;
-  margin-bottom: 0.25em;
   font-size: 2.5em;
   font-weight: normal;
   font-style: normal;
@@ -2782,45 +2812,13 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: 1rem; /* WARNING : vertical position adjustment */
 }
 
-.article.edit .tags {
-  position: relative;
-  display: block;
-  padding-right: 12rem; /* WARNING : based upon after pseudo-element text width */
-}
-.article.edit .tags:after {
-  color: gainsboro;
-  font-size: 1rem;
-}
-.article.edit .tags:hover:after,
-.article.edit .tags:focus:after,
-.article.edit .tags.active:after {
-  content: "Éditer";
-  position: absolute;
-  top: 12.5%;
-  right: 1rem;
-  color: silver;
-  letter-spacing: -.0625em;
-}
-.article.edit .tags:focus:after,
-.article.edit .tags.active:after {
-  font-size: 1.75rem;
-}
-.css-fx .article.edit .tags:after {letter-spacing: 0; font-family: "Oswald", sans-serif;transition: all .25s ease;}
-.article.edit .tags.active:after {
-  content: "Masquer";
-}
-.css-fx .article.edit .tags dt > svg {transition: all .25s ease;}
-
-.article.edit .tags:focus dt > svg,
-.article.edit .tags.active dt > svg {
-  width: 4rem;
-  height: 4rem;
-}
-
 .article.edit .inline-editor {
   padding: .5rem;
   border: .125rem solid transparent;
   background-color: white;
+}
+.article.edit .inline-editor:focus {
+  outline: none;
 }
 .css-fx .article.edit .inline-editor {transition: box-shadow .75s;}
 .css-fx .article.edit .inline-editor:focus {box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);}
