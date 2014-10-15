@@ -23,8 +23,8 @@
 			<input id="toggle_css_debug" type="checkbox">
 		</div>
 		<script>
-		// Vars
-		// Events
+		// vars
+		// events
 		$("html").on("click", "#toggle_css_debug", function() {
 			$("body").toggleClass("css-debug");
 		});
@@ -32,7 +32,7 @@
 			var f = $(this).val();
 			$("." + f).toggle();
 		});
-		// Init
+		// init
 		$(document).ready(function() {
 			if ($("#toggle_css_debug").is(":checked")) {
 				if ($("body").hasClass("css-debug")) {
@@ -107,7 +107,7 @@
 			</div>
 
 			<script>
-				/* User Articles List Info Box Slider */
+				// user articles list info box slider
 				var triggerer = ".info-tip";
 				var triggered = ".summary";
 				$(triggerer).click(function() {
@@ -205,12 +205,12 @@
 					"icons_tooltip" : true,
 					"animation_delay" : ($conf.js_fx ? 250 : 0)
 				};
-				// Vars
+				// vars
 				var options = $.extend({}, defaults, options);
 				var input_container_margin_bottom = parseInt($(options.input_container).find("input").css("margin-bottom"));
 				var icons_container_margin_bottom = parseInt($(options.icons_container).css("margin-bottom"));
 				var is_icon_hover = false;
-				// Methods
+				// functions
 				function show_input_container() {
 					var obj = $(options.input_container + " input");
 					var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
@@ -226,7 +226,7 @@
 						obj.val(url);
 						obj.selectText(0, obj.val().length);
 						$(options.input_container).css("width", "100%");
-						// Set input prefix visibility
+						// set input prefix visibility
 						if (!url_prefix) {
 							$(options.input_container + " .prefix").hide();
 							$(options.input_container + " input").css("width", "100%");
@@ -237,13 +237,13 @@
 								"width" : "auto",
 								"display" : "inline-block"
 							});
-							// Adjust input width
+							// adjust input width
 							var w = $(options.input_container).innerWidth() - $(options.input_container + " .prefix").outerWidth(true);
 							var w_adj = parseInt($("html").css("font-size")) * 1.25; // REM to px conversion
 							$(options.input_container + " input").width(w - w_adj);
 							$(options.input_container).css("width", "auto");
 						}
-						// Adjust container horizontal position
+						// adjust container horizontal position
 						var h = $(options.input_container).outerHeight(true);
 						$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + icons_container_margin_bottom + "px"});
 					}, options.animation_delay);
@@ -263,7 +263,7 @@
 						obj.removeClass("disabled");
 					}
 				}
-				// Eventing
+				// events
 				$(options.icons_container + " " + options.icons_selector).on("mouseenter", function() {
 					is_icon_hover = true;
 					if (!$(this).hasClass("active") && $(this).hasClass("disabled")) {
@@ -308,7 +308,7 @@
 						hide_input_container()
 					}
 				});
-				// Initialization
+				// init
 				$(document).ready(function() {
 					$(options.input_container).wrap("<div style='position: relative;'></div>");
 					$(options.input_container).css({"position" : "absolute", "width" : "100%", "display" : "none"});
@@ -326,9 +326,9 @@
 			}
 
 			function set_role_display() {
-				// Define Methods
+				// functions
 				function update_role_display(clear) {
-					var screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
+					var screen_width = 1023; // WARNING : should be the same as css file for this to work properly
 					if (window.matchMedia("(min-width: " + screen_width + "px)").matches) {
 						var clear = clear || false;
 						$("h3.user-name").css("padding-right", $("#role").outerWidth());
@@ -342,8 +342,8 @@
 						$("input.user-name").css("padding-right", "");
 					}
 				}
-				// Bind Events
-				$("#pseudo").bind({ // Bind role display events to pseudo
+				// events
+				$("#pseudo").bind({ // bind role display events to pseudo
 					mouseenter: function() {update_role_display();},
 					mouseleave: function() {if (!$(this).is(":focus")) {update_role_display(true);}},
 					focus: function() {update_role_display();},
@@ -355,14 +355,14 @@
 				update_role_display(true);
 			}
 
-			// Define Icons Input Variables
+			// define icons input variables
 			var user_links = {
 				"input_container" : ".user-profile-update #user-link",
 				"icons_container" : ".user-profile-update #user_links_icons",
 				"icons_title_prefix" : "Votre "
 			};
 
-			// Define Page Startup Instructions
+			// define page startup instructions
 			$(document).ready(function() {
 				create_icons_input(user_links); // Process user links
 				set_role_display(); // Apply role display changing

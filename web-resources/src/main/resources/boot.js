@@ -45,7 +45,7 @@ $app = {
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
-	"root"               : isFileProtocol ? "" : "/",           // String   Application base URL. Default : "/"
+	"root"               : isFileProtocol ? "" : "/",             // String   Application base URL. Default : "/"
 };
 
 /* Authentication */
@@ -154,12 +154,13 @@ $msg = {
 	"email_sent"            : "Le message &eacute;lectronique a correctement &eacute;t&eacute; envoy&eacute;.",
 	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&thinsp;&hellip;",
 	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&thinsp;!",
-	"account_updated"       : "Compte mis à jour avec succ&egrave;&thinsp;!",
+	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
 	"account_deleted"       : "Compte supprim&eacute;&thinsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
 	"article_offcheck"      : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
 	"article_offline"       : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
-	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
+	"article_search_empty"  : "Aucun article ne correspond aux crit&egrave;res de recherche.",
+	"article_no_filter"     : "Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.",
 	"sumething_weird"       : "Un esp&egrave;ce de truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
 };
 

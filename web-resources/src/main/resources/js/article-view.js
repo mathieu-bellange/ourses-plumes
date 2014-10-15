@@ -40,7 +40,7 @@ var share = (function() {
 				}
 			};
 			var settings = $.extend({}, defaults, options);
-			// methods
+			// functions
 			function open_box(obj, d) {
 				var w = obj.outerWidth();
 				var h = obj.outerHeight();

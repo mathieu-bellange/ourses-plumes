@@ -254,7 +254,7 @@ function create_icons_input(options) {
 	var input_container_margin_bottom = parseInt($(options.input_container).find("input").css("margin-bottom"));
 	var icons_container_margin_bottom = parseInt($(options.icons_container).css("margin-bottom"));
 	var is_icon_hover = false;
-	// methods
+	// functions
 	function show_input_container() {
 		var obj = $(options.input_container + " input");
 		var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
@@ -437,7 +437,7 @@ function processAvatar(options) {
 	var settings = $.extend({}, defaults, options);
 	var o_progress = $(settings.selector).nextAll(".progress").first(); // internal
 	var t_progress = 0; // internal
-	// methods
+	// functions
 	function show_progress_bar() {
 		clearTimeout(t_progress);
 		o_progress.removeClass("secondary warning alert success");

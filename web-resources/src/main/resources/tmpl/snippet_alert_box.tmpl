@@ -1,6 +1,6 @@
 ﻿					<div{{= typeof data.id !== "undefined" ? " id=" + data.id : "" }} class="alert-box radius text-center {{= typeof data.class !== 'undefined' ? ' ' + data.class : '' }}" style="display: none;">
 						{{? data.icon !== null }}
-						<span class="icon-{{= data.icon }} small white"></span>
+						<span class="icon-{{= data.icon }} small{{= data.icon_class !== null ? ' ' + data.icon_class : '' }}"></span>
 						{{?}}
 						<span class="text">{{= data.text }}</span>
 						<a href="javascript:void(0)" class="close"></a><span class="hide">Fermer<span>

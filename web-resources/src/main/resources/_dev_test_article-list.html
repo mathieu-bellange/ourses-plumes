@@ -7,16 +7,18 @@
 
 		<h2 class="red">Liste des articles <small>.articles-list</small></h2>
 
-		<!--Dev Testbar-->
+		<!----------------------------------------------------------------->
+		<!--# Dev Testbar-->
+		<!----------------------------------------------------------------->
 		<div id="dev_testbar">
 			<svg width="0" height="0" viewBox="0 0 48 48">
 				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
 			</svg>
 			<h4>Voir</h4>
-			<label for="show_articles_filtering">Articles filtering</label>
+			<label for="show_articles_filtering">Filtering</label>
 			<input id="show_articles_filtering" type="checkbox" name="show" value="articles_filtering" checked>
-			<label for="show_articles_status">Articles status</label>
-			<input id="show_articles_status" type="checkbox" name="show" value="articles_status">
+			<label for="show_articles_publishing">Publishing</label>
+			<input id="show_articles_publishing" type="checkbox" name="show" value="articles_publishing">
 			<label for="debug_marks">Masques</label>
 			<input id="debug_marks" type="checkbox" value="true">
 			<label for="long_strings">Texte &eacute;tendu</label>
@@ -26,11 +28,11 @@
 			<span id="section_width_tip"></span>
 		</div>
 		<script>
-			// Functions
+			// functions
 			function change_width(selector) {
 				var w = $(selector).val() + "%";
 				$("section").css("width", w);
-				$("#section_width_tip").text(w + " (" + $("section").outerWidth(true) + "px)");
+				$("#section_width_tip").text(w + " (" + $("#articles").outerWidth(true) + "px)");
 			}
 			function check_debug_marks(selector) {
 				if ($(selector).is(":checked")) {
@@ -50,17 +52,17 @@
 					$("section > ul > li > h4").html("Ceci est l&rsquo;intitul&eacute; de la rubrique dans laquelle l&rsquo;article est index&eacute;");
 					$(".href-block > .title").html("Ceci est un titre plut&ocirc;t long pour un article qui ne l&rsquo;est pas moins");
 					$(".href-block > p > .summary-text").html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.");
-					$(".href-block > p > .author > strong").html("Ceci est mon nom de plume");
-					$(".other .href-block > p > .author > strong").html("Ceci est le nom de plume de l&rsquo;auteure de l&rsquo;article");
+					$(".href-block > p > .author > strong").html("Ceci est le nom de plume de l&rsquo;auteure de l&rsquo;article");
+					$(".draft li:not(.other) .href-block > p > .author > strong").html("Ceci est mon nom de plume");
 				} else {
 					$("section > ul > li > h4").html("Rubrique");
 					$(".href-block > .title").html("Titre.");
 					$(".href-block > p > .summary-text").html("R&eacute;sum&eacute;.");
-					$(".href-block > p > .author > strong").html("Moi");
-					$(".other .href-block > p > .author > strong").html("Auteure");
+					$(".href-block > p > .author > strong").html("Auteure");
+					$(".draft li:not(.other) .href-block > p > .author > strong").html("Moi");
 				}
 			}
-			// Eventing
+			// events
 			$("html").on("click", "[name='show']", function() {
 				var f = $(this).val();
 				$("#" + f).toggle();
@@ -69,7 +71,7 @@
 			$("#section_width_slider").keyup(function() {change_width(this)});
 			$("#debug_marks").change(function() {check_debug_marks(this)});
 			$("#long_strings").change(function() {check_long_strings(this)});
-			// Initialization
+			// init
 			$(document).ready(function() {
 				$("[name='show']").each(function() {
 					var f = $(this).val();
@@ -88,7 +90,9 @@
 		<!--Articles-->
 		<section id="articles">
 
-			<!--Articles Toolbar-->
+			<!--------------------------------------------------------------->
+			<!--# Articles Toolbar-->
+			<!--------------------------------------------------------------->
 			<div class="tool-bar clearfix">
 
 				<!--Search-->
@@ -115,7 +119,7 @@
 							<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
 							<li><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
 							<li><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></li>
-							<li><a id="onlines" href="javascript:void(0)">Publi&eacute;s</a></li>
+							<li><a id="onlines" href="javascript:void(0)">En ligne</a></li>
 						</ul>
 					</dt>
 				</dl>
@@ -125,347 +129,344 @@
 						<a id="write_article" href="javascript:void(0)" class="icon-article medium" title="R&eacute;diger un nouvel article"><span class="text">&Eacute;crire</span></a>
 					</dt>
 				</dl>
-
-				<script>
-					var article_list_tools = (function(options) {
-						var defaults = {
-							"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
-							"search_spacing"        : 4.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
-							"search_load_delay"     : 1000,   // Integer  Time before search input expand on page load. Default : 1000
-							"anim_duration"         : 500     // Integer  Time during which animations are played. Default : 500
-						};
-						var settings = $.extend({}, defaults, options);
-						return {
-							init: function() {
-								// methods
-								function open_filters(d, dd) {
-									var d = $conf.js_fx ? (d || 0) : 0, dd = dd || 0;
-									$("#filters_list").delay(dd).fadeIn(d);
-								}
-								function close_filters(d) {
-									var d = $conf.js_fx ? (d || 0) : 0;
-									$("#filters_list").fadeOut(d);
-								}
-								function open_search(d, f) {
-									var d = $conf.js_fx ? (d || 0) : 0, f = f || false;
-									if (f) { $("#search_filters").slideDown(d / 2) }
-									var w = $(".tool-bar").innerWidth() // compute search input width
-									 - $("#search_button").outerWidth(true)
-									 - $("#filter_button").outerWidth(true)
-									 - $("#write_article").outerWidth(true)
-									 - (f ? settings.search_spacing.toPx() : (settings.search_spacing * 2).toPx()); // arbitrary safety spacing (2rem / 4rem)
-									var h = $("#search_field").css("height");
-									$("#search_field").css({ // reset css
-										"width" : "0",
-										"height" : "0",
-										"margin-top" : parseFloat(h) / 2,
-										"margin-left" : "0",
-										"opacity" : "0"
-									});
-									$("#search_field").removeClass("hide");
-									$("#search_field").animate({"width" : w, "height" : h, "margin-top" : "0", "opacity" : "1"}, d, function() {
-										if (f) { $("#search").focus() } // focus search input
-									});
-								}
-								function close_search(d) {
-									var d = $conf.js_fx ? (d || 0) : 0;
-									var m = $("#search_button").innerWidth();
-									$("#search_filters").slideUp(d / 2);
-									$("#search_field").animate({"width" : "0", "margin-left" : -m, "opacity" : "0"}, d, function() {
-										$(this).addClass("hide");
-									});
-								}
-								// events
-								$("#search_button").click(function() {
-									$("#search_filters").finish();
-									$("#search_field").finish();
-									$(this).toggleClass("active");
-									$(this).blur()
-									if ($(this).hasClass("active")) {
-										if ($("#filter_button").hasClass("active")) {
-											$("#filter_button").removeClass("active");
-											close_filters();
-										}
-										open_search(settings.anim_duration, true);
-									} else {
-										close_search(settings.anim_duration);
-									}
-								});
-								$("#filter_button").click(function() {
-									$("#filters_list").finish();
-									$(this).toggleClass("active");
-									$(this).blur()
-									if ($(this).hasClass("active")) {
-										if ($("#search_button").hasClass("active")) {
-											$("#search_button").removeClass("active");
-											close_search(settings.anim_duration / 2);
-											open_filters(settings.anim_duration / 2, settings.anim_duration /2);
-										} else {
-											open_filters(settings.anim_duration)
-										}
-									} else {
-										close_filters(settings.anim_duration);
-									}
-								});
-								$("#search_filters li a").click(function() {
-									$(this).parent("li").siblings().children("a").removeClass("active");
-									$(this).toggleClass("active");
-									$(this).blur();
-									var str = $("#search").val();
-									var f = $(this).attr("data-search");
-									if ($("#search").data("filter")) {
-										str = str.replace($("#search").data("filter") + settings.search_delimiter, ""); // remove filter from search value
-									}
-									$("#search").data("filter", f);
-									if ($(this).hasClass("active")) {
-										str = f + settings.search_delimiter + str;
-									} else {
-										f = ""; // set search filter to empty
-										$("#search").data("filter", f); // reset filter in search data
-									}
-									$("#search").val(str); // reset search value
-									$("#search").focus(); // focus search input
-									$("#search").selectText((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
-								});
-								$("#filters_list li a").click(function() {
-									if ($("#filter_button").hasClass("orange")) {
-										$("#filter_button").removeClass("orange");
-										$("#articles_filters_alert").remove();
-									}
-									$(this).toggleClass("active");
-									var c = $(this).clone();
-									if ($(this).hasClass("active")) {
-										if ($conf.js_fx) {
-											$(this).animate({"opacity" : ".5"}, settings.anim_duration / 4).animate({"opacity" : "1"}, settings.anim_duration / 2);
-										}
-									} else {
-										if ($conf.js_fx) {
-											var x = $(this).offset().left;
-											var y = $(this).offset().top;
-											var w = $(this).outerWidth();
-											c.css({"position" : "absolute", "left" : x, "top" : y, "padding" : ".5rem", "font-size" : ".9em", "z-index" : "10"})
-											c.appendTo("body");
-											c.addClass("label radius");
-											c.animate({
-												"left" : (x - w / 4).toString() + "px",
-												"top" : (y - 16.0).toString() + "px",
-												"padding" : ".75rem",
-												"font-size" : "1.35em",
-												"opacity" : ".75"
-											}, settings.anim_duration / 4)
-											.animate({"top" : (y + 8.0).toString() + "px", "opacity" : 0}, settings.anim_duration / 4, function() {
-												c.remove();
-											});
-										}
-									}
-								});
-								$("#search_filters").mouseenter(function() {
-									$(this).data("hover", true);
-								});
-								$("#search_filters").mouseleave(function() {
-									$(this).removeData("hover");
-									if (!$("#search").is(":focus")) {
-										$(this).slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
-									}
-								});
-								$("#search").blur(function() {
-									if ($("#search_filters").data("hover") !== true) {
-										$("#search_filters").finish();
-										if ($("#search_filters").is(":visible")) {
-											$("#search_filters").slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
-										}
-									}
-								});
-								$("#search").focus(function() {
-									$("#search_filters").finish();
-									if ($("#search_filters").is(":hidden")) {
-										$("#search_filters").slideDown($conf.js_fx ? settings.anim_duration / 2 : 0);
-									}
-								});
-								$("#search").keyup(function(e) {
-									var f = $("#search").data("filter") || "";
-									var s = $(this).val().trim().replace(f + settings.search_delimiter, "");
-									if (e.which == 27) { // Escape
-										$("#search_button").removeClass("active");
-										close_search(settings.anim_duration);
-									} else if (e.which == 13) { // Enter
-										if (s.length == 0) {
-											$(this).set_validation(false, "Le champ de recherche est vide &hellip;");
-										} else if (s.length > 0 && s.length <= 2) {
-											$(this).set_validation(false, "La recherche doit comporter au moins trois lettres.");
-										/* ============================================== */
-										/* # Check illegal chars */
-										/* ============================================== */
-										/* forbidden chars -- '?', '&',  '=' (replaced by whitespaces below)
-										 * illegal chars   -- '/', '\', '@' (warn user)
-										 * special chars   -- ':', ',' ';' (delimiters are allowed but not yet implemented)
-										 */
-										} else if (/[\/\\@]/.test(s)) {
-											$(this).set_validation(false, $msg.char_illegal);
-										} else {
-											/* ============================================ */
-											/* # Replace forbidden and special chars */
-											/* ============================================ */
-											s = s.replace(/[\?=]/g, "").replace(/[\s&]+/, " ");
-											$(this).val((f !== "" ? f + settings.search_delimiter : "") + s); // reset search value in search input after chars replacement
-											$(this).blur();
-											/* ============================================ */
-											/* # Display articles with URL search params */
-											/* ============================================ */
-											window.history.pushState("", "", "?" + (f !== "" ? f + "=" : "") + s.replace(/\s/g, "&")); // live update address bar without reloading document (HTML5 method)
-											displayArticles("?" + f + "=" + s); // display articles with params
-										}
-									} else if (s == 0 || s.length > 2) {
-										$(this).set_validation(true, null, {"cls_valid" : ""}); // reset validation
-									}
-								});
-								$(window).resize(function() {
-									var w = $(".tool-bar").innerWidth() // compute search input width
-									 - $("#search_button").outerWidth(true)
-									 - $("#filter_button").outerWidth(true)
-									 - $("#write_article").outerWidth(true)
-									 - settings.search_spacing.toPx(); // arbitrary safety spacing (2rem)
-									$("#search_field").css("width", w);
-								});
-								$(document).ready(function() {
-									/* ================================================ */
-									/* # Retrieve URL search params */
-									/* ================================================ */
-									var p = get_url_search_params();
-									if (p !== null) {
-										if (typeof p === "string") { // this is a search query
-											$("#search").val(p.replace(/&/g, " ")); // feed search input with url search query
-										} else if (typeof p === "object") { // this is search params (i.e. specifier + search query)
-											var f = null;
-											$("#search_filters li a").each(function() {
-												if (p.hasOwnProperty($(this).attr("data-search"))) {
-													$(this).addClass("active");
-													f = $(this).attr("data-search");
-													$("#search").data("filter", f);
-												}
-											});
-											if (f == null) {
-												$("#search").val(p[Object.keys(p)[0]].replace(/&/g, " ")); // feed search input with url search params (value only)
-											} else {
-												$("#search").val(f + settings.search_delimiter + p[f].replace(/&/g, " ")); // feed search input with url search params
-											}
-										}
-										$("#search_button").toggleClass("active");
-										setTimeout(function() {
-											if (!$("#filter_button").hasClass("active")) {
-												open_search(settings.anim_duration);
-											}
-										}, settings.search_load_delay);
-									} else {
-										$("#search").val(""); // clear search input (i.e. prevent any filtering bug)
-									}
-								});
-							}
-						}
-					}());
-					article_list_tools.init(); // launch
-
-					// public vars
-					var article_list_user_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
-						"standbys" : "true",                   // Afficher les articles à valider par défaut ?
-						"others_drafts" : "false",             // Afficher les brouillons des autres par défaut ?
-						"my_drafts" : "true",                  // Afficher mes brouillons par défaut ?
-						"onlines" : "true"                     // Afficher les articles en ligne par défaut ?
-					}
-
-					var article_list_user_prefs = (function() {
-						return {
-							update: function() {
-								// some code
-							},
-							reset: function() {
-								localStorage.removeItem($prefs.articles_filters);
-							},
-							init: function() {
-								// vars
-								var articles_filters_cfg = {
-									"#standbys" : ".standby li",
-									"#others_drafts" : ".draft li.other",
-									"#my_drafts" : ".draft li:not(.other)",
-									"#onlines" : ".articles-list:not(.draft):not(.standby) li"
-								};
-								// methods
-								function set_user_prefs_articles_filters(obj) { // register user prefs for articles filters
-									var obj = obj || articles_filters_cfg;
-									var usr = {};
-									for (n in obj) {
-										usr[n.cut(1)] = $(n).hasClass("active") ? "true" : "false";
-									}
-									localStorage.setItem($prefs.articles_filters, JSON.stringify(usr));
-								}
-								function get_user_prefs_articles_filters(defaults) { // retrieve user prefs for articles filters
-									var defaults = defaults || article_list_user_prefs_defaults;
-									if (localStorage.getItem($prefs.articles_filters) == null) {
-										return defaults;
-									} else {
-										return JSON.parse(localStorage.getItem($prefs.articles_filters));
-									}
-								}
-								function check_filters_switches(obj) { // toggle articles lists visibility
-									var obj = obj || articles_filters_cfg;
-									for (key in obj) {
-										if ($(key).length > 0) { // if toggler exists (n.b. role check is made in the template)
-											if ($(key).hasClass("active")) {
-												$(obj[key]).show();
-											} else {
-												$(obj[key]).hide();
-											}
-										}
-									}
-								}
-								// events
-								$("#filters_list").mouseleave(function() {
-									set_user_prefs_articles_filters(); // register prefs
-								});
-								$("#standbys, #others_drafts, #my_drafts, #onlines").click(function() {
-									check_filters_switches(); // check filters
-								});
-								// process
-								$(document).ready(function() {
-									var prefs = get_user_prefs_articles_filters(), k = 0;
-									for (key in prefs) {
-										if (prefs[key] == "true") {
-											$("#" + key).addClass("active");
-											if ($("#filters_list").find("#" + key).length > 0) {
-												k++; // increment var if item exists and is set on
-											}
-										} else {
-											$("#" + key).removeClass("active");
-										}
-									}
-									//console.log("k = " + k); // DEBUG
-									//console.log("items in list = " + $("#filters_list").children().size()); // DEBUG
-									//window.localStorage.setItem($auth.user_role, $conf.role_admin); // TEMP : set as admin for tests
-									//window.localStorage.setItem($auth.user_role, $conf.role_redac); // TEMP : set as redac for tests
-									//window.localStorage.removeItem($auth.user_role); // set as admin for tests
-									//if (isRegAdmin()) { alert("is admin!") } // DEBUG
-									//else if (isRegRedac()) { alert("is redac!") } // DEBUG
-									//else { alert("is anonymous!") } // DEBUG
-									if ((isRegAdmin() || isRegRedac()) && k == 0) { // all switches are off
-										$("#filter_button").addClass("orange");
-										if (!window.location.search) { // no search params in url -- open filters
-											$("#filter_button").addClass("active");
-											$("#filters_list").fadeIn($conf.js_fx ? 250 : 0);
-										}
-										createAlertBox("Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.", "articles_filters_alert", {"class" : "warning"});
-									}
-									check_filters_switches()
-								});
-							}
-						}
-					}());
-					//article_list_user_prefs.reset(); // DEBUG
-					article_list_user_prefs.init(); // launch
-				</script>
-
 			</div>
+			<script>
+				var article_list_tools = (function(options) {
+					var defaults = {
+						"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
+						"search_spacing"        : 4.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
+						"search_load_delay"     : 1000,   // Integer  Time before search input expand on page load. Default : 1000
+						"anim_duration"         : 500     // Integer  Time during which animations are played. Default : 500
+					};
+					var settings = $.extend({}, defaults, options);
+					return {
+						init: function() {
+							// functions
+							function open_filters(d, dd) {
+								var d = $conf.js_fx ? (d || 0) : 0, dd = dd || 0;
+								$("#filters_list").delay(dd).fadeIn(d);
+							}
+							function close_filters(d) {
+								var d = $conf.js_fx ? (d || 0) : 0;
+								$("#filters_list").fadeOut(d);
+							}
+							function open_search(d, f) {
+								var d = $conf.js_fx ? (d || 0) : 0, f = f || false;
+								if (f) { $("#search_filters").slideDown(d / 2) }
+								var w = $(".tool-bar").innerWidth() // compute search input width
+								 - $("#search_button").outerWidth(true)
+								 - $("#filter_button").outerWidth(true)
+								 - $("#write_article").outerWidth(true)
+								 - (f ? settings.search_spacing.toPx() : (settings.search_spacing * 2).toPx()); // arbitrary safety spacing (2rem / 4rem)
+								var h = $("#search_field").css("height");
+								$("#search_field").css({ // reset css
+									"width" : "0",
+									"height" : "0",
+									"margin-top" : parseFloat(h) / 2,
+									"margin-left" : "0",
+									"opacity" : "0"
+								});
+								$("#search_field").removeClass("hide");
+								$("#search_field").animate({"width" : w, "height" : h, "margin-top" : "0", "opacity" : "1"}, d, function() {
+									if (f) { $("#search").focus() } // focus search input
+								});
+							}
+							function close_search(d) {
+								var d = $conf.js_fx ? (d || 0) : 0;
+								var m = $("#search_button").innerWidth();
+								$("#search_filters").slideUp(d / 2);
+								$("#search_field").animate({"width" : "0", "margin-left" : -m, "opacity" : "0"}, d, function() {
+									$(this).addClass("hide");
+								});
+							}
+							// events
+							$("#search_button").click(function() {
+								$("#search_filters").finish();
+								$("#search_field").finish();
+								$(this).toggleClass("active");
+								$(this).blur()
+								if ($(this).hasClass("active")) {
+									if ($("#filter_button").hasClass("active")) {
+										$("#filter_button").removeClass("active");
+										close_filters();
+									}
+									open_search(settings.anim_duration, true);
+								} else {
+									close_search(settings.anim_duration);
+								}
+							});
+							$("#filter_button").click(function() {
+								$("#filters_list").finish();
+								$(this).toggleClass("active");
+								$(this).blur()
+								if ($(this).hasClass("active")) {
+									if ($("#search_button").hasClass("active")) {
+										$("#search_button").removeClass("active");
+										close_search(settings.anim_duration / 2);
+										open_filters(settings.anim_duration / 2, settings.anim_duration /2);
+									} else {
+										open_filters(settings.anim_duration)
+									}
+								} else {
+									close_filters(settings.anim_duration);
+								}
+							});
+							$("#search_filters li a").click(function() {
+								$(this).parent("li").siblings().children("a").removeClass("active");
+								$(this).toggleClass("active");
+								$(this).blur();
+								var str = $("#search").val();
+								var f = $(this).attr("data-search");
+								if ($("#search").data("filter")) {
+									str = str.replace($("#search").data("filter") + settings.search_delimiter, ""); // remove filter from search value
+								}
+								$("#search").data("filter", f);
+								if ($(this).hasClass("active")) {
+									str = f + settings.search_delimiter + str;
+								} else {
+									f = ""; // set search filter to empty
+									$("#search").data("filter", f); // reset filter in search data
+								}
+								$("#search").val(str); // reset search value
+								$("#search").focus(); // focus search input
+								$("#search").selectText((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
+							});
+							$("#filters_list li a").click(function() {
+								if ($("#filter_button").hasClass("orange")) {
+									$("#filter_button").removeClass("orange");
+									$("#articles_filters_alert").remove();
+								}
+								$(this).toggleClass("active");
+								var c = $(this).clone();
+								if ($(this).hasClass("active")) {
+									if ($conf.js_fx) {
+										$(this).animate({"opacity" : ".5"}, settings.anim_duration / 4).animate({"opacity" : "1"}, settings.anim_duration / 2);
+									}
+								} else {
+									if ($conf.js_fx) {
+										var x = $(this).offset().left;
+										var y = $(this).offset().top;
+										var w = $(this).outerWidth();
+										c.css({"position" : "absolute", "left" : x, "top" : y, "padding" : ".5rem", "font-size" : ".9em", "z-index" : "10"})
+										c.appendTo("body");
+										c.addClass("label radius");
+										c.animate({
+											"left" : (x - w / 4).toString() + "px",
+											"top" : (y - 16.0).toString() + "px",
+											"padding" : ".75rem",
+											"font-size" : "1.35em",
+											"opacity" : ".75"
+										}, settings.anim_duration / 4)
+										.animate({"top" : (y + 8.0).toString() + "px", "opacity" : 0}, settings.anim_duration / 4, function() {
+											c.remove();
+										});
+									}
+								}
+							});
+							$("#search_filters").mouseenter(function() {
+								$(this).data("hover", true);
+							});
+							$("#search_filters").mouseleave(function() {
+								$(this).removeData("hover");
+								if (!$("#search").is(":focus")) {
+									$(this).slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
+								}
+							});
+							$("#search").blur(function() {
+								if ($("#search_filters").data("hover") !== true) {
+									$("#search_filters").finish();
+									if ($("#search_filters").is(":visible")) {
+										$("#search_filters").slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
+									}
+								}
+							});
+							$("#search").focus(function() {
+								$("#search_filters").finish();
+								if ($("#search_filters").is(":hidden")) {
+									$("#search_filters").slideDown($conf.js_fx ? settings.anim_duration / 2 : 0);
+								}
+							});
+							$("#search").keyup(function(e) {
+								var f = $("#search").data("filter") || "";
+								var s = $(this).val().trim().replace(f + settings.search_delimiter, "");
+								if (e.which == 27) { // Escape
+									$("#search_button").removeClass("active");
+									close_search(settings.anim_duration);
+								} else if (e.which == 13) { // Enter
+									if (s.length == 0) {
+										$(this).set_validation(false, "Le champ de recherche est vide &hellip;");
+									} else if (s.length > 0 && s.length <= 2) {
+										$(this).set_validation(false, "La recherche doit comporter au moins trois lettres.");
+									/* ============================================== */
+									/* # Check illegal chars */
+									/* ============================================== */
+									/* forbidden chars -- '?', '&',  '=' (replaced by whitespaces below)
+									 * illegal chars   -- '/', '\', '@' (warn user)
+									 * special chars   -- ':', ',' ';' (delimiters are allowed but not yet implemented)
+									 */
+									} else if (/[\/\\@]/.test(s)) {
+										$(this).set_validation(false, $msg.char_illegal);
+									} else {
+										/* ============================================ */
+										/* # Replace forbidden and special chars */
+										/* ============================================ */
+										s = s.replace(/[\?=]/g, "").replace(/[\s&]+/, " ");
+										$(this).val((f !== "" ? f + settings.search_delimiter : "") + s); // reset search value in search input after chars replacement
+										$(this).blur();
+										/* ============================================ */
+										/* # Display articles with URL search params */
+										/* ============================================ */
+										window.history.pushState("", "", "?" + (f !== "" ? f + "=" : "") + s.replace(/\s/g, "&")); // live update address bar without reloading document (HTML5 method)
+										displayArticles("?" + f + "=" + s); // display articles with params
+									}
+								} else if (s == 0 || s.length > 2) {
+									$(this).set_validation(true, null, {"cls_valid" : ""}); // reset validation
+								}
+							});
+							$(window).resize(function() {
+								var w = $(".tool-bar").innerWidth() // compute search input width
+								 - $("#search_button").outerWidth(true)
+								 - $("#filter_button").outerWidth(true)
+								 - $("#write_article").outerWidth(true)
+								 - settings.search_spacing.toPx(); // arbitrary safety spacing (2rem)
+								$("#search_field").css("width", w);
+							});
+							$(document).ready(function() {
+								/* ================================================ */
+								/* # Retrieve URL search params */
+								/* ================================================ */
+								var p = get_url_search_params();
+								if (p !== null) {
+									if (typeof p === "string") { // this is a search query
+										$("#search").val(p.replace(/&/g, " ")); // feed search input with url search query
+									} else if (typeof p === "object") { // this is search params (i.e. specifier + search query)
+										var f = null;
+										$("#search_filters li a").each(function() {
+											if (p.hasOwnProperty($(this).attr("data-search"))) {
+												$(this).addClass("active");
+												f = $(this).attr("data-search");
+												$("#search").data("filter", f);
+											}
+										});
+										if (f == null) {
+											$("#search").val(p[Object.keys(p)[0]].replace(/&/g, " ")); // feed search input with url search params (value only)
+										} else {
+											$("#search").val(f + settings.search_delimiter + p[f].replace(/&/g, " ")); // feed search input with url search params
+										}
+									}
+									$("#search_button").toggleClass("active");
+									setTimeout(function() {
+										if (!$("#filter_button").hasClass("active")) {
+											open_search(settings.anim_duration);
+										}
+									}, settings.search_load_delay);
+								} else {
+									$("#search").val(""); // clear search input (i.e. prevent any filtering bug)
+								}
+							});
+						}
+					}
+				}());
+				article_list_tools.init(); // launch
 
-			<!--UNUSED : Social Icons-->
+				// public vars
+				var article_list_user_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
+					"standbys"      : "true",              // Afficher les articles à valider par défaut ?
+					"others_drafts" : "false",             // Afficher les brouillons des autres par défaut ?
+					"my_drafts"     : "true",              // Afficher mes brouillons par défaut ?
+					"onlines"       : "true"               // Afficher les articles en ligne par défaut ?
+				}
+
+				var article_list_user_prefs = (function() {
+					return {
+						reset: function() {
+							localStorage.removeItem($prefs.articles_filters);
+						},
+						init: function() {
+							// vars
+							var articles_filters_cfg = {
+								"#standbys" : ".standby li",
+								"#others_drafts" : ".draft .other",
+								"#my_drafts" : ".draft .my",
+								"#onlines" : ".online li"
+							};
+							// functions
+							function set_user_prefs_articles_filters(obj) { // register user prefs for articles filters
+								var obj = obj || articles_filters_cfg;
+								var usr = {};
+								for (n in obj) {
+									usr[n.cut(1)] = $(n).hasClass("active") ? "true" : "false";
+								}
+								localStorage.setItem($prefs.articles_filters, JSON.stringify(usr));
+							}
+							function get_user_prefs_articles_filters(defaults) { // retrieve user prefs for articles filters
+								var defaults = defaults || article_list_user_prefs_defaults;
+								if (localStorage.getItem($prefs.articles_filters) == null) {
+									return defaults;
+								} else {
+									return JSON.parse(localStorage.getItem($prefs.articles_filters));
+								}
+							}
+							function check_filters_switches(obj) { // toggle articles lists visibility
+								var obj = obj || articles_filters_cfg;
+								for (key in obj) {
+									if ($(key).length > 0) { // if toggler exists (n.b. role check is made in the template)
+										if ($(key).hasClass("active")) {
+											$(obj[key]).show();
+										} else {
+											$(obj[key]).hide();
+										}
+									}
+								}
+							}
+							// events
+							$("#filters_list").mouseleave(function() {
+								set_user_prefs_articles_filters(); // register prefs
+							});
+							$("#standbys, #others_drafts, #my_drafts, #onlines").click(function() {
+								check_filters_switches(); // check filters
+							});
+							// process
+							$(document).ready(function() {
+								var prefs = get_user_prefs_articles_filters(), k = 0;
+								for (key in prefs) {
+									if (prefs[key] == "true") {
+										$("#" + key).addClass("active");
+										if ($("#filters_list").find("#" + key).length > 0) {
+											k++; // increment var if item exists and is set on
+										}
+									} else {
+										$("#" + key).removeClass("active");
+									}
+								}
+								//console.log("k = " + k); // DEBUG
+								//console.log("items in list = " + $("#filters_list").children().size()); // DEBUG
+								//window.localStorage.setItem($auth.user_role, $conf.role_admin); // TEMP : set as admin for tests
+								//window.localStorage.setItem($auth.user_role, $conf.role_redac); // TEMP : set as redac for tests
+								//window.localStorage.removeItem($auth.user_role); // set as admin for tests
+								//if (isRegAdmin()) { alert("is admin!") } // DEBUG
+								//else if (isRegRedac()) { alert("is redac!") } // DEBUG
+								//else { alert("is anonymous!") } // DEBUG
+								if ((isRegAdmin() || isRegRedac()) && k == 0) { // all switches are off
+									$("#filter_button").addClass("orange");
+									if (!window.location.search) { // no search params in url -- open filters
+										$("#filter_button").addClass("active");
+										$("#filters_list").fadeIn($conf.js_fx ? 250 : 0);
+									}
+									createAlertBox($msg.article_no_filter, "articles_filters_alert", {"class" : "warning"});
+								}
+								check_filters_switches()
+							});
+						}
+					}
+				}());
+				//article_list_user_prefs.reset(); // DEBUG
+				article_list_user_prefs.init(); // launch
+			</script>
+
+			<!--------------------------------------------------------------->
+			<!--# UNUSED : Social Icons-->
+			<!--------------------------------------------------------------->
 			<!--
 			<ul class="right inline-list hide-for-small">
 				<li><span class="icon-twitter small">Twitter&#8239;:</span>&nbsp;7</li>
@@ -474,204 +475,49 @@
 			</ul>
 			-->
 
-			<!--Articles Filtering-->
+			<!--------------------------------------------------------------->
+			<!--# Articles Filtering-->
+			<!--------------------------------------------------------------->
 			<div id="articles_filtering">
 				<h4>Articles Filtering</h4>
+				<!--Standbys-->
 				<ul class="no-bullet articles-list standby">
-					<li style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
-						</div>
-					</li>
-					<li style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
-						</div>
-					</li>
+					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
 				</ul>
+				<!--Drafts-->
 				<ul class="no-bullet articles-list draft">
-					<li style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
-						</div>
-					</li>
-					<li class="other" style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-						</div>
-					</li>
-					<li style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
-						</div>
-					</li>
-					<li class="other" style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;other_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-						</div>
-					</li>
+					<li class="my" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li class="other" class="other" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li class="my" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li class="other" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
 				</ul>
-				<ul class="no-bullet articles-list">
-					<li style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
-						</div>
-					</li>
-					<li style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4>
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
-						</div>
-					</li>
+				<!--Onlines-->
+				<ul class="no-bullet articles-list online">
+					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
 				</ul>
 			</div>
 
-			<div id="articles_status">
-				<!--Articles Status-->
-				<h4>Articles Status</h4>
+			<!--------------------------------------------------------------->
+			<!--# Articles Publishing-->
+			<!--------------------------------------------------------------->
 
-				<!--Drafts-->
-				<ul class="no-bullet articles-list draft">
+			<div id="articles_publishing">
+				<h4>Articles publishing</h4>
 
-					<!--Side Validation-->
-					<li id="draft1" style="display: none;">
-						<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
-						<div class="row collapse" style="margin: 0;">
-							<div class="column small-12">
-								<!--Href Block-->
-								<div class="href-block clearfix red">
-									<h5 class="title"></h5>
-									<p class="summary">
-										<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-										<span class="summary-text"></span>
-										<span class="right author"><strong></strong></span>
-									</p>
-									<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-								</div>
-							</div>
-							<div class="column small-4">
-								<!--Validation-->
-								<div id="draft1_validation" style="margin-left: .5rem; display: none;">
-									<button class="small" style="margin-bottom: .25rem;">Modifier</button>
-									<br>
-									<button class="small alert" style="margin-bottom: 0;">Valider</button>
-								</div>
-							</div>
-						</div>
-					</li>
-
-					<!--Bottom Validation-->
-					<li id="draft2" style="display: none;">
-						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
-						<!--Href Block-->
-						<div class="href-block clearfix cyan">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-						</div>
-						<!--Validation-->
-						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
-							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Modifier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button>
-						</div>
-					</li>
-
-					<!--Inside Validation-->
-					<li id="draft3" style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
-						<!--Href Block-->
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-							<!--Validation-->
-							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
-								<button class="small" style="margin-bottom: 0; z-index: 100;">Modifier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Valider</button>
-							</div>
-						</div>
-					</li>
-				</ul>
-
-				<!--Standbys-->
+				<!------------------------------------------------------------->
+				<!--# Standbys-->
+				<!------------------------------------------------------------->
 				<ul class="no-bullet articles-list standby">
 
 					<!--Side Validation-->
 					<li id="standby1" style="display: none;">
 						<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
 						<div class="row collapse" style="margin: 0;">
-							<div class="column small-12">
+							<div class="column small-20">
 								<!--Href Block-->
-								<div class="href-block clearfix red">
-									<h5 class="title"></h5>
-									<p class="summary">
-										<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-										<span class="summary-text"></span>
-										<span class="right author"><strong></strong></span>
-									</p>
-									<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-								</div>
+								<div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
 							</div>
 							<div class="column small-4">
 								<!--Validation-->
@@ -688,15 +534,7 @@
 					<li id="standby2" style="display: none;">
 						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
 						<!--Href Block-->
-						<div class="href-block clearfix cyan">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
-						</div>
+						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
 						<!--Validation-->
 						<div id="standby2_validation" class="text-right" style="height: 2.25rem;">
 							<button class="tiny success" style="display: none; margin-top: .5rem; margin-bottom: 0;">Publier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Renvoyer</button>
@@ -708,87 +546,94 @@
 						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
 						<!--Href Block-->
 						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+							<h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
 							<!--Validation-->
 							<div id="standby3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
 								<button class="small success" style="margin-bottom: 0; z-index: 100;">Publier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Renvoyer</button>
 							</div>
 						</div>
 					</li>
-
 				</ul>
 
-				<!--Onlines-->
-				<ul class="no-bullet articles-list">
-					<li style="display: none;">
-						<h4 class="red">Rubrique</h4>
-						<div class="href-block clearfix red">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+				<!------------------------------------------------------------->
+				<!--# Drafts-->
+				<!------------------------------------------------------------->
+				<ul class="no-bullet articles-list draft">
+
+					<!--Side Validation-->
+					<li id="draft1" class="other" style="display: none;">
+						<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
+						<div class="row collapse" style="margin: 0;">
+							<div class="column small-20">
+								<!--Href Block-->
+								<div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+							</div>
+							<div class="column small-4">
+								<!--Validation-->
+								<div id="draft1_validation" style="margin-left: .5rem; display: none;">
+									<button class="small" style="margin-bottom: .25rem;">Modifier</button>
+									<br>
+									<button class="small alert" style="margin-bottom: 0;">Valider</button>
+								</div>
+							</div>
 						</div>
 					</li>
-					<li style="display: none;">
-						<h4 class="cyan">Rubrique</h4>
-						<div class="href-block clearfix cyan">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+
+					<!--Bottom Validation-->
+					<li id="draft2" class="other" style="display: none;">
+						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
+						<!--Href Block-->
+						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+						<!--Validation-->
+						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
+							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Modifier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button>
 						</div>
 					</li>
-					<li style="display: none;">
-						<h4 class="blue">Rubrique</h4>
+
+					<!--Inside Validation-->
+					<li id="draft3" class="other" style="display: none;">
+						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
+						<!--Href Block-->
 						<div class="href-block clearfix blue">
-							<h5 class="title"></h5>
-							<p class="summary">
-								<span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="summary-text"></span>
-								<span class="right author"><strong></strong></span>
-							</p>
-							<a href="index.html" data-show="null">Lire l&rsquo;article</a>
+							<h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
+							<!--Validation-->
+							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
+								<button class="small" style="margin-bottom: 0; z-index: 100;">Modifier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Valider</button>
+							</div>
 						</div>
 					</li>
+				</ul>
+
+				<!------------------------------------------------------------->
+				<!--# Onlines-->
+				<!------------------------------------------------------------->
+				<ul class="no-bullet articles-list online">
+					<li style="display: none;"><h4 class="red">Rubrique</h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="cyan">Rubrique</h4><div class="href-block clearfix cyan"><h5 class="title"></h5><p class="summary"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="blue">Rubrique</h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
 				</ul>
 			</div>
-
+			<script>
+				// Standbys Side Validation
+				$("#standby1 .href-block").hover(function() {$("#standby1_validation").css("display", "inline-block");});
+				$("#standby1").mouseleave(function() {$("#standby1_validation").hide();});
+				// Standbys Bottom Validation
+				$("#standby2 .href-block").hover(function() {$("#standby2_validation button").show();});
+				$("#standby2").mouseleave(function() {$("#standby2_validation button").hide();});
+				// Standbys Inside Validation
+				$("#standby3 .href-block").mouseenter(function() {$("#standby3_validation").show();});
+				$("#standby3 .href-block").mouseleave(function() {$("#standby3_validation").hide();});
+				// Drafts Side Validation
+				$("#draft1 .href-block").hover(function() {$("#draft1_validation").css("display", "inline-block");});
+				$("#draft1").mouseleave(function() {$("#draft1_validation").hide();});
+				// Drafts Bottom Validation
+				$("#draft2 .href-block").hover(function() {$("#draft2_validation button").show();});
+				$("#draft2").mouseleave(function() {$("#draft2_validation button").hide();});
+				// Drafts Inside Validation
+				$("#draft3 .href-block").mouseenter(function() {$("#draft3_validation").show();});
+				$("#draft3 .href-block").mouseleave(function() {$("#draft3_validation").hide();});
+			</script>
 		</section>
-
-		<script>
-			// Drafts Side Validation
-			$("#draft1 .href-block").hover(function() {$("#draft1_validation").css("display", "inline-block");});
-			$("#draft1").mouseleave(function() {$("#draft1_validation").hide();});
-			// Drafts Bottom Validation
-			$("#draft2 .href-block").hover(function() {$("#draft2_validation button").show();});
-			$("#draft2").mouseleave(function() {$("#draft2_validation button").hide();});
-			// Drafts Inside Validation
-			$("#draft3 .href-block").mouseenter(function() {$("#draft3_validation").show();});
-			$("#draft3 .href-block").mouseleave(function() {$("#draft3_validation").hide();});
-
-			// Standbys Side Validation
-			$("#standby1 .href-block").hover(function() {$("#standby1_validation").css("display", "inline-block");});
-			$("#standby1").mouseleave(function() {$("#standby1_validation").hide();});
-			// Standbys Bottom Validation
-			$("#standby2 .href-block").hover(function() {$("#standby2_validation button").show();});
-			$("#standby2").mouseleave(function() {$("#standby2_validation button").hide();});
-			// Standbys Inside Validation
-			$("#standby3 .href-block").mouseenter(function() {$("#standby3_validation").show();});
-			$("#standby3 .href-block").mouseleave(function() {$("#standby3_validation").hide();});
-		</script>
-
 		<script>
 			$build.container = false;
 			load();

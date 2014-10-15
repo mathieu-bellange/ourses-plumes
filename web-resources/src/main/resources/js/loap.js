@@ -138,7 +138,7 @@ $.holdReady(true); // hold document ready event
 	// vars
 	var files_readied = 0; // internal -- number of files to load
 	var files_ready   = 0; // internal -- number of files loaded
-	// methods
+	// functions
 	function checkReady() {
 		files_ready++;
 		if (files_ready == files_readied) {
@@ -243,7 +243,7 @@ jQuery.fn.extend({
 		};
 		var cfg = $.extend({}, defs, opts);
 		var t = 0;
-		// methods
+		// functions
 		function removePlaceholder(obj) {
 			if (obj.data("placeholder_value") === undefined) {
 				obj.data("placeholder_value", obj.find("." + cfg.class).text()); // store placeholder
@@ -511,7 +511,7 @@ jQuery.fn.extend({
 			var inner_left = 0;
 			var inner_width = 0;
 			var self = $(this);
-			// methods
+			// functions
 			function get_items_width(list, item, include_margin) { // obj, selector, [boolean]
 				var include_margin = include_margin || true, n = 0;
 				list.find(item).each(function() {
@@ -647,7 +647,7 @@ jQuery.fn.extend({
 		};
 		var cfg = $.extend({}, defs, opts);
 		var i = cfg.start_chars_num; // internal
-		// methods
+		// functions
 		function check_error(sel) {
 			if (cfg.accepted_chars_list.test($(sel).val())) {
 				$(sel).set_validation(false, $msg.char_illegal);
@@ -826,7 +826,7 @@ jQuery.fn.extend({
 		// vars
 		var str = "";
 		var t = 0;
-		// methods
+		// functions
 		function valid(obj, cancel) {
 			var cancel = cancel || false;
 			$conf.js_fx ? $(".validation-bar").fadeOut("fast") : $(".validation-bar").hide();
@@ -895,8 +895,9 @@ jQuery.fn.extend({
 	create_alert_box : function(msg, id, opts) {
 		var msg = msg || $msg.error, id = id || "alert_box";
 		var defs = {
-			"class"           : "error",    // String   CSS Class name of the alert box (null to none). Default : "error"
-			"icon"            : "warning",  // String   CSS Class name of the message icon (null to none). Default : "warning"
+			"class"           : "error",    // String   CSS class of the alert box (null to none). Default : "error"
+			"icon"            : "warning",  // String   Name of the message icon (null to none). Default : "warning"
+			"icon_class"      : "white",    // String   CSS color class of the message icon (null to none). Default : "white"
 			"timeout"         : 0,          // Integer  Time before alert box fade out (zero to never). Default : 0
 			"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
 			"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
@@ -905,7 +906,7 @@ jQuery.fn.extend({
 		var cfg = $.extend({}, defs, opts);
 		var sel = "#" + id; // internal
 		if ($(sel).length == 0) {
-			$(this).first().after(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "text" : msg}));
+			$(this).first().after(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : msg}));
 			$(sel).svg_icons(); // set svg icons contained by alert box
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
 			if (cfg.timeout > 0) {
@@ -920,6 +921,7 @@ jQuery.fn.extend({
 			$(sel).removeClass("info secondary alert error success warning");
 			$(sel).addClass(cfg["class"]);
 			$(sel).find(".text").html(msg);
+			$(sel).find(".icon").removeClass("").addClass("icon small" + (cfg.icon_class !== null ? " " + cfg.icon_class : ""));
 			$(sel).find(".icon svg use").attr("xlink:href", "#icon-" + cfg.icon);
 		}
 		if (cfg.scroll == true) { scrollTo($(sel), cfg.scroll_duration, $(sel).innerHeight()) } // scroll to alert box

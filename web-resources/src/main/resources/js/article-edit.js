@@ -74,7 +74,7 @@ var tags = (function() {
 			};
 			var cfg = $.extend({}, defs, opts);
 			var self = this; // internal
-			// methods
+			// functions
 			function open_field(field) { // field = jQuery selector
 				var field = field || null, obj = $("#tagging");
 				obj.finish();
@@ -263,7 +263,7 @@ var share = (function() {
 				"linkedin" : false
 			};
 			var settings = $.extend({}, defaults, options);
-			// methods
+			// functions
 			function update_tooltips(obj) {
 				if (obj.hasClass("active")) {
 					obj.reload_tooltip("D&eacute;sactiver le partage " + obj.data("tooltip-postfix"));
@@ -341,7 +341,7 @@ var validate = (function () {
 			var cfg = $.extend({}, defs, opts);
 			// vars
 			var t_summary = 0; // internal
-			// methods
+			// functions
 			function checkTitle() {
 				checkTitleAJAX();
 				var str = $("#title").val().trim();

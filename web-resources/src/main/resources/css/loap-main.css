@@ -2841,9 +2841,9 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Articles List */
 /* ------------------------------------------------------------------ */
 
-.articles-list {margin-bottom: 0;} /* TEMP : remove margin between lists */
+.articles-list {margin-bottom: .5rem;} /* TEMP : remove margin between lists */
 .articles-list li {}
-.articles-list li + li {margin-top: 0;} /* TEMP : remove margin between list items */
+.articles-list li + li {margin-top: .5rem;} /* TEMP : remove margin between list items */
 .articles-list li h4,
 .articles-list li h5 {
   font-size: 125%;
@@ -2915,56 +2915,6 @@ input:focus + button + .error + .autocomplete > ul {
   z-index: 1;
 }
 
-/* Transform */
-.articles-list.draft .href-block .title,
-.articles-list.draft .href-block .summary,
-.articles-list.standby .href-block .title,
-.articles-list.standby .href-block .summary {margin-left: 2.5rem;}
-.articles-list.draft .href-block a:before,
-.articles-list.standby .href-block a:before {
-  position: absolute;
-  text-indent: 0; /* Revert hide text */
-  letter-spacing: -.0625em;
-  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
-      -ms-transform: rotate(-90deg); /* IE 9 */
-          transform: rotate(-90deg);
-  -webkit-transform-origin: 50% 100%; /* Chrome, Opera and Safari */
-      -ms-transform-origin: 50% 100%; /* IE 9 */
-          transform-origin: 50% 100%;
-}
-.css-fx .articles-list .href-block a:before {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-
-/* Drafts */
-.articles-list.draft {}
-.articles-list.draft li {}
-.articles-list.draft .href-block {
-  background-color: whitesmoke;
-}
-.articles-list.draft .other .href-block {
-  background-color: #f3eafa;
-}
-.articles-list.draft .href-block a {
-  border-style: dashed;
-  border-color: silver;
-  border-width: .125rem;
-}
-.articles-list.draft .href-block a:before {
-  content: 'Brouillon';
-  top: .75rem;
-  left: 0;
-  color: darkgray;
-}
-.articles-list.draft .href-block:hover a {
-  border-color: silver;
-}
-.articles-list.draft .href-block:hover .summary {
-  color: dimgray;
-}
-.articles-list.draft :not(.other) .href-block:hover .summary {
-  color: darkgray;
-  color: rgba(0, 0, 0, .375);
-}
-
 /* Standbys */
 .articles-list.standby {}
 .articles-list.standby li {}
@@ -3002,6 +2952,61 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list.standby .href-block:hover a:after {
   background-color: #d52;
 }
+
+/* Drafts */
+.articles-list.draft {}
+.articles-list.draft li {}
+.articles-list.draft .href-block {
+  background-color: whitesmoke;
+}
+.articles-list.draft .my {}
+.articles-list.draft .other {}
+.articles-list.draft .other .href-block {
+  background-color: #f3eafa;
+}
+.articles-list.draft .href-block a {
+  border-style: dashed;
+  border-color: silver;
+  border-width: .125rem;
+}
+.articles-list.draft .href-block a:before {
+  content: 'Brouillon';
+  top: .75rem;
+  left: 0;
+  color: darkgray;
+}
+.articles-list.draft .href-block:hover a {
+  border-color: silver;
+}
+.articles-list.draft .href-block:hover .summary {
+  color: dimgray;
+}
+.articles-list.draft :not(.other) .href-block:hover .summary {
+  color: darkgray;
+  color: rgba(0, 0, 0, .375);
+}
+
+/* Onlines */
+.articles-list.online {}
+
+/* Transform */
+.articles-list.draft .href-block .title,
+.articles-list.draft .href-block .summary,
+.articles-list.standby .href-block .title,
+.articles-list.standby .href-block .summary {margin-left: 2.5rem;}
+.articles-list.draft .href-block a:before,
+.articles-list.standby .href-block a:before {
+  position: absolute;
+  text-indent: 0; /* Revert hide text */
+  letter-spacing: -.0625em;
+  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-90deg); /* IE 9 */
+          transform: rotate(-90deg);
+  -webkit-transform-origin: 50% 100%; /* Chrome, Opera and Safari */
+      -ms-transform-origin: 50% 100%; /* IE 9 */
+          transform-origin: 50% 100%;
+}
+.css-fx .articles-list .href-block a:before {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 
 /* ------------------------------------------------------------------ */
 /* # Related List */
