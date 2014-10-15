@@ -16,8 +16,9 @@ var loax = (function() {
 		build : function() {
 			/* Set page title */
 			set_page_title($nav.account_edit.title);
-			/* Insert template */
-			$("main > header").after(file_pool.account_edit_tmpl).after(lb(1));
+		},
+		init : function() {
+			getAccount();
 		}
 	}
 }());
@@ -85,7 +86,7 @@ function getAccount() {
 				header_authentication(request);
 			},
 			success : function(account, status, jqxhr) {
-				$("main > header").after(account_template(account)); // process template
+				$("main > header").after(file_pool.account_edit_tmpl(account)).after(lb(1));
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
