@@ -335,7 +335,6 @@ var validate = (function () {
 			var defs = {
 				"save_fx_d"     : 250,          // Integer   Save effects duration in milliseconds. Default : 250
 				"save_timeout"  : 1000,         // Integer   Time during which the application is frozen upon saving (milliseconds). Default : 1000
-				"alert_delay"   : 1500,         // Integer   Time before valid and invalid form notification alert box dispears. Default : 1500
 				"kbd_chain_nav" : true          // Boolean   Enable keyboard chained navigation (i.e. switch to next input on key press Enter). Default : true
 			};
 			var cfg = $.extend({}, defs, opts);
@@ -522,9 +521,9 @@ var validate = (function () {
 						});
 						// create alert box
 						if ($("#title, #summary, #rubric_tag, #category_tag, #editor").hasClass("wrong")) {
-							$("main > header").create_alert_box($msg.form_invalid, "form_valid", {"timeout" : cfg.alert_delay * 2});
+							createAlertBox($msg.form_invalid, "form_valid", {"timeout" : $time.duration.alert_long});
 						} else {
-							$("main > header").create_alert_box($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : cfg.alert_delay});
+							createAlertBox($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert_short});
 							sendArticle();
 						}
 					}, cfg.save_timeout);
@@ -696,7 +695,7 @@ function sendArticle() {
 			if (jqXHR.status == 403) {
 				checkTitleAJAX();
 			} else if (jqXHR.status == 404) {
-				createAlertBox($msg.article_deleted, null, {"class" : null});
+				createAlertBox($msg.article_deleted, null, {"class" : null, "timeout" : $time.duration.alert});
 			} else {
 				createAlertBox();
 			}

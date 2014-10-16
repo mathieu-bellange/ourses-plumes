@@ -62,7 +62,7 @@ function connection(){
 		error : function(jqXHR, status, errorThrown) {
 			var msg = (jqXHR.status == 401 ? "Login ou mot de passe incorrect" : $msg.error);
 			if ($("#login-alert").length === 0) {
-				createAlertBox(msg, "login_alert");
+				createAlertBox(msg, "login_alert", {"timeout" : $time.duration.alert});
 			} else {
 				$("#login-alert > .text").text(msg);
 			}

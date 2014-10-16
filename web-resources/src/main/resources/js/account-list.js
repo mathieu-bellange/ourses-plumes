@@ -92,7 +92,7 @@ function updateEvent(id) {
 		},
 		data : role.json(),
 		success : function(data, status, jqxhr) {
-			createAlertBox($msg.account_updated, "update_" + id, {"class" : "success", "timeout" : 2500});
+			createAlertBox($msg.account_updated, "update_" + id, {"class" : "success", "timeout" : $time.duration.alert});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -112,7 +112,7 @@ function deleteEvent(id) {
 		},
 		success : function(data, status, jqxhr) {
 			$("#accountsTable tr[data-account-id=" + id + "]").remove();
-			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : 2500});
+			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : $time.duration.alert});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);

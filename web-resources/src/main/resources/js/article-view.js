@@ -154,7 +154,7 @@ function shareByMail(articleId, mail){
 		url : "/rest/articles/" + articleId + "/share",
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			createAlertBox($msg.email_sent, null, {"class" : "success"});
+			createAlertBox($msg.email_sent, null, {"class" : "success", "timeout" : $time.duration.alert});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			createAlertBox();

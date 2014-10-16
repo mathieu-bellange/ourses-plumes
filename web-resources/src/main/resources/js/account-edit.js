@@ -41,7 +41,7 @@ var newPassword = "";
 function checkOldPassword() {
 	if ($("#oldPassword").val().length == 0) {
 		$("#oldPassword").set_validation(false);
-	}else{
+	} else {
 		$("#oldPassword").set_validation(true);
 	}
 }
@@ -49,7 +49,7 @@ function checkOldPassword() {
 function checkConfirmPassword() {
 	if ($("#confirmPassword").val().length == 0 || $("#confirmPassword").val() !== $("#newPassword").val()) {
 		$("#confirmPassword").set_validation(false);
-	}else{
+	} else {
 		$("#confirmPassword").set_validation(true);
 	}
 }
@@ -93,7 +93,7 @@ function getAccount() {
 			},
 			dataType : "json"
 		});
-	}else{
+	} else {
 		createAlertBox();
 	}
 };
@@ -137,7 +137,7 @@ function submitAccountAJAX() {
 			header_authentication(request);
 		},
 		success : function(jqXHR, status, errorThrown) {
-			createAlertBox($msg.account_updated, null, {"class" : "success"});
+			createAlertBox($msg.account_updated, null, {"class" : "success", "timeout" : $time.duration.alert});
 			clearForm();
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -149,7 +149,7 @@ function submitAccountAJAX() {
 				$("#oldPassword").set_validation(false, "Mot de passe incorrect");
 				checkConfirmPassword();
 				checkPasswordAJAX();
-			}else{
+			} else {
 				createAlertBox();
 			}
 		},

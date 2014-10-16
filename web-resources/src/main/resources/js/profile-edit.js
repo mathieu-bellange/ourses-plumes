@@ -206,7 +206,7 @@ function getProfile() {
 			},
 			dataType : "json"
 		});
-	}else{
+	} else {
 		createAlertBox();
 	}
 };
@@ -231,7 +231,7 @@ function save(couple) {
 			},
 			dataType : "json"
 		});
-	}else{
+	} else {
 		createAlertBox();
 	}
 }
@@ -470,7 +470,6 @@ function processAvatar(options) {
 				var avatar = JSON.parse(this.response);
 				save(new Couple(avatarProperty, avatar.id));
 			} else {
-				// console.log("HTTP error = " + this.status)
 				createAlertBox();
 			}
 		}
@@ -482,7 +481,7 @@ function processAvatar(options) {
 			var file = files[i];
 			// check file type
 			if (!file.type.match("image.*")) {
-				createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", null, {"class" : "warning"});
+				createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", null, {"class" : "warning", "timeout" : $time.duration.alert});
 				continue;
 			}
 			// max 200 KB
@@ -514,7 +513,7 @@ function processAvatar(options) {
 				};
 				reader.readAsBinaryString(file);
 			} else {
-				createAlertBox("Votre image ne doit pas d&eacute;passer " + (settings.max_file_size / 1024) + " Ko", null, {"class" : "warning"});
+				createAlertBox("Votre image ne doit pas d&eacute;passer " + (settings.max_file_size / 1024) + " Ko", null, {"class" : "warning", "timeout" : $time.duration.alert});
 			}
 		}
 	}

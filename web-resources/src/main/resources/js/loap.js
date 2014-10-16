@@ -981,13 +981,13 @@ var user_menu = (function() {
 						$(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
 					} else {
 						set_user_connected(true); // connect user
-						createAlertBox($msg.connected, "alert_auth", {"class" : "success"})
+						createAlertBox($msg.connected, "alert_auth", {"class" : "success", "timeout" : $time.duration.alert})
 					}
 				});
 				var fail = (function() {
 					if ($(cfg.trigger).data("connected") == true) {
 						set_user_connected(false); // set not connected
-						disconnect($msg.disconnected); // disconnect
+						disconnect($msg.disconnected, {"timeout" : $time.duration.alert}); // disconnect
 					} else {
 						window.location.href = $nav.login.url; // redirect to the login page
 					}
@@ -1175,7 +1175,7 @@ function disconnect(str) {
 		success : function(data, status, jqXHR) {
 			clearStorage();
 			if (str !== null) {
-				createAlertBox(str, "alert_auth");
+				createAlertBox(str, "alert_auth", {"timeout" : $time.duration.alert});
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -1362,7 +1362,7 @@ $("html").on("click", "#_css_fx_toggle", function() {
 	$("body").toggleClass("css-fx");
 });
 $("html").on("click", "#_svg_fx_toggle", function() {
-	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "alert_conf", {"class" : "warning"});
+	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "alert_conf", {"class" : "warning", "timeout" : $time.duration.alert});
 });
 
 /* Toolbar Null Links Toggler */

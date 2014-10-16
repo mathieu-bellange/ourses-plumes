@@ -41,7 +41,7 @@ $org = {
 $app = {
 	"name"               : "Webzine féministe",                   // String   Application name.
 	"ver"                : "1.0.2",                               // String   Application version.
-	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev", "test" or "rtw" (release to web).
+	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
@@ -105,7 +105,15 @@ $time = {
 		"octobre",                                                  // String   Set October literal.
 		"novembre",                                                 // String   Set November literal.
 		"décembre"                                                  // String   Set December literal.
-	]
+	],
+	"duration" : {                                                // Object   Global durations.
+		"fx"          : 500,                                        // Integer  Effects duration in milliseconds. Default : 500
+		"alert"       : 2500,                                       // Integer  Alerts duration in milliseconds. Default : 2000
+		get fx_short() {return this.fx / 2},                        // Function Return short effects duration. Default {return this.fx / 2}
+		get fx_long() {return this.fx * 2},                         // Function Return long effects duration. Default {return this.fx * 2}
+		get alert_short() {return this.alert / 2},                  // Function Return short alert duration. Default {return this.alert / 2}
+		get alert_long() {return this.alert * 2}                    // Function Return long alert duration. Default {return this.alert * 2}
+	}
 }
 
 /* Location */

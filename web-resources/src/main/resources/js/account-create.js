@@ -153,7 +153,7 @@ function submitAccountAJAX() {
 				checkPseudoAJAX();
 				checkPasswordAJAX();
 				checkMailAJAX();
-			}else{
+			} else {
 				createAlertBox();
 			}
 		},

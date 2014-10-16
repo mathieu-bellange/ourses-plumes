@@ -340,7 +340,7 @@ var article_list_prefs = (function() {
 					$("#filter_button").addClass("active");
 					$("#filters_list").fadeIn($conf.js_fx ? 250 : 0);
 				}
-				createAlertBox($msg.article_no_filter, "articles_filters_alert", {"class" : "warning"});
+				createAlertBox($msg.article_no_filter, "articles_filters_alert", {"class" : "warning", "timeout" : $time.duration.alert});
 			}
 			check_filters_switches()
 		}
@@ -393,7 +393,7 @@ function validateArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_deleted, null, {"class" : null});
+				createAlertBox($msg.article_deleted, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				});
@@ -421,7 +421,7 @@ function inValidateArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offcheck, null, {"class" : null});
+				createAlertBox($msg.article_offcheck, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -449,7 +449,7 @@ function publishArticle(id) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offcheck, null, {"class" : null});
+				createAlertBox($msg.article_offcheck, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -478,7 +478,7 @@ function recallArticle(id) {
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offline, null, {"class" : null});
+				createAlertBox($msg.article_offline, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				});

@@ -801,9 +801,9 @@
 										});
 										// create alert box
 										if ($("#title, #summary, #rubric_tag, #category_tag, #editor").hasClass("wrong")) {
-											$("h2.red").create_alert_box($msg.form_invalid, "form_valid", {"timeout" : 5000}); // HERE
+											$("h2.red").create_alert_box($msg.form_invalid, "form_valid", {"timeout" : $time.duration.alert_long}); // HERE
 										} else {
-											$("h2.red").create_alert_box($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : 2500}); // HERE
+											$("h2.red").create_alert_box($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert_short}); // HERE
 											//sendArticle(); // HERE
 										}
 									}, cfg.save_timeout);
