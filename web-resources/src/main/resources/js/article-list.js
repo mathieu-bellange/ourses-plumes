@@ -137,7 +137,7 @@ var article_list_tools = (function(options) {
 				}
 				$("#search").val(str); // reset search value
 				$("#search").focus(); // focus search input
-				$("#search").selectText((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
+				$("#search").select_text((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
 			});
 			$("#filters_list li a").click(function() {
 				if ($("#filter_button").hasClass("orange")) {

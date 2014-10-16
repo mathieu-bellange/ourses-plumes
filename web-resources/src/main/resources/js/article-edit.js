@@ -86,7 +86,7 @@ var tags = (function() {
 					}
 					obj.data("opening", true);
 					obj.slideDown($conf.js_fx ? cfg.fx_d : 0, function() {
-						scrollTo(obj, $conf.js_fx ? cfg.fx_d : 0, $("#tags").outerHeight() + 16);
+						obj.scroll_to({"fx_d" : $conf.js_fx ? cfg.fx_d : 0, "spacing" : $("#tags").outerHeight() + 16});
 						obj.removeData("opening");
 					});
 				}
@@ -199,7 +199,7 @@ var tags = (function() {
 				}
 			});
 			$("label[for='rubric'], label[for='category']").on("click", function() {
-				force_focus("#" + $(this).attr("for"))
+				$("#" + $(this).attr("for")).force_focus();
 			});
 			$("#tag").bind({
 				blur : function() {

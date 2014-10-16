@@ -178,38 +178,46 @@ $.holdReady(true); // hold document ready event
  * Be carefull with them or beware Bilbo Baggin's mighty wrath !
  */
 
-/* Scroll to (object) */
-function scrollTo(object, duration, spacing) {
-	var duration = $conf.js_fx ? (typeof duration !== "undefined" ? duration : 0) : 0;
-	var spacing = spacing || 0;
-	if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
-		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-			scrollTop : object.offset().top + object.outerHeight() - $(window).height() + spacing
-		}, duration);
-	} else if (object.offset().top < $(document).scrollTop()) { // scroll up
-		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-			scrollTop : object.offset().top - spacing
-		}, duration);
+/* Force Focus */
+jQuery.fn.extend({
+	force_focus : function() {
+		this.focus();
+		if ($conf.js_fx) {
+			this
+				.animate({"opacity" : ".25"}, $time.duration.fx_short / 2)
+				.animate({"opacity" : "1"}, $time.duration.fx_short);
+		}
 	}
-}
-
-/* Force focus */
-function force_focus(selector) {
-	$(selector).focus();
-	if ($conf.js_fx) {
-		$(selector)
-			.animate({"opacity" : ".25"}, 125)
-			.animate({"opacity" : "1"}, 250);
-	}
-}
+});
 
 /* Cursor Position */
 jQuery.fn.extend({
-	selectText : function(start, end) {
+	select_text : function(start, end) {
 		end = end || false;
 		obj = this.first().get(0);
 		obj.focus();
 		obj.setSelectionRange(start, end || start);
+	}
+});
+
+/* Scroll To */
+jQuery.fn.extend({
+	scroll_to : function(opts) {
+		var defs = {
+			"fx_d"    : 0,          // Integer   Duration of scroll effect in milliseconds. Default : 0
+			"spacing" : 0           // Integer   Additional spacing added to scroll in pixel. Default : 0
+		};
+		var cfg = $.extend({}, defs, opts);
+		var obj = this; // internal
+		if (obj.offset().top + obj.height() > $(window).height() + $(document).scrollTop()) { // scroll down
+			$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+				scrollTop : obj.offset().top + obj.outerHeight() - $(window).height() + cfg.spacing
+			}, $conf.js_fx ? cfg.fx_d : 0);
+		} else if (obj.offset().top < $(document).scrollTop()) { // scroll up
+			$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+				scrollTop : obj.offset().top - cfg.spacing
+			}, $conf.js_fx ? cfg.fx_d : 0);
+		}
 	}
 });
 
@@ -417,11 +425,11 @@ jQuery.fn.extend({
 					else if (e.which == 32) { // Space
 						if ($conf.js_fx) {
 							$(this).find(cfg.options).slideToggle(cfg.slide_duration, function() {
-								scrollTo($(self), false, $(self).find(cfg.select).outerHeight());
+								$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 							});
 						} else {
 							$(this).find(cfg.options).toggle();
-							scrollTo($(self), false, $(self).find(cfg.select).outerHeight());
+							$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 						}
 					}
 					else if (e.which >= 33 && e.which <= 36 || e.which == 38 || e.which == 40) { // PageUp, PageDown, End, Home or Up or Down
@@ -456,11 +464,11 @@ jQuery.fn.extend({
 							var str = $(this).find(cfg.options + " > li.selected").text();
 							$(this).find(cfg.select).text(str);
 							if ($(this).find(cfg.options + " > li.selected").is(":first-child")) {
-								scrollTo($(this).find(cfg.select), 250, $(this).find(cfg.select).outerHeight());
+								$(this).find(cfg.select).scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).find(cfg.select).outerHeight()});
 							} else if ($(this).find(cfg.options + " > li.selected").is(":last-child")) {
-								scrollTo($(this).find(cfg.options + " > li.selected"), 250, $(this).find(cfg.select).outerHeight());
+								$(this).find(cfg.options + " > li.selected").scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).find(cfg.select).outerHeight()});
 							} else {
-								scrollTo($(this).find(cfg.options + " > li.selected"), 0);
+								$(this).find(cfg.options + " > li.selected").scroll_to();
 							}
 						}
 					}
@@ -469,11 +477,11 @@ jQuery.fn.extend({
 			$(this).on("click", cfg.select, function() {
 				if ($conf.js_fx) {
 					$(this).next(cfg.options).slideToggle(cfg.slide_duration, function() {
-						scrollTo($(self), false, $(self).find(cfg.select).outerHeight());
+						$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 					});
 				} else {
 					$(this).next(cfg.options).toggle();
-					scrollTo($(self), false, $(self).find(cfg.select).outerHeight());
+					$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 				}
 			});
 			$(this).on("click", cfg.options + " > li", function() {
@@ -708,11 +716,11 @@ jQuery.fn.extend({
 						// scroll to selected item
 						if (sel.find("ul > li").hasClass("selected")) {
 							if (sel.find("ul > li").not(".hide").first().hasClass("selected")) {
-								scrollTo($(this), 250, $(this).outerHeight());
+								$(this).scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).outerHeight()});
 							} else if (sel.find("ul > li").not(".hide").last().hasClass("selected")) {
-								scrollTo(sel.find("ul > li.selected"), 250, $(this).outerHeight());
+								sel.find("ul > li.selected").scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).outerHeight()});
 							} else {
-								scrollTo(sel.find("ul > li.selected"), 0);
+								sel.find("ul > li.selected").scroll_to();
 							}
 						}
 					}
@@ -746,9 +754,9 @@ jQuery.fn.extend({
 							});
 							// scroll
 							if (sel.offset().top + sel.height() > $(window).height() + $(document).scrollTop()) {
-								scrollTo(sel.find("ul > li:visible").last(), 500, $(this).outerHeight());
+								sel.find("ul > li:visible").last().scroll_to({"fx_d" : $time.duration.fx, "spacing" : $(this).outerHeight()});
 							} else {
-								scrollTo(sel.parent(), 500, $(this).outerHeight());
+								sel.parent().scroll_to({"fx_d" : $time.duration.fx, "spacing" : $(this).outerHeight()});
 							}
 						} else {
 							sel.find("ul > li").each(function() {
@@ -925,7 +933,7 @@ jQuery.fn.extend({
 			$(sel).find(".icon").removeClass("").addClass("icon small" + (cfg.icon_class !== null ? " " + cfg.icon_class : ""));
 			$(sel).find(".icon svg use").attr("xlink:href", "#icon-" + cfg.icon);
 		}
-		if (cfg.scroll == true) { scrollTo($(sel), cfg.scroll_duration, $(sel).innerHeight()) } // scroll to alert box
+		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
 	}
 });
 

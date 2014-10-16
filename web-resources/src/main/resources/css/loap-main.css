@@ -806,14 +806,14 @@ input.validation.loading:hover,
 input.validation.loading:focus {
   background-image: url('../img/ui/icon-loading.gif');
 }
-input.validation + small.error { /* Position fix */
-  position: relative;
-  top: -1rem;
-}
 textarea.validation.wrong,
 textarea.validation.wrong:hover,
 textarea.validation.wrong:focus {
   border-color: #c33; /* NEW */
+}
+.validation + small.error { /* Position fix */
+  position: relative; /* VERY TEMP */
+  top: -1rem; /* VERY TEMP */
 }
 small.error {
   display: block; /* Foundation override */
