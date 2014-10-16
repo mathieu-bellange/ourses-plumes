@@ -1429,8 +1429,14 @@ $("html").on("click", "#toolbar .close", function() {
 /* Close Alert Boxes */
 $("html").on("click", ".alert-box .close", function() {
 	var self = $(this).parent(".alert-box");
+	$(self).css("color", "transparent"); // mask box content
 	$(self).children().css("visibility", "hidden"); // mask box content
-	$(self).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? 500 : 0, function() { // hide alert box
+	$(self).animate({
+		"height": "0",
+		"margin" : self.height() / 2 + "px 0 0",
+		"padding" : "0",
+		"opacity":"0"
+	}, $conf.js_fx ? $time.duration.fx : 0, function() { // hide alert box
 		self.remove();
 	});
 });

@@ -1668,65 +1668,6 @@ a.disabled {
 .th.large img {height: 128px; width: auto;}
 
 /* ------------------------------------------------------------------ */
-/* # Clearing Lightbox */
-/* ------------------------------------------------------------------ */
-
-/* BUG
- * The Clearing Lightbox works pretty well.
- * But it will badly mess up display if the last link is hit by tab navigation in clearing view (left and right arrows are ok).
- * The display will stick -50% to the left and cannot be reset even by page reload ...
- * In that case, page need to be closed and loaded again for the Clearing Lightbox to work again.
- */
-
-.clearing-thumbs li,
-[data-clearing] li {
-  display: inline-block;
-  float: none; /* Foundation override */
-  margin-right: .75rem; /* Foundation override */
-  margin-bottom: .75rem;
-}
-.clearing-thumbs li a:focus,
-[data-clearing] li a:focus {
-  outline-offset: -.5rem;
-}
-.clearing-close:after {
-  content: ""; /* WARNING : Times character hard coded ; cannot faked it */
-}
-.clearing-close:hover, .clearing-close:focus {
-  color: white; /* Foundation override */
-}
-.clearing-main-prev,
-.clearing-main-next {
-  top: 50%;
-  width: 48px;
-  height: 48px;
-  background-image: url('../img/ui/ui-iconset.png');
-  background-repeat: no-repeat;
-  background-size: 1968px;
-}
-.clearing-main-prev {background-position: -24px -144px;}
-.clearing-main-next {background-position: -72px -144px;}
-.clearing-main-prev:active, .orbit-container .clearing-main-prev:focus {background-position: -24px -240px;}
-.clearing-main-next:active, .orbit-container .clearing-main-next:focus {background-position: -72px -240px;}
-.clearing-main-prev:hover,
-.clearing-main-next:hover {background-color: transparent; border: none;}
-.clearing-main-prev:hover {background-position: -24px -192px;}
-.clearing-main-next:hover {background-position: -72px -192px;}
-.clearing-main-prev > span,
-.clearing-main-next > span {border: 0;}
-.clearing-main-prev.disabled:hover, .clearing-main-prev.disabled:focus {background-position: -24px -144px;}
-.clearing-main-next.disabled:hover, .clearing-main-next.disabled:focus {background-position: -72px -144px;}
-.clearing-blackout,
-.clearing-caption,
-.clearing-assembled .clearing-container .visible-img,
-.clearing-assembled .clearing-container .carousel {
-  background-color: #222; /* Foundation override */
-}
-.clearing-assembled .clearing-container .carousel > ul li {
-  width: auto; /* NOTE : Fixed width removal (120px) */
-}
-
-/* ------------------------------------------------------------------ */
 /* # Sub Navigation */
 /* ------------------------------------------------------------------ */
 
@@ -2267,6 +2208,64 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
     margin-left: -47.5%;
     width: 95%;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* # Clearing Lightbox */
+/* ------------------------------------------------------------------ */
+
+/* BUG
+ * The Clearing Lightbox works pretty well.
+ * But it will badly mess up display if the last link is hit by tab navigation in clearing view (left and right arrows are ok).
+ * The display will stick -50% to the left and cannot be reset even by page reload ...
+ * In that case, page need to be closed and loaded again for the Clearing Lightbox to work again.
+ */
+
+.clearing-thumbs li,
+[data-clearing] li {
+  display: inline-block;
+  float: none; /* Foundation override */
+  margin-right: .75rem; /* Foundation override */
+  margin-bottom: .75rem;
+}
+.clearing-thumbs li a:focus,
+[data-clearing] li a:focus {
+  outline-offset: -.5rem;
+}
+.clearing-close:after {
+  content: ""; /* WARNING : Times character hard coded ; cannot faked it */
+}
+.clearing-close:hover, .clearing-close:focus {
+  color: white; /* Foundation override */
+}
+.clearing-main-prev,
+.clearing-main-next {
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  background-image: url('../img/ui/ui-carousel.png');
+  background-repeat: no-repeat;
+}
+.clearing-main-prev {background-position: -24px 0;}
+.clearing-main-next {background-position: -72px 0;}
+.clearing-main-prev:active, .clearing-main-prev:focus {background-position: -24px -48px;}
+.clearing-main-next:active, .clearing-main-next:focus {background-position: -72px -48px;}
+.clearing-main-prev:hover,
+.clearing-main-next:hover {background-color: transparent; border: none;}
+.clearing-main-prev:hover {background-position: -24px -96px;}
+.clearing-main-next:hover {background-position: -72px -96px;}
+.clearing-main-prev > span,
+.clearing-main-next > span {border: 0;}
+.clearing-main-prev.disabled:hover, .clearing-main-prev.disabled:focus {background-position: -24px 0;}
+.clearing-main-next.disabled:hover, .clearing-main-next.disabled:focus {background-position: -72px 0;}
+.clearing-blackout,
+.clearing-caption,
+.clearing-assembled .clearing-container .visible-img,
+.clearing-assembled .clearing-container .carousel {
+  background-color: #222; /* Foundation override */
+}
+.clearing-assembled .clearing-container .carousel > ul li {
+  width: auto; /* NOTE : Fixed width removal (120px) */
 }
 
 /* ------------------------------------------------------------------ */
@@ -3032,47 +3031,48 @@ input:focus + button + .error + .autocomplete > ul {
   text-align: justify;
   border-top: .125rem dotted silver;
 }
-.info-tip {
+.more-info {
   position: absolute;
   display: inline-block;
   right: 0;
   top: 50%;
   width: 1.5rem;
   height: 1.5rem;
-  line-height: 1.5rem;
-  letter-spacing: -.0625em;
+  line-height: 1.25rem;
   margin-top: -.75rem;
   color: dimgray;
+  font-size: 1.5rem;
   text-align: center;
   border-radius: 100%;
   background-color: whitesmoke;
   border: .125rem solid darkgray;
   opacity: .5;
+}
+.css-fx .more-info {
   -webkit-transition: all .25s ease-out; /* TEMP */
      -moz-transition: all .25s ease-out; /* TEMP */
           transition: all .25s ease-out; /* TEMP */
 }
-.css-fx .info-tip {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-.info-tip:hover {
+.more-info:hover {
   cursor: pointer;
   right: -.375rem;
   width: 2rem;
   height: 2rem;
-  line-height: 2rem;
+  line-height: 1.75rem;
   margin-top: -1rem;
-  font-size: 125%;
+  font-size: 1.75rem;
   opacity: 1;
 }
-.info-tip:before {
-  content: "?";
+.more-info:before {
+  content: "+";
 }
-.info-tip.active {
+.more-info.active {
   color: white;
   border-color: dimgray;
   background-color: dimgray;
 }
-.info-tip.active:before {
-  content: "!";
+.more-info.active:before {
+  content: "-";
 }
 
 /* ------------------------------------------------------------------ */
