@@ -920,10 +920,7 @@ jQuery.fn.extend({
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
 			if (cfg.timeout > 0) {
 				setTimeout(function() {
-					$(sel).children().css("visibility", "hidden"); // mask box content
-					$(sel).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? cfg.fade_duration : 0, function() { // hide alert box
-						$(sel).remove(); // remove alert box
-					});
+					$(sel).find(".close").first().click();
 				}, cfg.timeout);
 			}
 		} else { // update
