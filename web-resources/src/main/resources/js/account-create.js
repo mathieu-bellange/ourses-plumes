@@ -54,7 +54,7 @@ function checkPseudoAJAX() {
 		clearTimeout(pseudoTimeoutValid);
 	}
 	var selector = $("#pseudo");
-	selector.set_validation(null);
+	selector.set_validation();
 	var pseudo = selector.val();
 	$.ajax({
 		type : "POST",
@@ -82,7 +82,7 @@ function checkPasswordAJAX() {
 		clearTimeout(passwordTimeoutValid);
 	}
 	var selector = $("#password");
-	selector.set_validation(null);
+	selector.set_validation();
 	var pseudo = selector.val();
 	$.ajax({
 		type : "POST",
@@ -110,7 +110,7 @@ function checkMailAJAX() {
 		clearTimeout(mailTimeoutValid);
 	}
 	var selector = $("#mail");
-	selector.set_validation(null);
+	selector.set_validation();
 	var mail = selector.val();
 	$.ajax({
 		type : "POST",
@@ -165,31 +165,36 @@ function submitAccountAJAX() {
 /* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$("html").on("submit", "#bearAccount", function(event) {
+$("html").on("submit", "#bearAccount", function() {
 	if (isFormValid()) {
 		submitAccountAJAX();
 	}
 });
-
-$("html").on("keyup", "#pseudo", function(event) {
+$("html").on("blur", "#pseudo", function() {
+	var str = $(this).val().trim();
+	$(this).val(str);
 	checkPseudoAJAX();
 });
-$("html").on("keyup", "#mail", function(event) {
+$("html").on("keyup", "#pseudo", function() {
+	checkPseudoAJAX();
+});
+$("html").on("keyup", "#mail", function() {
 	checkMailAJAX();
 });
-$("html").on("keyup", "#password", function(event) {
+$("html").on("keyup", "#password", function() {
 	checkPasswordAJAX();
 });
-
-$("#pseudo, #mail, #password").on("keypress", function() {
-	$(this).set_validation(null);
-});
-
-$("html").on("focus", "#password", function(event) {
+$("html").on("focus", "#password", function() {
 	$(this).attr("placeholder", "");
 });
-$("html").on("blur", "#password", function(event) {
+$("html").on("blur", "#password", function() {
 	if ($(this).val().length == 0) {
-		$(this).attr("placeholder", "Minimum 7 caractères, une minuscule et un chiffre");
+		$(this).attr("placeholder", "Minimum 7 caract&egrave;res dont une minuscule et un chiffre");
 	}
+});
+$("html").on("focus", "#pseudo, #mail, #password", function() {
+	$(this).set_validation(null);
+});
+$("html").on("keypress", "#pseudo, #mail, #password", function() {
+	$(this).set_validation();
 });

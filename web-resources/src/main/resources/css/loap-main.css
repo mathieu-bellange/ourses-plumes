@@ -631,7 +631,7 @@ html input[disabled] {
   padding: 0 .75rem;
 }
 .prefix.button, .postfix.button {
-  padding: 0; /* Foundation Override */
+  padding: 0; /* Foundation override */
 }
 
 /* ------------------------------------------------------------------ */
@@ -806,34 +806,28 @@ input.validation.loading:hover,
 input.validation.loading:focus {
   background-image: url('../img/ui/icon-loading.gif');
 }
-
-.validation + small.error { /* Position fix */
+input.validation + small.error { /* Position fix */
   position: relative;
   top: -1rem;
 }
-
-small.error {
-  display: block;
-  padding: 0.33333rem 0.5rem 0.5rem;
-  margin-top: -.125rem;
-  margin-bottom: 0.88889rem;
-  font-size: 0.66667rem;
-  font-weight: normal;
-  font-style: italic;
-  background: #c33;
-  color: #fff;
+textarea.validation.wrong,
+textarea.validation.wrong:hover,
+textarea.validation.wrong:focus {
+  border-color: #c33; /* NEW */
 }
-[data-abide] .error small.error {
+small.error {
+  display: block; /* Foundation override */
+  padding: .375rem .5rem; /* Foundation override */
+  margin-top: -.125rem;
+  margin-bottom: 0; /* Foundation override */
+  font-size: .75rem; /* Foundation override */
+  font-style: italic; /* Foundation override */
+  color: white; /* Foundation override */
   background: #c33; /* Foundation override */
 }
-
 label.error {
   color: #c33;
 }
-.error label.error {
-  color: #c33; /* Foundation override */
-}
-
 .error.hide {
   display: none; /* Visibility fix */
 }
@@ -1209,6 +1203,7 @@ a.disabled {
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none; /* TEMP : links underline fix */
+  outline-offset: -.25rem;
   opacity: .5;
 }
 .close:hover,
@@ -2019,26 +2014,27 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* ------------------------------------------------------------------ */
 
 .alert-box > *:first-child {margin-top: 0;}
-.alert-box > *:last-child {margin-bottom: .5rem;}
+.alert-box > *:last-child {margin-bottom: 0;}
 
 .alert-box {
-  padding: .5rem 1.5rem; /* Foundation Override */
+  position: relative;
+  padding: .5rem 2.5rem .5rem .75rem; /* Foundation override */
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
-  line-height: 2rem; /* Foundation Override */
+  line-height: 2rem; /* Foundation override */
   background-color: #a8c;
   border: .15rem solid #759;
-  transition: none; /* Foundation Override */
+  transition: none; /* Foundation override */
 }
 .alert-box .close {
-  top: 0; /* Foundation Override */
-  margin: 0; /* Foundation Override */
-  padding: 0; /* Foundation Override */
-  font-size: 1.5rem; /* Foundation Override */
-  line-height: inherit; /* Foundation Override */
+  top: .375rem; /* Foundation override */
+  right: .5rem; /* Foundation override */
+  width: 1.5rem; /* Foundation override */
+  padding: 0; /* Foundation override */
+  font-size: 1.5rem; /* Foundation override */
+  line-height: inherit; /* Foundation override */
 }
 .alert-box .close:after {
-  margin-top: .25rem;
-  margin-right: .5rem;
+  text-align: center;
   display: block;
 }
 .alert-box.info a {text-decoration: none;} /* TEMP : links underline fix */
@@ -3352,15 +3348,17 @@ input:focus + button + .error + .autocomplete > ul {
 .user-profile input.user-name:focus:not([disabled]):not([readonly]),
 .user-profile textarea.user-desc:focus:not([disabled]):not([readonly]),
 .user-profile input.user-name:not([disabled]):not([readonly]).wrong,
-.user-profile textarea.user-desc:not([disabled]):not([readonly]).wrong,
-.user-profile input.user-name:hover:not([disabled]):not([readonly]).wrong,
-.user-profile textarea.user-desc:hover:not([disabled]):not([readonly]).wrong {
+.user-profile input.user-name:hover:not([disabled]):not([readonly]).wrong {
   cursor: text;
   color: rgba(0, 0, 0, .75); /* Foundation default value */
   border-color: darkgray;
   border-style: solid;
   background-color: white;
   text-shadow: none;
+}
+.user-profile input.user-name:not([disabled]):not([readonly]).wrong,
+.user-profile input.user-name:hover:not([disabled]):not([readonly]).wrong {
+  border-color: #c33;
 }
 
 /* Below are specific mimic styles for user name */

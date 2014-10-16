@@ -6,7 +6,6 @@ var loax_pool = {
 	"login_tmpl" : $loc.tmpl + "login.tmpl"
 }
 
-
 /* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
@@ -61,7 +60,7 @@ function connection(){
 		},
 		error : function(jqXHR, status, errorThrown) {
 			var msg = (jqXHR.status == 401 ? "Login ou mot de passe incorrect" : $msg.error);
-			if ($("#login-alert").length === 0) {
+			if ($("#login-alert").length == 0) {
 				createAlertBox(msg, "login_alert", {"timeout" : $time.duration.alert});
 			} else {
 				$("#login-alert > .text").text(msg);
@@ -72,7 +71,7 @@ function connection(){
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
 $("html").on("click", "#user_connection", function() {

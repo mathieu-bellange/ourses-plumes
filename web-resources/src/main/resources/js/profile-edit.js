@@ -134,7 +134,7 @@ function checkPseudoAJAX(couple) {
 		clearTimeout(pseudoTimeoutValid);
 	}
 	var selector = $("#pseudo");
-	selector.set_validation(null);
+	selector.set_validation();
 	var pseudo = selector.val();
 	var profileId = window.localStorage.getItem($auth.profile_id);
 	$.ajax({
@@ -576,7 +576,7 @@ function processAvatar(options) {
 
 /* User Name */
 $("html").on("focus", "#pseudo", function(event) {
-	memoryCouple = new Couple(pseudoProperty,$(this).val());
+	memoryCouple = new Couple(pseudoProperty, $(this).val());
 });
 $("html").on("keypress","#pseudo", function(event) {
 	if (event.which == 13) { // Enter
@@ -590,11 +590,13 @@ $("html").on("keydown", "#pseudo", function(event) {
 	}
 });
 $("html").on("blur", "#pseudo", function(event) {
-	if ($(this).val().length > username_max_chars) {
+	var str = $(this).val().trim();
+	$(this).val(str);
+	if (str.length > username_max_chars) {
 		$(this).set_validation(false, "Le nom d&rsquo;utilisatrice est trop long&nbsp;!");
 		$(this).css("margin-bottom", "0");
 	} else {
-		var couple = new Couple(pseudoProperty,$("#pseudo").val());
+		var couple = new Couple(pseudoProperty, str);
 		modifiyCouple(couple);
 	}
 });
@@ -604,7 +606,9 @@ $("html").on("focus", "#description", function(event) {
 	memoryCouple = new Couple(descriptionProperty, $("#description").val());
 });
 $("html").on("blur", "#description", function(event) {
-	var couple = new Couple(descriptionProperty, $(this).val());
+	var str = $(this).val().trim();
+	$(this).val(str);
+	var couple = new Couple(descriptionProperty, str);
 	modifiyCouple(couple);
 });
 

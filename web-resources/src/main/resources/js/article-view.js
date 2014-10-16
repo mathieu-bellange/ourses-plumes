@@ -63,8 +63,7 @@ var share = (function() {
 				var article_source = encodeURI($org.name).replace("?", "%3F");
 				$("#share_mail").on("click", function() {
 					if ($(this).next(".send-box").is(":hidden")) {
-						$(this).next(".send-box").find("input").first().set_validation(true); // reset validation
-						$(this).next(".send-box").find("input").first().removeClass("valid"); // reset validation
+						$(this).next(".send-box").find("input").first().set_validation(null); // reset validation
 						$(this).next(".send-box").find("input").first().val(""); // reset value
 						open_box($(this).next(".send-box"), settings.fx_d);
 					} else {
@@ -95,9 +94,8 @@ var share = (function() {
 						}
 					} else if (e.which == 27) { // Esc
 						close_box($(this).parent(".send-box"), settings.fx_d);
-					} else { // reset validation
-						$(this).set_validation(true, null, {"cls_valid" : null});
-						$(this).removeClass("valid");
+					} else {
+						$(this).set_validation(null); // reset validation
 					}
 				});
 				var twitter_href = "https://twitter.com/share";

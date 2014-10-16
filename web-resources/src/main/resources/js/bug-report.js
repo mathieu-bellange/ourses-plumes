@@ -33,43 +33,77 @@ function GithubBug(title, body) {
 	};
 }
 
+function checkField(obj) {
+	var str = obj.val().trim();
+	obj.val(str);
+	if (str.length == 0) {
+		obj.set_validation(false);
+		return false;
+	} else {
+		obj.set_validation(true);
+		return true;
+	}
+}
+
+function isFormValid() {
+	var isTitleValid = checkField($("#bug_title"));
+	var isBodyValid = checkField($("#bug_body"));
+	return isTitleValid && isBodyValid;
+}
+
+/* ------------------------------------------------------------------ */
+/* # AJAX */
+/* ------------------------------------------------------------------ */
+
+function submitBugAJAX(title, body) {
+	var clientBrowserInfos = "\n***\n" +
+	"- appName : *" + navigator.appName + "*\n" +
+	"- appCodeName : *" + navigator.appCodeName + "*\n" +
+	"- userAgent : *" + navigator.userAgent + "*\n" +
+	"- platform : *" + navigator.platform + "*\n" +
+	"- outerWidth : *" + window.outerWidth + "*\n" +
+	"- innerWidth : *" + window.innerWidth + "*",
+	bug = new GithubBug(title, body + clientBrowserInfos);
+	$.ajax({
+		type : "POST",
+		url : "/rest/github",
+		data : bug.json(),
+		contentType : "application/json; charset=utf-8",
+		beforeSend : function(request){
+			header_authentication(request);
+		},
+		success : function (data) {
+			createAlertBox("Le rapport de bug a &eacute;t&eacute; envoy&eacute; !", "report_alert", {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert});
+			$("#bug_title").val("");
+			$("#bug_body").val("");
+		},
+		error : function(jqXHR, text, error){
+			createAlertBox();
+		},
+		complete : function() {
+			setTimeout(function() {
+				$("[type='submit']").prop("disabled", false);
+			}, $time.duration.check);
+		},
+		dataType : "json"
+	});
+}
+
 /* ------------------------------------------------------------------ */
 /* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$("html").on("submit", "#new-bug", function() {
-	if ($("#bug-title").val() != "" && $("#bug-body").val() != "") {
-		var clientBrowserInfos = "\n***\n" +
-		"- appName : *" + navigator.appName + "*\n" +
-		"- appCodeName : *" + navigator.appCodeName + "*\n" +
-		"- userAgent : *" + navigator.userAgent + "*\n" +
-		"- platform : *" + navigator.platform + "*\n" +
-		"- outerWidth : *" + window.outerWidth + "*\n" +
-		"- innerWidth : *" + window.innerWidth + "*",
-		bug = new GithubBug($("#bug-title").val(), $("#bug-body").val() + clientBrowserInfos);
-		$.ajax({
-			type: "POST",
-			url: "/rest/github",
-			data: bug.json(),
-			contentType : "application/json; charset=utf-8",
-			beforeSend: function(request){
-				header_authentication(request);
-			},
-			success: function (data) {
-				$("#bug-alert").remove("error");
-				$("#bug-alert").addClass("success");
-				$("#bug-alert-message").text("Le bug a été correctement créé");
-				$conf.js_fx ? $("#bug-alert").fadeIn(500) : $("#bug-alert").show();
-				$("#bug-title").val("");
-				$("#bug-body").val("");
-			},
-			error: function(jqXHR, text, error){
-				$("#bug-alert").remove("success");
-				$("#bug-alert").addClass("error");
-				$("#bug-alert-message").text("Une erreur technique s'est produite, prévenez l'administateur du site");
-				$conf.js_fx ? $("#bug-alert").fadeIn(500) : $("#bug-alert").show();
-			},
-			dataType : "json"
-		});
+$("html").on("submit", "#new_bug", function() {
+	if (isFormValid()) {
+		$("[type='submit']").prop("disabled", true);
+		submitBugAJAX($("#bug_title").val(), $("#bug_body").val());
+	} else {
+		createAlertBox($msg.form_invalid, "report_alert", {"timeout" : $time.duration.alert});
 	}
+});
+$("html").on("focus", "#bug_title, #bug_body", function() {
+	$(this).set_validation(null);
+});
+$("html").on("blur", "#bug_title, #bug_body", function() {
+	checkField($(this));
 });

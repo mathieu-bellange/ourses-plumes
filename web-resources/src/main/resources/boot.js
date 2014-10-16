@@ -108,7 +108,8 @@ $time = {
 	],
 	"duration" : {                                                // Object   Global durations.
 		"fx"          : 500,                                        // Integer  Effects duration in milliseconds. Default : 500
-		"alert"       : 2500,                                       // Integer  Alerts duration in milliseconds. Default : 2000
+		"alert"       : 2500,                                       // Integer  Alerts duration in milliseconds. Default : 2500
+		"check"       : 1000,                                       // Integer  Check duration in milliseconds. Default : 1000
 		get fx_short() {return this.fx / 2},                        // Function Return short effects duration. Default {return this.fx / 2}
 		get fx_long() {return this.fx * 2},                         // Function Return long effects duration. Default {return this.fx * 2}
 		get alert_short() {return this.alert / 2},                  // Function Return short alert duration. Default {return this.alert / 2}

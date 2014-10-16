@@ -652,8 +652,7 @@ jQuery.fn.extend({
 			if (cfg.accepted_chars_list.test($(sel).val())) {
 				$(sel).set_validation(false, $msg.char_illegal);
 			} else if ($(sel).val().trim().length == 0) {
-				$(sel).set_validation(true);
-				$(sel).removeClass("valid");
+				$(sel).set_validation(null);
 			} else {
 				$(sel).set_validation(true);
 			}
@@ -782,35 +781,37 @@ jQuery.fn.extend({
 		// vars
 		var err_msg = err_msg || undefined;
 		var defs = {
-			cls_label : "error",            // String  The class of an invalid field label. Default : "error"
-			cls_valid : "valid",            // String  The class of a valid field. Default : "valid"
-			cls_invalid : "wrong",          // String  The class of an invalid field. Default : "wrong"
-			cls_abiding : "loading",        // String  The class of an abiding validation field. Default : "loading"
+			cls_label    : "error",         // String  The class of an invalid field label. Default : "error"
+			cls_valid    : "valid",         // String  The class of a valid field. Default : "valid"
+			cls_invalid  : "wrong",         // String  The class of an invalid field. Default : "wrong"
+			cls_abiding  : "loading",       // String  The class of an abiding validation field. Default : "loading"
 			err_selector : "small.error"    // String  The selector of the element holding the error message. Default : "small.error"
 		};
 		var cfg = $.extend({}, defs, opts);
 		// loop
 		$(this).each(function () {
 			if (is_valid == true) {
-				$(this).addClass(cfg.cls_valid);
 				$(this).removeAttr("data-invalid"); // Remove Foundation abide validation data attribute
-				$(this).removeClass(cfg.cls_invalid);
-				$(this).removeClass(cfg.cls_abiding);
+				$(this).removeClass(cfg.cls_invalid + " " + cfg.cls_abiding);
+				$(this).addClass(cfg.cls_valid);
 				$("[for='" + $(this).attr("id") + "']").removeClass(cfg.cls_label);
 				$(this).nextAll(cfg.err_selector).first().addClass("hide");
 			} else if (is_valid == false) {
-				$(this).removeClass(cfg.cls_valid);
 				$(this).attr("data-invalid", true); // Define Foundation abide validation data attribute
+				$(this).removeClass(cfg.cls_valid + " " + cfg.cls_abiding);
 				$(this).addClass(cfg.cls_invalid);
-				$(this).removeClass(cfg.cls_abiding);
 				$("[for='" + $(this).attr("id") + "']").addClass(cfg.cls_label);
 				if (err_msg !== undefined) {
 					$(this).nextAll(cfg.err_selector).first().html(err_msg);
 				}
 				$(this).nextAll(cfg.err_selector).first().removeClass("hide");
+			} else if (typeof is_valid !== "undefined") {
+				$(this).removeAttr("data-invalid"); // Remove Foundation abide validation data attribute
+				$(this).removeClass(cfg.cls_valid + " " + cfg.cls_invalid + " " + cfg.cls_abiding);
+				$("[for='" + $(this).attr("id") + "']").removeClass(cfg.cls_label);
+				$(this).nextAll(cfg.err_selector).first().addClass("hide");
 			} else {
-				$(this).removeClass(cfg.cls_valid);
-				$(this).removeClass(cfg.cls_invalid);
+				$(this).removeClass(cfg.cls_valid + " " + cfg.cls_invalid);
 				$(this).addClass(cfg.cls_abiding);
 				setTimeout(function() {
 					$(this).removeClass(cfg.cls_abiding);

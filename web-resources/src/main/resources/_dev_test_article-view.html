@@ -184,8 +184,7 @@
 								//$("#share_mail").attr("href", mail_href);
 								$("#share_mail").on("click", function() {
 									if ($(this).next(".send-box").is(":hidden")) {
-										$(this).next(".send-box").find("input").first().set_validation(true); // reset validation
-										$(this).next(".send-box").find("input").first().removeClass("valid"); // reset validation
+										$(this).next(".send-box").find("input").first().set_validation(null); // reset validation
 										$(this).next(".send-box").find("input").first().val(""); // reset value
 										open_box($(this).next(".send-box"), settings.fx_d);
 									} else {
@@ -217,8 +216,7 @@
 									} else if (e.which == 27) { // Esc
 										close_box($(this).parent(".send-box"), settings.fx_d);
 									} else { // reset validation
-										$(this).set_validation(true, null, {"cls_valid" : null});
-										$(this).removeClass("valid");
+										$(this).set_validation(null); // reset validation
 									}
 								});
 								var twitter_href = "https://twitter.com/share";

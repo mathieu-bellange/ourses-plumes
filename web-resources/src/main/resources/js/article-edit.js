@@ -147,17 +147,14 @@ var tags = (function() {
 						$(source).val("");
 						// reset autocomplete
 						$(source).nextAll(".autocomplete").first().find("ul > li").addClass("hide");
-						$(source).set_validation(true);
-						$(source).removeClass("valid");
+						$(source).set_validation(null); // reset validation
 						// close tagging
 						$("#tag_new").removeClass("active");
 						$("#tag_new").focus(); // focus tag_new
 						close_field();
 					}
 				} else {
-					// reset validation if input is empty
-					$(source).set_validation(true);
-					$(source).removeClass("valid");
+					$(source).set_validation(null); // reset validation if input empty
 				}
 			}
 			// events
@@ -212,7 +209,7 @@ var tags = (function() {
 					}
 				},
 				focus : function() {
-					$(this).set_validation(true); // set validation
+					$(this).set_validation(null); // reset validation
 				},
 				keyup : function(e) {
 					if (e.which == 13) { // Enter
@@ -344,19 +341,20 @@ var validate = (function () {
 			function checkTitle() {
 				checkTitleAJAX();
 				var str = $("#title").val().trim();
+				$("#title").val(str);
 				if (str.length == 0) {
 					$("#title").set_validation(false, "Le titre de l&rsquo;article doit obligatoirement &ecirc;tre renseign&eacute;.");
 				} else {
-					$("#title").val(str).data("last_value", str);
+					$("#title").data("last_value", str);
 					$("#title").set_validation(true);
 				}
 			}
 			function checkSummary() {
 				var str = $("#summary").val().trim();
+				$("#summary").val(str);
 				if (str.length == 0) {
 					$("#summary").set_validation(false, "Le r&eacute;sum&eacute; doit n&eacute;cessairement &ecirc;tre saisi.");
 				} else {
-					$("#summary").val(str);
 					$("#summary").set_validation(true);
 				}
 			}
@@ -710,7 +708,7 @@ function checkTitleAJAX() {
 		clearTimeout(titleTimeoutValid);
 	}
 	var selector = $("#title");
-	selector.set_validation(null);
+	selector.set_validation();
 	var title = selector.val();
 	$.ajax({
 		type : "POST",
