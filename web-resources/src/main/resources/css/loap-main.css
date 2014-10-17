@@ -1959,7 +1959,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 
 .alert-box {
   position: relative;
-  padding: .5rem 2.5rem .5rem .75rem; /* Foundation override */
+  padding: .5rem .75rem .5rem .75rem; /* Foundation override */
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   line-height: 2rem; /* Foundation override */
   background-color: #a8c;
@@ -1970,6 +1970,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   top: .375rem; /* Foundation override */
   right: .5rem; /* Foundation override */
   width: 1.5rem; /* Foundation override */
+  margin: 0;
   padding: 0; /* Foundation override */
   font-size: 1.5rem; /* Foundation override */
   line-height: inherit; /* Foundation override */
@@ -1978,6 +1979,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   text-align: center;
   display: block;
 }
+.alert-box .close + * {margin-top: 0; margin-right: 1.75rem;}
 .alert-box.info a {text-decoration: none;} /* TEMP : links underline fix */
 .alert-box.info,
 .alert-box.info a,
