@@ -1,0 +1,24 @@
+﻿<!--Alert Box-->
+{{% alert_box_tmpl }}
+					<div{{= typeof data.id !== "undefined" ? " id=" + data.id : "" }} class="alert-box radius text-center {{= typeof data.class !== 'undefined' ? ' ' + data.class : '' }}" style="display: none;">
+						{{? data.icon !== null }}
+						<a href="javascript:void(0)" class="close"></a><span class="hide">Fermer</span>
+						<span class="icon-{{= data.icon }} small{{= data.icon_class !== null ? ' ' + data.icon_class : '' }}"></span>
+						{{?}}
+						<span class="text">{{= data.text }}</span>
+					</div>
+{{%}}
+
+<!--Confirmation Bar-->
+{{% confirmation_bar_tmpl }}
+					<div class="validation-bar clearfix">
+						<span class="text-tiny text-charcoal left hide-for-touch"><kbd class="text-medium">Ctrl+Enter</kbd> pour valider. <kbd class="text-medium">Esc</kbd> pour annuler.</span>
+						<div class="right">
+							<a class="icon-confirm small" title="Valider" data-valid><span class="hide">Valider</span></a>
+							<a class="icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></a>
+						</div>
+					</div>
+{{%}}
+
+<!--Slider Previous Controller-->
+<!--Slider Next Controller-->

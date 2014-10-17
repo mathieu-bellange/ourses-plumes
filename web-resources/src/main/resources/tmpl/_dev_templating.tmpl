@@ -4,39 +4,39 @@
 
 <div class="code-block">
 <pre class="code" style="height: 15rem;">
-<mark>data</mark> = {
-  "<mark>title</mark>" : "A title",
-  "<mark>text</mark>" : "Some text.",
-  "<mark>code</mark>" : "&lt;h1&gt;&lt;/h1&gt;",
-  "<mark>list</mark>" : [
-    "First item in list",
-    "Second item in list",
-    "Third item in list"
+<var class="var">data</var> = {
+  <span class="key">"title"</span> : <span class="pair">"A title"</span>,
+  <span class="key">"text"</span> : <span class="pair">"Some text."</span>,
+  <span class="key">"code"</span> : <span class="pair">"&lt;h1&gt;&lt;/h1&gt;"</span>,
+  <span class="key">"list"</span> : [
+    <span class="val">"First item in list"</span>,
+    <span class="val">"Second item in list"</span>,
+    <span class="val">"Third item in list"</span>
   ],
-  "advanced" : {
-    "list" : {
-      "params" : {
-        "id" : "_advanced_templating_list",
-        "class" : "inline-list",
-        "style" : "color: brown;",
-        "data-option" : ""
+  <span class="key">"advanced"</span> : {
+    <span class="key">"list"</span> : {
+      <span class="key">"params"</span> : {
+        <span class="key">"id"</span> : <span class="pair">"_advanced_templating_list"</span>,
+        <span class="key">"class"</span> : <span class="pair">"inline-list"</span>,
+        <span class="key">"style"</span> : <span class="pair">"color: brown;"</span>,
+        <span class="key">"data-option"</span> : <span class="pair">""</span>
       },
-      "items" : [
+      <span class="key">"items"</span> : [
         {
-          "name" : "First item",
-          "parent_name" : "Advanced list"
+          <span class="key">"name"</span> : <span class="pair">"First item"</span>,
+          <span class="key">"parent_name"</span> : <span class="pair">"Advanced list"</span>
         },
         {
-          "name" : "Second item",
-          "params" : {
-            "class" : "text-large",
-            "style" : "color: purple;"
+          <span class="key">"name"</span> : <span class="pair">"Second item"</span>,
+          <span class="key">"params"</span> : {
+            <span class="key">"class"</span> : <span class="pair">"text-large"</span>,
+            <span class="key">"style"</span> : <span class="pair">"color: purple;"</span>
           }
         },
         {
-          "parent_name" : "Advanced list",
-          "params" : {
-            "class" : "text-small"
+          <span class="key">"parent_name"</span> : <span class="pair">"Advanced list"</span>,
+          <span class="key">"params"</span> : {
+            <span class="key">"class"</span> : <span class="pair">"text-small"</span>
           }
         }
       ]
@@ -207,26 +207,4 @@
 </pre>
 </div>
 </div>
-<h3>Customize settings</h3>
-<h4 class="subheader">Standard configuration</h4>
-<pre class="panel code">
-<var class="var">doT.templateSettings</var> = {
-	<span class="key">evaluate</span> : <span class="pair">regexp</span>,      <span class="comment">// parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)</span>
-	<span class="key">interpolate</span> : <span class="pair">regexp</span>,   <span class="comment">// parse a string as a javascript instruction and append it to the result function (n.b. this is default behaviour)</span>
-	<span class="key">encode</span> : <span class="pair">regexp</span>,        <span class="comment">// replace illegal characters by html numeric entities</span>
-	<span class="key">use</span> : <span class="pair">regexp</span>,           <span class="comment">// call partial template</span>
-	<span class="key">define</span> : <span class="pair">regexp</span>,        <span class="comment">// set partial template</span>
-	<span class="key">conditional</span> : <span class="pair">regexp</span>,   <span class="comment">// execute 'if, else if, else' structure</span>
-	<span class="key">iterate</span> : <span class="pair">regexp</span>,       <span class="comment">// loop an array</span>
-	<span class="key">varname</span> : <span class="pair">string</span>,       <span class="comment">// define the name of result function argument (i.e. the variable used for templating)</span>
-	<span class="key">strip</span> : <span class="pair">boolean</span>,        <span class="comment">// erase whitespaces in result output (including tabulations and line breaks -- minify/compress)</span>
-	<span class="key">append</span> : <span class="pair">boolean</span>,       <span class="comment">// define concatenated output result in a single line variable (i.e. use '+' operand instead of '+=' operand for 'out' var)</span>
-	<span class="key">selfcontained</span> : <span class="pair">boolean</span> <span class="comment">// include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)</span>
-};
-</pre>
-<h4 class="subheader">Custom configuration</h4>
-<pre class="panel callout code">
-<var class="var">doT.templateSettings.varname</var> = <span class="val">"<mark>data</mark>"</span>;
-<var class="var">doT.templateSettings.strip</var> = <span class="val">false</span>;
-</pre>
 </div>

@@ -18,8 +18,8 @@
 /* Cut string
  * Remove characters from a string up to an end point
  * and return the result.
- * - e.g. "momolebite".cut(4) becomes "lebite"
- * - e.g. "momolebite".cut(-4) becomes "momole"
+ * "momolebite".cut(4) returns "lebite"
+ * "momolebite".cut(-4) returns "momole"
  */
 String.prototype.cut = function(start) {
 	// return this.substr(start, this.length);
@@ -29,15 +29,16 @@ String.prototype.cut = function(start) {
 /* Truncate string
  * Remove all characters from a string begining at a starting point
  * and return the result.
- * - e.g. "momolebite".trunc(4) becomes "momo"
- * - e.g. "momolebite".trunc(-4) becomes "bite"
+ * "momolebite".trunc(4) returns "momo"
+ * "momolebite".trunc(-4) returns "bite"
  */
 String.prototype.trunc = function(end) {
 	return (end < 0 ? this.substr(end, this.length) : this.substr(0, end));
 };
 
-/* Convert pixel string to root EM numeric
- * From String to Float (e.g. "20px" becomes 1.25)
+/* String to Float
+ * Convert pixel string to root EM numeric.
+ * "20px" returns 1.25
  */
 String.prototype.toRem = function() {
 	var n = parseFloat(this.replace("px", ""));
@@ -45,8 +46,9 @@ String.prototype.toRem = function() {
 	return (n / r);
 };
 
-/* Convert root EM numeric to pixel string
- * From Float to String (e.g. 1.25 becomes "20px")
+/* Float to String
+ * Convert root EM numeric to pixel string.
+ * 1.25 returns "20px"
  */
 Number.prototype.toPx = function() {
 	var n = this;
@@ -60,9 +62,8 @@ Number.prototype.toPx = function() {
 
 var loap_pool = {
 //"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
-	"confirmation_bar_tmpl"         : $loc.tmpl + "snippet_confirmation_bar.tmpl",
-	"alert_box_tmpl"                : $loc.tmpl + "snippet_alert_box.tmpl",
 	"dev_toolbar_tmpl"              : $loc.tmpl + "_dev_toolbar.tmpl",
+	"ui_plugins_mptl"               : $loc.tmpl + "ui_plugins.mptl",
 	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
 	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
 	"icons_fx_file"                 : $file.icons_fx,
@@ -153,6 +154,11 @@ $.holdReady(true); // hold document ready event
 		return function(XHRresponse) {
 			if (file_pool[varname].trunc(-4) == "tmpl") {
 				file_pool[varname] = doT.compile(XHRresponse);
+			} else if (file_pool[varname].trunc(-4) == "mptl") {
+				var r = XHRresponse.split($regx.mptl);
+				for (var i = 0; i < r.length - 3; i += 3) {
+					file_pool[r[i+1]] = doT.compile(r[i+2]);
+				}
 			} else if (file_pool[varname].trunc(-4) == "json") {
 				file_pool[varname] = JSON.parse(XHRresponse);
 			} else {

@@ -206,7 +206,18 @@ $prefs = {
 /* Regular Expressions */
 $regx = {
 	/* -------------------------------------------------------------------
-	 * Email address regular expression syntax
+	 * # Multiple parts template pattern
+	 * -------------------------------------------------------------------
+	 * expression used to delimitate multiple templates from one file
+	 * will return a compilation function appended to file_pool on launch
+	 * {{% template_name}}
+	 *   template_content
+	 * {{%}}
+	 * document.write(file_pool.template_name(data));
+	 */
+	"mptl" : /\t*\{\{%\s(\S+)\s?\}\}[\r|\n]?([\s\S]+?)[\r|\n]?\t*\{\{%\}\}/gim, // Regexp
+	/* -------------------------------------------------------------------
+	 * # Email address regular expression syntax
 	 * -------------------------------------------------------------------
 	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
 	 * second-level domain = at least one defined, max two defined, no length restriction
@@ -214,7 +225,7 @@ $regx = {
 	 */
 	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i, // Regexp
 	/* -------------------------------------------------------------------
-	 * Tags accepted characters list
+	 * # Tags accepted characters list
 	 * -------------------------------------------------------------------
 	 * below is the allowed chars pattern
 	 */
