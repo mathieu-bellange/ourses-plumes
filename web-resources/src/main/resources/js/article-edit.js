@@ -1,8 +1,252 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Public variables */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-var tag_max = 8;        // Integer  Maxium of tags allowed. Default = 8;
+var loax_pool = {
+	"error_tmpl" : $loc.tmpl + "error.tmpl",
+	"article_edit_tmpl" : $loc.tmpl + "article-edit.tmpl"
+}
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			// si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
+			if (/^\/articles\/[0-9]+/.test(window.location.pathname)) {
+				$.ajax({
+					type: "GET",
+					url: "/rest" + window.location.pathname,
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function(request) {
+						header_authentication(request);
+					},
+					success: function(data, status, jqxhr) {
+						processArticle(data);
+					},
+					error: function(jqXHR, status, errorThrown) {
+						ajax_error(jqXHR, status, errorThrown);
+						if (jqXHR.status == 404) {
+							$("main > header").after(file_pool.error_tmpl).after(lb(1));
+						} else {
+							createAlertBox();
+						}
+					},
+					dataType: "json"
+				});
+			}
+			// sinon c'est une création d'article
+			else {
+				processArticle(new Article("", "", "", null, null, []));
+			}
+		}
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # Components */
+/* ------------------------------------------------------------------ */
+
+var tags = (function() {
+	return {
+		update : function(id) {
+			var sel = "#" + id;
+			if ($(sel + " .select").children().size() == 0) { // no placeholder
+				$(sel + "_tag").html($(sel + " .select").text()); // update text
+				$(sel + "_tag").removeClass("undefined wrong"); // reset class
+				if (id == "rubric") {
+					$("form, #" + id + "_tag").removeClass("struggles ourbody intersec internat educult ideas"); // WARNING : using 'form' as topmost parent element
+					if ($(sel + " .selected").attr("data-color")) {
+						$("form, #" + id + "_tag").addClass($(sel + " .selected").attr("data-color")); // WARNING : using 'form' as topmost parent element
+					}
+				} else {
+					$(sel + "_tag").addClass("inverse") // update color
+				}
+			}
+		},
+		init : function(opts) {
+			var defs = {
+				"fx_d"       : 250,             // Integer  Effects duration for tags component in milliseconds. Default : 500
+				"tag_max"    : 8,               // Integer  Maximum of tags allowed (n.b. without rubric and category). Default : 10
+				"tag_reflow" : 3                // Integer  Number of characters at which autocomplete starts on tag input. Default : 3
+			};
+			var cfg = $.extend({}, defs, opts);
+			var self = this; // internal
+			// functions
+			function open_field(field) { // field = jQuery selector
+				var field = field || null, obj = $("#tagging");
+				obj.finish();
+				if (obj.data("opening") !== true) {
+					if (field !== null) {
+						$(field).fadeIn($conf.js_fx ? cfg.fx_d : 0).siblings().hide();
+					} else {
+						obj.children("div").fadeIn($conf.js_fx ? cfg.fx_d : 0);
+					}
+					obj.data("opening", true);
+					obj.slideDown($conf.js_fx ? cfg.fx_d : 0, function() {
+						obj.scroll_to({"fx_d" : $conf.js_fx ? cfg.fx_d : 0, "spacing" : $("#tags").outerHeight() + 16});
+						obj.removeData("opening");
+					});
+				}
+			}
+			function close_field(field) {
+				var field = field || null, obj = $("#tagging");
+				if (field !== null) {
+					$(field).fadeOut($conf.js_fx ? cfg.fx_d : 0);
+					if (obj.children(":visible").length == 1) {
+						obj.slideUp($conf.js_fx ? cfg.fx_d : 0);
+					}
+				} else {
+					obj.children("div").fadeOut($conf.js_fx ? cfg.fx_d : 0);
+					obj.slideUp($conf.js_fx ? cfg.fx_d : 0);
+				}
+			}
+			function update_tag(id) {
+				self.update(id);
+			}
+			function add_tag(source, target) {
+				var str = $(source).val().trim();
+				if (str !== "") {
+					// check if tag already exists
+					$(target).children("dd").each(function() {
+						if ($(this).children().text() == str) {
+							$(source).set_validation(false, $msg.tag_dup);
+						}
+					});
+					// continue if no error is found
+					if ($(source).attr("data-invalid") !== "true") {
+						if ($(target).children("dd").length - 2 >= cfg.tag_max) {
+							// show floating string if maximum of tag allowed is reached
+							var f_str = $("<div>")
+							.css({
+								"position" : "absolute",
+								"display" : "inline-block",
+								"top" : $(source).offset().top - $(source).outerHeight(false),
+								"left" : $(source).offset().left,
+								"padding" : ".5rem",
+								"font-size" : "1.5em",
+								"font-weight" : "bold",
+								"color" : "#c33",
+								"z-index" : "100"
+							})
+							.html($msg.tag_max);
+							$("body").append(f_str);
+							f_str.animate({
+								"top" : $(source).offset().top / 1.5,
+								"opacity" : "0"
+							}, cfg.fx_d * 6);
+							if ($("#tag_new").is(":visible")) {
+								$("#tag_new").hide()
+							}
+						}
+						// add tag to tags list 
+						$(target).find("#tag_new").parent("dd").before("<dd data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
+						$(target).foundation("alert");
+						$(source).val("");
+						// reset autocomplete
+						$(source).nextAll(".autocomplete").first().find("ul > li").addClass("hide");
+						$(source).set_validation(null); // reset validation
+						// close tagging
+						$("#tag_new").removeClass("active");
+						$("#tag_new").focus(); // focus tag_new
+						close_field();
+					}
+				} else {
+					$(source).set_validation(null); // reset validation if input empty
+				}
+			}
+			// events
+			$("#rubric_tag, #category_tag, #tag_new").bind({
+				mouseenter : function() {$(this).data("hover", true)},
+				mouseleave : function() {$(this).removeData("hover")},
+				click : function() {
+					if (!$(this).hasClass("disabled")) {
+						var sel = "#" + $(this).attr("id").cut(-4);
+						$(this).toggleClass("active");
+						$(this).parent("dd").siblings().find("a").removeClass("active");
+						$(this).hasClass("active") ? open_field(sel + "_field") : close_field(sel + "_field");
+						$(sel).focus();
+					}
+				}
+			});
+			$(".tags").on("click", "dd .label .close", function() { // live
+				var obj = $(this).parent(".label").parent("dd");
+				obj.fadeOut($conf.js_fx ? cfg.fx_d : 0, function() {
+					obj.remove(); // remove tag
+					if ($("#tag_new").is(":hidden")) {
+						$("#tag_new").show();
+					}
+				});
+			});
+			$("#rubric, #category").bind({
+				blur : function() {
+					var id = $(this).attr("id"), sel = "#" + id;
+					update_tag(id);
+					if ($(sel + " li").hasClass("selected")) {
+						if ($(sel + "_tag").data("hover") !== true) {
+							$(sel + "_tag").removeClass("active");
+							close_field(sel + "_field");
+						}
+					}
+				},
+				click : function() {update_tag($(this).attr("id"))},
+				keyup : function(e) {
+					if (e.which == 13 || e.which >= 33 && e.which <= 36 || e.which == 38 || e.which == 40) { // Enter, PageUp, PageDown, End, Home or Up or Down
+						update_tag($(this).attr("id"));
+					}
+				}
+			});
+			$("label[for='rubric'], label[for='category']").on("click", function() {
+				$("#" + $(this).attr("for")).force_focus();
+			});
+			$("#tag").bind({
+				blur : function() {
+					if ($(this).val().length == 0 && $("#tag_new").data("hover") !== true) {
+						$("#tag_new").removeClass("active");
+						close_field();
+					}
+				},
+				focus : function() {
+					$(this).set_validation(null); // reset validation
+				},
+				keyup : function(e) {
+					if (e.which == 13) { // Enter
+						$("#tag_add").click(); // force click on add tag button
+					} else if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
+						var self = $(this), str = $(this).val();
+						if (str.length >= cfg.tag_reflow) {
+							str = str.trunc(cfg.tag_reflow);
+							if ($(this).data("q") !== str) {
+								$(this).data("q", str);
+								$(".autocomplete ul li").remove();
+								$.getJSON("/rest/tags?criteria=" + str, function(json) {
+									var q = "";
+									$.each(json, function(i, obj) {
+										q += tb(11) + "<li data-value='"+ obj.id +"' class='hide'>" + obj.tag + "</li>" + lb(1);
+									});
+									$(".autocomplete ul").append(q); // reflow tags autocomplete
+									$(function() {
+										e = $.Event("keyup");
+										e.which = 48; // 0
+										$("#tag").trigger(e); // force keyup 0 (i.e. show autocomplete after AJAX request)
+									});
+								});
+							}
+						}
+					}
+				}
+			});
+			$("#tag_add").on("click", function() {
+				add_tag("#tag", ".tags"); // add tag
+			});
+			$("#tag").nextAll(".autocomplete").first().on("mousedown", "ul > li", function() {
+				add_tag("#tag", ".tags"); // add tag
+			});
+		}
+	}
+}());
 
 var share = (function() {
 	return {
@@ -16,7 +260,7 @@ var share = (function() {
 				"linkedin" : false
 			};
 			var settings = $.extend({}, defaults, options);
-			// methods
+			// functions
 			function update_tooltips(obj) {
 				if (obj.hasClass("active")) {
 					obj.reload_tooltip("D&eacute;sactiver le partage " + obj.data("tooltip-postfix"));
@@ -82,38 +326,210 @@ var share = (function() {
 	}
 }());
 
-/* ------------------------------------------------------------------ */
-/* # Templating */
-/* ------------------------------------------------------------------ */
-
-var template = doT.compile(loadfile($loc.tmpl + "article-edit.tmpl"));
-// si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
-if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
-	$.ajax({
-		type: "GET",
-		url: "/rest" + window.location.pathname,
-		contentType: "application/json; charset=utf-8",
-		beforeSend: function(request) {
-			header_authentication(request);
-		},
-		success: function(data, status, jqxhr) {
-			processArticle(data);
-		},
-		error: function(jqXHR, status, errorThrown) {
-			ajax_error(jqXHR, status, errorThrown);
-			if (jqXHR.status == 404) {
-				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
-			} else {
-				createAlertBox();
+var validate = (function () {
+	return {
+		init : function(opts) {
+			var defs = {
+				"save_fx_d"     : 250,          // Integer   Save effects duration in milliseconds. Default : 250
+				"save_timeout"  : 1000,         // Integer   Time during which the application is frozen upon saving (milliseconds). Default : 1000
+				"kbd_chain_nav" : true          // Boolean   Enable keyboard chained navigation (i.e. switch to next input on key press Enter). Default : true
+			};
+			var cfg = $.extend({}, defs, opts);
+			// vars
+			var t_summary = 0; // internal
+			// functions
+			function checkTitle() {
+				checkTitleAJAX();
+				var str = $("#title").val().trim();
+				$("#title").val(str);
+				if (str.length == 0) {
+					$("#title").set_validation(false, "Le titre de l&rsquo;article doit obligatoirement &ecirc;tre renseign&eacute;.");
+				} else {
+					$("#title").data("last_value", str);
+					$("#title").set_validation(true);
+				}
 			}
-		},
-		dataType: "json"
-	});
-}
-// sinon c'est une création d'article
-else {
-	processArticle(new Article("", "", "", null, null, []));
-}
+			function checkSummary() {
+				var str = $("#summary").val().trim();
+				$("#summary").val(str);
+				if (str.length == 0) {
+					$("#summary").set_validation(false, "Le r&eacute;sum&eacute; doit n&eacute;cessairement &ecirc;tre saisi.");
+				} else {
+					$("#summary").set_validation(true);
+				}
+			}
+			function checkRubric() {
+				if ($("#rubric_tag").hasClass("undefined")) {
+					if ($("#tagging").is(":hidden")) { $("#tagging").show() }
+					if ($("#rubric_field").is(":hidden")) { $("#rubric_field").show() }
+					$("#rubric").addClass("active");
+					$("#rubric_tag").set_validation(false);
+					$("#rubric").set_validation(false, "Une rubrique doit imp&eacute;rativement &ecirc;tre choisie.");
+				} else {
+					$("#rubric").set_validation(true);
+				}
+			}
+			function checkCategory() {
+				if ($("#category_tag").hasClass("undefined")) {
+					if ($("#tagging").is(":hidden")) { $("#tagging").show() }
+					if ($("#category_field").is(":hidden")) { $("#category_field").show() }
+					$("#category").addClass("active");
+					$("#category_tag").set_validation(false);
+					$("#category").set_validation(false, "Une cat&eacute;gorie doit imp&eacute;rativement &ecirc;tre choisie.");
+				} else {
+					$("#category").set_validation(true);
+				}
+			}
+			function checkBody() {
+				if ($("#editor").text().length == 0 || $("#editor").children().hasClass("placeholder")) {
+					$("#editor").set_validation(false, "La saisie du corps de l&rsquo;article est indispensable.");
+				} else {
+					$("#editor").set_validation(true);
+				}
+			}
+			// events
+			$("#title").bind({
+				focus: function() {
+					$(this).set_validation(true);
+				},
+				blur : function() {
+					//checkTitleAJAX();
+					checkTitle();
+				},
+				keydown : function(e) {
+					if (e.which == 27) { // Escape
+						$(this).val($(this).data("last_value")); // recall last value
+					}
+				},
+				keypress : function(e) {
+					if (e.which == 13) { // Enter
+						checkTitle();
+						if (cfg.kbd_chain_nav) {
+							$("#summary").focus(); // keyboard chained navigation
+						}
+					}
+				}
+			});
+			$("#summary").bind({
+				focus : function() {
+					clearTimeout(t_summary);
+					$(this).set_validation(true);
+				},
+				blur : function() {
+					t_summary = setTimeout(function() {
+						checkSummary();
+					}, 250);
+				},
+				keydown : function(e) {
+					if (e.ctrlKey && e.which == 13 && cfg.kbd_chain_nav) { // Ctrl + Enter
+						$("#rubric_tag").click(); // keyboard chained navigation
+					}
+				}
+			});
+			$("#rubric").bind({
+				focus : function() {
+					$(this).set_validation(true);
+				},
+				blur : function() {
+					checkRubric();
+				},
+				keydown : function(e) {
+					if (e.which == 13 && cfg.kbd_chain_nav) { // Enter
+						$("#category_tag").click(); // keyboard chained navigation
+					}
+				}
+			});
+			$("#category").bind({
+				focus : function() {
+					$(this).set_validation(true);
+				},
+				blur : function() {
+					checkCategory();
+				},
+				keydown : function(e) {
+					if (e.which == 13 && cfg.kbd_chain_nav) { // Enter
+						$("#tag_new").click(); // keyboard chained navigation
+					}
+				}
+			});
+			$("#editor").bind({
+				focus : function() {
+					$(this).set_validation(true);
+				},
+				blur : function() {
+					checkBody();
+				}
+			});
+			$("#save").click(function() {
+				if ($(this).data("saving") !== true) {
+					$(this).data("saving", true);
+					// append screen blocker during validation
+					var f_scr = $("<div>")
+					.css({
+						"position" : "fixed",
+						"display" : "block",
+						"top" : "0",
+						"left" : "0",
+						"height" : "100%",
+						"width" : "100%",
+						"color" : "white",
+						"font-size" : "2em",
+						"font-weight" : "bold",
+						"line-height" : ($(window).height() / 2) + "px",
+						"text-align" : "center",
+						"text-shadow" : "1px 1px 1px black",
+						"background-color" : "black",
+						"opacity" : "0",
+						"z-index" : "1000"
+					})
+					.html($msg.checking);
+					var f_bar = $("<div>")
+					.css({
+						"position" : "absolute",
+						"display" : "inline-block",
+						"top" : ($(window).height() / 2) - ($(window).height() / 16 ) + "px",
+						"left" : "12.5%",
+						"width" : "75%",
+						"height" : "6.25%",
+						"border" : "2px solid white",
+						"transition" : "border-left-width .25s"
+					});
+					$("body").append(f_scr);
+					f_scr.append(f_bar);
+					f_scr.animate({"opacity" : ".5"}, cfg.save_fx_d);
+					var step = (cfg.save_timeout - (cfg.save_fx_d)) / (cfg.save_fx_d);
+					var f_bar_w = parseFloat(f_bar.css("width"));
+					var f_bar_s = f_bar_w / step;
+					var f_scr_timer = setInterval(function() {
+						var border_w = parseFloat(f_bar.css("border-left-width"));
+						f_bar.css("border-left-width", (border_w + f_bar_s) + "px")
+					}, (cfg.save_fx_d));
+					// check validation for all inputs
+					setTimeout(function() {
+						checkTitle();
+						checkSummary();
+						checkRubric();
+						checkCategory();
+						checkBody();
+						// clear screen timer
+						$("#save").removeData("saving");
+						clearInterval(f_scr_timer);
+						f_scr.animate({"opacity" : "0"}, cfg.save_fx_d, function() {
+							f_scr.remove();
+						});
+						// create alert box
+						if ($("#title, #summary, #rubric_tag, #category_tag, #editor").hasClass("wrong")) {
+							createAlertBox($msg.form_invalid, "form_valid", {"timeout" : $time.duration.alert_long});
+						} else {
+							createAlertBox($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert_short});
+							sendArticle();
+						}
+					}, cfg.save_timeout);
+				}
+			});
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -155,97 +571,55 @@ function Tag(id,value) {
 	}
 }
 
-function isFormValid() {
-	var isTitleValid = !$("#title").attr("data-invalid");
-	var isRubricValid = !$("#rubric").attr("data-invalid");
-	var isCategoryValid = !$("#category").attr("data-invalid");
-	var isSummaryValid = !$("#summary").attr("data-invalid");
-	var isBodyValid = !$("#editor").attr("data-invalid");
-	return isTitleValid && isRubricValid && isCategoryValid && isSummaryValid && isBodyValid;
-}
-
 /* ------------------------------------------------------------------ */
 /* # DOM manipulation */
 /* ------------------------------------------------------------------ */
 
-/* processing de la page */
-
-// le path de la création/maj d'un article
-var pathPUT;
-// le path du check d'un article
-var pathTitle;
+var pathPUT; // le path de la création/maj d'un article
+var pathTitle; // le path du check d'un article
 
 function processArticle(article) {
 	// affiche le template en passant en param l'article
 	// la catégorie et la rubrique ne sont pas setté dans le template
-	// il faut attendre la récupération asynchrone des données 
-	$("main > header").after(template(article));
-	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau 
+	// il faut attendre la récupération asynchrone des données
+	$("main > header").after(file_pool.article_edit_tmpl(article)).after(lb(1));
+	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau
 	// et aux draft en update avec comme path /articles/{id}
-
 	//si il y a un id dans le path on est en update
 	if(/^\/articles\/[0-9]+/.test(window.location.pathname)) {
 		pathPUT = "/rest" + window.location.pathname;
 		pathTitle = "/rest/articles/check/title?id=" + article.id; 
 		set_page_title(article.title);
-	} else { //sinon en création
+	}
+	//sinon en création
+	else {
 		pathPUT = "/rest/articles/create";
 		pathTitle = "/rest/articles/check/title";
 		set_page_title($nav.article_add.title);
 	}
-
-	$.getJSON("/rest/categories", function(json) {
-		processCategory(json, article);
-	 });
-
+	// get rubrics and categories through AJAX
 	$.getJSON("/rest/rubriques", function(json) {
 		processRubric(json, article);
 	});
-	
-	$.getJSON("/rest/tags?criteria=", function(json) {
-		processSuggestTags(json);
-		$("#tag").autocomplete(); // TEMP DEBUG : apply autocomplete plugin to #tag input
-	});
-
-	// Initialize inline CKEditor with custom config
+	$.getJSON("/rest/categories", function(json) {
+		processCategory(json, article);
+	 });
+	// initialize inline CKEditor with custom config
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
 		customConfig : $loc.js + "conf-cke.js",
-		extraAllowedContent : {"span" : {classes : "placeholder"}},
-		contentsCss : $loc.css + "loap-main.css"
+		contentsCss : $loc.css + "loap-main.css",
+		extraAllowedContent : {"span" : {classes : "placeholder"}}
 	});
-
-	// bind events après le chargement du template par dot.js
-	$("#rubric").bind({
-		blur : function() {
-			update_rubric();
-			// update validation
-			$("#rubric").set_validation($("#rubric li.selected").text().length !== 0);
-		},
-		click : function() {update_rubric()},
-		keyup : function() {update_rubric()}
-	});
-	$("#category").bind({
-		blur : function() {
-			update_category();
-			// update validation
-			$("#category").set_validation($("#category li.selected").text().length !== 0);
-		},
-		click : function() {update_category()},
-		keyup : function() {update_category()}
-	});
-
-	// recharge foundation pour les tags ajoutés directement par le template
-	if (article.tags.length > 0) {
-		$("#tags").foundation("alert");
-	}
-
-	// initialize plugins
-	$("textarea").autosize({append: ""}); // TEMP DEBUG : apply autosize after AJAX request
-	$("textarea").add_confirmation_bar(); // TEMP DEBUG : apply add_confirmation_bar plugin to all textarea of the page after AJAX request
-	$(".options-select").options_select(); // TEMP DEBUG : apply options_select plugin to all .options-select of the page after AJAX request
-	$("section").svg_icons(); // TEMP DEBUG : reload svg icons for whole section
-	//share.init(); // TEMP DEBUG : set share links * UNUSED for NOW
+	// initialize plugins and components
+	$("section textarea").autosize({append: ""}); // apply autosize after AJAX request for whole section
+	$("section textarea").add_confirmation_bar(); // apply add_confirmation_bar plugin to all textarea of the page after AJAX request for whole section
+	$("section .options-select").options_select(); // apply options_select plugin to all .options-select of the page after AJAX request for whole section
+	$("section").svg_icons(); // reload svg icons after AJAX request for whole section
+	$("#tag").autocomplete(); // apply autocomplete plugin to #tag input
+	tags.init(); // initialize tags component
+	//share.init(); // UNUSED (for now) : initialize share component
+	validate.init(); // initialize validate component
 }
 
 function processRubric(json, article) {
@@ -260,7 +634,7 @@ function processRubric(json, article) {
 		$("#rubric ul").append(li);
 	});
 	$("#rubric").svg_icons(); // set svg icons for all icons contained by rubric
-	update_rubric()
+	tags.update("rubric");
 }
 
 function processCategory(json, article) {
@@ -274,173 +648,67 @@ function processCategory(json, article) {
 		var li = "<li class='" + cls + "' data-value='"+ obj.id +"'>" + obj.category + "</li>";
 		$("#category ul").append(li);
 	});
-	update_category()
-}
-
-function processSuggestTags(json){
-	$.each(json, function(i, obj) {
-		var li = "<li data-value='"+ obj.id +"'>" + obj.tag + "</li>";
-		$(".autocomplete ul").append(li);
-	});
-}
-
-/* maj de la combo rubrique */
-function update_rubric() {
-	if ($("#rubric .select").children().size() == 0) {
-		// update text
-		$("#tag_rubric").html($("#rubric .select").text());
-		// update color
-		$("#tag_rubric").removeClass();
-		$("form").removeClass(); // WARNING : using 'form' as topmost parent element
-		if ($("#rubric .selected").attr("data-color")) {
-			$("#tag_rubric").addClass("label radius " + $("#rubric .selected").attr("data-color"));
-			$("form").addClass("article edit " + $("#rubric .selected").attr("data-color")); // WARNING : using 'form' as topmost parent element
-		} else {
-			$("#tag_rubric").addClass("label radius secondary");
-			$("form").addClass("article edit"); // WARNING : using 'form' as topmost parent element
-		}
-		// update visibility
-		if ($("#tag_rubric").parent("dd").hasClass("hide")) {
-			$("#tag_rubric").parent("dd").removeClass("hide")
-		}
-		if ($("#tags").css("display") == "none") {
-			$conf.js_fx ? $("#tags").fadeIn(500) : $("#tags").show();
-		}
-	}
-}
-
-/* maj de la combo catégorie */
-function update_category() {
-	if ($("#category .select").children().size() == 0) {
-		// update text
-		$("#tag_category").html($("#category .select").text());
-		// update visibility
-		if ($("#tag_category").parent("dd").hasClass("hide")) {
-			$("#tag_category").parent("dd").removeClass("hide")
-		}
-		if ($("#tags").css("display") == "none") {
-			$conf.js_fx ? $("#tags").fadeIn(500) : $("#tags").show();
-		}
-	}
-}
-
-/* Add New Tags */
-function add_tag(source, target) {
-	var str = $(source).val();
-	if (str !== "") {
-		// check if maxium of tags allowed is reached
-		if ($(target).children("dd").length >= tag_max) {
-			$(source).css("margin-bottom", "0");
-			$(source).set_validation(false, $msg.tag_max);
-		} else {
-			// check if tag already exists in tags list
-			$(target).children("dd").each(function() {
-				if ($(this).children().text() == str) {
-					$(source).css("margin-bottom", "0");
-					$(source).set_validation(false, $msg.tag_dup);
-				}
-			});
-		}
-		// add tag to tags list if no error found
-		if ($(source).attr("data-invalid") !== "true") {
-			$(target).append("<dd data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
-			$(target).foundation("alert");
-			$(source).val("");
-			$(source).css("margin-bottom", "");
-			$(source).set_validation(true);
-			$(source).removeClass("valid");
-		}
-	} else {
-		$(source).css("margin-bottom", "");
-		$(source).set_validation(true);
-		$(source).removeClass("valid");
-	}
-}
-
-/* Display indexation panel (i.e. tags editing) */
-function toggle_tags() {
-	$(".tags").blur();
-	if ($(".tags").data("preventClick") !== "true" && $(".tags").data("preventToggle") !== "true") {
-		$(".tags").toggleClass("active");
-		if ($("#indexing").is(":visible")) {
-			$conf.js_fx ? $("#indexing").slideUp(250) : $("#indexing").hide();
-		} else {
-			$(".tags").data("preventToggle", "true");
-			if ($conf.js_fx) {
-				$("#indexing").slideDown(250, function() {
-					scrollTo($("#indexing"), 250, $("#tags").outerHeight() + 16);
-					$(".tags").removeData("preventToggle");
-				});
-			} else {
-				$("#indexing").show();
-				scrollTo($("#indexing"), 0, $("#tags").outerHeight() + 16);
-				$(".tags").removeData("preventToggle");
-			}
-		}
-	}
+	tags.update("category");
 }
 
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
-// créer ou ajout un article
+// créer ou ajouter un article
 function sendArticle() {
-	// Edition
+	// set article's topic
 	var title = $("#title").val();
 	var description = $("#summary").val();
 	var body = $("#editor").html();
-
-	// Categories
+	// set category
 	var idCategory = $("#category li.selected").attr("data-value");
 	var valueCategory = $("#category li.selected").text();
 	var category = new Category(idCategory, valueCategory);
-
-	// Rubriques
+	// set rubric
 	var idRubrique = $("#rubric li.selected").attr("data-value");
 	var valueRubrique = $("#rubric li.selected").text();
 	var rubrique = new Rubrique(idRubrique, valueRubrique);
-
-	// Tags
+	// set tags
 	var tags = [];
 	$("[data-tag] span").each(function() {
 		tags.push(new Tag($(this).attr("data-id"), $(this).text()));
 	});
-
+	// set article's data
 	var data = new Article(title, body, description, category, rubrique, tags);
-
+	// send AJAX request
 	 $.ajax({
-		 type: "PUT",
-		 url: pathPUT,
-		 contentType: "application/json; charset=utf-8",
-		 data : JSON.stringify(data),
-		 beforeSend: function(request) {
-				header_authentication(request);
-		 },
-		 success: function(jqXHR, status, errorThrown) {
-			 window.location.href = $nav.article_list.url;
-		 },
-		 error: function(jqXHR, status, errorThrown) {
-			 ajax_error(jqXHR, status, errorThrown);
-				if (jqXHR.status == 403) {
-					checkTitleAJAX();
-				}else if (jqXHR.status == 404) {
-					createAlertBox($msg.article_deleted, null, {"class" : null});
-				} else {
-					createAlertBox();
-				}
-		 },
-		 dataType: "json"
-		 });
+		type: "PUT",
+		url: pathPUT,
+		contentType: "application/json; charset=utf-8",
+		data : JSON.stringify(data),
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success: function(jqXHR, status, errorThrown) {
+			window.location.href = $nav.article_list.url;
+		},
+		error: function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 403) {
+				checkTitleAJAX();
+			} else if (jqXHR.status == 404) {
+				createAlertBox($msg.article_deleted, null, {"class" : null, "timeout" : $time.duration.alert});
+			} else {
+				createAlertBox();
+			}
+		},
+		dataType: "json"
+		});
 	return true;
-};
+}
 
 function checkTitleAJAX() {
 	if (typeof titleTimeoutValid !== "undefined") {
 		clearTimeout(titleTimeoutValid);
 	}
 	var selector = $("#title");
-	selector.set_validation(null);
+	selector.set_validation();
 	var title = selector.val();
 	$.ajax({
 		type : "POST",
@@ -459,11 +727,7 @@ function checkTitleAJAX() {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 403) {
 				pseudoTimeoutValid = setTimeout(function() {
-					if ($("#title").val().length == 0) {
-						selector.set_validation(false, "La saisie du titre est obligatoire");
-					} else {
-						selector.set_validation(false, "Ce titre est d&eacute;j&agrave; pris");
-					}
+					selector.set_validation(false, "Ce titre est d&eacute;j&agrave; pris");
 				}, 500);
 			}
 		},
@@ -471,127 +735,8 @@ function checkTitleAJAX() {
 	});
 }
 
-function checkRubric() {
-	if ($("#rubric li.selected").text().length == 0) {
-		$("#rubric").set_validation(false);
-		if (!$("#indexing").is(":visible")) {
-			toggle_tags();
-		}
-	} else {
-		$("#rubric").set_validation(true);
-	}
-}
-
-function checkCategory() {
-	if ($("#category li.selected").text().length == 0) {
-		$("#category").set_validation(false);
-		if (!$("#indexing").is(":visible")) {
-			toggle_tags();
-		}
-	} else {
-		$("#category").set_validation(true);
-	}
-}
-
-function checkSummary() {
-	if ($("#summary").val().length == 0) {
-		$("#summary").set_validation(false);
-	} else {
-		$("#summary").set_validation(true);
-	}
-}
-
-function checkBody() {
-	if ($("#editor").text().length == 0 || $("#editor").children().hasClass("placeholder")) {
-		$("#editor").set_validation(false);
-	} else {
-		$("#editor").set_validation(true);
-	}
-}
-
 /* ------------------------------------------------------------------ */
-/* # Persistent events */
+/* # Live events */
 /* ------------------------------------------------------------------ */
 
-// Save button form check validation
-$("html").on("click", "#saveButton", function() {
-	checkTitleAJAX();
-	checkRubric();
-	checkCategory();
-	checkBody();
-	checkSummary();
-	if (isFormValid()) {
-		sendArticle();
-	}
-});
-// Title validation
-$("html").on("blur", "#title", function() {
-	checkTitleAJAX();
-});
-$("html").on("keypress", "#title", function(event) {
-	if (event.which == 13) { // Enter
-		checkTitleAJAX();
-		$("#summary").focus();
-	}
-});
-// Summary check validation
-var t_summary = 0;
-$("html").on("focus", "#summary", function() {
-	clearTimeout(t_summary);
-	$("#summary").set_validation(true);
-});
-$("html").on("blur", "#summary", function() {
-	t_summary = setTimeout(function() {
-		checkSummary();
-	}, 250);
-});
-$("html").on("keydown", "#summary", function(event) {
-	if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
-	toggle_tags();
-	$("#rubric").focus();
-	}
-});
-// Body validation
-$("html").on("blur", "#editor", function() {
-	checkBody();
-});
-// Tag new
-$("html").on("focus", "#tag", function() {
-	$(this).val(""); // erase
-	$(this).css("margin-bottom", "");
-	$(this).set_validation(true);
-});
-$("html").on("keydown", "#tag", function(event) {
-	if (event.which == 13) { // Enter
-		add_tag("#tag", "#tags");
-	}
-});
-$("html").on("click", "#tag_add", function() {
-	add_tag("#tag", "#tags");
-});
-// Tags list prevent click from child element
-$("html").on("mouseenter", ".tags dd", function() {
-	$(".tags").data("preventClick", "true");
-});
-$("html").on("mouseleave", ".tags dd", function() {
-	$(".tags").removeData("preventClick");
-});
-// Tags remove
-$("html").on("click", ".tags dd .label .close", function() {
-	var obj = $(this).parent(".label").parent("dd");
-	obj.fadeOut($conf.js_fx ? 500 : 0, function() {
-		obj.remove();
-	});
-});
-// Tags list toggle indexation display
-$("html").on("click", ".tags", function() {
-	toggle_tags();
-});
-$("html").on("keypress", ".tags", function(e) {
-	if (e.which === 13) { // Enter
-		toggle_tags();
-	}
-});
-// Options Select Labels
-$("html").on("click", "label[for='rubric']", function() {force_focus("#" + $(this).attr("for"))});
-$("html").on("click", "label[for='category']", function() {force_focus("#" + $(this).attr("for"))});
+// jQuery events go here

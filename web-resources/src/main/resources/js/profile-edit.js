@@ -1,21 +1,28 @@
 /* ------------------------------------------------------------------ */
-/* # Pre Processing */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.profile_edit.title);
-
-/* ------------------------------------------------------------------ */
-/* # Public vars */
-/* ------------------------------------------------------------------ */
+var loax_pool = {
+	"profile_edit_tpml" : $loc.tmpl + "profile-edit.tmpl"
+}
 
 var username_max_chars = 24;
 var role_display_screen_width = 1023; // WARNING : Should be the same as CSS file for this to work properly
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Module */
 /* ------------------------------------------------------------------ */
 
-var profile_template = doT.compile(loadfile($loc.tmpl + "profile-edit.tmpl")); // create template
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.profile_edit.title);
+			/* Process */
+			getProfile(); // process page template feeded with DB values through AJAX
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -75,10 +82,6 @@ function processSocialLinks(socialLinks) {
 	}
 }
 
-/* ------------------------------------------------------------------ */
-/* # DOM manipulation */
-/* ------------------------------------------------------------------ */
-
 function majView(couple, updateInError) {
 	// en cas d'erreur, rollback les données à l'écran
 	if (updateInError) {
@@ -131,7 +134,7 @@ function checkPseudoAJAX(couple) {
 		clearTimeout(pseudoTimeoutValid);
 	}
 	var selector = $("#pseudo");
-	selector.set_validation(null);
+	selector.set_validation();
 	var pseudo = selector.val();
 	var profileId = window.localStorage.getItem($auth.profile_id);
 	$.ajax({
@@ -188,11 +191,11 @@ function getProfile() {
 			url : "/rest/profile/" + profileId,
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
-				$("main > header").after(profile_template(profile)); // process template
+				$("main > header").after(file_pool.profile_edit_tpml(profile)).after(lb(1)); // process template
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
-				$("textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas
-				$("textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas
+				$("section textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas for whole section
+				$("section textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas for whole section
 				create_icons_input(user_links_icons_input); // process icons input for user links
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
@@ -203,7 +206,7 @@ function getProfile() {
 			},
 			dataType : "json"
 		});
-	}else{
+	} else {
 		createAlertBox();
 	}
 };
@@ -228,62 +231,10 @@ function save(couple) {
 			},
 			dataType : "json"
 		});
-	}else{
+	} else {
 		createAlertBox();
 	}
 }
-
-/* ------------------------------------------------------------------ */
-/* # Persistent Events */
-/* ------------------------------------------------------------------ */
-
-/* User Name */
-$("html").on("focus", "#pseudo", function(event) {
-	memoryCouple = new Couple(pseudoProperty,$(this).val());
-});
-$("html").on("keypress","#pseudo", function(event) {
-	if (event.which == 13) { // Enter
-		$(this).blur();
-	}
-});
-$("html").on("keydown", "#pseudo", function(event) {
-	if (event.which == 27) { // Escape
-		$(this).val(memoryCouple.value); // recall last value on cancel
-		$(this).blur();
-	}
-});
-$("html").on("blur", "#pseudo", function(event) {
-	if ($(this).val().length > username_max_chars) {
-		$(this).set_validation(false, "Le nom d&rsquo;utilisatrice est trop long&nbsp;!");
-		$(this).css("margin-bottom", "0");
-	} else {
-		var couple = new Couple(pseudoProperty,$("#pseudo").val());
-		modifiyCouple(couple);
-	}
-});
-
-/* User Description */
-$("html").on("focus", "#description", function(event) {
-	memoryCouple = new Couple(descriptionProperty, $("#description").val());
-});
-$("html").on("blur", "#description", function(event) {
-	var couple = new Couple(descriptionProperty, $(this).val());
-	modifiyCouple(couple);
-});
-
-/* User Links */
-$("html").on("focus", "#user-link input", function() {
-	memoryCouple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
-});
-$("html").on("blur", "#user-link input", function() {
-	var couple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
-	modifiyCouple(couple);
-});
-$("html").on("keypress", "#user-link input", function(event) {
-	if (event.which == 13) { // Enter
-		$(this).blur();
-	}
-});
 
 /* ------------------------------------------------------------------ */
 /* # Create Icons Input */
@@ -303,7 +254,7 @@ function create_icons_input(options) {
 	var input_container_margin_bottom = parseInt($(options.input_container).find("input").css("margin-bottom"));
 	var icons_container_margin_bottom = parseInt($(options.icons_container).css("margin-bottom"));
 	var is_icon_hover = false;
-	// methods
+	// functions
 	function show_input_container() {
 		var obj = $(options.input_container + " input");
 		var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
@@ -317,7 +268,7 @@ function create_icons_input(options) {
 				$(options.input_container).css("box-shadow", "0 0 .25rem rgba(0, 0, 0, .5)");
 			});
 			obj.val(url);
-			obj.selectText(0, obj.val().length);
+			obj.select_text(0, obj.val().length);
 			$(options.input_container).css("width", "100%");
 			// set input prefix visibility
 			if (!url_prefix) {
@@ -486,7 +437,7 @@ function processAvatar(options) {
 	var settings = $.extend({}, defaults, options);
 	var o_progress = $(settings.selector).nextAll(".progress").first(); // internal
 	var t_progress = 0; // internal
-	// methods
+	// functions
 	function show_progress_bar() {
 		clearTimeout(t_progress);
 		o_progress.removeClass("secondary warning alert success");
@@ -519,7 +470,6 @@ function processAvatar(options) {
 				var avatar = JSON.parse(this.response);
 				save(new Couple(avatarProperty, avatar.id));
 			} else {
-				// console.log("HTTP error = " + this.status)
 				createAlertBox();
 			}
 		}
@@ -531,7 +481,7 @@ function processAvatar(options) {
 			var file = files[i];
 			// check file type
 			if (!file.type.match("image.*")) {
-				createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", null, {"class" : "warning"});
+				createAlertBox("Votre image doit &ecirc;tre au format JPG, PNG ou GIF", null, {"class" : "warning", "timeout" : $time.duration.alert});
 				continue;
 			}
 			// max 200 KB
@@ -563,7 +513,7 @@ function processAvatar(options) {
 				};
 				reader.readAsBinaryString(file);
 			} else {
-				createAlertBox("Votre image ne doit pas d&eacute;passer " + (settings.max_file_size / 1024) + " Ko", null, {"class" : "warning"});
+				createAlertBox("Votre image ne doit pas d&eacute;passer " + (settings.max_file_size / 1024) + " Ko", null, {"class" : "warning", "timeout" : $time.duration.alert});
 			}
 		}
 	}
@@ -621,10 +571,57 @@ function processAvatar(options) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Initialization */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-// Page Load
-$(document).ready(function() {
-	getProfile(); // process page template feeded with DB values through AJAX
+/* User Name */
+$("html").on("focus", "#pseudo", function(event) {
+	memoryCouple = new Couple(pseudoProperty, $(this).val());
+});
+$("html").on("keypress","#pseudo", function(event) {
+	if (event.which == 13) { // Enter
+		$(this).blur();
+	}
+});
+$("html").on("keydown", "#pseudo", function(event) {
+	if (event.which == 27) { // Escape
+		$(this).val(memoryCouple.value); // recall last value on cancel
+		$(this).blur();
+	}
+});
+$("html").on("blur", "#pseudo", function(event) {
+	var str = $(this).val().trim();
+	$(this).val(str);
+	if (str.length > username_max_chars) {
+		$(this).set_validation(false, "Le nom d&rsquo;utilisatrice est trop long&nbsp;!");
+		$(this).css("margin-bottom", "0");
+	} else {
+		var couple = new Couple(pseudoProperty, str);
+		modifiyCouple(couple);
+	}
+});
+
+/* User Description */
+$("html").on("focus", "#description", function(event) {
+	memoryCouple = new Couple(descriptionProperty, $("#description").val());
+});
+$("html").on("blur", "#description", function(event) {
+	var str = $(this).val().trim();
+	$(this).val(str);
+	var couple = new Couple(descriptionProperty, str);
+	modifiyCouple(couple);
+});
+
+/* User Links */
+$("html").on("focus", "#user-link input", function() {
+	memoryCouple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
+});
+$("html").on("blur", "#user-link input", function() {
+	var couple = new Couple(user_links[$("#user_links_icons .active").attr("data-id")], $(this).val());
+	modifiyCouple(couple);
+});
+$("html").on("keypress", "#user-link input", function(event) {
+	if (event.which == 13) { // Enter
+		$(this).blur();
+	}
 });

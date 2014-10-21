@@ -23,6 +23,7 @@
 .css-fx input[type="tel"],
 .css-fx input[type="time"],
 .css-fx input[type="url"],
+.css-fx input[type="color"],
 .css-fx textarea {
   -webkit-transition: -webkit-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
      -moz-transition:     moz-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
@@ -44,6 +45,7 @@
 .css-fx input[type="tel"]:focus,
 .css-fx input[type="time"]:focus,
 .css-fx input[type="url"]:focus,
+.css-fx input[type="color"]:focus,
 .css-fx textarea:focus {
   -webkit-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
      -moz-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
@@ -90,6 +92,16 @@
 .css-fx button.secondary:active, .css-fx .button.secondary:active,
 .css-fx button.secondary.active, .css-fx .button.secondary.active {
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, 0) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
+}
+
+/* Buttons Disabled */
+.css-fx button.disabled, .css-fx .button.disabled,
+.css-fx button[disabled], .css-fx .button[disabled],
+.css-fx button.disabled:hover, .css-fx .button.disabled:hover,
+.css-fx button[disabled]:hover, .css-fx .button[disabled]:hover,
+.css-fx button.disabled:focus, .css-fx .button.disabled:focus,
+.css-fx button[disabled]:focus, .css-fx .button[disabled]:focus {
+  box-shadow: none;
 }
 
 /* Keystrokes */

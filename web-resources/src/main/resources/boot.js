@@ -6,20 +6,20 @@
  */
 
 /* ------------------------------------------------------------------ */
-/* # Public methods */
+/* # Private variables */
 /* ------------------------------------------------------------------ */
 
-function isFileProtocol() {
+var isFileProtocol = (function() {
 	if (window.location.href.split("/")[0].slice(0,4) === "file") {
 		return true;
 	}
-}
+}());
 
-function isLocalHost() {
+var isLocalHost = (function() {
 	if (window.location.hostname === "localhost") {
 		return true;
 	}
-}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Public variables */
@@ -41,11 +41,11 @@ $org = {
 $app = {
 	"name"               : "Webzine féministe",                   // String   Application name.
 	"ver"                : "1.0.2",                               // String   Application version.
-	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev", "test" or "rtw" (release to web).
+	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
-	"root"               : isFileProtocol() ? "" : "/",           // String   Application base URL. Default : "/"
+	"root"               : isFileProtocol ? "" : "/",             // String   Application base URL. Default : "/"
 };
 
 /* Authentication */
@@ -56,9 +56,6 @@ $auth = {
 	"account_id"         : "oursesAccountId",                     // String   Local storage key of the user account id. Default : "oursesAccountId"
 	"profile_id"         : "oursesProfileId",                     // String   Local storage key of the user profile id. Default : "oursesProfileId"
 	"avatar_path"        : "oursesAvatarPath",                    // String   Local storage key of the avatar path. Default : "oursesAvatarPath"
-	"redir_param"        : "?redirection=",                       // String   Parameter added to the login page URL for the redirection. Default : "?redirection="
-	"role_admin"         : "admin",                               // String   Administrator user level access key. Default : "admin"
-	"role_redac"         : "writer"                               // String   Moderator user level access key. Default : "writer"
 };
 
 /* Build */
@@ -79,11 +76,13 @@ $conf = {
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
 	"js_fx"              : true,                                  // Boolean  Enable fading, sliding and scrolling effects through script (like jQuery.fx.off). Default : true
 	"page_title"         : true,                                  // Boolean  Display page title. If set to 'false' the organization name only will appear in the title bar. Default : true
-	"null_links"         : "javascript:void(0)"                   // String   Set the hypertext referer for null links. Default : "javascript:void(0)" * UNUSED (for now)
+	"redir_param"        : "?redirection=",                       // String   Parameter added to the login page URL for the redirection. Default : "?redirection="
+	"role_admin"         : "admin",                               // String   Administrator user level access key. Default : "admin"
+	"role_redac"         : "writer"                               // String   Moderator user level access key. Default : "writer"
 }
 
-/* Constants */
-$const = {
+/* Time */
+$time = {
 	"days" : [                                                    // Array    Define literals for days.
 		"lundi",                                                    // String   Set Monday literal.
 		"mardi",                                                    // String   Set Tuesday literal.
@@ -107,14 +106,15 @@ $const = {
 		"novembre",                                                 // String   Set November literal.
 		"décembre"                                                  // String   Set December literal.
 	],
-	/* --------------------
-	 * Email address syntax
-	 * --------------------
-	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
-	 * second-level domain = at least one defined, max two defined, no length restriction
-	 * top-level domain = must be defined, min one char, max four chars
-	 */
-	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i // Regexp
+	"duration" : {                                                // Object   Global durations.
+		"fx"          : 500,                                        // Integer  Effects duration in milliseconds. Default : 500
+		"alert"       : 2500,                                       // Integer  Alerts duration in milliseconds. Default : 2500
+		"check"       : 1000,                                       // Integer  Check duration in milliseconds. Default : 1000
+		get fx_short() {return this.fx / 2},                        // Function Return short effects duration. Default {return this.fx / 2}
+		get fx_long() {return this.fx * 2},                         // Function Return long effects duration. Default {return this.fx * 2}
+		get alert_short() {return this.alert / 2},                  // Function Return short alert duration. Default {return this.alert / 2}
+		get alert_long() {return this.alert * 2}                    // Function Return long alert duration. Default {return this.alert * 2}
+	}
 }
 
 /* Location */
@@ -145,26 +145,31 @@ $file = {
 /* Messages */
 $msg = {
 	"error"                 : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
+	"saving"                : "Enregistrement&hellip;",
+	"checking"              : "V&eacute;rification&hellip;",
 	"connected"             : "Vous avez &eacute;t&eacute; connect&eacute;e au serveur.", // <br>Un rafra&icirc;chissement de la page peut &ecirc;tre n&eacute;cessaire.
 	"disconnected"          : "Vous avez &eacute;t&eacute; d&eacute;connect&eacute;e du serveur.", // <br>Veillez &agrave; enregistrer toute modification en cours avant de rafra&icirc;chir la page.
 	"user_connected"        : "Vous &ecirc;tes maintenant connect&eacute;e.",
 	"user_disconnected"     : "Vous &ecirc;tes maintenant d&eacute;connect&eacute;e.",
 	"session_expired"       : "Votre session a expir&eacute; et vous avez &eacute;t&eacute; d&eacute;connect&eacute;e du serveur.",
 	"tag_dup"               : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
-	"tag_max"               : "Maximum de tags autoris&eacute;s atteint.",
+	"tag_max"               : "Maximum de tags&thinsp;!",
 	"char_illegal"          : "Caract&egrave;re invalide&thinsp;!",
+	"form_sent"             : "Le formulaire que vous avez soumis a bien &eacute;t&eacute; envoy&eacute;&thinsp;!",
+	"form_valid"            : "Le formulaire que vous avez soumis est correct et a &eacute;t&eacute; envoy&eacute;&thinsp;!",
 	"form_invalid"          : "Le formulaire que vous avez soumis est incorrect et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
 	"form_incomplete"       : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
 	"email_dup"             : "Le message a d&eacute;jà &eacute;t&eacute; envoy&eacute; à cette adresse.",
 	"email_sent"            : "Le message &eacute;lectronique a correctement &eacute;t&eacute; envoy&eacute;.",
 	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&thinsp;&hellip;",
 	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&thinsp;!",
-	"account_updated"       : "Compte mis à jour avec succ&egrave;&thinsp;!",
+	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
 	"account_deleted"       : "Compte supprim&eacute;&thinsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
 	"article_offcheck"      : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
 	"article_offline"       : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
-	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
+	"article_search_empty"  : "Aucun article ne correspond aux crit&egrave;res de recherche.",
+	"article_no_filter"     : "Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.",
 	"sumething_weird"       : "Un esp&egrave;ce de truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
 };
 
@@ -172,14 +177,14 @@ $msg = {
 $nav = {
 	"about"                 : {"url" : "/faq",               "title" : "FAQ"},
 	"account_list"          : {"url" : "/comptes",           "title" : "Lister les comptes"},
-	"account_add"           : {"url" : null,                 "title" : "Ajouter un compte"},
+	"account_create"        : {"url" : null,                 "title" : "Ajouter un compte"},
 	"account_edit"          : {"url" : "/parametres/compte", "title" : "Mon compte"},
 	"agenda"                : {"url" : null,                 "title" : "Agenda"},
 	"article_list"          : {"url" : "/articles",          "title" : "Tous les articles"},
 	"article_view"          : {"url" : null,                 "title" : null},
 	"article_add"           : {"url" : "/articles/nouveau",  "title" : "Écrire un article"},
 	"article_edit"          : {"url" : null,                 "title" : "Modifier un article"},
-	"bug_add"               : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
+	"bug_report"            : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
 	"contact"               : {"url" : null,                 "title" : "Nous contacter"},
 	"error"                 : {"url" : null,                 "title" : "Erreur"},
 	"home"                  : {"url" : "/",                  "title" : "Accueil"},
@@ -192,11 +197,47 @@ $nav = {
 	"thanks"                : {"url" : null,                 "title" : "Remerciements"}
 };
 
-/* Prefs */
+/* Preferences */
 $prefs = {
 	"app_conf"              : "oursesUserPrefsAppConf",           // String   Local storage key of the application configuration user preferences. Default : "oursesUserPrefsAppConf"
 	"articles_filters"      : "oursesUserPrefsFiltersArticles"    // String   Local storage key of the articles filters user preferences. Default : "oursesUserPrefsFiltersArticles"
 };
+
+/* Regular Expressions */
+$regx = {
+	/* -------------------------------------------------------------------
+	 * # Multiple parts template pattern
+	 * -------------------------------------------------------------------
+	 * expression used to delimitate multiple templates from one file
+	 * will return a compilation function appended to file_pool on launch
+	 * {{% template_name}}
+	 *   template_content
+	 * {{%}}
+	 * document.write(file_pool.template_name(data));
+	 */
+	"mptl" : /\t*\{\{%\s(\S+)\s?\}\}[\r|\n]?([\s\S]+?)[\r|\n]?\t*\{\{%\}\}/gim, // Regexp
+	/* -------------------------------------------------------------------
+	 * # Email address regular expression syntax
+	 * -------------------------------------------------------------------
+	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
+	 * second-level domain = at least one defined, max two defined, no length restriction
+	 * top-level domain = must be defined, min one char, max four chars
+	 */
+	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i, // Regexp
+	/* -------------------------------------------------------------------
+	 * # Tags accepted characters list
+	 * -------------------------------------------------------------------
+	 * below is the allowed chars pattern
+	 */
+	"tags" : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i // Regexp
+}
+
+/* REST */
+$rest = {
+	"authc"                 : "/rest/authc/connected",            // String   URL for REST service connected. Default : "/rest/authc/connected"
+	"admin"                 : "/rest/authz/isadmin",              // String   URL for REST service isadmin. Default : "/rest/authz/isadmin"
+	"redac"                 : "/rest/authz/isredac"               // String   URL for REST service isredac. Default : "/rest/authz/isredac"
+}
 
 /* ------------------------------------------------------------------ */
 /* # Prebuild processing */
@@ -204,7 +245,6 @@ $prefs = {
 
 /* Prebuild vars */
 var IE_conditional_comments = [
-	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>",
 	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
 ];
 var head_tags = [
@@ -224,13 +264,17 @@ var head_tags = [
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
 	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
-	{elem: "script", attr: {src: $loc.js + "conf-dot.js"}},
-	{elem: "!--[lt IE 9]", text: IE_conditional_comments[1] + lb() + tb(2) + "<![endif]-->"},
-	{elem: "!--[gt IE 9]", text: IE_conditional_comments[2] + lb() + tb(2) + "<![endif]-->"}
+	// -------------------------------------------------------------------
+	// NOTE : IE execute in-page script before external scripts ... so in-page customized dot settings are not allowed
+	// -------------------------------------------------------------------
+	// {elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
+	// -------------------------------------------------------------------
+	{elem: "script", attr: {src: $loc.js + "conf-dot.js"}}, // IE Fix
+	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
 var body_tags = [
 	{elem: "script", attr: {src: $loc.js + "loap.js"}},
-	{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js"}},
+	{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
 ];
 
 /* Prebuild methods */
@@ -278,13 +322,20 @@ function b_html(array) { // Build HTML Elements
 
 function load(script) { // Define Postbuild Processing
 	if (typeof script !== "undefined") {
-		body_tags.splice(-1, 0, {elem: "script", attr: {src: $loc.js + script}});
+		if (typeof script == "string") {
+			body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script}});
+		} else if (typeof script == "object") {
+			for (k in script) {
+				body_tags.splice(0, 0, {elem: "script", attr: {src: $loc.js + script[k]}});
+			}
+		}
 	}
 	document.write(b_html(body_tags));
 }
 
 /* Process Prebuild */
 document.write(b_html(head_tags));
+
 
 /* ------------------------------------------------------------------ */
 /* # XMLHttpRequest */
@@ -308,9 +359,9 @@ XMLHttpRequest.prototype.sendAsRawData = function(sData) {
  * Below is a simple HTTP file request object.
  */
 
-var xhr = (function() {
+function getXHR() {
 	if (typeof XMLHttpRequest !== "undefined") {
-		if (isFileProtocol() && navigator.appName == "Microsoft Internet Explorer") {
+		if (isFileProtocol && navigator.appName == "Microsoft Internet Explorer") {
 			return new ActiveXObject("Microsoft.XMLHTTP") // Internet Explorer > 9 from local files
 		} else {
 			return new XMLHttpRequest(); // Firefox, Chrome, Opera
@@ -320,7 +371,7 @@ var xhr = (function() {
 	} else {
 		console.log("File loading failed. XMLHttpRequest and ActiveXObject deactivated or not supported.");
 	}
-}());
+}
 
 /*
  * NOTE
@@ -328,26 +379,34 @@ var xhr = (function() {
  * The function has been named accordingly to doT.js
  */
 
-function loadfile(file, async, method, send, response) {
-var async = async || false, method = method || "GET", send = send || null, response = response || "text"; // default params
+function loadfile(url, callback) {
+	var callback = callback || function(response) {return response};
+	var xhr = getXHR();
 	if (typeof xhr !== "undefined") {
-		xhr.open(method, file, async); // define request arguments
+		xhr.open("GET", url, true); // define request arguments
 		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
 		if (navigator.appName != "Microsoft Internet Explorer") { // request plain text for any browser except IE
 			xhr.overrideMimeType("text/plain"); // prevent request header bugs
 		}
+		if (navigator.appName == "Microsoft Internet Explorer") { // if IE then use onreadystatechange() instead of addEventListener and .responseText instead of .response
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && (isFileProtocol || xhr.status == 200)) {
+					callback(xhr.responseText);
+				}
+			}
+		} else { // should be ok on any other browser
+			xhr.addEventListener("load", function() {
+				if (this.readyState == 4 && (isFileProtocol || this.status == 200)) {
+					callback(this.response);
+				}
+			}, false);
+		}
 		try {
-			xhr.send(send); // send request to server
+			xhr.send(); // send request to server
 		} catch(err) {
-			console.log(file + " not found.\n " + err); // log server error
+			console.log(url + " not found.\n" + err); // log server error
+			callback(""); // return empty -- if no file is found, then nothing will be processed but the script execution won't be stopped
 		}
-		if (response == "xml") {
-			return xhr.responseXML; // return XML response from server
-		} else {
-			return xhr.responseText; // return Plain Text response from server
-		}
-	} else {
-		console.log(file + " loading failed. XMLHttpRequest not supported."); // log client error
 	}
 }
 
@@ -369,23 +428,23 @@ function isRegAuthc() {
 
 /* Check if user role is registred as an admin in local storage */
 function isRegAdmin() {
-	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $auth.role_admin) {
+	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $conf.role_admin) {
 		return true;
 	}
 }
 
 /* Check if user role is registred as a writer in local storage */
 function isRegRedac() {
-	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $auth.role_redac) {
+	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $conf.role_redac) {
 		return true;
 	}
 }
 
 /* Clear user local storage from registred globals */
-function clearStorage() {
-	var auth = ["token", "user_name", "user_role", "account_id", "profile_id", "avatar_path"];
-	for (n in auth) {
-		localStorage.removeItem($auth[auth[n]]);
+function clearStorage(hash) {
+	var hash = hash || $auth;
+	for (n in hash) {
+		localStorage.removeItem(hash[n]);
 	}
 }
 
@@ -398,76 +457,31 @@ function clearStorage() {
  * À appeler en HTTPS pour ne pas transporter le token en clair.
  */
 
-function isAuthenticated() {
+function checkAuthz(url, redir, flush) {
+	var url = url || $rest.authc, redir = redir || false, flush = flush || false;
+	var xhr = getXHR();
 	if (typeof xhr !== "undefined") {
-		var redirection = window.location.pathname;
-		xhr.open("GET", "/rest/authc/connected", false); // define request arguments
+		var loc = window.location.pathname;
+		xhr.open("GET", url, false); // define request arguments
 		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
 		try {
 			xhr.send(null); // send request to server
-			if (xhr.status == 401){
+			if (xhr.status == 401) {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login.url + loginParam;
-				clearStorage();
+				if (redir) { window.location.href = $nav.login.url + $conf.redir_param + loc }
+				if (flush) { clearStorage() }
+			} else if (xhr.status == 403) {
+				console.log("Forbidden ! Redirect to the home page."); // forbidden
+				if (redir) { window.location.href = $nav.home.url }
 			}
-		} catch(err) {
-			console.log("HTTP request failed.\n " + err); // log server error
-		}
-	} else {
-		console.log("XMLHttpRequest not supported."); // log client error
-	}
+		} catch(err) { console.log("HTTP request failed.\n" + err) } // log server error
+	} else { console.log("XMLHttpRequest not supported.") } // log client error
 }
-
-function isAdministratrice() {
-	if (typeof xhr !== "undefined") {
-		var redirection = window.location.pathname;
-		xhr.open("GET", "/rest/authz/isadmin", false); // define request arguments
-		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
-		try {
-			xhr.send(null); // send request to server
-			if (xhr.status == 401){
-				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login.url + loginParam;
-				clearStorage();
-			}
-			else if (xhr.status == 403){
-				console.log("Forbidden ! Redirect to the login page."); // unauthorized
-				window.location.href = $nav.home.url;
-			}
-		} catch(err) {
-			console.log("HTTP request failed.\n " + err); // log server error
-		}
-	} else {
-		console.log("XMLHttpRequest not supported."); // log client error
-	}
+function checkAuth() {
+	checkAuthz(null, true, true);
 }
-
-function isRedactrice() {
-	if (typeof xhr !== "undefined") {
-		var redirection = window.location.pathname;
-		xhr.open("GET", "/rest/authz/isredac", false); // define request arguments
-		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
-		try {
-			xhr.send(null); // send request to server
-			if (xhr.status == 401){
-				console.log("Unauthorized ! Redirect to the login page."); // unauthorized non connecté
-				var loginParam = $auth.redir_param + redirection;
-				window.location.href = $nav.login.url + loginParam;
-				clearStorage();
-			}
-			else if (xhr.status == 403){
-				console.log("Forbidden ! Redirect to the login page."); // unauthorized pas les droits requis
-				window.location.href = $nav.home.url;
-			}
-		} catch(err) {
-			console.log("HTTP request failed.\n " + err); // log server error
-		}
-	} else {
-		console.log("XMLHttpRequest not supported."); // log client error
-	}
+function checkRole(role) {
+	var url = (role == $conf.role_admin ? $rest.admin : $rest.redac);
+	checkAuthz(url, true, true);
 }

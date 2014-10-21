@@ -1,10 +1,25 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.about.title);
+var loax_pool = {
+	"about_tmpl" : $loc.tmpl + "about.tmpl"
+}
 
-$("main > header").after(loadfile($loc.tmpl + "about.tmpl"));
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.about.title);
+			/* Insert template */
+			$("main > header").after(file_pool.about_tmpl).after(lb(1));
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -19,7 +34,7 @@ $("main > header").after(loadfile($loc.tmpl + "about.tmpl"));
 // AJAX stuff goes here
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
 // jQuery events go here

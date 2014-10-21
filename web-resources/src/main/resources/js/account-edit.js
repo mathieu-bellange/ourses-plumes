@@ -1,20 +1,32 @@
 /* ------------------------------------------------------------------ */
-/* # Pre Processing */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.account_edit.title);
+var loax_pool = {
+	"account_edit_tmpl" : $loc.tmpl + "account-edit.tmpl"
+}
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Module */
 /* ------------------------------------------------------------------ */
 
-var account_template = doT.compile(loadfile($loc.tmpl + "account-edit.tmpl")); // create template
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.account_edit.title);
+		},
+		init : function() {
+			getAccount();
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-function BearAccount(oldPassword,newPassword,confirmPassword) {
+function BearAccount(oldPassword, newPassword, confirmPassword) {
 	this.oldPassword = oldPassword;
 	this.newPassword = newPassword;
 	this.confirmPassword = confirmPassword;
@@ -28,7 +40,7 @@ var newPassword = "";
 function checkOldPassword() {
 	if ($("#oldPassword").val().length == 0) {
 		$("#oldPassword").set_validation(false);
-	}else{
+	} else {
 		$("#oldPassword").set_validation(true);
 	}
 }
@@ -36,7 +48,7 @@ function checkOldPassword() {
 function checkConfirmPassword() {
 	if ($("#confirmPassword").val().length == 0 || $("#confirmPassword").val() !== $("#newPassword").val()) {
 		$("#confirmPassword").set_validation(false);
-	}else{
+	} else {
 		$("#confirmPassword").set_validation(true);
 	}
 }
@@ -49,12 +61,12 @@ function isFormValid() {
 }
 
 function clearForm() {
-	$("#oldPassword").removeClass("valid");
+	$("#oldPassword").set_validation(null);
 	$("#oldPassword").val("");
-	$("#newPassword").removeClass("valid");
+	$("#newPassword").set_validation(null);
 	$("#newPassword").val("");
-	$("#newPassword").attr("placeholder", "Minimum 7 caractères, une minuscule et un chiffre");
-	$("#confirmPassword").removeClass("valid");
+	$("#newPassword").attr("placeholder", "Minimum 7 caract&egrave;res dont une minuscule et un chiffre");
+	$("#confirmPassword").set_validation(null);
 	$("#confirmPassword").val("");
 }
 
@@ -69,18 +81,18 @@ function getAccount() {
 			type : "GET",
 			url : "/rest/account/" + accountId,
 			contentType : "application/json; charset=utf-8",
-			beforeSend: function(request) {
+			beforeSend : function(request) {
 				header_authentication(request);
 			},
 			success : function(account, status, jqxhr) {
-				$("main > header").after(account_template(account)); // process template
+				$("main > header").after(file_pool.account_edit_tmpl(account)).after(lb(1));
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
 			},
 			dataType : "json"
 		});
-	}else{
+	} else {
 		createAlertBox();
 	}
 };
@@ -90,7 +102,7 @@ function checkPasswordAJAX() {
 		clearTimeout(newPasswordTimeoutValid);
 	}
 	var selector = $("#newPassword");
-	selector.set_validation(null);
+	selector.set_validation();
 	var pseudo = selector.val();
 	$.ajax({
 		type : "POST",
@@ -120,11 +132,11 @@ function submitAccountAJAX() {
 		url : "/rest/account/" + window.localStorage.getItem($auth.account_id),
 		contentType : "application/json; charset=utf-8",
 		data : bearAccount.json(),
-		beforeSend: function(request) {
+		beforeSend : function(request) {
 			header_authentication(request);
 		},
 		success : function(jqXHR, status, errorThrown) {
-			createAlertBox($msg.account_updated, null, {"class" : "success"});
+			createAlertBox($msg.account_updated, null, {"class" : "success", "timeout" : $time.duration.alert});
 			clearForm();
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -132,11 +144,11 @@ function submitAccountAJAX() {
 				checkOldPassword();
 				checkConfirmPassword();
 				checkPasswordAJAX();
-			}else if(jqXHR.status == 401) {
+			} else if (jqXHR.status == 401) {
 				$("#oldPassword").set_validation(false, "Mot de passe incorrect");
 				checkConfirmPassword();
 				checkPasswordAJAX();
-			}else{
+			} else {
 				createAlertBox();
 			}
 		},
@@ -145,49 +157,41 @@ function submitAccountAJAX() {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	getAccount();
-});
-$("html").on("submit","#updateBearAccount",function(event) {
+$("html").on("submit", "#updateBearAccount", function() {
 	if (isFormValid()) {
 		submitAccountAJAX();
 	}
 });
-$("html").on("keyup","#oldPassword",function(event) {
+$("html").on("keyup", "#oldPassword", function() {
 	checkOldPassword();
 });
-$("html").on("keypress","#oldPassword", function() {
-	$(this).set_validation(null);
+$("html").on("keyup", "#confirmPassword", function() {
+	checkConfirmPassword();
 });
-
-$("html").on("keyup","#newPassword",function(event) {
+$("html").on("keyup", "#newPassword", function() {
 	if ($(this).val() != newPassword) {
 		checkPasswordAJAX();
 		newPassword = $(this).val();
 	}
 });
-$("html").on("keypress","#newPassword", function() {
-	$(this).set_validation(null);
+$("html").on("change", "#newPassword", function() {
+	checkConfirmPassword();
 });
-$("html").on("focus","#newPassword", function(event) {
+$("html").on("focus", "#newPassword", function() {
 	$(this).attr("placeholder", "");
 	newPassword = $(this).val();
 });
-$("html").on("blur","#newPassword", function(event) {
-	if ($(this).val().length==0) {
-		$(this).attr("placeholder","Minimum 7 caractères, une minuscule et un chiffre");
+$("html").on("blur", "#newPassword", function() {
+	if ($(this).val().length == 0) {
+		$(this).attr("placeholder", "Minimum 7 caract&egrave;res dont une minuscule et un chiffre");
 	}
 });
-$("html").on("change","#newPassword", function(event) {
-	checkConfirmPassword();
-});
-
-$("html").on("keyup","#confirmPassword",function(event) {
-	checkConfirmPassword();
-});
-$("html").on("keypress","#confirmPassword", function() {
+$("html").on("focus", "#oldPassword, #newPassword, #confirmPassword", function() {
 	$(this).set_validation(null);
+});
+$("html").on("keypress", "#oldPassword, #newPassword, #confirmPassword", function() {
+	$(this).set_validation();
 });

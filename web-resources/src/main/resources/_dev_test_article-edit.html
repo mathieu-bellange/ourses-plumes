@@ -8,7 +8,7 @@
 			// TEMP : Set route CKEditor configuration file route
 			var loc = location.href.split("/");
 			loc.splice(loc.length - 1, 1);
-			$cke_config_path = isFileProtocol() ? loc.join("/") + "/" + $loc.js : $loc.js;
+			$cke_config_path = isFileProtocol ? loc.join("/") + "/" + $loc.js : $loc.js;
 		</script>
 	</head>
 	<body>
@@ -25,8 +25,8 @@
 			<input id="show_publishing" type="checkbox" name="show" value="publishing" checked>
 			<label for="show_classic_editor">Classic Editor</label>
 			<input id="show_classic_editor" type="checkbox" name="show" value="classic_editor_fieldset">
-			<label for="show_inline_editor">Inline Editor</label>
-			<input id="show_inline_editor" type="checkbox" name="show" value="inline_editor_fieldset" checked>
+			<label for="show_editor">Inline Editor</label>
+			<input id="show_editor" type="checkbox" name="show" value="editor_fieldset" checked>
 			<label for="show_rubrics_switcher">Rubrics Switcher</label>
 			<input id="show_rubrics_switcher" type="checkbox" name="show" value="rubrics_switcher">
 			<input id="cke_plugins" class="button tiny secondary" type="button" value="CKEditor plugins">
@@ -66,7 +66,7 @@
 				<!--Title-->
 				<label for="title" class="hide">Titre de l&rsquo;article</label>
 				<input id="title" class="title" type="text" placeholder="Le titre de l&rsquo;article">
-				<small class="error hide">Ce titre est d&eacute;j&agrave; pris</small>
+				<small class="error hide"></small>
 
 				<!--Author-->
 				<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">Nadejda</span></span></h4>
@@ -89,167 +89,309 @@
 				<!--Summary-->
 				<label for="summary" class="hide">R&eacute;sum&eacute; <small class="red">*</small></label>
 				<textarea id="summary" class="summary validation min" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)"></textarea>
-				<small class="error hide">La saisie du r&eacute;sum&eacute; est obligatoire</small>
-				<script>
-				$("html").on("keydown", "#summary", function(event) {
-					if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
-					toggle_tags();
-					$("#rubric").focus();
-					}
-				});
-				</script>
+				<small class="error hide"></small>
 
 				<!--Tags List-->
-				<dl class="tags inline-list clearfix" tabindex="0">
+				<dl class="tags inline-list clearfix">
 					<dt class="icon-tag small"><strong class="text hide">Tags</strong></dt>
-					<!--
-					<dd><a href="javascript:void(0)" rel="tag" class="label radius">Rubrique</a></dd>
-					<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">Cat&eacute;gorie</a></dd>
-					-->
+					<dd><a id="rubric_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Rubrique</a></dd>
+					<dd><a id="category_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Cat&eacute;gorie</a></dd>
+					<dd><a id="tag_new" href="javascript:void(0)" rel="tag" class="label radius undefined">Nouveau tag</a></dd>
 				</dl>
-				<script>
-
-					// Display indexation panel (i.e. tags editing)
-					function toggle_tags() {
-						$(".tags").blur();
-						if ($(".tags").data("preventClick") !== "true" && $(".tags").data("preventToggle") !== "true") {
-							$(".tags").toggleClass("active");
-							if ($("#indexing").is(":visible")) {
-								$conf.js_fx ? $("#indexing").slideUp(250) : $("#indexing").hide();
-							} else {
-								$(".tags").data("preventToggle", "true");
-								if ($conf.js_fx) {
-									$("#indexing").slideDown(250, function() {
-										scrollTo($("#indexing"), 250, $("#tags").outerHeight() + 16);
-										$(".tags").removeData("preventToggle");
-									});
-								} else {
-									$("#indexing").show();
-									scrollTo($("#indexing"), 0, $("#tags").outerHeight() + 16);
-									$(".tags").removeData("preventToggle");
-								}
-							}
-						}
-					}
-
-					// Tags list prevent click from child element
-					$(".tags dd").on("mouseenter", function() {
-						$(".tags").data("preventClick", "true");
-					});
-					$(".tags dd").on("mouseleave", function() {
-						$(".tags").removeData("preventClick");
-					});
-
-					// Tags list toggle indexation display
-					$(".tags").on("click", function() {
-						toggle_tags();
-					});
-					$(".tags").on("keypress", function(e) {
-						if (e.which === 13) {
-							toggle_tags();
-						}
-					});
-
-				</script>
 
 			</fieldset>
 
-			<fieldset id="indexing" style="display: none;">
-				<legend class="hide">Ind&eacute;xation</legend>
+			<fieldset id="tagging" style="display: none;">
+				<legend class="hide">Marquage</legend>
 
 				<!--Rubric-->
-				<label for="rubric">Rubrique <small class="red">*</small></label>
-				<div id="rubric" class="options-select validation" tabindex="0">
-					<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
-					<ul class="options hide">
-						<li><span class="icon-struggles small" style="margin-right: .25rem;"></span>Luttes</li>
-						<li><span class="icon-ourbody small" style="margin-right: .25rem;"></span>Nos corps, nous-m&ecirc;mes</li>
-						<li><span class="icon-intersec small" style="margin-right: .25rem;"></span>Intersectionnalit&eacute;</li>
-						<li><span class="icon-internat small" style="margin-right: .25rem;"></span>International</li>
-						<li><span class="icon-educult small" style="margin-right: .25rem;"></span>&Eacute;ducation & Culture</li>
-						<li><span class="icon-ideas small" style="margin-right: .25rem;"></span>Id&eacute;es</li>
-					</ul>
+				<div id="rubric_field" style="display: none;">
+					<label for="rubric">Rubrique <small class="red">*</small></label>
+					<div id="rubric" class="options-select validation" tabindex="0">
+						<span class="select"><span class="placeholder">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
+						<ul class="options hide">
+							<li data-color="struggles"><span class="icon-struggles small" style="margin-right: .25rem;"></span>Luttes</li>
+							<li data-color="ourbody"><span class="icon-ourbody small" style="margin-right: .25rem;"></span>Nos corps, nous-m&ecirc;mes</li>
+							<li data-color="intersec"><span class="icon-intersec small" style="margin-right: .25rem;"></span>Intersectionnalit&eacute;</li>
+							<li data-color="internat"><span class="icon-internat small" style="margin-right: .25rem;"></span>International</li>
+							<li data-color="educult"><span class="icon-educult small" style="margin-right: .25rem;"></span>&Eacute;ducation & Culture</li>
+							<li data-color="ideas"><span class="icon-ideas small" style="margin-right: .25rem;"></span>Id&eacute;es</li>
+						</ul>
+					</div>
+					<small class="error hide"></small>
 				</div>
-				<small class="error hide">La saisie de la rubrique est obligatoire</small>
-				<script>
-					$("label[for='rubric']").click(function() {
-						force_focus("#" + $(this).attr("for"));
-					});
-				</script>
 
 				<!--Category-->
-				<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
-				<div id="category" class="options-select validation" tabindex="0">
-					<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
-					<ul class="options hide">
-						<li>Br&egrave;ve</li>
-						<li>Reportage</li>
-						<li>Dossier</li>
-						<li>Spotlight</li>
-						<li>Interview</li>
-						<li>Tribune</li>
-						<li>Revue du web</li>
-					</ul>
+				<div id="category_field" style="display: none;">
+					<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
+					<div id="category" class="options-select validation" tabindex="0">
+						<span class="select"><span class="placeholder">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
+						<ul class="options hide">
+							<li>Br&egrave;ve</li>
+							<li>Reportage</li>
+							<li>Dossier</li>
+							<li>Spotlight</li>
+							<li>Interview</li>
+							<li>Tribune</li>
+							<li>Revue du web</li>
+						</ul>
+					</div>
+					<small class="error hide"></small>
 				</div>
-				<small class="error hide">La saisie de la cat&eacute;gorie est obligatoire</small>
-				<script>
-					$("label[for='category']").click(function() {
-						force_focus("#" + $(this).attr("for"));
-					});
-				</script>
 
 				<style>
 					/* TEMP : Tag styles */
-					#tag {display: inline-block; width: 18rem; height: 2.25rem; border-width: .125rem;}
-					#tag_add {margin-bottom: 0;}
-					#tag_add + small.error {position: relative; top: 0; width: 18rem; z-index: 2;}
-					#tag_add + small.error + .autocomplete {position: relative; width: 18rem; z-index: 1;}
+					#tag {display: inline-block;}
+					#tag,
+					#tag_add,
+					#tag_add + small.error {margin-bottom: 0; vertical-align: middle;}
+					#tag,
+					#tag_add + small.error,
+					#tag_add + small.error + .autocomplete {width: 18rem;}
+
+					#tag_add + small.error {position: relative; z-index: 1;}
+					#tag_add + small.error + .autocomplete {position: relative; z-index: 2;}
+
 					#tag.wrong {border-color: #c33;}
 					#tag.wrong:focus + #tag_add + small.error {
-						-webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
-							 -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
-										box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
+						-webkit-box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
+							 -moz-box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
+										box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
 					}
 				</style>
 
 				<!--Tags-->
-				<label for="tag">Tags</label>
-				<div>
-					<input id="tag" class="validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class=" icon-add small"></button>
-					<small class="hide error">Ce tag est déjà pris !</small>
-					<div class="autocomplete hide">
-						<ul>
-							<!--
-							<li>Amphibien</li>
-							<li>Amphipode</li>
-							<li>Amphithéatre</li>
-							<li>Amphore</li>
-							<li>Amphotère</li>
-							<li>Amplificateur</li>
-							<li>Ampoule</li>
-							<li>Amputation</li>
-							<li>Jeu ViDeo</li>
-							<li>Jeux-vidéos</li>
-							<li>Jeux  vidéos</li>
-							<li class="suggested-fetch" >Jeux vidéos</li>
-							<li>JEUX VIDEOS</li>
-							<li>Jeux_vidéos</li>
-							-->
-						</ul>
+				<div id="tag_field" style="display: none;" style="margin-bottom: 1rem;">
+					<label for="tag">Tags</label>
+					<div>
+						<input id="tag" class="validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class=" icon-add small"></button>
+						<small class="error"></small>
+						<div class="autocomplete">
+							<ul>
+								<!--
+								<li>Amphibien</li>
+								<li>Amphipode</li>
+								<li>Amphithéatre</li>
+								<li>Amphore</li>
+								<li>Amphotère</li>
+								<li>Amplificateur</li>
+								<li>Ampoule</li>
+								<li>Amputation</li>
+								<li>Jeu ViDeo</li>
+								<li>Jeux-vidéos</li>
+								<li>Jeux  vidéos</li>
+								<li class="suggested-fetch" >Jeux vidéos</li>
+								<li>JEUX VIDEOS</li>
+								<li>Jeux_vidéos</li>
+								-->
+							</ul>
+						</div>
 					</div>
+					<div style="margin-top: 1rem;"><span style="font-size: 87.5%; color: dimgray;">Try it now ! Type <kbd>amp</kbd>, <kbd>ban</kbd> or <kbd>jeu</kbd> in the input.</span></div>
 				</div>
-				<div style="margin-bottom: 1rem;"><span style="font-size: 87.5%; color: dimgray;">Try it now ! Type <code>amp</code>, <code>ban</code> or <code>jeu</code> in the input.</span></div>
 
 				<script>
+				/* ---------------------------------------------------------- */
+				/* # Tags */
+				/* ---------------------------------------------------------- */
+
+				var tags = (function() {
+					return {
+						update : function(id) {
+							var sel = "#" + id;
+							if ($(sel + " .select").children().size() == 0) { // no placeholder
+								$(sel + "_tag").html($(sel + " .select").text()); // update text
+								$(sel + "_tag").removeClass("undefined wrong"); // reset class
+								if (id == "rubric") {
+									$("form, #" + id + "_tag").removeClass("struggles ourbody intersec internat educult ideas"); // WARNING : using 'form' as topmost parent element
+									if ($(sel + " .selected").attr("data-color")) {
+										$("form, #" + id + "_tag").addClass($(sel + " .selected").attr("data-color")); // WARNING : using 'form' as topmost parent element
+									}
+								} else {
+									$(sel + "_tag").addClass("inverse") // update color
+								}
+							}
+						},
+						init : function(opts) {
+							var defs = {
+								"tag_max"    : 8,               // Integer  Maximum of tags allowed (n.b. without rubric and category). Default : 10;
+								"fx_d"       : 250,             // Integer  Effects duration for tags component in milliseconds. Default : 500
+								"tag_reflow" : 3                // Integer  Number of characters at which autocomplete starts on tag input. Default : 3
+							};
+							var cfg = $.extend({}, defs, opts);
+							var self = this; // internal
+							// functions
+							function open_field(field) { // field = jQuery selector
+								var field = field || null, obj = $("#tagging");
+								obj.finish();
+								if (obj.data("opening") !== true) {
+									if (field !== null) {
+										$(field).fadeIn($conf.js_fx ? cfg.fx_d : 0).siblings().hide();
+									} else {
+										obj.children("div").fadeIn($conf.js_fx ? cfg.fx_d : 0);
+									}
+									obj.data("opening", true);
+									obj.slideDown($conf.js_fx ? cfg.fx_d : 0, function() {
+										obj.scroll_to({"fx_d" : $conf.js_fx ? cfg.fx_d : 0, "spacing" : $("#tags").outerHeight() + 16});
+										obj.removeData("opening");
+									});
+								}
+							}
+							function close_field(field) {
+								var field = field || null, obj = $("#tagging");
+								if (field !== null) {
+									$(field).fadeOut($conf.js_fx ? cfg.fx_d : 0);
+									if (obj.children(":visible").length == 1) {
+										obj.slideUp($conf.js_fx ? cfg.fx_d : 0);
+									}
+								} else {
+									obj.children("div").fadeOut($conf.js_fx ? cfg.fx_d : 0);
+									obj.slideUp($conf.js_fx ? cfg.fx_d : 0);
+								}
+							}
+							function update_tag(id) {
+								self.update(id);
+							}
+							function add_tag(source, target) {
+								var str = $(source).val().trim();
+								if (str !== "") {
+									// check if tag already exists
+									$(target).children("dd").each(function() {
+										if ($(this).children().text() == str) {
+											$(source).set_validation(false, $msg.tag_dup);
+										}
+									});
+									// continue if no error is found
+									if ($(source).attr("data-invalid") !== "true") {
+										if ($(target).children("dd").length - 2 >= cfg.tag_max) {
+											// show floating string if maximum of tag allowed is reached
+											var f_str = $("<div>")
+											.css({
+												"position" : "absolute",
+												"display" : "inline-block",
+												"top" : $(source).offset().top - $(source).outerHeight(false),
+												"left" : $(source).offset().left,
+												"padding" : ".5rem",
+												"font-size" : "1.5em",
+												"font-weight" : "bold",
+												"color" : "#c33",
+												"z-index" : "100"
+											})
+											.html($msg.tag_max);
+											$("body").append(f_str);
+											f_str.animate({
+												"top" : $(source).offset().top / 1.5,
+												"opacity" : "0"
+											}, cfg.fx_d * 6);
+											if ($("#tag_new").is(":visible")) {
+												$("#tag_new").hide()
+											}
+										}
+										// add tag to tags list 
+										$(target).find("#tag_new").parent("dd").before("<dd data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
+										$(target).foundation("alert");
+										$(source).val("");
+										// reset autocomplete
+										$(source).nextAll(".autocomplete").first().find("ul > li").addClass("hide");
+										$(source).set_validation(null); // reset validation
+										// close tagging
+										$("#tag_new").removeClass("active");
+										$("#tag_new").focus(); // focus tag_new
+										close_field();
+									}
+								} else {
+									$(source).set_validation(null); // reset validation if input is empty
+								}
+							}
+							// events
+							$("#rubric_tag, #category_tag, #tag_new").bind({
+								mouseenter : function() {$(this).data("hover", true)},
+								mouseleave : function() {$(this).removeData("hover")},
+								click : function() {
+									if (!$(this).hasClass("disabled")) {
+										var sel = "#" + $(this).attr("id").cut(-4);
+										$(this).toggleClass("active");
+										$(this).parent("dd").siblings().find("a").removeClass("active");
+										$(this).hasClass("active") ? open_field(sel + "_field") : close_field(sel + "_field");
+										$(sel).focus();
+									}
+								}
+							});
+							$(".tags").on("click", "dd .label .close", function() { // live
+								var obj = $(this).parent(".label").parent("dd");
+								obj.fadeOut($conf.js_fx ? cfg.fx_d : 0, function() {
+									obj.remove(); // remove tag
+									if ($("#tag_new").is(":hidden")) {
+										$("#tag_new").show();
+									}
+								});
+							});
+							$("#rubric, #category").bind({
+								blur : function() {
+									var id = $(this).attr("id"), sel = "#" + id;
+									update_tag(id);
+									if ($(sel + " li").hasClass("selected")) {
+										if ($(sel + "_tag").data("hover") !== true) {
+											$(sel + "_tag").removeClass("active");
+											close_field(sel + "_field");
+										}
+									}
+								},
+								click : function() {update_tag($(this).attr("id"))},
+								keyup : function(e) {
+									if (e.which == 13 || e.which >= 33 && e.which <= 36 || e.which == 38 || e.which == 40) { // Enter, PageUp, PageDown, End, Home or Up or Down
+										update_tag($(this).attr("id"));
+									}
+								}
+							});
+							$("label[for='rubric'], label[for='category']").on("click", function() {
+								$("#" + $(this).attr("for")).force_focus();
+							});
+							$("#tag").bind({
+								blur : function() {
+									if ($(this).val().length == 0 && $("#tag_new").data("hover") !== true) {
+										$("#tag_new").removeClass("active");
+										close_field();
+									}
+								},
+								focus : function() {
+									$(this).set_validation(null); // reset validation
+								},
+								keyup : function(e) {
+									if (e.which == 13) { // Enter
+										$("#tag_add").click(); // force click on add tag button
+									}
+								}
+							});
+							$("#tag_add").on("click", function() {
+								add_tag("#tag", ".tags"); // add tag
+							});
+							$("#tag").nextAll(".autocomplete").first().on("mousedown", "ul > li", function() {
+								add_tag("#tag", ".tags"); // add tag
+							});
+						}
+					}
+				}());
+				</script>
+
+				<script>
+
+					/* -------------------------------------------------------- */
+					/* # Autocompletion */
+					/* -------------------------------------------------------- */
+
+					// Externalised as $.autocompletion
+
+					/* -------------------------------------------------------- */
+					/* # Suggested search reflow */
+					/* -------------------------------------------------------- */
 
 					/* Tags automated reflow */
 					$("#tag").keyup(function(e) {
 						if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
 							var str = $(this).val();
 							if (str.length >= 3) {
-
 								var x =["Amphibien", "Amphipode", "Amphithéatre", "Amphore", "Amphotère", "Amplificateur", "Ampoule", "Amputation", "Band Apart", "Bandage", "Bande", "Bandeau", "Banderole", "Bandit", "Jeu ViDeo", "Jeux-vidéos", "Jeux  vidéos", "Jeux vidéos", "JEUX VIDEOS", "Jeux_vidéos"];
-
 								// query input value
 								var list = new Array;
 								switch (str.toLowerCase()) {
@@ -263,7 +405,6 @@
 										list = ["15", "16", "17", "18", "19", "20"]
 										break;
 								}
-
 								// check if value alreay exists
 								$(".autocomplete ul > li").each(function () {
 									var k = list.indexOf($(this).attr("data-id"));
@@ -271,14 +412,11 @@
 										list.splice(k , 1)
 									}
 								});
-
 								// reflow autocomplete with query result
 								for (i in list) {
 									$(".autocomplete ul").append("<li data-id='" + list[i] + "' class='hide'>" + x[list[i]] + "</li>");
 								}
-
 								// TODO : sort items
-
 							}
 						}
 					});
@@ -306,14 +444,14 @@
 			<script>
 				$("[id^='cke_rub_']").click(function() {
 					$(this).parent().siblings().children().removeClass("active"); // Remove all active classes for rubrics buttons
-					$("#inline_editor").removeClass(); // Remove all classes for inline editor
-					$("#inline_editor").addClass("article"); // Reset article class for inline editor
+					$("#editor").removeClass(); // Remove all classes for inline editor
+					$("#editor").addClass("article"); // Reset article class for inline editor
 					if ($(this).hasClass("active")) {
 						$(this).removeClass("active");
 					} else {
 						$(this).addClass("active");
 						var cls = $(this).attr("id").substr(8); // Retrieve rubric class from button id
-						$("#inline_editor").addClass(cls); // Add new rubric class to inline editor
+						$("#editor").addClass(cls); // Add new rubric class to inline editor
 					}
 					CKEDITOR.instances["classic_editor"].destroy(); // Destroy classic editor instance
 					CKEDITOR.replace("classic_editor", { // Reinitialize classic editor instance with rubric class
@@ -330,23 +468,23 @@
 				<legend>R&eacute;daction</legend>
 				<label for="classic_editor">Corps de texte <span class="text-silver">classic</span></label>
 				<textarea id="classic_editor">
-					<p class="placeholder">Le corps de l'article</p>
+					<p class="placeholder">Le corps de l&rsquo;article</p>
+					<!--
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
 					<p>Un paragraphe plut&ocirc;t court avec un <a href="#">lien hypertexte</a> &agrave; l&rsquo;int&eacute;rieur.</p>
 					<p><img alt="Ours" src="http://www.cinephilme.com/public/ours/l-ours-332883.jpg" style="height: 200px; margin: 10px;" />Un paragraphe avec une image &agrave; l&rsquo;int&eacute;rieur.</p>
-					<!--
 					<p><iframe allowfullscreen="" frameborder="0" width="640" height="360" src="//www.youtube.com/embed/iUs2Wzupf1c?rel=0"></iframe></p>
 					-->
 				</textarea>
 			</fieldset>
 
 			<!--Inline CKEditor-->
-			<fieldset id="inline_editor_fieldset" class="transparent">
+			<fieldset id="editor_fieldset" class="transparent">
 				<legend class="hide">R&eacute;daction</legend>
-				<label for="inline_editor" class="hide">Corps de texte <span class="text-silver">inline</span></label>
-				<div id="inline_editor" class="inline-editor" contenteditable="true" data-placeholder>
-					<span class="placeholder">Le corps de l'article</span>
+				<label for="editor" class="hide">Corps de texte <span class="text-silver">inline</span></label>
+				<div id="editor" class="inline-editor" contenteditable="true" data-placeholder>
+					<span class="placeholder">Le corps de l&rsquo;article</span>
 					<!--
 					<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 					<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
@@ -355,6 +493,7 @@
 					<p><iframe allowfullscreen="" frameborder="0" width="640" height="360" src="//www.youtube.com/embed/iUs2Wzupf1c?rel=0"></iframe></p>
 					-->
 				</div>
+				<small class="error hide"></small>
 			</fieldset>
 
 			<div class="clearfix">
@@ -373,6 +512,10 @@
 			</div>
 
 			<script>
+				/* ---------------------------------------------------------- */
+				/* # Share */
+				/* ---------------------------------------------------------- */
+
 				var share = (function() {
 					return {
 						init : function(options) {
@@ -385,14 +528,12 @@
 								"linkedin" : false
 							};
 							var settings = $.extend({}, defaults, options);
-							// methods
+							// functions
 							function update_tooltips(obj) {
 								if (obj.hasClass("active")) {
-									obj.attr("title", "D&eacute;sactiver le partage " + obj.data("tooltip-postfix"))
-									reload_tooltip(obj);
+									obj.reload_tooltip("D&eacute;sactiver le partage " + obj.data("tooltip-postfix"));
 								} else {
-									obj.attr("title", "Activer le partage " + obj.data("tooltip-postfix"))
-									reload_tooltip(obj);
+									obj.reload_tooltip("Activer le partage " + obj.data("tooltip-postfix"));
 								}
 							}
 							// events
@@ -452,17 +593,224 @@
 						}
 					}
 				}());
-				$(document).ready(function() {
-					share.init();
-				});
 			</script>
 
 			<!--Validation Buttons-->
-			<div class="text-center" style="margin-top: 1rem;">
-				<input class="button secondary tip-top" type="button" value="Lecture seule" title="Visualiser l&rsquo;article sans les fonctionnalit&eacute;s d&rsquo;&eacute;dition" data-tooltip>
-				<input class="button success tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip>
-				<input class="button alert tip-top" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" data-tooltip>
+			<div class="text-center">
+				<input id="readonly" class="button secondary tip-top" type="button" value="Lecture seule" title="Visualiser l&rsquo;article sans les fonctionnalit&eacute;s d&rsquo;&eacute;dition" data-tooltip>
+				<input id="save" class="button success tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip>
+				<input id="validate" class="button alert tip-top" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" disabled data-tooltip>
 			</div>
+			<script>
+				/* ---------------------------------------------------------- */
+				/* # Validate */
+				/* ---------------------------------------------------------- */
+
+				var validate = (function () {
+					return {
+						init : function(opts) {
+							var defs = {
+								"save_fx_d"     : 250,          // Integer   Save effects duration in milliseconds. Default : 250
+								"save_timeout"  : 1000,         // Integer   Time during which the application is frozen upon saving (milliseconds). Default : 1000
+								"kbd_chain_nav" : true          // Boolean   Enable keyboard chained navigation (i.e. switch to next input on key press Enter). Default : true
+							};
+							var cfg = $.extend({}, defs, opts);
+							// vars
+							var t_summary = 0; // internal
+							// functions
+							function checkTitle() {
+								//checkTitleAJAX(); // HERE
+								var str = $("#title").val().trim();
+								$("#title").val(str);
+								if (str.length == 0) {
+									$("#title").set_validation(false, "Le titre de l&rsquo;article doit obligatoirement &ecirc;tre renseign&eacute;.");
+								} else {
+									$("#title").data("last_value", str);
+									$("#title").set_validation(true);
+								}
+							}
+							function checkSummary() {
+								var str = $("#summary").val().trim();
+								$("#summary").val(str);
+								if (str.length == 0) {
+									$("#summary").set_validation(false, "Le r&eacute;sum&eacute; doit n&eacute;cessairement &ecirc;tre saisi.");
+								} else {
+									$("#summary").set_validation(true);
+								}
+							}
+							function checkRubric() {
+								if ($("#rubric_tag").hasClass("undefined")) {
+									if ($("#tagging").is(":hidden")) { $("#tagging").show() }
+									if ($("#rubric_field").is(":hidden")) { $("#rubric_field").show() }
+									$("#rubric").addClass("active");
+									$("#rubric_tag").set_validation(false);
+									$("#rubric").set_validation(false, "Une rubrique doit imp&eacute;rativement &ecirc;tre choisie.");
+								} else {
+									$("#rubric").set_validation(true);
+								}
+							}
+							function checkCategory() {
+								if ($("#category_tag").hasClass("undefined")) {
+									if ($("#tagging").is(":hidden")) { $("#tagging").show() }
+									if ($("#category_field").is(":hidden")) { $("#category_field").show() }
+									$("#category").addClass("active");
+									$("#category_tag").set_validation(false);
+									$("#category").set_validation(false, "Une cat&eacute;gorie doit imp&eacute;rativement &ecirc;tre choisie.");
+								} else {
+									$("#category").set_validation(true);
+								}
+							}
+							function checkBody() {
+								if ($("#editor").text().length == 0 || $("#editor").children().hasClass("placeholder")) {
+									$("#editor").set_validation(false, "La saisie du corps de l&rsquo;article est indispensable.");
+								} else {
+									$("#editor").set_validation(true);
+								}
+							}
+							// events
+							$("#title").bind({
+								focus: function() {
+									$(this).set_validation(true);
+								},
+								blur : function() {
+									//checkTitleAJAX();
+									checkTitle();
+								},
+								keydown : function(e) {
+									if (e.which == 27) { // Escape
+										$(this).val($(this).data("last_value")); // recall last value
+									}
+								},
+								keypress : function(e) {
+									if (e.which == 13) { // Enter
+										checkTitle();
+										if (cfg.kbd_chain_nav) {
+											$("#summary").focus(); // keyboard chained navigation
+										}
+									}
+								}
+							});
+							$("#summary").bind({
+								focus : function() {
+									clearTimeout(t_summary);
+									$(this).set_validation(true);
+								},
+								blur : function() {
+									t_summary = setTimeout(function() {
+										checkSummary();
+									}, 250);
+								},
+								keydown : function(e) {
+									if (e.ctrlKey && e.which == 13 && cfg.kbd_chain_nav) { // Ctrl + Enter
+										$("#rubric_tag").click(); // keyboard chained navigation
+									}
+								}
+							});
+							$("#rubric").bind({
+								focus : function() {
+									$(this).set_validation(true);
+								},
+								blur : function() {
+									checkRubric();
+								},
+								keydown : function(e) {
+									if (e.which == 13 && cfg.kbd_chain_nav) { // Enter
+										$("#category_tag").click(); // keyboard chained navigation
+									}
+								}
+							});
+							$("#category").bind({
+								focus : function() {
+									$(this).set_validation(true);
+								},
+								blur : function() {
+									checkCategory();
+								},
+								keydown : function(e) {
+									if (e.which == 13 && cfg.kbd_chain_nav) { // Enter
+										$("#tag_new").click(); // keyboard chained navigation
+									}
+								}
+							});
+							$("#editor").bind({
+								focus : function() {
+									$(this).set_validation(true);
+								},
+								blur : function() {
+									checkBody();
+								}
+							});
+							$("#save").click(function() {
+								if ($(this).data("saving") !== true) {
+									$(this).data("saving", true);
+									// append screen blocker during validation
+									var f_scr = $("<div>")
+									.css({
+										"position" : "fixed",
+										"display" : "block",
+										"top" : "0",
+										"left" : "0",
+										"height" : "100%",
+										"width" : "100%",
+										"color" : "white",
+										"font-size" : "2em",
+										"font-weight" : "bold",
+										"line-height" : ($(window).height() / 2) + "px",
+										"text-align" : "center",
+										"text-shadow" : "1px 1px 1px black",
+										"background-color" : "black",
+										"opacity" : "0",
+										"z-index" : "1000"
+									})
+									.html($msg.checking);
+									var f_bar = $("<div>")
+									.css({
+										"position" : "absolute",
+										"display" : "inline-block",
+										"top" : ($(window).height() / 2) - ($(window).height() / 16 ) + "px",
+										"left" : "12.5%",
+										"width" : "75%",
+										"height" : "6.25%",
+										"border" : "2px solid white",
+										"transition" : "border-left-width .25s"
+									});
+									$("body").append(f_scr);
+									f_scr.append(f_bar);
+									f_scr.animate({"opacity" : ".5"}, cfg.save_fx_d);
+									var step = (cfg.save_timeout - (cfg.save_fx_d)) / (cfg.save_fx_d);
+									var f_bar_w = parseFloat(f_bar.css("width"));
+									var f_bar_s = f_bar_w / step;
+									var f_scr_timer = setInterval(function() {
+										var border_w = parseFloat(f_bar.css("border-left-width"));
+										f_bar.css("border-left-width", (border_w + f_bar_s) + "px")
+									}, (cfg.save_fx_d));
+									// check validation for all inputs
+									setTimeout(function() {
+										checkTitle();
+										checkSummary();
+										checkRubric();
+										checkCategory();
+										checkBody();
+										// clear screen timer
+										$("#save").removeData("saving");
+										clearInterval(f_scr_timer);
+										f_scr.animate({"opacity" : "0"}, cfg.save_fx_d, function() {
+											f_scr.remove();
+										});
+										// create alert box
+										if ($("#title, #summary, #rubric_tag, #category_tag, #editor").hasClass("wrong")) {
+											$("h2.red").create_alert_box($msg.form_invalid, "form_valid", {"timeout" : $time.duration.alert_long}); // HERE
+										} else {
+											$("h2.red").create_alert_box($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert_short}); // HERE
+											//sendArticle(); // HERE
+										}
+									}, cfg.save_timeout);
+								}
+							});
+						}
+					}
+				}());
+			</script>
 
 		</form>
 
@@ -471,30 +819,31 @@
 			load();
 		</script>
 		<script>
-			loap.update()
 			$(document).ready(function(){
-				$("textarea").autosize({append: ""}); // Apply autosize plugin to all <textarea> of the page
 				$("textarea").add_confirmation_bar(); // Apply add_confirmation_bar plugin to all <textarea> of the page
 				$(".options-select").options_select(); // Apply options_select plugin to all .options-select of the page
 				$("#tag").autocomplete(); // Apply autocomplete plugin to #tag input
+				tags.init(); // initialize tags component
+				share.init(); // initialize share component
+				validate.init(); // initialize validate component
 			});
 		</script>
 		<script>
-			// Initialize Foundation plugins
-			$(document).foundation();
-			// Initialize classic CKEditor with custom config
-			CKEDITOR.replace("classic_editor", {
-				customConfig : $cke_config_path + "conf-cke.js",
-				contentsCss : "css/loap-main.css",
-				bodyClass : "article",
-				toolbarLocation : "bottom"
-			});
-			// Initialize inline CKEditor with custom config
-			CKEDITOR.disableAutoInline = true;
-			CKEDITOR.inline("inline_editor", {
-				customConfig : $cke_config_path + "conf-cke.js",
-				extraAllowedContent : {"span" : {classes : "placeholder"}},
-				contentsCss : "css/loap-main.css",
+			$(document).ready(function(){
+				// Initialize classic CKEditor with custom config
+				CKEDITOR.replace("classic_editor", {
+					customConfig : $cke_config_path + "conf-cke.js",
+					contentsCss : "css/loap-main.css",
+					bodyClass : "article",
+					toolbarLocation : "bottom"
+				});
+				// Initialize inline CKEditor with custom config
+				CKEDITOR.disableAutoInline = true;
+				CKEDITOR.inline("editor", {
+					customConfig : $cke_config_path + "conf-cke.js",
+					contentsCss : "css/loap-main.css",
+					extraAllowedContent : {"span" : {classes : "placeholder"}},
+				});
 			});
 		</script>
 	</body>

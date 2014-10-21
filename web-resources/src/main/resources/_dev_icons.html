@@ -708,7 +708,7 @@
 		</div>
 
 		<script>
-			// Vars
+			// vars
 			var icons_settings = {
 				s_default : 48,                 // Integer      Default icons display size in px. Default : 48
 				s_tiny : 24,                    // Integer      Tiny icons display size in px. Default : 24
@@ -733,36 +733,30 @@
 					"stumbleupon" : "gingerred"   // Default : "gingerred"
 				}
 			};
-			// Methods
+			// functions
 			function set_svg_icon(obj) {
-				// Retrieve icon hypertext reference from object class
+				// retrieve icon hypertext reference from object class
 				var c = obj.attr("class").match(/icon-[a-z]*/).toString();
 				var i = c.substr(5, c.length);
 				var k = "icon";
-				// Define icon color class from icon hypertext reference
+				// define icon color class from icon hypertext reference
 				if (icons_settings.i_classes.hasOwnProperty(i)) {
 					k += " " + icons_settings.i_classes[i];
 				}
-				// Set svg element width and height attributes
+				// set svg element width and height attributes
 				var s = icons_settings.s_default;
 				if (obj.hasClass("tiny")) {s = icons_settings.s_tiny}
 				else if (obj.hasClass("small")) {s = icons_settings.s_small}
 				else if (obj.hasClass("medium")) {s = icons_settings.s_medium}
 				else if (obj.hasClass("large")) {s = icons_settings.s_large}
 				else if (obj.hasClass("huge")) {s = icons_settings.s_huge}
-				// Define svg icon html code
+				// define svg icon html code
 				var h = "<svg viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
-				// Append svg icon html code
+				// append svg icon html code
 				obj.removeClass(c);
 				obj.addClass(k);
 				obj.prepend(h);
 			}
-			// Events
-			$(document).ready(function() {
-				$("[class*='icon-']").each(function() {
-					set_svg_icon($(this));
-				});
-			});
 		</script>
 
 		<script>
@@ -770,10 +764,11 @@
 			load();
 		</script>
 		<script>
-			loap.update()
-		</script>
-		<script>
-			$(document).foundation();
+			$(document).ready(function() {
+				$("[class*='icon-']").each(function() {
+					set_svg_icon($(this));
+				});
+			});
 		</script>
 	</body>
 </html>

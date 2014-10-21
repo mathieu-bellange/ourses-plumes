@@ -30,7 +30,7 @@
 									{{?}}
 									{{? art.status == "BROUILLON" }}
 										<div class="validate" style="display: none;">
-											<!--delete for Drafts-->
+											<!--Delete for Drafts-->
 											<button class="small" data-delete="{{= art.id }}">Supprimer</button>
 											{{? art.profile.id == window.localStorage.getItem($auth.profile_id) }}
 												<button class="alert small" data-validate="{{= art.id }}">Valider</button>
@@ -58,7 +58,11 @@
 				<section id="articles">
 					<ul id="articles_draft" class="no-bullet articles-list draft">
 						{{~ data.drafts :value }}
-							<li>{{# def.article:value }}</li>
+							{{? value.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
+							<li class="my">{{# def.article:value }}</li>
+							{{?? isRegAdmin() }}
+							<li class="other">{{# def.article:value }}</li>
+							{{?}}
 						{{~}}
 					</ul>
 					{{? isRegAdmin() }}
@@ -68,7 +72,7 @@
 						{{~}}
 					</ul>
 					{{?}}
-					<ul id="articles_publish" class="no-bullet articles-list">
+					<ul id="articles_publish" class="no-bullet articles-list online">
 						{{~ data.onLine :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}

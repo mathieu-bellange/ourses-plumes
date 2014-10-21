@@ -1,10 +1,25 @@
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.account_add.title);
+var loax_pool = {
+	"account_create_tmpl" : $loc.tmpl + "account-create.tmpl"
+}
 
-$("main > header").after(loadfile($loc.tmpl + "account-create.tmpl"));
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.account_create.title);
+			/* Insert template */
+			$("main > header").after(file_pool.account_create_tmpl).after(lb(1));
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -31,10 +46,6 @@ function isFormValid() {
 }
 
 /* ------------------------------------------------------------------ */
-/* # DOM manipulation */
-/* ------------------------------------------------------------------ */
-
-/* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
@@ -43,7 +54,7 @@ function checkPseudoAJAX() {
 		clearTimeout(pseudoTimeoutValid);
 	}
 	var selector = $("#pseudo");
-	selector.set_validation(null);
+	selector.set_validation();
 	var pseudo = selector.val();
 	$.ajax({
 		type : "POST",
@@ -71,7 +82,7 @@ function checkPasswordAJAX() {
 		clearTimeout(passwordTimeoutValid);
 	}
 	var selector = $("#password");
-	selector.set_validation(null);
+	selector.set_validation();
 	var pseudo = selector.val();
 	$.ajax({
 		type : "POST",
@@ -99,7 +110,7 @@ function checkMailAJAX() {
 		clearTimeout(mailTimeoutValid);
 	}
 	var selector = $("#mail");
-	selector.set_validation(null);
+	selector.set_validation();
 	var mail = selector.val();
 	$.ajax({
 		type : "POST",
@@ -142,7 +153,7 @@ function submitAccountAJAX() {
 				checkPseudoAJAX();
 				checkPasswordAJAX();
 				checkMailAJAX();
-			}else{
+			} else {
 				createAlertBox();
 			}
 		},
@@ -151,37 +162,39 @@ function submitAccountAJAX() {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$("#bearAccount").submit(function(event) {
+$("html").on("submit", "#bearAccount", function() {
 	if (isFormValid()) {
 		submitAccountAJAX();
 	}
 });
-$("#pseudo").keyup(function(event) {
+$("html").on("blur", "#pseudo", function() {
+	var str = $(this).val().trim();
+	$(this).val(str);
 	checkPseudoAJAX();
 });
-$("#pseudo").on("keypress", function() {
-  $(this).set_validation(null);
+$("html").on("keyup", "#pseudo", function() {
+	checkPseudoAJAX();
 });
-$("#mail").keyup(function(event) {
+$("html").on("keyup", "#mail", function() {
 	checkMailAJAX();
 });
-$("#mail").on("keypress", function() {
-	$(this).set_validation(null);
-});
-$("#password").keyup(function(event) {
+$("html").on("keyup", "#password", function() {
 	checkPasswordAJAX();
 });
-$("#password").on("keypress", function() {
-	$(this).set_validation(null);
-});
-$("#password").on("focus", function(event) {
+$("html").on("focus", "#password", function() {
 	$(this).attr("placeholder", "");
 });
-$("html").on("blur","#password", function(event) {
+$("html").on("blur", "#password", function() {
 	if ($(this).val().length == 0) {
-		$(this).attr("placeholder", "Minimum 7 caractères, une minuscule et un chiffre");
+		$(this).attr("placeholder", "Minimum 7 caract&egrave;res dont une minuscule et un chiffre");
 	}
+});
+$("html").on("focus", "#pseudo, #mail, #password", function() {
+	$(this).set_validation(null);
+});
+$("html").on("keypress", "#pseudo, #mail, #password", function() {
+	$(this).set_validation();
 });

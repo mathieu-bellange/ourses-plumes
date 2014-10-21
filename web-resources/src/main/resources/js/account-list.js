@@ -1,6 +1,10 @@
 /* ------------------------------------------------------------------ */
-/* # Public vars */
+/* # Globals */
 /* ------------------------------------------------------------------ */
+
+var loax_pool = {
+	"account_list_tmpl" : $loc.tmpl + "account-list.tmpl"
+}
 
 var account_list = {              // This is global var for this module
 	"alert_timeout" : 1500,         // Integer   Time before update alert box disapear. Default = 1500
@@ -8,10 +12,34 @@ var account_list = {              // This is global var for this module
 };
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Module */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.account_list.title);
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.account_list.title);
+			/* Process */
+			$.ajax({
+				type : "GET",
+				url : "/rest/authz/roles",
+				contentType : "application/json; charset=utf-8",
+				beforeSend: function(request) {
+					header_authentication(request);
+				},
+				success : function(data, status, jqxhr) {
+					roles = data;
+					getAccount();
+				},
+				error : function(jqXHR, status, errorThrown) {
+					ajax_error(jqXHR, status, errorThrown);
+					createAlertBox();
+				}
+			});
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -40,8 +68,7 @@ function getAccount() {
 			header_authentication(request);
 		},
 		success : function(accounts, status, jqxhr) {
-			var accounts_template = doT.compile(loadfile($loc.tmpl + "account-list.tmpl")); // create template
-			$("main > header").after(accounts_template(accounts)); // process template
+			$("main > header").after(file_pool.account_list_tmpl(accounts)).after(lb(1)); // process template
 			loap.update(); // update main module
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -51,10 +78,6 @@ function getAccount() {
 		dataType : "json"
 	});
 };
-
-/* ------------------------------------------------------------------ */
-/* # Events */
-/* ------------------------------------------------------------------ */
 
 function updateEvent(id) {
 	// compte dans l'event
@@ -69,12 +92,7 @@ function updateEvent(id) {
 		},
 		data : role.json(),
 		success : function(data, status, jqxhr) {
-			createAlertBox($msg.account_updated, "update_" + id, {"class" : "success", "timeout" : 2500});
-			// setTimeout(function() {
-				// $("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
-					// $("#" + i).remove();
-				// });
-			// }, account_list.alert_timeout);
+			createAlertBox($msg.account_updated, "update_" + id, {"class" : "success", "timeout" : $time.duration.alert});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -94,12 +112,7 @@ function deleteEvent(id) {
 		},
 		success : function(data, status, jqxhr) {
 			$("#accountsTable tr[data-account-id=" + id + "]").remove();
-			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : 2500});
-			// setTimeout(function() {
-				// $("#" + i).fadeOut($conf.js_fx ? account_list.alert_fadeout : 0, function() {
-					// $("#" + i).remove();
-				// });
-			// }, account_list.alert_timeout);
+			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : $time.duration.alert});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
@@ -107,6 +120,10 @@ function deleteEvent(id) {
 		}
 	});
 };
+
+/* ------------------------------------------------------------------ */
+/* # Live Events */
+/* ------------------------------------------------------------------ */
 
 $("html").on("click", "#accountsTable [data-account-id] button", function() {
 	var id = $(this).parents("tr").attr("data-account-id");
@@ -116,27 +133,4 @@ $("html").on("click", "#accountsTable [data-account-id] button", function() {
 $("html").on("change", "#accountsTable [data-account-id] select", function() {
 	var id = $(this).parents("tr").attr("data-account-id");
 	updateEvent(id);
-});
-
-/* ------------------------------------------------------------------ */
-/* # Build */
-/* ------------------------------------------------------------------ */
-
-$(document).ready(function() {
-	$.ajax({
-		type : "GET",
-		url : "/rest/authz/roles",
-		contentType : "application/json; charset=utf-8",
-		beforeSend: function(request) {
-			header_authentication(request);
-		},
-		success : function(data, status, jqxhr) {
-			roles = data;
-			getAccount();
-		},
-		error : function(jqXHR, status, errorThrown) {
-			ajax_error(jqXHR, status, errorThrown);
-			createAlertBox();
-		}
-	});
 });

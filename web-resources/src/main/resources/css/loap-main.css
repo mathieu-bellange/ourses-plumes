@@ -18,25 +18,11 @@
        url('../fnt/oswald.svg#oswald') format('svg');
 }
 
-/*
-@font-face {
-  font-family: "Nobile";
-  src: url('../fnt/nobile.eot');
-  src: url('../fnt/nobile.eot?#iefix') format('embedded-opentype'),
-       url('../fnt/nobile.woff') format('woff'),
-       url('../fnt/nobile.svg#nobile') format('svg');
-}
-*/
-
 @media screen and (-webkit-min-device-pixel-ratio:0) { /* Chrome Webfont Antialiasing Fix */
   /*
   @font-face {
     font-family: "Oswald";
     src: url('../fnt/oswald.eot') format('eot');
-  }
-  @font-face {
-    font-family: "Nobile";
-    src: url('../fnt/nobile.eot') format('eot');
   }
   */
 }
@@ -60,7 +46,6 @@ body {
   color: #404040;
   background-image: none;
 }
-/*body.css-fx {font-family: "Nobile", sans-serif;}*/
 
 body.standard-layout {
   padding: 0;
@@ -258,7 +243,7 @@ kbd { /* Keyboard input */
   border-radius: .25rem;
   background-color: ghostwhite;
 }
-var {} /* Variable */
+var {font-style: normal; font-weight: bold;} /* Variable */
 
 /* UNUSED */
 /*
@@ -329,21 +314,47 @@ template {
 /* ------------------------------------------------------------------ */
 
 table {
-  border-color: silver; /* Foundation override*/
+  width: 100%;
+  border-color: gainsboro; /* Foundation override*/
   border-collapse: collapse; /* Normalize 3.0.1 : Remove most spacing between table cells. */
   border-spacing: 0; /* Normalize 3.0.1 : Remove most spacing between table cells. */
 }
 table th {
-  text-align: center;
-  background-color: whitesmoke;
+  background-color: #f0f0f0;
 }
 table td,
 table th {
   padding: 0; /* Normalize 3.0.1 : Remove most spacing between table cells. */
 }
 table tr:nth-of-type(even) {
-  background-color: ghostwhite; /* Foundation override*/
+  background-color: white; /* Foundation override*/
 }
+table tr:nth-of-type(odd) {
+  background-color: whitesmoke; /* Foundation override*/
+}
+table tr th,
+table tr td {
+  padding: .375rem; /* Foundation override*/
+}
+table thead tr td,
+table tfoot tr td,
+table tbody tr td,
+table tr td {
+  line-height: auto; /* Foundation override*/
+}
+table thead tr th,
+table tfoot tr th,
+table tbody tr th,
+table tr th {
+  line-height: 1.5rem; /* Foundation override*/
+  border-bottom: .125rem solid gainsboro; /* TEMP */
+}
+
+/* Tables sizing */
+table.x-compact tr td {line-height: .5rem;}
+table.compact tr td {line-height: .75rem;}
+table.expanded tr td {line-height: 1.75rem;}
+table.x-expanded tr td {line-height: 2rem;}
 
 /* ------------------------------------------------------------------ */
 /* # Images */
@@ -490,7 +501,9 @@ input[type="search"],
 input[type="tel"],
 input[type="time"],
 input[type="url"],
+input[type="color"],
 textarea {
+  height: 2.25rem; /* Foundation override */
   font-size: .875rem; /* Foundation override */
   border: .125rem solid silver; /* Foundation override */
 }
@@ -521,6 +534,8 @@ input[type="time"],
 input[type="time"]:focus,
 input[type="url"],
 input[type="url"]:focus,
+input[type="color"],
+input[type="color"]:focus,
 textarea,
 textarea:focus {
   -webkit-box-shadow: none; /* Foundation override */
@@ -590,6 +605,49 @@ select > optgroup {
 select > optgroup > option {}
 
 /* ------------------------------------------------------------------ */
+/* # Input Fixes */
+/* ------------------------------------------------------------------ */
+
+input::-moz-focus-inner,
+button::-moz-focus-inner { /* Firefox extra spacing fix */
+  border: 0;
+  padding: 0;
+}
+
+button,
+html input[type="button"], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
+  cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
+}
+
+button[disabled],
+html input[disabled] {
+  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
+}
+
+.prefix, .postfix {
+  padding: 0 .75rem;
+}
+.prefix.button, .postfix.button {
+  padding: 0; /* Foundation override */
+}
+
+/* ------------------------------------------------------------------ */
+/* # Inputs Placeholders */
+/* ------------------------------------------------------------------ */
+
+::-webkit-input-placeholder { /* Chrome */
+  color: rgba(0, 0, 0, .5);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(0, 0, 0, .5);
+}
+
+.placeholder {color: rgba(0, 0, 0, .375);}
+
+/* ------------------------------------------------------------------ */
 /* # Buttons */
 /* ------------------------------------------------------------------ */
 
@@ -603,7 +661,7 @@ button, .button,
   line-height: 100%;
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   letter-spacing: -.0625em;
-  border-width: .15rem;
+  border-width: .15rem; /* WARNING */
   border-style: solid;
 }
 .css-fx button, .css-fx .button,
@@ -666,15 +724,18 @@ button.secondary.disabled:hover, .button.secondary.disabled:hover,
 button.secondary[disabled]:hover, .button.secondary[disabled]:hover,
 button.secondary.disabled:focus, .button.secondary.disabled:focus,
 button.secondary[disabled]:focus, .button.secondary[disabled]:focus {
-  background-color: #ddd;
+  color: #444;
   border-color: #999;
+  background-color: #ddd;
 }
 button.secondary:hover, .button.secondary:hover,
 button.secondary:focus, .button.secondary:focus {
+  color: #444;
   background-color: #ccc;
 }
 button.secondary:active, .button.secondary:active,
 button.secondary.active, .button.secondary.active {
+  color: #444;
   background-color: #999;
 }
 
@@ -686,8 +747,8 @@ button.success.disabled:hover, .button.success.disabled:hover,
 button.success[disabled]:hover, .button.success[disabled]:hover,
 button.success.disabled:focus, .button.success.disabled:focus,
 button.success[disabled]:focus, .button.success[disabled]:focus {
-  background-color: #3a6;
   border-color: #274;
+  background-color: #3a6;
 }
 button.success:hover, .button.success:hover,
 button.success:focus, .button.success:focus {
@@ -706,8 +767,8 @@ button.alert.disabled:hover, .button.alert.disabled:hover, button.error.disabled
 button.alert[disabled]:hover, .button.alert[disabled]:hover, button.error[disabled]:hover, .button.error[disabled]:hover,
 button.alert.disabled:focus, .button.alert.disabled:focus, button.error.disabled:focus, .button.error.disabled:focus,
 button.alert[disabled]:focus, .button.alert[disabled]:focus, button.error[disabled]:focus, .button.error[disabled]:focus {
-  background-color: #d52;
   border-color: #930;
+  background-color: #d52;
 }
 button.alert:hover, .button.alert:hover, button.error:hover, .button.error:hover,
 button.alert:focus, .button.alert:focus, button.error:focus, .button.error:focus {
@@ -745,80 +806,31 @@ input.validation.loading:hover,
 input.validation.loading:focus {
   background-image: url('../img/ui/icon-loading.gif');
 }
-
+textarea.validation.wrong,
+textarea.validation.wrong:hover,
+textarea.validation.wrong:focus {
+  border-color: #c33; /* NEW */
+}
 .validation + small.error { /* Position fix */
-  position: relative;
-  top: -1rem;
+  position: relative; /* VERY TEMP */
+  top: -1rem; /* VERY TEMP */
 }
-
 small.error {
-  display: block;
-  padding: 0.33333rem 0.5rem 0.5rem;
+  display: block; /* Foundation override */
+  padding: .375rem .5rem; /* Foundation override */
   margin-top: -.125rem;
-  margin-bottom: 0.88889rem;
-  font-size: 0.66667rem;
-  font-weight: normal;
-  font-style: italic;
-  background: #c33;
-  color: #fff;
-}
-[data-abide] .error small.error {
+  margin-bottom: 0; /* Foundation override */
+  font-size: .75rem; /* Foundation override */
+  font-style: italic; /* Foundation override */
+  color: white; /* Foundation override */
   background: #c33; /* Foundation override */
 }
-
 label.error {
   color: #c33;
 }
-.error label.error {
-  color: #c33; /* Foundation override */
-}
-
 .error.hide {
   display: none; /* Visibility fix */
 }
-
-/* ------------------------------------------------------------------ */
-/* # Input Fixes */
-/* ------------------------------------------------------------------ */
-
-input::-moz-focus-inner,
-button::-moz-focus-inner { /* Firefox extra spacing fix */
-  border: 0;
-  padding: 0;
-}
-
-button,
-html input[type="button"], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
-input[type="reset"],
-input[type="submit"] {
-  -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
-  cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
-}
-
-button[disabled],
-html input[disabled] {
-  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
-}
-
-.prefix, .postfix {
-  padding: 0 .75rem;
-}
-.prefix.button, .postfix.button {
-  padding: 0; /* Foundation Override */
-}
-
-/* ------------------------------------------------------------------ */
-/* # Inputs Placeholders */
-/* ------------------------------------------------------------------ */
-
-::-webkit-input-placeholder { /* Chrome */
-  color: rgba(0, 0, 0, .5);
-}
-:-ms-input-placeholder { /* IE 10+ */
-  color: rgba(0, 0, 0, .5);
-}
-
-.placeholder {color: rgba(0, 0, 0, .375);}
 
 /* ------------------------------------------------------------------ */
 /* # Validation Boxes */
@@ -1167,6 +1179,7 @@ a.icon > svg {
 /* Anchors */
 a.disabled {
   cursor: default;
+/*outline: none;*/ /* TEMP : need to think about that ... */
   opacity: .5;
 }
 [class*="-nav"] ul li a.disabled,
@@ -1190,6 +1203,7 @@ a.disabled {
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none; /* TEMP : links underline fix */
+  outline-offset: -.25rem;
   opacity: .5;
 }
 .close:hover,
@@ -1654,65 +1668,6 @@ a.disabled {
 .th.large img {height: 128px; width: auto;}
 
 /* ------------------------------------------------------------------ */
-/* # Clearing Lightbox */
-/* ------------------------------------------------------------------ */
-
-/* BUG
- * The Clearing Lightbox works pretty well.
- * But it will badly mess up display if the last link is hit by tab navigation in clearing view (left and right arrows are ok).
- * The display will stick -50% to the left and cannot be reset even by page reload ...
- * In that case, page need to be closed and loaded again for the Clearing Lightbox to work again.
- */
-
-.clearing-thumbs li,
-[data-clearing] li {
-  display: inline-block;
-  float: none; /* Foundation override */
-  margin-right: .75rem; /* Foundation override */
-  margin-bottom: .75rem;
-}
-.clearing-thumbs li a:focus,
-[data-clearing] li a:focus {
-  outline-offset: -.5rem;
-}
-.clearing-close:after {
-  content: ""; /* WARNING : Times character hard coded ; cannot faked it */
-}
-.clearing-close:hover, .clearing-close:focus {
-  color: white; /* Foundation override */
-}
-.clearing-main-prev,
-.clearing-main-next {
-  top: 50%;
-  width: 48px;
-  height: 48px;
-  background-image: url('../img/ui/ui-iconset.png');
-  background-repeat: no-repeat;
-  background-size: 1968px;
-}
-.clearing-main-prev {background-position: -24px -144px;}
-.clearing-main-next {background-position: -72px -144px;}
-.clearing-main-prev:active, .orbit-container .clearing-main-prev:focus {background-position: -24px -240px;}
-.clearing-main-next:active, .orbit-container .clearing-main-next:focus {background-position: -72px -240px;}
-.clearing-main-prev:hover,
-.clearing-main-next:hover {background-color: transparent; border: none;}
-.clearing-main-prev:hover {background-position: -24px -192px;}
-.clearing-main-next:hover {background-position: -72px -192px;}
-.clearing-main-prev > span,
-.clearing-main-next > span {border: 0;}
-.clearing-main-prev.disabled:hover, .clearing-main-prev.disabled:focus {background-position: -24px -144px;}
-.clearing-main-next.disabled:hover, .clearing-main-next.disabled:focus {background-position: -72px -144px;}
-.clearing-blackout,
-.clearing-caption,
-.clearing-assembled .clearing-container .visible-img,
-.clearing-assembled .clearing-container .carousel {
-  background-color: #222; /* Foundation override */
-}
-.clearing-assembled .clearing-container .carousel > ul li {
-  width: auto; /* NOTE : Fixed width removal (120px) */
-}
-
-/* ------------------------------------------------------------------ */
 /* # Sub Navigation */
 /* ------------------------------------------------------------------ */
 
@@ -1732,8 +1687,6 @@ a.disabled {
 .sub-nav dt {
   text-transform: none; /* Foundation override */
 }
-
-/*.css-fx .sub-nav dt, .css-fx .sub-nav dd, .css-fx .sub-nav li {font-family: "Nobile", sans-serif;}*/
 
 .sub-nav dt a, .sub-nav dd a, .sub-nav li a {
   display: inline-block;
@@ -2002,29 +1955,31 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* ------------------------------------------------------------------ */
 
 .alert-box > *:first-child {margin-top: 0;}
-.alert-box > *:last-child {margin-bottom: .5rem;}
+.alert-box > *:last-child {margin-bottom: 0;}
 
 .alert-box {
-  padding: .5rem 1.5rem; /* Foundation Override */
+  position: relative;
+  padding: .5rem .75rem .5rem .75rem; /* Foundation override */
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
-  line-height: 2rem; /* Foundation Override */
+  line-height: 2rem; /* Foundation override */
   background-color: #a8c;
   border: .15rem solid #759;
-  transition: none; /* Foundation Override */
+  transition: none; /* Foundation override */
 }
-/*.css-fx .alert-box {font-family: "Nobile", sans-serif;}*/
 .alert-box .close {
-  top: 0; /* Foundation Override */
-  margin: 0; /* Foundation Override */
-  padding: 0; /* Foundation Override */
-  font-size: 1.5rem; /* Foundation Override */
-  line-height: inherit; /* Foundation Override */
+  top: .375rem; /* Foundation override */
+  right: .5rem; /* Foundation override */
+  width: 1.5rem; /* Foundation override */
+  margin: 0;
+  padding: 0; /* Foundation override */
+  font-size: 1.5rem; /* Foundation override */
+  line-height: inherit; /* Foundation override */
 }
 .alert-box .close:after {
-  margin-top: .25rem;
-  margin-right: .5rem;
+  text-align: center;
   display: block;
 }
+.alert-box .close + * {margin-top: 0; margin-right: 1.75rem;}
 .alert-box.info a {text-decoration: none;} /* TEMP : links underline fix */
 .alert-box.info,
 .alert-box.info a,
@@ -2068,7 +2023,6 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   font-size: .875rem; /* Foundation override */
   background-color: #a8c;
 }
-/*.css-fx .label, .css-fx a.label {font-family: "Nobile", sans-serif;}*/
 .label.radius {
   border-radius: .375rem; /* Foundation override */
 }
@@ -2076,47 +2030,67 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   padding-left: .75rem;
   padding-right: .75rem;
 }
-a.label:hover, a.label:focus {color: white; background-color: #97b;}
-.label.secondary {color: white; background-color: silver;}
-a.label.secondary:hover, a.label.secondary:focus {background-color: darkgray;}
+
+a.label:hover, a.label:focus {color: white;}
+a.label.inverse:hover, a.label.inverse:focus {background-color: gray;}
+
+.css-fx a.label:not(.undefined):hover, .css-fx a.label:not(.undefined):focus {box-shadow: 0 0 2rem rgba(0, 0, 0, .25) inset;}
+
+a.label:active, a.label.active {background-color: #97b;}
+.label.secondary {background-color: silver;}
+a.label.secondary:active, a.label.secondary.active {background-color: darkgray;}
 .label.success {background-color: #3a6;}
-a.label.success:hover, a.label.success:focus {background-color: #295;}
+a.label.success:active, a.label.success.active {background-color: #295;}
 .label.alert, .label.error {background-color: #d52;}
-a.label.alert:hover, a.label.alert:focus, a.label.error:hover, a.label.error:focus {background-color: #930;}
+a.label.alert:active, a.label.alert.active, a.label.error:active, a.label.error.active {background-color: #930;}
 .label.inverse {background-color: #444;}
-a.label.inverse:hover, a.label.inverse:focus {background-color: #777;}
+a.label.inverse:active, a.label.inverse.active {background-color: #777;}
+
+.label.undefined {color: silver; border: .125rem dashed gainsboro; background-color: transparent;}
+a.label.undefined:hover, a.label.undefined:focus {color: gray; border-color: silver; background: whitesmoke;}
+a.label.undefined:active, a.label.undefined.active {color: dimgray; border-color: transparent; background-color: rgb(232, 232, 232);}
+
+.label.wrong {color: #c33; border-color: rgba(208, 48, 48, .5); background-color: transparent;}
+a.label.wrong:hover, a.label.wrong:focus {color: rgba(208, 48, 48, .75); border-color: #c33; background-color: snow;}
+a.label.wrong:active, a.label.wrong.active {color: #c33; border-color: transparent; background-color: rgba(208, 48, 48, .125);}
+
+.label.disabled,
+a.label.disabled:hover,
+a.label.disabled:focus,
+a.label.disabled:active,
+a.label.disabled.active {color: gray; border-color: transparent; background-color: transparent;}
 
 /* Colors*/
 .label.red, a.label.red {background-color: #c33;}
-a.label.red:hover, a.label.red:focus {background-color: #822;}
+a.label.red:active, a.label.red.active {background-color: #822;}
 .label.orange {background-color: #f63;}
-a.label.orange:hover, a.label.orange:focus {background-color: #931;}
+a.label.orange:active, a.label.orange.active {background-color: #931;}
 .label.yellow {background-color: #ca0;}
-a.label.yellow:hover, a.label.yellow:focus {background-color: #761;}
+a.label.yellow:active, a.label.yellow.active {background-color: #761;}
 .label.green {background-color: #393;}
-a.label.green:hover, a.label.green:focus {background-color: #252;}
+a.label.green:active, a.label.green.active {background-color: #252;}
 .label.cyan {background-color: #399;}
-a.label.cyan:hover, a.label.cyan:focus {background-color: #255;}
+a.label.cyan:active, a.label.cyan.active {background-color: #255;}
 .label.blue {background-color: #36c;}
-a.label.blue:hover, a.label.blue:focus {background-color: #248;}
+a.label.blue:active, a.label.blue.active {background-color: #248;}
 .label.purple {background-color: #93c;}
-a.label.purple:hover, a.label.purple:focus {background-color: #517;}
+a.label.purple:active, a.label.purple.active {background-color: #517;}
 .label.magenta {background-color: #e2a;}
-a.label.magenta:hover, a.label.magenta:focus {background-color: #a17;}
+a.label.magenta:active, a.label.magenta.active {background-color: #a17;}
 
 /* Named Rubrics Colors */
 .label.intersec, a.label.intersec {background-color: #c33;}
-a.label.intersec:hover, a.label.intersec:focus {background-color: #822;}
+a.label.intersec:active, a.label.intersec.active {background-color: #822;}
 .label.struggles {background-color: #f63;}
-a.label.struggles:hover, a.label.struggles:focus {background-color: #931;}
+a.label.struggles:active, a.label.struggles.active {background-color: #931;}
 .label.ideas {background-color: #ca0;}
-a.label.ideas:hover, a.label.ideas:focus {background-color: #761;}
+a.label.ideas:active, a.label.ideas.active {background-color: #761;}
 .label.educult {background-color: #399;}
-a.label.educult:hover, a.label.educult:focus {background-color: #255;}
+a.label.educult:active, a.label.educult.active {background-color: #255;}
 .label.internat {background-color: #36c;}
-a.label.internat:hover, a.label.internat:focus {background-color: #248;}
+a.label.internat:active, a.label.internat.active {background-color: #248;}
 .label.ourbody {background-color: #e2a;}
-a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
+a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 
 /* Hide */
 .label.hide {display: none;} /* Visibility fix */
@@ -2236,6 +2210,64 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
     margin-left: -47.5%;
     width: 95%;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* # Clearing Lightbox */
+/* ------------------------------------------------------------------ */
+
+/* BUG
+ * The Clearing Lightbox works pretty well.
+ * But it will badly mess up display if the last link is hit by tab navigation in clearing view (left and right arrows are ok).
+ * The display will stick -50% to the left and cannot be reset even by page reload ...
+ * In that case, page need to be closed and loaded again for the Clearing Lightbox to work again.
+ */
+
+.clearing-thumbs li,
+[data-clearing] li {
+  display: inline-block;
+  float: none; /* Foundation override */
+  margin-right: .75rem; /* Foundation override */
+  margin-bottom: .75rem;
+}
+.clearing-thumbs li a:focus,
+[data-clearing] li a:focus {
+  outline-offset: -.5rem;
+}
+.clearing-close:after {
+  content: ""; /* WARNING : Times character hard coded ; cannot faked it */
+}
+.clearing-close:hover, .clearing-close:focus {
+  color: white; /* Foundation override */
+}
+.clearing-main-prev,
+.clearing-main-next {
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  background-image: url('../img/ui/ui-carousel.png');
+  background-repeat: no-repeat;
+}
+.clearing-main-prev {background-position: -24px 0;}
+.clearing-main-next {background-position: -72px 0;}
+.clearing-main-prev:active, .clearing-main-prev:focus {background-position: -24px -48px;}
+.clearing-main-next:active, .clearing-main-next:focus {background-position: -72px -48px;}
+.clearing-main-prev:hover,
+.clearing-main-next:hover {background-color: transparent; border: none;}
+.clearing-main-prev:hover {background-position: -24px -96px;}
+.clearing-main-next:hover {background-position: -72px -96px;}
+.clearing-main-prev > span,
+.clearing-main-next > span {border: 0;}
+.clearing-main-prev.disabled:hover, .clearing-main-prev.disabled:focus {background-position: -24px 0;}
+.clearing-main-next.disabled:hover, .clearing-main-next.disabled:focus {background-position: -72px 0;}
+.clearing-blackout,
+.clearing-caption,
+.clearing-assembled .clearing-container .visible-img,
+.clearing-assembled .clearing-container .carousel {
+  background-color: #222; /* Foundation override */
+}
+.clearing-assembled .clearing-container .carousel > ul li {
+  width: auto; /* NOTE : Fixed width removal (120px) */
 }
 
 /* ------------------------------------------------------------------ */
@@ -2392,7 +2424,8 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   content: "";
   float: right;
   display: inline-block;
-  margin-top: .25em;
+  margin-top: .5rem;
+  margin-right: .25rem;
   border: .5rem solid transparent;
   border-bottom-width: 0;
   border-top-color: silver;
@@ -2407,7 +2440,9 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   border-color: darkgray;
 }
 .options-select.wrong > .select,
-.options-select:focus.wrong > .select {
+.options-select.wrong > .options,
+.options-select:focus.wrong > .select,
+.options-select:focus.wrong > .options {
   border-color: #c33;
 }
 .options-select > .options {
@@ -2416,7 +2451,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   margin-bottom: 0;
   list-style: none;
   border-top: 0;
-  z-index: 100;
+  z-index: 10;
 }
 .options-select > .options > li {
   padding: .25rem .5rem;
@@ -2459,26 +2494,26 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
   font-size: 87.5%;
   background-color: rgba(255, 0, 0, .5);
   background-color: transparent;
-  transition: box-shadow .5s;
 }
 .css-fx .autocomplete {transition: box-shadow .5s;}
 .autocomplete ul {
   margin: 0 0 1rem;
   list-style: none;
-  background-color: rgba(0, 255, 0, .5);
-  background-color: white;
   border-width: 0 .125rem;
   border-style: solid;
   border-color: silver;
+  background-color: rgba(0, 255, 0, .5);
+  background-color: white;
 }
 .autocomplete ul > li {
   padding: 0 .5rem;
   line-height: 200%;
 }
 .autocomplete ul > li.selected {
+  cursor: pointer;
   color: HighlightText;
-  background-color: Highlight;
   font-weight: bold;
+  background-color: Highlight;
 }
 .autocomplete ul > li.selected mark {
   color: white;
@@ -2497,7 +2532,7 @@ a.label.ourbody:hover, a.label.ourbody:focus {background-color: #a17;}
 .autocomplete ul > li.suggested-fetch.selected:after {
   color: rgba(255, 255, 255, .5);
 }
-input:focus + button + .error + .autocomplete {
+.css-fx input:focus + button + .error + .autocomplete {
   -webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
      -moz-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
           box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .5);
@@ -2549,12 +2584,20 @@ input:focus + button + .error + .autocomplete > ul {
 .code .attr {color: red;}
 .code .prop {color: purple;}
 .code .comment {color: green;}
+.code .var {color: crimson;}
+.code .val {color: sienna;}
+.code .key {color: midnightblue;}
+.code .pair {color: cadetblue;}
 
 /* ------------------------------------------------------------------ */
 /* # Articles */
 /* ------------------------------------------------------------------ */
 
-.article .title {padding: 0 .5rem;}
+.article .title {
+  margin-top: 0;
+  margin-bottom: .5rem;
+  padding: 0 .5rem;
+}
 
 .article .author:not(p) {
   display: inline-block;
@@ -2713,8 +2756,6 @@ input:focus + button + .error + .autocomplete > ul {
 /* Below are shared mimic styles */
 .article.edit .title:hover,
 .article.edit .summary:hover,
-.article.edit .tags:hover,
-.article.edit .tags:focus,
 .article.edit .inline-editor:hover {
   cursor: pointer;
   border-style: dotted;
@@ -2740,8 +2781,6 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Below are specific mimic styles */
 .article.edit .title {
-  margin-top: 0.5em;
-  margin-bottom: 0.25em;
   font-size: 2.5em;
   font-weight: normal;
   font-style: normal;
@@ -2770,42 +2809,13 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: 1rem; /* WARNING : vertical position adjustment */
 }
 
-.article.edit .tags {
-  position: relative;
-  display: block;
-  padding-right: 12rem; /* WARNING : based upon after pseudo-element text width */
-}
-.article.edit .tags:after {
-  color: gainsboro;
-  font-size: 1rem;
-}
-.article.edit .tags:hover:after,
-.article.edit .tags:focus:after,
-.article.edit .tags.active:after {
-  content: "Éditer les tags";
-  position: absolute;
-  top: 12.5%;
-  right: 1rem;
-  color: silver;
-  font-size: 1.75rem;
-  letter-spacing: -.0625em;
-}
-.css-fx .article.edit .tags:after {letter-spacing: 0; font-family: "Oswald", sans-serif;transition: all .25s ease;}
-.article.edit .tags.active:after {
-  content: "Masquer les tags";
-}
-.css-fx .article.edit .tags dt > svg {transition: all .25s ease;}
-.article.edit .tags:hover dt > svg,
-.article.edit .tags:focus dt > svg,
-.article.edit .tags.active dt > svg {
-  width: 4rem;
-  height: 4rem;
-}
-
 .article.edit .inline-editor {
   padding: .5rem;
   border: .125rem solid transparent;
   background-color: white;
+}
+.article.edit .inline-editor:focus {
+  outline: none;
 }
 .css-fx .article.edit .inline-editor {transition: box-shadow .75s;}
 .css-fx .article.edit .inline-editor:focus {box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);}
@@ -2828,9 +2838,9 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Articles List */
 /* ------------------------------------------------------------------ */
 
-.articles-list {margin-bottom: 0;} /* TEMP : remove margin between lists */
+.articles-list {margin-bottom: .5rem;} /* TEMP : remove margin between lists */
 .articles-list li {}
-.articles-list li + li {margin-top: 0;} /* TEMP : remove margin between list items */
+.articles-list li + li {margin-top: .5rem;} /* TEMP : remove margin between list items */
 .articles-list li h4,
 .articles-list li h5 {
   font-size: 125%;
@@ -2902,56 +2912,6 @@ input:focus + button + .error + .autocomplete > ul {
   z-index: 1;
 }
 
-/* Transform */
-.articles-list.draft .href-block .title,
-.articles-list.draft .href-block .summary,
-.articles-list.standby .href-block .title,
-.articles-list.standby .href-block .summary {margin-left: 2.5rem;}
-.articles-list.draft .href-block a:before,
-.articles-list.standby .href-block a:before {
-  position: absolute;
-  text-indent: 0; /* Revert hide text */
-  letter-spacing: -.0625em;
-  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
-      -ms-transform: rotate(-90deg); /* IE 9 */
-          transform: rotate(-90deg);
-  -webkit-transform-origin: 50% 100%; /* Chrome, Opera and Safari */
-      -ms-transform-origin: 50% 100%; /* IE 9 */
-          transform-origin: 50% 100%;
-}
-.css-fx .articles-list .href-block a:before {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-
-/* Drafts */
-.articles-list.draft {}
-.articles-list.draft li {}
-.articles-list.draft .href-block {
-  background-color: whitesmoke;
-}
-.articles-list.draft .other .href-block {
-  background-color: #f3eafa;
-}
-.articles-list.draft .href-block a {
-  border-style: dashed;
-  border-color: silver;
-  border-width: .125rem;
-}
-.articles-list.draft .href-block a:before {
-  content: 'Brouillon';
-  top: .75rem;
-  left: 0;
-  color: darkgray;
-}
-.articles-list.draft .href-block:hover a {
-  border-color: silver;
-}
-.articles-list.draft .href-block:hover .summary {
-  color: dimgray;
-}
-.articles-list.draft :not(.other) .href-block:hover .summary {
-  color: darkgray;
-  color: rgba(0, 0, 0, .375);
-}
-
 /* Standbys */
 .articles-list.standby {}
 .articles-list.standby li {}
@@ -2989,6 +2949,61 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list.standby .href-block:hover a:after {
   background-color: #d52;
 }
+
+/* Drafts */
+.articles-list.draft {}
+.articles-list.draft li {}
+.articles-list.draft .href-block {
+  background-color: whitesmoke;
+}
+.articles-list.draft .my {}
+.articles-list.draft .other {}
+.articles-list.draft .other .href-block {
+  background-color: #f3eafa;
+}
+.articles-list.draft .href-block a {
+  border-style: dashed;
+  border-color: silver;
+  border-width: .125rem;
+}
+.articles-list.draft .href-block a:before {
+  content: 'Brouillon';
+  top: .75rem;
+  left: 0;
+  color: darkgray;
+}
+.articles-list.draft .href-block:hover a {
+  border-color: silver;
+}
+.articles-list.draft .href-block:hover .summary {
+  color: dimgray;
+}
+.articles-list.draft :not(.other) .href-block:hover .summary {
+  color: darkgray;
+  color: rgba(0, 0, 0, .375);
+}
+
+/* Onlines */
+.articles-list.online {}
+
+/* Transform */
+.articles-list.draft .href-block .title,
+.articles-list.draft .href-block .summary,
+.articles-list.standby .href-block .title,
+.articles-list.standby .href-block .summary {margin-left: 2.5rem;}
+.articles-list.draft .href-block a:before,
+.articles-list.standby .href-block a:before {
+  position: absolute;
+  text-indent: 0; /* Revert hide text */
+  letter-spacing: -.0625em;
+  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-90deg); /* IE 9 */
+          transform: rotate(-90deg);
+  -webkit-transform-origin: 50% 100%; /* Chrome, Opera and Safari */
+      -ms-transform-origin: 50% 100%; /* IE 9 */
+          transform-origin: 50% 100%;
+}
+.css-fx .articles-list .href-block a:before {letter-spacing: 0; font-family: "Oswald", sans-serif;}
 
 /* ------------------------------------------------------------------ */
 /* # Related List */
@@ -3034,47 +3049,48 @@ input:focus + button + .error + .autocomplete > ul {
   text-align: justify;
   border-top: .125rem dotted silver;
 }
-.info-tip {
+.more-info {
   position: absolute;
   display: inline-block;
   right: 0;
   top: 50%;
   width: 1.5rem;
   height: 1.5rem;
-  line-height: 1.5rem;
-  letter-spacing: -.0625em;
+  line-height: 1.25rem;
   margin-top: -.75rem;
   color: dimgray;
+  font-size: 1.5rem;
   text-align: center;
   border-radius: 100%;
   background-color: whitesmoke;
   border: .125rem solid darkgray;
   opacity: .5;
+}
+.css-fx .more-info {
   -webkit-transition: all .25s ease-out; /* TEMP */
      -moz-transition: all .25s ease-out; /* TEMP */
           transition: all .25s ease-out; /* TEMP */
 }
-.css-fx .info-tip {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-.info-tip:hover {
+.more-info:hover {
   cursor: pointer;
   right: -.375rem;
   width: 2rem;
   height: 2rem;
-  line-height: 2rem;
+  line-height: 1.75rem;
   margin-top: -1rem;
-  font-size: 125%;
+  font-size: 1.75rem;
   opacity: 1;
 }
-.info-tip:before {
-  content: "?";
+.more-info:before {
+  content: "+";
 }
-.info-tip.active {
+.more-info.active {
   color: white;
   border-color: dimgray;
   background-color: dimgray;
 }
-.info-tip.active:before {
-  content: "!";
+.more-info.active:before {
+  content: "-";
 }
 
 /* ------------------------------------------------------------------ */
@@ -3350,15 +3366,17 @@ input:focus + button + .error + .autocomplete > ul {
 .user-profile input.user-name:focus:not([disabled]):not([readonly]),
 .user-profile textarea.user-desc:focus:not([disabled]):not([readonly]),
 .user-profile input.user-name:not([disabled]):not([readonly]).wrong,
-.user-profile textarea.user-desc:not([disabled]):not([readonly]).wrong,
-.user-profile input.user-name:hover:not([disabled]):not([readonly]).wrong,
-.user-profile textarea.user-desc:hover:not([disabled]):not([readonly]).wrong {
+.user-profile input.user-name:hover:not([disabled]):not([readonly]).wrong {
   cursor: text;
   color: rgba(0, 0, 0, .75); /* Foundation default value */
   border-color: darkgray;
   border-style: solid;
   background-color: white;
   text-shadow: none;
+}
+.user-profile input.user-name:not([disabled]):not([readonly]).wrong,
+.user-profile input.user-name:hover:not([disabled]):not([readonly]).wrong {
+  border-color: #c33;
 }
 
 /* Below are specific mimic styles for user name */

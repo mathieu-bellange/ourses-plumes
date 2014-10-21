@@ -10,29 +10,35 @@
 /* ------------------------------------------------------------------ */
 /*
  * NOTE
- * Below are methods and jQuery extensions required by the module.
- * They have to be called before anything else.
- * Be carefull with them or beware Bilbo Baggin's mighty wrath !
+ * Below are owner javascript prototypes extensions.
+ * They must be called before anything else.
+ * Well, at least if you can catch the rime of an ancient mariner ...
  */
 
 /* Cut string
  * Remove characters from a string up to an end point
- * and return the result (e.g. "molebite".cut(4) becomes "bite")
+ * and return the result.
+ * "momolebite".cut(4) returns "lebite"
+ * "momolebite".cut(-4) returns "momole"
  */
-String.prototype.cut = function(end) {
-	return this.substr(end, this.length);
+String.prototype.cut = function(start) {
+	// return this.substr(start, this.length);
+	return (start < 0 ? this.substr(0, this.length + start) : this.substr(start, this.length));
 };
 
 /* Truncate string
  * Remove all characters from a string begining at a starting point
- * and return the result (e.g. "molebite".trunc(4) becomes "mole")
+ * and return the result.
+ * "momolebite".trunc(4) returns "momo"
+ * "momolebite".trunc(-4) returns "bite"
  */
-String.prototype.trunc = function(start) {
-	return this.substr(0, start);
+String.prototype.trunc = function(end) {
+	return (end < 0 ? this.substr(end, this.length) : this.substr(0, end));
 };
 
-/* Convert pixel string to root EM numeric
- * From String to Float (e.g. "20px" becomes 1.25)
+/* String to Float
+ * Convert pixel string to root EM numeric.
+ * "20px" returns 1.25
  */
 String.prototype.toRem = function() {
 	var n = parseFloat(this.replace("px", ""));
@@ -40,8 +46,9 @@ String.prototype.toRem = function() {
 	return (n / r);
 };
 
-/* Convert root EM numeric to pixel string
- * From Float to String (e.g. 1.25 becomes "20px")
+/* Float to String
+ * Convert root EM numeric to pixel string.
+ * 1.25 returns "20px"
  */
 Number.prototype.toPx = function() {
 	var n = this;
@@ -49,38 +56,174 @@ Number.prototype.toPx = function() {
 	return (n * r);
 };
 
-/* Scroll to (object) */
-function scrollTo(object, duration, spacing) {
-	var duration = $conf.js_fx ? (typeof duration !== "undefined" ? duration : 0) : 0;
-	var spacing = spacing || 0;
-	if (object.offset().top + object.height() > $(window).height() + $(document).scrollTop()) { // scroll down
-		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-			scrollTop : object.offset().top + object.outerHeight() - $(window).height() + spacing
-		}, duration);
-	} else if (object.offset().top < $(document).scrollTop()) { // scroll up
-		$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
-			scrollTop : object.offset().top - spacing
-		}, duration);
-	}
-}
+/* ------------------------------------------------------------------ */
+/* # Globals */
+/* ------------------------------------------------------------------ */
 
-/* Force focus */
-function force_focus(selector) {
-	$(selector).focus();
-	if ($conf.js_fx) {
-		$(selector)
-			.animate({"opacity" : ".25"}, 125)
-			.animate({"opacity" : "1"}, 250);
+var loap_pool = {
+//"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
+	"dev_toolbar_tmpl"              : $loc.tmpl + "_dev_toolbar.tmpl",
+	"ui_plugins_mptl"               : $loc.tmpl + "ui_plugins.mptl",
+	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
+	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
+	"icons_fx_file"                 : $file.icons_fx,
+	"icons_file"                    : $file.icons
+};
+var loax_pool = loax_pool || null;
+var file_pool = $.extend({}, loap_pool, loax_pool);
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * All instructions that need a refresh should be put below.
+ * That is mainly for anything launched by a generated element.
+ * It concerns append, prepend, wrap, before, after, insert, html, etc.
+ * Anything created after loading. This is an IIFE.
+ *
+ * Events have to be separatly attached for now and the future
+ * to a parent element (i.e. with 'on' or 'live' jQuery methods).
+ */
+
+var loap = (function() {
+	return {
+		build : function() {
+			// Apply css debug
+			if ($conf.css_debug) { $("body").addClass("css-debug") }
+			// Apply css fx
+			if ($conf.css_fx) { $("body").addClass("css-fx"); }
+			// Build container
+			if ($build.container) {
+				// Apply standard layout (i.e. two columns view)
+				$("body").addClass("standard-layout");
+				// Prepend frame
+				$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
+			}
+			// Build toolbar template
+			if ($build.toolbar) { $("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1)) }
+			// Build icons
+			if ($build.icons) {
+				// Prepend SVG effects
+				if ($conf.svg_fx) {
+					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
+				}
+				// Prepend SVG icons
+				$("body").prepend(file_pool.icons_file).prepend(lb(1));
+			}
+		},
+		update : function() {
+			$(document).svg_icons(); // WARNING : set svg icons for whole document
+			$(document).user_pictures(); // WARNING : set user pictures for whole document
+		},
+		init : function() {
+			/* Apply user settings */
+			check_user_connected()
+			set_toolbar_prefs()
+			/* Load components */
+			this.update();
+			$(document).placeholder(); // set placeholder for whole document
+			$(document).zlider(); // launch zlider for whole document
+			user_menu.init(); // setup user menu
+		}
+	};
+}());
+ 
+/* ------------------------------------------------------------------ */
+/* # Files Loader */
+/* ------------------------------------------------------------------ */
+
+$.holdReady(true); // hold document ready event
+
+(function() {
+	// vars
+	var files_readied = 0; // internal -- number of files to load
+	var files_ready   = 0; // internal -- number of files loaded
+	// functions
+	function checkReady() {
+		files_ready++;
+		if (files_ready == files_readied) {
+			loap.build(); // process primary build
+			if (typeof loax !== "undefined" && loax.hasOwnProperty("build")) {
+				loax.build() // process auxiliary build
+			}
+			$.holdReady(false); // release document ready event
+		}
 	}
-}
+	function setFileCallback(varname) {
+		return function(XHRresponse) {
+			if (file_pool[varname].trunc(-4) == "tmpl") {
+				file_pool[varname] = doT.compile(XHRresponse);
+			} else if (file_pool[varname].trunc(-4) == "mptl") {
+				var r = XHRresponse.split($regx.mptl);
+				for (var i = 0; i < r.length - 3; i += 3) {
+					file_pool[r[i+1]] = doT.compile(r[i+2]);
+				}
+			} else if (file_pool[varname].trunc(-4) == "json") {
+				file_pool[varname] = JSON.parse(XHRresponse);
+			} else {
+				file_pool[varname] = XHRresponse;
+			}
+			checkReady();
+		}
+	}
+	// process
+	for (key in file_pool) { files_readied++ }
+	for (varname in file_pool) {
+		loadfile(file_pool[varname], setFileCallback(varname));
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # Plugins */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
+ * Below are methods and jQuery extensions required by the module.
+ * They have to be called before anything else.
+ * Be carefull with them or beware Bilbo Baggin's mighty wrath !
+ */
+
+/* Force Focus */
+jQuery.fn.extend({
+	force_focus : function() {
+		this.focus();
+		if ($conf.js_fx) {
+			this
+				.animate({"opacity" : ".25"}, $time.duration.fx_short / 2)
+				.animate({"opacity" : "1"}, $time.duration.fx_short);
+		}
+	}
+});
 
 /* Cursor Position */
 jQuery.fn.extend({
-	selectText : function(start, end) {
+	select_text : function(start, end) {
 		end = end || false;
 		obj = this.first().get(0);
 		obj.focus();
 		obj.setSelectionRange(start, end || start);
+	}
+});
+
+/* Scroll To */
+jQuery.fn.extend({
+	scroll_to : function(opts) {
+		var defs = {
+			"fx_d"    : 0,          // Integer   Duration of scroll effect in milliseconds. Default : 0
+			"spacing" : 0           // Integer   Additional spacing added to scroll in pixel. Default : 0
+		};
+		var cfg = $.extend({}, defs, opts);
+		var obj = this; // internal
+		if (obj.offset().top + obj.height() > $(window).height() + $(document).scrollTop()) { // scroll down
+			$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+				scrollTop : obj.offset().top + obj.outerHeight() - $(window).height() + cfg.spacing
+			}, $conf.js_fx ? cfg.fx_d : 0);
+		} else if (obj.offset().top < $(document).scrollTop()) { // scroll up
+			$("html, body").animate({ // NOTE : 'html' for FF/IE and 'body' for Chrome
+				scrollTop : obj.offset().top - cfg.spacing
+			}, $conf.js_fx ? cfg.fx_d : 0);
+		}
 	}
 });
 
@@ -104,53 +247,51 @@ jQuery.fn.extend({
  * 2. Set data-placeholder and manually feed the element with <p class="placeholder">myString</p>. (e.g. inline-editor -- doesn't support custom data-* attributes)
  */
 jQuery.fn.extend({
-	placeholder : function(options) {
+	placeholder : function(opts) {
 		// vars
-		var defaults = {
+		var defs = {
 			"tag" : "span",                         // String    The tag of the placeholder element. Default : "span"
 			"attr" : "data-placeholder",            // String    Attribute name of the placeholder element. Default : "data-placeholder"
 			"class" : "placeholder",                // String    Class name of the placeholder element. Default : "placeholder"
 			"delay" : 750                           // Integer   Timeout before checking empty field value on blur. Default : 500
 		};
-		var settings = $.extend({}, defaults, options);
+		var cfg = $.extend({}, defs, opts);
 		var t = 0;
-		// methods
+		// functions
 		function removePlaceholder(obj) {
 			if (obj.data("placeholder_value") === undefined) {
-				obj.data("placeholder_value", obj.find("." + settings.class).text()); // store placeholder
-				obj.find("." + settings.class).remove();
+				obj.data("placeholder_value", obj.find("." + cfg.class).text()); // store placeholder
+				obj.find("." + cfg.class).remove();
 			}
 		}
 		// loop
 		$(this).each(function () {
 			// events
-			$(this).on("click", "[" + settings.attr + "]", function() {
+			$(this).on("click", "[" + cfg.attr + "]", function() {
 				clearTimeout(t);
 				removePlaceholder($(this)); // erase placeholder
 			});
-			$(this).on("keypress", "[" + settings.attr + "]", function(event) {
+			$(this).on("keypress", "[" + cfg.attr + "]", function(event) {
 				if (event.which !== 9) { // Tab
 					removePlaceholder($(this)); // erase placeholder
 				}
 			});
-			$(this).on("blur", "[" + settings.attr + "]", function() {
+			$(this).on("blur", "[" + cfg.attr + "]", function() {
 				var self = $(this);
 				t = setTimeout(function() {
 					if (!$("#cke_inline_editor").is(":visible")) {
 						if (self.find("iframe").length == 0 && self.text().trim().length == 0) {
-							self.html("<" + settings.tag + " class='" + settings.class + "'>" + self.data("placeholder_value") + "</" + settings.tag + ">"); // append placeholder
+							self.html("<" + cfg.tag + " class='" + cfg.class + "'>" + self.data("placeholder_value") + "</" + cfg.tag + ">"); // append placeholder
 							self.removeData("placeholder_value");
 						}
 					}
-				}, settings.delay);
+				}, cfg.delay);
 			});
 			// init
-			$(document).ready(function() {
-				$("[" + settings.attr + "]").each(function() {
-					if ($(this).attr(settings.attr) !== "") {
-						$(this).html("<span class='" + settings.class + "'>" + $(this).attr(settings.attr) + "</span>");
-					}
-				});
+			$("[" + cfg.attr + "]").each(function() {
+				if ($(this).attr(cfg.attr) !== "") {
+					$(this).html("<span class='" + cfg.class + "'>" + $(this).attr(cfg.attr) + "</span>");
+				}
 			});
 		});
 	}
@@ -158,17 +299,17 @@ jQuery.fn.extend({
 
 /* User Pictures */
 jQuery.fn.extend({
-	user_pictures : function(options) {
+	user_pictures : function(opts) {
 		// Variables
-		var defaults = {
+		var defs = {
 			attr : "data-image",  // String  Define the data attribute containing image URL. Default : "data-image"
 		};
-		var settings = $.extend({}, defaults, options);
+		var cfg = $.extend({}, defs, opts);
 		// Loop
 		$(this).each(function() {
-			var obj = $(this).find("[" + settings.attr + "]");
+			var obj = $(this).find("[" + cfg.attr + "]");
 			obj.each(function() {
-				var file = $(this).attr(settings.attr);
+				var file = $(this).attr(cfg.attr);
 				$(this).css("background-image", "url('" + file + "')")
 			});
 		});
@@ -177,9 +318,9 @@ jQuery.fn.extend({
 
 /* SVG Icons */
 jQuery.fn.extend({
-	svg_icons : function(options) {
+	svg_icons : function(opts) {
 		// Variables
-		var defaults = {
+		var defs = {
 			s_null : true,                          // Boolean   Set icons display size to zero (i.e. hide SVG on plain HTML). Default : true
 			s_default : 48,                         // Integer   Default icons display size in px. Default : 48
 			s_tiny : 24,                            // Integer   Tiny icons display size in px. Default : 24
@@ -207,28 +348,28 @@ jQuery.fn.extend({
 				"stumbleupon" : "gingerred"           // Default : "gingerred"
 			}
 		};
-		var settings = $.extend({}, defaults, options);
+		var cfg = $.extend({}, defs, opts);
 		// Loop
 		$(this).each(function() {
 			// Define object
-			var obj = $(this).find(settings.i_selector);
+			var obj = $(this).find(cfg.i_selector);
 			obj.each(function() {
 				// Retrieve icon hypertext reference from object class
-				var c = $(this).attr("class").match(settings.i_classmatch).toString();
+				var c = $(this).attr("class").match(cfg.i_classmatch).toString();
 				var i = c.substr(5, c.length);
-				var k = settings.i_classname;
+				var k = cfg.i_classname;
 				// Define icon color class from icon hypertext reference
-				if (settings.i_classes.hasOwnProperty(i)) {
-					k += " " + settings.i_classes[i];
+				if (cfg.i_classes.hasOwnProperty(i)) {
+					k += " " + cfg.i_classes[i];
 				}
 				// Set svg element width and height attributes
-				var s = settings.s_default;
-				if (settings.s_null == true) {s = 0}
-				else if ($(this).hasClass("tiny")) {s = settings.s_tiny}
-				else if ($(this).hasClass("small")) {s = settings.s_small}
-				else if ($(this).hasClass("medium")) {s = settings.s_medium}
-				else if ($(this).hasClass("large")) {s = settings.s_large}
-				else if ($(this).hasClass("huge")) {s = settings.s_huge}
+				var s = cfg.s_default;
+				if (cfg.s_null == true) {s = 0}
+				else if ($(this).hasClass("tiny")) {s = cfg.s_tiny}
+				else if ($(this).hasClass("small")) {s = cfg.s_small}
+				else if ($(this).hasClass("medium")) {s = cfg.s_medium}
+				else if ($(this).hasClass("large")) {s = cfg.s_large}
+				else if ($(this).hasClass("huge")) {s = cfg.s_huge}
 				// Define svg icon html code
 				var h = "<svg viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
 				// Append svg icon html code
@@ -242,24 +383,24 @@ jQuery.fn.extend({
 
 /* Options Select */
 jQuery.fn.extend({
-	options_select : function(options) {
+	options_select : function(opts) {
 		// vars
-		var defaults = {
-			select : ".select",       // String   Selector of the value holder element. Default : "span"
-			options : ".options",     // String   Selector of the list of choices itself. Default : "ul"
-			slide_duration : "fast",  // Integer  Length of the sliding effect in milliseconds. Default : "fast"
-			scroll_duration : 500,    // Integer  Length of the scrolling effect in milliseconds. Default : 500
-			scroll_spacing : 0        // Integer  Size of the scrolling spacing in pixels. Default : 0
+		var defs = {
+			"select"          : ".select",                  // String   Selector of the value holder element. Default : "span"
+			"options"         : ".options",                 // String   Selector of the list of choices itself. Default : "ul"
+			"slide_duration"  : "fast",                     // Integer  Length of the sliding effect in milliseconds. Default : "fast"
+			"scroll_duration" : 500,                        // Integer  Length of the scrolling effect in milliseconds. Default : 500
+			"scroll_spacing"  : 0                           // Integer  Size of the scrolling spacing in pixels. Default : 0
 		};
-		var settings = $.extend({}, defaults, options);
+		var cfg = $.extend({}, defs, opts);
 		// loop
 		$(this).each(function () {
 			// vars
 			var self = this;
 			// set initially selected value if any
-			if ($(this).find(settings.options + " > li").hasClass("selected")) {
-				var str = $(this).find(settings.options + " > li.selected").text();
-				$(this).find(settings.select).text(str);
+			if ($(this).find(cfg.options + " > li").hasClass("selected")) {
+				var str = $(this).find(cfg.options + " > li.selected").text();
+				$(this).find(cfg.select).text(str);
 			}
 			// prevent options list from being selected
 			$(this).attr("onSelectStart", "return false"); // IE 9
@@ -271,82 +412,91 @@ jQuery.fn.extend({
 			// bind events
 			$(this).bind({
 				blur: function() {
-					$conf.js_fx ? $(this).find(settings.options).slideUp(settings.slide_duration) : $(this).find(settings.options).hide();
+					$(this).data("last_value", $(this).find(cfg.options + " > li.selected").index()); // register last value
+					$conf.js_fx ? $(this).find(cfg.options).slideUp(cfg.slide_duration) : $(this).find(cfg.options).hide();
 				},
-				keydown: function(event) {
-					// var str = $(this).find(settings.options + " > li.selected").text();
-					if (event.which == 27) { // Escape
+				keydown: function(e) {
+					// var str = $(this).find(cfg.options + " > li.selected").text();
+					if (e.which == 13) { // Enter
 						$(this).blur();
 					}
-					if (event.which == 13 || event.which == 32) { // Enter or Space
+					else if (e.which == 27) { // Escape
+						var q = $(this).data("last_value");
+						console.log(q);
+						$(this).find(cfg.options + " > li").removeClass("selected");
+						$(this).find(cfg.options + " > li").eq(q).addClass("selected");
+						var s = $(this).find(cfg.options + " > li.selected").text();
+						$(this).find(cfg.select).text(s);
+					}
+					else if (e.which == 32) { // Space
 						if ($conf.js_fx) {
-							$(this).find(settings.options).slideToggle(settings.slide_duration, function() {
-								scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+							$(this).find(cfg.options).slideToggle(cfg.slide_duration, function() {
+								$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 							});
 						} else {
-							$(this).find(settings.options).toggle();
-							scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+							$(this).find(cfg.options).toggle();
+							$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 						}
 					}
-					if (event.which >= 33 && event.which <= 36 || event.which == 38 || event.which == 40) { // PageUp, PageDown, End, Home or Up or Down
-						event.preventDefault();
-						var index = $(this).find(settings.options + " > li.selected").index();
+					else if (e.which >= 33 && e.which <= 36 || e.which == 38 || e.which == 40) { // PageUp, PageDown, End, Home or Up or Down
+						e.preventDefault();
+						var index = $(this).find(cfg.options + " > li.selected").index();
 						if (index == -1) {
-							$(this).find(settings.options + " > li").not(".disabled").first().addClass("selected");
+							$(this).find(cfg.options + " > li").not(".disabled").first().addClass("selected");
 							index = 0;
 						}
-						if (event.which == 33 || event.which == 36) { // PageUp or Home
-							$(this).find(settings.options + " > li").removeClass("selected");
-							$(this).find(settings.options + " > li").first().addClass("selected");
+						if (e.which == 33 || e.which == 36) { // PageUp or Home
+							$(this).find(cfg.options + " > li").removeClass("selected");
+							$(this).find(cfg.options + " > li").first().addClass("selected");
 						}
-						if (event.which == 34 || event.which == 35) { // PageDown or End
-							$(this).find(settings.options + " > li").removeClass("selected");
-							$(this).find(settings.options + " > li").last().addClass("selected");
+						if (e.which == 34 || e.which == 35) { // PageDown or End
+							$(this).find(cfg.options + " > li").removeClass("selected");
+							$(this).find(cfg.options + " > li").last().addClass("selected");
 						}
-						if (event.which == 38 && index - 1 >= 0) { // Up
-							$(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().addClass("selected");
-							if ($(this).find(settings.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().hasClass("selected")) {
-								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
+						if (e.which == 38 && index - 1 >= 0) { // Up
+							$(this).find(cfg.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().addClass("selected");
+							if ($(this).find(cfg.options + " > li:eq(" + index + ")").prevAll("li:not(.disabled)").first().hasClass("selected")) {
+								$(this).find(cfg.options + " > li:eq(" + index + ")").removeClass("selected");
 							}
 						}
-						if (event.which == 40 && index + 1 < $(this).find(settings.options + " > li").length) { // Down
-							$(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().addClass("selected");
-							if ($(this).find(settings.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().hasClass("selected")) {
-								$(this).find(settings.options + " > li:eq(" + index + ")").removeClass("selected");
+						if (e.which == 40 && index + 1 < $(this).find(cfg.options + " > li").length) { // Down
+							$(this).find(cfg.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().addClass("selected");
+							if ($(this).find(cfg.options + " > li:eq(" + index + ")").nextAll("li:not(.disabled)").first().hasClass("selected")) {
+								$(this).find(cfg.options + " > li:eq(" + index + ")").removeClass("selected");
 							}
 						}
 						// scrolling
-						if ($(this).find(settings.options + " > li").hasClass("selected")) {
-							var str = $(this).find(settings.options + " > li.selected").text();
-							$(this).find(settings.select).text(str);
-							if ($(this).find(settings.options + " > li.selected").is(":first-child")) {
-								scrollTo($(this).find(settings.select), 250, $(this).find(settings.select).outerHeight());
-							} else if ($(this).find(settings.options + " > li.selected").is(":last-child")) {
-								scrollTo($(this).find(settings.options + " > li.selected"), 250, $(this).find(settings.select).outerHeight());
+						if ($(this).find(cfg.options + " > li").hasClass("selected")) {
+							var str = $(this).find(cfg.options + " > li.selected").text();
+							$(this).find(cfg.select).text(str);
+							if ($(this).find(cfg.options + " > li.selected").is(":first-child")) {
+								$(this).find(cfg.select).scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).find(cfg.select).outerHeight()});
+							} else if ($(this).find(cfg.options + " > li.selected").is(":last-child")) {
+								$(this).find(cfg.options + " > li.selected").scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).find(cfg.select).outerHeight()});
 							} else {
-								scrollTo($(this).find(settings.options + " > li.selected"), 0);
+								$(this).find(cfg.options + " > li.selected").scroll_to();
 							}
 						}
 					}
 				}
 			});
-			$(this).on("click", settings.select, function() {
+			$(this).on("click", cfg.select, function() {
 				if ($conf.js_fx) {
-					$(this).next(settings.options).slideToggle(settings.slide_duration, function() {
-						scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+					$(this).next(cfg.options).slideToggle(cfg.slide_duration, function() {
+						$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 					});
 				} else {
-					$(this).next(settings.options).toggle();
-					scrollTo($(self), false, $(self).find(settings.select).outerHeight());
+					$(this).next(cfg.options).toggle();
+					$(self).scroll_to({"spacing" : $(self).find(cfg.select).outerHeight()});
 				}
 			});
-			$(this).on("click", settings.options + " > li", function() {
+			$(this).on("click", cfg.options + " > li", function() {
 				if (!$(this).hasClass("disabled")) {
 					var str = $(this).text();
 					$(this).addClass("selected");
 					$(this).siblings().removeClass("selected");
-					$(this).parent(settings.options).prev(settings.select).text(str);
-					$conf.js_fx ? $(this).parent(settings.options).slideToggle(settings.slide_duration) : $(this).parent(settings.options).toggle();
+					$(this).parent(cfg.options).prev(cfg.select).text(str);
+					$conf.js_fx ? $(this).parent(cfg.options).slideToggle(cfg.slide_duration) : $(this).parent(cfg.options).toggle();
 				}
 			});
 		});
@@ -355,8 +505,8 @@ jQuery.fn.extend({
 
 /* Custom Slider */
 jQuery.fn.extend({
-	zlider: function(options) {
-		var defaults = {
+	zlider: function(opts) {
+		var defs = {
 			"prev_selector"  : ".prev",        // Selector  Forward controller. Default : ".prev"
 			"next_selector"  : ".next",        // Selector  Backward controller. Default : ".next"
 			"inner_selector" : "ul",           // Selector  Inside box (i.e. the sliding content). Default : ".fast-nav ul"
@@ -366,7 +516,7 @@ jQuery.fn.extend({
 			"resize_timeout" : 500,            // Duration  Time before slider is reset after window resize. Default : 500
 			"extra_spacing"  : 1,              // Integer   Additional safety spacing added to inside box (px). Default : 1
 		};
-		settings = $.extend({}, defaults, options);
+		cfg = $.extend({}, defs, opts);
 		$("[data-zlider]").each(function() {
 			// vars
 			var resize_count = 0;
@@ -375,7 +525,7 @@ jQuery.fn.extend({
 			var inner_left = 0;
 			var inner_width = 0;
 			var self = $(this);
-			// methods
+			// functions
 			function get_items_width(list, item, include_margin) { // obj, selector, [boolean]
 				var include_margin = include_margin || true, n = 0;
 				list.find(item).each(function() {
@@ -389,97 +539,97 @@ jQuery.fn.extend({
 				list.find(item).each(function() {
 					var x = $(this).offset().left;
 					if (x > min_x && x < max_x) {
-						$(this).find(settings.link_selector).removeAttr("tabindex");
+						$(this).find(cfg.link_selector).removeAttr("tabindex");
 					} else {
-						$(this).find(settings.link_selector).attr("tabindex", "-1");
+						$(this).find(cfg.link_selector).attr("tabindex", "-1");
 					}
 				});
 			}
 			function setup(obj) {
-				var outer_width = get_items_width(obj, settings.item_selector); // internal ; compute total width
+				var outer_width = get_items_width(obj, cfg.item_selector); // internal ; compute total width
 				if (obj.width() < outer_width) { // setup component if needed
 					$(".prev, .next").show(); // show slider controls
 					// define vars
 					var prev = {
-						"width" : obj.find(settings.prev_selector).width(),
-						"padding" : parseFloat(obj.find(settings.prev_selector).css("padding-right"))
+						"width" : obj.find(cfg.prev_selector).width(),
+						"padding" : parseFloat(obj.find(cfg.prev_selector).css("padding-right"))
 					};
 					var next = {
-						"width" : obj.find(settings.next_selector).width(),
-						"padding" : parseFloat(obj.find(settings.next_selector).css("padding-left"))
+						"width" : obj.find(cfg.next_selector).width(),
+						"padding" : parseFloat(obj.find(cfg.next_selector).css("padding-left"))
 					};
 					inner_left = prev.width;
 					inner_width = obj.width() - (prev.width + next.width + prev.padding + next.padding);
 					// proceed positioning and sizing
-					obj.find(settings.inner_selector).css("left", inner_left);
-					obj.find(settings.inner_selector).css("width", outer_width + settings.extra_spacing);
-					obj.find(settings.next_selector).find(settings.link_selector).addClass("disabled");
-					obj.find(settings.prev_selector).find(settings.link_selector).removeClass("disabled");
-					obj.find(settings.prev_selector).css({"padding-right" : "0", "background" : "none"});
+					obj.find(cfg.inner_selector).css("left", inner_left);
+					obj.find(cfg.inner_selector).css("width", outer_width + cfg.extra_spacing);
+					obj.find(cfg.next_selector).find(cfg.link_selector).addClass("disabled");
+					obj.find(cfg.prev_selector).find(cfg.link_selector).removeClass("disabled");
+					obj.find(cfg.prev_selector).css({"padding-right" : "0", "background" : "none"});
 					slide_step = Math.floor(outer_width / inner_width); // compute sliding steps
-					set_items_focusability(obj, settings.item_selector, inner_width); // set items focusability
+					set_items_focusability(obj, cfg.item_selector, inner_width); // set items focusability
 				} else {
-					obj.find(settings.prev_selector + ", " + settings.next_selector).hide();
-					obj.find(settings.inner_selector).css("width", "auto");
-					obj.find(settings.inner_selector).css("left", "0");
+					obj.find(cfg.prev_selector + ", " + cfg.next_selector).hide();
+					obj.find(cfg.inner_selector).css("width", "auto");
+					obj.find(cfg.inner_selector).css("left", "0");
 					slide_count = 0; // reset count
 				}
 			}
 			function slide(obj, dir, e) { // obj, forward|backward, mouse|keyboard
-				var dir_selector = (dir == "forward" ? settings.next_selector : settings.prev_selector);
-				var reverse_selector = (dir == "forward" ? settings.prev_selector : settings.next_selector);
+				var dir_selector = (dir == "forward" ? cfg.next_selector : cfg.prev_selector);
+				var reverse_selector = (dir == "forward" ? cfg.prev_selector : cfg.next_selector);
 				var e_event = (e == "mouse" ? "mousedown" : "keydown");
-				obj.find(reverse_selector + " " + settings.link_selector).removeClass("disabled");
+				obj.find(reverse_selector + " " + cfg.link_selector).removeClass("disabled");
 				dir == "forward" ? obj.find(dir_selector).css({"padding-left" : "", "background" : ""}) : obj.find(dir_selector).css({"padding-right" : "", "background" : ""});
 				if (!obj.find(dir_selector).hasClass("disabled")) {
-					obj.find(dir_selector).find(settings.link_selector).data(e_event, true);
+					obj.find(dir_selector).find(cfg.link_selector).data(e_event, true);
 					if (dir == "forward" ? slide_count < 0 : slide_count > -slide_step) {
 						dir == "forward" ? slide_count++ : slide_count--;
 						inner_left = (dir == "forward" ? inner_left + inner_width : inner_left - inner_width);
-						obj.find(settings.inner_selector).animate({"left" : inner_left}, $conf.js_fx ? settings.slide_duration : 0, function() {
+						obj.find(cfg.inner_selector).animate({"left" : inner_left}, $conf.js_fx ? cfg.slide_duration : 0, function() {
 							set_items_focusability(obj, "li", inner_width);
 							if (dir == "forward" ? slide_count < 0 : slide_count > -slide_step) {
 								if ($conf.js_fx) {
-									if (obj.find(dir_selector).find(settings.link_selector).data(e_event) == true) {
+									if (obj.find(dir_selector).find(cfg.link_selector).data(e_event) == true) {
 										if (e_event == "mousedown") {
-											obj.find(dir_selector).find(settings.link_selector).mousedown();
+											obj.find(dir_selector).find(cfg.link_selector).mousedown();
 										} else if (e_event == "keydown") {
-											obj.find(dir_selector).find(settings.link_selector).keydown();
+											obj.find(dir_selector).find(cfg.link_selector).keydown();
 										}
 									}
 								}
 							} else {
-								obj.find(dir_selector).find(settings.link_selector).addClass("disabled");
+								obj.find(dir_selector).find(cfg.link_selector).addClass("disabled");
 								dir == "forward" ? obj.find(reverse_selector).css({"padding-right" : "0", "background" : "none"}) : obj.find(reverse_selector).css({"padding-left" : "0", "background" : "none"});
 							}
 						});
 					} else {
-						obj.find(dir_selector).find(settings.link_selector).addClass("disabled");
+						obj.find(dir_selector).find(cfg.link_selector).addClass("disabled");
 						dir == "forward" ? obj.find(reverse_selector).css({"padding-right" : "0", "background" : "none"}) : obj.find(reverse_selector).css({"padding-left" : "0", "background" : "none"});
 					}
 				}
 			}
 			// events
-			$(this).find(settings.prev_selector + " " + settings.link_selector).mousedown(function() {
+			$(this).find(cfg.prev_selector + " " + cfg.link_selector).mousedown(function() {
 				slide(self, "backward", "mouse");
 			});
-			$(this).find(settings.next_selector + " " + settings.link_selector).mousedown(function() {
+			$(this).find(cfg.next_selector + " " + cfg.link_selector).mousedown(function() {
 				slide(self, "forward", "mouse");
 			});
-			$(this).find(settings.prev_selector + " " + settings.link_selector + ", " + settings.next_selector + " " + settings.link_selector).mouseup(function() {
+			$(this).find(cfg.prev_selector + " " + cfg.link_selector + ", " + cfg.next_selector + " " + cfg.link_selector).mouseup(function() {
 				$(this).removeData("mousedown");
 			});
-			$(this).find(settings.prev_selector + " " + settings.link_selector).keydown(function(e) {
+			$(this).find(cfg.prev_selector + " " + cfg.link_selector).keydown(function(e) {
 				if (e.which == 13) { // Enter
 					slide(self, "backward", "keyboard");
 				}
 			});
-			$(this).find(settings.next_selector + " " + settings.link_selector).keydown(function(e) {
+			$(this).find(cfg.next_selector + " " + cfg.link_selector).keydown(function(e) {
 				if (e.which == 13) { // Enter
 					slide(self, "forward", "keyboard");
 				}
 			});
-			$(this).find(settings.prev_selector + " " + settings.link_selector + ", " + settings.next_selector + " " + settings.link_selector).keyup(function(e) {
+			$(this).find(cfg.prev_selector + " " + cfg.link_selector + ", " + cfg.next_selector + " " + cfg.link_selector).keyup(function(e) {
 				if (e.which == 13) { // Enter
 					$(this).removeData("keydown");
 				}
@@ -490,7 +640,7 @@ jQuery.fn.extend({
 					setTimeout(function() {
 						resize_count = 0;
 						setup(self);
-					}, settings.resize_timeout);
+					}, cfg.resize_timeout);
 				}
 			});
 			setup($(this)); // init
@@ -500,112 +650,105 @@ jQuery.fn.extend({
 
 /* Autocomplete */
 jQuery.fn.extend({
-	autocomplete : function(options) {
-		// Variables
-		var defaults = {
-			selector : ".autocomplete",             // String    Selector of the element containing the <ul> feeded by the autocomplete. Default : ".autocomplete"
-			start_chars_num : 3,                    // Integer   The number of characters from which the autocomplete begins. Default : 3
-			max_displayed_items : 6,                // Integer   The number of displayed items in the autocomplete suggestions box. Default : 6
-			white_spaces_replacement : " ",         // String    Whites spaces are replaced by that string. Default : " "
-			accepted_chars_list : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i // Regexp. The valid characters pattern. Default : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/
+	autocomplete : function(opts) {
+		// vars
+		var defs = {
+			"selector"                 : ".autocomplete",  // String   Selector of the element containing the <ul> feeded by the autocomplete. Default : ".autocomplete"
+			"start_chars_num"          : 3,                // Integer  The number of characters from which the autocomplete begins. Default : 3
+			"max_displayed_items"      : 6,                // Integer  The number of displayed items in the autocomplete suggestions box. Default : 6
+			"white_spaces_replacement" : " ",              // String   Whites spaces are replaced by that string. Default : " "
+			"accepted_chars_list"      : $regx.tags        // Regexp   The valid characters pattern.
 		};
-		var settings = $.extend({}, defaults, options);
-		var i = settings.start_chars_num; // internal
-		// methods
-		function check_error(selector, error_margin) {
-			var error_margin = error_margin || "";
-			if (settings.accepted_chars_list.test($(selector).val())) {
-				$(selector).css("margin-bottom", "0");
-				$(selector).nextAll("small.error").first().css("margin-bottom", error_margin);
-				$(selector).set_validation(false, $msg.char_illegal);
-			} else if ($(selector).attr("data-invalid") == "true") {
-				// DO nothing ! An error from elsewhere is triggered
-			} else if ($(selector).val().length === 0) {
-				$(selector).set_validation(true);
-				$(selector).removeClass("valid");
+		var cfg = $.extend({}, defs, opts);
+		var i = cfg.start_chars_num; // internal
+		// functions
+		function check_error(sel) {
+			if (cfg.accepted_chars_list.test($(sel).val())) {
+				$(sel).set_validation(false, $msg.char_illegal);
+			} else if ($(sel).val().trim().length == 0) {
+				$(sel).set_validation(null);
 			} else {
-				$(selector).set_validation(true);
+				$(sel).set_validation(true);
 			}
 		}
-		// Loop
+		// loop
 		$(this).each(function() {
 			var self = $(this);
-			var autocomplete_selector = $(this).nextAll(settings.selector).first(); // this is suggestion list container
+			var sel = $(this).nextAll(cfg.selector).first(); // this is suggestion list container
 			// events
 			$(this).bind({
 				focus : function() {
-					$(this).css("margin-bottom", "0");
-					autocomplete_selector.removeClass("hide");
-					check_error(this, "0"); // check error
+					sel.removeClass("hide");
+					check_error(this); // check error
 				},
 				blur : function() {
 					$(this).val($(this).val().trim()); // remove white spaces
-					$(this).val($(this).val().replace(/\s+/g, settings.white_spaces_replacement)); // replace white spaces
-					autocomplete_selector.addClass("hide");
-					$(this).css("margin-bottom", "");
+					$(this).val($(this).val().replace(/\s+/g, cfg.white_spaces_replacement)); // replace white spaces
+					sel.addClass("hide");
 					check_error(this); // check error
 				},
 				keydown : function(e) {
-					if (e.which == 13 || e.which == 27) { // Enter or Escape
+					if (e.which == 27) { // Escape
 						$(this).blur();
-					}
-					if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp or PageDown or or Up or Down
+					} else if (e.which == 33 || e.which == 34 || e.which == 38 || e.which == 40) { // PageUp or PageDown or or Up or Down
 						e.preventDefault();
 						index = 0;
-						var index = autocomplete_selector.find("ul > li.selected").index();
+						var index = sel.find("ul > li.selected").index();
 						if (index == -1) {
-							autocomplete_selector.find("ul > li").not(".hide").first().addClass("selected");
+							sel.find("ul > li").not(".hide").first().addClass("selected");
 						}
 						if (e.which == 33) { // PageUp
-							autocomplete_selector.find("ul > li").removeClass("selected");
-							autocomplete_selector.find("ul > li").not(".hide").first().addClass("selected");
+							sel.find("ul > li").removeClass("selected");
+							sel.find("ul > li").not(".hide").first().addClass("selected");
 						}
 						if (e.which == 34) { // PageDown
-							autocomplete_selector.find("ul > li").removeClass("selected");
-							autocomplete_selector.find("ul > li").not(".hide").last().addClass("selected");
+							sel.find("ul > li").removeClass("selected");
+							sel.find("ul > li").not(".hide").last().addClass("selected");
 						}
 						if (e.which == 38 && index - 1 >= 0) { // Up
-							autocomplete_selector.find("ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().addClass("selected");
-							if (autocomplete_selector.find("ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().hasClass("selected")) {
-								autocomplete_selector.find("ul > li:eq(" + index + ")").removeClass("selected");
+							sel.find("ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().addClass("selected");
+							if (sel.find("ul > li:eq(" + index + ")").prevAll("li:not('.hide')").first().hasClass("selected")) {
+								sel.find("ul > li:eq(" + index + ")").removeClass("selected");
 							}
 						}
 						if (e.which == 40) { // Down
-							autocomplete_selector.find("ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().addClass("selected");
-							if (autocomplete_selector.find("ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().hasClass("selected")) {
-								autocomplete_selector.find("ul > li:eq(" + index + ")").removeClass("selected");
+							sel.find("ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().addClass("selected");
+							if (sel.find("ul > li:eq(" + index + ")").nextAll("li:not('.hide')").first().hasClass("selected")) {
+								sel.find("ul > li:eq(" + index + ")").removeClass("selected");
 							}
 						}
-						var s = autocomplete_selector.find("ul > li.selected").text();
+						var s = sel.find("ul > li.selected").text();
 						$(this).val(s);
 						// scroll to selected item
-						if (autocomplete_selector.find("ul > li").hasClass("selected")) {
-							if (autocomplete_selector.find("ul > li").not(".hide").first().hasClass("selected")) {
-								scrollTo($(this), 250, $(this).outerHeight());
-							} else if (autocomplete_selector.find("ul > li").not(".hide").last().hasClass("selected")) {
-								scrollTo(autocomplete_selector.find("ul > li.selected"), 250, $(this).outerHeight());
+						if (sel.find("ul > li").hasClass("selected")) {
+							if (sel.find("ul > li").not(".hide").first().hasClass("selected")) {
+								$(this).scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).outerHeight()});
+							} else if (sel.find("ul > li").not(".hide").last().hasClass("selected")) {
+								sel.find("ul > li.selected").scroll_to({"fx_d" : $time.duration.fx_short, "spacing" : $(this).outerHeight()});
 							} else {
-								scrollTo(autocomplete_selector.find("ul > li.selected"), 0);
+								sel.find("ul > li.selected").scroll_to();
 							}
 						}
 					}
 				},
 				keyup : function(e) {
-					check_error(this, "0"); // check error
+					if (e.which !== 13) { // NOT Enter
+						check_error(this);
+					}
 					if ((e.which >= 48 && e.which <= 57) || (e.which >= 64 && e.which <= 90) || (e.which >= 96 && e.which <= 105) || e.which == 32 || e.which == 8 || e.which == 46) { // From 0 to 9 or from A to Z or from Numpad 0 to Numpad 9 or Space or Backspace or Del
-						autocomplete_selector.find("ul > li").removeClass("selected"); // unselect all
+						sel.find("ul > li").removeClass("selected"); // unselect all
 						if (e.which == 8 || e.which == 46) { // Backspace or Del
 							if (i > 0) {
 								i -= 1;
 							}
 						}
-						if ($(this).val().length >= settings.start_chars_num) {
+						if ($(this).val().length >= cfg.start_chars_num) {
 							var k = 0;
 							var m = $(this).val();
 							i = $(this).val().length;
-							autocomplete_selector.find("ul > li").each(function() {
+							sel.find("ul > li").each(function() {
 								var r = $(this).text().slice(0, i);
-								if (r.toLowerCase() == m.toLowerCase() && k < settings.max_displayed_items) {
+								if (r.toLowerCase() == m.toLowerCase() && k < cfg.max_displayed_items) {
 									var str = $(this).text();
 									var html = "<mark>" + str.slice(0, i) + "</mark>" + str.substr(i, str.length);
 									$(this).html(html);
@@ -616,32 +759,31 @@ jQuery.fn.extend({
 								}
 							});
 							// scroll
-							if (autocomplete_selector.offset().top + autocomplete_selector.height() > $(window).height() + $(document).scrollTop()) {
-								scrollTo(autocomplete_selector.find("ul > li:visible").last(), 500, $(this).outerHeight());
+							if (sel.offset().top + sel.height() > $(window).height() + $(document).scrollTop()) {
+								sel.find("ul > li:visible").last().scroll_to({"fx_d" : $time.duration.fx, "spacing" : $(this).outerHeight()});
 							} else {
-								scrollTo(autocomplete_selector.parent(), 500, $(this).outerHeight());
+								sel.parent().scroll_to({"fx_d" : $time.duration.fx, "spacing" : $(this).outerHeight()});
 							}
 						} else {
-							autocomplete_selector.find("ul > li").each(function() {
+							sel.find("ul > li").each(function() {
 								$(this).addClass("hide"); // hide all autocompletion items
 							});
 						}
 					}
 				},
 			});
-			autocomplete_selector.on("mouseenter", "ul > li", function() {
+			sel.on("mouseenter", "ul > li", function() {
 				$(this).siblings().removeClass("selected");
 				$(this).addClass("selected");
 				self.val($(this).text());
-				check_error(self, "0"); // check error
+				check_error(self); // check error
 			});
-			autocomplete_selector.on("mouseleave", "ul > li", function() {
+			sel.on("mouseleave", "ul > li", function() {
 				$(this).removeClass("selected");
 			});
-			$(document).ready(function() {
-				autocomplete_selector.find("ul > li").each(function() {
-					$(this).addClass("hide"); // hide all autocompletion items (if any)
-				});
+			// init
+			sel.find("ul > li").each(function() {
+				$(this).addClass("hide"); // hide all autocompletion items (if any)
 			});
 		});
 	}
@@ -649,42 +791,44 @@ jQuery.fn.extend({
 
 /* Set Validation */
 jQuery.fn.extend({
-	set_validation : function(is_valid, err_msg, options) {
+	set_validation : function(is_valid, err_msg, opts) {
 		// vars
 		var err_msg = err_msg || undefined;
-		var defaults = {
-			cls_label : "error",            // String  The class of an invalid field label. Default : "error"
-			cls_valid : "valid",            // String  The class of a valid field. Default : "valid"
-			cls_invalid : "wrong",          // String  The class of an invalid field. Default : "wrong"
-			cls_abiding : "loading",        // String  The class of an abiding validation field. Default : "loading"
+		var defs = {
+			cls_label    : "error",         // String  The class of an invalid field label. Default : "error"
+			cls_valid    : "valid",         // String  The class of a valid field. Default : "valid"
+			cls_invalid  : "wrong",         // String  The class of an invalid field. Default : "wrong"
+			cls_abiding  : "loading",       // String  The class of an abiding validation field. Default : "loading"
 			err_selector : "small.error"    // String  The selector of the element holding the error message. Default : "small.error"
 		};
-		var settings = $.extend({}, defaults, options);
+		var cfg = $.extend({}, defs, opts);
 		// loop
 		$(this).each(function () {
 			if (is_valid == true) {
-				$(this).addClass(settings.cls_valid);
 				$(this).removeAttr("data-invalid"); // Remove Foundation abide validation data attribute
-				$(this).removeClass(settings.cls_invalid);
-				$(this).removeClass(settings.cls_abiding);
-				$("[for='" + $(this).attr("id") + "']").removeClass(settings.cls_label);
-				$(this).nextAll(settings.err_selector).first().addClass("hide");
+				$(this).removeClass(cfg.cls_invalid + " " + cfg.cls_abiding);
+				$(this).addClass(cfg.cls_valid);
+				$("[for='" + $(this).attr("id") + "']").removeClass(cfg.cls_label);
+				$(this).nextAll(cfg.err_selector).first().addClass("hide");
 			} else if (is_valid == false) {
-				$(this).removeClass(settings.cls_valid);
 				$(this).attr("data-invalid", true); // Define Foundation abide validation data attribute
-				$(this).addClass(settings.cls_invalid);
-				$(this).removeClass(settings.cls_abiding);
-				$("[for='" + $(this).attr("id") + "']").addClass(settings.cls_label);
+				$(this).removeClass(cfg.cls_valid + " " + cfg.cls_abiding);
+				$(this).addClass(cfg.cls_invalid);
+				$("[for='" + $(this).attr("id") + "']").addClass(cfg.cls_label);
 				if (err_msg !== undefined) {
-					$(this).nextAll(settings.err_selector).first().html(err_msg);
+					$(this).nextAll(cfg.err_selector).first().html(err_msg);
 				}
-				$(this).nextAll(settings.err_selector).first().removeClass("hide");
+				$(this).nextAll(cfg.err_selector).first().removeClass("hide");
+			} else if (typeof is_valid !== "undefined") {
+				$(this).removeAttr("data-invalid"); // Remove Foundation abide validation data attribute
+				$(this).removeClass(cfg.cls_valid + " " + cfg.cls_invalid + " " + cfg.cls_abiding);
+				$("[for='" + $(this).attr("id") + "']").removeClass(cfg.cls_label);
+				$(this).nextAll(cfg.err_selector).first().addClass("hide");
 			} else {
-				$(this).removeClass(settings.cls_valid);
-				$(this).removeClass(settings.cls_invalid);
-				$(this).addClass(settings.cls_abiding);
+				$(this).removeClass(cfg.cls_valid + " " + cfg.cls_invalid);
+				$(this).addClass(cfg.cls_abiding);
 				setTimeout(function() {
-					$(this).removeClass(settings.cls_abiding);
+					$(this).removeClass(cfg.cls_abiding);
 				}, 1000);
 			}
 		});
@@ -697,7 +841,7 @@ jQuery.fn.extend({
 		// vars
 		var str = "";
 		var t = 0;
-		// methods
+		// functions
 		function valid(obj, cancel) {
 			var cancel = cancel || false;
 			$conf.js_fx ? $(".validation-bar").fadeOut("fast") : $(".validation-bar").hide();
@@ -709,37 +853,40 @@ jQuery.fn.extend({
 		// loop
 		$(this).each(function() {
 			var obj = $(this);
-			if (typeof obj.attr("disabled") === "undefined" && typeof obj.attr("readonly") === "undefined") {
-				// events
-				obj.bind({
-					focus: function() {
+			// events
+			obj.bind({
+				focus: function() {
+					if (obj.attr("disabled") == undefined && obj.attr("readonly") == undefined) {
 						str = $(obj).val();
-					},
-					blur: function(event) {
+					}
+				},
+				blur: function(event) {
+					if (obj.attr("disabled") == undefined && obj.attr("readonly") == undefined) {
 						if ($(".validation-bar [data-valid]").length > 0 && $(".validation-bar [data-cancel]").is(":hover")) {
 							valid(obj, true);
 						} else {
 							valid(obj);
 						}
 						obj.trigger('autosize.resize') // force autosize (i.e. wrong size on cancel bug fix)
-					},
-					keydown: function(event) {
+					}
+				},
+				keyup: function(event) {
+					if (obj.attr("disabled") == undefined && obj.attr("readonly") == undefined) {
 						if (event.which == 27) { // Escape
 							valid(obj, true);
-							obj.blur();
 						} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
 							valid(obj);
 							obj.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".validation-bar").length === 0) {
-								$(this).after(doT.compile(loadfile($loc.tmpl + "snippet_confirmation_bar.tmpl"))); // insert confirmation_bar template
+								$(this).after(file_pool.confirmation_bar_tmpl); // insert confirmation_bar template
 								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
 								$conf.js_fx ? $(".validation-bar").fadeIn("slow") : $(".validation-bar").show();
 							}
 						}
 					}
-				});
-			}
+				}
+			});
 		});
 	}
 });
@@ -759,13 +906,13 @@ jQuery.fn.extend({
  * then the alert box identified by that id will be updated instead
  * of being erased. To create another box, define another id.
  */
-var alert_box_template = doT.compile(loadfile($loc.tmpl + "snippet_alert_box.tmpl"));
 jQuery.fn.extend({
 	create_alert_box : function(msg, id, opts) {
 		var msg = msg || $msg.error, id = id || "alert_box";
 		var defs = {
-			"class"           : "error",    // String   CSS Class name of the alert box (null to none). Default : "error"
-			"icon"            : "warning",  // String   CSS Class name of the message icon (null to none). Default : "warning"
+			"class"           : "error",    // String   CSS class of the alert box (null to none). Default : "error"
+			"icon"            : "warning",  // String   Name of the message icon (null to none). Default : "warning"
+			"icon_class"      : "white",    // String   CSS color class of the message icon (null to none). Default : "white"
 			"timeout"         : 0,          // Integer  Time before alert box fade out (zero to never). Default : 0
 			"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
 			"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
@@ -774,28 +921,27 @@ jQuery.fn.extend({
 		var cfg = $.extend({}, defs, opts);
 		var sel = "#" + id; // internal
 		if ($(sel).length == 0) {
-			$(this).first().after(alert_box_template({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "text" : msg}));
+			$(this).first().after(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : msg}));
 			$(sel).svg_icons(); // set svg icons contained by alert box
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
 			if (cfg.timeout > 0) {
 				setTimeout(function() {
-					$(sel).children().css("visibility", "hidden"); // mask box content
-					$(sel).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? cfg.fade_duration : 0, function() { // hide alert box
-						$(sel).remove(); // remove alert box
-					});
+					$(sel).find(".close").first().click();
 				}, cfg.timeout);
 			}
 		} else { // update
 			$(sel).removeClass("info secondary alert error success warning");
 			$(sel).addClass(cfg["class"]);
 			$(sel).find(".text").html(msg);
+			$(sel).find(".icon").removeClass("").addClass("icon small" + (cfg.icon_class !== null ? " " + cfg.icon_class : ""));
+			$(sel).find(".icon svg use").attr("xlink:href", "#icon-" + cfg.icon);
 		}
-		if (cfg.scroll == true) { scrollTo($(sel), cfg.scroll_duration, $(sel).innerHeight()) } // scroll to alert box
+		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
 	}
 });
 
 /* ------------------------------------------------------------------ */
-/* # Components (global) */
+/* # Components */
 /* ------------------------------------------------------------------ */
 
 var user_menu = (function() {
@@ -847,19 +993,19 @@ var user_menu = (function() {
 						$(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
 					} else {
 						set_user_connected(true); // connect user
-						createAlertBox($msg.connected, "alert_auth", {"class" : "success"})
+						createAlertBox($msg.connected, "alert_auth", {"class" : "success", "timeout" : $time.duration.alert})
 					}
 				});
 				var fail = (function() {
 					if ($(cfg.trigger).data("connected") == true) {
 						set_user_connected(false); // set not connected
-						disconnect($msg.disconnected); // disconnect
+						disconnect($msg.disconnected, {"timeout" : $time.duration.alert}); // disconnect
 					} else {
 						window.location.href = $nav.login.url; // redirect to the login page
 					}
 				});
 				////////////////////////////////////////////////////////////////
-				// Local TEST block : can be removed
+				// Local TEST block for DEBUG
 				////////////////////////////////////////////////////////////////
 				// set_user_connected(true); // connect user
 				// $(cfg.trigger).data("connected", true);
@@ -892,35 +1038,6 @@ var user_menu = (function() {
 			});
 		}
 	}
-}());
-
-/* ------------------------------------------------------------------ */
-/* # Module */
-/* ------------------------------------------------------------------ */
-/*
- * NOTE
- * All instructions that need a refresh should be put below.
- * That is mainly for anything launched by a generated element.
- * It concerns append, prepend, wrap, before, after, insert, html, etc.
- * Anything created after loading. This is an IIFE.
- *
- * Events have to be separatly attached for now and the future
- * to a parent element (i.e. with 'on' or 'live' jQuery methods).
- */
-
-var loap = (function() {
-	return {
-		update: function() {
-			$(document).svg_icons(); // WARNING : set svg icons for whole document
-			$(document).user_pictures(); // WARNING : set user pictures for whole document
-		},
-		init: function() {
-			this.update();
-			$(document).placeholder(); // set placeholder for whole document
-			$(document).zlider(); // launch zlider for whole document
-			user_menu.init(); // setup user menu
-		}
-	};
 }());
 
 /* ------------------------------------------------------------------ */
@@ -985,7 +1102,7 @@ function dateToString(date) {
 	if (date.getDate() === 1) {
 		day += "er";
 	}
-	month = $const.months[date.getMonth()];
+	month = $time.months[date.getMonth()];
 	return day + " " + month + " " + year;
 }
 
@@ -1016,7 +1133,7 @@ function update_user_avatar(pathAvatar) {
 
 /* Check authentication before sending AJAX requests */
 function header_authentication(xhr) {
-	if (hasStorage && window.localStorage.getItem($auth.token) !== undefined) {
+	if (hasStorage && window.localStorage.getItem($auth.token) !== null) {
 		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // check authc token
 	}
 }
@@ -1040,23 +1157,23 @@ function checkAJAX(done, fail, always, url) {
 		success : function() {done()},
 		error : function() {fail()},
 		complete : function() {always()},
-		dataType : "text"
+		dataType : "xml"
 	});
 }
 
 /* Check if user is authenticated toward server */
 function checkAuthc(done, fail, always) {
-	checkAJAX(done, fail, always, "/rest/authc/connected")
+	checkAJAX(done, fail, always, $rest.authc)
 }
 
 /* Check if user is an admin toward server */
 function checkAdmin(done, fail, always) {
-	checkAJAX(done, fail, always, "/rest/authz/isadmin")
+	checkAJAX(done, fail, always, $rest.admin)
 }
 
 /* Check if user is a writer authenticated toward server */
 function checkRedac(done, fail, always) {
-	checkAJAX(done, fail, always, "/rest/authz/isredac")
+	checkAJAX(done, fail, always, $rest.redac)
 }
 
 /* Disconnect user */
@@ -1070,13 +1187,21 @@ function disconnect(str) {
 		success : function(data, status, jqXHR) {
 			clearStorage();
 			if (str !== null) {
-				createAlertBox(str, "alert_auth");
+				createAlertBox(str, "alert_auth", {"timeout" : $time.duration.alert});
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
 		},
 		dataType : "json"
 	});
+}
+
+/* Check user connected through AJAX (deferred to document ready state) */
+function check_user_connected() {
+	var done = (function() { set_user_connected(true) });
+	var fail = (function() { set_user_connected(false) });
+	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
+	checkAuthc(done, fail, always);
 }
 
 /* Set user connected
@@ -1088,7 +1213,7 @@ function set_user_connected(is_connected) {
 		$(sel + " svg use").attr("xlink:href", "#icon-menu");
 		$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
 		$(sel).data("connected", true); // register connected state in local data var
-		$(".user-connect").append(doT.compile(loadfile($loc.tmpl + "user-nav.tmpl"))); // process user menu template
+		$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 	} else {
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
@@ -1096,6 +1221,13 @@ function set_user_connected(is_connected) {
 		$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
 		$(sel).data("connected", false); // register connected state in local data var
 	}
+}
+
+/* Set prefs on toolbar (deferred to document ready state) */
+function set_toolbar_prefs() {
+	if (get_pref($prefs.app_conf, "css_fx") == true) { $("#_css_fx_toggle").addClass("active") }
+	if (get_pref($prefs.app_conf, "svg_fx") == true) { $("#_svg_fx_toggle").addClass("active") }
+	if (get_pref($prefs.app_conf, "js_fx") == true) { $("#_js_fx_toggle").addClass("active") }
 }
 
 /* Check prefs object */
@@ -1176,7 +1308,7 @@ function remove_pref(prefs, key) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Build processing */
+/* # Process user prefs */
 /* ------------------------------------------------------------------ */
 
 /* Check app conf user prefs */
@@ -1196,53 +1328,6 @@ function remove_pref(prefs, key) {
 		}
 	}
 }());
-
-// Process build
-if ($conf.css_debug) {
-	$("body").addClass("css-debug");
-}
-if ($conf.css_fx) {
-	$("body").addClass("css-fx");
-}
-if ($build.container) {
-	// Apply standard layout (i.e. two columns view) class to body
-	$("body").addClass("standard-layout");
-	// Create HTML skeleton
-	$("body").prepend("<div id='main' class='frame'>");
-	$("#main").append("<main class='main-pane'>");
-	// Process toolbar template
-	if (typeof $build.toolbar !== undefined && $build.toolbar == true) {
-		$("body").prepend(doT.compile(loadfile($loc.tmpl + "_dev_toolbar.tmpl")));
-	}
-	// Process sidebar template
-	$("#main").prepend(doT.compile(loadfile($loc.tmpl + "sidebar.tmpl")));
-	// Process header template
-	$(".main-pane").prepend(doT.compile(loadfile($loc.tmpl + "header.tmpl")));
-
-	// Process footer template
-	$(".main-pane").append(doT.compile(loadfile($loc.tmpl + "footer.tmpl")));
-
-	/* UNUSED*/
-	/*
-	// Process slider template -- this is the tricky part
-	if ($build.slider) {
-		var news_list_tmpl = doT.compile(loadfile($loc.tmpl + "news_list.tmpl"));
-		$(document).ready(function() {
-			$(".main-pane > header").append(news_list_tmpl());
-			$(".news-list").foundation("orbit"); // reload Foundation Orbit Slider plugin ; Foundation need to be loaded one time before that for the list to appear inline
-			$(window).resize(); // just a dummy instruction for getting the proper height
-		});
-	}
-	*/
-}
-
-if ($build.icons) {
-	// Process SVG Icons
-		if ($conf.svg_fx) {
-			$("body").prepend("<style type='text/css'>" + loadfile($file.icons_fx) + "</style>"); // append SVG effects
-		}
-		$("body").prepend(loadfile($file.icons)); // append SVG icons
-}
 
 /* ------------------------------------------------------------------ */
 /* # Toolbar */
@@ -1265,9 +1350,9 @@ $(document).on("keydown", function(event) {
 		clearTimeout(toolbar_show.timer);
 		if ($("#_toolbar_stick_toggle").hasClass("active")) {
 			if ($("#toolbar").hasClass("hide")) {
-				$("#main").css("margin-top", "45px");
+				$(".frame").css("margin-top", "45px");
 			} else {
-				$("#main").css("margin-top", "0");
+				$(".frame").css("margin-top", "0");
 			}
 		}
 		$("#toolbar").toggleClass("hide");
@@ -1278,34 +1363,27 @@ $(document).on("keydown", function(event) {
 });
 
 /* Toolbar Effects Toggler */
-$("#_css_fx_toggle, #_svg_fx_toggle, #_js_fx_toggle").click(function() {
+$("html").on("click", "#_css_fx_toggle, #_svg_fx_toggle, #_js_fx_toggle", function() {
 	$(this).toggleClass("active");
 	var str = $(this).attr("id").replace("_toggle", "").cut(1);
 	var val = $(this).hasClass("active") ? true : false;
 	set_pref($prefs.app_conf, str, val); // set user pref
 	$conf[str] = val; // overwrite global conf
 });
-$("#_css_fx_toggle").click(function() {
+$("html").on("click", "#_css_fx_toggle", function() {
 	$("body").toggleClass("css-fx");
 });
-$("#_svg_fx_toggle").click(function() {
-	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "alert_conf", {"class" : "warning"});
+$("html").on("click", "#_svg_fx_toggle", function() {
+	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "alert_conf", {"class" : "warning", "timeout" : $time.duration.alert});
 });
 
 /* Toolbar Null Links Toggler */
-$("#_null_links_toggle").click(function() {
+$("html").on("click", "#_null_links_toggle", function() {
 	if (!$(this).hasClass("active")) {
 		// Navs
 		$("nav ul li .disabled").addClass("not-disabled");
 		$("nav ul li[class^='icon-'] .disabled").parent("li").addClass("enabled"); // Navs Icons
 		$("nav ul li .disabled").removeClass("disabled");
-		/* UNUSED */
-		/*
-		// Accessibility Icons
-		$(".accessibility ul li .disabled").addClass("enabled");
-		$(".accessibility ul li .disabled").addClass("not-disabled");
-		$(".accessibility ul li .disabled").removeClass("disabled");
-		*/
 		// Sub Navigation
 		$(".sub-nav dd .disabled").addClass("enabled");
 		$(".sub-nav dd .disabled").addClass("not-disabled");
@@ -1319,13 +1397,6 @@ $("#_null_links_toggle").click(function() {
 		$("nav ul li .not-disabled").addClass("disabled");
 		$("nav ul li[class^='icon-'] .not-disabled").parent("li").removeClass("enabled"); // Navs Icons
 		$("nav ul li .not-disabled").removeClass("not-disabled");
-		/* UNUSED */
-		/*
-		// Accessibility Icons
-		$(".accessibility ul li .not-disabled").addClass("disabled");
-		$(".accessibility ul li .not-disabled").removeClass("enabled");
-		$(".accessibility ul li .not-disabled").removeClass("not-disabled");
-		*/
 		// Sub Navigation
 		$(".sub-nav dd .not-disabled").addClass("disabled");
 		$(".sub-nav dd .not-disabled").removeClass("enabled");
@@ -1339,7 +1410,7 @@ $("#_null_links_toggle").click(function() {
 });
 
 /* Toolbar CSS Debug Toggler */
-$("[id^='_css_debug_']").click(function() {
+$("html").on("click", "[id^='_css_debug_']", function() {
 	if (!$(this).hasClass("disabled")) {
 		$(this).toggleClass("active");
 		$("." + $(this).attr("id").cut(11)).toggleClass("css-debug");
@@ -1347,156 +1418,45 @@ $("[id^='_css_debug_']").click(function() {
 });
 
 /* Toolbar Stick Toggler */
-$("#_toolbar_stick_toggle").click(function() {
+$("html").on("click", "#_toolbar_stick_toggle", function() {
 	$(this).toggleClass("active");
 	$("#toolbar").toggleClass("fixed");
-	if ($("#main").css("margin-top") != "45px") {
-		$("#main").css("margin-top", "45px");
-	} else {
-		$("#main").css("margin-top", 0);
-	}
+	var n = $(".frame").css("margin-top") != "45px" ? "45px" : 0;
+	$(".frame").css("margin-top", n);
 });
 
 /* Close Toolbar Toggler */
-$("#toolbar .close").click(function() {
-	if ($("#main").css("margin-top") != 0) {
-		$("#main").css("margin-top", 0);
+$("html").on("click", "#toolbar .close", function() {
+	if ($(".frame").css("margin-top") != 0) {
+		$(".frame").css("margin-top", 0)
 	}
 	$("#toolbar").addClass("hide");
 });
-
-/* Toolbar Initialization */
-$(document).ready(function() {
-	if (get_pref($prefs.app_conf, "css_fx") == true) {
-		$("#_css_fx_toggle").addClass("active");
-	}
-	if (get_pref($prefs.app_conf, "svg_fx") == true) {
-		$("#_svg_fx_toggle").addClass("active");
-	}
-	if (get_pref($prefs.app_conf, "js_fx") == true) {
-		$("#_js_fx_toggle").addClass("active");
-	}
-});
-
-/* ------------------------------------------------------------------ */
-/* # Links */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-// Links Focus Fix (for Chrome)
-$("html").on("click", "a", function() {
-	if (!$(this).is(":focus")) {
-		// $(this).focus(); // BUG : conflict with CKEditor combo boxes
-	}
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Active Section Toggler */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$(document).ready(function() {
-	var url = window.location.pathname;
-	var q = /[a-zA-Z-_]*\.(?:html|htm)/;
-	var page = url.match(q);
-	var selector = location.hash // assumed it's section id
-	if ($(selector).hasClass("hide")) { // Show active section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-	}
-});
-*/
-
-/* UNUSED */
-/*
-// Handle inner anchor click event ; need to check history.back() for inner anchors
-$("html").on("click", "[href*='#']", function() {
-	var arr = $(this).attr("href").split("#");
-	var selector = "#" + arr[1];
-	if ($(selector).hasClass("hide")) { // Show active section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-}
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Accordions */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED (for now) */
-/* Accordion Active Switcher */
-/*
-$(".accordion dd > a").click(function() {
-	$(this).parent("dd").siblings().children().removeClass("active");
-	$(this).toggleClass("active");
-});
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Alert Boxes */
 /* ------------------------------------------------------------------ */
 
 /* Close Alert Boxes */
-$(document).ready(function() {
-	$("html").on("click", ".alert-box .close", function() {
-		var self = $(this).parent(".alert-box");
-		$(self).children().css("visibility", "hidden"); // mask box content
-		$(self).animate({"height":"0", "margin" : "0", "padding" : "0", "opacity":"0"}, $conf.js_fx ? 500 : 0, function() { // hide alert box
-			self.remove();
-		});
+$("html").on("click", ".alert-box .close", function() {
+	var self = $(this).parent(".alert-box");
+	$(self).css("color", "transparent"); // mask box content
+	$(self).children().css("visibility", "hidden"); // mask box content
+	$(self).animate({
+		"height": "0",
+		"margin" : self.height() / 2 + "px 0 0",
+		"padding" : "0",
+		"opacity":"0"
+	}, $conf.js_fx ? $time.duration.fx : 0, function() { // hide alert box
+		self.remove();
 	});
 });
-
-/* ------------------------------------------------------------------ */
-/* # Pagination */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED (for now) */
-/*
-$(".pagination li a").click(function() {
-	if (!$(this).parent("li").hasClass("unavailable")) {
-		if (!$(this).hasClass("disabled")) {
-			$(this).parent("li").siblings().removeClass("current");
-			$(this).parent("li").toggleClass("current");
-		}
-	}
-});
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Navigation */
 /* ------------------------------------------------------------------ */
 
-/* UNUSED */
-/*
-// Disabled Flag for Pseudo-element :before
-// Get Fucky feat. Farrel Williams,
-// jQuery doesn't recognize pseudo-elements
-$(document).ready(function() {
-	$(".site-nav ul li .disabled").parent("li:before").css("opacity", .5);
-});
-*/
-
-/* UNUSED */
-/*
-// Display Section Switchers
-$("html").on("click", "[data-show]", function() {
-	var selector = "#" + $(this).attr("data-show")
-	if ($(selector).hasClass("hide")) {
-		// Display section
-		$(".main-pane > section").addClass("hide");
-		$(selector).removeClass("hide");
-		// Refresh Breadcrumbs
-		refresh_breadcrumbs($(this));
-	}
-});
-*/
-
-// Navigation Links Current Switcher
+/* Navigation Links Current Switcher */
 $("html").on("click", "[class*='-nav'] ul li a", function() {
 	var selector = $(this);
 	if (!selector.hasClass("no-current")) {
@@ -1512,189 +1472,24 @@ $("html").on("click", "[class*='-nav'] ul li a", function() {
 /* ------------------------------------------------------------------ */
 
 /* Toggle Sub Navigation Links */
-$(document).ready(function() {
-	$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
-		if ($(this).attr("id") == "search_button"
-		 || $(this).attr("id") == "filter_button"
-		 || $(this).parent("li").parent("ul").attr("id") == "search_filters"
-		 || $(this).parent("li").parent("ul").attr("id") == "filters_list") { // exception list ; rather ugly
-			// do nothing !
-		} else {
-			if (!$(this).hasClass("unavailable") && !$(this).hasClass("disabled")) {
-				if ($(this).parents(".sub-nav").hasClass("toggle")) { // toggle children only
-					$(this).parent("dt, dd, li").siblings().children("a").removeClass("active");
-				} else if ($(this).parents(".sub-nav").hasClass("toggle-all")) { // toggle even parents
-					$(this).parents("dl, ul").find("dd a, dt a, li a").not($(this)).removeClass("active");
-				}
-				$(this).toggleClass("active");
-				$(this).blur();
+$("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() {
+	if ($(this).attr("id") == "search_button"
+	 || $(this).attr("id") == "filter_button"
+	 || $(this).parent("li").parent("ul").attr("id") == "search_filters"
+	 || $(this).parent("li").parent("ul").attr("id") == "filters_list") { // exception list ; rather ugly
+		// do nothing !
+	} else {
+		if (!$(this).hasClass("unavailable") && !$(this).hasClass("disabled")) {
+			if ($(this).parents(".sub-nav").hasClass("toggle")) { // toggle children only
+				$(this).parent("dt, dd, li").siblings().children("a").removeClass("active");
+			} else if ($(this).parents(".sub-nav").hasClass("toggle-all")) { // toggle even parents
+				$(this).parents("dl, ul").find("dd a, dt a, li a").not($(this)).removeClass("active");
 			}
+			$(this).toggleClass("active");
+			$(this).blur();
 		}
-	});
-});
-
-/* ------------------------------------------------------------------ */
-/* # Main Navigation */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-// Main Navigation Sub List Visibility Toggler
-$(".main-nav [data-roll='sub-list']").mouseenter(function() {
-	var handler = $(this);
-	handler.data("hover", true);
-	main_nav_sub_list_open_timeout = setTimeout(function() {
-		if (handler.data("hover") == true) {
-			$(".main-nav .sub-list ul").slideDown("fast");
-		}
-	}, 400);
-});
-$(".main-nav .sub-list ul").mouseenter(function() {
-	$(this).data("hover", true);
-});
-$(".main-nav").mouseenter(function() {
-	clearTimeout(main_nav_sub_listimeout_timeout);
-});
-$(".main-nav").mouseleave(function() {
-	main_nav_sub_listimeout_timeout = setTimeout(function() {
-		if ($(".main-nav .sub-list ul").data("hover") != true) {
-			$(".main-nav .sub-list ul").slideUp("fast");
-		}
-	}, 400);
-});
-$(".main-nav [data-roll='sub-list']").mouseleave(function() {
-	$(".main-nav .sub-list ul").data("hover", false);
-	clearTimeout(main_nav_sub_list_open_timeout);
-});
-$(".main-nav .sub-list ul").mouseleave(function() {
-	$(this).data("hover", false);
-});
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Breadcrumbs */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-function refresh_breadcrumbs(selector) {
-	// Selector comes from breadcrumbs
-	if (selector.parents("ul").hasClass("breadcrumbs")) {
-		var index = ($(".breadcrumbs li").index(selector.parent("li")));
-		$(".breadcrumbs li:gt(" + (index) + ")").remove();
-		selector.parent("li").addClass("current");
 	}
-	// Selector comes from a nav
-	else if (selector.parent("li").parent("ul").parent().is("nav")) {
-		switch(selector.parent("li").parent("ul").parent("nav").attr("class")) {
-			case "toolbar-nav":
-				var str = "Dev Tools";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-			case "user-nav":
-				var str = "Nadejda"; // TEMP : need to retrieve username somehow
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-			case "main-nav":
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				// If is sub-list
-					// Erase level 2 and above
-				break;
-			case "fast-nav":
-				// Erase level 2 and above
-				break;
-			case "site-nav":
-				var str = "Les Ourses &agrave; plumes";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-		}
-		var str = selector.text();
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-	// Selector comes from an articles-list
-	else if (selector.parent("div").parent("li").parent("ul").hasClass("articles-list")) {
-		switch(selector.parent("div").parent("li").parent("ul").parent("section").attr("id")) {
-			case "latest":
-				var str = "&Agrave; la une";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-			case "articles":
-				var str = "Articles";
-				$(".breadcrumbs").empty(); // Erase level 1 and above
-				$(".breadcrumbs").append("<li class='unavailable'>" + str + "</li>"); // Append false level 1
-				break;
-		}
-		var str = $("#" + selector.attr("data-show") + " h2 > span").text().slice(0, -1); // TEMP
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-	// Selector comes from user-list
-	else if (selector.parents("section").attr("id") == "user-list") {
-		$(".breadcrumbs li:last-child").removeClass("current");
-		var str = $("#" + selector.attr("data-show") + " h2").text(); // TEMP
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-	// Selector comes from an article
-	else if (selector.parents("article").hasClass("article")) {
-		$(".breadcrumbs li:last-child").removeClass("current");
-		var str = $("#" + selector.attr("data-show") + " h2").text(); // TEMP
-		if (selector.attr("href") != "null") {
-			var href = selector.attr("href");
-		}
-		if (selector.attr("data-show") != "null") {
-			var attr = " data-show='" + selector.attr("data-show") + "'";
-		}
-		$(".breadcrumbs").append("<li class='current'><a href='" + href + "'" + attr + ">" + str + "</a></li>");
-	}
-}
-*/
-
-/* ------------------------------------------------------------------ */
-/* # Accessibility */
-/* ------------------------------------------------------------------ */
-
-/* UNUSED */
-/*
-$(".accessibility .icon-textinc").click(function() {
-	if ($(".accessibility .icon-textdec").hasClass("active")) {
-		$(".accessibility .icon-textdec").removeClass("active");
-		$("section").removeClass("text-small");
-	}
-	$(this).toggleClass("active");
-	$(this).blur();
-	$("section").toggleClass("text-large");
 });
-$(".accessibility .icon-textdec").click(function() {
-	if ($(".accessibility .icon-textinc").hasClass("active")) {
-		$(".accessibility .icon-textinc").removeClass("active");
-		$("section").removeClass("text-large");
-	}
-	$(this).toggleClass("active");
-	$(this).blur();
-	$("section").toggleClass("text-small");
-});
-*/
 
 /* ------------------------------------------------------------------ */
 /* # Initialize */
@@ -1708,23 +1503,21 @@ var f_tooltip_cfg = {                         // Foundation Tooltip component
 	"hover_delay" : 500                         // Increase time before tooltips appear. Default : 200
 };
 
-/* Launch modules on document ready */
+/* Initialize third-party modules */
 $(document).ready(function() {
+	/* Apply Foundation custom config */
 	var f = Foundation.libs;
 	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings -- NOTE : override fucking Foundation fucking libs
-	$("textarea").autosize(autosize_cfg); // Initialize Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
-	loap.init(); // Initialize owner module
+	/* Initialize third-party plugins */
+	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
+	$(document).foundation(); // Initialize Foundation module
+	loap.init(); // Initialize primary module
+	if (typeof loax !== "undefined" && loax.hasOwnProperty("init")) {
+		loax.init() // Initialize auxiliary module
+	}
 });
 
-/* Set user connected through AJAX on document ready */
-$(document).ready(function() {
-	var done = (function() { set_user_connected(true) });
-	var fail = (function() { set_user_connected(false) });
-	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
-	checkAuthc(done, fail, always);
-});
-
-/* Reload Autosize jQuery plugin on window resize */
+/* Reload modules on window resize event */
 $(window).on("resize", function() {
-	$("textarea").autosize(autosize_cfg);
+	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin
 });

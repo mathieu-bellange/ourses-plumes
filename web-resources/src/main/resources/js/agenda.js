@@ -1,10 +1,25 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.agenda.title);
+var loax_pool = {
+	"agenda_tmpl" : $loc.tmpl + "agenda.tmpl"
+}
 
-$("main > header").after(loadfile($loc.tmpl + "agenda.tmpl"));
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.agenda.title);
+			/* Insert template */
+			$("main > header").after(file_pool.agenda_tmpl).after(lb(1));
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -19,7 +34,7 @@ $("main > header").after(loadfile($loc.tmpl + "agenda.tmpl"));
 // AJAX stuff goes here
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
 $("html").on("mouseenter", ".date-table .href-block.has-event", function() {

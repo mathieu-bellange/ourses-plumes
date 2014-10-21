@@ -5,14 +5,20 @@
 	</head>
 	<body>
 		<script>
+			var loax_pool = {
+				"dev_samples_tmpl" : $loc.tmpl + "_dev_samples.tmpl"
+			};
+			var loax = (function() {
+				return {
+					build : function() {
+						/* Insert Template */
+						$("main > header").after(file_pool.dev_samples_tmpl);
+					}
+				}
+			}());
+		</script>
+		<script>
 			load();
-		</script>
-		<script>
-			$("main > header").after(doT.compile(loadfile($loc.tmpl + "_dev_samples.tmpl")));
-		</script>
-		<script>
-			$(document).foundation();
-			loap.update()
 		</script>
 	</body>
 </html>

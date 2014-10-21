@@ -1,24 +1,40 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($loc.tmpl + "profile-view.tmpl"));
-var templateProfileArticles = doT.compile(loadfile($loc.tmpl + "profile-article-list.tmpl"));
+var loax_pool = {
+	"profile_view_tpml" : $loc.tmpl + "profile-view.tmpl",
+	"profile_view_related_tpml" : $loc.tmpl + "profile-view-related.tmpl"
+}
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			displayProfile();
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
 function processProfile(profile) {
+	/* Set page title */
 	set_page_title(profile.pseudo);
-	$("main > header").after(template(profile));
+	/* Insert template */
+	$("main > header").after(file_pool.profile_view_tpml(profile)).after(lb(1));
 }
 
 function processRole(role) {
 	$conf.js_fx ? $(".user-role").html(role).fadeIn(500) : $(".user-role").html(role).show();
 }
 
-function processArticles(articles){
+function processArticles(articles) {
 	articles.sort(function compare(a, b) {
 		if (a.publishedDate > b.publishedDate)
 			return -1;
@@ -27,7 +43,7 @@ function processArticles(articles){
 		// a doit être égal à b
 		return 0;
 	});
-	$("#articles").append(templateProfileArticles(articles));
+	$("#articles").append(file_pool.profile_view_related_tpml(articles)).append(lb(1));
 	attach_slider(); // bind events on sliding elements
 	loap.update();
 }
@@ -47,7 +63,7 @@ function sortSocialLinks(links) {
 
 function attach_slider(attachee) {
 	var attachee = attachee || ".related-list";
-	var triggerer = ".info-tip";
+	var triggerer = ".more-info";
 	var triggered = ".summary";
 	$(attachee).on("click", triggerer, function() {
 		var obj = $(this);
@@ -82,7 +98,7 @@ function displayProfile() {
 			displayArticles(profile.id);
 		},
 		error : function(jqXHR, status, errorThrown) {
-			if (jqXHR.status == 404){
+			if (jqXHR.status == 404) {
 				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
 			} else {
 				createAlertBox();
@@ -107,7 +123,7 @@ function displayRole(pseudo) {
 	});
 }
 
-function displayArticles(profileId){
+function displayArticles(profileId) {
 	$.ajax({
 		type : "GET",
 		url : "/rest/profile/" + profileId + "/articles",
@@ -123,9 +139,7 @@ function displayArticles(profileId){
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	displayProfile();
-});
+// jQuery events go here

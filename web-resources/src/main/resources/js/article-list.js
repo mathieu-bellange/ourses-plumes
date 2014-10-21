@@ -1,33 +1,39 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Pre Processing */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-set_page_title($nav.article_list.title); // set page title
-
-/* ------------------------------------------------------------------ */
-/* # Public vars */
-/* ------------------------------------------------------------------ */
+var loax_pool = {
+	"article_tool_tmpl" : $loc.tmpl + "article-tool.tmpl",
+	"article_list_tmpl" : $loc.tmpl + "article-list.tmpl",
+	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
+}
 
 var article_list_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
-	"standbys" : "true",                   // Afficher les articles à valider par défaut ?
-	"others_drafts" : "false",             // Afficher les brouillons des autres par défaut ?
-	"my_drafts" : "true",                  // Afficher mes brouillons par défaut ?
-	"onlines" : "true"                     // Afficher les articles en ligne par défaut ?
+	"standbys"      : "true",         // Afficher les articles à valider par défaut ?
+	"others_drafts" : "false",        // Afficher les brouillons des autres par défaut ?
+	"my_drafts"     : "true",         // Afficher mes brouillons par défaut ?
+	"onlines"       : "true"          // Afficher les articles en ligne par défaut ?
 }
 
 var article_list_cfg = {
-	"fade_duration" : 500
+	"fade_duration" : 500,            // Integer   Duration for updated articles fade in/out. Default : 500
+	"page_startup"  : false           // Internal  DO NOT CHANGE THIS !!!
 };
 
 /* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Module */
 /* ------------------------------------------------------------------ */
 
-var startup = false;
-
-var article_tool_tmpl = doT.compile(loadfile($loc.tmpl + "article-tool.tmpl"));
-var article_list_tmpl = doT.compile(loadfile($loc.tmpl + "article-list.tmpl"));
-var article_item_tmpl = doT.compile(loadfile($loc.tmpl + "article-item.tmpl"));
+var loax = (function() {
+	return {
+		build : function() {
+			/* Set page title */
+			set_page_title($nav.article_list.title);
+			/* Process */
+			displayArticles();
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -43,7 +49,7 @@ var article_list_tools = (function(options) {
 	var settings = $.extend({}, defaults, options);
 	return {
 		init: function() {
-			// methods
+			// functions
 			function open_filters(d, dd) {
 				var d = $conf.js_fx ? (d || 0) : 0, dd = dd || 0;
 				$("#filters_list").delay(dd).fadeIn(d);
@@ -131,7 +137,7 @@ var article_list_tools = (function(options) {
 				}
 				$("#search").val(str); // reset search value
 				$("#search").focus(); // focus search input
-				$("#search").selectText((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
+				$("#search").select_text((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
 			});
 			$("#filters_list li a").click(function() {
 				if ($("#filter_button").hasClass("orange")) {
@@ -199,25 +205,24 @@ var article_list_tools = (function(options) {
 						$(this).set_validation(false, "Le champ de recherche est vide &hellip;");
 					} else if (s.length > 0 && s.length <= 2) {
 						$(this).set_validation(false, "La recherche doit comporter au moins trois lettres.");
-					/* ============================================== */
-					/* # Check illegal chars */
-					/* ============================================== */
-					/* forbidden chars -- '?', '&',  '=' (replaced by whitespaces below)
-					 * illegal chars   -- '/', '\', '@' (warn user)
-					 * special chars   -- ':', ',' ';' (delimiters are allowed but not yet implemented)
-					 */
+					// ===========================================================
+					// # Check illegal chars */
+					// ===========================================================
+					// forbidden chars -- '?', '&',  '=' (replaced by whitespaces below)
+					// illegal chars   -- '/', '\', '@' (warn user)
+					// special chars   -- ':', ',' ';' (delimiters are allowed but not yet implemented)
 					} else if (/[\/\\@]/.test(s)) {
 						$(this).set_validation(false, $msg.char_illegal);
 					} else {
-						/* ============================================ */
-						/* # Replace forbidden and special chars */
-						/* ============================================ */
+						// =========================================================
+						// # Replace forbidden and special chars
+						// =========================================================
 						s = s.replace(/[\?=]/g, "").replace(/[\s&]+/, " ");
 						$(this).val((f !== "" ? f + settings.search_delimiter : "") + s); // reset search value in search input after chars replacement
 						$(this).blur();
-						/* ============================================ */
-						/* # Display articles with URL search params */
-						/* ============================================ */
+						// =========================================================
+						// # Display articles with URL search params
+						// =========================================================
 						window.history.pushState("", "", "?" + (f !== "" ? f + "=" : "") + s.replace(/\s/g, "&")); // live update address bar without reloading document (HTML5 method)
 						displayArticles("?" + f + "=" + s); // display articles with params
 					}
@@ -233,9 +238,9 @@ var article_list_tools = (function(options) {
 				 - settings.search_spacing.toPx(); // arbitrary safety spacing (2rem)
 				$("#search_field").css("width", w);
 			});
-			/* ================================================ */
-			/* # Retrieve URL search params */
-			/* ================================================ */
+			// ===============================================================
+			// Retrieve URL search params
+			// ===============================================================
 			var p = get_url_search_params();
 			if (p !== null) {
 				if (typeof p === "string") { // this is a search query
@@ -270,19 +275,6 @@ var article_list_tools = (function(options) {
 
 var article_list_prefs = (function() {
 	return {
-		update: function() {
-			var user_name = window.localStorage.getItem($auth.user_name);
-			$("#articles_draft .author").each(function() {
-				if ($(this).text() != user_name) {
-					$(this).parents("li").addClass("other");
-					if ($("#filters_list #others_drafts").parent("dd").hasClass("active")) {
-						$(this).parents("li").show();
-					} else {
-						$(this).parents("li").hide();
-					}
-				}
-			});
-		},
 		reset: function() {
 			localStorage.removeItem($prefs.articles_filters);
 		},
@@ -290,11 +282,11 @@ var article_list_prefs = (function() {
 			// vars
 			var articles_filters_cfg = {
 				"#standbys" : ".standby li",
-				"#others_drafts" : ".draft li.other",
-				"#my_drafts" : ".draft li:not(.other)",
-				"#onlines" : ".articles-list:not(.draft):not(.standby) li"
+				"#others_drafts" : ".draft .other",
+				"#my_drafts" : ".draft .my",
+				"#onlines" : ".online li"
 			};
-			// methods
+			// functions
 			function set_user_prefs_articles_filters(obj) { // register user prefs for articles filters
 				var obj = obj || articles_filters_cfg;
 				var usr = {};
@@ -331,7 +323,6 @@ var article_list_prefs = (function() {
 				check_filters_switches(); // check filters
 			});
 			// process
-			this.update(); // set others drafts
 			var prefs = get_user_prefs_articles_filters(), k = 0;
 			for (key in prefs) {
 				if (prefs[key] == "true") {
@@ -349,7 +340,7 @@ var article_list_prefs = (function() {
 					$("#filter_button").addClass("active");
 					$("#filters_list").fadeIn($conf.js_fx ? 250 : 0);
 				}
-				createAlertBox("Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.", "articles_filters_alert", {"class" : "warning"});
+				createAlertBox($msg.article_no_filter, "articles_filters_alert", {"class" : "warning", "timeout" : $time.duration.alert});
 			}
 			check_filters_switches()
 		}
@@ -398,12 +389,11 @@ function validateArticle(id) {
 			$(".validate button[data-validate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				processAfterValidation(article);
-				//$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_deleted, null, {"class" : null});
+				createAlertBox($msg.article_deleted, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-validate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-validate='" + id + "']").parents("li").remove();
 				});
@@ -427,12 +417,11 @@ function inValidateArticle(id) {
 			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterInValidation(article);
-				//$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offcheck, null, {"class" : null});
+				createAlertBox($msg.article_offcheck, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -456,12 +445,11 @@ function publishArticle(id) {
 			$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				processAfterPublish(article);
-				//$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offcheck, null, {"class" : null});
+				createAlertBox($msg.article_offcheck, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-invalidate='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-invalidate='" + id + "']").parents("li").remove();
 				});
@@ -485,13 +473,12 @@ function recallArticle(id) {
 			$(".validate button[data-recall='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 				$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				processAfterRecall(article);
-				//$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				createAlertBox($msg.article_offline, null, {"class" : null});
+				createAlertBox($msg.article_offline, null, {"class" : null, "timeout" : $time.duration.alert});
 				$(".validate button[data-recall='" + id + "']").parents("li").fadeOut($conf.js_fx ? article_list_cfg.fade_duration : 0, function() {
 					$(".validate button[data-recall='" + id + "']").parents("li").remove();
 				});
@@ -513,9 +500,34 @@ function displayArticles(url_params) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
+			// display article search empty message
+			if (articles.length == 0) {
+				createAlertBox($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null});
+				// TODO : check filters
+				// if no result with search filters then display warning
+			}
+			// set articles status
 			var brouillons = articles.filter(function(n) {
 				return n.status === "BROUILLON";
 			});
+			var aVerifier = articles.filter(function(n) {
+				return n.status === "AVERIFIER";
+			});
+			var enLigne = articles.filter(function(n) {
+				return n.status === "ENLIGNE";
+			});
+			/* UNUSED */
+			/*
+			var my_drafts = [], others_drafts = [];
+			for (k in brouillons) {
+				if (brouillons[k].profile.pseudo == window.localStorage.getItem($auth.user_name)) {
+					my_drafts.push(brouillons[k])
+				} else {
+					others_drafts.push(brouillons[k])
+				}
+			}
+			*/
+			// sort articles
 			brouillons.sort(function compare(a, b) {
 				// si pas d'update, on test la date de création
 				var aDate = a.updatedDate;
@@ -533,9 +545,6 @@ function displayArticles(url_params) {
 				// a doit être égal à b
 				return 0;
 			});
-			var aVerifier = articles.filter(function(n) {
-				return n.status === "AVERIFIER";
-			});
 			aVerifier.sort(function compare(a, b) {
 				if (a.updatedDate > b.updatedDate)
 					return -1;
@@ -543,9 +552,6 @@ function displayArticles(url_params) {
 					return 1;
 				// a doit être égal à b
 				return 0;
-			});
-			var enLigne = articles.filter(function(n) {
-				return n.status === "ENLIGNE";
 			});
 			enLigne.sort(function compare(a, b) {
 				if (a.publishedDate > b.publishedDate)
@@ -555,31 +561,21 @@ function displayArticles(url_params) {
 				// a doit être égal à b
 				return 0;
 			});
+			// process articles
 			var data = {"drafts" : brouillons, "toCheck" : aVerifier, "onLine" : enLigne};
-
-			//////////////////////////////////////////////////////////////////
-			if (startup !== true) {
-				$("main > header").after(article_tool_tmpl(data)); // process toolbar (if required)
-			} else {
+			if (article_list_cfg.startup !== true) { // this is first launch of the page
+				$("main > header").after(file_pool.article_tool_tmpl(data)).after(lb(1)); // process toolbar
+			} else { // this is not first launch of the page, articles lists need to be flushed
 				$(".articles-list").detach(); // clear articles list (if any)
 			}
-
-			processArticles(data);
-
-			if (startup !== true) {
-				startup = true;
+			processArticles(data); // always process articles
+			if (article_list_cfg.startup !== true) { // this is first launch of the page
 				article_list_tools.init(); // set up articles list tools
 				article_list_prefs.init(); // set up articles list user prefs
+				article_list_cfg.startup = true; // first launch has been done
 				$(".tool-bar").svg_icons(); // reload icons only for toolbar
-				//$(document).foundation(); // reload all Foundation plugins -- UNUSED (tooltips removed)
-			} else {
-				article_list_prefs.update() // update drafts
 			}
-			// always
-			//loap.update(); // reload loap plugins (for icons) -- USELESS
-			$("#articles").svg_icons(); // reload icons only for articles
-			//////////////////////////////////////////////////////////////////
-
+			$("#articles").svg_icons(); // always reload icons only for articles
 		},
 		error : function(jqXHR, status, errorThrown) {
 			createAlertBox();
@@ -589,15 +585,16 @@ function displayArticles(url_params) {
 }
 
 function processArticles(articles) {
-	// insert template
-	$(".tool-bar").after(article_list_tmpl(articles)); // process articles
-	// events
+	// insert articles list template
+	$(".tool-bar").after(file_pool.article_list_tmpl(articles)).after(lb(1));
+	// bind live events
 	$("html").on("mouseenter", ".href-block", function() {
 		$(this).find(".validate").show();
 	});
 	$("html").on("mouseleave", ".href-block", function() {
 		$(this).find(".validate").hide();
 	});
+	// bind events
 	$(".validate button[data-delete]").click(function() {
 		deleteArticle($(this).attr("data-delete"));
 	});
@@ -613,8 +610,7 @@ function processArticles(articles) {
 	$(".validate button[data-recall]").click(function() {
 		recallArticle($(this).attr("data-recall"));
 	});
-	$("#write_article").mouseenter(function() {
-		//isAuthenticated(); // WARNING : synchronous authentication request ; should slow down the app badly
+	$("#write_article").mouseenter(function() { // check if user is authenticated
 		var fail = (function() {
 			if ($("#user_connect").data("connected") == true) {
 				$("#write_article").parent("dt").parent("dl").detach();
@@ -624,20 +620,10 @@ function processArticles(articles) {
 		});
 		checkAuthc(null, fail);
 	});
-	// init
-	//////////////////////////////////////////////////////////////////////
-	/* TEMP DEBUG BULLSHIT BELOW */
-	/*
-	article_list_tools.init(); // set up articles list tools
-	article_list_prefs.init(); // set up articles list user prefs
-	$(document).foundation(); // reload all Foundation plugins
-	loap.update(); // reload loap plugins
-	*/
-	//////////////////////////////////////////////////////////////////////
 }
 
 function processAfterValidation(article) {
-	$("#articles_standby").prepend(article_item_tmpl(article));
+	$("#articles_standby").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
@@ -649,7 +635,7 @@ function processAfterValidation(article) {
 }
 
 function processAfterInValidation(article) {
-	$("#articles_draft").prepend(article_item_tmpl(article));
+	$("#articles_draft").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
@@ -658,11 +644,10 @@ function processAfterInValidation(article) {
 	$("#articles_draft li:first .validate button[data-delete]").click(function() {
 		deleteArticle($(this).attr("data-delete"));
 	});
-	article_list_prefs.update(); // update articles list user prefs
 }
 
 function processAfterPublish(article) {
-	$("#articles_publish").prepend(article_item_tmpl(article));
+	$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
 	$("#articles_publish li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_publish li:first .validate button[data-recall]").click(function() {
@@ -671,19 +656,15 @@ function processAfterPublish(article) {
 }
 
 function processAfterRecall(article) {
-	//mêmes étapes qu'une validation
-	processAfterValidation(article);
+	processAfterValidation(article); //mêmes étapes qu'une validation
 }
 
-
-function obtenirParametre (sVar) {
-	  return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+function obtenirParametre(sVar) {
+	return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	displayArticles();
-});
+// jQuery events go here

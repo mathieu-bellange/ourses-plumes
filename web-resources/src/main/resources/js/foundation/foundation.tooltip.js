@@ -107,9 +107,12 @@
             self.hide($(this));
           }
         })
+        /* DEPRECATED */
+        /*
         .on('DOMNodeRemoved DOMAttrModified', '[' + this.attr_name() + ']:not(a)', function (e) {
           self.hide(S(this));
         });
+        */
     },
 
     ie_touch : function (e) {

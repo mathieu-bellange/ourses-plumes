@@ -1,9 +1,25 @@
 ﻿/* ------------------------------------------------------------------ */
-/* # Templating */
+/* # Globals */
 /* ------------------------------------------------------------------ */
 
-var template = doT.compile(loadfile($loc.tmpl + "article-view.tmpl"));
 var templateRelatedArticles = doT.compile(loadfile($loc.tmpl + "related-article-list.tmpl"));
+
+var loax_pool = {
+	"article_view_tmpl" : $loc.tmpl + "article-view.tmpl"
+}
+
+/* ------------------------------------------------------------------ */
+/* # Module */
+/* ------------------------------------------------------------------ */
+
+var loax = (function() {
+	return {
+		build : function() {
+			/* Process */
+			displayArticle();
+		}
+	}
+}());
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -26,7 +42,7 @@ var share = (function() {
 				}
 			};
 			var settings = $.extend({}, defaults, options);
-			// methods
+			// functions
 			function open_box(obj, d) {
 				var w = obj.outerWidth();
 				var h = obj.outerHeight();
@@ -49,8 +65,7 @@ var share = (function() {
 				var article_source = encodeURI($org.name).replace("?", "%3F");
 				$("#share_mail").on("click", function() {
 					if ($(this).next(".send-box").is(":hidden")) {
-						$(this).next(".send-box").find("input").first().set_validation(true); // reset validation
-						$(this).next(".send-box").find("input").first().removeClass("valid"); // reset validation
+						$(this).next(".send-box").find("input").first().set_validation(null); // reset validation
 						$(this).next(".send-box").find("input").first().val(""); // reset value
 						open_box($(this).next(".send-box"), settings.fx_d);
 					} else {
@@ -67,7 +82,7 @@ var share = (function() {
 						$(this).val(email); // format value
 						if (email == 0) {
 							$(this).set_validation(false, $msg.email_empty);
-						} else if ($const.email.test(email)) {
+						} else if ($regx.email.test(email)) {
 							if (addr.indexOf(email) == -1) {
 								addr.push(email); // register email to prevent multiple sending
 								$(this).set_validation(true);
@@ -81,9 +96,8 @@ var share = (function() {
 						}
 					} else if (e.which == 27) { // Esc
 						close_box($(this).parent(".send-box"), settings.fx_d);
-					} else { // reset validation
-						$(this).set_validation(true, null, {"cls_valid" : null});
-						$(this).removeClass("valid");
+					} else {
+						$(this).set_validation(null); // reset validation
 					}
 				});
 				var twitter_href = "https://twitter.com/share";
@@ -156,7 +170,7 @@ function shareByMail(articleId, mail){
 		url : "/rest/articles/" + articleId + "/share",
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			createAlertBox($msg.email_sent, null, {"class" : "success"});
+			createAlertBox($msg.email_sent, null, {"class" : "success", "timeout" : $time.duration.alert});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			createAlertBox();
@@ -167,7 +181,7 @@ function shareByMail(articleId, mail){
 
 function processArticle(article) {
 	set_page_title(article.title);
-	$("main > header").after(template(article));
+	$("main > header").after(file_pool.article_view_tmpl(article)).after(lb(1));
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
 	displayRelatedArticle(article.id);
@@ -210,9 +224,7 @@ function attach_slider(attachee) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Events */
+/* # Live Events */
 /* ------------------------------------------------------------------ */
 
-$(document).ready(function() {
-	displayArticle();
-});
+// jQuery events go here
