@@ -46,7 +46,7 @@ Values
   (12, 'titre 12', 'get draft', '<p>body</p>', null, '2014-07-24', '2014-07-24', 2, 2, 3, 0, '/articles/12', 'titre-12'),
   (13, 'titre 13', 'get validate', '<p>body</p>', null, '2014-09-13', '2014-09-15', 2, 2, 3, 1, '/articles/13', 'titre-13'),
   (14, 'titre 14', 'en ligne au 01/01/2010', '<p>body</p>', '2010-01-01', '2014-02-06', '2014-01-05', 3, 6, 5, 2, '/articles/éducation-culture/titre-14', 'titre-14'),
-  (15, 'titre 15', 'en ligne au 14/03/1982', '<p>body</p>', '1982-03-14', '2014-10-21', '2014-01-05', 2, 5, 4, 2, '/articles/luttes/titre-15', 'titre-15'),
+  (15, 'titre 15', 'en ligne au 14/03/1982', '<p>body</p>', '1982-03-14', '2014-10-21', '2014-01-05', 2, 5, 4, 2, '/articles/international/titre-15', 'titre-15'),
   (16, 'titre 16', 'en ligne au 25/02/2007', '<p>body</p>', '2007-02-25', '2014-11-13', '2014-01-05', 2, 4, 4, 2, '/articles/international/titre-16', 'titre-16'),
   (17, 'titre 17', 'desc', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 0, '/articles/international/titre-17', 'titre-17'),
   (18, 'titre 18', 'invalidate own', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 1, '/articles/18', 'titre-18'),

@@ -76,22 +76,22 @@ public class ArticleResources {
         }
         return responseBuilder.build();
     }
-    
+
     @GET
     @Path("/{id}/related")
-    public Response readRelated(@PathParam("id") long id) {
-    	ResponseBuilder responseBuilder;
-    	List<Article> relatedArticles = articleHelper.findThreeArticlesWithMostTagsInCommon(id);
-    	List<ArticleDTO> relatedArticlesDTO =Lists.transform(relatedArticles, new Function<Article, ArticleDTO>() {
+    public Response readRelated(@PathParam("id")
+    long id) {
+        ResponseBuilder responseBuilder;
+        List<Article> relatedArticles = articleHelper.findThreeArticlesWithMostTagsInCommon(id);
+        List<ArticleDTO> relatedArticlesDTO = Lists.transform(relatedArticles, new Function<Article, ArticleDTO>() {
 
-			@Override
-			public ArticleDTO apply(Article arg0) {				
-				return arg0.toArticleDTO();
-			}
-		});
-    	responseBuilder = Response.status(Status.OK).entity(relatedArticlesDTO);
-    	
-    	return responseBuilder.build();
+            @Override
+            public ArticleDTO apply(Article article) {
+                return article.toArticleDTO();
+            }
+        });
+        responseBuilder = Response.status(Status.OK).entity(relatedArticlesDTO);
+        return responseBuilder.build();
     }
 
     @GET
