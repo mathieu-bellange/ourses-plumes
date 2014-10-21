@@ -3,6 +3,7 @@
 /* ------------------------------------------------------------------ */
 
 var template = doT.compile(loadfile($loc.tmpl + "article-view.tmpl"));
+var templateRelatedArticles = doT.compile(loadfile($loc.tmpl + "related-article-list.tmpl"));
 
 /* ------------------------------------------------------------------ */
 /* # Domain */
@@ -114,12 +115,28 @@ function displayArticle() {
 	$.ajax({
 		type : "GET",
 		url : "/rest" +  window.location.pathname,
-		beforeSend: function(request) {
-			header_authentication(request);
-		},
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
 			processArticle(article);
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404) {
+				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
+			} else {
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
+}
+
+function displayRelatedArticle(articleId) {
+	$.ajax({
+		type : "GET",
+		url : "/rest/articles/" + articleId + "/related",
+		contentType : "application/json; charset=utf-8",
+		success : function(articles, status, jqxhr) {
+			processRelatedArticles(articles);
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
@@ -153,6 +170,43 @@ function processArticle(article) {
 	$("main > header").after(template(article));
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
+	displayRelatedArticle(article.id);
+}
+
+function processRelatedArticles(articles) {
+	articles.sort(function compare(a, b) {
+		if (a.publishedDate > b.publishedDate)
+			return -1;
+		if (a.publishedDate < b.publishedDate)
+			return 1;
+		// a doit être égal à b
+		return 0;
+	});
+	$(".article").after(templateRelatedArticles(articles));
+	attach_slider(); // bind events on sliding elements
+	loap.update();
+}
+
+//TODO merge avec celui du profile.js
+function attach_slider(attachee) {
+	var attachee = attachee || ".related-list";
+	var triggerer = ".info-tip";
+	var triggered = ".summary";
+	$(attachee).on("click", triggerer, function() {
+		var obj = $(this);
+		if (obj.data("is_sliding") !== "true") {
+			obj.data("is_sliding", "true");
+			obj.toggleClass("active");
+			if ($conf.js_fx) {
+				obj.next(triggered).slideToggle(250, function() {
+					obj.removeData("is_sliding");
+				});
+			} else {
+				obj.next(triggered).toggle();
+				obj.removeData("is_sliding");
+			}
+		}
+	});
 }
 
 /* ------------------------------------------------------------------ */

@@ -1,0 +1,13 @@
+<div class="related row">
+	<div class="column">
+		<h4 class="subheader">Articles connexes</h4>
+		<ul class="no-bullet related-list">
+			{{~ data :art }}
+				<li>
+					<span class="icon-{{=art.rubrique.classe}} small"><span class="hide">{{= art.rubrique.rubrique}}</span></span><a href="{{=art.path}}">{{=art.title}}</a><span class="info-tip"></span>
+					<div class="summary" style="display: none;"><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}"><small class="text-silver">{{= dateToHTML(new Date(art.publishedDate)) }}</small></time> {{=art.description}}</div>
+				</li>
+			{{~}}
+		</ul>
+	</div>
+</div>

@@ -2994,6 +2994,22 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Related List */
 /* ------------------------------------------------------------------ */
 
+.related {
+  margin-bottom: 1rem;
+  padding: .5rem;
+  font-size: 87.5%;
+  background-color: #f0f0f0;
+  background: linear-gradient(180deg, #f5f5f5 0%, #f0f0f0 100%);
+  border: .125rem solid #ddd;
+  border-radius: .5rem;
+  box-shadow: 0 0 .375rem 0 rgba(0 ,0, 0, .125);
+}
+.related .subheader {
+  color: rgba(0, 0, 0,.25);
+  text-shadow: 1px 1px rgba(255, 255, 255, .75);
+}
+.related .related-list {margin-top: 0;}
+
 .related-list {margin: 1rem 0 0;}
 .related-list > li {
   position: relative;
