@@ -2,10 +2,11 @@
 /* # Globals */
 /* ------------------------------------------------------------------ */
 
-var templateRelatedArticles = doT.compile(loadfile($loc.tmpl + "related-article-list.tmpl"));
+//var templateRelatedArticles = doT.compile(loadfile($loc.tmpl + "related-article-list.tmpl"));
 
 var loax_pool = {
-	"article_view_tmpl" : $loc.tmpl + "article-view.tmpl"
+	"article_view_tmpl" : $loc.tmpl + "article-view.tmpl",
+	"related_article_tmpl" : $loc.tmpl + "related-article-list.tmpl"
 }
 
 /* ------------------------------------------------------------------ */
@@ -188,17 +189,19 @@ function processArticle(article) {
 }
 
 function processRelatedArticles(articles) {
-	articles.sort(function compare(a, b) {
-		if (a.publishedDate > b.publishedDate)
-			return -1;
-		if (a.publishedDate < b.publishedDate)
-			return 1;
-		// a doit être égal à b
-		return 0;
-	});
-	$(".article").after(templateRelatedArticles(articles));
-	attach_slider(); // bind events on sliding elements
-	loap.update();
+	if (articles.length > 0){
+		articles.sort(function compare(a, b) {
+			if (a.publishedDate > b.publishedDate)
+				return -1;
+			if (a.publishedDate < b.publishedDate)
+				return 1;
+			// a doit être égal à b
+			return 0;
+		});
+		$(".article").after(file_pool.related_article_tmpl(articles)).after(lb(1));
+		attach_slider(); // bind events on sliding elements
+		loap.update(); //refresh icon
+	}
 }
 
 //TODO merge avec celui du profile.js
