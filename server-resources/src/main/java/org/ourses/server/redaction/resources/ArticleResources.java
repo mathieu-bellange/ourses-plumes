@@ -116,13 +116,15 @@ public class ArticleResources {
     String token, @QueryParam(value = "tag")
     String tag, @QueryParam(value = "rubrique")
     String rubrique, @QueryParam(value = "category")
-    String category) {
+    String category, @QueryParam(value = "titre")
+    String title) {
         ResponseBuilder responseBuilder;
         Set<Article> articles = Sets.newHashSet();
         Map<String, String> parameters = Maps.newHashMap();
         parameters.put(Article.CRITERIA_TAG, tag);
         parameters.put(Article.CRITERIA_RUBRIQUE, rubrique);
         parameters.put(Article.CRITERIA_CATEGORY, category);
+        parameters.put(Article.CRITERIA_TITLE, title);
         if (token != null) {
             // recherche le profil associé
             Profile profile = profileHelper.findProfileByAuthcToken(token);

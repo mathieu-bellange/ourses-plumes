@@ -53,6 +53,7 @@ public class Article implements Serializable {
     public static final String CRITERIA_TAG = "tag";
     public static final String CRITERIA_RUBRIQUE = "rubrique";
     public static final String CRITERIA_CATEGORY = "category";
+    public static final String CRITERIA_TITLE = "title";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "article_seq_gen")
@@ -80,12 +81,12 @@ public class Article implements Serializable {
 
     public Article() {
     }
-    
-    public Article(Long id) {
-		this.id = id;
-	}
 
-	public Long getId() {
+    public Article(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -249,6 +250,9 @@ public class Article implements Serializable {
                 case CRITERIA_CATEGORY:
                     req.add(Expr.eq("category.category", entrySet.getValue()));
                     break;
+                case CRITERIA_TITLE:
+                    req.add(Expr.ilike("title", "%" + entrySet.getValue() + "%"));
+                    break;
                 default:
                     break;
                 }
@@ -273,9 +277,10 @@ public class Article implements Serializable {
         }
         return query.findRowCount();
     }
-    
-    public static Set<Article> findRelatedArticles(long idArticle, long idRubrique){
-    	return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle).eq("rubrique.id", idRubrique).eq("status", ArticleStatus.ENLIGNE).findSet();
+
+    public static Set<Article> findRelatedArticles(long idArticle, long idRubrique) {
+        return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle)
+                .eq("rubrique.id", idRubrique).eq("status", ArticleStatus.ENLIGNE).findSet();
     }
 
     public void update(String... properties) {

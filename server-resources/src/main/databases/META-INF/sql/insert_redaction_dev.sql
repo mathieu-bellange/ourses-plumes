@@ -1,7 +1,7 @@
 Insert into category
   (id, category)
 Values
-  (1, 'Br&egrave;ves'),
+  (1, 'Brèves'),
   (2, 'Reportage'),
   (3, 'Spotlights'),
   (4, 'Interview'),
@@ -24,7 +24,7 @@ Values
   (1, 'tag 1'),
   (2, 'tag 2'),
   (3, 'sexisme'),
-  (4, 'jeux vid&eacute;os'),
+  (4, 'jeux vidéos'),
   (5, 'machisme'),
   (6, 'homophobie'),
   (7, 'sept'),

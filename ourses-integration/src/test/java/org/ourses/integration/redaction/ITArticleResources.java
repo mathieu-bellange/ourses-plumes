@@ -121,6 +121,19 @@ public class ITArticleResources {
     }
 
     @Test
+    public void shouldReadPublishArticleByTitle() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("titre", "titre 2")
+                .header("Content-Type", "application/json").get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("title").containsOnly("titre 21");
+    }
+
+    @Test
     public void shouldReadPublishArticleByTag() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("tag", "tag%201")
@@ -756,11 +769,11 @@ public class ITArticleResources {
                 .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, "mymail");
         assertThat(clientResponse.getStatus()).isEqualTo(500);
     }
-    
+
     @Test
     public void shouldDisplayRelatedArticles() {
-    	URI uri = UriBuilder.fromPath(PATH_RELATED_ARTICLES).build();
-    	ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+        URI uri = UriBuilder.fromPath(PATH_RELATED_ARTICLES).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         // status attendu 200
         assertThat(clientResponse.getStatus()).isEqualTo(200);
@@ -769,14 +782,14 @@ public class ITArticleResources {
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
         assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
         assertThat(articles).onProperty("rubrique.id").containsOnly(4L);
-        for(ArticleDTO articleDTO : articles){
-        	assertThat(articleDTO.getTags()).onProperty("id").satisfies(new Condition<Collection<?>>() {
-				
-				@Override
-				public boolean matches(Collection<?> arg0) {
-					return arg0.contains(3l) || arg0.contains(4l) || arg0.contains(5l) || arg0.contains(7l);
-				}
-			});
+        for (ArticleDTO articleDTO : articles) {
+            assertThat(articleDTO.getTags()).onProperty("id").satisfies(new Condition<Collection<?>>() {
+
+                @Override
+                public boolean matches(Collection<?> arg0) {
+                    return arg0.contains(3l) || arg0.contains(4l) || arg0.contains(5l) || arg0.contains(7l);
+                }
+            });
         }
     }
 
