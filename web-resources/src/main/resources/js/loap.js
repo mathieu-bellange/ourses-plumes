@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Main File
  * Require jQuery Library
- * ver. 1.0.2
+ * ver. 1.0.3
  */
 
 /* ------------------------------------------------------------------ */
@@ -1157,7 +1157,7 @@ function checkAJAX(done, fail, always, url) {
 		success : function() {done()},
 		error : function() {fail()},
 		complete : function() {always()},
-		dataType : "xml"
+		dataType : "json"
 	});
 }
 

@@ -19,41 +19,42 @@ import com.google.common.net.HttpHeaders;
 
 public class OursesAuthorizationFilter extends AccessControlFilter {
 
-	Logger logger = LoggerFactory.getLogger(OursesAuthorizationFilter.class);
+    Logger logger = LoggerFactory.getLogger(OursesAuthorizationFilter.class);
 
-	@Autowired
-	private SecurityHelper helper;
+    @Autowired
+    private SecurityHelper helper;
 
-	@Override
-	protected boolean isAccessAllowed(ServletRequest request,
-			ServletResponse response, Object mappedValue) throws Exception {
-		boolean isAuthorized = false;
-		// roles requis
-		String[] rolesArray = (String[]) mappedValue;
-		// token est dans le header
-		String token = getAuthzHeader(request);
-		logger.info("Access token : {}", token);
-		if (token != null) {
-			 // recherche si le token en base existe bien
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
+            throws Exception {
+        boolean isAuthorized = false;
+        // roles requis
+        String[] rolesArray = (String[]) mappedValue;
+        // token est dans le header
+        String token = getAuthzHeader(request);
+        logger.info("Access token : {}", token);
+        if (token != null) {
+            // recherche si le token en base existe bien
             OurseSecurityToken authToken = helper.findByToken(token);
-			// recherche si le token a les droits
-			isAuthorized = helper.hasRoles(authToken, Sets.newHashSet(rolesArray));
-		}
-		return isAuthorized;
-	}
+            // recherche si le token a les droits
+            isAuthorized = helper.hasRoles(authToken, Sets.newHashSet(rolesArray));
+        }
+        return isAuthorized;
+    }
 
-	@Override
-	protected boolean onAccessDenied(ServletRequest request,
-			ServletResponse response) throws Exception {
-		logger.info("envoi une erreur 403");
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        logger.info("envoi une erreur 403");
         HttpServletResponse httpResponse = WebUtils.toHttp(response);
+        httpResponse.addHeader("Content-Type", "application/json;charset=UTF-8");
+        httpResponse.getWriter().write("{\"error\" : \"Forbidden\"}");
         httpResponse.setStatus(Status.FORBIDDEN.getStatusCode());
         return false;
-	}
+    }
 
-	private String getAuthzHeader(ServletRequest request) {
-		HttpServletRequest httpRequest = WebUtils.toHttp(request);
-		return httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
-	}
+    private String getAuthzHeader(ServletRequest request) {
+        HttpServletRequest httpRequest = WebUtils.toHttp(request);
+        return httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
+    }
 
 }
