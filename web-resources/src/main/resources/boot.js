@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Loader
  * No dependency
- * ver. 1.0.2
+ * ver. 1.0.3
  */
 
 /* ------------------------------------------------------------------ */
@@ -40,7 +40,7 @@ $org = {
 /* Application */
 $app = {
 	"name"               : "Webzine féministe",                   // String   Application name.
-	"ver"                : "1.0.2",                               // String   Application version.
+	"ver"                : "1.0.3",                               // String   Application version.
 	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
@@ -469,11 +469,11 @@ function checkAuthz(url, redir, flush) {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401) {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				if (redir) { window.location.href = $nav.login.url + $conf.redir_param + loc }
+				if (redir) { window.location.href.replace($nav.login.url + $conf.redir_param + loc) }
 				if (flush) { clearStorage() }
 			} else if (xhr.status == 403) {
 				console.log("Forbidden ! Redirect to the home page."); // forbidden
-				if (redir) { window.location.href = $nav.home.url }
+				if (redir) { window.location.href.replace($nav.home.url) }
 			}
 		} catch(err) { console.log("HTTP request failed.\n" + err) } // log server error
 	} else { console.log("XMLHttpRequest not supported.") } // log client error
