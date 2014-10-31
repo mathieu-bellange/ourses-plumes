@@ -43,6 +43,7 @@
 				/rest/articles/create = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/* = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/check/* = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/draft = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/*/* = anon
 				
 				

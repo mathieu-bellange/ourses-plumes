@@ -175,26 +175,27 @@ $msg = {
 
 /* Navigation */
 $nav = {
-	"about"                 : {"url" : "/faq",               "title" : "FAQ"},
-	"account_list"          : {"url" : "/comptes",           "title" : "Lister les comptes"},
-	"account_create"        : {"url" : null,                 "title" : "Ajouter un compte"},
-	"account_edit"          : {"url" : "/parametres/compte", "title" : "Mon compte"},
-	"agenda"                : {"url" : null,                 "title" : "Agenda"},
-	"article_list"          : {"url" : "/articles",          "title" : "Tous les articles"},
-	"article_view"          : {"url" : null,                 "title" : null},
-	"article_add"           : {"url" : "/articles/nouveau",  "title" : "Écrire un article"},
-	"article_edit"          : {"url" : null,                 "title" : "Modifier un article"},
-	"bug_report"            : {"url" : "/bug/nouveau",       "title" : "Signaler un bug"},
-	"contact"               : {"url" : null,                 "title" : "Nous contacter"},
-	"error"                 : {"url" : null,                 "title" : "Erreur"},
-	"home"                  : {"url" : "/",                  "title" : "Accueil"},
-	"login"                 : {"url" : "/connexion",         "title" : "Connexion"},
-	"partners"              : {"url" : null,                 "title" : "Nos copines"},
-	"profile_view"          : {"url" : null,                 "title" : null},
-	"profile_edit"          : {"url" : "/parametres/profil", "title" : "Mon profil"},
-	"privacy_policy"        : {"url" : null,                 "title" : "Politique de confidentialité"},
-	"terms_of_use"          : {"url" : null,                 "title" : "Conditions d'utilisation"},
-	"thanks"                : {"url" : null,                 "title" : "Remerciements"}
+	"about"                 : {"url" : "/faq",                 "title" : "FAQ"},
+	"account_list"          : {"url" : "/comptes",             "title" : "Lister les comptes"},
+	"account_create"        : {"url" : null,                   "title" : "Ajouter un compte"},
+	"account_edit"          : {"url" : "/parametres/compte",   "title" : "Mon compte"},
+	"agenda"                : {"url" : null,                   "title" : "Agenda"},
+	"online_article_list"   : {"url" : "/articles",            "title" : "Tous les articles"},
+	"draft_article_list"    : {"url" : "/parametres/articles", "title" : "Mes articles"},
+	"article_view"          : {"url" : null,                   "title" : null},
+	"article_add"           : {"url" : "/articles/nouveau",    "title" : "Écrire un article"},
+	"article_edit"          : {"url" : null,                   "title" : "Modifier un article"},
+	"bug_report"            : {"url" : "/bug/nouveau",         "title" : "Signaler un bug"},
+	"contact"               : {"url" : null,                   "title" : "Nous contacter"},
+	"error"                 : {"url" : null,                   "title" : "Erreur"},
+	"home"                  : {"url" : "/",                    "title" : "Accueil"},
+	"login"                 : {"url" : "/connexion",           "title" : "Connexion"},
+	"partners"              : {"url" : null,                   "title" : "Nos copines"},
+	"profile_view"          : {"url" : null,                   "title" : null},
+	"profile_edit"          : {"url" : "/parametres/profil",   "title" : "Mon profil"},
+	"privacy_policy"        : {"url" : null,                   "title" : "Politique de confidentialité"},
+	"terms_of_use"          : {"url" : null,                   "title" : "Conditions d'utilisation"},
+	"thanks"                : {"url" : null,                   "title" : "Remerciements"}
 };
 
 /* Preferences */
@@ -469,11 +470,11 @@ function checkAuthz(url, redir, flush) {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401) {
 				console.log("Unauthorized ! Redirect to the login page."); // unauthorized
-				if (redir) { window.location.href.replace($nav.login.url + $conf.redir_param + loc) }
+				if (redir) { window.location.href = $nav.login.url + $conf.redir_param + loc }
 				if (flush) { clearStorage() }
 			} else if (xhr.status == 403) {
 				console.log("Forbidden ! Redirect to the home page."); // forbidden
-				if (redir) { window.location.href.replace($nav.home.url) }
+				if (redir) { window.location.href = $nav.home.url }
 			}
 		} catch(err) { console.log("HTTP request failed.\n" + err) } // log server error
 	} else { console.log("XMLHttpRequest not supported.") } // log client error

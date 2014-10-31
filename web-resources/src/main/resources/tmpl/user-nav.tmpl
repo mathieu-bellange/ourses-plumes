@@ -9,6 +9,9 @@
 							<li><span id="user_avatar" class="picture medium radius" data-image="{{= window.localStorage.getItem($auth.avatar_path) }}">Image</span></li>
 							<li><a href="{{= $nav.account_edit.url }}">Mon compte</a></li>
 							<li><a href="{{= $nav.profile_edit.url }}">Mon profil</a></li>
+							{{? isRegRedac() }}
+								<li><a href="{{= $nav.draft_article_list.url }}">Mes articles</a></li>
+							{{?}}
 							{{? isRegAdmin() }}
 								<li><a href="{{= $nav.account_list.url }}">Liste des comptes</a></li>
 								<li><a href="{{= $nav.bug_report.url }}">Signaler un bug</a></li>

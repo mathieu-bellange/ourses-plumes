@@ -686,7 +686,7 @@ function sendArticle() {
 			header_authentication(request);
 		},
 		success: function(jqXHR, status, errorThrown) {
-			window.location.href = $nav.article_list.url;
+			window.location.href = $nav.draft_article_list.url;
 		},
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);

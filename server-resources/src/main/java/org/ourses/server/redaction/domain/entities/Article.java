@@ -211,18 +211,14 @@ public class Article implements Serializable {
         return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
-    public static Set<Article> findToCheckAndDraft(Map<String, String> parameters) {
-        ExpressionList<Article> req = Ebean.find(Article.class).where()
-                .or(Expr.eq("status", ArticleStatus.AVERIFIER), Expr.eq("status", ArticleStatus.BROUILLON));
-        addCriteria(req, parameters);
-        return req.findSet();
+    public static Set<Article> findToCheckAndDraft() {
+        return Ebean.find(Article.class).where()
+                .or(Expr.eq("status", ArticleStatus.AVERIFIER), Expr.eq("status", ArticleStatus.BROUILLON)).findSet();
     }
 
-    public static Collection<? extends Article> findToCheckAndDraft(Long idProfile, Map<String, String> parameters) {
-        ExpressionList<Article> req = Ebean.find(Article.class).where().eq("profile.id", idProfile)
-                .or(Expr.eq("status", ArticleStatus.BROUILLON), Expr.eq("status", ArticleStatus.AVERIFIER));
-        addCriteria(req, parameters);
-        return req.findSet();
+    public static Collection<? extends Article> findToCheckAndDraft(Long idProfile) {
+        return Ebean.find(Article.class).where().eq("profile.id", idProfile)
+                .or(Expr.eq("status", ArticleStatus.BROUILLON), Expr.eq("status", ArticleStatus.AVERIFIER)).findSet();
     }
 
     public static Collection<? extends Article> findProfileArticles(Long profileId) {

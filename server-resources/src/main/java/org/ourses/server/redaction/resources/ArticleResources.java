@@ -125,16 +125,31 @@ public class ArticleResources {
         parameters.put(Article.CRITERIA_RUBRIQUE, rubrique);
         parameters.put(Article.CRITERIA_CATEGORY, category);
         parameters.put(Article.CRITERIA_TITLE, title);
+        // push les articles en ligne pour tous les utilisateurs
+        articles.addAll(articleHelper.findOnline(parameters));
+        // passage en DTO
+        Set<ArticleDTO> articlesDto = Sets.newHashSet();
+        for (Article article : articles) {
+            articlesDto.add(article.toArticleDTO());
+        }
+        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        return responseBuilder.build();
+    }
+
+    @GET
+    @Path("/draft")
+    public Response readAllDraftArticles(@HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token) {
+        ResponseBuilder responseBuilder;
+        Set<Article> articles = Sets.newHashSet();
         if (token != null) {
             // recherche le profil associé
             Profile profile = profileHelper.findProfileByAuthcToken(token);
             // Je suis connecté
             if (profile != null) {
-                articles.addAll(articleHelper.findToCheckAndDraft(profile.getId(), token, parameters));
+                articles.addAll(articleHelper.findToCheckAndDraft(profile.getId(), token));
             }
         }
-        // push les articles en ligne pour tous les utilisateurs
-        articles.addAll(articleHelper.findOnline(parameters));
         // passage en DTO
         Set<ArticleDTO> articlesDto = Sets.newHashSet();
         for (Article article : articles) {

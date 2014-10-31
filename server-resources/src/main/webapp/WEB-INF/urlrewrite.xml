@@ -47,6 +47,12 @@
 		<from>^/parametres/compte$</from>
 		<to>/account-edit.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers la page de modification de mes articles</note>
+		<from>^/parametres/articles$</from>
+		<to>/draft-article-list.html</to>
+	</rule>
 
 	<rule>
 		<note>redirection vers la page d'affichage d'un profil</note>
@@ -63,7 +69,7 @@
 	<rule>
 		<note>redirection vers la liste des articles</note>
 		<from>^/articles$</from>
-		<to>/article-list.html</to>
+		<to>/online-article-list.html</to>
 	</rule>
 
 	<rule>

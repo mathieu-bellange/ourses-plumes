@@ -66,6 +66,7 @@ public class ITArticleResources {
     private static final String PATH_RECALL_DRAFT = "/rest/articles/3/recall";
     private static final String PATH_SHARE_MAIL = "/rest/articles/22/share";
     private static final String PATH_RELATED_ARTICLES = "/rest/articles/16/related";
+    private static final String PATH_GET_ALL_DRAFT = "/rest/articles/draft";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -175,8 +176,8 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldReadAllPublishArticleAndIsOwnDraftToCheck() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+    public void shouldReadIsOwnDraftToCheckArticle() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL_DRAFT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").get(ClientResponse.class);
         // status attendu 200
@@ -184,8 +185,7 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE, ArticleStatus.BROUILLON,
-                ArticleStatus.AVERIFIER);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER);
         Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
 
             @Override
@@ -202,53 +202,6 @@ public class ITArticleResources {
             }
         });
         assertThat(toChecks).onProperty("profile.pseudo").containsOnly("jpetit");
-    }
-
-    @Test
-    public void shouldReadPublishArticleAndIsOwnDraftToCheckByTag() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
-        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
-        params.add("tag", "tag 1");
-        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
-                .header("Content-Type", "application/json").get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-        };
-        List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        for (ArticleDTO art : articles) {
-            assertThat(art.getTags()).onProperty("tag").contains("tag 1");
-        }
-    }
-
-    @Test
-    public void shouldReadPublishArticleAndIsOwnDraftToCheckByRubrique() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
-        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
-        params.add("rubrique", "intersectionnalité");
-        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
-                .header("Content-Type", "application/json").get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-        };
-        List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("rubrique.rubrique").contains("Intersectionnalit&eacute;");
-    }
-
-    @Test
-    public void shouldReadPublishArticleAndIsOwnDraftToCheckByCategory() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
-        MultivaluedMap<String, String> params = new MultivaluedMapImpl();
-        params.add("category", "Brèves");
-        ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
-                .header("Content-Type", "application/json").get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-        };
-        List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("category.category").containsOnly("Brèves");
     }
 
     @Test
@@ -273,8 +226,8 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldReadAllPublishArticleAndDraftAndValidate() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
+    public void shouldReadAllDraftArticleAndValidate() {
+        URI uri = UriBuilder.fromPath(PATH_GET_ALL_DRAFT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").get(ClientResponse.class);
         // status attendu 200
@@ -282,8 +235,7 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE, ArticleStatus.BROUILLON,
-                ArticleStatus.AVERIFIER);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER);
     }
 
     @Test
