@@ -281,24 +281,28 @@ public class ArticleHelperImpl implements ArticleHelper {
         Article article = Article.findArticle(idArticle);
         logger.info("Article: " + article);
         // On ramène les articles avec la même rubrique
-        Set<Article> articlesMemeRubrique = Article.findRelatedArticles(article.getId(), article.getRubrique().getId());
+        Set<Article> articlesMemeRubrique = Article.findRelatedArticles(article.getId());
         logger.info("Articles related: " + articlesMemeRubrique);
         return findThreeArticlesWithMostTagsInCommon(article, articlesMemeRubrique);
     }
 
     @VisibleForTesting
-    protected List<Article> findThreeArticlesWithMostTagsInCommon(Article article, Set<Article> articlesMemeRubrique) {
+    protected List<Article> findThreeArticlesWithMostTagsInCommon(Article article, Set<Article> articles) {
         Set<Tag> tagsArticle = article.getTags();
+        //ajout le fait que la rubrique est un tag
+        tagsArticle.add(new Tag(article.getRubrique().getId(),article.getRubrique().getRubrique().toLowerCase()));
         logger.info("Article tags: " + tagsArticle);
         LinkedList<RelatedArticle> articlesByNbTags = new LinkedList<RelatedArticle>();
         // On ramène le nombre de tags en commun
-        for (Article articleMemeRubrique : articlesMemeRubrique) {
-            Set<Tag> tagsArticleMemeRubrique = articleMemeRubrique.getTags();
-            logger.info("Tags related: " + tagsArticleMemeRubrique);
-            Integer nbTags = Sets.intersection(tagsArticle, tagsArticleMemeRubrique).size();
+        for (Article art : articles) {
+            Set<Tag> tagsArt = art.getTags();
+            //ajout le fait que la rubrique est un tag
+            tagsArt.add(new Tag(art.getRubrique().getId(),art.getRubrique().getRubrique().toLowerCase()));
+            logger.info("Tags related: " + tagsArt);
+            Integer nbTags = Sets.intersection(tagsArt, tagsArticle).size();
             logger.info("Nb tags en commun: " + nbTags);
             if (nbTags > 0) {
-                RelatedArticle relatedArticle = new RelatedArticle(articleMemeRubrique, nbTags);
+                RelatedArticle relatedArticle = new RelatedArticle(art, nbTags);
                 logger.info("Article related: " + relatedArticle);
                 articlesByNbTags.add(relatedArticle);
             }

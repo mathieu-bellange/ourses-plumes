@@ -74,7 +74,7 @@ Values
   (17, 'titre 17', 'desc', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 0, '/articles/international/titre-17', 'titre-17'),
   (18, 'titre 18', 'invalidate own', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 1, '/articles/18', 'titre-18'),
   (19, 'titre 19', 'invalidate another', '<p>body</p>', null, '2014-11-13', '2014-01-05', 1, 4, 4, 1, '/articles/19', 'titre-19'),
-  (20, 'titre 20', 'desc', '<p>recall own</p>', '2013-11-13', '2013-11-13', '2013-01-05', 2, 4, 4, 2, '/articles/international/titre-20', 'titre-20'),
+  (20, 'titre 20', 'desc', '<p>recall own</p>', '2013-11-13', '2013-11-13', '2013-01-05', 2, 4, 1, 2, '/articles/luttes/titre-20', 'titre-20'),
   (21, 'titre 21', 'desc', '<p>recall another</p>', '2013-11-13', '2013-11-13', '2013-01-05', 1, 4, 4, 2, '/articles/international/titre-21', 'titre-21'),
   (22, 'Brouillon de Nadejda', 'desc', '<p>recall another</p>', null, '2014-09-01', null, 3, 1, 4, 0, '/articles/22', 'brouillon-de-nadejda'),
   (23, 'Sexisme dans les jeux-vid&eacute;os, une critique impossible&nbsp;?', 

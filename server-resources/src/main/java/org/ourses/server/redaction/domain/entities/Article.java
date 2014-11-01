@@ -274,9 +274,9 @@ public class Article implements Serializable {
         return query.findRowCount();
     }
 
-    public static Set<Article> findRelatedArticles(long idArticle, long idRubrique) {
-        return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle)
-                .eq("rubrique.id", idRubrique).eq("status", ArticleStatus.ENLIGNE).findSet();
+    public static Set<Article> findRelatedArticles(long idArticle) {
+        return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle).
+                eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).findSet();
     }
 
     public void update(String... properties) {
