@@ -43,4 +43,8 @@ public interface ArticleHelper {
     Collection<? extends Article> findProfileArticles(Long profileId);
 
     List<Article> findThreeArticlesWithMostTagsInCommon(long idArticle);
+    
+    List<Article> findLastPublishedArticle();
+    
+    Article findLastWebReview();
 }

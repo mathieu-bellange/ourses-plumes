@@ -158,6 +158,20 @@ public class ArticleResources {
         responseBuilder = Response.status(Status.OK).entity(articlesDto);
         return responseBuilder.build();
     }
+    
+    @GET
+    @Path("/last")
+    public Response readLastPublishedArticle() {
+    	ResponseBuilder responseBuilder;
+    	List<Article> articles = articleHelper.findLastPublishedArticle();
+    	// passage en DTO
+    	List<ArticleDTO> articlesDto = Lists.newArrayList();
+    	for (Article article : articles) {
+    		articlesDto.add(article.toArticleDTO());
+    	}
+    	responseBuilder = Response.status(Status.OK).entity(articlesDto);
+    	return responseBuilder.build();
+    }
 
     @PUT
     @Path("/create")

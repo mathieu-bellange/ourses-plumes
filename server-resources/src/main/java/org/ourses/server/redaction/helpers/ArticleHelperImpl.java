@@ -328,4 +328,14 @@ public class ArticleHelperImpl implements ArticleHelper {
         });
     }
 
+	@Override
+	public List<Article> findLastPublishedArticle() {
+		return Article.findLastPublishedArticle();
+	}
+
+	@Override
+	public Article findLastWebReview() {
+		return Article.findLastWebReview();
+	}
+
 }

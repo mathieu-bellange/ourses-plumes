@@ -41,9 +41,11 @@
 				/rest/articles/*/invalidate = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/*/validate = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/create = oursesAuthc, oursesAuthz[writer]
-				/rest/articles/* = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/last = anon
+				/rest/articles/last/review = anon
 				/rest/articles/check/* = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/draft = oursesAuthc, oursesAuthz[writer]
+				/rest/articles/* = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/*/* = anon
 				
 				

@@ -3,6 +3,7 @@ package org.ourses.server.redaction.domain.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -277,6 +278,16 @@ public class Article implements Serializable {
     public static Set<Article> findRelatedArticles(long idArticle) {
         return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle).
                 eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).findSet();
+    }
+    
+    public static List<Article> findLastPublishedArticle(){
+    	 return Ebean.find(Article.class).fetch("rubrique").where().
+                 eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).orderBy().desc("publishedDate").setMaxRows(6).findList();
+    }
+    
+    public static Article findLastWebReview(){
+    	return Ebean.find(Article.class).fetch("rubrique").where().
+    			eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).eq("categorie.id", 6l).orderBy().desc("publishedDate").setMaxRows(1).findUnique();
     }
 
     public void update(String... properties) {

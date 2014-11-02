@@ -67,6 +67,7 @@ public class ITArticleResources {
     private static final String PATH_SHARE_MAIL = "/rest/articles/22/share";
     private static final String PATH_RELATED_ARTICLES = "/rest/articles/16/related";
     private static final String PATH_GET_ALL_DRAFT = "/rest/articles/draft";
+	private static final String PATH_LAST_ARTICLES = "/rest/articles/last";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -733,7 +734,6 @@ public class ITArticleResources {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
         assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
-        assertThat(articles).onProperty("rubrique.id").containsOnly(4L);
         for (ArticleDTO articleDTO : articles) {
             assertThat(articleDTO.getTags()).onProperty("id").satisfies(new Condition<Collection<?>>() {
 
@@ -743,6 +743,20 @@ public class ITArticleResources {
                 }
             });
         }
+    }
+    
+    @Test
+    public void shouldDisplayLastPublishedArticles() {
+    	URI uri = UriBuilder.fromPath(PATH_LAST_ARTICLES).build();
+    	ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+    			.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    	// status attendu 200
+    	assertThat(clientResponse.getStatus()).isEqualTo(200);
+    	GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+    	};
+    	List<ArticleDTO> articles = clientResponse.getEntity(gt);
+    	assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
+    	assertThat(articles).onProperty("id").containsSequence(6l, 23l, 20l, 21l, 14l, 16l);
     }
 
     private ArticleDTO newArticle(String title) {
