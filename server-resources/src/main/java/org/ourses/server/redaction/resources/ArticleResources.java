@@ -172,6 +172,12 @@ public class ArticleResources {
     	responseBuilder = Response.status(Status.OK).entity(articlesDto);
     	return responseBuilder.build();
     }
+    
+    @GET
+    @Path("/last/review")
+    public Response readLastWebReview() {
+    	return Response.status(Status.OK).entity(articleHelper.findLastWebReview().toArticleDTO()).build();
+    }
 
     @PUT
     @Path("/create")

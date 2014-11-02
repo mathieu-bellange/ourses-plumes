@@ -287,7 +287,7 @@ public class Article implements Serializable {
     
     public static Article findLastWebReview(){
     	return Ebean.find(Article.class).fetch("rubrique").where().
-    			eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).eq("categorie.id", 6l).orderBy().desc("publishedDate").setMaxRows(1).findUnique();
+    			eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).eq("category.id", 6l).orderBy().desc("publishedDate").setMaxRows(1).findUnique();
     }
 
     public void update(String... properties) {

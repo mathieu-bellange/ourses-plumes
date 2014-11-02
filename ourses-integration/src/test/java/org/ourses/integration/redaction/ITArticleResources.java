@@ -68,6 +68,7 @@ public class ITArticleResources {
     private static final String PATH_RELATED_ARTICLES = "/rest/articles/16/related";
     private static final String PATH_GET_ALL_DRAFT = "/rest/articles/draft";
 	private static final String PATH_LAST_ARTICLES = "/rest/articles/last";
+	private static final String PATH_LAST_WEBREVIEW = "/rest/articles/last/review";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -756,7 +757,18 @@ public class ITArticleResources {
     	};
     	List<ArticleDTO> articles = clientResponse.getEntity(gt);
     	assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
-    	assertThat(articles).onProperty("id").containsSequence(6l, 23l, 20l, 21l, 14l, 16l);
+    	assertThat(articles).onProperty("id").containsSequence(6l, 25l, 23l, 24l, 20l, 21l);
+    }
+    
+    @Test
+    public void shouldDisplayLastWebReview() {
+    	URI uri = UriBuilder.fromPath(PATH_LAST_WEBREVIEW).build();
+    	ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+    			.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    	// status attendu 200
+    	assertThat(clientResponse.getStatus()).isEqualTo(200);
+    	ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+    	assertThat(article.getId()).isEqualTo(25l);
     }
 
     private ArticleDTO newArticle(String title) {

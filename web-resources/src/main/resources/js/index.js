@@ -4,7 +4,8 @@
 
 var loax_pool = {
 	"index_tmpl" : $loc.tmpl + "index.tmpl",
-	"article_list_tmpl" : $loc.tmpl + "online-article-list.tmpl"
+	"article_list_tmpl" : $loc.tmpl + "online-article-list.tmpl",
+	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
 }
 
 /* ------------------------------------------------------------------ */
@@ -17,6 +18,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.home.title);
 			displayArticles();
+			displayLastWebReview();
 			/* Insert template */
 			$("main > header").after(file_pool.index_tmpl).after(lb(1));
 		},
@@ -67,6 +69,21 @@ function displayArticles() {
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
 			$("main > header").after(file_pool.article_list_tmpl(articles)).after(lb(1));
+			$("#articles").svg_icons(); // always reload icons only for articles
+		},
+		error : function(jqXHR, status, errorThrown) {
+			createAlertBox();
+		},
+		dataType : "json"
+	});
+}
+function displayLastWebReview() {
+	$.ajax({
+		type : "GET",
+		url : "/rest/articles/last/review",
+		contentType : "application/json; charset=utf-8",
+		success : function(article, status, jqxhr) {
+			$("main > header").after(file_pool.article_item_tmpl(article)).after(lb(1));
 			$("#articles").svg_icons(); // always reload icons only for articles
 		},
 		error : function(jqXHR, status, errorThrown) {
