@@ -21,4 +21,6 @@ public interface ProfileHelper {
 
     void addDefaultAvatar(Profile profile);
 
+    Profile deleteAvatar(Long id);
+
 }

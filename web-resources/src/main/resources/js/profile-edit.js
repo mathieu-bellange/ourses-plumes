@@ -192,6 +192,7 @@ function getProfile() {
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
 				$("main > header").after(file_pool.profile_edit_tpml(profile)).after(lb(1)); // process template
+				$("#delete_avatar").on("click",function(){deleteAvatar();});
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
 				$("section textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas for whole section
@@ -210,6 +211,29 @@ function getProfile() {
 		createAlertBox();
 	}
 };
+
+function deleteAvatar(){
+	var profileId = window.localStorage.getItem($auth.profile_id);
+	if(profileId != null) {
+		$.ajax({
+			type : "DELETE",
+			url : "/rest/profile/" + profileId + "/avatar",
+			contentType : "application/json; charset=utf-8",
+			beforeSend: function(request) {
+				header_authentication(request);
+			},
+			success : function(profile, status, jqxhr) {
+				$("#avatar").attr("data-image",profile.avatar.path);
+				loap.update();
+				update_user_avatar(profile.avatar.path);
+			},
+			error : function(jqXHR, status, errorThrown) {
+				createAlertBox();
+			},
+			dataType : "json"
+		});
+	}
+}
 
 function save(couple) {
 	var profileId = window.localStorage.getItem($auth.profile_id);

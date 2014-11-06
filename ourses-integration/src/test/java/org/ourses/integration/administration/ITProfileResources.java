@@ -31,6 +31,7 @@ public class ITProfileResources {
     private static final String PATH_GET_PROFILE_ROLE = "/rest/profile/mbellange/authz";
     private static final String PATH_GET_NOT_FOUND_ROLE = "/rest/profile/toto/authz";
     private static final String PATH_GET_PROFILE_ARTICLES = "/rest/profile/2/articles";
+    private static final String PATH_DELETE_AVATAR = "/rest/profile/1/avatar";
 
     @Test
     public void shouldGetRoleProfile() {
@@ -313,6 +314,15 @@ public class ITProfileResources {
         Set<String> socialUser = processSocialUsers(profileBeforeUpdate);
         socialUser.remove(linkToUpdate.getSocialUser());
         assertThat(profileDTOAfterUpdate.getSocialLinks()).onProperty("socialUser").contains(socialUser.toArray());
+    }
+
+    @Test
+    public void shouldDeleteProfileAvatar() {
+        URI uri = UriBuilder.fromPath(PATH_DELETE_AVATAR).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri, "admin")
+                .header("Content-Type", "application/json").delete(ClientResponse.class);
+        ProfileDTO profileDto = clientResponse.getEntity(ProfileDTO.class);
+        assertThat(profileDto.getAvatar().getId()).isEqualTo(0l);
     }
 
     @Test

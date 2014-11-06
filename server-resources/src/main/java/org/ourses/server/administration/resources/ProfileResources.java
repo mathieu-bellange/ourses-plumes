@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
@@ -121,6 +122,25 @@ public class ProfileResources {
             catch (AuthenticationException ae) {
                 builder = Response.status(Status.UNAUTHORIZED);
             }
+        }
+        return builder.build();
+    }
+
+    @DELETE
+    @Path("/{id}/avatar")
+    public Response deleteAvatar(@PathParam("id")
+    Long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    String token) {
+        // vérification que le compte a récupéré est bien réalisé par l'utilisateur authentifié
+        BearAccount bearAccount = BearAccount.findAdminAccountByProfileId(id);
+        ResponseBuilder builder;
+        try {
+            securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
+            Profile profile = profileHelper.deleteAvatar(id);
+            builder = Response.ok().entity(profile.toProfileDTO());
+        }
+        catch (AuthenticationException ae) {
+            builder = Response.status(Status.UNAUTHORIZED);
         }
         return builder.build();
     }

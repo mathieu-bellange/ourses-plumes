@@ -69,6 +69,10 @@ public class Avatar {
         Ebean.save(this);
     }
 
+    public void delete() {
+        Ebean.delete(this);
+    }
+
     public void update(String... ppts) {
         Ebean.update(this, Sets.newHashSet(ppts));
     }

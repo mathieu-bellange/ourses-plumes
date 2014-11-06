@@ -186,4 +186,18 @@ public class ProfileHelperImpl implements ProfileHelper {
         Avatar avatar = Avatar.findDefaultAvatar();
         profile.setAvatar(avatar);
     }
+
+    @Override
+    public Profile deleteAvatar(Long id) {
+        Profile profile = Profile.findPublicProfile(id);
+        if (profile != null) {
+            Avatar oldAvatar = profile.getAvatar();
+            profile.setAvatar(Avatar.findDefaultAvatar());
+            profile.updateProfileProperty("avatar");
+            if (!oldAvatar.getId().equals(0l)) {
+                oldAvatar.delete();
+            }
+        }
+        return profile;
+    }
 }
