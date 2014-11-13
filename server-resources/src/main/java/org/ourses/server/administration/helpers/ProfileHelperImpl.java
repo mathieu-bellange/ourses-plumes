@@ -6,6 +6,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.lang3.text.StrBuilder;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
@@ -199,5 +200,10 @@ public class ProfileHelperImpl implements ProfileHelper {
             }
         }
         return profile;
+    }
+
+    @Override
+    public Set<Profile> findWriterProfiles() {
+        return Profile.findWriterProfiles();
     }
 }

@@ -32,6 +32,26 @@ public class ITProfileResources {
     private static final String PATH_GET_NOT_FOUND_ROLE = "/rest/profile/toto/authz";
     private static final String PATH_GET_PROFILE_ARTICLES = "/rest/profile/2/articles";
     private static final String PATH_DELETE_AVATAR = "/rest/profile/1/avatar";
+    private static final String PATH_GET_WRITER = "/rest/profile/writer";
+
+    @Test
+    public void shouldGetWriterProfiles() {
+        URI uri = UriBuilder.fromPath(PATH_GET_WRITER).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ProfileDTO>> gt = new GenericType<List<ProfileDTO>>() {
+        };
+        List<ProfileDTO> profiles = clientResponse.getEntity(gt);
+        assertThat(profiles).onProperty("pseudo").containsOnly("mbellange", "jpetit", "Nadejda", "to_update",
+                "Ourse du Cheshire", "to_delete", "pseudo");
+    }
+
+    @Test
+    public void shouldNotGetWriterProfilesWithAnon() {
+        URI uri = UriBuilder.fromPath(PATH_GET_WRITER).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).get(ClientResponse.class);
+        assertThat(clientResponse.getStatus()).isEqualTo(401);
+    }
 
     @Test
     public void shouldGetRoleProfile() {
@@ -349,6 +369,6 @@ public class ITProfileResources {
             }
         });
         assertThat(articles).onProperty("profile.id").containsOnly(2l);
-        assertThat(articles).onProperty("rubrique.rubrique").containsOnly("International","Luttes");
+        assertThat(articles).onProperty("rubrique.rubrique").containsOnly("International", "Luttes");
     }
 }

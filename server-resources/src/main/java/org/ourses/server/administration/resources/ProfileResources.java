@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
+import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.administration.helpers.BearAccountHelper;
@@ -47,6 +48,18 @@ public class ProfileResources {
     private ProfileHelper profileHelper;
     @Autowired
     private ArticleHelper articleHelper;
+
+    @GET
+    @Path("/writer")
+    public Response getWriterProfiles() {
+        Set<Profile> profiles = profileHelper.findWriterProfiles();
+
+        Set<ProfileDTO> profilesDTO = Sets.newHashSet();
+        for (Profile profile : profiles) {
+            profilesDTO.add(profile.toProfileDTO());
+        }
+        return Response.ok().entity(profilesDTO).build();
+    }
 
     @GET
     @Path("/{pseudo}/authz")

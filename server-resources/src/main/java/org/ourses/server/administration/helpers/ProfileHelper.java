@@ -1,5 +1,7 @@
 package org.ourses.server.administration.helpers;
 
+import java.util.Set;
+
 import org.ourses.server.administration.domain.dto.CoupleDTO;
 import org.ourses.server.administration.domain.entities.Profile;
 
@@ -22,5 +24,7 @@ public interface ProfileHelper {
     void addDefaultAvatar(Profile profile);
 
     Profile deleteAvatar(Long id);
+
+    Set<Profile> findWriterProfiles();
 
 }

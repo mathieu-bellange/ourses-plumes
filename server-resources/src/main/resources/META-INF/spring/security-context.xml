@@ -37,6 +37,7 @@
 				/rest/avatars/create = oursesAuthc
 				
 				/rest/profile/*/avatar = oursesAuthc
+				/rest/profile/writer = oursesAuthc, oursesAuthz[writer]
 				
 				/rest/articles/*/publish = oursesAuthc, oursesAuthz[admin]
 				/rest/articles/*/recall = oursesAuthc, oursesAuthz[writer]

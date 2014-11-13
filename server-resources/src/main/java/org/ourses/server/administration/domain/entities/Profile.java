@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -51,6 +52,8 @@ public class Profile {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
     private Set<SocialLink> socialLinks;
+    @OneToOne(mappedBy = "profile")
+    private BearAccount account;
 
     @Version
     private Integer version;
@@ -112,6 +115,14 @@ public class Profile {
         this.socialLinks = socialLinks;
     }
 
+    public BearAccount getAccount() {
+        return account;
+    }
+
+    public void setAccount(BearAccount account) {
+        this.account = account;
+    }
+
     public void setPath(String path) {
         this.path = path;
     }
@@ -126,24 +137,6 @@ public class Profile {
 
     public String getPath() {
         return path;
-    }
-
-    public ProfileDTO toProfileDTO() {
-        ProfileDTO profile = new ProfileDTO();
-        BeanUtils.copyProperties(this, profile, new String[] { "socialLinks", "avatar" });
-        if (socialLinks != null) {
-            for (SocialLink link : socialLinks) {
-                SocialLinkDTO linkDTO = new SocialLinkDTO();
-                BeanUtils.copyProperties(link, linkDTO);
-                profile.getSocialLinks().add(linkDTO);
-            }
-        }
-        if (avatar != null) {
-            AvatarDTO avatar = new AvatarDTO();
-            BeanUtils.copyProperties(getAvatar(), avatar);
-            profile.setAvatar(avatar);
-        }
-        return profile;
     }
 
     public static Profile findPublicProfile(Long id) {
@@ -166,6 +159,30 @@ public class Profile {
 
     public void updateProfileProperty(String... propertiesToUpdate) {
         Ebean.update(this, Sets.newHashSet(propertiesToUpdate));
+    }
+
+    public static Set<Profile> findWriterProfiles() {
+        return Ebean.find(Profile.class).where()
+                .or(Expr.eq("account.authzInfo.mainRole", "admin"), Expr.eq("account.authzInfo.mainRole", "writer"))
+                .findSet();
+    }
+
+    public ProfileDTO toProfileDTO() {
+        ProfileDTO profile = new ProfileDTO();
+        BeanUtils.copyProperties(this, profile, new String[] { "socialLinks", "avatar" });
+        if (socialLinks != null) {
+            for (SocialLink link : socialLinks) {
+                SocialLinkDTO linkDTO = new SocialLinkDTO();
+                BeanUtils.copyProperties(link, linkDTO);
+                profile.getSocialLinks().add(linkDTO);
+            }
+        }
+        if (avatar != null) {
+            AvatarDTO avatar = new AvatarDTO();
+            BeanUtils.copyProperties(getAvatar(), avatar);
+            profile.setAvatar(avatar);
+        }
+        return profile;
     }
 
     @Override
