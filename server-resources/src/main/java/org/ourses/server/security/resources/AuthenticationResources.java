@@ -58,7 +58,7 @@ public class AuthenticationResources {
     @GET
     @Path("/connected")
     public Response isAuthenticated() {
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @POST
@@ -68,6 +68,6 @@ public class AuthenticationResources {
         if (secToken != null) {
             secToken.deleteMe();
         }
-        return Response.status(Status.NO_CONTENT).build();
+        return Response.noContent().build();
     }
 }

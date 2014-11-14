@@ -62,7 +62,7 @@ public class ITAuthenticationResources {
         Builder clientResource = TestHelper.webResourceWithAuthcToken(uri);
         ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").get(
                 ClientResponse.class);
-        assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
+        assertThat(clientResponse.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
     }
 
     @Test

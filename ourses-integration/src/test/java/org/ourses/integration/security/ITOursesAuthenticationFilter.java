@@ -25,8 +25,7 @@ public class ITOursesAuthenticationFilter {
             UniformInterfaceException, ClientHandlerException, IOException {
         URI uri = UriBuilder.fromPath(PATH_ISCONNECTED).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAuthcToken(uri).get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        assertThat(clientResponse.getStatus()).isEqualTo(204);
     }
 
     @Test
