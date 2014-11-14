@@ -127,3 +127,11 @@ Values
   (19, 2, 20),
   (20, 7, 20),
   (21, 7, 21);
+  
+  Insert into article_coauthor
+  	(id,article_id,profile_id)
+  Values
+  	(1,24,1),
+  	(2,24,2),
+  	(3,24,3),
+  	(4,1,1);

@@ -72,13 +72,16 @@ public class Article implements Serializable {
     private Category category;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Rubrique rubrique;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ARTICLE_TAG", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
     private Set<Tag> tags;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Profile profile;
     @Enumerated(EnumType.ORDINAL)
     private ArticleStatus status;
+    @ManyToMany
+    @JoinTable(name = "ARTICLE_COAUTHOR", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "PROFILE_ID"))
+    private Set<Profile> coAuthors = Sets.newHashSet();
 
     public Article() {
     }
@@ -199,6 +202,14 @@ public class Article implements Serializable {
         this.status = status;
     }
 
+    public Set<Profile> getCoAuthors() {
+        return coAuthors;
+    }
+
+    public void setCoAuthors(Set<Profile> coAuthors) {
+        this.coAuthors = coAuthors;
+    }
+
     public void save() {
         Ebean.save(this);
     }
@@ -263,8 +274,9 @@ public class Article implements Serializable {
     }
 
     public static Article findArticleByRubriqueAndBeautifyTitle(String rubrique, String titleBeautify) {
-        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").where()
-                .eq("rubrique.path", rubrique).eq("titleBeautify", titleBeautify).findUnique();
+        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
+                .fetch("coAuthors").where().eq("rubrique.path", rubrique).eq("titleBeautify", titleBeautify)
+                .findUnique();
     }
 
     public static int articleWithSameTitleBeautify(String titleBeautify, Long id) {
@@ -276,18 +288,19 @@ public class Article implements Serializable {
     }
 
     public static Set<Article> findRelatedArticles(long idArticle) {
-        return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle).
-                eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).findSet();
+        return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle)
+                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).findSet();
     }
-    
-    public static List<Article> findLastPublishedArticle(){
-    	 return Ebean.find(Article.class).fetch("rubrique").where().
-                 eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).orderBy().desc("publishedDate").setMaxRows(6).findList();
+
+    public static List<Article> findLastPublishedArticle() {
+        return Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+                .le("publishedDate", new Date()).orderBy().desc("publishedDate").setMaxRows(6).findList();
     }
-    
-    public static Article findLastWebReview(){
-    	return Ebean.find(Article.class).fetch("rubrique").where().
-    			eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).eq("category.id", 6l).orderBy().desc("publishedDate").setMaxRows(1).findUnique();
+
+    public static Article findLastWebReview() {
+        return Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+                .le("publishedDate", new Date()).eq("category.id", 6l).orderBy().desc("publishedDate").setMaxRows(1)
+                .findUnique();
     }
 
     public void update(String... properties) {
@@ -300,7 +313,8 @@ public class Article implements Serializable {
 
     public ArticleDTO toArticleDTO() {
         ArticleDTO articleDTO = new ArticleDTO();
-        BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile", "tags" });
+        BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile", "tags",
+                "coAuthors" });
         // category ne peut pas être null
         CategoryDTO categoryDTO = this.category.toCategoryDTO();
         articleDTO.setCategory(categoryDTO);
@@ -315,6 +329,13 @@ public class Article implements Serializable {
             tags.add(tag.toTagDTO());
         }
         articleDTO.setTags(tags);
+        if (coAuthors != null) {
+            Set<ProfileDTO> coAuthorsDTO = Sets.newHashSet();
+            for (Profile profile : this.coAuthors) {
+                coAuthorsDTO.add(profile.toProfileDTO());
+            }
+            articleDTO.setCoAuthors(coAuthorsDTO);
+        }
         return articleDTO;
     }
 

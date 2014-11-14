@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.text.StrBuilder;
+import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
+import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.ourses.server.redaction.domain.entities.Article;
@@ -127,7 +129,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     @Override
     public void updateFromDTO(Article article, ArticleDTO articleDTO) {
         BeanUtils.copyProperties(articleDTO, article, new String[] { "category", "rubrique", "profile", "id", "status",
-                "tags" });
+                "tags", "coAuthors" });
         article.setRubrique(articleDTO.getRubrique().toRubrique());
         article.setCategory(articleDTO.getCategory().toCategory());
         // tags
@@ -148,9 +150,15 @@ public class ArticleHelperImpl implements ArticleHelper {
             }
         }
         article.setTags(tags);
+        Set<Profile> coAuthors = Sets.newHashSet();
+        for (ProfileDTO profile : articleDTO.getCoAuthors()) {
+            coAuthors.add(Profile.findPublicProfile(profile.getId()));
+        }
+        article.setCoAuthors(coAuthors);
         article.setTitleBeautify(beautifyTitle(articleDTO.getTitle()));
         article.setUpdatedDate(new Date());
-        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate");
+        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate",
+                "coAuthors");
     }
 
     @Override
@@ -289,15 +297,15 @@ public class ArticleHelperImpl implements ArticleHelper {
     @VisibleForTesting
     protected List<Article> findThreeArticlesWithMostTagsInCommon(Article article, Set<Article> articles) {
         Set<Tag> tagsArticle = article.getTags();
-        //ajout le fait que la rubrique est un tag
-        tagsArticle.add(new Tag(article.getRubrique().getId(),article.getRubrique().getRubrique().toLowerCase()));
+        // ajout le fait que la rubrique est un tag
+        tagsArticle.add(new Tag(article.getRubrique().getId(), article.getRubrique().getRubrique().toLowerCase()));
         logger.info("Article tags: " + tagsArticle);
         LinkedList<RelatedArticle> articlesByNbTags = new LinkedList<RelatedArticle>();
         // On ramène le nombre de tags en commun
         for (Article art : articles) {
             Set<Tag> tagsArt = art.getTags();
-            //ajout le fait que la rubrique est un tag
-            tagsArt.add(new Tag(art.getRubrique().getId(),art.getRubrique().getRubrique().toLowerCase()));
+            // ajout le fait que la rubrique est un tag
+            tagsArt.add(new Tag(art.getRubrique().getId(), art.getRubrique().getRubrique().toLowerCase()));
             logger.info("Tags related: " + tagsArt);
             Integer nbTags = Sets.intersection(tagsArt, tagsArticle).size();
             logger.info("Nb tags en commun: " + nbTags);
@@ -328,14 +336,14 @@ public class ArticleHelperImpl implements ArticleHelper {
         });
     }
 
-	@Override
-	public List<Article> findLastPublishedArticle() {
-		return Article.findLastPublishedArticle();
-	}
+    @Override
+    public List<Article> findLastPublishedArticle() {
+        return Article.findLastPublishedArticle();
+    }
 
-	@Override
-	public Article findLastWebReview() {
-		return Article.findLastWebReview();
-	}
+    @Override
+    public Article findLastWebReview() {
+        return Article.findLastWebReview();
+    }
 
 }

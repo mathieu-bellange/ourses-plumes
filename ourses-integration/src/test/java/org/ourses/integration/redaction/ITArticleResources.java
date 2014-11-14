@@ -18,6 +18,7 @@ import org.fest.assertions.Condition;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
+import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.CategoryDTO;
 import org.ourses.server.redaction.domain.dto.RubriqueDTO;
@@ -67,8 +68,9 @@ public class ITArticleResources {
     private static final String PATH_SHARE_MAIL = "/rest/articles/22/share";
     private static final String PATH_RELATED_ARTICLES = "/rest/articles/16/related";
     private static final String PATH_GET_ALL_DRAFT = "/rest/articles/draft";
-	private static final String PATH_LAST_ARTICLES = "/rest/articles/last";
-	private static final String PATH_LAST_WEBREVIEW = "/rest/articles/last/review";
+    private static final String PATH_LAST_ARTICLES = "/rest/articles/last";
+    private static final String PATH_LAST_WEBREVIEW = "/rest/articles/last/review";
+    private static final String PATH_GET_COAUTHORS = "/rest/articles/luttes/revue-du-web";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -355,6 +357,11 @@ public class ITArticleResources {
         tags.add(new TagDTO(null, "mon tag"));
         tags.add(new TagDTO(1l, "tag en base"));
         newArticle.setTags(tags);
+        Set<ProfileDTO> coauthors = Sets.newHashSet();
+        ProfileDTO coAu = new ProfileDTO();
+        coAu.setId(1l);
+        coauthors.add(coAu);
+        newArticle.setCoAuthors(coauthors);
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, newArticle);
         // status attendu 201
@@ -373,6 +380,7 @@ public class ITArticleResources {
         assertThat(article.getTitleBeautify()).isEqualTo("shouldcreatearticlewithredacrole");
         assertThat(article.getCreatedDate()).isNotNull();
         assertThat(article.getTags()).onProperty("tag").containsOnly("tag 1", "mon tag");
+        assertThat(article.getCoAuthors()).onProperty("pseudo").containsOnly("monPseudo");
     }
 
     @Test
@@ -420,6 +428,11 @@ public class ITArticleResources {
         TagDTO tag2 = new TagDTO(1l, "Tag 1");
         tags.add(tag2);
         updateArticle.setTags(tags);
+        Set<ProfileDTO> coauthors = Sets.newHashSet();
+        ProfileDTO coAu = new ProfileDTO();
+        coAu.setId(3l);
+        coauthors.add(coAu);
+        updateArticle.setCoAuthors(coauthors);
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, updateArticle);
         // status attendu 200
@@ -438,6 +451,7 @@ public class ITArticleResources {
         assertThat(article.getUpdatedDate()).isNotNull();
         assertThat(article.getTags()).isNotEmpty();
         assertThat(article.getTags()).onProperty("tag").containsOnly(tag1.getTag(), "tag 1");
+        assertThat(article.getCoAuthors()).onProperty("pseudo").containsOnly("Nadejda");
     }
 
     @Test
@@ -745,30 +759,41 @@ public class ITArticleResources {
             });
         }
     }
-    
+
     @Test
     public void shouldDisplayLastPublishedArticles() {
-    	URI uri = UriBuilder.fromPath(PATH_LAST_ARTICLES).build();
-    	ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
-    			.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-    	// status attendu 200
-    	assertThat(clientResponse.getStatus()).isEqualTo(200);
-    	GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-    	};
-    	List<ArticleDTO> articles = clientResponse.getEntity(gt);
-    	assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
-    	assertThat(articles).onProperty("id").containsSequence(6l, 25l, 23l, 24l, 20l, 21l);
+        URI uri = UriBuilder.fromPath(PATH_LAST_ARTICLES).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
+        };
+        List<ArticleDTO> articles = clientResponse.getEntity(gt);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
+        assertThat(articles).onProperty("id").containsSequence(6l, 25l, 23l, 24l, 20l, 21l);
     }
-    
+
     @Test
     public void shouldDisplayLastWebReview() {
-    	URI uri = UriBuilder.fromPath(PATH_LAST_WEBREVIEW).build();
-    	ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
-    			.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-    	// status attendu 200
-    	assertThat(clientResponse.getStatus()).isEqualTo(200);
-    	ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
-    	assertThat(article.getId()).isEqualTo(25l);
+        URI uri = UriBuilder.fromPath(PATH_LAST_WEBREVIEW).build();
+        ClientResponse clientResponse = TestHelper.webResource(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article.getId()).isEqualTo(25l);
+    }
+
+    @Test
+    public void shouldDisplayCoauthors() {
+        URI uri = UriBuilder.fromPath(PATH_GET_COAUTHORS).build();
+        ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article.getCoAuthors()).onProperty("pseudo").containsOnly("monPseudo", "jpetit", "Nadejda");
     }
 
     private ArticleDTO newArticle(String title) {

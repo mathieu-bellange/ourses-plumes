@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
+import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.ourses.server.redaction.domain.entities.Category;
@@ -48,6 +49,8 @@ public class ArticleDTO {
     private String titleBeautify;
     @JsonProperty("tags")
     private Set<TagDTO> tags = Sets.newHashSet();
+    @JsonProperty("coAuthors")
+    private Set<ProfileDTO> coAuthors = Sets.newHashSet();;
 
     public Long getId() {
         return id;
@@ -161,6 +164,14 @@ public class ArticleDTO {
         this.tags = tags;
     }
 
+    public Set<ProfileDTO> getCoAuthors() {
+        return coAuthors;
+    }
+
+    public void setCoAuthors(Set<ProfileDTO> coAuthorsDTO) {
+        this.coAuthors = coAuthorsDTO;
+    }
+
     public Article toArticle() {
         Article article = new Article();
         BeanUtils.copyProperties(this, article, new String[] { "category", "rubrique", "profile", "tags" });
@@ -185,6 +196,11 @@ public class ArticleDTO {
             }
         }
         article.setTags(tags);
+        Set<Profile> coAuthors = Sets.newHashSet();
+        for (ProfileDTO profile : this.coAuthors) {
+            coAuthors.add(Profile.findPublicProfile(profile.getId()));
+        }
+        article.setCoAuthors(coAuthors);
         // le profil ne transit pas depuis le client
         return article;
     }
