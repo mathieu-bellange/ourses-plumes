@@ -70,8 +70,14 @@ public class ProfileHelperImpl implements ProfileHelper {
             // avatar
             else if ("avatar".equals(coupleDTO.getProperty())) {
                 Avatar avatar = Avatar.findAvatar(Long.valueOf(coupleDTO.getValue()));
-                profile.setAvatar(avatar);
-                updated = true;
+                if (avatar != null){
+                	Avatar oldAvatar = profile.getAvatar();
+                	profile.setAvatar(avatar);
+                	profile.updateProfileProperty("avatar");
+                	if (!oldAvatar.getId().equals(0l)){
+                		oldAvatar.delete();
+                	}
+                }
             }
             else {
                 // propriétés du bean profile
