@@ -9,7 +9,7 @@
 							<li><span id="user_avatar" class="picture medium radius" data-image="{{= window.localStorage.getItem($auth.avatar_path) }}">Image</span></li>
 							<li><a href="{{= $nav.account_edit.url }}">Mon compte</a></li>
 							<li><a href="{{= $nav.profile_edit.url }}">Mon profil</a></li>
-							{{? isRegRedac() }}
+							{{? isRegRedac() || isRegAdmin()}}
 								<li><a href="{{= $nav.draft_article_list.url }}">Mes articles</a></li>
 							{{?}}
 							{{? isRegAdmin() }}
