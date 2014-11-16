@@ -41,6 +41,7 @@ public class AuthenticationResources {
             AuthcToken authcToken = AuthcTokenUtil.generateAuthcToken(loginDto.getMail(), loginDto.getPassword());
             OurseSecurityToken ourseAuthcToken = new OurseSecurityToken(loginDto.getMail(), authcToken);
             ourseAuthcToken.save();
+            BearAccount.deleteOldToken(loginDto.getMail());
             // On renvoie à l'utilisateur un DTO comprenant les informations de profil et le token d'authentification
             BearAccount bearAccount = BearAccount.findAuthcUserProperties(loginDto.getMail());
             AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(bearAccount.getId(), bearAccount.getProfile()

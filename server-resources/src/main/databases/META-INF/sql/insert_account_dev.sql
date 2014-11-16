@@ -5,6 +5,7 @@ Values
   ('jpetit@gmail.com', 'redac', '2077-01-01 00:00:00'),
   ('mbellange@gmail.com', 'admin', '2077-01-01 00:00:00'),
   ('mbellange@gmail.com', 'profile_to_update', '2077-01-01 00:00:00'),
+  ('mbellange@gmail.com', 'token_expire', '2010-01-01 00:00:00'),
   ('it_test_expired', 'token_bis', '2010-01-01 00:00:00'),
   ('nadejda@gmail.com', 'token_to_delete', '2018-01-01 00:00:00'),
   ('account_to_update@gmail.com', 'token_account_update', '2018-01-01 00:00:00'),

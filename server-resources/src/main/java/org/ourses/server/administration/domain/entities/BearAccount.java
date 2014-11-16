@@ -18,12 +18,17 @@ import javax.persistence.Version;
 import org.apache.shiro.authc.Account;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.joda.time.DateTime;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
 import org.ourses.server.administration.domain.dto.OursesAuthzInfoDTO;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
+import org.ourses.server.security.domain.entities.OurseSecurityToken;
+import org.ourses.server.security.resources.AuthenticationResources;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -40,6 +45,8 @@ public class BearAccount implements Account {
 	 * 
 	 */
     private static final long serialVersionUID = -4826475879469336578L;
+    static Logger logger = LoggerFactory.getLogger(BearAccount.class);
+
 
     protected static final String REALM_NAME = "staticRealm";
 
@@ -330,6 +337,12 @@ public class BearAccount implements Account {
         return Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("profile.pseudoBeautify", pseudoBeautify)
                 .findUnique();
     }
+    
+    public static void deleteOldToken(String mail) {
+    	Set<OurseSecurityToken> tokensToDelete = Ebean.find(OurseSecurityToken.class).where().eq("login", mail).le("expirationDate", DateTime.now().minusDays(1)).findSet();
+    	logger.debug("token to delete : {}",tokensToDelete);
+    	Ebean.delete(tokensToDelete);
+    }
 
     /**
      * Transforme un bear account en bear account DTO. Attention ebean ne récupère pas l'ensemble des données du bean,
@@ -357,5 +370,6 @@ public class BearAccount implements Account {
     public void updateCredentials() {
         this.authcInfo.update(Sets.newHashSet("credentials"));
     }
+
 
 }
