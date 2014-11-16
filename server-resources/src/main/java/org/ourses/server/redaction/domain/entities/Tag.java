@@ -11,7 +11,10 @@ import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.redaction.domain.dto.TagDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -28,6 +31,7 @@ public class Tag implements Serializable {
 	 * 
 	 */
     private static final long serialVersionUID = -9104090602361704641L;
+    static Logger logger = LoggerFactory.getLogger(Tag.class);
 
     public Tag(Long id, String tag) {
         this.id = id;
@@ -81,6 +85,15 @@ public class Tag implements Serializable {
         Ebean.save(this);
 
     }
+    
+    public boolean isUnreferenceByArticles() {
+    	return Ebean.find(Article.class).where().eq("tags", this).findRowCount() == 0;
+    }
+    
+    public void delete() {
+    	logger.debug("delete me : {}",this);
+    	Ebean.delete(this);
+    }
 
     public TagDTO toTagDTO() {
         TagDTO tag = new TagDTO();
@@ -117,6 +130,7 @@ public class Tag implements Serializable {
 			return false;
 		return true;
 	}
+
     
     
 

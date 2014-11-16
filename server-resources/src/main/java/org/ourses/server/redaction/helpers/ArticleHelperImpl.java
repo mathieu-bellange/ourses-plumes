@@ -133,6 +133,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setRubrique(articleDTO.getRubrique().toRubrique());
         article.setCategory(articleDTO.getCategory().toCategory());
         // tags
+        Set<Tag> oldTags = article.getTags();
         Set<Tag> tags = Sets.newHashSet();
         for (TagDTO tag : articleDTO.getTags()) {
             tag.setTag(tag.getTag().toLowerCase());
@@ -159,6 +160,12 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setUpdatedDate(new Date());
         article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate",
                 "coAuthors");
+        //suppression des vieux tags
+        for (Tag tag : oldTags){
+        	if (tag.isUnreferenceByArticles()){
+        		tag.delete();
+        	}
+        }
     }
 
     @Override
@@ -245,8 +252,13 @@ public class ArticleHelperImpl implements ArticleHelper {
 
     @Override
     public void delete(Article article) {
-        // TODO suppression des tags inutiles ?
+        Set<Tag> tagsToDelete = article.getTags();
         article.delete();
+        for (Tag tag : tagsToDelete){
+        	if (tag.isUnreferenceByArticles()){
+        		tag.delete();
+        	}
+        }
     }
 
     @Override
