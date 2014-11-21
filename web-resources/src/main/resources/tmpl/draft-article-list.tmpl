@@ -65,16 +65,14 @@
 							{{?}}
 						{{~}}
 					</ul>
-					{{? isRegAdmin() }}
 					<ul id="articles_standby" class="no-bullet articles-list standby">
 						{{~ data.toCheck :value }}
 							<li>{{# def.article:value }}</li>
 						{{~}}
 					</ul>
-					{{?}}
 					<ul id="articles_publish" class="no-bullet articles-list online">
 						{{~ data.onLine :value }}
-							<li>{{# def.article:value }}</li>
+							<li data-published="{{=value.publishedDate }}" >{{# def.article:value }}</li>
 						{{~}}
 					</ul>
 				</section>

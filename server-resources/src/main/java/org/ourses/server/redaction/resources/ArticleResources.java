@@ -147,7 +147,7 @@ public class ArticleResources {
             Profile profile = profileHelper.findProfileByAuthcToken(token);
             // Je suis connecté
             if (profile != null) {
-                articles.addAll(articleHelper.findToCheckAndDraft(profile.getId(), token));
+                articles.addAll(articleHelper.findToCheckAndDraftAndPublished(profile.getId(), token));
             }
         }
         // passage en DTO

@@ -38,7 +38,7 @@ public interface ArticleHelper {
 
     Collection<? extends Article> findOnline(Map<String, String> parameters);
 
-    Collection<? extends Article> findToCheckAndDraft(Long profileId, String token);
+    Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, String token);
 
     Collection<? extends Article> findProfileArticles(Long profileId);
 

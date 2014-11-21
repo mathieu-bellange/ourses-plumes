@@ -480,13 +480,19 @@ function processAfterInValidation(article) {
 }
 
 function processAfterPublish(article) {
-	//TODO afficher les articles pas encore publiés
-//	$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
-//	$("#articles_publish li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
-//	$("#articles_publish li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
-//	$("#articles_publish li:first .validate button[data-recall]").click(function() {
-//		recallArticle($(this).attr("data-recall"));
-//	});
+	var elems = $("#articles_publish li");
+	elems.each(function (elem){
+		var date = new Date(parseInt($(this).attr("data-published"),10));
+		if (date < article.publishedDate){
+			$(this).before(file_pool.article_item_tmpl(article)).prepend(lb(1));
+			$(this).prev().find(".summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+			$(this).prev().fadeIn(article_list_cfg.fade_duration); // NEW : show article
+			$(this).prev().find(".validate button[data-recall]").click(function() {
+				recallArticle($(this).attr("data-recall"));
+			});
+			return false
+		}
+	});
 }
 
 function processAfterRecall(article) {

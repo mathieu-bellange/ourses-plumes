@@ -189,7 +189,8 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER,
+                ArticleStatus.ENLIGNE);
         Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
 
             @Override
@@ -206,6 +207,14 @@ public class ITArticleResources {
             }
         });
         assertThat(toChecks).onProperty("profile.pseudo").containsOnly("jpetit");
+        Collection<ArticleDTO> toOnline = Collections2.filter(articles, new Predicate<ArticleDTO>() {
+
+            @Override
+            public boolean apply(ArticleDTO input) {
+                return ArticleStatus.ENLIGNE.equals(input.getStatus());
+            }
+        });
+        assertThat(toOnline).onProperty("profile.pseudo").containsOnly("jpetit");
     }
 
     @Test
@@ -239,7 +248,8 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER,
+                ArticleStatus.ENLIGNE);
     }
 
     @Test
@@ -790,10 +800,9 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_GET_COAUTHORS).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-        // status attendu 200
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
-        assertThat(article.getCoAuthors()).onProperty("pseudo").containsOnly("monPseudo", "jpetit", "Nadejda");
+        assertThat(article.getCoAuthors()).onProperty("pseudo").containsOnly("monPseudo", "jpetit");
     }
 
     private ArticleDTO newArticle(String title) {

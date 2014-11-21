@@ -272,16 +272,16 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Collection<? extends Article> findToCheckAndDraft(Long profileId, String token) {
+    public Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, String token) {
         Set<Article> articles = Sets.newHashSet();
         OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
         // Je suis admin
         if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {
-            articles.addAll(Article.findToCheckAndDraft());
+            articles.addAll(Article.findToCheckAndDraftAndPublished());
         }
         // je suis redac, j'ai accès à mes brouillons
         else if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
-            articles.addAll(Article.findToCheckAndDraft(profileId));
+            articles.addAll(Article.findToCheckAndDraftAndPublished(profileId));
         }
         return articles;
     }
