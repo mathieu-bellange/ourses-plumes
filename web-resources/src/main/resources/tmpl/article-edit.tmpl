@@ -14,6 +14,16 @@
 							<!--Author-->
 							<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span></span></h4>
 
+							<!--Co-author-->
+							<div id="coauthor_field">
+								<label for="coauthor">Co-Auteures</label>
+								<div id="coauthor" class="options-select" tabindex="0">
+									<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
+									<ul class="options hide">
+									</ul>
+									<button id="coauthor_add" type="button" class=" icon-add small"></button>
+								</div>
+							</div>
 							<!--Date-->
 							<!--
 							<time datetime="2014-01-01" class="date icon-date small">1<sup>er</sup> janvier 2014</span>

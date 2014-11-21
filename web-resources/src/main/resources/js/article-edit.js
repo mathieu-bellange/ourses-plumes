@@ -244,6 +244,7 @@ var tags = (function() {
 			$("#tag").nextAll(".autocomplete").first().on("mousedown", "ul > li", function() {
 				add_tag("#tag", ".tags"); // add tag
 			});
+			
 		}
 	}
 }());
@@ -603,7 +604,28 @@ function processArticle(article) {
 	});
 	$.getJSON("/rest/categories", function(json) {
 		processCategory(json, article);
-	 });
+	});
+	// list co authors
+	$.ajax({
+		type: "GET",
+		url: "/rest/profile/writer",
+		contentType: "application/json; charset=utf-8",
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success: function(data, status, jqxhr) {
+			processWriters(data, article);
+		},
+		error: function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 404) {
+				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+			} else {
+				createAlertBox();
+			}
+		},
+		dataType: "json"
+	});
 	// initialize inline CKEditor with custom config
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
@@ -620,6 +642,15 @@ function processArticle(article) {
 	tags.init(); // initialize tags component
 	//share.init(); // UNUSED (for now) : initialize share component
 	validate.init(); // initialize validate component
+}
+
+function processWriters(json, article){
+	$.each(json, function(i, obj) {
+		if (window.localStorage.getItem($auth.profile_id) != obj.id){
+			var li = "<li class='' data-value='"+ obj.id +"' data-color=''>" + obj.pseudo + "</li>";
+			$("#coauthor ul").append(li);
+		}
+	});
 }
 
 function processRubric(json, article) {

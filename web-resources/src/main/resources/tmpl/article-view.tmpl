@@ -16,6 +16,9 @@
 						{{= data.body }}
 						<div class="clearfix">
 							<p class="author right"><a href="{{= data.profile.path }}" class="tip-top" rel="author" title="Voir le profil" data-tooltip>{{= data.profile.pseudo }}</a></p>
+							{{~ data.coAuthors : coAuthor }}
+								<p class="author right"><a href="{{= coAuthor.path }}" class="tip-top" rel="co-author" title="Voir le profil" data-tooltip>{{= coAuthor.pseudo }}</a></p>
+							{{~}}
 							<ul class="inline-list left">
 								<li>
 									<a id="share_mail" href="javascript:void(0)" class="icon-mail share" title="Partager par mail" data-tooltip data-article="{{= data.id }}"><span class="text">Mail</span></a>
