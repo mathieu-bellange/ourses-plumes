@@ -105,7 +105,7 @@ create table article (
   title                   varchar(255),
   description             varchar(1000),
   body                   varchar(1000000),
-  published_date           date,
+  published_date           TIMESTAMP,
   created_date           date,
   updated_date           date,
   profile_id                bigint not null,

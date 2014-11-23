@@ -233,11 +233,11 @@ public class Article implements Serializable {
 
     public static Collection<? extends Article> findProfileArticles(Long profileId) {
         return Ebean.find(Article.class).fetch("rubrique").where().eq("profile.id", profileId)
-                .eq("status", ArticleStatus.ENLIGNE).lt("publishedDate", DateTime.now().toDate()).findSet();
+                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet();
     }
 
     public static Set<Article> findOnline(Map<String, String> parameters) {
-        ExpressionList<Article> req = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE);
+        ExpressionList<Article> req = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate());
         addCriteria(req, parameters);
         return req.findSet();
     }
@@ -273,7 +273,7 @@ public class Article implements Serializable {
 
     public static Article findArticleByRubriqueAndBeautifyTitle(String rubrique, String titleBeautify) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors").where().eq("rubrique.path", rubrique).eq("titleBeautify", titleBeautify)
+                .fetch("coAuthors").where().eq("rubrique.path", rubrique).eq("titleBeautify", titleBeautify).le("publishedDate", DateTime.now().toDate())
                 .findUnique();
     }
 
