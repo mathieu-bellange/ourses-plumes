@@ -106,6 +106,20 @@ $time = {
 		"novembre",                                                 // String   Set November literal.
 		"décembre"                                                  // String   Set December literal.
 	],
+	"upperCaseMonths" : [
+	    "Janvier",
+	    "Février",                                                  // String   Set February literal.
+		"Mars",                                                     // String   Set March literal.
+		"Avril",                                                    // String   Set April literal.
+		"Mai",                                                      // String   Set May literal.
+		"Juin",                                                     // String   Set June literal.
+		"Juillet",                                                  // String   Set July literal.
+		"Août",                                                     // String   Set August literal.
+		"Septembre",                                                // String   Set September literal.
+		"Octobre",                                                  // String   Set October literal.
+		"Novembre",                                                 // String   Set November literal.
+		"Décembre"   
+	],
 	"duration" : {                                                // Object   Global durations.
 		"fx"          : 500,                                        // Integer  Effects duration in milliseconds. Default : 500
 		"alert"       : 2500,                                       // Integer  Alerts duration in milliseconds. Default : 2500
@@ -179,7 +193,7 @@ $nav = {
 	"account_list"          : {"url" : "/comptes",             "title" : "Lister les comptes"},
 	"account_create"        : {"url" : null,                   "title" : "Ajouter un compte"},
 	"account_edit"          : {"url" : "/parametres/compte",   "title" : "Mon compte"},
-	"agenda"                : {"url" : null,                   "title" : "Agenda"},
+	"agenda"                : {"url" : "/agenda",              "title" : "Agenda"},
 	"online_article_list"   : {"url" : "/articles",            "title" : "Tous les articles"},
 	"draft_article_list"    : {"url" : "/parametres/articles", "title" : "Mes articles"},
 	"article_view"          : {"url" : null,                   "title" : null},

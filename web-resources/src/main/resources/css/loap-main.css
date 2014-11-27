@@ -3450,7 +3450,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .date-table .has-event {
   background-color: lightyellow;
-  border-color: darkgray;
+  border: 2px solid darkgray;
 }
 .date-table .has-event > time {
   font-weight: bold;

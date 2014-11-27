@@ -89,5 +89,11 @@
 		<from>^/articles/([0-9]+)$</from>
 		<to>/article-edit.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers l'agenda</note>
+		<from>^/agenda$</from>
+		<to>/agenda.html</to>
+	</rule>
 
 </urlrewrite>
