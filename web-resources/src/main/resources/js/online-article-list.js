@@ -44,7 +44,6 @@ var article_list_tools = (function(options) {
 			// functions
 			function open_search(d, f) {
 				var d = $conf.js_fx ? (d || 0) : 0, f = f || false;
-				if (f) { $("#search_filters").slideDown(d / 2) }
 				var w = $(".tool-bar").innerWidth() // compute search input width
 				 - $("#search_button").outerWidth(true)
 				 - (f ? settings.search_spacing.toPx() : (settings.search_spacing * 2).toPx()); // arbitrary safety spacing (2rem / 4rem)
@@ -64,14 +63,12 @@ var article_list_tools = (function(options) {
 			function close_search(d) {
 				var d = $conf.js_fx ? (d || 0) : 0;
 				var m = $("#search_button").innerWidth();
-				$("#search_filters").slideUp(d / 2);
 				$("#search_field").animate({"width" : "0", "margin-left" : -m, "opacity" : "0"}, d, function() {
 					$(this).addClass("hide");
 				});
 			}
 			// events
 			$("#search_button").click(function() {
-				$("#search_filters").finish();
 				$("#search_field").finish();
 				$(this).toggleClass("active");
 				$(this).blur();
@@ -81,58 +78,18 @@ var article_list_tools = (function(options) {
 					close_search(settings.anim_duration);
 				}
 			});
-			$("#search_filters li a").click(function() {
-				$(this).parent("li").siblings().children("a").removeClass("active");
-				$(this).toggleClass("active");
-				$(this).blur();
-				var str = $("#search").val();
-				var f = $(this).attr("data-search");
-				if ($("#search").data("filter")) {
-					str = str.replace($("#search").data("filter") + settings.search_delimiter, ""); // remove filter from search value
-				}
-				$("#search").data("filter", f);
-				if ($(this).hasClass("active")) {
-					str = f + settings.search_delimiter + str;
-				} else {
-					f = ""; // set search filter to empty
-					$("#search").data("filter", f); // reset filter in search data
-				}
-				$("#search").val(str); // reset search value
-				$("#search").focus(); // focus search input
-				$("#search").select_text((f !== "" ? f.length + 1 : 0), str.length); // select search value in search input
-			});
-			$("#search_filters").mouseenter(function() {
-				$(this).data("hover", true);
-			});
-			$("#search_filters").mouseleave(function() {
-				$(this).removeData("hover");
-				if (!$("#search").is(":focus")) {
-					$(this).slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
-				}
-			});
-			$("#search").blur(function() {
-				if ($("#search_filters").data("hover") !== true) {
-					$("#search_filters").finish();
-					if ($("#search_filters").is(":visible")) {
-						$("#search_filters").slideUp($conf.js_fx ? settings.anim_duration / 2 : 0);
-					}
-				}
-			});
-			$("#search").focus(function() {
-				$("#search_filters").finish();
-				if ($("#search_filters").is(":hidden")) {
-					$("#search_filters").slideDown($conf.js_fx ? settings.anim_duration / 2 : 0);
-				}
-			});
 			$("#search").keyup(function(e) {
-				var f = $("#search").data("filter") || "";
+				var f = "criteria";
 				var s = $(this).val().trim().replace(f + settings.search_delimiter, "");
 				if (e.which == 27) { // Escape
 					$("#search_button").removeClass("active");
 					close_search(settings.anim_duration);
 				} else if (e.which == 13) { // Enter
 					if (s.length == 0) {
-						$(this).set_validation(false, "Le champ de recherche est vide &hellip;");
+						if (typeof history.pushState !== 'undefined'){
+							window.history.pushState("", "", location.pathname); // live update address bar without reloading document (HTML5 method)
+						}
+						displayArticles("");
 					} else if (s.length > 0 && s.length <= 2) {
 						$(this).set_validation(false, "La recherche doit comporter au moins trois lettres.");
 					// ===========================================================
@@ -148,12 +105,13 @@ var article_list_tools = (function(options) {
 						// # Replace forbidden and special chars
 						// =========================================================
 						s = s.replace(/[\?=]/g, "").replace(/[\s&]+/, " ");
-						$(this).val((f !== "" ? f + settings.search_delimiter : "") + s); // reset search value in search input after chars replacement
 						$(this).blur();
 						// =========================================================
 						// # Display articles with URL search params
 						// =========================================================
-						window.history.pushState("", "", "?" + (f !== "" ? f + "=" : "") + s.replace(/\s/g, "&")); // live update address bar without reloading document (HTML5 method)
+						if (typeof history.pushState !== 'undefined'){
+							window.history.pushState("", "", "?" + (f !== "" ? f + "=" : "") + s.replace(/\s/g, "+")); // live update address bar without reloading document (HTML5 method)
+						}
 						displayArticles("?" + f + "=" + s); // display articles with params
 					}
 				} else if (s == 0 || s.length > 2) {
@@ -174,19 +132,7 @@ var article_list_tools = (function(options) {
 				if (typeof p === "string") { // this is a search query
 					$("#search").val(p.replace(/&/g, " ")); // feed search input with url search query
 				} else if (typeof p === "object") { // this is search params (i.e. specifier + search query)
-					var f = null;
-					$("#search_filters li a").each(function() {
-						if (p.hasOwnProperty($(this).attr("data-search"))) {
-							$(this).addClass("active");
-							f = $(this).attr("data-search");
-							$("#search").data("filter", f);
-						}
-					});
-					if (f == null) {
-						$("#search").val(p[Object.keys(p)[0]].replace(/&/g, " ")); // feed search input with url search params (value only)
-					} else {
-						$("#search").val(f + settings.search_delimiter + p[f].replace(/&/g, " ")); // feed search input with url search params
-					}
+					$("#search").val(p[Object.keys(p)[0]].replace(/&/g, " ")); // feed search input with url search params (value only)
 				}
 				$("#search_button").toggleClass("active");
 				setTimeout(function() {
@@ -224,8 +170,10 @@ function displayArticles(url_params) {
 			// display article search empty message
 			if (articles.length == 0) {
 				createAlertBox($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null});
-				// TODO : check filters
-				// if no result with search filters then display warning
+			}else{
+				$("#alert_box").fadeOut(function(){
+					$("#alert_box").remove();
+				});
 			}
 			articles.sort(function compare(a, b) {
 				if (a.publishedDate > b.publishedDate)

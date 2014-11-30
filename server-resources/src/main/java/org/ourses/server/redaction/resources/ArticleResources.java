@@ -113,20 +113,12 @@ public class ArticleResources {
 
     @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token, @QueryParam(value = "tag")
-    String tag, @QueryParam(value = "rubrique")
-    String rubrique, @QueryParam(value = "category")
-    String category, @QueryParam(value = "titre")
-    String title) {
+    String token, @QueryParam(value = "criteria")
+    String parameter) {
         ResponseBuilder responseBuilder;
         Set<Article> articles = Sets.newHashSet();
-        Map<String, String> parameters = Maps.newHashMap();
-        parameters.put(Article.CRITERIA_TAG, tag);
-        parameters.put(Article.CRITERIA_RUBRIQUE, rubrique);
-        parameters.put(Article.CRITERIA_CATEGORY, category);
-        parameters.put(Article.CRITERIA_TITLE, title);
         // push les articles en ligne pour tous les utilisateurs
-        articles.addAll(articleHelper.findOnline(parameters));
+        articles.addAll(articleHelper.findOnline(parameter));
         // passage en DTO
         Set<ArticleDTO> articlesDto = Sets.newHashSet();
         for (Article article : articles) {

@@ -177,4 +177,10 @@ public class ArticleHelperTest extends AbstractTransactionalJUnit4SpringContextT
     	Set<Article> articlesWithSameRubrique = Sets.newHashSet();
     	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).hasSize(0);    	
     }
+    
+    @Test
+    public void shouldProcessParameters(){
+    	String parameters = "Le petit test de la fonction de recherche";
+    	assertThat(helper.processParameters(parameters)).containsOnly("petit","test","fonction","recherche");
+    }
 }

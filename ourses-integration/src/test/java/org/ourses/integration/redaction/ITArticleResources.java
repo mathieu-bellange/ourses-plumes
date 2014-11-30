@@ -126,60 +126,6 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldReadPublishArticleByTitle() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("titre", "titre 2")
-                .header("Content-Type", "application/json").get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-        };
-        List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("title").containsOnly("titre 21");
-    }
-
-    @Test
-    public void shouldReadPublishArticleByTag() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("tag", "tag%201")
-                .header("Content-Type", "application/json").get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-        };
-        List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        for (ArticleDTO art : articles) {
-            assertThat(art.getTags()).onProperty("tag").contains("tag 1");
-        }
-    }
-
-    @Test
-    public void shouldReadPublishArticleByRubrique() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("rubrique", "intersectionnalité")
-                .header("Content-Type", "application/json").get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-        };
-        List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("rubrique.rubrique").containsOnly("Intersectionnalit&eacute;");
-    }
-
-    @Test
-    public void shouldReadPublishArticleByCategory() {
-        URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
-        ClientResponse clientResponse = TestHelper.webResource(uri).queryParam("category", "Interview")
-                .header("Content-Type", "application/json").get(ClientResponse.class);
-        // status attendu 200
-        assertThat(clientResponse.getStatus()).isEqualTo(200);
-        GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
-        };
-        List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("category.category").containsOnly("Interview");
-    }
-
-    @Test
     public void shouldReadIsOwnDraftToCheckArticle() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL_DRAFT).build();
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRole(uri)
@@ -218,12 +164,10 @@ public class ITArticleResources {
     }
 
     @Test
-    public void shouldReadArticleByCategoryTagAndRubrique() {
+    public void shouldReadArticleByTitleTagAndRubrique() {
         URI uri = UriBuilder.fromPath(PATH_GET_ALL).build();
         MultivaluedMap<String, String> params = new MultivaluedMapImpl();
-        params.add("category", "Interview");
-        params.add("tag", "sexisme");
-        params.add("rubrique", "international");
+        params.add("criteria", "sexisme international");
         ClientResponse clientResponse = TestHelper.webResourceWithRedacRoleAndParams(uri, params)
                 .header("Content-Type", "application/json").get(ClientResponse.class);
         // status attendu 200
@@ -231,11 +175,7 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("category.category").containsOnly("Interview");
-        assertThat(articles).onProperty("rubrique.rubrique").contains("International");
-        for (ArticleDTO art : articles) {
-            assertThat(art.getTags()).onProperty("tag").contains("sexisme");
-        }
+        assertThat(articles).hasSize(4);
     }
 
     @Test

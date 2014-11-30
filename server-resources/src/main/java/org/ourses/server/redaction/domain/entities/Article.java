@@ -31,6 +31,9 @@ import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.CategoryDTO;
 import org.ourses.server.redaction.domain.dto.RubriqueDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
+import org.ourses.server.redaction.helpers.ArticleHelperImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -38,7 +41,11 @@ import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.Expression;
 import com.avaje.ebean.ExpressionList;
+import com.avaje.ebean.FetchConfig;
+import com.avaje.ebean.Junction;
+import com.avaje.ebean.Query;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -50,11 +57,8 @@ public class Article implements Serializable {
 	 * 
 	 */
     private static final long serialVersionUID = -6748991147610491255L;
-
-    public static final String CRITERIA_TAG = "tag";
-    public static final String CRITERIA_RUBRIQUE = "rubrique";
-    public static final String CRITERIA_CATEGORY = "category";
-    public static final String CRITERIA_TITLE = "title";
+    
+    static Logger logger = LoggerFactory.getLogger(Article.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "article_seq_gen")
@@ -236,34 +240,20 @@ public class Article implements Serializable {
                 .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet();
     }
 
-    public static Set<Article> findOnline(Map<String, String> parameters) {
-        ExpressionList<Article> req = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate());
-        addCriteria(req, parameters);
-        return req.findSet();
-    }
-
-    private static void addCriteria(ExpressionList<Article> req, Map<String, String> parameters) {
-        // ajoute des critères optionnelles
-        for (Entry<String, String> entrySet : parameters.entrySet()) {
-            if (entrySet.getValue() != null) {
-                switch (entrySet.getKey()) {
-                case CRITERIA_TAG:
-                    req.add(Expr.eq("tags.tag", entrySet.getValue()));
-                    break;
-                case CRITERIA_RUBRIQUE:
-                    req.add(Expr.eq("rubrique.path", entrySet.getValue()));
-                    break;
-                case CRITERIA_CATEGORY:
-                    req.add(Expr.eq("category.category", entrySet.getValue()));
-                    break;
-                case CRITERIA_TITLE:
-                    req.add(Expr.ilike("title", "%" + entrySet.getValue() + "%"));
-                    break;
-                default:
-                    break;
-                }
-            }
+    public static Set<Article> findOnline(Collection<String> collection) {
+        Set<Article> articles = Sets.newHashSet();
+        if (collection != null && !collection.isEmpty()) {
+        	articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).in("tags.tag", collection).findSet());
+        	articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).in("rubrique.path", collection).findSet());
+        	ExpressionList<Article> expr = Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).disjunction();
+        	for (String parameter : collection){
+    			expr.ilike("titleBeautify", "%" + parameter + "%");
+    		}
+        	articles.addAll(expr.findSet());
+        }else{
+        	articles = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet();
         }
+        return articles;
     }
 
     public static Article findArticle(long id) {
@@ -338,6 +328,31 @@ public class Article implements Serializable {
     }
 
     @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Article other = (Article) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }

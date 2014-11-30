@@ -3,6 +3,7 @@ package org.ourses.server.redaction.helpers;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.entities.Article;
@@ -36,7 +37,7 @@ public interface ArticleHelper {
 
     void delete(Article article);
 
-    Collection<? extends Article> findOnline(Map<String, String> parameters);
+    Collection<? extends Article> findOnline(String parameter);
 
     Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, String token);
 

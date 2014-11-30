@@ -30,6 +30,8 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -43,6 +45,8 @@ public class ArticleHelperImpl implements ArticleHelper {
     private static final String OTHER_CHARAC_TO_ESCAPE = "\".!~*()";
     private static final String OTHER_CHARAC_TO_REPLACE = "'";
     private static final String URL_SEPARATOR = "-";
+    
+    private static final Set<String> WORD_TO_ESCAPE = Sets.newHashSet("le","la","les","mais","ou","et","donc","or","ni","car","un","une","de","des","du","à");
 
     Logger logger = LoggerFactory.getLogger(ArticleHelperImpl.class);
 
@@ -267,8 +271,29 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Collection<? extends Article> findOnline(Map<String, String> parameters) {
-        return Article.findOnline(parameters);
+    public Collection<? extends Article> findOnline(String parameter) {
+    	Set<String> parameters = Sets.newHashSet();
+    	if (parameter != null){
+    		parameters.addAll(processParameters(parameter));
+    	}
+    	return Article.findOnline(parameters);
+    }
+    
+    @VisibleForTesting
+    protected Collection<String> processParameters(String parameters){
+    	return Collections2.transform(Collections2.filter(Sets.newHashSet(parameters.split(" ")), new Predicate<String>() {
+
+			@Override
+			public boolean apply(String parameter) {
+				return !WORD_TO_ESCAPE.contains(parameter.toLowerCase());
+			}
+		}),new Function<String, String>() {
+
+			@Override
+			public String apply(String parameter) {
+				return parameter.toLowerCase();
+			}
+		});
     }
 
     @Override
