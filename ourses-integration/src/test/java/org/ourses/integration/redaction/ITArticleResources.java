@@ -721,7 +721,7 @@ public class ITArticleResources {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
         assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
-        assertThat(articles).onProperty("id").containsSequence(6l, 25l, 23l, 24l, 20l, 21l);
+        assertThat(articles).onProperty("id").containsSequence(6l, 25l, 24l, 23l, 20l, 21l);
     }
 
     @Test

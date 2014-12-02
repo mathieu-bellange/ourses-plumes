@@ -23,7 +23,7 @@ var loax = (function() {
 			$("a.agenda.prev").on("click",function(){
 				buildCalendar($("a.agenda.prev").data("month"),$("a.agenda.prev").data("year"));
 			});
-			buildCalendar(new Date().getMonth(),new Date().getFullYear());
+			getCalendarDays();
 		}
 	}
 }());
@@ -32,21 +32,17 @@ var loax = (function() {
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-var calendarDays = [{"day" : new Date(), "events" : [{"title" : "Event 1"},{"title":"Event 2"}]},
-              {"day" : new Date(2014,10,11), "events" : [{"title" : "Event 3"}]},
-              {"day" : new Date(2014,9,4), "events" : [{"title" : "Event 4"}]},
-              {"day" : new Date(2014,11,25), "events" : [{"title" : "Event 5"}]},
-              {"day" : new Date(2015,0,4), "events" : [{"title" : "Event 6"}]}
-];
+var calendarDays;
 
 jQuery.fn.extend({
 	appendCell: function(day) {
 		var td = $("<td><div class=\"href-block\"><time datetime=\"" + getDateTime(day) + "\">"+ day.getDate() +"</time></div></td>");
 		//vérification que le jour ne possède pas des events enregistrés
 		calendarDays.forEach(function (calendarDay){
-			if (calendarDay.day.getDate() === day.getDate() 
-					&& calendarDay.day.getMonth() === day.getMonth() 
-					&& calendarDay.day.getFullYear() === day.getFullYear()){
+			var theDate = new Date(calendarDay.day);
+			if (theDate.getDate() === day.getDate() 
+					&& theDate.getMonth() === day.getMonth() 
+					&& theDate.getFullYear() === day.getFullYear()){
 				var div = td.find("div").addClass("has-event");
 				var ul = $("<ul>").addClass("event-list hide");
 				calendarDay.events.forEach(function(event){
@@ -139,7 +135,26 @@ function buildCalendar(month, year){
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
-// AJAX stuff goes here
+function getCalendarDays(){
+	$.ajax({
+		type: "GET",
+		url: "/rest/agenda",
+		contentType: "application/json; charset=utf-8",
+		success: function(data, status, jqxhr) {
+			calendarDays = data;
+			buildCalendar(new Date().getMonth(),new Date().getFullYear());
+		},
+		error: function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 404) {
+				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+			} else {
+				createAlertBox();
+			}
+		},
+		dataType: "json"
+	});
+}
 
 /* ------------------------------------------------------------------ */
 /* # Live Events */
