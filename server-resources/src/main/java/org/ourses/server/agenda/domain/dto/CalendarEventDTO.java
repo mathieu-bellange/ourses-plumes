@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.ourses.server.agenda.domain.entities.CalendarEvent;
+import org.springframework.beans.BeanUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CalendarEventDTO implements Serializable {
@@ -31,6 +33,18 @@ public class CalendarEventDTO implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public CalendarEvent toCalendarEvent() {
+        CalendarEvent event = new CalendarEvent();
+        if (this.id != null) {
+            event = CalendarEvent.find(id);
+        }
+        else {
+            BeanUtils.copyProperties(this, event);
+        }
+        return event;
+
     }
 
     @Override

@@ -57,6 +57,14 @@ public class CalendarEvent {
         return Ebean.find(CalendarEvent.class).findSet();
     }
 
+    public static CalendarEvent find(Long id) {
+        return Ebean.find(CalendarEvent.class, id);
+    }
+
+    public void save() {
+        Ebean.save(this);
+    }
+
     public CalendarEventDTO toCalendarEventDTO() {
         CalendarEventDTO calendarEventDTO = new CalendarEventDTO();
         BeanUtils.copyProperties(this, calendarEventDTO);
