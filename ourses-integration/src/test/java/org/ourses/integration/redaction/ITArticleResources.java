@@ -55,7 +55,7 @@ public class ITArticleResources {
     private static final String PATH_INVALDIATE_OWN = "/rest/articles/18/invalidate";
     private static final String PATH_INVALDIATE_ANOTHER = "/rest/articles/19/invalidate";
     private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
-    private static final String PATH_GET_PUBLISH = "/rest/articles/éducation-culture/titre-14";
+    private static final String PATH_GET_PUBLISH = "/rest/articles/éducation-culture/2/titre-14";
     private static final String PATH_GET_PUBLISH_IN_UPDATE = "/rest/articles/22";
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
     private static final String PATH_GET_VALIDATE = "/rest/articles/13";
@@ -70,7 +70,8 @@ public class ITArticleResources {
     private static final String PATH_GET_ALL_DRAFT = "/rest/articles/draft";
     private static final String PATH_LAST_ARTICLES = "/rest/articles/last";
     private static final String PATH_LAST_WEBREVIEW = "/rest/articles/last/review";
-    private static final String PATH_GET_COAUTHORS = "/rest/articles/luttes/revue-du-web";
+    private static final String PATH_GET_COAUTHORS = "/rest/articles/luttes/7/revue-du-web";
+    private static final String PATH_GET_BY_OLD_PATH = "/rest/articles/international/9/old_path";
 
     @Test
     public void shouldUseTitleForNewDraft() {
@@ -524,7 +525,6 @@ public class ITArticleResources {
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
         assertThat(article).isNotNull();
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
-        assertThat(article.getPath()).isEqualTo("/articles/" + article.getRubrique().getPath() + "/titre-6");
         assertThat(article.getTitleBeautify()).isEqualTo("titre-6");
     }
 
@@ -743,6 +743,19 @@ public class ITArticleResources {
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
         assertThat(article.getCoAuthors()).onProperty("pseudo").containsOnly("monPseudo", "jpetit");
+    }
+
+    @Test
+    public void shouldReadPublishArticleWithOldPath() throws JsonGenerationException, JsonMappingException,
+            UniformInterfaceException, ClientHandlerException, IOException {
+        URI uri = UriBuilder.fromPath(PATH_GET_BY_OLD_PATH).build();
+
+        ClientResponse clientResponse = TestHelper.webResource(uri).header("Content-Type", "application/json")
+                .get(ClientResponse.class);
+        // status attendu 200
+        assertThat(clientResponse.getStatus()).isEqualTo(200);
+        ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
+        assertThat(article.getId()).isEqualTo(16l);
     }
 
     private ArticleDTO newArticle(String title) {

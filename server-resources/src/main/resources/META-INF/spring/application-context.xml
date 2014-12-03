@@ -55,6 +55,7 @@
 				<value>org.ourses.server.redaction.domain.entities.Tag</value>
 				<value>org.ourses.server.redaction.domain.entities.Category</value>
 				<value>org.ourses.server.redaction.domain.entities.Rubrique</value>
+				<value>org.ourses.server.redaction.domain.entities.OldPath</value>
 				<value>org.ourses.server.redaction.domain.entities.Article</value>
 				<value>org.ourses.server.agenda.domain.entities.CalendarEvent</value>
 			</list>

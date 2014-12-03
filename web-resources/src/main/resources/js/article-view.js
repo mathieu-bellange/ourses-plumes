@@ -182,6 +182,13 @@ function shareByMail(articleId, mail){
 
 function processArticle(article) {
 	set_page_title(article.title);
+	if (window.location.pathname !== article.path){
+		if (typeof history.pushState !== 'undefined'){
+			window.history.pushState("", "", article.path); // live update address bar without reloading document (HTML5 method)
+		}else{
+			window.location.href = article.path;
+		}
+	}
 	$("main > header").after(file_pool.article_view_tmpl(article)).after(lb(1));
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module

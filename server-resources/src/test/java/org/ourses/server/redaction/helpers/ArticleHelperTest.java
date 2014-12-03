@@ -8,6 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -100,87 +101,97 @@ public class ArticleHelperTest extends AbstractTransactionalJUnit4SpringContextT
         article.setStatus(ArticleStatus.ENLIGNE);
         article.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
         article.setTitle("le titre");
-        assertThat(helper.buildPath(article)).isEqualTo("/articles/rubrique/le-titre");
+        assertThat(helper.buildPath(article)).isEqualTo("/articles/rubrique/" + new Date().getTime() + "/le-titre");
     }
-    
+
     @Test
-    public void shouldFilter3ArticleWithMostTags(){
-    	Article article1 = new Article(1l), article2 = new Article(2l),article3 = new Article(3l),article4 = new Article(4l),article5 = new Article(5l),article6 = new Article(6l);
-    	article1.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
-    	article2.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
-    	article3.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
-    	article4.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
-    	article5.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
-    	article6.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
-    	Tag tag1 = new Tag(1l,"tag1"), tag2 = new Tag(2l,"tag2"), tag3 = new Tag(3l,"tag3"), tag4 = new Tag(4l,"tag4"), tag5 = new Tag(5l,"tag5"), tag6 = new Tag(6l,"tag6");
-    	article1.setTags(Sets.newHashSet(tag1,tag2,tag3));
-    	article2.setTags(new HashSet<Tag>());
-    	article3.setTags(Sets.newHashSet(tag1,tag4,tag5));
-    	article4.setTags(Sets.newHashSet(tag1,tag2,tag3));
-    	article5.setTags(Sets.newHashSet(tag1,tag5,tag6));
-    	article6.setTags(Sets.newHashSet(tag1,tag3,tag6,tag4));
-    	Set<Article> articles = Sets.newHashSet(article2,article3, article4, article5,article6);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articles)).containsSequence(article4,article6);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articles)).excludes(article2);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articles)).hasSize(3);
+    public void shouldFilter3ArticleWithMostTags() {
+        Article article1 = new Article(1l), article2 = new Article(2l), article3 = new Article(3l), article4 = new Article(
+                4l), article5 = new Article(5l), article6 = new Article(6l);
+        article1.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
+        article2.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
+        article3.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
+        article4.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
+        article5.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
+        article6.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
+        Tag tag1 = new Tag(1l, "tag1"), tag2 = new Tag(2l, "tag2"), tag3 = new Tag(3l, "tag3"), tag4 = new Tag(4l,
+                "tag4"), tag5 = new Tag(5l, "tag5"), tag6 = new Tag(6l, "tag6");
+        article1.setTags(Sets.newHashSet(tag1, tag2, tag3));
+        article2.setTags(new HashSet<Tag>());
+        article3.setTags(Sets.newHashSet(tag1, tag4, tag5));
+        article4.setTags(Sets.newHashSet(tag1, tag2, tag3));
+        article5.setTags(Sets.newHashSet(tag1, tag5, tag6));
+        article6.setTags(Sets.newHashSet(tag1, tag3, tag6, tag4));
+        Set<Article> articles = Sets.newHashSet(article2, article3, article4, article5, article6);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articles)).containsSequence(article4,
+                article6);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articles)).excludes(article2);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articles)).hasSize(3);
     }
-    
+
     @Test
-    public void shouldFilter2ArticleWithMostTags(){
-    	Article article1 = new Article(1l), article2 = new Article(2l),article3 = new Article(3l),article4 = new Article(4l),article5 = new Article(5l),article6 = new Article(6l);
-    	article1.setRubrique(new Rubrique(1l, "Rubrique1", "rubrique1"));
-    	article2.setRubrique(new Rubrique(1l, "Rubrique2", "rubrique2"));
-    	article3.setRubrique(new Rubrique(1l, "Rubrique3", "rubrique3"));
-    	article4.setRubrique(new Rubrique(1l, "Rubrique4", "rubrique4"));
-    	article5.setRubrique(new Rubrique(1l, "Rubrique5", "rubrique5"));
-    	article6.setRubrique(new Rubrique(1l, "Rubrique6", "rubrique6"));
-    	Tag tag1 = new Tag(1l,"tag1"), tag2 = new Tag(2l,"tag2"), tag3 = new Tag(3l,"tag3"), tag4 = new Tag(4l,"tag4"), tag5 = new Tag(5l,"tag5"), tag6 = new Tag(6l,"tag6");
-    	article1.setTags(Sets.newHashSet(tag1,tag2,tag3));
-    	article2.setTags(new HashSet<Tag>());
-    	article3.setTags(Sets.newHashSet(tag4,tag5));
-    	article4.setTags(Sets.newHashSet(tag1,tag2, tag3));
-    	article5.setTags(Sets.newHashSet(tag5,tag6));
-    	article6.setTags(Sets.newHashSet(tag1,tag3,tag6,tag4));
-    	Set<Article> articlesWithSameRubrique = Sets.newHashSet(article2,article3, article4, article5,article6);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).containsSequence(article4,article6);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).excludes(article2,article3,article5);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).hasSize(2);
+    public void shouldFilter2ArticleWithMostTags() {
+        Article article1 = new Article(1l), article2 = new Article(2l), article3 = new Article(3l), article4 = new Article(
+                4l), article5 = new Article(5l), article6 = new Article(6l);
+        article1.setRubrique(new Rubrique(1l, "Rubrique1", "rubrique1"));
+        article2.setRubrique(new Rubrique(1l, "Rubrique2", "rubrique2"));
+        article3.setRubrique(new Rubrique(1l, "Rubrique3", "rubrique3"));
+        article4.setRubrique(new Rubrique(1l, "Rubrique4", "rubrique4"));
+        article5.setRubrique(new Rubrique(1l, "Rubrique5", "rubrique5"));
+        article6.setRubrique(new Rubrique(1l, "Rubrique6", "rubrique6"));
+        Tag tag1 = new Tag(1l, "tag1"), tag2 = new Tag(2l, "tag2"), tag3 = new Tag(3l, "tag3"), tag4 = new Tag(4l,
+                "tag4"), tag5 = new Tag(5l, "tag5"), tag6 = new Tag(6l, "tag6");
+        article1.setTags(Sets.newHashSet(tag1, tag2, tag3));
+        article2.setTags(new HashSet<Tag>());
+        article3.setTags(Sets.newHashSet(tag4, tag5));
+        article4.setTags(Sets.newHashSet(tag1, tag2, tag3));
+        article5.setTags(Sets.newHashSet(tag5, tag6));
+        article6.setTags(Sets.newHashSet(tag1, tag3, tag6, tag4));
+        Set<Article> articlesWithSameRubrique = Sets.newHashSet(article2, article3, article4, article5, article6);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).containsSequence(
+                article4, article6);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).excludes(article2,
+                article3, article5);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).hasSize(2);
     }
-    
+
     @Test
-    public void shouldFilterNoArticleWithMostTags(){
-    	Article article1 = new Article(1l), article2 = new Article(2l),article3 = new Article(3l),article4 = new Article(4l),article5 = new Article(5l),article6 = new Article(6l);
-    	article1.setRubrique(new Rubrique(1l, "Rubrique1", "rubrique1"));
-    	article2.setRubrique(new Rubrique(1l, "Rubrique2", "rubrique2"));
-    	article3.setRubrique(new Rubrique(1l, "Rubrique3", "rubrique3"));
-    	article4.setRubrique(new Rubrique(1l, "Rubrique4", "rubrique4"));
-    	article5.setRubrique(new Rubrique(1l, "Rubrique5", "rubrique5"));
-    	article6.setRubrique(new Rubrique(1l, "Rubrique6", "rubrique6"));
-    	Tag tag1 = new Tag(1l,"tag1"), tag2 = new Tag(2l,"tag2"), tag3 = new Tag(3l,"tag3"), tag4 = new Tag(4l,"tag4"), tag5 = new Tag(5l,"tag5"), tag6 = new Tag(6l,"tag6");
-    	article1.setTags(Sets.newHashSet(tag1,tag2,tag3));
-    	article2.setTags(new HashSet<Tag>());
-    	article3.setTags(Sets.newHashSet(tag4,tag5));
-    	article4.setTags(Sets.newHashSet(tag4,tag5, tag6));
-    	article5.setTags(Sets.newHashSet(tag5,tag6));
-    	article6.setTags(Sets.newHashSet(tag4,tag5,tag6));
-    	Set<Article> articlesWithSameRubrique = Sets.newHashSet(article2,article3, article4, article5,article6);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).excludes(article2,article3,article5,article4, article6);
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).hasSize(0);    	
+    public void shouldFilterNoArticleWithMostTags() {
+        Article article1 = new Article(1l), article2 = new Article(2l), article3 = new Article(3l), article4 = new Article(
+                4l), article5 = new Article(5l), article6 = new Article(6l);
+        article1.setRubrique(new Rubrique(1l, "Rubrique1", "rubrique1"));
+        article2.setRubrique(new Rubrique(1l, "Rubrique2", "rubrique2"));
+        article3.setRubrique(new Rubrique(1l, "Rubrique3", "rubrique3"));
+        article4.setRubrique(new Rubrique(1l, "Rubrique4", "rubrique4"));
+        article5.setRubrique(new Rubrique(1l, "Rubrique5", "rubrique5"));
+        article6.setRubrique(new Rubrique(1l, "Rubrique6", "rubrique6"));
+        Tag tag1 = new Tag(1l, "tag1"), tag2 = new Tag(2l, "tag2"), tag3 = new Tag(3l, "tag3"), tag4 = new Tag(4l,
+                "tag4"), tag5 = new Tag(5l, "tag5"), tag6 = new Tag(6l, "tag6");
+        article1.setTags(Sets.newHashSet(tag1, tag2, tag3));
+        article2.setTags(new HashSet<Tag>());
+        article3.setTags(Sets.newHashSet(tag4, tag5));
+        article4.setTags(Sets.newHashSet(tag4, tag5, tag6));
+        article5.setTags(Sets.newHashSet(tag5, tag6));
+        article6.setTags(Sets.newHashSet(tag4, tag5, tag6));
+        Set<Article> articlesWithSameRubrique = Sets.newHashSet(article2, article3, article4, article5, article6);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).excludes(article2,
+                article3, article5, article4, article6);
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).hasSize(0);
     }
-    
+
     @Test
-    public void shouldFilterNoArticleWithMostTags2(){
-    	Article article1 = new Article(1l);
-    	article1.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
-    	Tag tag1 = new Tag(1l,"tag1"), tag2 = new Tag(2l,"tag2"), tag3 = new Tag(3l,"tag3");
-    	article1.setTags(Sets.newHashSet(tag1,tag2,tag3));
-    	Set<Article> articlesWithSameRubrique = Sets.newHashSet();
-    	assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).hasSize(0);    	
+    public void shouldFilterNoArticleWithMostTags2() {
+        Article article1 = new Article(1l);
+        article1.setRubrique(new Rubrique(1l, "Rubrique", "rubrique"));
+        Tag tag1 = new Tag(1l, "tag1"), tag2 = new Tag(2l, "tag2"), tag3 = new Tag(3l, "tag3");
+        article1.setTags(Sets.newHashSet(tag1, tag2, tag3));
+        Set<Article> articlesWithSameRubrique = Sets.newHashSet();
+        assertThat(helper.findThreeArticlesWithMostTagsInCommon(article1, articlesWithSameRubrique)).hasSize(0);
     }
-    
+
     @Test
-    public void shouldProcessParameters(){
-    	String parameters = "Le petit test de la fonction de recherche";
-    	assertThat(helper.processParameters(parameters)).containsOnly("petit","test","fonction","recherche");
+    public void shouldProcessParameters() {
+        String parameters = "Le petit test de la fonction de recherche";
+        assertThat(helper.processParameters(parameters)).containsOnly("petit", "test", "fonction", "recherche");
     }
 }

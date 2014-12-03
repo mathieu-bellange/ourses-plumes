@@ -2,8 +2,6 @@ package org.ourses.server.redaction.helpers;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.entities.Article;
@@ -44,8 +42,10 @@ public interface ArticleHelper {
     Collection<? extends Article> findProfileArticles(Long profileId);
 
     List<Article> findThreeArticlesWithMostTagsInCommon(long idArticle);
-    
+
     List<Article> findLastPublishedArticle();
-    
+
     Article findLastWebReview();
+
+    Article findOnlineArticle(String rubrique, String title, long dateLong);
 }

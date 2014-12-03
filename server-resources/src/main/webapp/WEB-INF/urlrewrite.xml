@@ -80,7 +80,7 @@
 
 	<rule>
 		<note>redirection vers la page d'affichage d'un article</note>
-		<from>^/articles/(.*)/(.*)$</from>
+		<from>^/articles/(.*)/([0-9]*)/(.*)$</from>
 		<to>/article-view.html</to>
 	</rule>
 

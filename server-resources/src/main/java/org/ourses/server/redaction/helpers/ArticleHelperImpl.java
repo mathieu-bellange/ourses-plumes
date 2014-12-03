@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.text.StrBuilder;
@@ -17,6 +16,7 @@ import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.ourses.server.redaction.domain.entities.Article;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
+import org.ourses.server.redaction.domain.entities.OldPath;
 import org.ourses.server.redaction.domain.entities.Tag;
 import org.ourses.server.redaction.domain.utils.RelatedArticle;
 import org.ourses.server.security.domain.entities.OurseSecurityToken;
@@ -45,8 +45,9 @@ public class ArticleHelperImpl implements ArticleHelper {
     private static final String OTHER_CHARAC_TO_ESCAPE = "\".!~*()";
     private static final String OTHER_CHARAC_TO_REPLACE = "'";
     private static final String URL_SEPARATOR = "-";
-    
-    private static final Set<String> WORD_TO_ESCAPE = Sets.newHashSet("le","la","les","mais","ou","et","donc","or","ni","car","un","une","de","des","du","à");
+
+    private static final Set<String> WORD_TO_ESCAPE = Sets.newHashSet("le", "la", "les", "mais", "ou", "et", "donc",
+            "or", "ni", "car", "un", "une", "de", "des", "du", "à");
 
     Logger logger = LoggerFactory.getLogger(ArticleHelperImpl.class);
 
@@ -164,11 +165,11 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setUpdatedDate(new Date());
         article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate",
                 "coAuthors");
-        //suppression des vieux tags
-        for (Tag tag : oldTags){
-        	if (tag.isUnreferenceByArticles()){
-        		tag.delete();
-        	}
+        // suppression des vieux tags
+        for (Tag tag : oldTags) {
+            if (tag.isUnreferenceByArticles()) {
+                tag.delete();
+            }
         }
     }
 
@@ -205,10 +206,14 @@ public class ArticleHelperImpl implements ArticleHelper {
     public Article recallArticle(long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.AVERIFIER);
+        OldPath oldPath = new OldPath();
+        oldPath.setPath(article.getPath());
+        // oldPath.save();
+        article.getOldPath().add(oldPath);
         article.setPath(buildPath(article));
         article.setUpdatedDate(new Date());
         article.setPublishedDate(null);
-        article.update("status", "path", "updatedDate", "publishedDate");
+        article.update("status", "path", "updatedDate", "publishedDate", "oldPath");
         return article;
     }
 
@@ -246,6 +251,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         // path /articles/{rubrique}/{titre modifié}
         case ENLIGNE:
             pathBuilder.append("/" + article.getRubrique().getPath());
+            pathBuilder.append("/" + new Date().getTime());
             pathBuilder.append("/" + beautifyTitle(article.getTitle()));
             break;
         default:
@@ -258,10 +264,10 @@ public class ArticleHelperImpl implements ArticleHelper {
     public void delete(Article article) {
         Set<Tag> tagsToDelete = article.getTags();
         article.delete();
-        for (Tag tag : tagsToDelete){
-        	if (tag.isUnreferenceByArticles()){
-        		tag.delete();
-        	}
+        for (Tag tag : tagsToDelete) {
+            if (tag.isUnreferenceByArticles()) {
+                tag.delete();
+            }
         }
     }
 
@@ -272,28 +278,29 @@ public class ArticleHelperImpl implements ArticleHelper {
 
     @Override
     public Collection<? extends Article> findOnline(String parameter) {
-    	Set<String> parameters = Sets.newHashSet();
-    	if (parameter != null){
-    		parameters.addAll(processParameters(parameter));
-    	}
-    	return Article.findOnline(parameters);
+        Set<String> parameters = Sets.newHashSet();
+        if (parameter != null) {
+            parameters.addAll(processParameters(parameter));
+        }
+        return Article.findOnline(parameters);
     }
-    
+
     @VisibleForTesting
-    protected Collection<String> processParameters(String parameters){
-    	return Collections2.transform(Collections2.filter(Sets.newHashSet(parameters.split(" ")), new Predicate<String>() {
+    protected Collection<String> processParameters(String parameters) {
+        return Collections2.transform(
+                Collections2.filter(Sets.newHashSet(parameters.split(" ")), new Predicate<String>() {
 
-			@Override
-			public boolean apply(String parameter) {
-				return !WORD_TO_ESCAPE.contains(parameter.toLowerCase());
-			}
-		}),new Function<String, String>() {
+                    @Override
+                    public boolean apply(String parameter) {
+                        return !WORD_TO_ESCAPE.contains(parameter.toLowerCase());
+                    }
+                }), new Function<String, String>() {
 
-			@Override
-			public String apply(String parameter) {
-				return parameter.toLowerCase();
-			}
-		});
+                    @Override
+                    public String apply(String parameter) {
+                        return parameter.toLowerCase();
+                    }
+                });
     }
 
     @Override
@@ -381,6 +388,16 @@ public class ArticleHelperImpl implements ArticleHelper {
     @Override
     public Article findLastWebReview() {
         return Article.findLastWebReview();
+    }
+
+    @Override
+    public Article findOnlineArticle(String rubrique, String title, long dateLong) {
+        String path = "/articles/" + rubrique + "/" + dateLong + "/" + title;
+        Article art = Article.findArticleByPath(path);
+        if (art == null) {
+            art = Article.findArticleByOldPath(path);
+        }
+        return art;
     }
 
 }

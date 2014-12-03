@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -31,7 +30,6 @@ import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.CategoryDTO;
 import org.ourses.server.redaction.domain.dto.RubriqueDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
-import org.ourses.server.redaction.helpers.ArticleHelperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -40,12 +38,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expr;
-import com.avaje.ebean.Expression;
 import com.avaje.ebean.ExpressionList;
-import com.avaje.ebean.FetchConfig;
-import com.avaje.ebean.Junction;
-import com.avaje.ebean.Query;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -57,7 +50,7 @@ public class Article implements Serializable {
 	 * 
 	 */
     private static final long serialVersionUID = -6748991147610491255L;
-    
+
     static Logger logger = LoggerFactory.getLogger(Article.class);
 
     @Id
@@ -86,6 +79,9 @@ public class Article implements Serializable {
     @ManyToMany
     @JoinTable(name = "ARTICLE_COAUTHOR", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "PROFILE_ID"))
     private Set<Profile> coAuthors = Sets.newHashSet();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ARTICLE_ID")
+    private Set<OldPath> oldPath = Sets.newHashSet();
 
     public Article() {
     }
@@ -214,6 +210,14 @@ public class Article implements Serializable {
         this.coAuthors = coAuthors;
     }
 
+    public void setOldPath(Set<OldPath> oldPath) {
+        this.oldPath = oldPath;
+    }
+
+    public Set<OldPath> getOldPath() {
+        return oldPath;
+    }
+
     public void save() {
         Ebean.save(this);
     }
@@ -243,27 +247,37 @@ public class Article implements Serializable {
     public static Set<Article> findOnline(Collection<String> collection) {
         Set<Article> articles = Sets.newHashSet();
         if (collection != null && !collection.isEmpty()) {
-        	articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).in("tags.tag", collection).findSet());
-        	articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).in("rubrique.path", collection).findSet());
-        	ExpressionList<Article> expr = Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).disjunction();
-        	for (String parameter : collection){
-    			expr.ilike("titleBeautify", "%" + parameter + "%");
-    		}
-        	articles.addAll(expr.findSet());
-        }else{
-        	articles = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet();
+            articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+                    .le("publishedDate", DateTime.now().toDate()).in("tags.tag", collection).findSet());
+            articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+                    .le("publishedDate", DateTime.now().toDate()).in("rubrique.path", collection).findSet());
+            ExpressionList<Article> expr = Ebean.find(Article.class).fetch("rubrique").where()
+                    .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).disjunction();
+            for (String parameter : collection) {
+                expr.ilike("titleBeautify", "%" + parameter + "%");
+            }
+            articles.addAll(expr.findSet());
+        }
+        else {
+            articles = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
+                    .le("publishedDate", DateTime.now().toDate()).findSet();
         }
         return articles;
     }
 
     public static Article findArticle(long id) {
-        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").where()
-                .eq("id", id).findUnique();
+        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
+                .fetch("oldPath").where().eq("id", id).findUnique();
     }
 
-    public static Article findArticleByRubriqueAndBeautifyTitle(String rubrique, String titleBeautify) {
+    public static Article findArticleByPath(String path) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors").where().eq("rubrique.path", rubrique).eq("titleBeautify", titleBeautify).le("publishedDate", DateTime.now().toDate())
+                .fetch("coAuthors").where().eq("path", path).le("publishedDate", DateTime.now().toDate()).findUnique();
+    }
+
+    public static Article findArticleByOldPath(String path) {
+        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
+                .fetch("coAuthors").where().eq("oldPath.path", path).le("publishedDate", DateTime.now().toDate())
                 .findUnique();
     }
 
@@ -328,33 +342,38 @@ public class Article implements Serializable {
     }
 
     @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Article other = (Article) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Article other = (Article) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        }
+        else if (!id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
-
 }

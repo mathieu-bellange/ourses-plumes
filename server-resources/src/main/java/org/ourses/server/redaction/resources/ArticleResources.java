@@ -1,7 +1,6 @@
 package org.ourses.server.redaction.resources;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.ClientResponse.Status;
@@ -95,12 +93,13 @@ public class ArticleResources {
     }
 
     @GET
-    @Path("/{rubrique}/{title}")
+    @Path("/{rubrique}/{dateLong}/{title}")
     public Response read(@PathParam("rubrique")
     String rubrique, @PathParam("title")
-    String title) {
+    String title, @PathParam("dateLong")
+    long dateLong) {
         ResponseBuilder responseBuilder;
-        Article article = Article.findArticleByRubriqueAndBeautifyTitle(rubrique, title);
+        Article article = articleHelper.findOnlineArticle(rubrique, title, dateLong);
         // détermine si un article est lisible par un utilisateur
         if (article != null && articleHelper.isArticleReadable(null, null, article.getStatus())) {
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
@@ -150,25 +149,25 @@ public class ArticleResources {
         responseBuilder = Response.status(Status.OK).entity(articlesDto);
         return responseBuilder.build();
     }
-    
+
     @GET
     @Path("/last")
     public Response readLastPublishedArticle() {
-    	ResponseBuilder responseBuilder;
-    	List<Article> articles = articleHelper.findLastPublishedArticle();
-    	// passage en DTO
-    	List<ArticleDTO> articlesDto = Lists.newArrayList();
-    	for (Article article : articles) {
-    		articlesDto.add(article.toArticleDTO());
-    	}
-    	responseBuilder = Response.status(Status.OK).entity(articlesDto);
-    	return responseBuilder.build();
+        ResponseBuilder responseBuilder;
+        List<Article> articles = articleHelper.findLastPublishedArticle();
+        // passage en DTO
+        List<ArticleDTO> articlesDto = Lists.newArrayList();
+        for (Article article : articles) {
+            articlesDto.add(article.toArticleDTO());
+        }
+        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        return responseBuilder.build();
     }
-    
+
     @GET
     @Path("/last/review")
     public Response readLastWebReview() {
-    	return Response.status(Status.OK).entity(articleHelper.findLastWebReview().toArticleDTO()).build();
+        return Response.status(Status.OK).entity(articleHelper.findLastWebReview().toArticleDTO()).build();
     }
 
     @PUT
