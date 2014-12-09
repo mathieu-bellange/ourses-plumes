@@ -59,6 +59,7 @@ public class AuthenticationResources {
     @GET
     @Path("/connected")
     public Response isAuthenticated() {
+        // no cache
         return Response.noContent().build();
     }
 

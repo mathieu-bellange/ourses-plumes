@@ -6,6 +6,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -26,7 +27,10 @@ public class AgendaResource {
 
     @GET
     public Response getCalendarDays() {
-        return Response.ok().entity(agendaHelper.findCalendarDays()).build();
+        // cache = 1 day
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400);
+        return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(cacheControl).build();
     }
 
     @PUT

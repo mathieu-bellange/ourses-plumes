@@ -141,6 +141,7 @@ public class BearAccountResources {
                 builder = Response.status(Status.UNAUTHORIZED);
             }
         }
+        // no cache
         return builder.build();
     }
 
@@ -167,6 +168,7 @@ public class BearAccountResources {
                         return bearAccount.toBearAccountDTO();
                     }
                 });
+        // no cache
         return Response.ok().entity(listBearAccountDTO).build();
     }
 }

@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -58,7 +59,10 @@ public class ProfileResources {
         for (Profile profile : profiles) {
             profilesDTO.add(profile.toProfileDTO());
         }
-        return Response.ok().entity(profilesDTO).build();
+        // cache = 1 day
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400);
+        return Response.ok().cacheControl(cacheControl).entity(profilesDTO).build();
     }
 
     @GET
@@ -73,7 +77,10 @@ public class ProfileResources {
         else {
             builder = Response.ok().entity(role);
         }
-        return builder.build();
+        // cache = 1 day
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400);
+        return builder.cacheControl(cacheControl).build();
     }
 
     @GET
@@ -89,6 +96,7 @@ public class ProfileResources {
         else {
             builder = Response.ok().entity(profile.toProfileDTO());
         }
+        // no cache
         return builder.build();
     }
 
@@ -168,6 +176,9 @@ public class ProfileResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        return Response.ok().entity(articlesDto).build();
+        // cache = 1 day
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400);
+        return Response.ok().entity(articlesDto).cacheControl(cacheControl).build();
     }
 }

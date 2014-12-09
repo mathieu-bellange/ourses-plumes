@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -72,6 +73,7 @@ public class ArticleResources {
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
+        // no-cache
         return responseBuilder.build();
     }
 
@@ -88,7 +90,10 @@ public class ArticleResources {
                 return article.toArticleDTO();
             }
         });
-        responseBuilder = Response.status(Status.OK).entity(relatedArticlesDTO);
+        // cache = 1 day
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400);
+        responseBuilder = Response.status(Status.OK).cacheControl(cacheControl).entity(relatedArticlesDTO);
         return responseBuilder.build();
     }
 
@@ -107,7 +112,10 @@ public class ArticleResources {
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
-        return responseBuilder.build();
+        // cache = 1 year
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(31536000);
+        return responseBuilder.cacheControl(cacheControl).tag(article.getPath()).build();
     }
 
     @GET
@@ -123,7 +131,10 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        // cache = 1 hour
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(3600);
+        responseBuilder = Response.status(Status.OK).cacheControl(cacheControl).entity(articlesDto);
         return responseBuilder.build();
     }
 
@@ -146,6 +157,7 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
+        // no-cache
         responseBuilder = Response.status(Status.OK).entity(articlesDto);
         return responseBuilder.build();
     }
@@ -160,14 +172,21 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        // cache = 1 hour
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(3600);
+        responseBuilder = Response.status(Status.OK).cacheControl(cacheControl).entity(articlesDto);
         return responseBuilder.build();
     }
 
     @GET
     @Path("/last/review")
     public Response readLastWebReview() {
-        return Response.status(Status.OK).entity(articleHelper.findLastWebReview().toArticleDTO()).build();
+        // cache = 1 day
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400);
+        return Response.status(Status.OK).cacheControl(cacheControl)
+                .entity(articleHelper.findLastWebReview().toArticleDTO()).build();
     }
 
     @PUT

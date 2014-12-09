@@ -9,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -46,7 +47,10 @@ public class AvatarResources {
         else {
             builder = Response.ok().entity(avatar);
         }
-        return builder.build();
+        // cache = 1 year
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(31536000);
+        return builder.cacheControl(cacheControl).build();
     }
 
     @POST
