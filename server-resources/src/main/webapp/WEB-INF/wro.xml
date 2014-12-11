@@ -1,0 +1,19 @@
+<groups xmlns="http://www.isdc.ro/wro">
+    <group name="article">
+<!--         <js>/js/loap.js</js> -->
+        <js>/js/article-view.js</js>
+    </group>
+    <group name="loap-style">
+        <css>/css/foundation.css</css>
+        <css>/css/icons-fx.css</css>
+        <css>/css/loap-fx.css</css>
+        <css>/css/loap-main.css</css>
+    </group>
+    
+    <group name="commons-lib">
+        <js>/js/jquery/jquery-2.x.min.js</js>
+		<js>/js/dot/dot.min.js</js>
+		<js>/js/conf-dot.js</js>
+		<js>/js/foundation/foundation.lib.js</js>
+    </group>
+</groups>
