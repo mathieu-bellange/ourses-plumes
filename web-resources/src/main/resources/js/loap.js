@@ -66,7 +66,7 @@ var loap_pool = {
 	"ui_plugins_mptl"               : $loc.tmpl + "ui_plugins.mptl",
 	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
 	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
-	"icons_fx_file"                 : $file.icons_fx,
+	//"icons_fx_file"                 : $file.icons_fx,
 	"icons_file"                    : $file.icons
 };
 var loax_pool = loax_pool || null;
@@ -105,9 +105,9 @@ var loap = (function() {
 			// Build icons
 			if ($build.icons) {
 				// Prepend SVG effects
-				if ($conf.svg_fx) {
-					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
-				}
+//				if ($conf.svg_fx) {
+//					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
+//				}
 				// Prepend SVG icons
 				$("body").prepend(file_pool.icons_file).prepend(lb(1));
 			}

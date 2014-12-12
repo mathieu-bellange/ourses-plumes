@@ -1,10 +1,13 @@
 <groups xmlns="http://www.isdc.ro/wro">
+
     <group name="article">
-<!--         <js>/js/loap.js</js> -->
+        <group-ref>commons-lib</group-ref>
         <js>/js/article-view.js</js>
+        <group-ref>commons-loap</group-ref>
     </group>
-    <group name="loap-style">
-        <css>/css/foundation.css</css>
+    
+    <group name="commons-loap">
+		<js>/js/loap.js</js>
         <css>/css/icons-fx.css</css>
         <css>/css/loap-fx.css</css>
         <css>/css/loap-main.css</css>
@@ -15,5 +18,8 @@
 		<js>/js/dot/dot.min.js</js>
 		<js>/js/conf-dot.js</js>
 		<js>/js/foundation/foundation.lib.js</js>
+        <css>/css/foundation.css</css>
+		<js>/boot.js</js>
     </group>
+    
 </groups>

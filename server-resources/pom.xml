@@ -335,7 +335,7 @@
 		             </execution>
 		        </executions>
 		        <configuration>
-		            <targetGroups>article,loap-style,commons-lib</targetGroups>
+		            <targetGroups>article,commons-loap,commons-lib</targetGroups>
 		            <cssDestinationFolder>${webappDirectory}/css/</cssDestinationFolder>
       				<jsDestinationFolder>${webappDirectory}/js/</jsDestinationFolder>
 		            <contextFolder>${webappDirectory}</contextFolder>

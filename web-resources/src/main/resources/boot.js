@@ -70,7 +70,7 @@ $build = {
 /* Configuration */
 $conf = {
 	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
-	"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
+	//"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
 	"css_debug"          : false,                                 // Boolean  Enable CSS debug on HTML elements (i.e. show background masks for all pages). Default : false
 	"css_fx"             : true,                                  // Boolean  Enable CSS effects on HTML elements (i.e. multiple backgrounds, transitions, animations, box shadows, text shadows and ribbons). Default : true
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
@@ -288,7 +288,7 @@ var head_tags = [
 	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
 var body_tags = [
-	{elem: "script", attr: {src: $loc.js + "loap.js"}},
+	//{elem: "script", attr: {src: $loc.js + "loap.js"}},
 	//{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
 ];
 
