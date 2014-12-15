@@ -10,7 +10,6 @@
 
 	<properties>
 		<!-- project configuration -->
-		<wro4j.version>1.7.7</wro4j.version>
 		<javax-servlet-version>3.0.1</javax-servlet-version>
 		<urlrewriter-version>4.0.3</urlrewriter-version>
 		<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
@@ -322,25 +321,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-		        <groupId>ro.isdc.wro4j</groupId>
-		        <artifactId>wro4j-maven-plugin</artifactId>
-		        <version>${wro4j.version}</version>
-		        <executions>
-		        	<execution>
-		                <phase>compile</phase>
-		                <goals>
-		                    <goal>run</goal>
-		                </goals>
-		             </execution>
-		        </executions>
-		        <configuration>
-		            <targetGroups>article,commons-loap,commons-lib</targetGroups>
-		            <cssDestinationFolder>${webappDirectory}/css/</cssDestinationFolder>
-      				<jsDestinationFolder>${webappDirectory}/js/</jsDestinationFolder>
-		            <contextFolder>${webappDirectory}</contextFolder>
-		        </configuration>
-		    </plugin>
 			<!-- plugin maven -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
