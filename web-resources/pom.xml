@@ -70,7 +70,6 @@
 		        </executions>
 		        <configuration>
 		        	<wroFile>${basedir}/build/wro.xml</wroFile>
-		            <targetGroups>article,commons-loap,commons-lib</targetGroups>
 		            <cssDestinationFolder>${wro4j.outputDirectory}/css/</cssDestinationFolder>
       				<jsDestinationFolder>${wro4j.outputDirectory}/js/</jsDestinationFolder>
 		            <contextFolder>${basedir}/src/main/resources/</contextFolder>

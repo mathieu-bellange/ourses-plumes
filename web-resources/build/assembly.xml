@@ -13,10 +13,15 @@
 		<fileSet>
 			<directory>src/main/resources</directory>
 			<outputDirectory>/</outputDirectory>
-			<excludes>
-				<exclude>/js/**</exclude>
-				<exclude>/css/**</exclude>
-			</excludes>
+			<includes>
+				<include>/fnt/**</include>
+				<include>/img/**</include>
+				<include>/json/**</include>
+				<include>/tmpl/**</include>
+				<include>/*.html</include>
+				<include>/js/conf-cke.js</include>
+				<include>/js/ckeditor/**</include>
+			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>${wro4j.outputDirectory}</directory>
