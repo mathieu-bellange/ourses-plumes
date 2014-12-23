@@ -48,9 +48,13 @@ function connection(){
 			window.localStorage.setItem($auth.account_id, authcUser.accountId);
 			window.localStorage.setItem($auth.profile_id, authcUser.profileId);
 			window.localStorage.setItem($auth.token, authcUser.token);
-			window.localStorage.setItem($auth.user_name, authcUser.pseudo);
 			window.localStorage.setItem($auth.user_role, authcUser.role);
-			window.localStorage.setItem($auth.avatar_path, authcUser.avatar);
+			docCookies.setItem($auth.user_role, authcUser.role);
+			docCookies.setItem($auth.user_name, authcUser.pseudo);
+			docCookies.setItem($auth.avatar_path, authcUser.avatar);
+			var tomorrow = new Date();
+			tomorrow.setDate(tomorrow.getDate() + 1);
+			docCookies.setItem("isAuthenticated",true,tomorrow);
 			var redirection = window.location.search.replace($conf.redir_param, "");
 			if (redirection != "") {
 				window.location.href = redirection;

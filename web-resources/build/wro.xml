@@ -105,6 +105,7 @@
 		<js>/js/conf-dot.js</js>
 		<js>/js/foundation/foundation.lib.js</js>
         <css>/css/foundation.css</css>
+        <js>/js/cookies.js</js>
 		<js>/boot.js</js>
     </group>
     

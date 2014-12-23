@@ -988,22 +988,13 @@ var user_menu = (function() {
 			}
 			// events
 			$("html").on("click", cfg.trigger, function() {
-				var done = (function() {
-					if ($(cfg.trigger).data("connected") == true) {
-						$(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
-					} else {
-						set_user_connected(true); // connect user
-						createAlertBox($msg.connected, "alert_auth", {"class" : "success", "timeout" : $time.duration.alert})
-					}
-				});
-				var fail = (function() {
-					if ($(cfg.trigger).data("connected") == true) {
-						set_user_connected(false); // set not connected
-						disconnect($msg.disconnected, {"timeout" : $time.duration.alert}); // disconnect
-					} else {
-						window.location.href = $nav.login.url; // redirect to the login page
-					}
-				});
+				if (docCookies.hasItem("isAuthenticated")){
+					 set_user_connected(true); // connect user
+					 $(cfg.trigger).data("connected", true);
+					 $(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
+				}else{
+					window.location.href = $nav.login.url; // redirect to the login page
+				}
 				////////////////////////////////////////////////////////////////
 				// Local TEST block for DEBUG
 				////////////////////////////////////////////////////////////////
@@ -1011,7 +1002,7 @@ var user_menu = (function() {
 				// $(cfg.trigger).data("connected", true);
 				// $(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
 				////////////////////////////////////////////////////////////////
-				checkAuthc(done, fail);
+				//checkAuthc(done, fail);
 				$(this).toggleClass("active");
 				$(this).blur();
 				////////////////////////////////////////////////////////////////
@@ -1198,10 +1189,12 @@ function disconnect(str) {
 
 /* Check user connected through AJAX (deferred to document ready state) */
 function check_user_connected() {
-	var done = (function() { set_user_connected(true) });
-	var fail = (function() { set_user_connected(false) });
-	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
-	checkAuthc(done, fail, always);
+	if (docCookies.hasItem("isAuthenticated")){
+		 set_user_connected(true); // connect user
+	}else{
+		set_user_connected(false);
+	}
+	$(".user-connect").fadeIn($conf.js_fx ? 500 : 0);
 }
 
 /* Set user connected
