@@ -1,4 +1,4 @@
-/* ------------------------------------------------------------------ */
+﻿/* ------------------------------------------------------------------ */
 /* # Globals */
 /* ------------------------------------------------------------------ */
 
@@ -185,7 +185,7 @@ function getRole(pseudo) {
 
 function getProfile() {
 	var profileId = window.localStorage.getItem($auth.profile_id);
-	if(profileId != null) {
+	if (profileId != null) {
 		$.ajax({
 			type : "GET",
 			url : "/rest/profile/" + profileId,
@@ -201,6 +201,9 @@ function getProfile() {
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
 				processAvatar();
+				if (typeof profile.avatar !== "undefined" && profile.avatar.id > 0) {
+					$("#delete_avatar").show(); // show delete avatar link if avatar is defined
+				}
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
