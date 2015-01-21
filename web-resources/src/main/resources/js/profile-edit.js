@@ -226,6 +226,7 @@ function deleteAvatar(){
 				$("#avatar").attr("data-image",profile.avatar.path);
 				loap.update();
 				update_user_avatar(profile.avatar.path);
+				$("#delete_avatar").hide(); // hide delete avatar link
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -459,7 +460,8 @@ function processAvatar(options) {
 		"progress_fade_duration" : 1000,  // Integer  Duration of the progress bar fading effect (milliseconds). Default : 1000
 	};
 	var settings = $.extend({}, defaults, options);
-	var o_progress = $(settings.selector).nextAll(".progress").first(); // internal
+	// var o_progress = $(settings.selector).nextAll(".progress").first(); // internal
+	var o_progress = $(settings.selector).parent("div").nextAll(".progress").first(); // internal
 	var t_progress = 0; // internal
 	// functions
 	function show_progress_bar() {
@@ -493,6 +495,7 @@ function processAvatar(options) {
 			if (this.status == 200) { // OK
 				var avatar = JSON.parse(this.response);
 				save(new Couple(avatarProperty, avatar.id));
+				$("#delete_avatar").show(); // show delete avatar link
 			} else {
 				createAlertBox();
 			}
@@ -576,10 +579,11 @@ function processAvatar(options) {
 		readfiles(data); // DEBUG : IE 9 receives 'undefined' ; method not supported (IE 10 should retrieve FileList properly)
 	});
 	$("html").on("click", settings.selector, function() {
+		var input = $(settings.selector).parent("div").next($("input[file]"));
 		$(settings.selector).focus();
-		$conf.js_fx ? $(settings.selector).next($("input[file]")).fadeIn(250) : $(settings.selector).next($("input[file]")).show();
-		if ($(settings.selector).next($("input[file]")).attr("id") === undefined) {
-			$(settings.selector).next($("input[file]")).attr("id", $(settings.selector).attr("id") + "_file");
+		$conf.js_fx ? input.fadeIn(250) : input.show();
+		if (input.attr("id") === undefined) {
+			input.attr("id", $(settings.selector).attr("id") + "_file");
 			$(settings.selector + "_file").bind({
 				change : function() {
 					// start file upload
@@ -590,7 +594,8 @@ function processAvatar(options) {
 		}
 	});
 	$("html").on("blur", settings.selector, function() {
-		$conf.js_fx ? $(settings.selector).next($("input[file]")).fadeOut(250) : $(settings.selector).next($("input[file]")).hide();
+		var input = $(settings.selector).parent("div").next($("input[file]"));
+		$conf.js_fx ? input.fadeOut(250) : input.hide();
 	});
 }
 

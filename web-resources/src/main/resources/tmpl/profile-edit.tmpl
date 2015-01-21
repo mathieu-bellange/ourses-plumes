@@ -6,13 +6,15 @@
 						<div class="column small-24 medium-10 large-8 text-center">
 							<!--User picture-->
 							<div style="display: inline-block; width: 256px;">
-								<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
+								<div class="user-picture">
+									<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round red tip-top" title="Supprimer mon avatar" style="display: none;" data-tooltip><span class="text hide">Supprimer</span></a>
+									<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
+								</div>
 								<input type="file" style="display: none;">
 								<div class="progress radius" style="display: none;">
 									<span class="meter">0</span>
 								</div>
 							</div>
-							<a id="delete_avatar" class="" href="javascript:void(0)" title="Supprimer mon avatar"><span class="text">Delete</span></a>
 						</div>
 						<!--Second Column-->
 						<div class="column small-24 medium-14 large-16">

@@ -133,7 +133,10 @@
 
 					<!--User picture-->
 					<div style="display: inline-block; width: 256px;">
-						<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="img/usr/usr-nadejda.jpg">Nadejda</a>
+						<div class="user-picture">
+							<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round tip-top red" title="Supprimer mon avatar" data-tooltip><span class="text hide">Supprimer</span></a>
+							<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="img/usr/usr-nadejda.jpg">Nadejda</a>
+						</div>
 						<input id="avatar_file" type="file">
 						<div class="progress radius">
 							<span class="meter" style="width: 100%;">100</span>
@@ -142,7 +145,6 @@
 
 				</div>
 				<div class="column small-24 medium-14 large-16">
-
 					<!--Disabled-->
 					<label for="pseudo_disabled" class="left red">Disabled (attribute 'disabled' is set)</label>
 					<input id="pseudo_disabled" class="user-name validation-icon" type="text" value="MyUsername" disabled="disabled">

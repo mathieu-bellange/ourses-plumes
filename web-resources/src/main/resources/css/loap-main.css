@@ -3257,16 +3257,52 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* Below are classes for user profile using HTML input mimics */
-.user-profile a.picture {position: relative;}
-.user-profile a.picture:hover,
-.user-profile a.picture:focus {
+.user-picture {
+  position: relative;
+  width: 256px; /* TEMP */
+  height: 256px; /* TEMP */
+  margin-bottom: 1rem;
+}
+.user-picture .icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background-color: white;
+  border: .125rem solid dimgray;
+  border-radius: 100%;
+  opacity: 0;
+  z-index: 1;
+}
+.css-fx .user-picture .icon {
+  -webkit-transition: opacity .5s;
+     -moz-transition: opacity .5s;
+          transition: opacity .5s;
+}
+.user-picture .icon > svg {
+  fill: dimgray;
+}
+.user-picture:hover .icon,
+.user-picture .icon:hover,
+.user-picture .icon:focus {
+  opacity: 1;
+}
+.user-picture .icon:hover,
+.user-picture .icon:focus {
+  border-color: transparent;
+}
+.user-picture .picture {
+  position: absolute;
+  left: 0;
+}
+.user-picture .picture:hover,
+.user-picture .picture:focus {
   border-color: dimgray;
   border-radius: 0;
 }
-.user-profile a.picture:hover {cursor: pointer;}
-.user-profile a.picture:focus {cursor: copy;}
-.user-profile a.picture:hover:before,
-.user-profile a.picture:focus:before {
+.user-picture .picture:hover {cursor: pointer;}
+.user-picture .picture:focus {cursor: copy;}
+.user-picture .picture:hover:before,
+.user-picture .picture:focus:before {
   position: absolute;
   content: "Glisser-déposer";
   padding-top: 40%;
@@ -3281,21 +3317,21 @@ input:focus + button + .error + .autocomplete > ul {
   text-indent: 0;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 }
-.css-fx .user-profile a.picture {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-.user-profile a.picture:hover:before {
+.css-fx .user-picture .picture {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.user-picture .picture:hover:before {
   background-color: rgba(255, 255, 255, .5);
 }
-.user-profile a.picture:focus:before {
+.user-picture .picture:focus:before {
   color: dimgray;
   background-color: white;
   text-shadow: none;
 }
-.user-profile a.picture.dragon {
+.user-picture .picture.dragon {
   cursor: grabbing;
   border-style: solid;
   border-color: #393;
 }
-.user-profile a.picture.dragon:before {
+.user-picture .picture.dragon:before {
   content: "Déposez !";
 }
 .user-profile input.user-name {
