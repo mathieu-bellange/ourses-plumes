@@ -2191,23 +2191,18 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 
 @media only screen and (min-width: 40.063em) {
   dialog.tiny-modal, .reveal-modal.tiny-modal {
-    margin-left: -15%;
     width: 30%;
   }
   dialog.small-modal, .reveal-modal.small-modal {
-    margin-left: -20%;
     width: 40%;
   }
   dialog.medium-modal, .reveal-modal.medium-modal {
-    margin-left: -30%;
     width: 60%;
   }
   dialog.large-modal, .reveal-modal.large-modal {
-    margin-left: -35%;
     width: 70%;
   }
   dialog.xlarge-modal, .reveal-modal.xlarge-modal {
-    margin-left: -47.5%;
     width: 95%;
   }
 }
@@ -3257,6 +3252,8 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* Below are classes for user profile using HTML input mimics */
+
+/* User Picture */
 .user-picture {
   position: relative;
   width: 256px; /* TEMP */
@@ -3268,7 +3265,7 @@ input:focus + button + .error + .autocomplete > ul {
   top: 1.5rem;
   right: 1.5rem;
   background-color: white;
-  border: .125rem solid dimgray;
+  border: .25rem solid dimgray;
   border-radius: 100%;
   opacity: 0;
   z-index: 1;
@@ -3334,6 +3331,8 @@ input:focus + button + .error + .autocomplete > ul {
 .user-picture .picture.dragon:before {
   content: "Déposez !";
 }
+
+/* User Name */
 .user-profile input.user-name {
   height: 3rem;
   padding-top: 0;

@@ -132,9 +132,9 @@
 				<div class="column small-24 medium-10 large-8 text-center">
 
 					<!--User picture-->
-					<div style="display: inline-block; width: 256px;">
+					<div style="display: inline-block; width: 256px; max-width: 100%;">
 						<div class="user-picture">
-							<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round tip-top red" title="Supprimer mon avatar" data-tooltip><span class="text hide">Supprimer</span></a>
+							<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round tip-top red" title="Supprimer l&rsquo;image utilisatrice" data-tooltip data-reveal-id="delete_avatar_modal" data-reveal><span class="text hide">Supprimer</span></a>
 							<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="img/usr/usr-nadejda.jpg">Nadejda</a>
 						</div>
 						<input id="avatar_file" type="file">
@@ -142,6 +142,21 @@
 							<span class="meter" style="width: 100%;">100</span>
 						</div>
 					</div>
+
+					<!--User picture delete modal-->
+					<div id="delete_avatar_modal" class="reveal-modal small-modal text-center" data-reveal>
+						<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?</p>
+						<button class="success" style="margin-bottom: 0;">Oui</button>
+						<button class="alert">Non</button>
+					</div>
+					<script>
+						$("#delete_avatar_modal").on("click", "button", function() {
+							$(this).foundation("reveal", "close");
+						});
+						$(document).on("opened", "#delete_avatar_modal", function () {
+							$("#delete_avatar_modal button.success").focus();
+						});
+					</script>
 
 				</div>
 				<div class="column small-24 medium-14 large-16">
@@ -158,7 +173,7 @@
 					<label for="pseudo" class=" red">Enabled (default)</label>
 					<div class="clearfix" style="position: relative;">
 						<!--Default-->
-						<input id="pseudo" class="user-name validation-icon" type="text" maxlength="24" value="MyUsername" title="Nom d&rsquo;utilisatrice" placeholder="Votre nom d&rsquo;utilistratice">
+						<input id="pseudo" class="user-name validation-icon tip-top" type="text" maxlength="24" value="MyUsername" title="Votre nom d&rsquo;utilisatrice" placeholder="Nom d&rsquo;utilistratice" data-tooltip>
 						<small id="pseudoError" class="error hide">Le nom d&rsquo;utilistatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
 						<!--User role-->
 						<h4 id="role" class="user-role">MyRole</h4>

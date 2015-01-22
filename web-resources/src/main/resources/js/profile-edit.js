@@ -192,7 +192,6 @@ function getProfile() {
 			contentType : "application/json; charset=utf-8",
 			success : function(profile, status, jqxhr) {
 				$("main > header").after(file_pool.profile_edit_tpml(profile)).after(lb(1)); // process template
-				$("#delete_avatar").on("click",function(){deleteAvatar();});
 				getRole(profile.pseudoBeautify); // process role
 				processSocialLinks(profile.socialLinks); // process social links
 				$("section textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas for whole section
@@ -201,6 +200,8 @@ function getProfile() {
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
 				processAvatar();
+				$(document).foundation("tooltip"); // TEMP : reload Foundation tooltip plugin
+				$(document).foundation("reveal"); // TEMP : reload Foundation reveal plugin
 				if (typeof profile.avatar !== "undefined" && profile.avatar.id > 0) {
 					$("#delete_avatar").show(); // show delete avatar link if avatar is defined
 				}
@@ -599,6 +600,18 @@ function processAvatar(options) {
 	$("html").on("blur", settings.selector, function() {
 		var input = $(settings.selector).parent("div").next($("input[file]"));
 		$conf.js_fx ? input.fadeOut(250) : input.hide();
+	});
+	// Bind reveal events
+	$(document).on("opened", "#delete_avatar_modal", function () {
+		$("#delete_avatar_modal button.success").focus(); // focus button success on modal modal opened
+	});
+	$("#delete_avatar_modal").on("click", "button", function() {
+		$(this).foundation("reveal", "close"); // close modal on any button click
+		if ($(this).hasClass("success")) {
+			deleteAvatar(); // delete avatar on button success click
+		} else {
+			$("#delete_avatar").focus();
+		}
 	});
 }
 
