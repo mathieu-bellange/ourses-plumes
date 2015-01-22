@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /connexion
+Disallow: /parametres/*
+Disallow: /comptes/*
+Disallow: /comptes
+Disallow: /bug/nouveau
+Disallow: /articles/nouveau
+Disallow: /profils/*
+
+Sitemap: http://oursedomain/sitemap.xml
+

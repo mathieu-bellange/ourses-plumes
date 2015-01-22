@@ -95,5 +95,11 @@
 		<from>^/agenda$</from>
 		<to>/agenda.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers sitemap</note>
+		<from>^/sitemap.xml$</from>
+		<to>/rest/sitemap</to>
+	</rule>
 
 </urlrewrite>
