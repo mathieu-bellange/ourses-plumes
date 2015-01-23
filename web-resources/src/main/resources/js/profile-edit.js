@@ -602,8 +602,8 @@ function processAvatar(options) {
 		$conf.js_fx ? input.fadeOut(250) : input.hide();
 	});
 	// Bind reveal events
-	$(document).on("opened", "#delete_avatar_modal", function () {
-		$("#delete_avatar_modal button.success").focus(); // focus button success on modal modal opened
+	$(document).on("opened", "#delete_avatar_modal", function() {
+		$("#delete_avatar_modal button.success").focus(); // focus button success on modal opened
 	});
 	$("#delete_avatar_modal").on("click", "button", function() {
 		$(this).foundation("reveal", "close"); // close modal on any button click

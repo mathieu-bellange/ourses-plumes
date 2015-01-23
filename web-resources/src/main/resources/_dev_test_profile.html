@@ -146,14 +146,14 @@
 					<!--User picture delete modal-->
 					<div id="delete_avatar_modal" class="reveal-modal small-modal text-center" data-reveal>
 						<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?</p>
-						<button class="success" style="margin-bottom: 0;">Oui</button>
-						<button class="alert">Non</button>
+						<button class="success icon-confirm" style="margin-bottom: 0;"></button>
+						<button class="alert icon-cancel"></button>
 					</div>
 					<script>
 						$("#delete_avatar_modal").on("click", "button", function() {
 							$(this).foundation("reveal", "close");
 						});
-						$(document).on("opened", "#delete_avatar_modal", function () {
+						$(document).on("opened", "#delete_avatar_modal", function() {
 							$("#delete_avatar_modal button.success").focus();
 						});
 					</script>
