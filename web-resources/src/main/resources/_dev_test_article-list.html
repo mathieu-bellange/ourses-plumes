@@ -571,9 +571,9 @@
 							<div class="column small-4">
 								<!--Validation-->
 								<div id="draft1_validation" style="margin-left: .5rem; display: none;">
-									<button class="small" style="margin-bottom: .25rem;">Modifier</button>
+									<button class="small" style="margin-bottom: .25rem;">Valider</button>
 									<br>
-									<button class="small alert" style="margin-bottom: 0;">Valider</button>
+									<button class="small alert" style="margin-bottom: 0;" data-delete="1">Supprimer</button>
 								</div>
 							</div>
 						</div>
@@ -586,7 +586,7 @@
 						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
 						<!--Validation-->
 						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
-							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Modifier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button>
+							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-delete="2">Supprimer</button>
 						</div>
 					</li>
 
@@ -598,11 +598,41 @@
 							<h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary-text"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
 							<!--Validation-->
 							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
-								<button class="small" style="margin-bottom: 0; z-index: 100;">Modifier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Valider</button>
+								<button class="small" style="margin-bottom: 0; z-index: 100;">Valider</button><button class="alert small" style="margin-bottom: 0; z-index: 100;" data-delete="3">Supprimer</button>
 							</div>
 						</div>
 					</li>
 				</ul>
+
+				<!--Draft confirm delete modal-->
+				<div id="delete_draft_modal" class="reveal-modal small-modal text-center" data-reveal>
+					<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?</p>
+					<button class="success icon-confirm" style="margin-bottom: 0;"></button>
+					<button class="alert icon-cancel"></button>
+				</div>
+				<script>
+					// List events
+					$("button[data-delete]").click(function() {
+						var id = $(this).attr("data-delete");
+						// check id validity
+						if (typeof(id) !== "undefined" && id > 0) {
+							// pass id to modal
+							$("#delete_draft_modal").find("button.success").attr("data-delete", id);
+							// show modal
+							$("#delete_draft_modal").foundation("reveal", "open");
+						}
+					});
+					// Modal events
+					$("#delete_draft_modal").on("click", "button", function() {
+						if ($(this).attr("data-delete")) {
+							alert("draft " + $(this).attr("data-delete") + " deleted"); // DEBUG
+						}
+						$(this).foundation("reveal", "close");
+					});
+					$(document).on("opened", "#delete_draft_modal", function() {
+						$("#delete_draft_modal button.success").focus();
+					});
+				</script>
 
 				<!------------------------------------------------------------->
 				<!--# Onlines-->

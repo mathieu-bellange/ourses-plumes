@@ -427,9 +427,16 @@ function processArticles(articles) {
 	$("html").on("mouseleave", ".href-block", function() {
 		$(this).find(".validate").hide();
 	});
-	// bind events
+	// List events
 	$(".validate button[data-delete]").click(function() {
-		deleteArticle($(this).attr("data-delete"));
+		var id = $(this).attr("data-delete");
+		// check id validity
+		if (typeof(id) !== "undefined" && id > 0) {
+			// pass id to modal
+			$("#delete_draft_modal").find("button.success").attr("data-delete", id);
+			// show modal
+			$("#delete_draft_modal").foundation("reveal", "open");
+		}
 	});
 	$(".validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
@@ -443,6 +450,17 @@ function processArticles(articles) {
 	$(".validate button[data-recall]").click(function() {
 		recallArticle($(this).attr("data-recall"));
 	});
+	// Modal events
+	$("#delete_draft_modal").on("click", "button", function() {
+		if ($(this).attr("data-delete")) {
+			deleteArticle($(this).attr("data-delete"));
+		}
+		$(this).foundation("reveal", "close");
+	});
+	$(document).on("opened", "#delete_draft_modal", function() {
+		$("#delete_draft_modal button.success").focus();
+	});
+	// Toolbar events
 	$("#write_article").mouseenter(function() { // check if user is authenticated
 		var fail = (function() {
 			if ($("#user_connect").data("connected") == true) {
@@ -474,9 +492,9 @@ function processAfterInValidation(article) {
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
 	});
-	$("#articles_draft li:first .validate button[data-delete]").click(function() {
-		deleteArticle($(this).attr("data-delete"));
-	});
+	// $("#articles_draft li:first .validate button[data-delete]").click(function() {
+		// deleteArticle($(this).attr("data-delete"));
+	// });
 }
 
 function processAfterPublish(article) {
