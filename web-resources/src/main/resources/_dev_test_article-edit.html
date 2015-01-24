@@ -69,7 +69,104 @@
 				<small class="error hide"></small>
 
 				<!--Author-->
-				<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">Nadejda</span></span></h4>
+				<h3 class="author"><span class="icon-author" title="Auteure"><span class="text">Nadejda</span></span></h3>
+				<a href="javascript:void(0)" id="coauthor_show" class="icon-writer small radius right" style="margin-left: .75rem; padding: .25rem; opacity: .5;"><span class="text">Co-auteures</span></a>
+
+				<!--Co-author-->
+				<div id="coauthor_field" class="panel radius" style="clear: both; padding: .5rem 1rem 1rem; display: none;">
+					<label for="coauthor">Co-auteures</label>
+					<div class="clearfix">
+						<div id="coauthor" class="options-select left" style="margin: 0; min-width: 20rem;" tabindex="0">
+							<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
+							<ul class="options hide">
+								<li>Janine</li>
+								<li>Pauline Personne</li>
+								<li>Ourse &agrave; &oelig;illets</li>
+								<li>Ourse dithyrambique du pays des merveilles</li>
+								<li>&#220;ber Big Keenv&eacute;</li>
+							</ul>
+						</div>
+						<button id="coauthor_add" type="button" class="icon-add small left" style="margin: 0;"></button>
+					</div>
+				</div>
+				<script>
+					var coauthors = (function() {
+						return {
+							defs : {
+								"fx_d" : 375 // Integer  Visual effets duration (milliseconds). Default : 375
+							},
+							init : function(opts) {
+								// Variables
+								var cfg = $.extend({}, this.defs, opts);
+								// Functions
+								function show_field(callback) {
+									var h = $("#coauthor_field").outerHeight();
+									$("#coauthor_field").children().hide();
+									$("#coauthor_field").css({"display" : "", "height" : "0", "opacity" : "0"});
+									$("#coauthor_field").animate({"height" : h, "opacity" : "1"}, $conf.js_fx ? cfg.fx_d : 0, function() {
+										$("#coauthor_field").children().show();
+										callback();
+									});
+								}
+								function hide_field(callback) {
+									$("#coauthor_field").animate({"height" : "0", "opacity" : "0"}, $conf.js_fx ? cfg.fx_d : 0, function() {
+										$("#coauthor_field").css({"display" : "none", "height" : ""});
+										callback();
+									});
+								}
+								// Launcher events
+								$("#coauthor_show").click(function() {
+									$("#coauthor_field").finish();
+									$(this).toggleClass("active");
+									$(this).css("opacity",$(this).css("opacity") < 1 ? "1" : "0.5");
+									$(".coauthor").toggleClass("active");
+									if ($("#coauthor_field").is(":visible")) {
+										hide_field(function() {
+											$(this).focus();
+										});
+									} else {
+										show_field(function() {
+											$("#coauthor").focus();
+										});
+									}
+								});
+								// Target events
+								$("#coauthor_add").click(function() {
+									if ($("#coauthor .select").children().size() == 0) {
+										var val = $("#coauthor .select").text();
+										$("#coauthor .options li").each(function() {
+											if ($(this).text() == val) {
+												$(this).remove();
+												$("#coauthor .select").html($("#coauthor .select").data("placeholder"));
+											}
+										});
+										$(".author").append("<span class='coauthor active'>" + val + "<a href='javascript:void(0)' class='close'></a></span> ");
+									}
+									$("#coauthor_show").focus();
+								});
+								// Combo events
+								$("#coauthor").keydown(function(e) {
+									if (e.which == 13) { // Enter
+										$("#coauthor_add").click();
+									}
+									if (e.which == 27) { // Escape
+										$("#coauthor_show").click();
+									}
+								});
+								// Document events
+								$(document).on("click", ".coauthor .close", function() {
+									var i = $(this).parent().index(".coauthor");
+									$("#coauthor .options").append($("<li>").html($(this).parent().text()));
+									$("p.author .coauthor").eq(i).remove();
+									$(".author:not(p) .coauthor").eq(i).remove();
+								});
+								// Execution
+								$("#coauthor .select").data("placeholder", $("#coauthor .select").html()); // register placeholder
+							}
+						}
+					}());
+					coauthors.init();
+				</script>
 
 				<!--Date-->
 				<!--
@@ -833,7 +930,7 @@
 				// Initialize classic CKEditor with custom config
 				CKEDITOR.replace("classic_editor", {
 					customConfig : $cke_config_path + "conf-cke.js",
-					contentsCss : "css/loap-main.css",
+					//contentsCss : "css/loap-main.css",
 					bodyClass : "article",
 					toolbarLocation : "bottom"
 				});
@@ -841,7 +938,7 @@
 				CKEDITOR.disableAutoInline = true;
 				CKEDITOR.inline("editor", {
 					customConfig : $cke_config_path + "conf-cke.js",
-					contentsCss : "css/loap-main.css",
+					//contentsCss : "css/loap-main.css",
 					extraAllowedContent : {"span" : {classes : "placeholder"}},
 				});
 			});

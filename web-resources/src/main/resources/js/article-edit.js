@@ -532,6 +532,82 @@ var validate = (function () {
 	}
 }());
 
+var coauthors = (function() {
+	return {
+		defs : {
+			"fx_d" : 375 // Integer  Visual effets duration (milliseconds). Default : 375
+		},
+		init : function(opts) {
+			// Variables
+			var cfg = $.extend({}, this.defs, opts);
+			// Functions
+			function show_field(callback) {
+				var h = $("#coauthor_field").outerHeight();
+				$("#coauthor_field").children().hide();
+				$("#coauthor_field").css({"display" : "", "height" : "0", "opacity" : "0"});
+				$("#coauthor_field").animate({"height" : h, "opacity" : "1"}, $conf.js_fx ? cfg.fx_d : 0, function() {
+					$("#coauthor_field").children().show();
+					callback();
+				});
+			}
+			function hide_field(callback) {
+				$("#coauthor_field").animate({"height" : "0", "opacity" : "0"}, $conf.js_fx ? cfg.fx_d : 0, function() {
+					$("#coauthor_field").css({"display" : "none", "height" : ""});
+					callback();
+				});
+			}
+			// Launcher events
+			$("#coauthor_show").click(function() {
+				$("#coauthor_field").finish();
+				$(this).toggleClass("active");
+				$(this).css("opacity",$(this).css("opacity") < 1 ? "1" : "0.5");
+				$(".coauthor").toggleClass("active");
+				if ($("#coauthor_field").is(":visible")) {
+					hide_field(function() {
+						$(this).focus();
+					});
+				} else {
+					show_field(function() {
+						$("#coauthor").focus();
+					});
+				}
+			});
+			// Target events
+			$("#coauthor_add").click(function() {
+				if ($("#coauthor .select").children().size() == 0) {
+					var val = $("#coauthor .select").text();
+					$("#coauthor .options li").each(function() {
+						if ($(this).text() == val) {
+							$(this).remove();
+							$("#coauthor .select").html($("#coauthor .select").data("placeholder"));
+						}
+					});
+					$(".author").append("<span class='coauthor active'>" + val + "<a href='javascript:void(0)' class='close'></a></span> ");
+				}
+				$("#coauthor_show").focus();
+			});
+			// Combo events
+			$("#coauthor").keydown(function(e) {
+				if (e.which == 13) { // Enter
+					$("#coauthor_add").click();
+				}
+				if (e.which == 27) { // Escape
+					$("#coauthor_show").click();
+				}
+			});
+			// Document events
+			$(document).on("click", ".coauthor .close", function() {
+				var i = $(this).parent().index(".coauthor");
+				$("#coauthor .options").append($("<li>").html($(this).parent().text()));
+				$("p.author .coauthor").eq(i).remove();
+				$(".author:not(p) .coauthor").eq(i).remove();
+			});
+			// Execution
+			$("#coauthor .select").data("placeholder", $("#coauthor .select").html()); // register placeholder
+		}
+	}
+}());
+
 /* ------------------------------------------------------------------ */
 /* # Domain */
 /* ------------------------------------------------------------------ */
@@ -640,14 +716,15 @@ function processArticle(article) {
 	$("section").svg_icons(); // reload svg icons after AJAX request for whole section
 	$("#tag").autocomplete(); // apply autocomplete plugin to #tag input
 	tags.init(); // initialize tags component
-	//share.init(); // UNUSED (for now) : initialize share component
+	//share.init(); // initialize share component * UNUSED (for now)
 	validate.init(); // initialize validate component
+	coauthors.init(); // initialize co-authors component
 }
 
 function processWriters(json, article){
 	$.each(json, function(i, obj) {
 		if (window.localStorage.getItem($auth.profile_id) != obj.id){
-			var li = "<li class='' data-value='"+ obj.id +"' data-color=''>" + obj.pseudo + "</li>";
+			var li = "<li class='' data-value='"+ obj.id +"'>" + obj.pseudo + "</li>";
 			$("#coauthor ul").append(li);
 		}
 	});

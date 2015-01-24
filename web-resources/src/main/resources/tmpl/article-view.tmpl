@@ -2,7 +2,12 @@
 				<section id="{{= data.beautify_title }}">
 					<article class="article {{= data.rubrique.classe }} clearfix">
 						<h2 class="title">{{= data.title }}</h2>
-						<h4 class="author"><a href="{{= data.profile.path }}" class="icon-author" rel="author" title="Auteure"><span class="text">{{= data.profile.pseudo }}</span></a></h4>
+						<h3 class="author">
+							<a href="{{= data.profile.path }}" class="icon-author" rel="author" title="Voir le profil de l&rsquo;auteure" data-tooltip><span class="text">{{= data.profile.pseudo }}</span></a>
+							{{~ data.coAuthors : coAuthor }}
+							<span class="coauthor"><a href="{{= coAuthor.path }}" rel="author" title="Voir le profil de la co-auteure" data-tooltip>{{= coAuthor.pseudo }}</a></span>
+							{{~}}
+						</h3>
 						<time class="date icon-date small" pubdate="{{= getDateTime(new Date(data.publishedDate)) }}"><small class="text"><span class="hide">Publi&eacute; le </span>{{= dateToHTML(new Date(data.publishedDate)) }}</small></time>
 						<p class="summary">{{= data.description }}</p>
 						<dl class="tags inline-list clearfix">
@@ -15,10 +20,12 @@
 						</dl>
 						{{= data.body }}
 						<div class="clearfix">
-							<p class="author right"><a href="{{= data.profile.path }}" class="tip-top" rel="author" title="Voir le profil" data-tooltip>{{= data.profile.pseudo }}</a></p>
-							{{~ data.coAuthors : coAuthor }}
-								<p class="author right"><a href="{{= coAuthor.path }}" class="tip-top" rel="co-author" title="Voir le profil" data-tooltip>{{= coAuthor.pseudo }}</a></p>
-							{{~}}
+							<p class="author right">
+								<a href="{{= data.profile.path }}" class="tip-top" rel="author" title="Voir le profil de l&rsquo;auteure" data-tooltip>{{= data.profile.pseudo }}</a>
+								{{~ data.coAuthors : coAuthor }}
+								<span class="coauthor"><a href="{{= coAuthor.path }}" class="tip-top" rel="author" title="Voir le profil de la co-auteure" data-tooltip>{{= coAuthor.pseudo }}</a></span>
+								{{~}}
+							</p>
 							<ul class="inline-list left">
 								<li>
 									<a id="share_mail" href="javascript:void(0)" class="icon-mail share" title="Partager par mail" data-tooltip data-article="{{= data.id }}"><span class="text">Mail</span></a>

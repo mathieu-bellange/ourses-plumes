@@ -31,7 +31,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// + "floatingspace," // This plugin is used in inline creator to place the editor toolbar in the best position around the editable element.
 	// + "listblock," // This plugin proThis plugin provides main class including a set of methods used for constructing dropdowns like Styles, Format, Font Size, etc.vides the basis for constructing a drop down list in editor float panels, mostly found inside of the rich combo, list item with label and value can be grouped into a section.
 	// + "richcombo," // This plugin provides main class including a set of methods used for constructing dropdowns like Styles, Format, Font Size, etc.
-	+ "format," // This plugin adds Format combo allows you to apply block-level format styles including "paragraph", "heading 1-6", "formatted", "address", etc. Format styles list is fully configurable.
+	// + "format," // This plugin adds Format combo allows you to apply block-level format styles including "paragraph", "heading 1-6", "formatted", "address", etc. Format styles list is fully configurable.
 	+ "horizontalrule," // This plugin provides the command to insert Horizontal Rule (<hr> element) in content.
 	// + "htmlwriter," // This plugin provides flexible HTML output formatting, with several configuration options to control the editor output format.
 	// + "wysiwygarea," // This plugin represents an editing area that holds the editor contents inside of an embedded iframe, so that styles of the content are not inherited from the host page.
@@ -55,7 +55,7 @@ CKEDITOR.editorConfig = function( config ) {
 	+ "table," // This plugin allows to create and manage a table with a dialog.
 	+ "tabletools," // This plugin offers column/row/cell manipulation on HTML tables all from within the context menu.
 	// + "undo," // This plugin is to provide undo and redo feature to content modifications.
-	// + "wsc" // This plugin brings WebSpellChecker into CKEditor. WebSpellChecker is "installation-less", using the web-services of WebSpellChecker.net. It's an out of the box solution.
+	+ "wsc" // This plugin brings WebSpellChecker into CKEditor. WebSpellChecker is "installation-less", using the web-services of WebSpellChecker.net. It's an out of the box solution.
 
 	// Mode
 	config.startupMode = "wysiwyg"; // Set startup mode (i.e. "wysiwyg" or "source")
@@ -69,19 +69,23 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// CSS
 	// config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
+	config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
 
 	// Autogrow Plugin
 	config.autoGrow_onStartup = true; // Whether automatic editor height adjustment brought by the Auto Grow feature should happen on editor creation.
 	config.autoGrow_minHeight = 0; // The minimum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 300).
 	config.autoGrow_maxHeight = 0; // The maximum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 600). Zero (0) means that the maximum height is not limited and the editor will expand infinitely.
-	config.autoGrow_bottomSpace = 24; // Extra vertical space to be added between the content and the editor bottom bar when adjusting editor height to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 50).
+	// config.autoGrow_bottomSpace = 24; // Extra vertical space to be added between the content and the editor bottom bar when adjusting editor height to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 50).
+	config.autoGrow_bottomSpace = 0; // Extra vertical space to be added between the content and the editor bottom bar when adjusting editor height to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 50).
 
 	// Paste
 	config.forcePasteAsPlainText = false; // Whether to force all pasting operations to insert on plain text into the editor, loosing any formatting information possibly available in the source text.
 
 	// Format
-	config.removeFormatAttributes = "style,lang,width,height,align,hspace,valign"; // A comma separated list of elements attributes to be removed when executing the remove format command.
-	config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var"; // A comma separated list of elements to be removed when executing the remove format command. Note that only inline elements are allowed.
+	// config.removeFormatAttributes = "style,lang,width,height,align,hspace,valign"; // A comma separated list of elements attributes to be removed when executing the remove format command.
+	// config.removeFormatAttributes = "style,lang,width,height,align,hspace,valign"; // A comma separated list of elements attributes to be removed when executing the remove format command.
+	// config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var"; // A comma separated list of elements to be removed when executing the remove format command. Note that only inline elements are allowed.
+	// config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var"; // A comma separated list of elements to be removed when executing the remove format command. Note that only inline elements are allowed.
 
 	// Special Chars
 	config.specialChars = [ // The list of special characters visible in the 'Special Character' dialog window.
@@ -157,7 +161,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'others', items: [ '-' ] },
 		{ name: 'about', items: [ 'About' ] }
 	];
-
 	// Toolbar groups configuration.
 	config.toolbarGroups = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
@@ -177,7 +180,8 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];
 	config.format_tags = 'p;h1;h2;h3;pre';
-	*/
+*/
+	config.format_tags = 'p'; // EDIT
 
 	// Toolbars
 	config.toolbarLocation = "top"; // The part of the user interface where the toolbar will be rendered. For the default editor implementation, the recommended options are "top" and "bottom".
@@ -189,7 +193,9 @@ CKEDITOR.editorConfig = function( config ) {
 		{name : "document", groups : ["mode"]},
 		{name : "tools"},
 	];
-	config.removeButtons = "Anchor,Table,HorizontalRule,Format";
+
+	// config.removeButtons = "Anchor,Table,HorizontalRule,Format";
+	config.removeButtons = "Anchor,Table,HorizontalRule"; // EDIT
 	config.removeDialogTabs = "image:advanced;link:advanced;link:target;";
 
 	// Styles

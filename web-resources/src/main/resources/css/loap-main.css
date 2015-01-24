@@ -43,6 +43,7 @@ body {
   padding: 1rem;
   font-size: 100%;
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  line-height: 1.25; /* Foundation override */
   color: #404040;
   background-image: none;
 }
@@ -253,11 +254,13 @@ cite.author {
   font-style: normal;
 }
 */
-
 a[rel="author"] {
+/* UNUSED */
+/*
   font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
   font-variant: small-caps;
   font-style: normal;
+*/
   text-decoration: none; /* TEMP : links underline fix */
 }
 
@@ -2444,8 +2447,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   content: "";
   float: right;
   display: inline-block;
-  margin-top: .5rem;
-  margin-right: .25rem;
+  margin: .375rem .125rem 0 .5rem;
   border: .5rem solid transparent;
   border-bottom-width: 0;
   border-top-color: silver;
@@ -2613,118 +2615,6 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Articles */
 /* ------------------------------------------------------------------ */
 
-.article .title {
-  margin-top: 0;
-  margin-bottom: .5rem;
-  padding: 0 .5rem;
-}
-
-.article .author:not(p) {
-  display: inline-block;
-  float: left;
-  margin: 0 0 .75rem;
-  line-height: 0;
-}
-.article .author:not(p) > .icon > .text {
-  font-size: 100%;
-  text-transform: none;
-  vertical-align: middle;
-}
-.article:not(.edit) .author:not(p):hover:after {
-  content: "Voir le profil";
-  margin-left: .5rem;
-  color: silver;
-  font-size: smaller;
-  font-variant: normal;
-  line-height: initial;
-}
-
-.article .date {
-  float: right;
-  margin: 0;
-  color: darkgray;
-  text-align: right;
-}
-
-.article .summary {
-  clear: both;
-  margin: 0 0 .75rem;
-  padding: .5rem;
-  color: gray;
-  font-size: 90%;
-  font-style: italic;
-  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
-  border: .25rem solid silver;
-  border-left-color: transparent;
-  border-right-color: transparent;
-}
-
-.article .tags {
-  margin-bottom: 0;
-  border: .125rem solid transparent;
-}
-
-.article p.author {
-  text-align: right;
-  font-variant: small-caps;
-  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
-}
-.article p.author:before {
-  content: "—";
-  margin-right: .5rem;
-}
-.article p.author > a:not(.label):not(.close) {
-  padding: .125rem .25rem;
-  color: black;
-  font-weight: bold;
-  border-radius: .25rem;
-}
-.article p.author > a:not(.label):not(.close):hover,
-.article p.author > a:not(.label):not(.close):focus {
-  color: white;
-}
-.article p.author > a:not(.label):not(.close):hover {
-  background-color: dimgray;
-}
-.article p.author > a:not(.label):not(.close):focus {
-  background-color: #333;
-}
-
-[class*=' cke'] .callout, /* CKEditor Format Styles Combo */
-.article .callout {
-  position: relative; /* Fix CKEditor callout position bug */
-  width: 75%;
-  margin-left: 12.5%;
-  margin-bottom: 1rem;
-  color: gray;
-  font-size: 150%;
-  line-height: 150%;
-  letter-spacing: -.0625em;
-  text-align: center;
-  word-wrap: break-word; /* Fix long strings */
-  border: .25rem solid gray;
-  border-left: 0;
-  border-right: 0;
-}
-.css-fx .article .callout {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-[class*='cke_panel'] .callout { /* CKEditor Styles Menu */
-  margin-bottom: 0; /* Fix margin bottom */
-}
-.article .callout:before {
-  content : "“";
-  position: absolute; /* Fix CKEditor callout position bug */
-  top: 0; /* Fix CKEditor callout position bug */
-  left: 0; /* Fix CKEditor callout position bug */
-  margin-right: .5rem;
-}
-.article .callout:after{
-  content : "”";
-  position: absolute; /* Fix CKEditor callout position bug */
-  bottom: 0; /* Fix CKEditor callout position bug */
-  right: 0; /* Fix CKEditor callout position bug */
-  margin-left: .5rem;
-}
-
 /* Standard Article Callout Rubrics Colors */
 /*
 .article.red .callout {color: #c33; border-color: #c33;}
@@ -2768,6 +2658,154 @@ input:focus + button + .error + .autocomplete > ul {
 .article.ourbody .callout {color: #e2a; border-color: #e2a;}
 .article.ourbody a:not(.label):not(.close):hover,
 .article.ourbody a:not(.label):not(.close):focus {color: #a17;}
+
+/* Article Title */
+.article .title {
+  margin-top: 0;
+  margin-bottom: .5rem;
+  padding: 0 .5rem;
+}
+/* Article Author */
+.article .author:not(p) {
+  display: inline-block;
+  margin: 0 0 .75rem;
+  font-size: 1.75em;
+}
+.article .author:not(p) > .icon > .text {
+  margin-right: .25rem;
+  font-size: 100%;
+  text-transform: none;
+  vertical-align: middle;
+}
+.article p.author {
+  text-align: right;
+  font-variant: small-caps;
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
+}
+.article p.author:before {
+  content: "—";
+  margin-right: .5rem;
+}
+.article p.author a:not(.label):not(.close) {
+  padding: .125rem .25rem;
+  color: black;
+  font-weight: bold;
+  border-radius: .25rem;
+}
+.article .author:not(p) a:not(.label):not(.close) {
+  color: dimgray;
+  line-height: initial;
+  border-radius: .5rem;
+}
+.article .author a:not(.label):not(.close):hover,
+.article .author a:not(.label):not(.close):focus {
+  color: white;
+}
+.article .author a:not(.label):not(.close):hover {
+  background-color: dimgray;
+}
+.article .author a:not(.label):not(.close):focus {
+  background-color: #333;
+}
+/* Article Co-authors*/
+.article .author .coauthor {
+  vertical-align: middle;
+  color: darkgray;
+}
+.article .author .coauthor a {
+  padding: 0 .25rem;
+}
+.article p.author .coauthor {
+  vertical-align: inherit;
+  font-weight: bold;
+  color: inherit;
+}
+.article .author:not(p) .coauthor.active {
+  margin-left: .25rem;
+  padding-left: .5rem;
+  background-color: whitesmoke;
+  border: .125rem dashed gainsboro;
+  border-radius: .5rem;
+}
+.article p.author .coauthor:before,
+.article .author .coauthor:not(.active):before {
+  content: ", ";
+}
+.article p.author .coauthor:last-child:before,
+.article .author .coauthor:not(.active):last-child:before {
+  content: " et ";
+}
+.article .author .coauthor .close {
+  display: none;
+  color: inherit;
+}
+.article .author:not(p) .coauthor.active .close {
+  display: inline-block;
+}
+.article .author:not(p) .coauthor.active .close:after {
+  padding: 0 .5rem;
+  font-size: 2.25rem;
+}
+/* Article Date */
+.article .date {
+  float: right;
+  margin: 0;
+  color: darkgray;
+  text-align: right;
+}
+/* Article Summary */
+.article .summary {
+  clear: both;
+  margin: 0 0 .75rem;
+  padding: .5rem;
+  color: gray;
+  font-size: 90%;
+  font-style: italic;
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
+  border: .25rem solid silver;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+/* Article Tags */
+.article .tags {
+  margin-bottom: 0;
+  border: .125rem solid transparent;
+}
+/* Article Callout */
+[class*=' cke'] .callout, /* CKEditor Format Styles Combo */
+.article .callout {
+  position: relative; /* Fix CKEditor callout position bug */
+  width: 75%;
+  margin-left: 12.5%;
+  margin-bottom: 1rem;
+  color: gray;
+  font-size: 150%;
+  line-height: 150%;
+  letter-spacing: -.0625em;
+  text-align: center;
+  word-wrap: break-word; /* Fix long strings */
+  border: .25rem solid gray;
+  border-left: 0;
+  border-right: 0;
+}
+.css-fx .article .callout {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+[class*='cke_panel'] .callout { /* CKEditor Styles Menu */
+  margin-bottom: 0; /* Fix margin bottom */
+}
+.article .callout:before {
+  content : "“";
+  position: absolute; /* Fix CKEditor callout position bug */
+  top: 0; /* Fix CKEditor callout position bug */
+  left: 0; /* Fix CKEditor callout position bug */
+  margin-right: .5rem;
+}
+.article .callout:after{
+  content : "”";
+  position: absolute; /* Fix CKEditor callout position bug */
+  bottom: 0; /* Fix CKEditor callout position bug */
+  right: 0; /* Fix CKEditor callout position bug */
+  margin-left: .5rem;
+}
 
 /* ------------------------------------------------------------------ */
 /* # Edit Articles */

@@ -442,11 +442,12 @@ jQuery.fn.extend({
 					}
 					else if (e.which == 27) { // Escape
 						var q = $(this).data("last_value");
-						console.log(q);
-						$(this).find(cfg.options + " > li").removeClass("selected");
-						$(this).find(cfg.options + " > li").eq(q).addClass("selected");
-						var s = $(this).find(cfg.options + " > li.selected").text();
-						$(this).find(cfg.select).text(s);
+						if (typeof(q) !== "undefined" && q != -1) {
+							$(this).find(cfg.options + " > li").removeClass("selected");
+							$(this).find(cfg.options + " > li").eq(q).addClass("selected");
+							var s = $(this).find(cfg.options + " > li.selected").text();
+							$(this).find(cfg.select).text(s);
+						}
 					}
 					else if (e.which == 32) { // Space
 						if ($conf.js_fx) {

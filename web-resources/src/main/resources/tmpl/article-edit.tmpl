@@ -12,16 +12,19 @@
 							<small class="error hide"></small>
 
 							<!--Author-->
-							<h4 class="author"><span class="icon-author" title="Auteure"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span></span></h4>
+							<h3 class="author"><span class="icon-author"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span></span></h3>
+							<a href="javascript:void(0)" id="coauthor_show" class="icon-writer small radius right" style="margin-left: .75rem; padding: .25rem; opacity: .5;"><span class="text">Co-auteures</span></a>
 
 							<!--Co-author-->
-							<div id="coauthor_field">
-								<label for="coauthor">Co-Auteures</label>
-								<div id="coauthor" class="options-select" tabindex="0">
-									<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
-									<ul class="options hide">
-									</ul>
-									<button id="coauthor_add" type="button" class=" icon-add small"></button>
+							<div id="coauthor_field" class="panel radius" style="clear: both; padding: .5rem 1rem 1rem; display: none;">
+								<label for="coauthor">Co-auteures</label>
+								<div class="clearfix">
+									<div id="coauthor" class="options-select left" style="margin: 0; min-width: 20rem;" tabindex="0">
+										<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
+										<ul class="options hide">
+										</ul>
+									</div>
+									<button id="coauthor_add" type="button" class="icon-add small left" style="margin: 0;"></button>
 								</div>
 							</div>
 							<!--Date-->
