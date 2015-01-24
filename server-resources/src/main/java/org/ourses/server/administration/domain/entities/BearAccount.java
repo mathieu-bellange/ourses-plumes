@@ -26,7 +26,6 @@ import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullExc
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
 import org.ourses.server.security.domain.entities.OurseSecurityToken;
-import org.ourses.server.security.resources.AuthenticationResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

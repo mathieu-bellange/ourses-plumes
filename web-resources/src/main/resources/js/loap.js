@@ -117,13 +117,13 @@ var loap = (function() {
 			$(document).user_pictures(); // WARNING : set user pictures for whole document
 		},
 		init : function() {
-			/* Apply user settings */
-			check_user_connected()
-			set_toolbar_prefs()
 			/* Load components */
 			this.update();
 			$(document).placeholder(); // set placeholder for whole document
 			$(document).zlider(); // launch zlider for whole document
+			/* Apply user settings */
+			check_user_connected();
+			set_toolbar_prefs();
 			user_menu.init(); // setup user menu
 		}
 	};
@@ -1174,9 +1174,12 @@ function disconnect(str) {
 		type : "POST",
 		url : "/rest/authc/logout",
 		contentType : "application/json; charset=utf-8",
-		data : window.localStorage.getItem($auth.token),
+		data : docCookies.getItem($auth.token_id),
 		success : function(data, status, jqXHR) {
 			clearStorage();
+			if(location.protocol == "https:"){
+				location.href = $nav.home.url;
+			}
 			if (str !== null) {
 				createAlertBox(str, "alert_auth", {"timeout" : $time.duration.alert});
 			}
@@ -1189,11 +1192,7 @@ function disconnect(str) {
 
 /* Check user connected through AJAX (deferred to document ready state) */
 function check_user_connected() {
-	if (docCookies.hasItem("isAuthenticated")){
-		 set_user_connected(true); // connect user
-	}else{
-		set_user_connected(false);
-	}
+	set_user_connected(docCookies.hasItem("isAuthenticated")); // connect user
 	$(".user-connect").fadeIn($conf.js_fx ? 500 : 0);
 }
 
@@ -1209,6 +1208,7 @@ function set_user_connected(is_connected) {
 		$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
 		$("#user_menu").user_pictures(); // reload user pictures of user menu
 	} else {
+		$("#user_connect").removeClass("active");
 		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
 		$(sel + " svg use").attr("xlink:href", "#icon-connect");
 		$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip

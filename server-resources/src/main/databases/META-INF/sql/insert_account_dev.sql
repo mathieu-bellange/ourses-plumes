@@ -1,15 +1,15 @@
 Insert into ourse_security_token
-  (login, token, expiration_date)
+  (id, login, token, expiration_date)
 Values
-  ('jpetit@gmail.com', 'token', '2077-01-01 00:00:00'),
-  ('jpetit@gmail.com', 'redac', '2077-01-01 00:00:00'),
-  ('mbellange@gmail.com', 'admin', '2077-01-01 00:00:00'),
-  ('mbellange@gmail.com', 'profile_to_update', '2077-01-01 00:00:00'),
-  ('mbellange@gmail.com', 'token_expire', '2010-01-01 00:00:00'),
-  ('it_test_expired', 'token_bis', '2010-01-01 00:00:00'),
-  ('nadejda@gmail.com', 'token_to_delete', '2018-01-01 00:00:00'),
-  ('account_to_update@gmail.com', 'token_account_update', '2018-01-01 00:00:00'),
-  ('odc@gmail.com', 'token_odc', '2077-01-01 00:00:00');
+  (1, 'jpetit@gmail.com', 'token', '2077-01-01 00:00:00'),
+  (2, 'jpetit@gmail.com', 'redac', '2077-01-01 00:00:00'),
+  (3, 'mbellange@gmail.com', 'admin', '2077-01-01 00:00:00'),
+  (4, 'mbellange@gmail.com', 'profile_to_update', '2077-01-01 00:00:00'),
+  (5, 'mbellange@gmail.com', 'token_expire', '2010-01-01 00:00:00'),
+  (6, 'it_test_expired', 'token_bis', '2010-01-01 00:00:00'),
+  (7, 'nadejda@gmail.com', 'token_to_delete', '2018-01-01 00:00:00'),
+  (8, 'account_to_update@gmail.com', 'token_account_update', '2018-01-01 00:00:00'),
+  (9, 'odc@gmail.com', 'token_odc', '2077-01-01 00:00:00');
 
 Insert into ourses_authorization_info
   (id, roles_for_db, label)

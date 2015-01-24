@@ -45,7 +45,7 @@ public class AuthenticationResources {
             // On renvoie à l'utilisateur un DTO comprenant les informations de profil et le token d'authentification
             BearAccount bearAccount = BearAccount.findAuthcUserProperties(loginDto.getMail());
             AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(bearAccount.getId(), bearAccount.getProfile()
-                    .getId(), authcToken.getToken(), bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo()
+                    .getId(), ourseAuthcToken.getId(), ourseAuthcToken.getToken(), bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo()
                     .getMainRole(), bearAccount.getProfile().getAvatar().getPath());
             builder = Response.ok(authcUserDTO);
         }
@@ -65,8 +65,8 @@ public class AuthenticationResources {
 
     @POST
     @Path("/logout")
-    public Response logout(String token) {
-        OurseSecurityToken secToken = OurseSecurityToken.findByToken(token);
+    public Response logout(Long tokenId) {
+        OurseSecurityToken secToken = OurseSecurityToken.findByTokenId(tokenId);
         if (secToken != null) {
             secToken.deleteMe();
         }

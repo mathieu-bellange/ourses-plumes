@@ -50,12 +50,14 @@ $app = {
 
 /* Authentication */
 $auth = {
+	"is_authenticated"   : "isAuthenticated",					  // boolean  Cookie key of the user state connection. Default : "isAuthenticated"
+	"token_id"           : "oursesAuthcTokenId",                  // Long     Cookie key of the authentication token. Default : "oursesAuthcTokenId"
 	"token"              : "oursesAuthcToken",                    // String   Local storage key of the authentication token. Default : "oursesAuthcToken"
-	"user_name"          : "oursesUserPseudo",                    // String   Local storage key of the user name. Default : "oursesUserPseudo"
-	"user_role"          : "oursesUserRole",                      // String   Local storage key of the user role. Default : "oursesUserRole"
-	"account_id"         : "oursesAccountId",                     // String   Local storage key of the user account id. Default : "oursesAccountId"
-	"profile_id"         : "oursesProfileId",                     // String   Local storage key of the user profile id. Default : "oursesProfileId"
-	"avatar_path"        : "oursesAvatarPath",                    // String   Local storage key of the avatar path. Default : "oursesAvatarPath"
+	"user_name"          : "oursesUserPseudo",                    // String   Cookie key of the user name. Default : "oursesUserPseudo"
+	"user_role"          : "oursesUserRole",                      // String   Cookie key of the user role. Default : "oursesUserRole"
+	"account_id"         : "oursesAccountId",                     // Long     Local storage key of the user account id. Default : "oursesAccountId"
+	"profile_id"         : "oursesProfileId",                     // Long     Local storage key of the user profile id. Default : "oursesProfileId"
+	"avatar_path"        : "oursesAvatarPath"                     // String   Cookie key of the avatar path. Default : "oursesAvatarPath"
 };
 
 /* Build */
@@ -460,6 +462,7 @@ function clearStorage(hash) {
 	var hash = hash || $auth;
 	for (n in hash) {
 		localStorage.removeItem(hash[n]);
+		docCookies.removeItem(hash[n], "/");
 	}
 }
 

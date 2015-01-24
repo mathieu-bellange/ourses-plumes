@@ -3,7 +3,10 @@ package org.ourses.server.security.domain.entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.ourses.security.authentication.AuthcToken;
 
@@ -13,6 +16,9 @@ import com.avaje.ebean.Ebean;
 public class OurseSecurityToken {
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "bear_security_token_seq_gen")
+    @SequenceGenerator(name = "bear_security_token_seq_gen", sequenceName = "bear_security_token_seq")
+	private Long id;
     private String token;
     private Date expirationDate;
     private String login;
@@ -57,7 +63,15 @@ public class OurseSecurityToken {
         this.login = login;
     }
 
-    public void save() {
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void save() {
         Ebean.save(this);
     }
 
@@ -72,4 +86,8 @@ public class OurseSecurityToken {
     public void deleteMe(){
     	Ebean.delete(this);
     }
+
+	public static OurseSecurityToken findByTokenId(Long tokenId) {
+		return Ebean.find(OurseSecurityToken.class, tokenId);
+	}
 }

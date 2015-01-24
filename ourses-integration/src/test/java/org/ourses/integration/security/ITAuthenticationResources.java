@@ -80,7 +80,7 @@ public class ITAuthenticationResources {
         URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
         WebResource clientResource = TestHelper.webResource(uri);
         ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
-                ClientResponse.class, "token_to_delete");
+                ClientResponse.class, 7);
         assertThat(clientResponse.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
     }
 
@@ -89,7 +89,7 @@ public class ITAuthenticationResources {
         URI uri = UriBuilder.fromPath(PATH_LOGOUT).build();
         WebResource clientResource = TestHelper.webResource(uri);
         ClientResponse clientResponse = clientResource.header("Content-Type", "application/json").post(
-                ClientResponse.class, "bad_token");
+                ClientResponse.class, 666);
         assertThat(clientResponse.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
     }
 }
