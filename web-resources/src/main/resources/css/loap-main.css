@@ -873,7 +873,13 @@ label.error {
   border: .125rem solid silver;
   border-radius: .375rem;
   box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
-  z-index: 10;
+  z-index: 100;
+}
+.send-box.publish {
+  width: 26.25rem;
+  max-width: 100%;
+  bottom: auto;
+  top: 0;
 }
 .send-box:before {
   content: "";
@@ -886,6 +892,10 @@ label.error {
   border: .5rem solid transparent;
   border-top-color: silver;
 }
+.send-box.publish:before {
+  left: auto;
+  right: 1rem;
+}
 .send-box:after {
   content: "";
   position: absolute;
@@ -896,6 +906,21 @@ label.error {
   height: 1rem;
   border: .5rem solid transparent;
   border-top-color: #f0f0f0;
+}
+.send-box.publish:after {
+  left: auto;
+  right: 1rem;
+}
+.send-box > label {
+  margin-top: .5rem;
+}
+.send-box select {
+  height: 2rem;
+  padding: 0 .25rem;
+  font-size: .875em;
+}
+.send-box select > option{
+  padding: .125rem .375rem;
 }
 .send-box > .error{
   margin-bottom: 0;

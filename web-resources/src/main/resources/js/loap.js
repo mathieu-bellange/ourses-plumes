@@ -36,8 +36,28 @@ String.prototype.trunc = function(end) {
 	return (end < 0 ? this.substr(end, this.length) : this.substr(0, end));
 };
 
-/* String to Float
- * Convert pixel string to root EM numeric.
+/* Capitalize string
+ * Convert the very first letter of a string to upper case.
+ * "momolebite".capitalize() returns "Momolebite"
+ * "MO MOLE BITE".capitalize() returns "Mo mole bite"
+ */
+String.prototype.capitalize = function() {
+	return (this.trunc(1).toUpperCase() + this.cut(1).toLowerCase());
+};
+
+/* Format string
+ * Fill a string with pattern up to length (default pattern is "0").
+ * "7".format(3) returns "007"
+ * "lebite".format(9, "mo") returns "momolebite"
+ */
+String.prototype.format = function(l, p) {
+	var p = p || "0", s = this;
+	while (s.length < l) { s = p + s }
+	return s;
+};
+
+/* String to Document Root EM unit
+ * Convert pixel string or numeric to root EM float.
  * "20px" returns 1.25
  */
 String.prototype.toRem = function() {
@@ -46,9 +66,9 @@ String.prototype.toRem = function() {
 	return (n / r);
 };
 
-/* Float to String
- * Convert root EM numeric to pixel string.
- * 1.25 returns "20px"
+/* Numeric to Pixel unit
+ * Convert root EM numeric to pixel integer.
+ * 1.25 returns 20
  */
 Number.prototype.toPx = function() {
 	var n = this;

@@ -107,8 +107,8 @@ $time = {
 		"décembre"                                                  // String   Set December literal.
 	],
 	"upperCaseMonths" : [
-	    "Janvier",
-	    "Février",                                                  // String   Set February literal.
+		"Janvier",                                                  // String   Set January literal.
+		"Février",                                                  // String   Set February literal.
 		"Mars",                                                     // String   Set March literal.
 		"Avril",                                                    // String   Set April literal.
 		"Mai",                                                      // String   Set May literal.

@@ -191,6 +191,118 @@ var article_list_prefs = (function() {
 	}
 }());
 
+var publishing_box = (function() {
+	return {
+		open : function(o, d, t) {
+			o.finish(); // prompt any pending animation
+			o.scroll_to({"fx_d" : d / 2, "spacing" : o.outerHeight() / 4}); // scroll to box top
+			var w = o.outerWidth(), h = o.outerHeight(); // set animation vars
+			o.css({"width" : 0, "height" : 0, "margin-top" : h, "margin-left" : w, "opacity" : 0}); // set CSS values before animating
+			o.children().hide(); // hide children before animating
+			o.show().animate({"width" : w, "height" : h, "margin-top" : 0, "margin-left" : 0, "opacity" : 1 }, $conf.js_fx ? d : 0, function() {
+				o.children().show(); // show children on animation completion
+				o.css({"width" : "", "height" : "",}); // reset CSS values to default on animation completion
+				o.find(t).focus(); // focus confirm button on animation completion
+			});
+		},
+		close : function(o, d, b) {
+			$(".href-block").find(".validate").hide(); // hide all validate
+			o.fadeOut($conf.js_fx ? d : 0, function() { // hide box
+				$("[" + b + "]").removeAttr("disabled"); // enable all buttons
+			});
+		},
+		init : function(opts) {
+			// Configuration
+			var defs = {
+				"fx_d"      : 375,                 // Integer  Visual effets duration (milliseconds). Default : 375
+				"min_age"   : 1,                   // Integer  Year variation toward past (n - 1). Default : 1
+				"max_age"   : 1,                   // Integer  Year variation toward future (n + 1). Default : 1
+				"box_x"     : 0,                   // Numeric  Vertical position adjustment for box (root EM). Default : 0
+				"box_y"     : 0.75,                // Numeric  Horizontal position adjustment for box (root EM). Default : 0.75
+				"box_name"  : "#publishing_box",   // Selector The publishing box element identifier. Default : "#publishing_box"
+				"box_day"   : "#publishing_day",   // Selector The day combox box identifier. Default : "#publishing_day"
+				"box_month" : "#publishing_month", // Selector The month combox box identifier. Default : "#publishing_month"
+				"box_year"  : "#publishing_year",  // Selector The year combox box identifier. Default : "#publishing_year"
+				"box_hour"  : "#publishing_hour",  // Selector The hour combox box identifier. Default : "#publishing_hour"
+				"box_valid" : "button.success",    // Selector The confirmation element identifier. Default : "button.success"
+				"box_close" : ".close",            // Selector The cancel element identifier. Default : ".close"
+				"launcher"  : "data-publish",      // DataAttr The triggerer for the publishing box. Default : "data-publish"
+			};
+			var cfg = $.extend({}, defs, opts);
+			// Variables
+			var self = this;
+			var obj = $(cfg.box_name);
+			var date = new Date();
+			var day = date.getDate();
+			var month = date.getMonth();
+			var year = date.getFullYear();
+			var hour = date.getHours();
+			// Functions
+			function open_box() {
+				self.open(obj, cfg.fx_d, cfg.box_valid)
+			}
+			function close_box() {
+				self.close(obj, cfg.fx_d, cfg.launcher)
+			}
+			// Document Events
+			$(document).on("click", ".validate button, .tool-bar, " + cfg.box_close, function() {
+				close_box();
+			});
+			// Articles List Events
+			$(".standby").on("click", "[" + cfg.launcher + "]", function() {
+				$(".href-block").find(".validate").hide(); // hide all validate
+				$(this).parents(".validate").show(); // show this validate
+				$("[" + cfg.launcher + "]").removeAttr("disabled"); // enable all launchers
+				$(this).attr("disabled", true); // disable current launcher
+				obj.find(cfg.box_valid).attr(cfg.launcher, $(this).attr(cfg.launcher)) // transfer launcher attribute
+				var x = $(this).offset().left + $(this).outerWidth() - obj.outerWidth() + cfg.box_x.toPx(); // define vertical position
+				var y = $(this).offset().top - obj.outerHeight() - cfg.box_y.toPx(); // define horizontal position
+				obj.css({"left" : x, "top" : y}); // set box position
+				open_box();
+			});
+			// Publishing Box Events
+			obj.on("click", cfg.box_valid, function() {
+				var id = $(this).attr(cfg.launcher);
+				// ===========================================================
+				// # TEMP : Display publishing alert
+				// ===========================================================
+				var d = obj.find(cfg.box_day).val().format(2);
+				var m = (parseInt(obj.find(cfg.box_month + " option:selected").attr("id"))+ 1).toString().format(2);
+				var y = obj.find(cfg.box_year).val().format(2);
+				var h = obj.find(cfg.box_hour).val();
+				alert("article " + id + " (will be) published the " + d + "/" + m + "/" + y + " at " + h); // DEBUG
+				// ===========================================================
+				// # TODO : Differ date for publising
+				// ===========================================================
+				publishArticle(id);
+				// ===========================================================
+				close_box();
+			});
+			// Execution
+			for (i = 1; i <= 31; i++) { // Build days
+				var e = $("<option>");
+				if (i == day) { e.attr("selected", true) }
+				obj.find(cfg.box_day).append(e.html(i));
+			}
+			for (i in $time.months) { // Build months
+				var e = $("<option>", {"id": i});
+				if (i == month) { e.attr("selected", true) }
+				obj.find(cfg.box_month).append(e.html($time.months[i].capitalize()));
+			}
+			for (i = year - cfg.min_age; i <= year + cfg.max_age; i++) { // Build years
+				var e = $("<option>");
+				if (i == year) { e.attr("selected", true) }
+				obj.find(cfg.box_year).append(e.html(i));
+			}
+			for (i = 0; i < 24; i++) { // Build hours
+				var e = $("<option>");
+				if (i == hour) { e.attr("selected", true) }
+				obj.find(cfg.box_hour).append(e.html(i.toString().format(2) + ":00"));
+			}
+		}
+	}
+}());
+
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
@@ -405,6 +517,7 @@ function displayArticles(url_params) {
 			if (article_list_cfg.startup !== true) { // this is first launch of the page
 				article_list_tools.init(); // set up articles list tools
 				article_list_prefs.init(); // set up articles list user prefs
+				publishing_box.init(); // set up publishing box
 				article_list_cfg.startup = true; // first launch has been done
 				$(".tool-bar").svg_icons(); // reload icons only for toolbar
 			}
@@ -425,7 +538,9 @@ function processArticles(articles) {
 		$(this).find(".validate").show();
 	});
 	$("html").on("mouseleave", ".href-block", function() {
-		$(this).find(".validate").hide();
+		if (!$(this).find("[data-publish]").attr("disabled")) {
+			$(this).find(".validate").hide();
+		}
 	});
 	// List events
 	$(".validate button[data-delete]").click(function() {
@@ -445,7 +560,7 @@ function processArticles(articles) {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
 	$(".validate button[data-publish]").click(function() {
-		publishArticle($(this).attr("data-publish"));
+		// publishArticle($(this).attr("data-publish"));
 	});
 	$(".validate button[data-recall]").click(function() {
 		recallArticle($(this).attr("data-recall"));
@@ -481,7 +596,7 @@ function processAfterValidation(article) {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
 	$("#articles_standby li:first .validate button[data-publish]").click(function() {
-		publishArticle($(this).attr("data-publish"));
+		// publishArticle($(this).attr("data-publish"));
 	});
 }
 
@@ -492,15 +607,12 @@ function processAfterInValidation(article) {
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
 	});
-	// $("#articles_draft li:first .validate button[data-delete]").click(function() {
-		// deleteArticle($(this).attr("data-delete"));
-	// });
 }
 
 function processAfterPublish(article) {
 	var elems = $("#articles_publish li");
 	elems.each(function (elem){
-		var date = new Date(parseInt($(this).attr("data-published"),10));
+		var date = new Date(parseInt($(this).attr("data-published"), 10));
 		if (date < article.publishedDate){
 			$(this).before(file_pool.article_item_tmpl(article)).prepend(lb(1));
 			$(this).prev().find(".summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
