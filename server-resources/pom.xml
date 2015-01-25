@@ -260,6 +260,12 @@
 			<artifactId>ebean-spring</artifactId>
 			<version>${spring-ebean-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.15</version>
+		</dependency>
+		
 	</dependencies>
 	
 	<profiles>

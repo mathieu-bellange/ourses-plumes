@@ -281,6 +281,7 @@ var head_tags = [
 	//{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 	//{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
 	//{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
+
 	// -------------------------------------------------------------------
 	// NOTE : IE execute in-page script before external scripts ... so in-page customized dot settings are not allowed
 	// -------------------------------------------------------------------
@@ -402,10 +403,10 @@ function loadfile(url, callback) {
 	if (typeof xhr !== "undefined") {
 		xhr.open("GET", url, true); // define request arguments
 		xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); // set request MIME type
-		if (navigator.appName != "Microsoft Internet Explorer") { // request plain text for any browser except IE
+		if (navigator.appName != "Microsoft Internet Explorer" && xhr.overrideMimeType) { // request plain text for any browser except IE
 			xhr.overrideMimeType("text/plain"); // prevent request header bugs
 		}
-		if (navigator.appName == "Microsoft Internet Explorer") { // if IE then use onreadystatechange() instead of addEventListener and .responseText instead of .response
+		if (navigator.appName == "Microsoft Internet Explorer" || !xhr.addEventListener) { // if IE then use onreadystatechange() instead of addEventListener and .responseText instead of .response
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4 && (isFileProtocol || xhr.status == 200)) {
 					callback(xhr.responseText);

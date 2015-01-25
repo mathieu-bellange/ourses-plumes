@@ -99,7 +99,7 @@
     
     <group name="commons-lib-${project.version}">
         <js>/js/jquery/jquery-2.x.min.js</js>
-        <js>/js/jquery/jquery.autosize.min.js</js>
+        <js>/js/jquery/jquery.autosize.js</js>
         <js>/js/modernizr/modernizr.min.js</js>
 		<js>/js/dot/dot.min.js</js>
 		<js>/js/conf-dot.js</js>

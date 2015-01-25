@@ -371,7 +371,7 @@ jQuery.fn.extend({
 				else if ($(this).hasClass("large")) {s = cfg.s_large}
 				else if ($(this).hasClass("huge")) {s = cfg.s_huge}
 				// Define svg icon html code
-				var h = "<svg viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
+				var h = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
 				// Append svg icon html code
 				$(this).removeClass(c);
 				$(this).addClass(k);
