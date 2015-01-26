@@ -2145,7 +2145,33 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 /* # Tooltips */
 /* ------------------------------------------------------------------ */
 
-.tooltip {}
+.tooltip,
+.tooltip.radius,
+.tooltip.round {
+  border-radius: .125rem; /* Shared styles names fix */
+  background-color: #202020; /* IE transparency fix */
+  background-color: rgba(0, 0, 0, .875);
+}
+.tooltip > .nub {
+  border-color: transparent;
+}
+.tooltip > .nub,
+.tooltip.tip-bottom > .nub {
+  border-bottom-color: #202020; /* IE transparency fix */
+  border-bottom-color: rgba(0, 0, 0, .875);
+}
+.tooltip.tip-top > .nub {
+  border-top-color: #202020; /* IE transparency fix */
+  border-top-color: rgba(0, 0, 0, .875);
+}
+.tooltip.tip-left > .nub {
+  border-left-color: #202020; /* IE transparency fix */
+  border-left-color: rgba(0, 0, 0, .875);
+}
+.tooltip.tip-right > .nub {
+  border-right-color: #202020; /* IE transparency fix */
+  border-right-color: rgba(0, 0, 0, .875);
+}
 .has-tip {
   cursor: help;
   font-weight: initial; /* Foundation override */
@@ -2896,9 +2922,16 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Articles List */
 /* ------------------------------------------------------------------ */
 
-.articles-list {margin-bottom: .5rem;} /* TEMP : remove margin between lists */
-.articles-list li {}
-.articles-list li + li {margin-top: .5rem;} /* TEMP : remove margin between list items */
+.articles-list {
+  margin-bottom: .5rem;
+  font-size: 0; /* Clear font size (i.e. HTML whitespaces fix) */
+}
+.articles-list > li {
+  font-size: 1rem; /* Reset font size (i.e. HTML whitespaces fix) */
+}
+.articles-list li + li {
+  margin-top: .5rem; /* Remove margin between list items */
+}
 .articles-list li h4,
 .articles-list li h5 {
   font-size: 125%;
@@ -2920,6 +2953,9 @@ input:focus + button + .error + .autocomplete > ul {
   margin: 0;
   font-size: 90%;
 }
+.articles-list li .summary .date {}
+.articles-list li .summary .description {}
+.articles-list li .summary .author {}
 
 .articles-list li .date {
   margin-right: .25rem;
@@ -2957,7 +2993,86 @@ input:focus + button + .error + .autocomplete > ul {
   float: left;
 }
 
-/* Validate */
+/* Leads */
+.articles-list > .lead {
+  padding: 0;
+  font-size: 1.125rem;
+}
+.articles-list > .lead > h4 {
+  display: none;
+  height: auto;
+  padding: .5rem 1rem;
+  text-align: right;
+  color: white;
+  border-width: .25rem 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, .25);
+  background-color: mediumvioletred;
+}
+.css-fx .articles-list > .lead > h4 {
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
+  background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png'), url('../img/ui/background-grains.png');
+}
+.articles-list > .lead .title {
+  font-size: 175%;
+}
+.articles-list > .lead .summary {}
+.articles-list > .lead .href-block {
+  margin-bottom: .5rem;
+  padding: .5rem 1rem 1rem;
+  color: #202020;
+  background-color: white;
+  border-bottom: .125rem dotted silver;
+}
+.articles-list > .lead .href-block a {
+  border-width: 0;
+  opacity: 0;
+}
+.css-fx .articles-list > .lead .href-block a {
+  background: url('../img/svg/ourses-plumes-400x400px.svg');
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 250%;
+  transition: opacity .5s ease-in, background-size .5s ease-out .25s;
+}
+.articles-list > .lead .href-block a:hover,
+.articles-list > .lead .href-block a:focus {
+  background-size: 0;
+  border-width: .5rem;
+  opacity: 1;
+}
+
+/* Blocks */
+.articles-list > .block {
+  display: inline-block;
+  padding: 0 .5rem; /* Block gutter */
+  vertical-align: top;
+}
+.articles-list > .block > h4 {
+  height: auto;
+}
+@media (max-width: 639px) {
+  .articles-list > .block {
+    width: 100%;
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .articles-list > .block {
+    width: 50%;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .articles-list > .block {
+    width: 33.333333333333333333333333333333%;
+  }
+}
+@media (min-width: 1600px) {
+  .articles-list > .block {
+    width: 25%;
+  }
+}
+
+/* Validates */
 .articles-list .href-block .validate {
   position: absolute;
   top: 1.75rem;

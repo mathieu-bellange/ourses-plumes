@@ -10,7 +10,7 @@
 										{{?? art.createdDate !== null }}
 											<span class="icon-date tiny" title="Date de cr&eacute;ation"><span class="hide">Cr&eacute;e le </span></span><time datetime="{{= getDateTime(new Date(art.createdDate)) }}" class="date">{{= dateToHTML(new Date(art.createdDate)) }}</time>
 										{{?}}
-										{{= art.description }}
+										<span class="description">{{= art.description }}</span>
 										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
 									</p>
 									{{? art.status == "BROUILLON" }}
