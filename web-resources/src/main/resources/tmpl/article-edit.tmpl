@@ -33,9 +33,8 @@
 							-->
 
 							<!--Summary-->
-							<label for="summary" class="hide">R&eacute;sum&eacute; <small class="red">*</small></label>
-							<textarea id="summary" class="summary validation min" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description === undefined ? "" : data.description }}</textarea>
-							<small class="error hide"></small>
+							<label for="summary" class="hide">R&eacute;sum&eacute;</label>
+							<textarea id="summary" class="summary{{= data.description.length == 0 ? ' empty' : '' }} min" maxlength="1000" placeholder="Une description facultative de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description === undefined ? "" : data.description }}</textarea>
 
 							<!--Tags List-->
 							<dl class="tags inline-list clearfix">

@@ -129,7 +129,7 @@ var share = (function() {
 function displayArticle() {
 	$.ajax({
 		type : "GET",
-		url : "/rest" +  window.location.pathname,
+		url : "/rest" + window.location.pathname,
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
 			processArticle(article);

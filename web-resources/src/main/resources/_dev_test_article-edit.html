@@ -185,8 +185,7 @@
 
 				<!--Summary-->
 				<label for="summary" class="hide">R&eacute;sum&eacute; <small class="red">*</small></label>
-				<textarea id="summary" class="summary validation min" maxlength="1000" placeholder="Une br&egrave;ve description de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)"></textarea>
-				<small class="error hide"></small>
+				<textarea id="summary" class="summary empty min" maxlength="1000" placeholder="Une description facultative de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)"></textarea>
 
 				<!--Tags List-->
 				<dl class="tags inline-list clearfix">
@@ -730,9 +729,9 @@
 								var str = $("#summary").val().trim();
 								$("#summary").val(str);
 								if (str.length == 0) {
-									$("#summary").set_validation(false, "Le r&eacute;sum&eacute; doit n&eacute;cessairement &ecirc;tre saisi.");
+									$("#summary").addClass("empty")
 								} else {
-									$("#summary").set_validation(true);
+									$("#summary").removeClass("empty")
 								}
 							}
 							function checkRubric() {
@@ -770,7 +769,6 @@
 									$(this).set_validation(true);
 								},
 								blur : function() {
-									//checkTitleAJAX();
 									checkTitle();
 								},
 								keydown : function(e) {
@@ -884,7 +882,6 @@
 									// check validation for all inputs
 									setTimeout(function() {
 										checkTitle();
-										checkSummary();
 										checkRubric();
 										checkCategory();
 										checkBody();

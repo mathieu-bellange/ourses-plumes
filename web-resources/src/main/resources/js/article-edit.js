@@ -354,9 +354,9 @@ var validate = (function () {
 				var str = $("#summary").val().trim();
 				$("#summary").val(str);
 				if (str.length == 0) {
-					$("#summary").set_validation(false, "Le r&eacute;sum&eacute; doit n&eacute;cessairement &ecirc;tre saisi.");
+					$("#summary").addClass("empty")
 				} else {
-					$("#summary").set_validation(true);
+					$("#summary").removeClass("empty")
 				}
 			}
 			function checkRubric() {
@@ -508,7 +508,6 @@ var validate = (function () {
 					// check validation for all inputs
 					setTimeout(function() {
 						checkTitle();
-						checkSummary();
 						checkRubric();
 						checkCategory();
 						checkBody();

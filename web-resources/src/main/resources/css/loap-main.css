@@ -1908,7 +1908,9 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* # Accordions */
 /* ------------------------------------------------------------------ */
 
-.accordion > dd > a {text-decoration: none;} /* TEMP : links underline fix */
+/* UNUSED */
+/*
+.accordion > dd > a {text-decoration: none;} /* TEMP : links underline fix /
 .accordion > dd > a:before {
   content: "►";
   margin-right: 1rem;
@@ -1917,13 +1919,16 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .accordion > dd > a.active:before {
   content: "▼";
 }
-.accordion > dd.active > a {background: transparent;} /* Foundation override*/
-.accordion > dd > a.active {background: gainsboro;} /* Foundation override*/
+.accordion > dd.active > a {background: transparent;} /* Foundation override /
+.accordion > dd > a.active {background: gainsboro;} /* Foundation override /
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Breadcrumbs */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .breadcrumbs {
   float: left;
   margin: .5rem 0 .75rem 1rem;
@@ -1935,12 +1940,12 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .breadcrumbs a:focus,
 .breadcrumbs a:active,
 .breadcrumbs a:visited {
-  text-decoration: none; /* TEMP : links underline fix */
+  text-decoration: none; /* TEMP : links underline fix /
 }
 
 .breadcrumbs > *:hover a,
 .breadcrumbs > *:focus a {
-  text-decoration: none; /* TEMP : links underline fix */
+  text-decoration: none; /* TEMP : links underline fix /
   color: #e26;
 }
 .breadcrumbs > * a,
@@ -1957,11 +1962,14 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   cursor: default;
   color: #333;
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Accessibility */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .accessibility {
   float: right;
   margin: .75rem 1rem .75rem 0;
@@ -1977,6 +1985,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .accessibility ul li a:focus {
   outline-offset: -.125rem;
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Alert Boxes */
@@ -2792,6 +2801,18 @@ input:focus + button + .error + .autocomplete > ul {
   border-left-color: transparent;
   border-right-color: transparent;
 }
+.article:not(.edit) .summary.empty {
+  padding: 0 0 .375rem;
+  font-size: 0;
+  border-width: .25rem 0 0 0;
+}
+.article .summary:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(0, 0, 0, .25);
+}
+.article .summary::-webkit-input-placeholder { /* Chrome */
+  color: rgba(0, 0, 0, .25);
+}
+
 /* Article Tags */
 .article .tags {
   margin-bottom: 0;
@@ -2879,18 +2900,21 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: -.625rem; /* WARNING : vertical position adjustment */
 }
 
+.article.edit .summary.empty {
+  border-style: dotted;
+}
 .article.edit .summary:hover {
   border-style: dashed;
 }
-.article.edit .summary:focus,
-.article.edit .summary.wrong {
-  padding: .675rem;
+.article.edit .summary:focus {
   font-style: normal;
-  border-width: .125rem;
   border-style: solid;
 }
-.article.edit .summary + .error {
-  margin-top: 1rem; /* WARNING : vertical position adjustment */
+.article.edit .summary.empty,
+.article.edit .summary:hover,
+.article.edit .summary:focus {
+  padding: .675rem;
+  border-width: .125rem;
 }
 
 .article.edit .inline-editor {
