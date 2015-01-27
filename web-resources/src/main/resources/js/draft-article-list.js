@@ -307,6 +307,14 @@ var publishing_box = (function() {
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
+
+function confirmDelete(id) {
+	if (typeof(id) !== "undefined" && id > 0) { // Check article id validity
+		$("#delete_draft_modal").find("button.success").attr("data-delete", id); // Transfer article id to modal
+		$("#delete_draft_modal").foundation("reveal", "open"); // Reveal modal
+	}
+}
+
 function deleteArticle(id) {
 	$.ajax({
 		type : "DELETE",
@@ -544,14 +552,7 @@ function processArticles(articles) {
 	});
 	// List events
 	$(".validate button[data-delete]").click(function() {
-		var id = $(this).attr("data-delete");
-		// check id validity
-		if (typeof(id) !== "undefined" && id > 0) {
-			// pass id to modal
-			$("#delete_draft_modal").find("button.success").attr("data-delete", id);
-			// show modal
-			$("#delete_draft_modal").foundation("reveal", "open");
-		}
+		confirmDelete($(this).attr("data-delete"));
 	});
 	$(".validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
@@ -606,6 +607,9 @@ function processAfterInValidation(article) {
 	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
+	});
+	$("#articles_draft li:first .validate button[data-delete]").click(function() {
+		confirmDelete($(this).attr("data-delete"));
 	});
 }
 
