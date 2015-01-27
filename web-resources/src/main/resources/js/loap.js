@@ -90,6 +90,10 @@ Number.prototype.toPx = function() {
 	return (n * r);
 };
 
+Window.prototype.checkCompatibility = function() {
+	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
+}
+
 /* ------------------------------------------------------------------ */
 /* # Globals */
 /* ------------------------------------------------------------------ */
@@ -1592,28 +1596,32 @@ function disconnect(str) {
 
 /* Check user connected through AJAX (deferred to document ready state) */
 function check_user_connected() {
-	var done = (function() { set_user_connected(true) });
-	var fail = (function() { set_user_connected(false) });
-	var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
-	checkAuthc(done, fail, always);
+	if (checkCompatibility()){
+		var done = (function() { set_user_connected(true) });
+		var fail = (function() { set_user_connected(false) });
+		var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
+		checkAuthc(done, fail, always);
+	}
 }
 
 /* Set user connected
  * NOTE : connected auth check has been deferred to ready state.
  */
 function set_user_connected(is_connected) {
-	var is_connected = is_connected || false, sel = "#user_connect";
-	if (is_connected) {
-		$(sel + " svg use").attr("xlink:href", "#icon-menu");
-		$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
-		$(sel).data("connected", true); // register connected state in local data var
-		$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
-		$("#user_menu").user_pictures(); // reload user pictures of user menu
-	} else {
-		$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
-		$(sel + " svg use").attr("xlink:href", "#icon-connect");
-		$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
-		$(sel).data("connected", false); // register connected state in local data var
+	if(checkCompatibility()){
+		var is_connected = is_connected || false, sel = "#user_connect";
+		if (is_connected) {
+			$(sel + " svg use").attr("xlink:href", "#icon-menu");
+			$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
+			$(sel).data("connected", true); // register connected state in local data var
+			$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
+			$("#user_menu").user_pictures(); // reload user pictures of user menu
+		} else {
+			$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
+			$(sel + " svg use").attr("xlink:href", "#icon-connect");
+			$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
+			$(sel).data("connected", false); // register connected state in local data var
+		}
 	}
 }
 

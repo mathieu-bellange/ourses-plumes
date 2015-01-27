@@ -87,7 +87,7 @@ var article_list_tools = (function(options) {
 					close_search(settings.anim_duration);
 				} else if (e.which == 13) { // Enter
 					if (s.length == 0) {
-						if (typeof history.pushState !== 'undefined'){
+						if (history.pushState){
 							window.history.pushState("", "", location.pathname); // live update address bar without reloading document (HTML5 method)
 						}
 						displayArticles("");
@@ -110,7 +110,7 @@ var article_list_tools = (function(options) {
 						// =========================================================
 						// # Display articles with URL search params
 						// =========================================================
-						if (typeof history.pushState !== 'undefined'){
+						if (history.pushState){
 							window.history.pushState("", "", "?" + (f !== "" ? f + "=" : "") + s.replace(/\s/g, "+")); // live update address bar without reloading document (HTML5 method)
 						}
 						displayArticles("?" + f + "=" + s); // display articles with params
