@@ -45,7 +45,7 @@ $app = {
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
-	"root"               : isFileProtocol ? "" : "/",             // String   Application base URL. Default : "/"
+	"root"               : isFileProtocol ? "" : "/"              // String   Application base URL. Default : "/"
 };
 
 /* Authentication */
@@ -55,7 +55,7 @@ $auth = {
 	"user_role"          : "oursesUserRole",                      // String   Local storage key of the user role. Default : "oursesUserRole"
 	"account_id"         : "oursesAccountId",                     // String   Local storage key of the user account id. Default : "oursesAccountId"
 	"profile_id"         : "oursesProfileId",                     // String   Local storage key of the user profile id. Default : "oursesProfileId"
-	"avatar_path"        : "oursesAvatarPath",                    // String   Local storage key of the avatar path. Default : "oursesAvatarPath"
+	"avatar_path"        : "oursesAvatarPath"                     // String   Local storage key of the avatar path. Default : "oursesAvatarPath"
 };
 
 /* Build */
@@ -65,6 +65,8 @@ $build = {
 	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
 	"icons"              : true,                                  // Boolean  Create SVG icons. Default : true
 	"slider"             : false,                                 // Boolean  Create Foundation orbit slider. Default : true
+	"timeline"           : true,                                  // Boolean  Create Twitter timeline widget on home page. Default : true
+	"likebox"            : true                                   // Boolean  Create Facebook likebox widget on home page. Default : false
 };
 
 /* Configuration */
@@ -118,7 +120,7 @@ $time = {
 		"Septembre",                                                // String   Set September literal.
 		"Octobre",                                                  // String   Set October literal.
 		"Novembre",                                                 // String   Set November literal.
-		"Décembre"   
+		"Décembre"                                                  // String   Set December literal.
 	],
 	"duration" : {                                                // Object   Global durations.
 		"fx"          : 500,                                        // Integer  Effects duration in milliseconds. Default : 500

@@ -8,7 +8,7 @@
 		<h2 class="red">Liste des articles <small>.articles-list</small></h2>
 
 		<!----------------------------------------------------------------->
-		<!--# Dev Testbar-->
+		<!--| Dev Testbar |-->
 		<!----------------------------------------------------------------->
 		<div id="dev_testbar">
 			<svg width="0" height="0" viewBox="0 0 48 48">
@@ -20,7 +20,9 @@
 			<label for="show_articles_publishing">Publishing</label>
 			<input id="show_articles_publishing" type="checkbox" name="show" value="articles_publishing">
 			<label for="show_articles_displaying">Displaying</label>
-			<input id="show_articles_displaying" type="checkbox" name="show" value="articles_displaying" checked>
+			<input id="show_articles_displaying" type="checkbox" name="show" value="articles_displaying">
+			<label for="show_social_networks_widgets">Widgets</label>
+			<input id="show_social_networks_widgets" type="checkbox" name="show" value="social_networks_widgets" checked>
 			<label for="debug_marks">Masques</label>
 			<input id="debug_marks" type="checkbox" value="true">
 			<label for="long_strings">Texte &eacute;tendu</label>
@@ -93,7 +95,7 @@
 		<section id="articles">
 
 			<!--------------------------------------------------------------->
-			<!--# Articles Toolbar-->
+			<!--| Articles Toolbar |-->
 			<!--------------------------------------------------------------->
 			<div class="tool-bar clearfix">
 
@@ -467,7 +469,7 @@
 			</script>
 
 			<!--------------------------------------------------------------->
-			<!--# UNUSED : Social Icons-->
+			<!--| UNUSED : Social Icons |-->
 			<!--------------------------------------------------------------->
 			<!--
 			<ul class="right inline-list hide-for-small">
@@ -478,7 +480,7 @@
 			-->
 
 			<!--------------------------------------------------------------->
-			<!--# Articles Filtering-->
+			<!--| Articles Filtering |-->
 			<!--------------------------------------------------------------->
 			<div id="articles_filtering">
 				<h4>Articles Filtering</h4>
@@ -502,14 +504,14 @@
 			</div>
 
 			<!--------------------------------------------------------------->
-			<!--# Articles Publishing-->
+			<!--| Articles Publishing |-->
 			<!--------------------------------------------------------------->
 
 			<div id="articles_publishing">
 				<h4>Articles publishing</h4>
 
 				<!------------------------------------------------------------->
-				<!--# Standbys-->
+				<!--| Standbys |-->
 				<!------------------------------------------------------------->
 				<ul class="no-bullet articles-list standby">
 
@@ -687,7 +689,7 @@
 				</script>
 
 				<!------------------------------------------------------------->
-				<!--# Drafts-->
+				<!--| Drafts |-->
 				<!------------------------------------------------------------->
 				<ul class="no-bullet articles-list draft">
 
@@ -766,7 +768,7 @@
 				</script>
 
 				<!------------------------------------------------------------->
-				<!--# Onlines-->
+				<!--| Onlines |-->
 				<!------------------------------------------------------------->
 				<ul class="no-bullet articles-list online">
 					<li style="display: none;"><h4 class="red">Rubrique</h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
@@ -808,12 +810,12 @@
 			</script>
 
 			<!--------------------------------------------------------------->
-			<!--# Articles Displaying-->
+			<!--| Articles Displaying |-->
 			<!--------------------------------------------------------------->
 			<div id="articles_displaying">
 				<h4>Articles displaying</h4>
 				<ul class="no-bullet articles-list latest">
-					<!--# Last Web Review-->
+					<!--Last Web Review-->
 					<li class="lead my">
 						<h4 class="struggles">Luttes</h4>
 						<div class="href-block clearfix struggles">
@@ -826,7 +828,7 @@
 							<a href="javascript:void(0)">Lire l&rsquo;article</a>
 						</div>
 					</li>
-					<!--# Last Articles-->
+					<!--Last Articles-->
 					<li class="block">
 						<h4 class="struggles">Luttes</h4>
 						<div class="href-block clearfix struggles">
@@ -889,86 +891,175 @@
 					</li>
 				</ul>
 			</div>
-		</section>
-		<script>
-			var block_list = (function() {
-				// Configuration
-				var cfg = {
-					"list_name"    : ".articles-list.latest", // [sel] The element targeted by the component. Default : ".articles-list.latest"
-					"item_name"    : ".block",                // [sel] The element's child targeted by the component. Default : ".block"
-					"base_name"    : ".href-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".href-block"
-					"desc_name"    : ".description",          // [sel] A inner text element that can be adjusted in length. Default : ".description"
-					"desc_max_len" : 256,                     // [int] Maximum number of characters of the description (0 for none). Default : 256
-					"desc_max_str" : "&nbsp;&hellip;",        // [str] Pattern for description replacement on maximum size reaching. Default : "&nbsp;&hellip;"
-					"reload_delay" : 250                      // [int] Time before component reloads after a screen width change (milliseconds). Default : 250
-				};
-				// Instance variables
-				var list = null;
-				var item = null;
-				var base = null;
-				// Instance functions
-				function get_num_by_line() {
-					return Math.floor(list.outerWidth() / item.width()); // Compute number of items by line
-				}
-				// Instance methods
-				return {
-					update : function() {
-						var i = 0, a = [], z = item.size(), n = get_num_by_line();
-						item.each(function() {
-							var desc = $(this).find(cfg.desc_name);
-							// Truncate description
-							if (cfg.desc_max_len > 0 && desc.text().length > cfg.desc_max_len) {
-								desc.html(desc.text().trunc(cfg.desc_max_len) + cfg.desc_max_str)
-							}
-							// Equalize minimal height
-							if (n > 1) {
-								// Register item base height
-								a.push($(this).find(cfg.base_name).outerHeight());
-								if ((i > 0 && (i + 1) % n == 0) || (i == z - 1)) {
-									a.sort(function(min, max) {return max-min});
-									// Set maximum items base height for the current line
-									var h = a.shift().toString().toRem() + "rem";
-									// Get items range (i.e. all items indexes of current line)
-									var i_min = (i == z - 1 && (i + 1) % n != 0 ? (z - 1) - ((i + 1) % n) : i - n);
-									var i_max = (i + 1);
-									var i_start = i_min <= 0 ? "" : ":gt(" + i_min + ")";
-									var i_end = ":lt(" + i_max + ")";
-									// Set item average height for items on current line
-									list.find(cfg.item_name + i_start + i_end + " " + cfg.base_name).css("min-height", h);
-									a = []; // Reset items base height array
-								}
-							}
-							i++; // Increment items index
-						});
-					},
-					init : function() {
-						// Initialize
-						list = $(cfg.list_name);
-						item = list.find($(cfg.item_name));
-						base = list.find($(cfg.base_name));
-						var self = this, t = 0;
-						// Execution
-						list.data("num_by_line", get_num_by_line()); // Register number of items by line for later
-						self.update();
-						// Document events
-						$(window).resize(function() {
-							var n = get_num_by_line();
-							if (list.data("num_by_line") != n) {
-								list.data("num_by_line", n);
-								clearTimeout(t);
-								t = setTimeout(function() {
-									base.css("min-height", ""); // Reset items base height
-									self.update(); // Reload component
-								}, cfg.reload_delay);
-							}
-						});
+			<script>
+				var block_list = (function() {
+					// Configuration
+					var cfg = {
+						"list_name"    : ".articles-list.latest", // [sel] The element targeted by the component. Default : ".articles-list.latest"
+						"item_name"    : ".block",                // [sel] The element's child targeted by the component. Default : ".block"
+						"base_name"    : ".href-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".href-block"
+						"desc_name"    : ".description",          // [sel] A inner text element that can be adjusted in length. Default : ".description"
+						"desc_max_len" : 256,                     // [int] Maximum number of characters of the description (0 for none). Default : 256
+						"desc_max_str" : "&nbsp;&hellip;",        // [str] Pattern for description replacement on maximum size reaching. Default : "&nbsp;&hellip;"
+						"reload_delay" : 250                      // [int] Time before component reloads after a screen width change (milliseconds). Default : 250
+					};
+					// Instance variables
+					var list = null;
+					var item = null;
+					var base = null;
+					// Instance functions
+					function get_num_by_line() {
+						return Math.floor(list.outerWidth() / item.width()); // Compute number of items by line
 					}
-				}
-			}());
-			$(document).ready(function() {
-				block_list.init();
-			});
-		</script>
+					// Instance methods
+					return {
+						update : function() {
+							var i = 0, a = [], z = item.size(), n = get_num_by_line();
+							item.each(function() {
+								var desc = $(this).find(cfg.desc_name);
+								// Truncate description
+								if (cfg.desc_max_len > 0 && desc.text().length > cfg.desc_max_len) {
+									desc.html(desc.text().trunc(cfg.desc_max_len) + cfg.desc_max_str)
+								}
+								// Equalize minimal height
+								if (n > 1) {
+									// Register item base height
+									a.push($(this).find(cfg.base_name).outerHeight());
+									if ((i > 0 && (i + 1) % n == 0) || (i == z - 1)) {
+										a.sort(function(min, max) {return max-min});
+										// Set maximum items base height for the current line
+										var h = a.shift().toString().toRem() + "rem";
+										// Get items range (i.e. all items indexes of current line)
+										var i_min = (i == z - 1 && (i + 1) % n != 0 ? (z - 1) - ((i + 1) % n) : i - n);
+										var i_max = (i + 1);
+										var i_start = i_min <= 0 ? "" : ":gt(" + i_min + ")";
+										var i_end = ":lt(" + i_max + ")";
+										// Set item average height for items on current line
+										list.find(cfg.item_name + i_start + i_end + " " + cfg.base_name).css("min-height", h);
+										a = []; // Reset items base height array
+									}
+								}
+								i++; // Increment items index
+							});
+						},
+						init : function() {
+							// Initialize
+							list = $(cfg.list_name);
+							item = list.find($(cfg.item_name));
+							base = list.find($(cfg.base_name));
+							var self = this, t = 0;
+							// Execution
+							list.data("num_by_line", get_num_by_line()); // Register number of items by line for later
+							self.update();
+							// Document events
+							$(window).resize(function() {
+								var n = get_num_by_line();
+								if (list.data("num_by_line") != n) {
+									list.data("num_by_line", n);
+									clearTimeout(t);
+									t = setTimeout(function() {
+										base.css("min-height", ""); // Reset items base height
+										self.update(); // Reload component
+									}, cfg.reload_delay);
+								}
+							});
+						}
+					}
+				}());
+				$(document).ready(function() {
+					block_list.init();
+				});
+			</script>
+
+			<!--------------------------------------------------------------->
+			<!--| Social Networkds Widgets |-->
+			<!--------------------------------------------------------------->
+			<div id="social_networks_widgets">
+				<h4>Social Networks Widgets</h4>
+
+				<!------------------------------------------------------------->
+				<!--| Twitter Timeline |-->
+				<!------------------------------------------------------------->
+
+				<!--Twitter Widgets API (in-page include)-->
+				<script src="https://platform.twitter.com/widgets.js" id="twitter-wjs"></script>
+				<!--Twitter Widgets API (post-load include)-->
+				<!--
+				<script>
+					window.twttr=(function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0], t = window.twttr || {};
+						if (d.getElementById(id)) return;
+						js = d.createElement(s); js.id = id;
+						js.src = "https://platform.twitter.com/widgets.js";
+						fjs.parentNode.insertBefore(js, fjs);
+						t._e = []; t.ready = function(f) { t._e.push(f); }; return t;
+					}(document, "script", "twitter-wjs"));
+				</script>
+				-->
+
+				<!--Twitter Timeline Plugin-->
+				<div style="width: 100%; height: 432px; overflow: hidden;">
+					<div class="twitter-timeline" data-widget-id="459348418981134337" data-tweet-limit="4" data-theme="light" data-link-color="#666688" data-border-color="#dcdcdc" height="426" width="282"></div>
+				</div>
+				<!------------------------------------------------------------->
+				<!--| Facebook Likebox |-->
+				<!------------------------------------------------------------->
+
+				<!--Facebook Widgets API (in-page include)-->
+				<!--
+				<script src="//connect.facebook.net/fr_FR/sdk.js#xfbml=1&amp;version=v2.0" id="facebook-jssdk"></script>
+				-->
+				<!--Facebook Widgets API (post-load include)-->
+				<!--
+				<div id="fb-root"></div>
+				<script>
+				(function(d, s, id) {
+					var js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id)) return;
+					js = d.createElement(s); js.id = id;
+					js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.0";
+					fjs.parentNode.insertBefore(js, fjs);
+				}(document, "script", "facebook-jssdk"));
+				</script>
+				-->
+
+				<div style="width: 100%; height: 182px; overflow: hidden;">
+					<!--Facebook Like Box Plugin (server-less, do not require Javascript SDK)-->
+					<iframe src="https://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FLes-Ourses-%25C3%25A0-plumes%2F223829591145074&#038;colorscheme=light&#038;show_faces=true&#038;stream=false&#038;show_border=false&#038;header=false&#038;force_wall=false" scrolling="no" frameborder="0" style="width: 100%; height: 236px;"></iframe>
+					<!--Facebook Like Box Plugin (web only, require Javascript SDK)-->
+					<!--<div class="fb-like-box" data-href="https://www.facebook.com/pages/Les-Ourses-%C3%A0-plumes/223829591145074" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false" data-force-wall="false" data-width="100%"></div>-->
+				</div>
+
+				<!------------------------------------------------------------->
+				<!--| Customize Widgets |-->
+				<!------------------------------------------------------------->
+
+				<script>
+					(function() {
+						// console.log("start"); // DEBUG
+						var s = "iframe.twitter-timeline"; // target selector
+						var d = 250; // check for widget every 250 milliseconds
+						var t = 5000; // end checking after 5 seconds
+						var l = setInterval(function() {
+							// Twitter Timeline
+							if ($(s).length > 0 && $(s).css("width") == "282px") {
+								// console.log("widget is set and width is defined => apply custom settings"); // DEBUG
+								$(s).css("width", "100%"); // apply custom settings
+								clearInterval(l); // clear interval
+								clearTimeout(x); // clear timeout
+							}
+							// console.log("continue"); // DEBUG
+						}, d);
+						var x = setTimeout(function() {
+							// console.log("exit"); // DEBUG
+							clearInterval(l); // clear interval
+						}, t);
+					}());
+				</script>
+
+			</div>
+
+		</section>
 		<script>
 			$build.container = false;
 			load();

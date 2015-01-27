@@ -3,8 +3,10 @@
 /* ------------------------------------------------------------------ */
 
 var loax_pool = {
-	"article_list_tmpl" : $loc.tmpl + "online-article-list.tmpl",
-	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
+	"article_list_tmpl"    : $loc.tmpl + "online-article-list.tmpl",
+	"article_item_tmpl"    : $loc.tmpl + "article-item.tmpl",
+	"widget_timeline_tmpl" : $loc.tmpl + "widget-timeline.tmpl",
+	"widget_likebox_tmpl"  : $loc.tmpl + "widget-likebox.tmpl"
 }
 
 /* ------------------------------------------------------------------ */
@@ -137,6 +139,12 @@ function displayLastWebReview() {
 			$("#articles_publish > li").first().removeClass("my"); // TEMP : remove useless classes
 			$("#articles_publish > li").not(":first").addClass("block"); // TEMP : set up block list classes
 			$("#articles_publish").addClass("latest"); // TEMP : set up latest class
+			if ($build.timeline) {
+				$("#articles").append(file_pool.widget_timeline_tmpl()).append(lb(1)); // append Twitter timeline to section
+			}
+			if ($build.likebox) {
+				$("#articles").append(file_pool.widget_likebox_tmpl()).append(lb(1)); // append Facebook likebox to section
+			}
 			$("#articles").svg_icons(); // always reload icons only for articles
 			block_list.init(); // initialize block list component
 		},
