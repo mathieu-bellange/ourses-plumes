@@ -13,7 +13,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// + "dialog," // This plugin provides the dialog API for other plugins to build an editor dialog from a definition object.
 	// + "a11yhelp," // Accessibility Help. Alt+0 is assigned as the default keyboard shortcut for this dialog window.
 	+ "about," // This core plugin displays CKEditor version, online documentation links, and licensing information.
-	+ "basicstyles," // This plugin adds the following basic formatting commands to the editor.
+	//+ "basicstyles," // This plugin adds the following basic formatting commands to the editor.
 	+ "blockquote," // This plugin provides the feature of block-level quotation (HTML <blockquote> tag) in contents.
 	// + "clipboard," // This plugin handles cut/copy/paste inside of the editor, processed the clipboard content on pasting, makes it better fit in the editor context, or even stripped it down into plain text. It opens a dialog when the pasting meets browser security constraints.
 	// + "panel," // This plugin used along with the floatpanel plugin is to provide the basis of all editor UI panels - dropdown, menus, etc.
@@ -45,7 +45,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// + "maximize," // This plugin adds toolbar button maximizing the editor inside a browser window. After just one click you will feel like desktop word processor user.
 	+ "pastetext," // With this plugin it is possible to have the clipboard data to be always pasted as plain text, with two options: 1) Define a configuration to force the plain text paste 2) Toolbar button to paste once in plain text
 	+ "pastefromword," // With this plugin it is possible to paste content from MS Word while maintaining original formatting. It also adds Paste from Word toolbar button which makes it possible to paste clipboard data this way only on demand.
-	+ "removeformat," // This plugin adds toolbar button which makes it possible to remove all text styling (bold, font color, etc.) applied to selected part of the document. The result is a plain text.
+	//+ "removeformat," // This plugin adds toolbar button which makes it possible to remove all text styling (bold, font color, etc.) applied to selected part of the document. The result is a plain text.
 	// + "sourcearea," // This plugin adds the source editing mode to CKEditor. It allows you to modify the editor output in the HTML format.
 	// + "specialchar," // With this plugin it is possible to insert characters that are not part of the standard keyboard.
 	// + "menubutton," // This plugin provides a menu button UI component when clicked opens a drop-down menu with a list of options.
@@ -68,14 +68,12 @@ CKEDITOR.editorConfig = function( config ) {
 	//config.bodyClass = "article"; // Sets the class attribute to be used on the body element of the editing area. This can be useful when you intend to reuse the original CSS file you are using on your live website and want to assign the editor the same class as the section that will include the contents. In this way class-specific CSS rules will be enabled.
 
 	// CSS
-	// config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
 	config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
 
 	// Autogrow Plugin
 	config.autoGrow_onStartup = true; // Whether automatic editor height adjustment brought by the Auto Grow feature should happen on editor creation.
 	config.autoGrow_minHeight = 0; // The minimum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 300).
 	config.autoGrow_maxHeight = 0; // The maximum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 600). Zero (0) means that the maximum height is not limited and the editor will expand infinitely.
-	// config.autoGrow_bottomSpace = 24; // Extra vertical space to be added between the content and the editor bottom bar when adjusting editor height to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 50).
 	config.autoGrow_bottomSpace = 0; // Extra vertical space to be added between the content and the editor bottom bar when adjusting editor height to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 50).
 
 	// Paste
@@ -83,8 +81,6 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Format
 	// config.removeFormatAttributes = "style,lang,width,height,align,hspace,valign"; // A comma separated list of elements attributes to be removed when executing the remove format command.
-	// config.removeFormatAttributes = "style,lang,width,height,align,hspace,valign"; // A comma separated list of elements attributes to be removed when executing the remove format command.
-	// config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var"; // A comma separated list of elements to be removed when executing the remove format command. Note that only inline elements are allowed.
 	// config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var"; // A comma separated list of elements to be removed when executing the remove format command. Note that only inline elements are allowed.
 
 	// Special Chars
@@ -181,12 +177,13 @@ CKEDITOR.editorConfig = function( config ) {
 	];
 	config.format_tags = 'p;h1;h2;h3;pre';
 */
-	config.format_tags = 'p'; // EDIT
+	config.format_tags = 'p';
 
 	// Toolbars
 	config.toolbarLocation = "top"; // The part of the user interface where the toolbar will be rendered. For the default editor implementation, the recommended options are "top" and "bottom".
 	config.toolbarGroups = [
 		{name : "styles"},
+		{name : "basicstyles", groups : ["basicstyles", "cleanup"]},
 		{name : "links"},
 		{name : "insert"},
 		{name : "document"},
@@ -194,14 +191,16 @@ CKEDITOR.editorConfig = function( config ) {
 		{name : "tools"},
 	];
 
-	// config.removeButtons = "Anchor,Table,HorizontalRule,Format";
-	config.removeButtons = "Anchor,Table,HorizontalRule"; // EDIT
+	config.removeButtons = "Anchor,Table,HorizontalRule,Format,Subscript,Superscript";
 	config.removeDialogTabs = "image:advanced;link:advanced;link:target;";
 
 	// Styles
 	config.stylesSet = [
+		{name : "Paragraphe", element : "p", attributes : {"class" : ""}},
 		{name : "Titre", element : "h4", attributes : {"class" : ""}},
 		{name : "Accroche", element : "div", attributes : {"class" : "callout"}},
-		{name : "Paragraphe", element : "p", attributes : {"class" : ""}}
+		{name : "Encadré", element : "p", attributes : {"class" : "panel"}},
+		{name : "Incorrect", element : "span", attributes : {"class" : "incorrect"}},
+		{name : "Annotation", element : "span", attributes : {"class" : "annotation"}},
 	];
 };

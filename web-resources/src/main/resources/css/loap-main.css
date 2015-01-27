@@ -2836,9 +2836,6 @@ input:focus + button + .error + .autocomplete > ul {
   border-right: 0;
 }
 .css-fx .article .callout {letter-spacing: 0; font-family: "Oswald", sans-serif;}
-[class*='cke_panel'] .callout { /* CKEditor Styles Menu */
-  margin-bottom: 0; /* Fix margin bottom */
-}
 .article .callout:before {
   content : "“";
   position: absolute; /* Fix CKEditor callout position bug */
@@ -2852,6 +2849,13 @@ input:focus + button + .error + .autocomplete > ul {
   bottom: 0; /* Fix CKEditor callout position bug */
   right: 0; /* Fix CKEditor callout position bug */
   margin-left: .5rem;
+}
+.article:not(.edit) .incorrect {
+  font-style: italic;
+  opacity: .75;
+}
+.article .annotation {
+  display: none;
 }
 
 /* ------------------------------------------------------------------ */
@@ -2930,6 +2934,35 @@ input:focus + button + .error + .autocomplete > ul {
 
 .article.edit > p.author {
   margin-top: -1rem; /* TEMP : I know, I know ... negative margin is EVIL !!! */
+}
+
+/* CKEditor Styles */
+[class*='cke_panel'] .callout {
+  margin-bottom: 0; /* Fix margin bottom */
+}
+[class*='cke_panel'] .panel {
+  padding: .5rem;
+  border: 1px solid #d8d8d8; /* TEMP */
+  background-color: #f2f2f2; /* TEMP */
+}
+.article.edit .incorrect,
+[class*='cke_panel'] .incorrect {
+  display: inline;
+  color: brown;
+  font-weight: normal;
+  text-decoration: line-through;
+}
+.article.edit .annotation,
+[class*='cke_panel'] .annotation {
+  display: inline;
+  margin: 0 .25rem;
+  padding: .125rem .25rem;
+  color: indianred;
+  font-size: .875em;
+  font-style: italic;
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
+  border: 1px solid indianred;
+  background-color: floralwhite;
 }
 
 /* ------------------------------------------------------------------ */
