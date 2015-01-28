@@ -211,7 +211,7 @@
 .user-profile .user-name {text-shadow: 1px 1px rgba(0,0,0,.5);}
 
 /* Backgrounds Effects */
-.css-fx.standard-layout {background-image: url('../img/ui/ui-noise.png'), url('../img/ui/pattern-scales.png');}
+.css-fx.standard-layout {background-image: url('../img/ui/ui-noise.png'), url('../img/ui/pattern-lines.png');}
 .css-fx button,
 .css-fx .button,
 .css-fx .site-nav,
