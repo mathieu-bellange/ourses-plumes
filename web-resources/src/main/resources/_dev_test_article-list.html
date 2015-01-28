@@ -998,8 +998,8 @@
 				-->
 
 				<!--Twitter Timeline Plugin-->
-				<div style="width: 100%; height: 432px; overflow: hidden;">
-					<div class="twitter-timeline" data-widget-id="459348418981134337" data-tweet-limit="4" data-theme="light" data-link-color="#666688" data-border-color="#dcdcdc" height="426" width="282"></div>
+				<div style="overflow: hidden;">
+					<div class="twitter-timeline" data-widget-id="459348418981134337" data-tweet-limit="4" data-theme="light" data-link-color="#666688" data-border-color="#dcdcdc" width="282"></div>
 				</div>
 				<!------------------------------------------------------------->
 				<!--| Facebook Likebox |-->
@@ -1023,7 +1023,7 @@
 				</script>
 				-->
 
-				<div style="width: 100%; height: 182px; overflow: hidden;">
+				<div style="height: 182px; overflow: hidden;">
 					<!--Facebook Like Box Plugin (server-less, do not require Javascript SDK)-->
 					<iframe src="https://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FLes-Ourses-%25C3%25A0-plumes%2F223829591145074&#038;colorscheme=light&#038;show_faces=true&#038;stream=false&#038;show_border=false&#038;header=false&#038;force_wall=false" scrolling="no" frameborder="0" style="width: 100%; height: 236px;"></iframe>
 					<!--Facebook Like Box Plugin (web only, require Javascript SDK)-->
@@ -1037,14 +1037,15 @@
 				<script>
 					(function() {
 						// console.log("start"); // DEBUG
-						var s = "iframe.twitter-timeline"; // target selector
+						var o = "iframe.twitter-timeline"; // target selector
 						var d = 250; // check for widget every 250 milliseconds
 						var t = 5000; // end checking after 5 seconds
 						var l = setInterval(function() {
 							// Twitter Timeline
-							if ($(s).length > 0 && $(s).css("width") == "282px") {
+							if ($(o).length > 0 && $(o).css("width") == "282px") {
 								// console.log("widget is set and width is defined => apply custom settings"); // DEBUG
-								$(s).css("width", "100%"); // apply custom settings
+								$(o).css("width", "100%"); // set full width style
+								$(o).attr("height", ""); // reset height attribute (i.e. fix wrong shape bug)
 								clearInterval(l); // clear interval
 								clearTimeout(x); // clear timeout
 							}

@@ -1,24 +1,4 @@
-﻿					<!--Twitter Widgets API (in-page include)-->
-					<script src="https://platform.twitter.com/widgets.js" id="twitter-wjs"></script>
-					<!--Twitter Timeline Plugin-->
-					<div style="width: 100%; height: 432px; overflow: hidden;">
-						<div class="twitter-timeline" data-widget-id="459348418981134337" data-tweet-limit="4" data-theme="light" data-link-color="#666688" data-border-color="#dcdcdc" height="426" width="282"></div>
+﻿					<!--Twitter Timeline Plugin-->
+					<div style="width: 100%; overflow: hidden;">
+						<div class="twitter-timeline" data-widget-id="459348418981134337" data-tweet-limit="{{= $conf.timeline.tweet_limit }}" data-theme="{{= $conf.timeline.theme }}" data-link-color="{{= $conf.timeline.link_color }}" data-border-color="{{= $conf.timeline.border_color }}" width="282"></div>
 					</div>
-					<!--Twitter Timeline Customization-->
-					<script>
-						(function() {
-							var s = "iframe.twitter-timeline"; // target selector
-							var d = 250; // check for widget every 250 milliseconds
-							var t = 5000; // end checking after 5 seconds
-							var l = setInterval(function() {
-								if ($(s).length > 0 && $(s).css("width") == "282px") {
-									$(s).css("width", "100%"); // apply custom settings
-									clearInterval(l); // clear interval
-									clearTimeout(x); // clear timeout
-								}
-							}, d);
-							var x = setTimeout(function() {
-								clearInterval(l); // clear interval
-							}, t);
-						}());
-					</script>

@@ -10,7 +10,7 @@
 /* ------------------------------------------------------------------ */
 /*
  * NOTE
- * Below are owner javascript prototypes extensions.
+ * Below are private javascript prototypes extensions.
  * They must be called before anything else.
  * Well, at least if you can catch the rime of an ancient mariner ...
  */

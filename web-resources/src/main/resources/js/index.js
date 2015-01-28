@@ -106,6 +106,27 @@ var block_list = (function() {
 	}
 }());
 
+var widgets = (function() {
+	return {
+		customize : function() {
+			var o = "iframe.twitter-timeline"; // target selector
+			var d = 250; // check for widget every 250 milliseconds
+			var t = 5000; // end checking after 5 seconds
+			var l = setInterval(function() {
+				if ($(o).length > 0 && $(o).css("width") == "282px") {
+					$(o).css("width", "100%"); // set full width style
+					$(o).attr("height", ""); // reset height attribute (i.e. fix wrong shape bug)
+					clearInterval(l); // clear interval
+					clearTimeout(x); // clear timeout
+				}
+			}, d);
+			var x = setTimeout(function() {
+				clearInterval(l); // clear interval
+			}, t);
+		}
+	}
+}());
+
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
@@ -140,7 +161,9 @@ function displayLastWebReview() {
 			$("#articles_publish > li").not(":first").addClass("block"); // TEMP : set up block list classes
 			$("#articles_publish").addClass("latest"); // TEMP : set up latest class
 			if ($build.timeline) {
+				$("head").append("<script src='https://platform.twitter.com/widgets.js' id='twitter-wjs'></script>").append(lb(1)); // insert Twitter widget API
 				$("#articles").append(file_pool.widget_timeline_tmpl()).append(lb(1)); // append Twitter timeline to section
+				widgets.customize(); // apply custom settings
 			}
 			if ($build.likebox) {
 				$("#articles").append(file_pool.widget_likebox_tmpl()).append(lb(1)); // append Facebook likebox to section
