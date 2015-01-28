@@ -3068,7 +3068,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .css-fx .articles-list > .lead > h4 {
   text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
-  background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png'), url('../img/ui/background-grains.png');
+  background-image: url('../img/ui/ui-noise.png'), url('../img/ui/pattern-meshes.png');
 }
 .articles-list > .lead .title {
   font-size: 175%;

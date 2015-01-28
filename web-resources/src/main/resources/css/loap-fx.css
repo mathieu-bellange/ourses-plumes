@@ -211,13 +211,13 @@
 .user-profile .user-name {text-shadow: 1px 1px rgba(0,0,0,.5);}
 
 /* Backgrounds Effects */
-.css-fx.standard-layout {background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png');}
+.css-fx.standard-layout {background-image: url('../img/ui/ui-noise.png'), url('../img/ui/pattern-scales.png');}
 .css-fx button,
 .css-fx .button,
 .css-fx .site-nav,
 .css-fx .orbit-slides-container li:not(.black),
-.css-fx .user-profile {background-image: url('../img/ui/background-noise.png');}
-.css-fx .nav-pane {background-image: url('../img/ui/background-noise.png'), url('../img/ui/background-stripes.png'), url('../img/ui/background-grains.png');}
+.css-fx .user-profile {background-image: url('../img/ui/ui-noise.png');}
+.css-fx .nav-pane {background-image: url('../img/ui/ui-noise.png'), url('../img/ui/pattern-meshes.png');}
 
 /* Ribbons Effect */
 .css-fx .orbit-container,
