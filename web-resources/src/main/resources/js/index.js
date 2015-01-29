@@ -156,7 +156,7 @@ function displayLastWebReview() {
 			$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // TEMP : check line breaks for that !
 			$("#articles_publish > li").first().show(); // TEMP : show first item
 			$("#articles_publish > li").first().find(".validate").detach(); // TEMP : detach validate
-			$("#articles_publish > li").first().addClass("lead"); // TEMP : add lead class
+			$("#articles_publish > li").first().addClass("web-review"); // TEMP : add web review class
 			$("#articles_publish > li").first().removeClass("my"); // TEMP : remove useless classes
 			$("#articles_publish > li").not(":first").addClass("block"); // TEMP : set up block list classes
 			$("#articles_publish").addClass("latest"); // TEMP : set up latest class

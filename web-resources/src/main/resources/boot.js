@@ -160,7 +160,7 @@ $img = {
 
 /* Files */
 $file = {
-	"icons"                 : $img.ui + "ui-iconset.svg",         // String   Store URL of SVG icons file. Default : "/img/ui/ui-iconset.svg"
+	"icons"                 : $img.svg + "icons.svg",             // String   Store URL of SVG icons file. Default : "/svg/icons.svg"
 	"icons_fx"              : $loc.css + "icons-fx.css"           // String   Store URL of SVG icons effects file. Default : "/css/icons-fx.css"
 };
 
@@ -280,6 +280,7 @@ var head_tags = [
 	{elem: "meta", attr: {name: "generator", content: $app.genr}},
 	{elem: "title", text: $org.name},
 	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
+	{elem: "link", attr: {href: $loc.css + "fonts.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},

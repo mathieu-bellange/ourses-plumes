@@ -12,19 +12,7 @@
 
 @font-face {
   font-family: "Oswald"; /* Oswald Book Font a.k.a Oswald Regular */
-  src: url('../fnt/oswald.eot');
-  src: url('../fnt/oswald.eot?#iefix') format('embedded-opentype'),
-       url('../fnt/oswald.woff') format('woff'),
-       url('../fnt/oswald.svg#oswald') format('svg');
-}
-
-@media screen and (-webkit-min-device-pixel-ratio:0) { /* Chrome Webfont Antialiasing Fix */
-  /*
-  @font-face {
-    font-family: "Oswald";
-    src: url('../fnt/oswald.eot') format('eot');
-  }
-  */
+  src: url('../fnt/oswald.woff');
 }
 
 /* ------------------------------------------------------------------ */
@@ -1622,7 +1610,7 @@ a.disabled {
   top: -7.5%;
   width: 115%;
   height: 115%;
-  background-image: url('../img/svg/ourses-plumes-400x400px.svg');
+  background-image: url('../img/svg/logo-loap.svg');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -3050,53 +3038,38 @@ input:focus + button + .error + .autocomplete > ul {
   float: left;
 }
 
-/* Leads */
-.articles-list > .lead {
+/* Web Review */
+.articles-list > .web-review {
+  margin-bottom: .25rem;
   padding: 0;
   font-size: 1.125rem;
-}
-.articles-list > .lead > h4 {
-  display: none;
-  height: auto;
-  padding: .5rem 1rem;
-  text-align: right;
-  color: white;
-  border-width: .25rem 0;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, .25);
-  background-color: mediumvioletred;
-}
-.css-fx .articles-list > .lead > h4 {
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
-  background-image: url('../img/ui/ui-noise.png'), url('../img/ui/pattern-meshes.png');
-}
-.articles-list > .lead .title {
-  font-size: 175%;
-}
-.articles-list > .lead .summary {}
-.articles-list > .lead .href-block {
-  margin-bottom: .5rem;
-  padding: .5rem 1rem 1rem;
-  color: #202020;
-  background-color: white;
   border-bottom: .125rem dotted silver;
 }
-.articles-list > .lead .href-block a {
-  border-width: 0;
-  opacity: 0;
-}
-.css-fx .articles-list > .lead .href-block a {
-  background: url('../img/svg/ourses-plumes-400x400px.svg');
+.articles-list > .web-review > h4 {display: none;}
+.articles-list > .web-review .title {font-size: 200%;}
+.articles-list > .web-review .summary {}
+.articles-list > .web-review .href-block {
+  margin-bottom: .5rem;
+  padding: 200px 1rem 1rem;
+  color: #202020;
+  background-color: white;
+  background: url('../img/svg/web-review.svg');
+  background-position: .5rem .5rem;
   background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: 250%;
-  transition: opacity .5s ease-in, background-size .5s ease-out .25s;
+  background-size: 280px;
 }
-.articles-list > .lead .href-block a:hover,
-.articles-list > .lead .href-block a:focus {
-  background-size: 0;
+.articles-list > .web-review .href-block a {
+  border-color: transparent;
   border-width: .5rem;
-  opacity: 1;
+}
+@media (min-width: 640px) {
+  .articles-list > .web-review .href-block {
+    padding-top: .5rem;
+    padding-right: 340px;
+    min-height: 220px;
+    background-size: 320px;
+    background-position: right .5rem;
+  }
 }
 
 /* Blocks */

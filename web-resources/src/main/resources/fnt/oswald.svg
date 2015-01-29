@@ -1,9 +1,8 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <svg xmlns="http://www.w3.org/2000/svg">
-<metadata></metadata>
 <defs>
-<font id="oswald" horiz-adv-x="384" >
+<font id="oswald" horiz-adv-x="384">
 <font-face units-per-em="2048" ascent="2048" descent="-416" />
 <missing-glyph horiz-adv-x="350" />
 <glyph unicode=" "  horiz-adv-x="350" />
@@ -138,4 +137,5 @@
 <glyph unicode="&#x2122;" horiz-adv-x="2204" d="M152 1364v154h497v-154h-164v-678h-170v678h-163zM741 686v832h242l104 -453l107 453h242v-832h-160v555l-137 -555h-103l-137 555v-555h-158z" />
 <glyph unicode="&#xe000;" horiz-adv-x="1280" d="M0 1280h1280v-1280h-1280v1280z" />
 </font>
-</defs></svg> 
+</defs>
+</svg>
