@@ -2,7 +2,7 @@
 								<h4 class="{{= art.rubrique.classe }}">{{= art.rubrique.rubrique }}</h4>
 								<div class="href-block clearfix {{= art.rubrique.classe }}">
 									<h5 class="title">{{= art.title }}</h5>
-									<p class="summary">
+									<p class="overview">
 										{{? art.publishedDate !== null }}
 											<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToHTML(new Date(art.publishedDate)) }}</time>
 										{{?? art.updatedDate !== null }}
@@ -10,7 +10,7 @@
 										{{?? art.createdDate !== null }}
 											<span class="icon-date tiny" title="Date de cr&eacute;ation"><span class="hide">Cr&eacute;e le </span></span><time datetime="{{= getDateTime(new Date(art.createdDate)) }}" class="date">{{= dateToHTML(new Date(art.createdDate)) }}</time>
 										{{?}}
-										<span class="description">{{= art.description }}</span>
+										<span class="summary">{{= art.description }}</span>
 										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
 									</p>
 									{{? art.status == "BROUILLON" }}
@@ -60,7 +60,7 @@
 					<ul id="articles_draft" class="no-bullet articles-list draft">
 						{{~ data.drafts :value }}
 							{{? value.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
-							<li class="my">{{# def.article:value }}</li>
+							<li class="owner">{{# def.article:value }}</li>
 							{{?? isRegAdmin() }}
 							<li class="other">{{# def.article:value }}</li>
 							{{?}}

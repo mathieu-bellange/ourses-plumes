@@ -55,13 +55,13 @@
 				if ($(selector).is(":checked")) {
 					$("ul:not(.latest) > li > h4").html("Ceci est l&rsquo;intitul&eacute; de la rubrique dans laquelle l&rsquo;article est index&eacute;");
 					$("ul:not(.latest) > li .href-block > .title").html("Ceci est un titre plut&ocirc;t long pour un article qui ne l&rsquo;est pas moins");
-					$("ul:not(.latest) > li .href-block > p > .description").html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.");
+					$("ul:not(.latest) > li .href-block > p > .summary").html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.");
 					$("ul:not(.latest) > li .href-block > p > .author > strong").html("Ceci est le nom de plume de l&rsquo;auteure de l&rsquo;article");
 					$("ul:not(.latest) > li:not(.other) .href-block > p > .author > strong").html("Ceci est mon nom de plume");
 				} else {
 					$("ul:not(.latest) > li > h4").html("Rubrique");
 					$("ul:not(.latest) > li .href-block > .title").html("Titre.");
-					$("ul:not(.latest) > li .href-block > p > .description").html("R&eacute;sum&eacute;.");
+					$("ul:not(.latest) > li .href-block > p > .summary").html("R&eacute;sum&eacute;.");
 					$("ul:not(.latest) > li .href-block > p > .author > strong").html("Auteure");
 					$("ul:not(.latest) > li:not(.other) .href-block > p > .author > strong").html("Moi");
 				}
@@ -121,8 +121,8 @@
 						<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text">Filtrer</span></a>
 						<ul id="filters_list" class="small" style="display: none;">
 							<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
-							<li><a id="others_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
-							<li><a id="my_drafts" href="javascript:void(0)">Mes brouillons</a></li>
+							<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
+							<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
 							<li><a id="onlines" href="javascript:void(0)">En ligne</a></li>
 						</ul>
 					</dt>
@@ -376,8 +376,8 @@
 				// public vars
 				var article_list_user_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
 					"standbys"      : "true",              // Afficher les articles à valider par défaut ?
-					"others_drafts" : "false",             // Afficher les brouillons des autres par défaut ?
-					"my_drafts"     : "true",              // Afficher mes brouillons par défaut ?
+					"other_drafts"  : "false",             // Afficher les brouillons des autres par défaut ?
+					"owner_drafts"  : "true",              // Afficher mes brouillons par défaut ?
 					"onlines"       : "true"               // Afficher les articles en ligne par défaut ?
 				}
 
@@ -390,8 +390,8 @@
 							// vars
 							var articles_filters_cfg = {
 								"#standbys" : ".standby li",
-								"#others_drafts" : ".draft .other",
-								"#my_drafts" : ".draft .my",
+								"#other_drafts" : ".draft .other",
+								"#owner_drafts" : ".draft .owner",
 								"#onlines" : ".online li"
 							};
 							// functions
@@ -427,7 +427,7 @@
 							$("#filters_list").mouseleave(function() {
 								set_user_prefs_articles_filters(); // register prefs
 							});
-							$("#standbys, #others_drafts, #my_drafts, #onlines").click(function() {
+							$("#standbys, #other_drafts, #owner_drafts, #onlines").click(function() {
 								check_filters_switches(); // check filters
 							});
 							// process
@@ -486,20 +486,20 @@
 				<h4>Articles Filtering</h4>
 				<!--Standbys-->
 				<ul class="no-bullet articles-list standby">
-					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
 				</ul>
 				<!--Drafts-->
 				<ul class="no-bullet articles-list draft">
-					<li class="my" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li class="other" class="other" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li class="my" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li class="other" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li class="owner" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li class="other" class="other" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li class="owner" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li class="other" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
 				</ul>
 				<!--Onlines-->
 				<ul class="no-bullet articles-list online">
-					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;my_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
 				</ul>
 			</div>
 
@@ -521,7 +521,7 @@
 						<div class="row collapse" style="margin: 0;">
 							<div class="column small-20">
 								<!--Href Block-->
-								<div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+								<div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
 							</div>
 							<div class="column small-4">
 								<!--Validation-->
@@ -538,7 +538,7 @@
 					<li id="standby2" style="display: none;">
 						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
 						<!--Href Block-->
-						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
 						<!--Validation-->
 						<div id="standby2_validation" class="text-right" style="height: 2.25rem;">
 							<button class="tiny success" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-publish="2">Publier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Renvoyer</button>
@@ -550,7 +550,7 @@
 						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
 						<!--Href Block-->
 						<div class="href-block clearfix blue">
-							<h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
+							<h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
 							<!--Validation-->
 							<div id="standby3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
 								<button class="small success" style="margin-bottom: 0; z-index: 100;" data-publish="3">Publier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Renvoyer</button>
@@ -699,7 +699,7 @@
 						<div class="row collapse" style="margin: 0;">
 							<div class="column small-20">
 								<!--Href Block-->
-								<div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+								<div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
 							</div>
 							<div class="column small-4">
 								<!--Validation-->
@@ -716,7 +716,7 @@
 					<li id="draft2" class="other" style="display: none;">
 						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
 						<!--Href Block-->
-						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
 						<!--Validation-->
 						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
 							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-delete="2">Supprimer</button>
@@ -728,7 +728,7 @@
 						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
 						<!--Href Block-->
 						<div class="href-block clearfix blue">
-							<h5 class="title"></h5><p class="summary"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
+							<h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
 							<!--Validation-->
 							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
 								<button class="small" style="margin-bottom: 0; z-index: 100;">Valider</button><button class="alert small" style="margin-bottom: 0; z-index: 100;" data-delete="3">Supprimer</button>
@@ -771,9 +771,9 @@
 				<!--| Onlines |-->
 				<!------------------------------------------------------------->
 				<ul class="no-bullet articles-list online">
-					<li style="display: none;"><h4 class="red">Rubrique</h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="summary"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="cyan">Rubrique</h4><div class="href-block clearfix cyan"><h5 class="title"></h5><p class="summary"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="blue">Rubrique</h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="summary"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="description"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="red">Rubrique</h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="cyan">Rubrique</h4><div class="href-block clearfix cyan"><h5 class="title"></h5><p class="overview"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
+					<li style="display: none;"><h4 class="blue">Rubrique</h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
 				</ul>
 			</div>
 			<script>
@@ -820,9 +820,9 @@
 						<h4 class="struggles">Luttes</h4>
 						<div class="href-block clearfix struggles">
 							<h5 class="title">Derni&egrave;re revue du web</h5>
-							<p class="summary">
+							<p class="overview">
 								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-11-23" class="date">23 novembre 2014</time>
-								<span class="description ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.</span>
+								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.</span>
 								<span class="right author"><strong>Nadejda</strong></span>
 							</p>
 							<a href="javascript:void(0)">Lire l&rsquo;article</a>
@@ -833,9 +833,9 @@
 						<h4 class="struggles">Luttes</h4>
 						<div class="href-block clearfix struggles">
 							<h5 class="title">Derni&egrave;re revue du web</h5>
-							<p class="summary">
+							<p class="overview">
 								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-11-23" class="date">23 novembre 2014</time>
-								<span class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.</span>
+								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.</span>
 								<span class="right author"><strong>Nadejda</strong></span>
 							</p>
 							<a href="javascript:void(0)">Lire l&rsquo;article</a>
@@ -845,9 +845,9 @@
 						<h4 class="struggles">Luttes</h4>
 						<div class="href-block clearfix struggles">
 							<h5 class="title">No pasaran&nbsp;!</h5>
-							<p class="summary">
+							<p class="overview">
 								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-09-11" class="date">11 septembre 2014</time>
-								<span class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eleifend feugiat risus vel convallis. Nam quis lacinia orci, at sed.</span>
+								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eleifend feugiat risus vel convallis. Nam quis lacinia orci, at sed.</span>
 								<span class="right author"><strong>Ourse dithyrambique du pays des merveilles</strong></span>
 							</p>
 							<a href="javascript:void(0)">Lire l&rsquo;article</a>
@@ -857,9 +857,9 @@
 						<h4 class="educult">Education &amp; Culture</h4>
 						<div class="href-block clearfix educult">
 							<h5 class="title">Sexisme dans les jeux-vid&eacute;os, une critique impossible&nbsp;?</h5>
-							<p class="summary">
+							<p class="overview">
 								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
-								<span class="description">Ces derni&egrave;res ann&eacute;es sur le net et dans les milieux f&eacute;ministes anglophones et francophones, des d&eacute;bats et discussions sont n&eacute;s autour de la question des repr&eacute;sentations sexistes dans les jeux-vid&eacute;os et des comportements sexistes parmi les joueurs. Les r&eacute;actions de rejet particuli&egrave;rement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux d&eacute;chaînements qu&rsquo;ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant &agrave; s&rsquo;interroger sur la possibilit&eacute; m&ecirc;me de mener une telle r&eacute;flexion.</span>
+								<span class="summary">Ces derni&egrave;res ann&eacute;es sur le net et dans les milieux f&eacute;ministes anglophones et francophones, des d&eacute;bats et discussions sont n&eacute;s autour de la question des repr&eacute;sentations sexistes dans les jeux-vid&eacute;os et des comportements sexistes parmi les joueurs. Les r&eacute;actions de rejet particuli&egrave;rement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux d&eacute;chaînements qu&rsquo;ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant &agrave; s&rsquo;interroger sur la possibilit&eacute; m&ecirc;me de mener une telle r&eacute;flexion.</span>
 								<span class="right author"><strong>Ourse du Cheshire</strong></span>
 							</p>
 							<a href="javascript:void(0)">Lire l&rsquo;article</a>
@@ -869,9 +869,9 @@
 						<h4 class="struggles">Luttes</h4>
 						<div class="href-block clearfix struggles">
 							<h5 class="title">J&rsquo;accuse&nbsp;! Je suppute, je subodore et je sudoku&nbsp;!</h5>
-							<p class="summary">
+							<p class="overview">
 								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2013-11-13" class="date">13 novembre 2013</time>
-								<span class="description">Cet article est g&eacute;nial&nbsp;! Lisez-le.</span>
+								<span class="summary">Cet article est g&eacute;nial&nbsp;! Lisez-le.</span>
 								<span class="right author"><strong>Janine</strong></span>
 							</p>
 							<a href="javascript:void(0)">Lire l&rsquo;article</a>
@@ -881,9 +881,9 @@
 						<h4 class="internat">International</h4>
 						<div class="href-block clearfix internat">
 							<h5 class="title">Ce ne sont pas des mangeuses de pierres&nbsp;: toute la v&eacute;rit&eacute; sur les femmes naines (ha&nbsp;! la barbe&nbsp;!)</h5>
-							<p class="summary">
+							<p class="overview">
 								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2013-06-15" class="date">15 juin 2013</time>
-								<span class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo.</span>
+								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo.</span>
 								<span class="right author"><strong>Pauline Personne</strong></span>
 							</p>
 							<a href="javascript:void(0)">Lire l&rsquo;article</a>
@@ -898,7 +898,7 @@
 						"list_name"    : ".articles-list.latest", // [sel] The element targeted by the component. Default : ".articles-list.latest"
 						"item_name"    : ".block",                // [sel] The element's child targeted by the component. Default : ".block"
 						"base_name"    : ".href-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".href-block"
-						"desc_name"    : ".description",          // [sel] A inner text element that can be adjusted in length. Default : ".description"
+						"desc_name"    : ".summary",              // [sel] A inner text element that can be adjusted in length. Default : ".summary"
 						"desc_max_len" : 256,                     // [int] Maximum number of characters of the description (0 for none). Default : 256
 						"desc_max_str" : "&nbsp;&hellip;",        // [str] Pattern for description replacement on maximum size reaching. Default : "&nbsp;&hellip;"
 						"reload_delay" : 250                      // [int] Time before component reloads after a screen width change (milliseconds). Default : 250

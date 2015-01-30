@@ -10,8 +10,8 @@ var loax_pool = {
 
 var article_list_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
 	"standbys"      : "true",         // Afficher les articles à valider par défaut ?
-	"others_drafts" : "false",        // Afficher les brouillons des autres par défaut ?
-	"my_drafts"     : "true",         // Afficher mes brouillons par défaut ?
+	"other_drafts"  : "false",        // Afficher les brouillons des autres par défaut ?
+	"owner_drafts"  : "true",         // Afficher mes brouillons par défaut ?
 	"onlines"       : "true"          // Afficher les articles en ligne par défaut ?
 }
 
@@ -126,8 +126,8 @@ var article_list_prefs = (function() {
 			// vars
 			var articles_filters_cfg = {
 				"#standbys" : ".standby li",
-				"#others_drafts" : ".draft .other",
-				"#my_drafts" : ".draft .my",
+				"#other_drafts" : ".draft .other",
+				"#owner_drafts" : ".draft .owner",
 				"#onlines" : ".online li"
 			};
 			// functions
@@ -163,7 +163,7 @@ var article_list_prefs = (function() {
 			$("#filters_list").mouseleave(function() {
 				set_user_prefs_articles_filters(); // register prefs
 			});
-			$("#standbys, #others_drafts, #my_drafts, #onlines").click(function() {
+			$("#standbys, #other_drafts, #owner_drafts, #onlines").click(function() {
 				check_filters_switches(); // check filters
 			});
 			// process
@@ -591,7 +591,7 @@ function processArticles(articles) {
 
 function processAfterValidation(article) {
 	$("#articles_standby").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
-	$("#articles_standby li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+	$("#articles_standby li:first .overview").svg_icons(); // NEW : refresh svg icons of overview's newly created article
 	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
 		inValidateArticle($(this).attr("data-invalidate"));
@@ -603,7 +603,7 @@ function processAfterValidation(article) {
 
 function processAfterInValidation(article) {
 	$("#articles_draft").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
-	$("#articles_draft li:first .summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+	$("#articles_draft li:first .overview").svg_icons(); // NEW : refresh svg icons of overview's newly created article
 	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
@@ -619,7 +619,7 @@ function processAfterPublish(article) {
 		var date = new Date(parseInt($(this).attr("data-published"), 10));
 		if (date < article.publishedDate){
 			$(this).before(file_pool.article_item_tmpl(article)).prepend(lb(1));
-			$(this).prev().find(".summary").svg_icons(); // NEW : refresh svg icons of summary's newly created article
+			$(this).prev().find(".overview").svg_icons(); // NEW : refresh svg icons of overview's newly created article
 			$(this).prev().fadeIn(article_list_cfg.fade_duration); // NEW : show article
 			$(this).prev().find(".validate button[data-recall]").click(function() {
 				recallArticle($(this).attr("data-recall"));

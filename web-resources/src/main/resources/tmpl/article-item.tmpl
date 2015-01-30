@@ -1,8 +1,8 @@
-								<li class="{{= data.profile.pseudo == window.localStorage.getItem($auth.user_name) ? 'my' : 'other' }}" style="display: none;">
+								<li class="{{= data.profile.pseudo == window.localStorage.getItem($auth.user_name) ? 'owner' : 'other' }}" style="display: none;">
 									<h4 class="{{= data.rubrique.classe }}">{{= data.rubrique.rubrique }}</h4>
 									<div class="href-block clearfix {{= data.rubrique.classe}}">
 										<h5 class="title">{{= data.title }}</h5>
-										<p class="summary">
+										<p class="overview">
 											{{? data.publishedDate !== null }}
 												<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date">{{= dateToHTML(new Date(data.publishedDate)) }}</time>
 											{{?? data.updatedDate !== null }}
@@ -10,7 +10,7 @@
 											{{?? data.createdDate !== null }}
 												<span class="icon-date tiny" title="Date de cr&eacute;ation"><span class="hide">Cr&eacute;&eacute; le </span></span><time datetime="{{= getDateTime(new Date(data.createdDate)) }}" class="date">{{= dateToHTML(new Date(data.createdDate)) }}</time>
 											{{?}}
-											<span class="description">{{= data.description }}</span>
+											<span class="summary">{{= data.description }}</span>
 											<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
 										</p>
 										{{? data.status == "BROUILLON" }}

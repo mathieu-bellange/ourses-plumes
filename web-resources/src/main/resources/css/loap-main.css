@@ -2994,13 +2994,13 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: 0;
 }
 
-.articles-list li .summary {
+.articles-list li .overview {
   margin: 0;
   font-size: 90%;
 }
-.articles-list li .summary .date {}
-.articles-list li .summary .description {}
-.articles-list li .summary .author {}
+.articles-list li .overview .date {}
+.articles-list li .overview .summary {}
+.articles-list li .overview .author {}
 
 .articles-list li .date {
   margin-right: .25rem;
@@ -3047,7 +3047,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .articles-list > .web-review > h4 {display: none;}
 .articles-list > .web-review .title {font-size: 200%;}
-.articles-list > .web-review .summary {}
+.articles-list > .web-review .overview {}
 .articles-list > .web-review .href-block {
   margin-bottom: .5rem;
   padding: 200px 1rem 1rem;
@@ -3159,7 +3159,7 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list.draft .href-block {
   background-color: whitesmoke;
 }
-.articles-list.draft .my {}
+.articles-list.draft .owner {}
 .articles-list.draft .other {}
 .articles-list.draft .other .href-block {
   background-color: #f3eafa;
@@ -3178,10 +3178,10 @@ input:focus + button + .error + .autocomplete > ul {
 .articles-list.draft .href-block:hover a {
   border-color: silver;
 }
-.articles-list.draft .href-block:hover .summary {
+.articles-list.draft .href-block:hover .overview {
   color: dimgray;
 }
-.articles-list.draft :not(.other) .href-block:hover .summary {
+.articles-list.draft :not(.other) .href-block:hover .overview {
   color: darkgray;
   color: rgba(0, 0, 0, .375);
 }
@@ -3191,9 +3191,9 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Transform */
 .articles-list.draft .href-block .title,
-.articles-list.draft .href-block .summary,
+.articles-list.draft .href-block .overview,
 .articles-list.standby .href-block .title,
-.articles-list.standby .href-block .summary {margin-left: 2.5rem;}
+.articles-list.standby .href-block .overview {margin-left: 2.5rem;}
 .articles-list.draft .href-block a:before,
 .articles-list.standby .href-block a:before {
   position: absolute;
@@ -3244,7 +3244,7 @@ input:focus + button + .error + .autocomplete > ul {
   color: #222;
   text-decoration: underline;
 }
-.related-list .summary {
+.related-list .overview {
   position: relative;
   margin: .25rem 2rem 0 2rem;
   padding-top: .25rem;
@@ -3252,7 +3252,7 @@ input:focus + button + .error + .autocomplete > ul {
   text-align: justify;
   border-top: .125rem dotted silver;
 }
-.more-info {
+.overview-tip {
   position: absolute;
   display: inline-block;
   right: 0;
@@ -3269,12 +3269,12 @@ input:focus + button + .error + .autocomplete > ul {
   border: .125rem solid darkgray;
   opacity: .5;
 }
-.css-fx .more-info {
+.css-fx .overview-tip {
   -webkit-transition: all .25s ease-out; /* TEMP */
      -moz-transition: all .25s ease-out; /* TEMP */
           transition: all .25s ease-out; /* TEMP */
 }
-.more-info:hover {
+.overview-tip:hover {
   cursor: pointer;
   right: -.375rem;
   width: 2rem;
@@ -3284,15 +3284,15 @@ input:focus + button + .error + .autocomplete > ul {
   font-size: 1.75rem;
   opacity: 1;
 }
-.more-info:before {
+.overview-tip:before {
   content: "+";
 }
-.more-info.active {
+.overview-tip.active {
   color: white;
   border-color: dimgray;
   background-color: dimgray;
 }
-.more-info.active:before {
+.overview-tip.active:before {
   content: "-";
 }
 

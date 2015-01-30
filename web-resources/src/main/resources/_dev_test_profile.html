@@ -80,20 +80,20 @@
 				<!--User Articles List-->
 				<div class="column small-24">
 					<ul class="no-bullet related-list">
-						<li><span class="icon-educult small"><span class="hide">Éducation & Culture</span></span> <a href="#">Sexisme dans les jeux-vidéos, une critique impossible ?</a> <span class="more-info"></span>
-							<div class="summary" style="display: none;">
+						<li><span class="icon-educult small"><span class="hide">Éducation & Culture</span></span> <a href="#">Sexisme dans les jeux-vidéos, une critique impossible ?</a> <span class="overview-tip"></span>
+							<div class="overview" style="display: none;">
 								<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
 								Ces dernières années sur le net et dans les milieux féministes anglophones et francophones, des débats et discussions sont nés autour de la question des représentations sexistes dans les jeux-vidéos et des comportements sexistes parmi les joueurs. Les réactions de rejet particulièrement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux déchaînements qu’ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant à s’interroger sur la possibilité même de mener une telle réflexion.
 							</div>
 						</li>
-						<li><span class="icon-ourbody small"><span class="hide">Nos corps, nous-mêmes</span></span> <a href="#">Stérilisation : « Une femme qui décide de ne pas vouloir avoir des enfants, c’est toujours louche »</a> <span class="more-info"></span>
-							<div class="summary" style="display: none;">
+						<li><span class="icon-ourbody small"><span class="hide">Nos corps, nous-mêmes</span></span> <a href="#">Stérilisation : « Une femme qui décide de ne pas vouloir avoir des enfants, c’est toujours louche »</a> <span class="overview-tip"></span>
+							<div class="overview" style="display: none;">
 								<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
 								Se faire stériliser en France relève d’un vrai combat pour les femmes qui veulent y recourir. Elles se heurtent aux refus des médecins, qui posent leurs propres conditions. Véronique Séhier, co-présidente Planning Familial, a répondu à nos questions sur ce sujet tabou dans notre société.
 							</div>
 						</li>
-						<li><span class="icon-intersec small"><span class="hide">Intersectionnalité</span></span> <a href="#">Naturalisation et paupérisation du travail des femmes : le cas des services à la personne</a> <span class="more-info"></span>
-							<div class="summary" style="display: none;">
+						<li><span class="icon-intersec small"><span class="hide">Intersectionnalité</span></span> <a href="#">Naturalisation et paupérisation du travail des femmes : le cas des services à la personne</a> <span class="overview-tip"></span>
+							<div class="overview" style="display: none;">
 								<time datetime="2014-09-01"><small class="text-silver">1<sup>er</sup> septembre 2014</small></time>
 								Les services à la personne constituent une part non négligeable de l’emploi et de l’économie.  Avec 1,8 million de salariéEs (sans compter les assistantes maternelles), ils dépassent même le nombre d’équivalent temps plein du secteur de la construction (qui en compte 1,347 million). Pourtant, l’invisibilisation de ce pan de l’économie va de pair avec sa dévalorisation sociale.
 							</div>
@@ -108,8 +108,8 @@
 
 			<script>
 				// user articles list info box slider
-				var triggerer = ".more-info";
-				var triggered = ".summary";
+				var triggerer = ".overview-tip";
+				var triggered = ".overview";
 				$(triggerer).click(function() {
 					var obj = $(this);
 					if (obj.data("is_sliding") !== "true") {

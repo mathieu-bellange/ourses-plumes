@@ -1,8 +1,8 @@
 <ul class="no-bullet related-list">
 	{{~ data :art }}
 		<li>
-			<span class="icon-{{=art.rubrique.classe}} small"><span class="hide">{{= art.rubrique.rubrique}}</span></span><a href="{{=art.path}}">{{=art.title}}</a><span class="more-info"></span>
-			<div class="summary" style="display: none;"><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}"><small class="text-silver">{{= dateToHTML(new Date(art.publishedDate)) }}</small></time> {{=art.description}}</div>
+			<span class="icon-{{=art.rubrique.classe}} small"><span class="hide">{{= art.rubrique.rubrique}}</span></span><a href="{{=art.path}}">{{=art.title}}</a><span class="overview-tip"></span>
+			<div class="overview" style="display: none;"><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}"><small class="text-silver">{{= dateToHTML(new Date(art.publishedDate)) }}</small></time> {{=art.description}}</div>
 		</li>
 	{{~}}
 </ul>

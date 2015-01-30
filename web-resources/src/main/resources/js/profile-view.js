@@ -63,8 +63,8 @@ function sortSocialLinks(links) {
 
 function attach_slider(attachee) {
 	var attachee = attachee || ".related-list";
-	var triggerer = ".more-info";
-	var triggered = ".summary";
+	var triggerer = ".overview-tip";
+	var triggered = ".overview";
 	$(attachee).on("click", triggerer, function() {
 		var obj = $(this);
 		if (obj.data("is_sliding") !== "true") {

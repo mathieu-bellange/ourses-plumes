@@ -2,9 +2,9 @@
 								<h4 class="{{= art.rubrique.classe }}">{{= art.rubrique.rubrique }}</h4>
 								<div class="href-block clearfix {{= art.rubrique.classe }}">
 									<h5 class="title">{{= art.title }}</h5>
-									<p class="summary">
+									<p class="overview">
 										<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToHTML(new Date(art.publishedDate)) }}</time>
-										<span class="description">{{= art.description }}</span>
+										<span class="summary">{{= art.description }}</span>
 										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
 									</p>
 									<a href="{{= art.path }}">Lire l&rsquo;article</a>
