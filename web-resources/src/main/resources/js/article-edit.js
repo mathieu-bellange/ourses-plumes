@@ -531,7 +531,7 @@ var validate = (function () {
 	}
 }());
 
-var coauthors = (function() {
+var coauthoring = (function() {
 	return {
 		defs : {
 			"fx_d" : 375 // Integer  Visual effets duration (milliseconds). Default : 375
@@ -574,6 +574,7 @@ var coauthors = (function() {
 			// Target events
 			$("#coauthor_add").click(function() {
 				if ($("#coauthor .select").children().size() == 0) {
+					var id = $("#coauthor .options .selected").attr("data-id");
 					var val = $("#coauthor .select").text();
 					$("#coauthor .options li").each(function() {
 						if ($(this).text() == val) {
@@ -581,7 +582,8 @@ var coauthors = (function() {
 							$("#coauthor .select").html($("#coauthor .select").data("placeholder"));
 						}
 					});
-					$(".author").append("<span class='coauthor active'>" + val + "<a href='javascript:void(0)' class='close'></a></span> ");
+					$("h3.author").append("<span class='coauthor active' data-id='" + id + "'>" + val + "<a href='javascript:void(0)' class='close'></a></span> ");
+					$("p.author").append("<span class='coauthor'>" + val + "</span> ");
 				}
 				$("#coauthor_show").focus();
 			});
@@ -597,7 +599,7 @@ var coauthors = (function() {
 			// Document events
 			$(document).on("click", ".coauthor .close", function() {
 				var i = $(this).parent().index(".coauthor");
-				$("#coauthor .options").append($("<li>").html($(this).parent().text()));
+				$("#coauthor .options").append($("<li>", {"data-id" : $(this).parent().attr("data-id")}).html($(this).parent().text()));
 				$("p.author .coauthor").eq(i).remove();
 				$(".author:not(p) .coauthor").eq(i).remove();
 			});
@@ -717,13 +719,23 @@ function processArticle(article) {
 	tags.init(); // initialize tags component
 	//share.init(); // initialize share component * UNUSED (for now)
 	validate.init(); // initialize validate component
-	coauthors.init(); // initialize co-authors component
+	coauthoring.init(); // initialize co-authors component
 }
 
 function processWriters(json, article){
+	var a = [];
+	$(".author:first .coauthor").each(function() {
+		a.push($(this).attr("data-id"));
+	});
 	$.each(json, function(i, obj) {
-		if (window.localStorage.getItem($auth.profile_id) != obj.id){
-			var li = "<li class='' data-value='"+ obj.id +"'>" + obj.pseudo + "</li>";
+		var v = true;
+		for (k in a) {
+			if (obj.id == a[k]) {
+				v = false; // do not inject co-author in options list if it has already been put in template
+			}
+		}
+		if (v && window.localStorage.getItem($auth.profile_id) != obj.id) {
+			var li = "<li data-id='"+ obj.id +"'>" + obj.pseudo + "</li>";
 			$("#coauthor ul").append(li);
 		}
 	});
@@ -766,6 +778,16 @@ function processCategory(json, article) {
 function sendArticle() {
 	// set article's topic
 	var title = $("#title").val();
+	// -------------------------------------------------------------------
+	// * TODO : register co-authors in db
+	// -------------------------------------------------------------------
+	var coauthors = [];
+	$("h3.author .coauthor").each(function() {
+		coauthors.push({"id" : $(this).attr("data-id"), "pseudo" : $(this).text()});
+	});
+	// -------------------------------------------------------------------
+	alert("coauthors :\n " + JSON.stringify(coauthors)); // TO REMOVE
+	// -------------------------------------------------------------------
 	var description = $("#summary").val();
 	var body = $("#editor").html();
 	// set category

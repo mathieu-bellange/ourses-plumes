@@ -12,7 +12,12 @@
 							<small class="error hide"></small>
 
 							<!--Author-->
-							<h3 class="author"><span class="icon-author"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span></span></h3>
+							<h3 class="author">
+								<span class="icon-author"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span></span>
+								{{~ data.coAuthors : coAuthor }}
+								<span class="coauthor" data-id="{{= coAuthor.id }}">{{= coAuthor.pseudo }}<a href="javascript:void(0)" class="close"></a></span>
+								{{~}}
+							</h3>
 							<a href="javascript:void(0)" id="coauthor_show" class="icon-writer small radius right" style="margin-left: .75rem; padding: .25rem; opacity: .5;"><span class="text">Co-auteures</span></a>
 
 							<!--Co-author-->
@@ -126,7 +131,12 @@
 
 						<div class="clearfix">
 							<!--Author-->
-							<p class="author right"><strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</strong></p>
+							<p class="author right">
+								<strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</strong>
+								{{~ data.coAuthors : coAuthor }}
+								<span class="coauthor">{{= coAuthor.pseudo }}</span>
+								{{~}}
+							</p>
 							<!--Share-->
 							<!--
 							<ul class="inline-list left">

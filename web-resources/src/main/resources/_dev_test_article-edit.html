@@ -79,18 +79,18 @@
 						<div id="coauthor" class="options-select left" style="margin: 0; min-width: 20rem;" tabindex="0">
 							<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
 							<ul class="options hide">
-								<li>Janine</li>
-								<li>Pauline Personne</li>
-								<li>Ourse &agrave; &oelig;illets</li>
-								<li>Ourse dithyrambique du pays des merveilles</li>
-								<li>&#220;ber Big Keenv&eacute;</li>
+								<li data-id="0">Janine</li>
+								<li data-id="1">Pauline Personne</li>
+								<li data-id="2">Ourse &agrave; &oelig;illets</li>
+								<li data-id="3">Ourse dithyrambique du pays des merveilles</li>
+								<li data-id="4">&#220;ber Big Keenv&eacute;</li>
 							</ul>
 						</div>
 						<button id="coauthor_add" type="button" class="icon-add small left" style="margin: 0;"></button>
 					</div>
 				</div>
 				<script>
-					var coauthors = (function() {
+					var coauthoring = (function() {
 						return {
 							defs : {
 								"fx_d" : 375 // Integer  Visual effets duration (milliseconds). Default : 375
@@ -133,6 +133,7 @@
 								// Target events
 								$("#coauthor_add").click(function() {
 									if ($("#coauthor .select").children().size() == 0) {
+										var id = $("#coauthor .options .selected").attr("data-id");
 										var val = $("#coauthor .select").text();
 										$("#coauthor .options li").each(function() {
 											if ($(this).text() == val) {
@@ -140,7 +141,8 @@
 												$("#coauthor .select").html($("#coauthor .select").data("placeholder"));
 											}
 										});
-										$(".author").append("<span class='coauthor active'>" + val + "<a href='javascript:void(0)' class='close'></a></span> ");
+										$("h3.author").append("<span class='coauthor active' data-id='" + id + "'>" + val + "<a href='javascript:void(0)' class='close'></a></span> ");
+										$("p.author").append("<span class='coauthor'>" + val + "</span> ");
 									}
 									$("#coauthor_show").focus();
 								});
@@ -156,7 +158,7 @@
 								// Document events
 								$(document).on("click", ".coauthor .close", function() {
 									var i = $(this).parent().index(".coauthor");
-									$("#coauthor .options").append($("<li>").html($(this).parent().text()));
+									$("#coauthor .options").append($("<li>", {"data-id" : $(this).parent().attr("data-id")}).html($(this).parent().text()));
 									$("p.author .coauthor").eq(i).remove();
 									$(".author:not(p) .coauthor").eq(i).remove();
 								});
@@ -165,7 +167,7 @@
 							}
 						}
 					}());
-					coauthors.init();
+					coauthoring.init();
 				</script>
 
 				<!--Date-->
