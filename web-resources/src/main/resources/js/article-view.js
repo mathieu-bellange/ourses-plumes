@@ -216,7 +216,7 @@ function processRelatedArticles(articles) {
 function attach_slider(attachee) {
 	var attachee = attachee || ".related-list";
 	var triggerer = ".overview-tip";
-	var triggered = ".summary";
+	var triggered = ".overview";
 	$(attachee).on("click", triggerer, function() {
 		var obj = $(this);
 		if (obj.data("is_sliding") !== "true") {
