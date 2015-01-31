@@ -1,6 +1,7 @@
 package org.ourses.server.redaction.helpers;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
@@ -15,7 +16,7 @@ public interface ArticleHelper {
 
     Article validateDraft(long id);
 
-    Article publishArticle(long id);
+    Article publishArticle(long id, Date publishedDate);
 
     Article invalidateArticle(long id);
 

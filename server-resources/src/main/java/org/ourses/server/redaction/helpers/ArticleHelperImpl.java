@@ -183,12 +183,12 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Article publishArticle(long id) {
+    public Article publishArticle(long id, Date publishedDate) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.ENLIGNE);
         article.setPath(buildPath(article));
         article.setUpdatedDate(new Date());
-        article.setPublishedDate(new Date());
+        article.setPublishedDate(publishedDate);
         article.update("status", "path", "updatedDate", "publishedDate");
         return article;
     }

@@ -1,5 +1,6 @@
 package org.ourses.server.redaction.resources;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -260,13 +261,13 @@ public class ArticleResources {
     @Path("/{id}/publish")
     public Response publish(@PathParam("id")
     long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    String token, Date publishedDate) {
         // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
         ResponseBuilder responseBuilder;
         Profile profile = profileHelper.findProfileByAuthcToken(token);
         if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)) {
             // update du status de l'article
-            Article article = articleHelper.publishArticle(id);
+            Article article = articleHelper.publishArticle(id,publishedDate);
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
         }
         else {

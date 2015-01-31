@@ -5,6 +5,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +16,9 @@ import javax.ws.rs.core.UriBuilder;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.fest.assertions.Condition;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
@@ -518,14 +522,16 @@ public class ITArticleResources {
     @Test
     public void shouldPublishValidate() {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_PUBLISH).build();
+        Date publishedDate = DateTime.parse("25/08/2016 12:55", DateTimeFormat.forPattern("dd/MM/yyyy hh:mm")).toDate();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class,publishedDate);
         // status attendu 200
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
         assertThat(article).isNotNull();
         assertThat(article.getStatus()).isEqualTo(ArticleStatus.ENLIGNE);
         assertThat(article.getTitleBeautify()).isEqualTo("titre-6");
+        assertThat(article.getPublishedDate()).isEqualTo(publishedDate);
     }
 
     @Test
@@ -541,7 +547,7 @@ public class ITArticleResources {
     public void shouldNotPublishDraft() {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_PUBLISH).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class);
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class,new Date());
         // status attendu 404
         assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
@@ -721,7 +727,7 @@ public class ITArticleResources {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
         assertThat(articles).onProperty("status").containsOnly(ArticleStatus.ENLIGNE);
-        assertThat(articles).onProperty("id").containsSequence(6l, 25l, 24l, 23l, 20l, 21l);
+        assertThat(articles).onProperty("id").containsSequence(25l, 24l, 23l, 20l, 21l, 14l);
     }
 
     @Test

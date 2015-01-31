@@ -263,19 +263,11 @@ var publishing_box = (function() {
 			// Publishing Box Events
 			obj.on("click", cfg.box_valid, function() {
 				var id = $(this).attr(cfg.launcher);
-				// ===========================================================
-				// # TEMP : Display publishing alert
-				// ===========================================================
-				var d = obj.find(cfg.box_day).val().format(2);
-				var m = (parseInt(obj.find(cfg.box_month + " option:selected").attr("id"))+ 1).toString().format(2);
-				var y = obj.find(cfg.box_year).val().format(2);
+				var d = obj.find(cfg.box_day).val();
+				var m = (parseInt(obj.find(cfg.box_month + " option:selected").attr("id")));
+				var y = obj.find(cfg.box_year).val();
 				var h = obj.find(cfg.box_hour).val();
-				alert("article " + id + " (will be) published the " + d + "/" + m + "/" + y + " at " + h); // DEBUG
-				// ===========================================================
-				// # TODO : Differ date for publising
-				// ===========================================================
-				publishArticle(id);
-				// ===========================================================
+				publishArticle(id,new Date(y,m,d,h));
 				close_box();
 			});
 			// Execution
@@ -298,6 +290,7 @@ var publishing_box = (function() {
 				var e = $("<option>");
 				if (i == hour) { e.attr("selected", true) }
 				obj.find(cfg.box_hour).append(e.html(i.toString().format(2) + ":00"));
+				e.val(i);
 			}
 		}
 	}
@@ -397,10 +390,11 @@ function inValidateArticle(id) {
 	});
 }
 
-function publishArticle(id) {
+function publishArticle(id,publishedDate) {
 	$.ajax({
 		type : "PUT",
 		url : "/rest/articles/" + id + "/publish",
+		data : JSON.stringify(publishedDate),
 		beforeSend: function(request) {
 			header_authentication(request);
 		},
