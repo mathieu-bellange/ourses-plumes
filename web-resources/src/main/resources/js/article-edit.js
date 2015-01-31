@@ -541,6 +541,7 @@ var coauthoring = (function() {
 			var cfg = $.extend({}, this.defs, opts);
 			// Functions
 			function show_field(callback) {
+				$(".header .separator").hide();
 				var h = $("#coauthor_field").outerHeight();
 				$("#coauthor_field").children().hide();
 				$("#coauthor_field").css({"display" : "", "height" : "0", "opacity" : "0"});
@@ -550,6 +551,7 @@ var coauthoring = (function() {
 				});
 			}
 			function hide_field(callback) {
+				$(".header .separator").show();
 				$("#coauthor_field").animate({"height" : "0", "opacity" : "0"}, $conf.js_fx ? cfg.fx_d : 0, function() {
 					$("#coauthor_field").css({"display" : "none", "height" : ""});
 					callback();
@@ -582,8 +584,15 @@ var coauthoring = (function() {
 							$("#coauthor .select").html($("#coauthor .select").data("placeholder"));
 						}
 					});
-					$("h3.author").append("<span class='coauthor active' data-id='" + id + "'>" + val + "<a href='javascript:void(0)' class='close'></a></span> ");
-					$("p.author").append("<span class='coauthor'>" + val + "</span> ");
+					var cls = "coauthor active";
+					var mark = $("<span>", {"class" : "separator"});
+					var head = $("<span>", {"class" : cls, "data-id" : id}).html(val);
+					var foot = $("<strong>", {"class" : cls}).html(val);
+					var close = $("<a>", {"class" : "close", "href" : "javascript:void(0)"});
+					$(".header .authoring").append(mark.clone()).append(head.append(close));
+					$(".footer .authoring").append(mark).append(foot);
+					$(".header .separator").hide();
+					$(".header, .footer").update_separators()
 				}
 				$("#coauthor_show").focus();
 			});
@@ -600,11 +609,15 @@ var coauthoring = (function() {
 			$(document).on("click", ".coauthor .close", function() {
 				var i = $(this).parent().index(".coauthor");
 				$("#coauthor .options").append($("<li>", {"data-id" : $(this).parent().attr("data-id")}).html($(this).parent().text()));
-				$("p.author .coauthor").eq(i).remove();
-				$(".author:not(p) .coauthor").eq(i).remove();
+				$(".header .coauthor").eq(i).prev(".separator").remove();
+				$(".header .coauthor").eq(i).remove();
+				$(".footer .coauthor").eq(i).prev(".separator").remove();
+				$(".footer .coauthor").eq(i).remove();
+				$(".header, .footer").update_separators()
 			});
 			// Execution
 			$("#coauthor .select").data("placeholder", $("#coauthor .select").html()); // register placeholder
+			$(".header, .footer").update_separators() // update separators
 		}
 	}
 }());
@@ -782,7 +795,7 @@ function sendArticle() {
 	// * TODO : register co-authors in db
 	// -------------------------------------------------------------------
 	var coauthors = [];
-	$("h3.author .coauthor").each(function() {
+	$(".article > .header .coauthor").each(function() {
 		coauthors.push({"id" : $(this).attr("data-id"), "pseudo" : $(this).text()});
 	});
 	// -------------------------------------------------------------------

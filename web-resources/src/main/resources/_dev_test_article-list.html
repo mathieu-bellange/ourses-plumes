@@ -32,7 +32,7 @@
 			<span id="section_width_tip"></span>
 		</div>
 		<script>
-			// functions
+			// Functions
 			function change_width(selector) {
 				var w = $(selector).val() + "%";
 				$("section").css("width", w);
@@ -66,7 +66,7 @@
 					$("ul:not(.latest) > li:not(.other) .href-block > p > .author > strong").html("Moi");
 				}
 			}
-			// events
+			// Events
 			$("html").on("click", "[name='show']", function() {
 				var f = $(this).val();
 				$("#" + f).toggle();
@@ -75,8 +75,11 @@
 			$("#section_width_slider").keyup(function() {change_width(this)});
 			$("#debug_marks").change(function() {check_debug_marks(this)});
 			$("#long_strings").change(function() {check_long_strings(this)});
-			// init
+			// Init
 			$(document).ready(function() {
+				change_width("#section_width_slider");
+				check_debug_marks("#debug_marks");
+				check_long_strings("#long_strings")
 				$("[name='show']").each(function() {
 					var f = $(this).val();
 					if ($(this).is(":checked")) {
@@ -85,9 +88,6 @@
 						$("#" + f).hide();
 					}
 				});
-				change_width("#section_width_slider");
-				check_debug_marks("#debug_marks");
-				check_long_strings("#long_strings")
 			});
 		</script>
 

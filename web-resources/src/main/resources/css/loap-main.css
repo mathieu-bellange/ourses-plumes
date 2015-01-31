@@ -2464,11 +2464,17 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 }
 .options-select > .select {
   display: block;
+  position: relative;
+  padding-right: 2rem;
   min-height: 2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .options-select > .select:after {
   content: "";
-  float: right;
+  position: absolute;
+  right: .5rem;
   display: inline-block;
   margin: .375rem .125rem 0 .5rem;
   border: .5rem solid transparent;
@@ -2651,36 +2657,47 @@ input:focus + button + .error + .autocomplete > ul {
 */
 
 /* Article Named Rubrics Colors */
-.article.intersec h4,
-.article.intersec a:not(.label):not(.close),
-.article.intersec .callout{color: #c33; border-color: #c33;}
-.article.intersec a:not(.label):not(.close):hover,
-.article.intersec a:not(.label):not(.close):focus {color: #822;}
-.article.struggles h4,
-.article.struggles a:not(.label):not(.close),
-.article.struggles .callout {color: #f63; border-color: #f63;}
-.article.struggles a:not(.label):not(.close):hover,
-.article.struggles a:not(.label):not(.close):focus {color: #931;}
-.article.ideas h4,
-.article.ideas a:not(.label):not(.close),
-.article.ideas .callout {color: #ca0; border-color: #ca0;}
-.article.ideas a:not(.label):not(.close):hover,
-.article.ideas a:not(.label):not(.close):focus {color: #761;}
-.article.educult h4,
-.article.educult a:not(.label):not(.close),
-.article.educult .callout {color: #399; border-color: #399;}
-.article.educult a:not(.label):not(.close):hover,
-.article.educult a:not(.label):not(.close):focus {color: #255;}
-.article.internat h4,
-.article.internat a:not(.label):not(.close),
-.article.internat .callout {color: #36c; border-color: #36c;}
-.article.internat a:not(.label):not(.close):hover,
-.article.internat a:not(.label):not(.close):focus {color: #248;}
-.article.ourbody h4,
-.article.ourbody a:not(.label):not(.close),
-.article.ourbody .callout {color: #e2a; border-color: #e2a;}
-.article.ourbody a:not(.label):not(.close):hover,
-.article.ourbody a:not(.label):not(.close):focus {color: #a17;}
+.article.intersec > .body h4, .article.intersec > .body a,
+.article.intersec > .body .callout{color: #c33; border-color: #c33;}
+.article.intersec > .body a:hover,
+.article.intersec > .body a:focus {color: #822;}
+.article.struggles > .body h4, .article.struggles > .body a,
+.article.struggles > .body .callout {color: #f63; border-color: #f63;}
+.article.struggles > .body a:hover,
+.article.struggles > .body a:focus {color: #931;}
+.article.ideas > .body h4, .article.ideas > .body a,
+.article.ideas > .body .callout {color: #ca0; border-color: #ca0;}
+.article.ideas > .body a:hover,
+.article.ideas > .body a:focus {color: #761;}
+.article.educult > .body h4, .article.educult > .body a,
+.article.educult > .body .callout {color: #399; border-color: #399;}
+.article.educult > .body a:hover,
+.article.educult > .body a:focus {color: #255;}
+.article.internat > .body h4, .article.internat > .body a,
+.article.internat > .body .callout {color: #36c; border-color: #36c;}
+.article.internat > .body a:hover,
+.article.internat > .body a:focus {color: #248;}
+.article.ourbody > .body h4, .article.ourbody > .body a,
+.article.ourbody > .body .callout {color: #e2a; border-color: #e2a;}
+.article.ourbody > .body a:hover,
+.article.ourbody > .body a:focus {color: #a17;}
+
+/* Article Header */
+.article .header {}
+
+/* Article Body */
+.article .body > *:first-child:not(h4) {
+  margin-top: 1rem;
+}
+
+/* Article Footer */
+.article .footer {}
+.article .footer:after {
+  content: "";
+  display: block;
+  height: .75rem;
+  clear: both;
+}
 
 /* Article Title */
 .article .title {
@@ -2688,87 +2705,77 @@ input:focus + button + .error + .autocomplete > ul {
   margin-bottom: .5rem;
   padding: 0 .5rem;
 }
-/* Article Author */
-.article .author:not(p) {
-  display: inline-block;
-  margin: 0 0 .75rem;
-  font-size: 1.75em;
+
+/* Article Authoring */
+.article .authoring {font-size: 0;}
+.article .authoring > * {font-size: 1rem;}
+.article > .header .authoring {
+  float: left;
+  width: 75%;
+  color: darkgray;
+  line-height: 2.5rem;
+  margin-bottom: .5rem;
 }
-.article .author:not(p) > .icon > .text {
+.article > .header .authoring > svg {
+  vertical-align: -25%; /* TEMP */
+}
+.article > .header .authoring a {
+  padding: 0 .375rem;
+  border-radius: .375rem;
+}
+.article > .footer .authoring {
+  color: dimgray;
+}
+.article > .footer .authoring:before {
+  content: "—";
+  font-size: 1rem;
   margin-right: .25rem;
-  font-size: 100%;
-  text-transform: none;
-  vertical-align: middle;
 }
-.article p.author {
-  text-align: right;
+.article > .footer .authoring a {
+  padding: .125rem .25rem;
+  border-radius: .25rem;
+}
+.article > .header .author,
+.article > .header .coauthor {
+  color: gray;
+  font-size: 1.625rem;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
+}
+.css-fx .article > .header .author,
+.css-fx .article > .header .coauthor {
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 0;
+}
+.article > .footer .author,
+.article > .footer .coauthor {
+  color: #202020;
+  font-weight: bold;
   font-variant: small-caps;
   font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
 }
-.article p.author:before {
-  content: "—";
-  margin-right: .5rem;
-}
-.article p.author a:not(.label):not(.close) {
-  padding: .125rem .25rem;
-  color: black;
-  font-weight: bold;
-  border-radius: .25rem;
-}
-.article .author:not(p) a:not(.label):not(.close) {
-  color: dimgray;
-  line-height: initial;
-  border-radius: .5rem;
-}
-.article .author a:not(.label):not(.close):hover,
-.article .author a:not(.label):not(.close):focus {
-  color: white;
-}
-.article .author a:not(.label):not(.close):hover {
-  background-color: dimgray;
-}
-.article .author a:not(.label):not(.close):focus {
-  background-color: #333;
-}
-/* Article Co-authors*/
-.article .author .coauthor {
-  vertical-align: middle;
-  color: darkgray;
-}
-.article .author .coauthor a {
-  padding: 0 .25rem;
-}
-.article p.author .coauthor {
-  vertical-align: inherit;
-  font-weight: bold;
-  color: inherit;
-}
-.article .author:not(p) .coauthor.active {
-  margin-left: .25rem;
+.article > .header .coauthor.active {
+  margin-left: .375rem;
   padding-left: .5rem;
-  background-color: whitesmoke;
   border: .125rem dashed gainsboro;
   border-radius: .5rem;
+  background-color: whitesmoke;
 }
-.article p.author .coauthor:before,
-.article .author .coauthor:not(.active):before {
-  content: ", ";
-}
-.article p.author .coauthor:last-child:before,
-.article .author .coauthor:not(.active):last-child:before {
-  content: " et ";
-}
-.article .author .coauthor .close {
+.coauthor .close {
   display: none;
   color: inherit;
 }
-.article .author:not(p) .coauthor.active .close {
+.coauthor.active .close {
   display: inline-block;
 }
-.article .author:not(p) .coauthor.active .close:after {
-  padding: 0 .5rem;
-  font-size: 2.25rem;
+.coauthor.active .close:after {
+  padding: 0 .25rem;
+  font-size: 2rem;
 }
+.article:not(.edit) .authoring a:hover,
+.article:not(.edit) .authoring a:focus {color: white;}
+.article:not(.edit) .authoring a:hover {background-color: dimgray;}
+.article:not(.edit) .authoring a:focus {background-color: #333;}
+
 /* Article Date */
 .article .date {
   float: right;
@@ -2776,6 +2783,7 @@ input:focus + button + .error + .autocomplete > ul {
   color: darkgray;
   text-align: right;
 }
+
 /* Article Summary */
 .article .summary {
   clear: both;
@@ -2907,6 +2915,21 @@ input:focus + button + .error + .autocomplete > ul {
 .article.edit .summary:focus {
   padding: .675rem;
   border-width: .125rem;
+}
+.article.edit input.tag {display: inline-block;}
+.article.edit input.tag,
+.article.edit input.tag + button,
+.article.edit input.tag + button + small.error {margin-bottom: 0; vertical-align: middle;}
+.article.edit input.tag,
+.article.edit input.tag + button + small.error,
+.article.edit input.tag + button + small.error + .autocomplete {width: 18rem;}
+.article.edit input.tag + button + small.error {position: relative; z-index: 1;}
+.article.edit input.tag + button + small.error + .autocomplete {position: relative; z-index: 2;}
+.article.edit input.tag.wrong {border-color: #c33;}
+.css-fx .article.edit input.tag.wrong:focus + button + small.error {
+  -webkit-box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
+     -moz-box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
+          box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
 }
 
 .article.edit .inline-editor {
@@ -4019,12 +4042,12 @@ input:focus + button + .error + .autocomplete > ul {
     width: 100%;
     left: 0;
   }
-  article .author {
+  .article > .header .authoring {
     width: 100%;
   }
-  article .date {
-    float: left;
-    width: 100%;
-    text-align: left;
+  .article > .header .date {
+    float: none;
+    margin-bottom: .5rem;
+    text-align: right;
   }
 }

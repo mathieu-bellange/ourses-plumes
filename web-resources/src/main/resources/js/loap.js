@@ -247,6 +247,15 @@ jQuery.fn.extend({
 	}
 });
 
+/* Update separators */
+jQuery.fn.extend({
+	update_separators : function(next, last) {
+		var next = next || ", ", last = last || "&nbsp;et ";
+		$(this).find(".separator").html(next)
+		$(this).find(".separator:last").html(last)
+	}
+});
+
 /* Reload (Foundation) Tooltip
  * NOTE : This a Foundation only extension.
  * It handles tooltips for elements with ID defined or not.

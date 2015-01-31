@@ -1,140 +1,108 @@
 ﻿				<!--Write Article-->
 				<section id="article_editor">
-
 					<form class="article edit" method="get" accept-charset="utf-8" autocomplete="off" novalidate>
-
-						<fieldset class="topic transparent">
-							<legend class="hide">Publication</legend>
-
-							<!--Title-->
-							<label for="title" class="hide">Titre de l&rsquo;article <small class="red">*</small></label>
-							<input id="title" class="title" type="text" value="{{= data.title === undefined ? "" : data.title }}" class="validation" placeholder="Le titre de l&rsquo;article">
-							<small class="error hide"></small>
-
-							<!--Author-->
-							<h3 class="author">
-								<span class="icon-author"><span class="text">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span></span>
-								{{~ data.coAuthors : coAuthor }}
-								<span class="coauthor" data-id="{{= coAuthor.id }}">{{= coAuthor.pseudo }}<a href="javascript:void(0)" class="close"></a></span>
-								{{~}}
-							</h3>
-							<a href="javascript:void(0)" id="coauthor_show" class="icon-writer small radius right" style="margin-left: .75rem; padding: .25rem; opacity: .5;"><span class="text">Co-auteures</span></a>
-
-							<!--Co-author-->
-							<div id="coauthor_field" class="panel radius" style="clear: both; padding: .5rem 1rem 1rem; display: none;">
-								<label for="coauthor">Co-auteures</label>
-								<div class="clearfix">
-									<div id="coauthor" class="options-select left" style="margin: 0; min-width: 20rem;" tabindex="0">
-										<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
+						<div class="header">
+							<fieldset class="topic transparent">
+								<legend class="hide">Publication</legend>
+								<!--Title-->
+								<label for="title" class="hide">Titre de l&rsquo;article <small class="red">*</small></label>
+								<input id="title" class="title" type="text" value="{{= data.title === undefined ? "" : data.title }}" class="validation" placeholder="Le titre de l&rsquo;article">
+								<small class="error hide"></small>
+								<!--Author-->
+								<p class="authoring icon-author">
+									<span class="text hide">Par </span><span class="author">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</span>
+									{{~ data.coAuthors : coAuthor }}
+									<span class="separator"></span><span class="coauthor" data-id="{{= coAuthor.id }}">{{= coAuthor.pseudo }}<a href="javascript:void(0)" class="close"></a></span>
+									{{~}}
+								</p>
+								<a href="javascript:void(0)" id="coauthor_show" class="icon-writer small radius right" style="margin-left: .75rem; padding: .25rem; opacity: .5;"><span class="text">Co-auteures</span></a>
+								<!--Co-author-->
+								<div id="coauthor_field" class="panel radius" style="clear: both; padding: .5rem 1rem 1rem; display: none;">
+									<label for="coauthor">Co-auteures</label>
+									<div class="clearfix">
+										<div id="coauthor" class="options-select left" style="margin: 0; min-width: 20rem;" tabindex="0">
+											<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
+											<ul class="options hide">
+											</ul>
+										</div>
+										<button id="coauthor_add" type="button" class="icon-add small left" style="margin: 0;"></button>
+									</div>
+								</div>
+								<!--Date-->
+								<!--
+								<time datetime="2014-01-01" class="date icon-date small">1<sup>er</sup> janvier 2014</span>
+								-->
+								<!--Summary-->
+								<label for="summary" class="hide">R&eacute;sum&eacute;</label>
+								<textarea id="summary" class="summary{{= data.description.length == 0 ? ' empty' : '' }} min" maxlength="1000" placeholder="Une description facultative de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description === undefined ? "" : data.description }}</textarea>
+								<!--Tags List-->
+								<dl class="tags inline-list clearfix">
+									<dt class="icon-tag small"><strong class="text hide">Tags</strong></dt>
+									<dd><a id="rubric_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Rubrique</a></dd>
+									<dd><a id="category_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Cat&eacute;gorie</a></dd>
+									{{~ data.tags : tag }}
+										<dd data-tag=""><span data-id="{{= tag.id }}" class="label radius">{{= tag.tag }}<a href="javascript:void(0)" class="close"></a></span></dd>
+									{{~}}
+									<dd><a id="tag_new" href="javascript:void(0)" rel="tag" class="label radius undefined">Nouveau tag</a></dd>
+								</dl>
+							</fieldset>
+							<fieldset id="tagging" style="display: none;">
+								<legend class="hide">Ind&eacute;xation</legend>
+								<!--Rubric-->
+								<div id="rubric_field" style="display: none;">
+									<label for="rubric">Rubrique <small class="red">*</small></label>
+									<div id="rubric" class="options-select validation" tabindex="0">
+										<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
 										<ul class="options hide">
 										</ul>
 									</div>
-									<button id="coauthor_add" type="button" class="icon-add small left" style="margin: 0;"></button>
+									<small class="error hide"></small>
 								</div>
-							</div>
-							<!--Date-->
-							<!--
-							<time datetime="2014-01-01" class="date icon-date small">1<sup>er</sup> janvier 2014</span>
-							-->
-
-							<!--Summary-->
-							<label for="summary" class="hide">R&eacute;sum&eacute;</label>
-							<textarea id="summary" class="summary{{= data.description.length == 0 ? ' empty' : '' }} min" maxlength="1000" placeholder="Une description facultative de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description === undefined ? "" : data.description }}</textarea>
-
-							<!--Tags List-->
-							<dl class="tags inline-list clearfix">
-								<dt class="icon-tag small"><strong class="text hide">Tags</strong></dt>
-								<dd><a id="rubric_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Rubrique</a></dd>
-								<dd><a id="category_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Cat&eacute;gorie</a></dd>
-								{{~ data.tags : tag }}
-									<dd data-tag=""><span data-id="{{= tag.id }}" class="label radius">{{= tag.tag }}<a href="javascript:void(0)" class="close"></a></span></dd>
-								{{~}}
-								<dd><a id="tag_new" href="javascript:void(0)" rel="tag" class="label radius undefined">Nouveau tag</a></dd>
-							</dl>
-
-						</fieldset>
-
-						<fieldset id="tagging" style="display: none;">
-							<legend class="hide">Ind&eacute;xation</legend>
-
-							<!--Rubric-->
-							<div id="rubric_field" style="display: none;">
-								<label for="rubric">Rubrique <small class="red">*</small></label>
-								<div id="rubric" class="options-select validation" tabindex="0">
-									<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
-									<ul class="options hide">
-									</ul>
-								</div>
-								<small class="error hide"></small>
-							</div>
-
-							<!--Category-->
-							<div id="category_field" style="display: none;">
-								<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
-								<div id="category" class="options-select validation" tabindex="0">
-									<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
-									<ul class="options hide">
-									</ul>
-								</div>
-								<small class="error hide"></small>
-							</div>
-
-							<!--Tags-->
-							<style>
-								/* TEMP : Tag styles */
-								#tag {display: inline-block;}
-								#tag,
-								#tag_add,
-								#tag_add + small.error {margin-bottom: 0; vertical-align: middle;}
-								#tag,
-								#tag_add + small.error,
-								#tag_add + small.error + .autocomplete {width: 18rem;}
-
-								#tag_add + small.error {position: relative; z-index: 1;}
-								#tag_add + small.error + .autocomplete {position: relative; z-index: 2;}
-
-								#tag.wrong {border-color: #c33;}
-								#tag.wrong:focus + #tag_add + small.error {
-									-webkit-box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
-										 -moz-box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
-													box-shadow: 0 .125rem .125rem rgba(0, 0, 0, .5);
-								}
-							</style>
-							<!--Tags-->
-							<div id="tag_field" style="display: none;" style="margin-bottom: 1rem;">
-								<label for="tag">Tags</label>
-								<div>
-									<input id="tag" class="validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class=" icon-add small"></button>
-									<small class="error"></small>
-									<div class="autocomplete">
-										<ul>
+								<!--Category-->
+								<div id="category_field" style="display: none;">
+									<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
+									<div id="category" class="options-select validation" tabindex="0">
+										<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
+										<ul class="options hide">
 										</ul>
 									</div>
+									<small class="error hide"></small>
 								</div>
-							</div>
-
-						</fieldset>
-
-						<!--Inline CKEditor-->
-						<fieldset class="transparent">
-							<legend class="hide">R&eacute;daction</legend>
-							<label for="editor" class="hide">Corps de l&rsquo;article</label>
-							<div id="editor" class="inline-editor" contenteditable="true" style="overflow: hidden; max-width: 100%;" data-placeholder>
-								{{? data.body !== "" && data.body !== undefined }}
-								{{= data.body }}
-								{{??}}
-								<span class="placeholder">Le corps de l&rsquo;article</span>
-								{{?}}
-							</div>
-							<small class="error hide"></small>
-						</fieldset>
-
-						<div class="clearfix">
+								<!--Tags-->
+								<div id="tag_field" style="display: none;" style="margin-bottom: 1rem;">
+									<label for="tag">Tags</label>
+									<div>
+										<input id="tag" class="tag validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class=" icon-add small"></button>
+										<small class="error"></small>
+										<div class="autocomplete">
+											<ul>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						<div class="body">
+							<!--Inline CKEditor-->
+							<fieldset class="transparent">
+								<legend class="hide">R&eacute;daction</legend>
+								<label for="editor" class="hide">Corps de l&rsquo;article</label>
+								<div id="editor" class="inline-editor" contenteditable="true" style="overflow: hidden; max-width: 100%;" data-placeholder>
+									{{? data.body !== "" && data.body !== undefined }}
+									{{= data.body }}
+									{{??}}
+									<span class="placeholder">Le corps de l&rsquo;article</span>
+									{{?}}
+								</div>
+								<small class="error hide"></small>
+							</fieldset>
+						</div>
+						<div class="footer">
 							<!--Author-->
-							<p class="author right">
-								<strong>{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</strong>
+							<p class="authoring right">
+								<span class="hide">Par </span><strong class="author">{{= data.status == "AVERIFIER" ? data.profile.pseudo : window.localStorage.getItem($auth.user_name) }}</strong>
 								{{~ data.coAuthors : coAuthor }}
-								<span class="coauthor">{{= coAuthor.pseudo }}</span>
+								<span class="separator"></span><strong class="coauthor">{{= coAuthor.pseudo }}</strong>
 								{{~}}
 							</p>
 							<!--Share-->
@@ -148,12 +116,9 @@
 							</ul>
 							-->
 						</div>
-
 						<!--Validation Buttons-->
 						<div class="text-center">
 							<input id="save" class="button tip-top" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" data-tooltip>
 						</div>
-
 					</form>
-
 				</section>

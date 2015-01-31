@@ -190,6 +190,7 @@ function processArticle(article) {
 		}
 	}
 	$("main > header").after(file_pool.article_view_tmpl(article)).after(lb(1));
+	$(".header, .footer").update_separators(); // update separators
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
 	displayRelatedArticle(article.id);
@@ -205,7 +206,7 @@ function processRelatedArticles(articles) {
 			// a doit être égal à b
 			return 0;
 		});
-		$(".article").after(file_pool.related_article_tmpl(articles)).after(lb(1));
+		$(".article > .footer").append(file_pool.related_article_tmpl(articles)).append(lb(1)); // insert related template
 		attach_slider(); // bind events on sliding elements
 		loap.update(); //refresh icon
 	}
