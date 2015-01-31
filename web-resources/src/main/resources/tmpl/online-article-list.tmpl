@@ -1,20 +1,19 @@
-﻿								{{## def.article: art:
-								<h4 class="{{= art.rubrique.classe }}">{{= art.rubrique.rubrique }}</h4>
-								<div class="href-block clearfix {{= art.rubrique.classe }}">
-									<h5 class="title">{{= art.title }}</h5>
-									<p class="overview">
-										<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToHTML(new Date(art.publishedDate)) }}</time>
-										<span class="summary">{{= art.description }}</span>
-										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
-									</p>
-									<a href="{{= art.path }}">Lire l&rsquo;article</a>
-								</div>
-								#}}
-				<!--Articles-->
+﻿				<!--Articles-->
 				<section id="articles">
 					<ul id="articles_publish" class="no-bullet articles-list online">
-						{{~ data :value }}
-							<li>{{# def.article:value }}</li>
+						{{~ data :params }}
+							<li>
+								<h4 class="{{= params.rubrique.classe }}">{{= params.rubrique.rubrique }}</h4>
+								<div class="href-block clearfix {{= params.rubrique.classe }}">
+									<h5 class="title">{{= params.title }}</h5>
+									<p class="overview">
+										<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(params.publishedDate)) }}" class="date">{{= dateToHTML(new Date(params.publishedDate)) }}</time>
+										<span class="summary">{{= params.description }}</span>
+										<span class="right author"><strong>{{= params.profile.pseudo }}</strong></span>
+									</p>
+									<a href="{{= params.path }}">Lire l&rsquo;article</a>
+								</div>
+							</li>
 						{{~}}
 					</ul>
 				</section>

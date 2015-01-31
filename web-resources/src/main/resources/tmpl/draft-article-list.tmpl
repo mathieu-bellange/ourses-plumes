@@ -1,78 +1,29 @@
-﻿								{{## def.article: art:
-								<h4 class="{{= art.rubrique.classe }}">{{= art.rubrique.rubrique }}</h4>
-								<div class="href-block clearfix {{= art.rubrique.classe }}">
-									<h5 class="title">{{= art.title }}</h5>
-									<p class="overview">
-										{{? art.publishedDate !== null }}
-											<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(art.publishedDate)) }}" class="date">{{= dateToHTML(new Date(art.publishedDate)) }}</time>
-										{{?? art.updatedDate !== null }}
-											<span class="icon-date tiny" title="Date de mise &agrave; jour"><span class="hide">Mis &agrave; jour le </span></span><time datetime="{{= getDateTime(new Date(art.updatedDate)) }}" class="date">{{= dateToHTML(new Date(art.updatedDate)) }}</time>
-										{{?? art.createdDate !== null }}
-											<span class="icon-date tiny" title="Date de cr&eacute;ation"><span class="hide">Cr&eacute;e le </span></span><time datetime="{{= getDateTime(new Date(art.createdDate)) }}" class="date">{{= dateToHTML(new Date(art.createdDate)) }}</time>
-										{{?}}
-										<span class="summary">{{= art.description }}</span>
-										<span class="right author"><strong>{{= art.profile.pseudo }}</strong></span>
-									</p>
-									{{? art.status == "BROUILLON" }}
-										{{? art.profile.id == window.localStorage.getItem($auth.profile_id) }}
-											<a href="{{= art.path }}">Lire l&rsquo;article</a>
-										{{??}}
-											<a href="javascript:void(0)" style="cursor: default;"></a>
-										{{?}}
-									{{?? art.status == "AVERIFIER" }}
-										{{? isRegAdmin() }}
-											<a href="{{= art.path }}">Lire l&rsquo;article</a>
-										{{??}}
-											<a href="javascript:void(0)" style="cursor: default;"></a>
-										{{?}}
-									{{??}}
-										<a href="{{= art.path }}">Lire l&rsquo;article</a>
-									{{?}}
-									{{? art.status == "BROUILLON" }}
-										<div class="validate" style="display: none;">
-											<!--Delete for Drafts-->
-											<button class="small" data-delete="{{= art.id }}">Supprimer</button>
-											{{? art.profile.id == window.localStorage.getItem($auth.profile_id) }}
-												<button class="alert small" data-validate="{{= art.id }}">Valider</button>
-											{{?}}
-										</div>
-									{{?? art.status == "AVERIFIER" }}
-										<div class="validate" style="display: none;">
-											<!--Validation for Standbys-->
-											{{? isRegAdmin() }}
-												<button class="small success" data-publish="{{= art.id }}">Publier</button>
-											{{?}}
-											<button class="alert small" data-invalidate="{{= art.id }}">Renvoyer</button>
-										</div>
-									{{?? art.status == "ENLIGNE" }}
-										{{? isRegAdmin() || art.profile.id == window.localStorage.getItem($auth.profile_id) }}
-											<div class="validate" style="display: none;">
-												<!--Validation for Standbys-->
-												<button class="small success" data-recall="{{= art.id }}">Rappeler</button>
-											</div>
-										{{?}}
-									{{?}}
-								</div>
-								#}}
+﻿				{{## def.item: args: {{= file_pool.article_item_tmpl(args)}} #}}
 				<!--Articles-->
 				<section id="articles">
 					<!--Draft articles list-->
 					<ul id="articles_draft" class="no-bullet articles-list draft">
-						{{~ data.drafts :value }}
-							{{? value.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
-							<li class="owner">{{# def.article:value }}</li>
+						{{~ data.drafts :params }}
+							{{? params.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
+							<li class="owner">{{# def.item:params }}</li>
 							{{?? isRegAdmin() }}
-							<li class="other">{{# def.article:value }}</li>
+							<li class="other">{{# def.item:params }}</li>
 							{{?}}
 						{{~}}
 					</ul>
 					<!--Standby articles list-->
 					<ul id="articles_standby" class="no-bullet articles-list standby">
-						{{~ data.toCheck :value }}
-							<li>{{# def.article:value }}</li>
+						{{~ data.toCheck :params }}
+							<li>{{# def.item:params }}</li>
 						{{~}}
 					</ul>
-					<!--Publishing Box-->
+					<!--Published articles list-->
+					<ul id="articles_publish" class="no-bullet articles-list online">
+						{{~ data.onLine :params }}
+							<li data-published="{{=params.publishedDate }}" >{{# def.item:params }}</li>
+						{{~}}
+					</ul>
+					<!--Publishing box-->
 					<div id="publishing_box" class="send-box publish" style="display: none;">
 						<a href="javascript:void(0)" class="close right"></a>
 						<label for="publish_day">Date de publication</label>
@@ -84,13 +35,7 @@
 							<button class="icon-confirm success tiny right" style="margin: .125rem 0 0"></button>
 						</div>
 					</div>
-					<!--Published articles list-->
-					<ul id="articles_publish" class="no-bullet articles-list online">
-						{{~ data.onLine :value }}
-							<li data-published="{{=value.publishedDate }}" >{{# def.article:value }}</li>
-						{{~}}
-					</ul>
-					<!--Draft delete modal-->
+					<!--Delete draft modal-->
 					<div id="delete_draft_modal" class="reveal-modal small-modal text-center" data-reveal>
 						<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?</p>
 						<button class="success icon-confirm" style="margin-bottom: 0;"></button>

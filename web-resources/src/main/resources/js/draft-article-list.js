@@ -17,7 +17,7 @@ var article_list_prefs_defaults = { // Les filtres d'affichage de la liste d'art
 
 var article_list_cfg = {
 	"fade_duration" : 500,            // Integer   Duration for updated articles fade in/out. Default : 500
-	"page_startup"  : false           // Internal  DO NOT CHANGE THIS !!!
+	"page_startup"  : false           // Internal  Start up flag ; do not change this. Default : false
 };
 
 /* ------------------------------------------------------------------ */
