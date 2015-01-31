@@ -791,16 +791,10 @@ function processCategory(json, article) {
 function sendArticle() {
 	// set article's topic
 	var title = $("#title").val();
-	// -------------------------------------------------------------------
-	// * TODO : register co-authors in db
-	// -------------------------------------------------------------------
 	var coauthors = [];
 	$(".article > .header .coauthor").each(function() {
 		coauthors.push({"id" : $(this).attr("data-id"), "pseudo" : $(this).text()});
 	});
-	// -------------------------------------------------------------------
-	alert("coauthors :\n " + JSON.stringify(coauthors)); // TO REMOVE
-	// -------------------------------------------------------------------
 	var description = $("#summary").val();
 	var body = $("#editor").html();
 	// set category
@@ -818,6 +812,7 @@ function sendArticle() {
 	});
 	// set article's data
 	var data = new Article(title, body, description, category, rubrique, tags);
+	data.coAuthors = coauthors;
 	// send AJAX request
 	 $.ajax({
 		type: "PUT",

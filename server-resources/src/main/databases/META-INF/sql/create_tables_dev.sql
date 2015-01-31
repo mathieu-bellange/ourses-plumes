@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS bear_account
 DROP TABLE IF EXISTS ourses_authentication_info
 DROP TABLE IF EXISTS ourses_authorization_info
 DROP TABLE IF EXISTS article_tag
+DROP TABLE IF EXISTS article_coauthor
 DROP TABLE IF EXISTS article
 DROP TABLE IF EXISTS social_link
 DROP TABLE IF EXISTS profile

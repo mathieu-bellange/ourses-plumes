@@ -78,7 +78,7 @@ public class Article implements Serializable {
     private ArticleStatus status;
     @ManyToMany
     @JoinTable(name = "ARTICLE_COAUTHOR", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "PROFILE_ID"))
-    private Set<Profile> coAuthors = Sets.newHashSet();
+    private Set<Profile> coAuthors;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ARTICLE_ID")
     private Set<OldPath> oldPath = Sets.newHashSet();
@@ -220,6 +220,7 @@ public class Article implements Serializable {
 
     public void save() {
         Ebean.save(this);
+        Ebean.saveManyToManyAssociations(this, "coAuthors");
     }
 
     public static int countArticleByProfileAndStatus(long idProfile, long idArticle, ArticleStatus status) {
@@ -266,7 +267,7 @@ public class Article implements Serializable {
     }
 
     public static Article findArticle(long id) {
-        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
+        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").fetch("coAuthors")
                 .fetch("oldPath").where().eq("id", id).findUnique();
     }
 
@@ -307,6 +308,7 @@ public class Article implements Serializable {
 
     public void update(String... properties) {
         Ebean.update(this, Sets.newHashSet(properties));
+        Ebean.saveManyToManyAssociations(this, "coAuthors");
     }
 
     public void delete() {

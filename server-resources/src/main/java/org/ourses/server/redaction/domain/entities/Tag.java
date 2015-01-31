@@ -11,7 +11,6 @@ import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
