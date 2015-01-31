@@ -38,6 +38,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.ExpressionList;
 import com.google.common.collect.Sets;
 
@@ -241,8 +242,11 @@ public class Article implements Serializable {
     }
 
     public static Collection<? extends Article> findProfileArticles(Long profileId) {
-        return Ebean.find(Article.class).fetch("rubrique").where().eq("profile.id", profileId)
-                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet();
+    	Set<Article> set = Sets.newHashSet();
+        set.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("profile.id", profileId)
+                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet());
+        set.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("coAuthors.id", profileId).eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet());
+        return set;
     }
 
     public static Set<Article> findOnline(Collection<String> collection) {
