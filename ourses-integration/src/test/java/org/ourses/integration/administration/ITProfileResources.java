@@ -368,7 +368,26 @@ public class ITProfileResources {
                 return isOk;
             }
         });
-        assertThat(articles).onProperty("profile.id").containsOnly(2l);
+        assertThat(articles).satisfies(new Condition<List<?>>() {
+
+			@Override
+			public boolean matches(List<?> articles) {
+				boolean isOk = true;
+				for(Object articleDTO : articles){
+					if(((ArticleDTO) articleDTO).getProfile().getId() != 2L){
+						for(ProfileDTO coAuthor : ((ArticleDTO) articleDTO).getCoAuthors()){
+							if(coAuthor.getId() != 2L){
+								isOk = false;
+							}else{
+								isOk = true;
+							}
+						}
+					}
+					break;
+				}
+				return isOk;
+			}
+		});
         assertThat(articles).onProperty("rubrique.rubrique").containsOnly("International", "Luttes");
     }
 }

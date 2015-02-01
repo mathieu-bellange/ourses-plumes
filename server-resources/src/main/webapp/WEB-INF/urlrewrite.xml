@@ -21,7 +21,7 @@
 	<rule>
 		<note>redirection vers la faq</note>
 		<from>^/faq$</from>
-		<to>/about.html</to>
+		<to>/faq-list.html</to>
 	</rule>
 
 	<rule>

@@ -1,0 +1,15 @@
+﻿				<!--FAQ-->
+				<section id="faq">
+					<ul id="faq-list" class="no-bullet">
+						{{~ data :params }}
+							<li>
+								<h4>{{= params.question }}</h4>
+								<div>
+									{{= params.answer}}
+								</div>
+							</li>
+						{{~}}
+					</ul>
+					<h5>Pour toute autre question ou demande de précision, vous pouvez bien sûr nous contacter à
+						cette adresse mail : <a href="mailto:oursesaplumes@gmail.com">oursesaplumes@gmail.com</a></h5>
+				</section>

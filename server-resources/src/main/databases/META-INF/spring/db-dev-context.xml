@@ -13,6 +13,7 @@
 		<jdbc:script location="classpath:META-INF/sql/insert_account_dev.sql"/>
 		<jdbc:script location="classpath:META-INF/sql/insert_redaction_dev.sql"/>
 		<jdbc:script location="classpath:META-INF/sql/insert_agenda_dev.sql"/>
+		<jdbc:script location="classpath:META-INF/sql/insert_faq_dev.sql"/>
 	</jdbc:embedded-database>
 
 	<!-- Transaction Manager -->
