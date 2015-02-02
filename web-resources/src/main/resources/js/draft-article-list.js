@@ -206,7 +206,7 @@ var publishing_box = (function() {
 			});
 		},
 		close : function(o, d, b) {
-			$(".href-block").find(".validate").hide(); // hide all validate
+			$(".over-block").find(".validate").hide(); // hide all validate
 			o.fadeOut($conf.js_fx ? d : 0, function() { // hide box
 				$("[" + b + "]").removeAttr("disabled"); // enable all buttons
 			});
@@ -250,7 +250,7 @@ var publishing_box = (function() {
 			});
 			// Articles List Events
 			$(".standby").on("click", "[" + cfg.launcher + "]", function() {
-				$(".href-block").find(".validate").hide(); // hide all validate
+				$(".over-block").find(".validate").hide(); // hide all validate
 				$(this).parents(".validate").show(); // show this validate
 				$("[" + cfg.launcher + "]").removeAttr("disabled"); // enable all launchers
 				$(this).attr("disabled", true); // disable current launcher
@@ -513,7 +513,7 @@ function displayArticles(url_params) {
 			if (article_list_cfg.startup !== true) { // this is first launch of the page
 				$("main > header").after(file_pool.article_tool_tmpl(data)).after(lb(1)); // process toolbar
 			} else { // this is not first launch of the page, articles lists need to be flushed
-				$(".articles-list").detach(); // clear articles list (if any)
+				$(".article-list").detach(); // clear articles list (if any)
 			}
 			processArticles(data); // always process articles
 			if (article_list_cfg.startup !== true) { // this is first launch of the page
@@ -535,11 +535,13 @@ function displayArticles(url_params) {
 function processArticles(articles) {
 	// insert articles list template
 	$(".tool-bar").after(file_pool.article_list_tmpl(articles)).after(lb(1));
+	 // TEMP : reload Foundation tooltip plugin
+	$(document).foundation("tooltip");
 	// bind live events
-	$("html").on("mouseenter", ".href-block", function() {
+	$("html").on("mouseenter", ".over-block", function() {
 		$(this).find(".validate").show();
 	});
-	$("html").on("mouseleave", ".href-block", function() {
+	$("html").on("mouseleave", ".over-block", function() {
 		if (!$(this).find("[data-publish]").attr("disabled")) {
 			$(this).find(".validate").hide();
 		}
@@ -585,19 +587,21 @@ function processArticles(articles) {
 
 function processAfterValidation(article) {
 	$("#articles_standby").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
-	$("#articles_standby li:first .overview").svg_icons(); // NEW : refresh svg icons of overview's newly created article
+	$("#articles_standby li:first").svg_icons(); // NEW : refresh svg icons for newly created article item
+	$("#articles_standby li:first").foundation("tooltip"); // NEW : refresh Foudnation toolip for newly created article item
 	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
-	$("#articles_standby li:first .validate button[data-publish]").click(function() {
+	//$("#articles_standby li:first .validate button[data-publish]").click(function() {
 		// publishArticle($(this).attr("data-publish"));
-	});
+	//});
 }
 
 function processAfterInValidation(article) {
 	$("#articles_draft").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
-	$("#articles_draft li:first .overview").svg_icons(); // NEW : refresh svg icons of overview's newly created article
+	$("#articles_draft li:first").svg_icons(); // NEW : refresh svg icons for newly created article item
+	$("#articles_draft li:first").foundation("tooltip"); // NEW : refresh Foudnation toolip for newly created article item
 	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
@@ -613,7 +617,8 @@ function processAfterPublish(article) {
 		var date = new Date(parseInt($(this).attr("data-published"), 10));
 		if (date < article.publishedDate){
 			$(this).before(file_pool.article_item_tmpl(article)).prepend(lb(1));
-			$(this).prev().find(".overview").svg_icons(); // NEW : refresh svg icons of overview's newly created article
+			$(this).prev().svg_icons(); // NEW : refresh svg icons for newly created article item
+			$(this).foundation("tooltip"); // NEW : refresh Foudnation toolip for newly created article item
 			$(this).prev().fadeIn(article_list_cfg.fade_duration); // NEW : show article
 			$(this).prev().find(".validate button[data-recall]").click(function() {
 				recallArticle($(this).attr("data-recall"));

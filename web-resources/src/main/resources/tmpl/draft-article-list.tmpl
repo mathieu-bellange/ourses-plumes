@@ -2,7 +2,7 @@
 				<!--Articles-->
 				<section id="articles">
 					<!--Draft articles list-->
-					<ul id="articles_draft" class="no-bullet articles-list draft">
+					<ul id="articles_draft" class="article-list draft">
 						{{~ data.drafts :params }}
 							{{? params.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
 							<li class="owner">{{# def.item:params }}</li>
@@ -12,13 +12,13 @@
 						{{~}}
 					</ul>
 					<!--Standby articles list-->
-					<ul id="articles_standby" class="no-bullet articles-list standby">
+					<ul id="articles_standby" class="article-list standby">
 						{{~ data.toCheck :params }}
 							<li>{{# def.item:params }}</li>
 						{{~}}
 					</ul>
 					<!--Published articles list-->
-					<ul id="articles_publish" class="no-bullet articles-list online">
+					<ul id="articles_publish" class="article-list online">
 						{{~ data.onLine :params }}
 							<li data-published="{{=params.publishedDate }}" >{{# def.item:params }}</li>
 						{{~}}
@@ -38,7 +38,7 @@
 					<!--Delete draft modal-->
 					<div id="delete_draft_modal" class="reveal-modal small-modal text-center" data-reveal>
 						<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?</p>
-						<button class="success icon-confirm" style="margin-bottom: 0;"></button>
-						<button class="alert icon-cancel"></button>
+						<button class="success icon-confirm small" style="margin-bottom: 0;"></button>
+						<button class="alert icon-cancel small"></button>
 					</div>
 				</section>

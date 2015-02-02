@@ -34,9 +34,9 @@ var loax = (function() {
 var block_list = (function() {
 	// Configuration
 	var cfg = {
-		"list_name"    : ".articles-list.latest", // [sel] The element targeted by the component. Default : ".articles-list.latest"
+		"list_name"    : ".article-list.latest", // [sel] The element targeted by the component. Default : ".article-list.latest"
 		"item_name"    : ".block",                // [sel] The element's child targeted by the component. Default : ".block"
-		"base_name"    : ".href-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".href-block"
+		"base_name"    : ".over-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".href-block"
 		"desc_name"    : ".summary",              // [sel] A inner text element that can be adjusted in length. Default : ".summary"
 		"desc_max_len" : 256,                     // [int] Maximum number of characters of the description (0 for none). Default : 384
 		"desc_max_str" : "&nbsp;&hellip;",        // [str] Pattern for description replacement on maximum size reaching. Default : "&nbsp;&hellip;"

@@ -1,55 +1,50 @@
-								<li class="{{= data.profile.pseudo == window.localStorage.getItem($auth.user_name) ? 'owner' : 'other' }}" style="display: none;">
-									<h4 class="{{= data.rubrique.classe }}">{{= data.rubrique.rubrique }}</h4>
-									<div class="href-block clearfix {{= data.rubrique.classe}}">
-										<h5 class="title">{{= data.title }}</h5>
+								<li class="{{= data.profile.pseudo == window.localStorage.getItem($auth.user_name) ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
+									<div class="topic">
+										<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
+									</div>
+									<div class="over-block">
+										<h4 class="title">{{= data.title }}</h4>
 										<p class="overview">
 											{{? data.publishedDate !== null }}
-												<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date">{{= dateToHTML(new Date(data.publishedDate)) }}</time>
+												<span class="hide">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date icon-{{= data.status == 'BROUILLON' ? 'edit' : (data.status == 'AVERIFIER' ? 'alert' : 'date') }} tiny">{{= dateToHTML(new Date(data.publishedDate)) }}</time>
 											{{?? data.updatedDate !== null }}
-												<span class="icon-date tiny" title="Date de mise &agrave; jour"><span class="hide">Mis &agrave; jour le </span></span><time datetime="{{= getDateTime(new Date(data.updatedDate)) }}" class="date">{{= dateToHTML(new Date(data.updatedDate)) }}</time>
+												<span class="hide">Mis &agrave; jour le </span><time datetime="{{= getDateTime(new Date(data.updatedDate)) }}" class="date icon-{{= data.status == 'BROUILLON' ? 'edit' : (data.status == 'AVERIFIER' ? 'alert' : 'date') }} tiny">{{= dateToHTML(new Date(data.updatedDate)) }}</time>
 											{{?? data.createdDate !== null }}
-												<span class="icon-date tiny" title="Date de cr&eacute;ation"><span class="hide">Cr&eacute;&eacute; le </span></span><time datetime="{{= getDateTime(new Date(data.createdDate)) }}" class="date">{{= dateToHTML(new Date(data.createdDate)) }}</time>
+												<span class="hide">Cr&eacute;&eacute; le </span><time datetime="{{= getDateTime(new Date(data.createdDate)) }}" class="date icon-{{= data.status == 'BROUILLON' ? 'edit' : (data.status == 'AVERIFIER' ? 'alert' : 'date') }} tiny">{{= dateToHTML(new Date(data.createdDate)) }}</time>
 											{{?}}
 											<span class="summary">{{= data.description }}</span>
-											<span class="right author"><strong>{{= data.profile.pseudo }}</strong></span>
+											<strong class="author">{{= data.profile.pseudo }}</strong>
 										</p>
 										{{? data.status == "BROUILLON" }}
 											{{? data.profile.id == window.localStorage.getItem($auth.profile_id) }}
-												<a href="{{= data.path }}">Lire l&rsquo;article</a>
+												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
 											{{??}}
-												<a href="javascript:void(0)" style="cursor: default;"></a>
+												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
+											<p class="validate" style="display: none;">
+												{{? data.profile.id == window.localStorage.getItem($auth.profile_id) }}
+												<button class="icon-reply success tiny tip-left" title="Valider" data-validate="{{= data.id }}" data-tooltip></button>
+												{{?}}
+												<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="{{= data.id }}" data-tooltip></button>
+											</p>
 										{{?? data.status == "AVERIFIER" }}
 											{{? isRegAdmin() }}
-												<a href="{{= data.path }}">Lire l&rsquo;article</a>
+												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
 											{{??}}
-												<a href="javascript:void(0)" style="cursor: default;"></a>
+												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
-										{{??}}
-											<a href="{{= data.path }}">Lire l&rsquo;article</a>
-										{{?}}
-										{{? data.status == "BROUILLON" }}
-										<div class="validate" style="display: none;">
-											<!--Delete for Drafts-->
-											<button class="small" data-delete="{{= data.id }}">Supprimer</button>
-											{{? data.profile.id == window.localStorage.getItem($auth.profile_id) }}
-												<button class="alert small" data-validate="{{= data.id }}">Valider</button>
-											{{?}}
-										</div>
-										{{?? data.status == "AVERIFIER" }}
-											<!--Validation for Standbys-->
-											<div class="validate" style="display: none;">
+											<p class="validate" style="display: none;">
 												{{? isRegAdmin() }}
-													<button class="small success" data-publish="{{= data.id }}">Publier</button>
+												<button class="icon-confirm success tiny tip-left" title="Publier" data-publish="{{= data.id }}" data-tooltip></button>
 												{{?}}
-												<button class="alert small" data-invalidate="{{= data.id }}">Renvoyer</button>
-											</div>
-										{{?? data.status == "ENLIGNE" }}
+												<button class="icon-cancel alert tiny tip-left" title="Renvoyer" data-invalidate="{{= data.id }}" data-tooltip></button>
+											</p>
+										{{??}}
+											<a href="{{= data.path }}" class="over">Lire l&rsquo;article</a>
 											{{? isRegAdmin() || data.profile.id == window.localStorage.getItem($auth.profile_id) }}
-												<div class="validate" style="display: none;">
-													<!--Validation for Standbys-->
-													<button class="small success" data-recall="{{= data.id }}">Rappeler</button>
-												</div>
+											<p class="validate" style="display: none;">
+												<button class="icon-reply alert tiny tip-left" title="Rappeler" data-recall="{{= data.id }}" data-tooltip></button>
+											</p>
 											{{?}}
 										{{?}}
 									</div>

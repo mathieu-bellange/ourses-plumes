@@ -6,11 +6,11 @@
 							<dt class="sub-list">
 								<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text">Filtrer</span></a>
 								<ul id="filters_list" class="small" style="display: none;">
-									{{? isRegAdmin() }}
-									<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
-									<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
-									{{?}}
 									<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
+									{{? isRegAdmin() }}
+									<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
+									<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
+									{{?}}
 									<li><a id="onlines" href="javascript:void(0)">Publi&eacute;s</a></li>
 								</ul>
 							</dt>

@@ -178,26 +178,26 @@
 .css-fx .orbit-slides-container h6 {text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);}
 
 /* Articles List */
-.articles-list.draft .href-block {
+.article-list.draft .href-block {
   -webkit-transition: background-color .5s ease-out;
      -moz-transition: background-color .5s ease-out;
           transition: background-color .5s ease-out;
 }
-.css-fx .articles-list.draft .href-block a:before {
+.css-fx .article-list.draft .href-block a:before {
   color: rgba(0, 0, 0, .375);
   text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
 }
-.css-fx .articles-list.standby .href-block a {
+.css-fx .article-list.standby .href-block a {
   -webkit-transition: border-color .25s ease-out;
      -moz-transition: border-color .25s ease-out;
           transition: border-color .25s ease-out;
 }
-.css-fx .articles-list.standby .href-block a:after {
+.css-fx .article-list.standby .href-block a:after {
   -webkit-transition: background-color .25s ease-out;
      -moz-transition: background-color .25s ease-out;
           transition: background-color .25s ease-out;
 }
-.css-fx .articles-list.standby .href-block a:before {text-shadow: 1px 1px 0 rgba(0, 0, 0, .25);}
+.css-fx .article-list.standby .href-block a:before {text-shadow: 1px 1px 0 rgba(0, 0, 0, .25);}
 
 /* Comment List */
 .css-fx .comment-toggle a:after {
@@ -399,17 +399,17 @@
 .css-debug .article .callout {background-color: rgba(255, 0, 255, .25);}
 
 /* Articles List */
-.css-debug .articles-list li:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
-.css-debug .articles-list li:nth-child(even) {background-color: rgba(255, 255, 0, .25);}
-.css-debug .articles-list li h4 {background-color: rgba(0, 255, 0, .25);}
-.css-debug .articles-list li h5 {background-color: rgba(0, 255, 255, .25);}
-.css-debug .articles-list li > ul {background-color: rgba(0, 255, 255, .25);}
-.css-debug .articles-list li .href-block {}
-.css-debug .articles-list li .title {background-color: rgba(0, 255, 0, .25);}
-.css-debug .articles-list li .overview {}
-.css-debug .articles-list li .date {background-color: rgba(255, 255, 0, .25);}
-.css-debug .articles-list li .summary {background-color: rgba(255, 255, 0, .25);}
-.css-debug .articles-list li .author {background-color: rgba(255, 0, 255, .25);}
+.css-debug .article-list li:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
+.css-debug .article-list li:nth-child(even) {background-color: rgba(255, 255, 0, .25);}
+.css-debug .article-list li h4 {background-color: rgba(0, 255, 0, .25);}
+.css-debug .article-list li h5 {background-color: rgba(0, 255, 255, .25);}
+.css-debug .article-list li > ul {background-color: rgba(0, 255, 255, .25);}
+.css-debug .article-list li .href-block {}
+.css-debug .article-list li .title {background-color: rgba(0, 255, 0, .25);}
+.css-debug .article-list li .overview {}
+.css-debug .article-list li .date {background-color: rgba(255, 255, 0, .25);}
+.css-debug .article-list li .summary {background-color: rgba(255, 255, 0, .25);}
+.css-debug .article-list li .author {background-color: rgba(255, 0, 255, .25);}
 
 /* Comment List */
 .css-debug .comment-list .column:nth-child(odd) {background-color: rgba(255, 0, 0, .25);}
@@ -424,6 +424,6 @@
 .css-debug .user-profile .user-desc {background-color: rgba(0, 255, 0, .25);}
 
 /* User Articles List */
-.css-debug .user-articles-list {background-color: rgba(255, 255, 0, .25);}
-.css-debug .user-articles-list > li {background-color: rgba(0, 255, 255, .25);}
-.css-debug .user-articles-list .summary {background-color: rgba(255, 0, 0, .25);}
+.css-debug .user-article-list {background-color: rgba(255, 255, 0, .25);}
+.css-debug .user-article-list > li {background-color: rgba(0, 255, 255, .25);}
+.css-debug .user-article-list .summary {background-color: rgba(255, 0, 0, .25);}

@@ -5,7 +5,7 @@
 	</head>
 	<body>
 
-		<h2 class="red">Liste des articles <small>.articles-list</small></h2>
+		<h2 class="red">Liste des articles <small>.article-list</small></h2>
 
 		<!----------------------------------------------------------------->
 		<!--| Dev Testbar |-->
@@ -16,11 +16,11 @@
 			</svg>
 			<h4>Voir</h4>
 			<label for="show_articles_filtering">Filtering</label>
-			<input id="show_articles_filtering" type="checkbox" name="show" value="articles_filtering">
+			<input id="show_articles_filtering" type="checkbox" name="show" value="articles_filtering" checked>
 			<label for="show_articles_publishing">Publishing</label>
 			<input id="show_articles_publishing" type="checkbox" name="show" value="articles_publishing">
 			<label for="show_articles_displaying">Displaying</label>
-			<input id="show_articles_displaying" type="checkbox" name="show" value="articles_displaying" checked>
+			<input id="show_articles_displaying" type="checkbox" name="show" value="articles_displaying">
 			<label for="show_social_networks_widgets">Widgets</label>
 			<input id="show_social_networks_widgets" type="checkbox" name="show" value="social_networks_widgets">
 			<label for="debug_marks">Masques</label>
@@ -54,16 +54,16 @@
 			function check_long_strings(selector) {
 				if ($(selector).is(":checked")) {
 					$("ul:not(.latest) > li > h4").html("Ceci est l&rsquo;intitul&eacute; de la rubrique dans laquelle l&rsquo;article est index&eacute;");
-					$("ul:not(.latest) > li .href-block > .title").html("Ceci est un titre plut&ocirc;t long pour un article qui ne l&rsquo;est pas moins");
-					$("ul:not(.latest) > li .href-block > p > .summary").html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.");
-					$("ul:not(.latest) > li .href-block > p > .author > strong").html("Ceci est le nom de plume de l&rsquo;auteure de l&rsquo;article");
-					$("ul:not(.latest) > li:not(.other) .href-block > p > .author > strong").html("Ceci est mon nom de plume");
+					$("ul:not(.latest) > li .over-block > .title").html("Ceci est un titre plut&ocirc;t long pour un article qui ne l&rsquo;est pas moins");
+					$("ul:not(.latest) > li .over-block > p > .summary").html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.");
+					$("ul:not(.latest) > li .over-block > p > .author").html("Ceci est le nom de plume de l&rsquo;auteure de l&rsquo;article");
+					$("ul:not(.latest) > li:not(.other) .over-block > p > .author").html("Ceci est mon nom de plume");
 				} else {
 					$("ul:not(.latest) > li > h4").html("Rubrique");
-					$("ul:not(.latest) > li .href-block > .title").html("Titre.");
-					$("ul:not(.latest) > li .href-block > p > .summary").html("R&eacute;sum&eacute;.");
-					$("ul:not(.latest) > li .href-block > p > .author > strong").html("Auteure");
-					$("ul:not(.latest) > li:not(.other) .href-block > p > .author > strong").html("Moi");
+					$("ul:not(.latest) > li .over-block > .title").html("Titre.");
+					$("ul:not(.latest) > li .over-block > p > .summary").html("R&eacute;sum&eacute;.");
+					$("ul:not(.latest) > li .over-block > p > .author").html("Auteure");
+					$("ul:not(.latest) > li:not(.other) .over-block > p > .author").html("Moi");
 				}
 			}
 			// Events
@@ -120,9 +120,9 @@
 					<dt class="sub-list">
 						<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text">Filtrer</span></a>
 						<ul id="filters_list" class="small" style="display: none;">
-							<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
-							<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
 							<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
+							<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
+							<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
 							<li><a id="onlines" href="javascript:void(0)">En ligne</a></li>
 						</ul>
 					</dt>
@@ -484,22 +484,84 @@
 			<!--------------------------------------------------------------->
 			<div id="articles_filtering">
 				<h4>Articles Filtering</h4>
-				<!--Standbys-->
-				<ul class="no-bullet articles-list standby">
-					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-				</ul>
 				<!--Drafts-->
-				<ul class="no-bullet articles-list draft">
-					<li class="owner" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li class="other" class="other" style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li class="owner" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li class="other" style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+				<ul class="article-list draft">
+					<li class="owner intersec" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<div class="over-block">
+							<h4 class="title"></h4>
+							<p class="overview">
+								<time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time>
+								<span class="summary"></span>
+								<strong class="author"></strong>
+							</p>
+							<a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
+							<p class="validate">
+								<button class="icon-reply success tiny tip-left" title="Valider" data-validate="0" data-tooltip></button>
+								<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="0" data-tooltip></button>
+							</p>
+						</div>
+					</li>
+					<li class="other intersec" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<div class="over-block">
+							<h4 class="title"></h4>
+							<p class="overview">
+								<time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time>
+								<span class="summary"></span>
+								<strong class="author"></strong>
+							</p>
+							<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
+							<p class="validate">
+								<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="0" data-tooltip></button>
+							</p>
+						</div>
+					</li>
+				</ul>
+				<!--Standbys-->
+				<ul class="article-list standby">
+					<li class="intersec" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<div class="over-block">
+							<h4 class="title"></h4>
+							<p class="overview">
+								<time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time>
+								<span class="summary"></span>
+								<strong class="author">Nom de l&rsquo;auteure</strong>
+							</p>
+							<a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
+							<p class="validate">
+								<button class="icon-confirm success tiny tip-left" title="Publier" data-publish="0" data-tooltip></button>
+								<button class="icon-cancel alert tiny tip-left" title="Renvoyer" data-invalidate="0" data-tooltip></button>
+							</p>
+						</div>
+					</li>
 				</ul>
 				<!--Onlines-->
-				<ul class="no-bullet articles-list online">
-					<li style="display: none;"><h4 class="blue">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="red">Rubrique <small>&ldquo;owner_draft&rdquo;</small></h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-edit small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="javascript:void(0)">Lire l&rsquo;article</a></div></li>
+				<ul class="article-list online">
+					<li class="intersec" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<div class="over-block">
+							<h4 class="title"></h4>
+							<p class="overview">
+								<time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time>
+								<span class="summary"></span>
+								<strong class="author">Nom de l&rsquo;auteure</strong>
+							</p>
+							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
+							<p class="validate">
+								<button class="icon-reply alert tiny tip-left" title="Rappeler" data-recall="0" data-tooltip></button>
+							</p>
+						</div>
+					</li>
 				</ul>
 			</div>
 
@@ -511,17 +573,98 @@
 				<h4>Articles publishing</h4>
 
 				<!------------------------------------------------------------->
-				<!--| Standbys |-->
+				<!--| Drafts |-->
 				<!------------------------------------------------------------->
-				<ul class="no-bullet articles-list standby">
+				<ul class="article-list draft">
 
 					<!--Side Validation-->
-					<li id="standby1" style="display: none;">
-						<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
+					<li id="draft1" class="intersec owner" style="display: none;">
+						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
 						<div class="row collapse" style="margin: 0;">
 							<div class="column small-20">
-								<!--Href Block-->
-								<div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+								<!--Over Block-->
+								<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
+							</div>
+							<div class="column small-4">
+								<!--Validation-->
+								<div id="draft1_validation" style="margin-left: .5rem; display: none;">
+									<button class="small" style="margin-bottom: .25rem;">Valider</button>
+									<br>
+									<button class="small alert" style="margin-bottom: 0;" data-delete="1">Supprimer</button>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<!--Bottom Validation-->
+					<li id="draft2" class="ideas owner" style="display: none;">
+						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
+						<!--Over Block-->
+						<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
+						<!--Validation-->
+						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
+							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-delete="2">Supprimer</button>
+						</div>
+					</li>
+
+					<!--Inside Validation-->
+					<li id="draft3" class="educult owner" style="display: none;">
+						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
+						<!--Over Block-->
+						<div class="over-block">
+							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
+							<!--Validation-->
+							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
+								<button class="small" style="margin-bottom: 0; z-index: 100;">Valider</button><button class="alert small" style="margin-bottom: 0; z-index: 100;" data-delete="3">Supprimer</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+
+				<!--Draft confirm delete modal-->
+				<div id="delete_draft_modal" class="reveal-modal small-modal text-center" data-reveal>
+					<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?</p>
+					<button class="success icon-confirm small" style="margin-bottom: 0;"></button>
+					<button class="alert icon-cancel small"></button>
+				</div>
+				<script>
+					// List events
+					$("button[data-delete]").click(function() {
+						var id = $(this).attr("data-delete");
+						// check id validity
+						if (typeof(id) !== "undefined" && id > 0) {
+							// pass id to modal
+							$("#delete_draft_modal").find("button.success").attr("data-delete", id);
+							// show modal
+							$("#delete_draft_modal").foundation("reveal", "open");
+						}
+					});
+					// Modal events
+					$("#delete_draft_modal").on("click", "button", function() {
+						if ($(this).attr("data-delete")) {
+							alert("draft " + $(this).attr("data-delete") + " deleted"); // DEBUG
+						}
+						$(this).foundation("reveal", "close");
+					});
+					$(document).on("opened", "#delete_draft_modal", function() {
+						$("#delete_draft_modal button.success").focus();
+					});
+				</script>
+
+				<!------------------------------------------------------------->
+				<!--| Standbys |-->
+				<!------------------------------------------------------------->
+				<ul class="article-list standby">
+
+					<!--Side Validation-->
+					<li id="standby1" class="intersec" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<div class="row collapse" style="margin: 0;">
+							<div class="column small-20">
+								<!--Over Block-->
+								<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
 							</div>
 							<div class="column small-4">
 								<!--Validation-->
@@ -535,10 +678,12 @@
 					</li>
 
 					<!--Bottom Validation-->
-					<li id="standby2" style="display: none;">
-						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
-						<!--Href Block-->
-						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
+					<li id="standby2" class="ideas" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<!--Over Block-->
+						<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
 						<!--Validation-->
 						<div id="standby2_validation" class="text-right" style="height: 2.25rem;">
 							<button class="tiny success" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-publish="2">Publier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Renvoyer</button>
@@ -546,11 +691,13 @@
 					</li>
 
 					<!--Inside Validation-->
-					<li id="standby3" style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
-						<!--Href Block-->
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
+					<li id="standby3" class="educult" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<!--Over Block-->
+						<div class="over-block">
+							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
 							<!--Validation-->
 							<div id="standby3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
 								<button class="small success" style="margin-bottom: 0; z-index: 100;" data-publish="3">Publier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Renvoyer</button>
@@ -587,7 +734,7 @@
 								});
 							},
 							close : function(o, d, b) {
-								$(".href-block").find(".validate").hide(); // hide all validate
+								$(".over-block").find(".validate").hide(); // hide all validate
 								o.fadeOut($conf.js_fx ? d : 0, function() { // hide box
 									$("[" + b + "]").removeAttr("disabled"); // enable all buttons
 								});
@@ -631,7 +778,7 @@
 								});
 								// Articles List Events
 								$(".standby").on("click", "[" + cfg.launcher + "]", function() {
-									$(".href-block").find(".validate").hide(); // hide all validate
+									$(".over-block").find(".validate").hide(); // hide all validate
 									$(this).parents(".validate").show(); // show this validate
 									$("[" + cfg.launcher + "]").removeAttr("disabled"); // enable all launchers
 									$(this).attr("disabled", true); // disable current launcher
@@ -689,124 +836,45 @@
 				</script>
 
 				<!------------------------------------------------------------->
-				<!--| Drafts |-->
-				<!------------------------------------------------------------->
-				<ul class="no-bullet articles-list draft">
-
-					<!--Side Validation-->
-					<li id="draft1" class="other" style="display: none;">
-						<h4 class="red">Rubrique <small>&ldquo;side_validation&rdquo;</small></h4>
-						<div class="row collapse" style="margin: 0;">
-							<div class="column small-20">
-								<!--Href Block-->
-								<div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
-							</div>
-							<div class="column small-4">
-								<!--Validation-->
-								<div id="draft1_validation" style="margin-left: .5rem; display: none;">
-									<button class="small" style="margin-bottom: .25rem;">Valider</button>
-									<br>
-									<button class="small alert" style="margin-bottom: 0;" data-delete="1">Supprimer</button>
-								</div>
-							</div>
-						</div>
-					</li>
-
-					<!--Bottom Validation-->
-					<li id="draft2" class="other" style="display: none;">
-						<h4 class="cyan">Rubrique <small>&ldquo;bottom_validation&rdquo;</small></h4>
-						<!--Href Block-->
-						<div class="href-block clearfix cyan"><h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div>
-						<!--Validation-->
-						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
-							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-delete="2">Supprimer</button>
-						</div>
-					</li>
-
-					<!--Inside Validation-->
-					<li id="draft3" class="other" style="display: none;">
-						<h4 class="blue">Rubrique <small>&ldquo;inside_validation&rdquo;</small></h4>
-						<!--Href Block-->
-						<div class="href-block clearfix blue">
-							<h5 class="title"></h5><p class="overview"><span class="icon-alert small"></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a>
-							<!--Validation-->
-							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
-								<button class="small" style="margin-bottom: 0; z-index: 100;">Valider</button><button class="alert small" style="margin-bottom: 0; z-index: 100;" data-delete="3">Supprimer</button>
-							</div>
-						</div>
-					</li>
-				</ul>
-
-				<!--Draft confirm delete modal-->
-				<div id="delete_draft_modal" class="reveal-modal small-modal text-center" data-reveal>
-					<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?</p>
-					<button class="success icon-confirm" style="margin-bottom: 0;"></button>
-					<button class="alert icon-cancel"></button>
-				</div>
-				<script>
-					// List events
-					$("button[data-delete]").click(function() {
-						var id = $(this).attr("data-delete");
-						// check id validity
-						if (typeof(id) !== "undefined" && id > 0) {
-							// pass id to modal
-							$("#delete_draft_modal").find("button.success").attr("data-delete", id);
-							// show modal
-							$("#delete_draft_modal").foundation("reveal", "open");
-						}
-					});
-					// Modal events
-					$("#delete_draft_modal").on("click", "button", function() {
-						if ($(this).attr("data-delete")) {
-							alert("draft " + $(this).attr("data-delete") + " deleted"); // DEBUG
-						}
-						$(this).foundation("reveal", "close");
-					});
-					$(document).on("opened", "#delete_draft_modal", function() {
-						$("#delete_draft_modal button.success").focus();
-					});
-				</script>
-
-				<!------------------------------------------------------------->
 				<!--| Onlines |-->
 				<!------------------------------------------------------------->
-				<ul class="no-bullet articles-list online">
-					<li style="display: none;"><h4 class="red">Rubrique</h4><div class="href-block clearfix red"><h5 class="title"></h5><p class="overview"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="cyan">Rubrique</h4><div class="href-block clearfix cyan"><h5 class="title"></h5><p class="overview"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
-					<li style="display: none;"><h4 class="blue">Rubrique</h4><div class="href-block clearfix blue"><h5 class="title"></h5><p class="overview"><span class="icon-date small" title="Date de publication">Publi&eacute; le </span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time><span class="summary"></span><span class="right author"><strong></strong></span></p><a href="index.html">Lire l&rsquo;article</a></div></li>
+				<ul class="article-list online">
+					<li class="intersec" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a></div></li>
+					<li class="ideas" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a></div></li>
+					<li class="educult" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a></div></li>
 				</ul>
 			</div>
 			<script>
 				// Standbys Side Validation
-				$("#standby1 .href-block").hover(function() {$("#standby1_validation").css("display", "inline-block");});
+				$("#standby1 .over-block").hover(function() {$("#standby1_validation").css("display", "inline-block");});
 				$("#standby1").mouseleave(function() {
 					if (!$("#standby1_validation").find("[data-publish]").attr("disabled")) { // NEW
 						$("#standby1_validation").hide();
 					}
 				});
 				// Standbys Bottom Validation
-				$("#standby2 .href-block").hover(function() {$("#standby2_validation button").show();});
+				$("#standby2 .over-block").hover(function() {$("#standby2_validation button").show();});
 				$("#standby2").mouseleave(function() {
 					if (!$("#standby2_validation").find("[data-publish]").attr("disabled")) { // NEW
 						$("#standby2_validation button").hide();
 					}
 				});
 				// Standbys Inside Validation
-				$("#standby3 .href-block").mouseenter(function() {$("#standby3_validation").show();});
-				$("#standby3 .href-block").mouseleave(function() {
+				$("#standby3 .over-block").mouseenter(function() {$("#standby3_validation").show();});
+				$("#standby3 .over-block").mouseleave(function() {
 					if (!$("#standby3_validation").find("[data-publish]").attr("disabled")) { // NEW
 						$("#standby3_validation").hide();
 					}
 				});
 				// Drafts Side Validation
-				$("#draft1 .href-block").hover(function() {$("#draft1_validation").css("display", "inline-block");});
+				$("#draft1 .over-block").hover(function() {$("#draft1_validation").css("display", "inline-block");});
 				$("#draft1").mouseleave(function() {$("#draft1_validation").hide();});
 				// Drafts Bottom Validation
-				$("#draft2 .href-block").hover(function() {$("#draft2_validation button").show();});
+				$("#draft2 .over-block").hover(function() {$("#draft2_validation button").show();});
 				$("#draft2").mouseleave(function() {$("#draft2_validation button").hide();});
 				// Drafts Inside Validation
-				$("#draft3 .href-block").mouseenter(function() {$("#draft3_validation").show();});
-				$("#draft3 .href-block").mouseleave(function() {$("#draft3_validation").hide();});
+				$("#draft3 .over-block").mouseenter(function() {$("#draft3_validation").show();});
+				$("#draft3 .over-block").mouseleave(function() {$("#draft3_validation").hide();});
 			</script>
 
 			<!--------------------------------------------------------------->
@@ -814,79 +882,79 @@
 			<!--------------------------------------------------------------->
 			<div id="articles_displaying">
 				<h4>Articles displaying</h4>
-				<ul class="no-bullet articles-list latest">
+				<ul class="article-list latest">
 					<!--Last Web Review-->
-					<li class="web-review">
-						<h4 class="struggles">Luttes</h4>
-						<div class="href-block clearfix struggles">
-							<h5 class="title">Derni&egrave;re revue du web</h5>
+					<li class="web-review struggles">
+						<div class="topic"><h4 class="rubric">Luttes</h4></div>
+						<div class="over-block">
+							<h4 class="title">Derni&egrave;re revue du web</h4>
 							<p class="overview">
-								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-11-23" class="date">23 novembre 2014</time>
+								<span class="hide">Publi&eacute; le </span><time datetime="2014-11-23" class="date tiny icon-date">23 novembre 2014</time>
 								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.</span>
-								<span class="right author"><strong>Nadejda</strong></span>
+								<strong class="author">Nadejda</strong>
 							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 						</div>
 					</li>
 					<!--Last Articles-->
-					<li class="block">
-						<h4 class="struggles">Luttes</h4>
-						<div class="href-block clearfix struggles">
-							<h5 class="title">Derni&egrave;re revue du web</h5>
+					<li class="block struggles">
+						<div class="topic"><h4 class="rubric">Luttes</h4></div>
+						<div class="over-block">
+							<h4 class="title">Derni&egrave;re revue du web</h4>
 							<p class="overview">
-								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-11-23" class="date">23 novembre 2014</time>
+								<span class="hide">Publi&eacute; le </span><time datetime="2014-11-23" class="date tiny icon-date">23 novembre 2014</time>
 								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo. In hac habitasse platea dictumst. Nulla vel venenatis tellus, ut porttitor lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum et tincidunt leo, vitae luctus felis. Aliquam at mollis urna. Nullam sodales luctus porta. Sed dapibus eget lorem non pretium. Suspendisse sed aliquam libero, semper luctus nulla. Sed interdum lacus varius libero rhoncus mattis. Cras consequat est non risus lobortis, a volutpat augue congue. Etiam nec commodo augue. Nulla dignissim velit vitae orci consectetur varius.<br>Nulla luctus facilisis purus, non dignissim magna vehicula vitae. Nunc arcu arcu, posuere a dolor eu, iaculis cursus mauris. Curabitur id libero at nulla aliquam molestie sit amet vitae massa. In hac habitasse platea dictumst. Sed convallis ut tortor eu dictum. Fusce tempus ipsum vitae metus.</span>
-								<span class="right author"><strong>Nadejda</strong></span>
+								<strong class="author">Nadejda</strong>
 							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 						</div>
 					</li>
-					<li class="block">
-						<h4 class="struggles">Luttes</h4>
-						<div class="href-block clearfix struggles">
-							<h5 class="title">No pasaran&nbsp;!</h5>
+					<li class="block struggles">
+						<div class="topic"><h4 class="rubric">Luttes</h4></div>
+						<div class="over-block">
+							<h4 class="title">No pasaran&nbsp;!</h4>
 							<p class="overview">
-								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-09-11" class="date">11 septembre 2014</time>
+								<span class="hide">Publi&eacute; le </span><time datetime="2014-09-11" class="date tiny icon-date">11 septembre 2014</time>
 								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eleifend feugiat risus vel convallis. Nam quis lacinia orci, at sed.</span>
-								<span class="right author"><strong>Ourse dithyrambique du pays des merveilles</strong></span>
+								<strong class="author">Ourse dithyrambique du pays des merveilles</strong>
 							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 						</div>
 					</li>
-					<li class="block">
-						<h4 class="educult">Education &amp; Culture</h4>
-						<div class="href-block clearfix educult">
-							<h5 class="title">Sexisme dans les jeux-vid&eacute;os, une critique impossible&nbsp;?</h5>
+					<li class="block educult">
+						<div class="topic"><h4 class="rubric">Education &amp; Culture</h4></div>
+						<div class="over-block">
+							<h4 class="title">Sexisme dans les jeux-vid&eacute;os, une critique impossible&nbsp;?</h4>
 							<p class="overview">
-								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2014-09-01" class="date">1<sup>er</sup> septembre 2014</time>
+								<span class="hide">Publi&eacute; le </span><time datetime="2014-09-01" class="date tiny icon-date">1<sup>er</sup> septembre 2014</time>
 								<span class="summary">Ces derni&egrave;res ann&eacute;es sur le net et dans les milieux f&eacute;ministes anglophones et francophones, des d&eacute;bats et discussions sont n&eacute;s autour de la question des repr&eacute;sentations sexistes dans les jeux-vid&eacute;os et des comportements sexistes parmi les joueurs. Les r&eacute;actions de rejet particuli&egrave;rement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux d&eacute;chaînements qu&rsquo;ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant &agrave; s&rsquo;interroger sur la possibilit&eacute; m&ecirc;me de mener une telle r&eacute;flexion.</span>
-								<span class="right author"><strong>Ourse du Cheshire</strong></span>
+								<strong class="author">Ourse du Cheshire</strong>
 							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 						</div>
 					</li>
-					<li class="block">
-						<h4 class="struggles">Luttes</h4>
-						<div class="href-block clearfix struggles">
-							<h5 class="title">J&rsquo;accuse&nbsp;! Je suppute, je subodore et je sudoku&nbsp;!</h5>
+					<li class="block struggles">
+						<div class="topic"><h4 class="rubric">Luttes</h4></div>
+						<div class="over-block">
+							<h4 class="title">J&rsquo;accuse&nbsp;! Je suppute, je subodore et je sudoku&nbsp;!</h4>
 							<p class="overview">
-								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2013-11-13" class="date">13 novembre 2013</time>
+								<span class="hide">Publi&eacute; le </span><time datetime="2013-11-13" class="date tiny icon-date">13 novembre 2013</time>
 								<span class="summary">Cet article est g&eacute;nial&nbsp;! Lisez-le.</span>
-								<span class="right author"><strong>Janine</strong></span>
+								<strong class="author">Janine</strong>
 							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 						</div>
 					</li>
-					<li class="block">
-						<h4 class="internat">International</h4>
-						<div class="href-block clearfix internat">
-							<h5 class="title">Ce ne sont pas des mangeuses de pierres&nbsp;: toute la v&eacute;rit&eacute; sur les femmes naines (ha&nbsp;! la barbe&nbsp;!)</h5>
+					<li class="block internat">
+						<div class="topic"><h4 class="rubric">International</h4></div>
+						<div class="over-block">
+							<h4 class="title">Ce ne sont pas des mangeuses de pierres&nbsp;: toute la v&eacute;rit&eacute; sur les femmes naines</h4>
 							<p class="overview">
-								<span class="tiny icon-date" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="2013-06-15" class="date">15 juin 2013</time>
+								<span class="hide">Publi&eacute; le </span><time datetime="2013-06-15" class="date tiny icon-date">15 juin 2013</time>
 								<span class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet eros eros, eget faucibus massa commodo id. Fusce tempus enim a ipsum mattis commodo.</span>
-								<span class="right author"><strong>Pauline Personne</strong></span>
+								<strong class="author">Pauline Personne</strong>
 							</p>
-							<a href="javascript:void(0)">Lire l&rsquo;article</a>
+							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 						</div>
 					</li>
 				</ul>
@@ -895,9 +963,9 @@
 				var block_list = (function() {
 					// Configuration
 					var cfg = {
-						"list_name"    : ".articles-list.latest", // [sel] The element targeted by the component. Default : ".articles-list.latest"
+						"list_name"    : ".article-list.latest", // [sel] The element targeted by the component. Default : ".article-list.latest"
 						"item_name"    : ".block",                // [sel] The element's child targeted by the component. Default : ".block"
-						"base_name"    : ".href-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".href-block"
+						"base_name"    : ".over-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".over-block"
 						"desc_name"    : ".summary",              // [sel] A inner text element that can be adjusted in length. Default : ".summary"
 						"desc_max_len" : 256,                     // [int] Maximum number of characters of the description (0 for none). Default : 256
 						"desc_max_str" : "&nbsp;&hellip;",        // [str] Pattern for description replacement on maximum size reaching. Default : "&nbsp;&hellip;"

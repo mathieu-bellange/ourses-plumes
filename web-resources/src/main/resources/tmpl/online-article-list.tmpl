@@ -1,17 +1,19 @@
 ﻿				<!--Articles-->
 				<section id="articles">
-					<ul id="articles_publish" class="no-bullet articles-list online">
+					<ul id="articles_publish" class="article-list">
 						{{~ data :params }}
-							<li>
-								<h4 class="{{= params.rubrique.classe }}">{{= params.rubrique.rubrique }}</h4>
-								<div class="href-block clearfix {{= params.rubrique.classe }}">
-									<h5 class="title">{{= params.title }}</h5>
+							<li class="{{= params.rubrique.classe }}">
+								<div class="topic">
+									<h4 class="rubric">{{= params.rubrique.rubrique }}</h4>
+								</div>
+								<div class="over-block">
+									<h4 class="title">{{= params.title }}</h4>
 									<p class="overview">
-										<span class="icon-date tiny" title="Date de publication"><span class="hide">Publi&eacute; le </span></span><time datetime="{{= getDateTime(new Date(params.publishedDate)) }}" class="date">{{= dateToHTML(new Date(params.publishedDate)) }}</time>
+										<span class="hide">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(params.publishedDate)) }}" class="date icon-date tiny">{{= dateToHTML(new Date(params.publishedDate)) }}</time>
 										<span class="summary">{{= params.description }}</span>
-										<span class="right author"><strong>{{= params.profile.pseudo }}</strong></span>
+										<strong class="author">{{= params.profile.pseudo }}</strong>
 									</p>
-									<a href="{{= params.path }}">Lire l&rsquo;article</a>
+									<a href="{{= params.path }}" class="over">Lire l&rsquo;article</a>
 								</div>
 							</li>
 						{{~}}
