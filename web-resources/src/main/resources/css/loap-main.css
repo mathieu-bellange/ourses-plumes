@@ -1174,7 +1174,7 @@ a.icon.active:not(.button):not(.disabled):not(.no-bg) > .text {color: white;}
 */
 
 /* Javascript Mouse Events Fixes */
-a.icon:after {
+.icon:after {
   content: ''; /* CSS Cover Fix */
   position: absolute;
   top: 0;
@@ -1182,7 +1182,7 @@ a.icon:after {
   width: 100%;
   height: 100%;
 }
-a.icon > svg {
+.icon > svg {
   pointer-events: none; /* Pointer Events Fix */
 }
 
