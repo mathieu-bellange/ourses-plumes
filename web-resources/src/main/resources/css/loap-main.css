@@ -11,7 +11,7 @@
 /* ------------------------------------------------------------------ */
 
 @font-face {
-  font-family: "Oswald"; /* Oswald Book Font a.k.a Oswald Regular */
+  font-family: 'Oswald'; /* Oswald Book Font a.k.a Oswald Regular */
   src: url('../fnt/oswald.woff');
 }
 
@@ -90,7 +90,7 @@ h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizeSpeed; /* Foundation override */
   color: black;
 }
-.css-fx h1, .css-fx h2, .css-fx h3, .css-fx h4, .css-fx h5, .css-fx h6 {letter-spacing: 0; font-family: "Oswald", sans-serif; text-rendering: geometricPrecision;}
+.css-fx h1, .css-fx h2, .css-fx h3, .css-fx h4, .css-fx h5, .css-fx h6 {letter-spacing: 0; font-family: 'Oswald', sans-serif; text-rendering: geometricPrecision;}
 h1 {font-size: 3em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
 h2 {font-size: 2.5em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
 h3 {font-size: 2em;} /* WARNING : changed percent to em ; headers should still properly inherit font size percent fix value from parents */
@@ -242,7 +242,7 @@ cite.author {
   font-style: normal;
 }
 */
-a[rel="author"] {
+a[rel='author'] {
 /* UNUSED */
 /*
   font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
@@ -408,7 +408,7 @@ fieldset > legend {
   border-top-left-radius: .375rem;
   border-top-right-radius: .375rem;
 }
-.css-fx fieldset > legend {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx fieldset > legend {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 fieldset > legend:not(.hide) + *,
 fieldset > legend:not(.hide) + [type],
 fieldset > legend:not(.hide) + [class] {
@@ -456,77 +456,77 @@ input {
   line-height: normal; /* Normalize 3.0.1 : Address Firefox 4+ setting `line-height` on `input` using `!important` in the UA stylesheet. */
 }
 
-input[type="checkbox"],
-input[type="radio"] { /* Normalize 3.0.1 : It's recommended that you don't attempt to style these elements. Firefox's implementation doesn't respect box-sizing, padding, or width. */
+input[type='checkbox'],
+input[type='radio'] { /* Normalize 3.0.1 : It's recommended that you don't attempt to style these elements. Firefox's implementation doesn't respect box-sizing, padding, or width. */
   box-sizing: border-box; /* 1 */ /* Normalize 3.0.1 : Address box sizing set to `content-box` in IE 8/9/10. */
   padding: 0; /* 2 */ /* Normalize 3.0.1 : Remove excess padding in IE 8/9/10. */
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   height: auto; /* Normalize 3.0.1 : Fix the cursor style for Chrome's increment/decrement buttons. For certain `font-size` values of the `input`, it causes the cursor style of the decrement button to change from `default` to `text`. */
 }
 
-input[type="search"] {
+input[type='search'] {
   -webkit-appearance: textfield; /* Normalize 3.0.1 : Address `appearance` set to `searchfield` in Safari and Chrome. */
   -moz-box-sizing: content-box; /* Normalize 3.0.1 : Address `box-sizing` set to `border-box` in Safari and Chrome (include `-moz` to future-proof). */
   -webkit-box-sizing: content-box; /* Normalize 3.0.1 : Address `appearance` set to `searchfield` in Safari and Chrome. */
   box-sizing: content-box; /* Normalize 3.0.1 : Address `box-sizing` set to `border-box` in Safari and Chrome (include `-moz` to future-proof). */
 }
 
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
   -webkit-appearance: none; /* Normalize 3.0.1 : Remove inner padding and search cancel button in Safari and Chrome on OS X. Safari (but not Chrome) clips the cancel button when the search input has padding (and `textfield` appearance). */
 }
 
-input[type="text"],
-input[type="password"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="month"],
-input[type="week"],
-input[type="email"],
-input[type="number"],
-input[type="search"],
-input[type="tel"],
-input[type="time"],
-input[type="url"],
-input[type="color"],
+input[type='text'],
+input[type='password'],
+input[type='date'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='month'],
+input[type='week'],
+input[type='email'],
+input[type='number'],
+input[type='search'],
+input[type='tel'],
+input[type='time'],
+input[type='url'],
+input[type='color'],
 textarea {
   height: 2.25rem; /* Foundation override */
   font-size: .875rem; /* Foundation override */
   border: .125rem solid silver; /* Foundation override */
 }
 
-input[type="text"],
-input[type="text"]:focus,
-input[type="password"],
-input[type="password"]:focus,
-input[type="date"],
-input[type="date"]:focus,
-input[type="datetime"],
-input[type="datetime"]:focus,
-input[type="datetime-local"],
-input[type="datetime-local"]:focus,
-input[type="month"],
-input[type="month"]:focus,
-input[type="week"],
-input[type="week"]:focus,
-input[type="email"],
-input[type="email"]:focus,
-input[type="number"],
-input[type="number"]:focus,
-input[type="search"],
-input[type="search"]:focus,
-input[type="tel"],
-input[type="tel"]:focus,
-input[type="time"],
-input[type="time"]:focus,
-input[type="url"],
-input[type="url"]:focus,
-input[type="color"],
-input[type="color"]:focus,
+input[type='text'],
+input[type='text']:focus,
+input[type='password'],
+input[type='password']:focus,
+input[type='date'],
+input[type='date']:focus,
+input[type='datetime'],
+input[type='datetime']:focus,
+input[type='datetime-local'],
+input[type='datetime-local']:focus,
+input[type='month'],
+input[type='month']:focus,
+input[type='week'],
+input[type='week']:focus,
+input[type='email'],
+input[type='email']:focus,
+input[type='number'],
+input[type='number']:focus,
+input[type='search'],
+input[type='search']:focus,
+input[type='tel'],
+input[type='tel']:focus,
+input[type='time'],
+input[type='time']:focus,
+input[type='url'],
+input[type='url']:focus,
+input[type='color'],
+input[type='color']:focus,
 textarea,
 textarea:focus {
   -webkit-box-shadow: none; /* Foundation override */
@@ -537,19 +537,19 @@ textarea:focus {
           transition: none; /* Foundation override */
 }
 
-input[type="text"].radius,
-input[type="password"].radius,
-input[type="date"].radius,
-input[type="datetime"].radius,
-input[type="datetime-local"].radius,
-input[type="month"].radius,
-input[type="week"].radius,
-input[type="email"].radius,
-input[type="number"].radius,
-input[type="search"].radius,
-input[type="tel"].radius,
-input[type="time"].radius,
-input[type="url"].radius,
+input[type='text'].radius,
+input[type='password'].radius,
+input[type='date'].radius,
+input[type='datetime'].radius,
+input[type='datetime-local'].radius,
+input[type='month'].radius,
+input[type='week'].radius,
+input[type='email'].radius,
+input[type='number'].radius,
+input[type='search'].radius,
+input[type='tel'].radius,
+input[type='time'].radius,
+input[type='url'].radius,
 textarea.radius {
   border-radius: .375rem; /* Foundation override */
 }
@@ -606,9 +606,9 @@ button::-moz-focus-inner { /* Firefox extra spacing fix */
 }
 
 button,
-html input[type="button"], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
-input[type="reset"],
-input[type="submit"] {
+html input[type='button'], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
+input[type='reset'],
+input[type='submit'] {
   -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
   cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
 }
@@ -656,7 +656,7 @@ button, .button,
   border-style: solid;
 }
 .css-fx button, .css-fx .button,
-.css-fx .prefix.button, .css-fx .postfix.button {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .prefix.button, .css-fx .postfix.button {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 
 button:visited, .button:visited {
   color: white; /* Chrome/IE link as button color Fix */
@@ -873,7 +873,7 @@ label.error {
   top: 0;
 }
 .send-box:before {
-  content: "";
+  content: '';
   position: absolute;
   display: inline-box;
   bottom: -1rem;
@@ -888,7 +888,7 @@ label.error {
   right: 1rem;
 }
 .send-box:after {
-  content: "";
+  content: '';
   position: absolute;
   display: inline-box;
   bottom: -.875rem;
@@ -922,7 +922,7 @@ label.error {
 /* # Text Sizing */
 /* ------------------------------------------------------------------ */
 
-.css-fx .text-webfont {font-family: "Oswald", sans-serif;} /* TEMP */
+.css-fx .text-webfont {font-family: 'Oswald', sans-serif;} /* TEMP */
 
 .text-tiny {font-size: 75%;}
 .text-small {font-size: 87.5%;}
@@ -1175,7 +1175,7 @@ a.icon.active:not(.button):not(.disabled):not(.no-bg) > .text {color: white;}
 
 /* Javascript Mouse Events Fixes */
 a.icon:after {
-  content: ""; /* CSS Cover Fix */
+  content: ''; /* CSS Cover Fix */
   position: absolute;
   top: 0;
   left: 0;
@@ -1196,14 +1196,14 @@ a.disabled {
 /*outline: none;*/ /* TEMP : need to think about that ... */
   opacity: .5;
 }
-[class*="-nav"] ul li a.disabled,
-[class*="-nav"] ul li a:hover.disabled,
-[class*="-nav"] ul li a:focus.disabled,
-[class*="-nav"] ul li a:active.disabled,
-[class*="-nav"] ul li a.disabled.current,
-[class*="-nav"] ul li a:hover.disabled.current,
-[class*="-nav"] ul li a:focus.disabled.current,
-[class*="-nav"] ul li a:active.disabled.current {
+[class*='-nav'] ul li a.disabled,
+[class*='-nav'] ul li a:hover.disabled,
+[class*='-nav'] ul li a:focus.disabled,
+[class*='-nav'] ul li a:active.disabled,
+[class*='-nav'] ul li a.disabled.current,
+[class*='-nav'] ul li a:hover.disabled.current,
+[class*='-nav'] ul li a:focus.disabled.current,
+[class*='-nav'] ul li a:active.disabled.current {
   color: inherit; /* TEMP */
   background-color: inherit;
   border-color: transparent;
@@ -1225,12 +1225,12 @@ a.disabled {
   opacity: 1;
 }
 .close:after,
-[class^="close-"]:after,
-[class*="close-"]:after,
-[class$="-close"]:after,
-[class*="-close"]:after,
-[class*="-close-"]:after {
-  content: "×";
+[class^='close-']:after,
+[class*='close-']:after,
+[class$='-close']:after,
+[class*='-close']:after,
+[class*='-close-']:after {
+  content: '×';
 }
 
 /* ------------------------------------------------------------------ */
@@ -1289,7 +1289,7 @@ a.disabled {
 /* All Navs */
 .main-nav a, .fast-nav a, .user-nav a, .site-nav a {text-decoration: none;} /* TEMP : links underline fix */
 .main-nav ul li, .fast-nav ul li, .user-nav ul li {letter-spacing: -.0625em;}
-.css-fx .main-nav ul li a, .css-fx .fast-nav ul li a, .css-fx .user-nav ul li a {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .main-nav ul li a, .css-fx .fast-nav ul li a, .css-fx .user-nav ul li a {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 
 /* Main Nav */
 .main-nav {}
@@ -1457,7 +1457,7 @@ a.disabled {
 }
 .user-nav:before,
 .user-nav:after {
-  content: "";
+  content: '';
   position: absolute;
   right: 1rem;
   height: 1.5rem;
@@ -1565,11 +1565,11 @@ a.disabled {
 .site-nav ul li:before {
   margin-right: .75rem;
   float: left;
-  content: "•";
+  content: '•';
 }
 .site-nav ul li:first-child:before,
 .site-nav ul li.no-bullet:before {
-  content: "";
+  content: '';
   margin: 0;
 }
 .site-nav ul li a {color: white;}
@@ -1670,7 +1670,7 @@ a.disabled {
 /* # Block Grids */
 /* ------------------------------------------------------------------ */
 
-[class*="block-grid-"] {margin: 0;} /* Foundation override */
+[class*='block-grid-'] {margin: 0;} /* Foundation override */
 
 /* ------------------------------------------------------------------ */
 /* # Images Thumbnails */
@@ -1773,7 +1773,7 @@ a.disabled {
   z-index: 3;
 }
 .sub-list.stack > ul:before {
-  content: "";
+  content: '';
   position: absolute;
   top: -2rem;
   left: 2rem;
@@ -1898,12 +1898,12 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /*
 .accordion > dd > a {text-decoration: none;} /* TEMP : links underline fix /
 .accordion > dd > a:before {
-  content: "►";
+  content: '►';
   margin-right: 1rem;
   color: darkgray;
 }
 .accordion > dd > a.active:before {
-  content: "▼";
+  content: '▼';
 }
 .accordion > dd.active > a {background: transparent;} /* Foundation override /
 .accordion > dd > a.active {background: gainsboro;} /* Foundation override /
@@ -2206,7 +2206,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 .progress.warning .meter {background-color: #fa0;}
 
 .progress .meter:after {
-  content: "%";
+  content: '%';
   margin-left: .125rem;
 }
 
@@ -2274,7 +2274,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 }
 .clearing-close {text-decoration: none;} /* TEMP : links underline fix */
 .clearing-close:after {
-  content: ""; /* WARNING : Times character hard coded ; cannot faked it */
+  content: ''; /* WARNING : Times character hard coded ; cannot faked it */
 }
 .clearing-close:hover, .clearing-close:focus {
   color: white; /* Foundation override */
@@ -2393,7 +2393,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   border-left: none;
   letter-spacing: -.0625em;
 }
-.css-fx .orbit-slides-container blockquote {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .orbit-slides-container blockquote {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .orbit-slides-container blockquote cite {
   margin-top: .75rem;
 }
@@ -2465,7 +2465,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   white-space: nowrap;
 }
 .options-select > .select:after {
-  content: "";
+  content: '';
   position: absolute;
   right: .5rem;
   display: inline-block;
@@ -2567,7 +2567,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   font-weight: bold;
 }
 .autocomplete ul > li.suggested-fetch:after {
-  content: "Suggéré";
+  content: 'Suggéré';
   float: right;
   color: darkgray;
   font-size: 75%;
@@ -2653,7 +2653,7 @@ input:focus + button + .error + .autocomplete > ul {
   clear: both;
 }
 .over-block:after { /* Clearfix*/
-  content: "";
+  content: '';
   display: block;
   clear: both;
 }
@@ -2772,7 +2772,7 @@ input:focus + button + .error + .autocomplete > ul {
 /* Article Footer */
 .article .footer {}
 .article .footer:after {
-  content: "";
+  content: '';
   display: block;
   height: .75rem;
   clear: both;
@@ -2806,7 +2806,7 @@ input:focus + button + .error + .autocomplete > ul {
   color: dimgray;
 }
 .article > .footer .authoring:before {
-  content: "—";
+  content: '—';
   font-size: 1rem;
   margin-right: .25rem;
 }
@@ -2822,7 +2822,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .css-fx .article > .header .author,
 .css-fx .article > .header .coauthor {
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   letter-spacing: 0;
 }
 .article > .footer .author,
@@ -2910,16 +2910,16 @@ input:focus + button + .error + .autocomplete > ul {
   border-left: 0;
   border-right: 0;
 }
-.css-fx .article .callout {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .article .callout {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .article .callout:before {
-  content : "“";
+  content : '“';
   position: absolute; /* Fix CKEditor callout position bug */
   top: 0; /* Fix CKEditor callout position bug */
   left: 0; /* Fix CKEditor callout position bug */
   margin-right: .5rem;
 }
 .article .callout:after{
-  content : "”";
+  content : '”';
   position: absolute; /* Fix CKEditor callout position bug */
   bottom: 0; /* Fix CKEditor callout position bug */
   right: 0; /* Fix CKEditor callout position bug */
@@ -2971,7 +2971,7 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: transparent;
   border-color: transparent;
 }
-.css-fx .article.edit .title {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .article.edit .title {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .article.edit .title + .error {
   margin-top: -.625rem; /* WARNING : vertical position adjustment */
 }
@@ -3098,7 +3098,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 .article-list .overview:after { /* Clearfix */
-  content: ""; 
+  content: ''; 
   display: block;
   clear: both;
 }
@@ -3129,7 +3129,7 @@ input:focus + button + .error + .autocomplete > ul {
       -ms-transform-origin: 50% 100%; /* IE 9 */
           transform-origin: 50% 100%;
 }
-.css-fx .article-list .over-block .over:before {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .article-list .over-block .over:before {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 
 /* Articles List Drafts */
 .article-list.draft {}
@@ -3281,7 +3281,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .article-list > .web-review .author:before,
 .article-list > .block .author:before {
-  content: "–";
+  content: '–';
   margin-right: .25rem;
 }
 .article-list > .web-review .author,
@@ -3403,7 +3403,7 @@ input:focus + button + .error + .autocomplete > ul {
   opacity: 1;
 }
 .overview-tip:before {
-  content: "+";
+  content: '+';
 }
 .overview-tip.active {
   color: white;
@@ -3411,7 +3411,7 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: dimgray;
 }
 .overview-tip.active:before {
-  content: "-";
+  content: '-';
 }
 
 /* ------------------------------------------------------------------ */
@@ -3627,7 +3627,7 @@ input:focus + button + .error + .autocomplete > ul {
 .user-picture .picture:hover:before,
 .user-picture .picture:focus:before {
   position: absolute;
-  content: "Glisser-déposer";
+  content: 'Glisser-déposer';
   padding-top: 40%;
   top: 0;
   left: 0;
@@ -3640,7 +3640,7 @@ input:focus + button + .error + .autocomplete > ul {
   text-indent: 0;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
 }
-.css-fx .user-picture .picture {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .user-picture .picture {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .user-picture .picture:hover:before {
   background-color: rgba(255, 255, 255, .5);
 }
@@ -3655,7 +3655,7 @@ input:focus + button + .error + .autocomplete > ul {
   border-color: #393;
 }
 .user-picture .picture.dragon:before {
-  content: "Déposez !";
+  content: 'Déposez !';
 }
 
 /* User Name */
@@ -3671,7 +3671,7 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: #759;
   text-shadow: 1px 1px rgba(0,0,0,.5);
 }
-.css-fx .user-profile input.user-name {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .user-profile input.user-name {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .user-profile input.user-name:-ms-input-placeholder { /* IE 10+ */
   color: rgba(255, 255, 255, .5);
   text-shadow: 1px 1px rgba(0,0,0,.125);
@@ -3801,7 +3801,7 @@ input:focus + button + .error + .autocomplete > ul {
   line-height: 200%;
   letter-spacing: -.0625em;
 }
-.css-fx .date-table .over-block > time {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .date-table .over-block > time {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .date-table .over-block > ul {
   margin: 0 0 .25rem;
   list-style: none inside;
@@ -3841,7 +3841,7 @@ input:focus + button + .error + .autocomplete > ul {
   line-height: 5rem;
   letter-spacing: -.0625em;
 }
-.css-fx .date-list .over-block > time {letter-spacing: 0; font-family: "Oswald", sans-serif;}
+.css-fx .date-list .over-block > time {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .date-list .over-block > ul {
   margin: 0 0 .25rem;
   list-style: none inside;
@@ -3871,8 +3871,8 @@ input:focus + button + .error + .autocomplete > ul {
 #_css_fx_toggle.active:before ,
 #_svg_fx_toggle.active:before,
 #_js_fx_toggle.active:before {content: 'Hide ';}
-#toolbar [id^="_css_debug_"]:not(.disabled):before {content: 'Markup ';}
-#toolbar [id^="_css_debug_"]:not(.disabled).active:before {content: 'Unmark ';}
+#toolbar [id^='_css_debug_']:not(.disabled):before {content: 'Markup ';}
+#toolbar [id^='_css_debug_']:not(.disabled).active:before {content: 'Unmark ';}
 #_toolbar_stick_toggle:before {content: 'Undock ';}
 #_toolbar_stick_toggle.active:before {content: 'Dock ';}
 
@@ -3883,9 +3883,9 @@ input:focus + button + .error + .autocomplete > ul {
 #dev_testbar:hover > svg {fill: rgba(255, 255, 255, .5);}
 #dev_testbar > h4 {display: inline-block; margin: .25rem 1rem .25rem 0; font-size: 112.5%; color: rgba(255, 255, 255, .5); line-height: 150%; vertical-align: middle;}
 #dev_testbar > label {margin: 0 0 0 .5rem; color: white; vertical-align: middle}
-#dev_testbar > input[type="checkbox"] {margin: 0; vertical-align: middle;}
-#dev_testbar > input[type="button"] {margin-left: 1rem; vertical-align: middle;}
-#dev_testbar > input[type="range"] {margin: 0; vertical-align: middle;}
+#dev_testbar > input[type='checkbox'] {margin: 0; vertical-align: middle;}
+#dev_testbar > input[type='button'] {margin-left: 1rem; vertical-align: middle;}
+#dev_testbar > input[type='range'] {margin: 0; vertical-align: middle;}
 
 /* ------------------------------------------------------------------ */
 /* # Responsive Font Sizing */
