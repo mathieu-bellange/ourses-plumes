@@ -56,6 +56,20 @@ String.prototype.format = function(l, p) {
 	return s;
 };
 
+/* Encode string to UTF-8 * UNUSED (for now ...) */
+/*
+String.prototype.encode = function() {
+	return unescape(encodeURIComponent(this));
+};
+*/
+
+/* Decode string from UTF-8 * UNUSED (for now ...) */
+/*
+String.prototype.decode = function() {
+	return decodeURIComponent(escape(this));
+};
+*/
+
 /* String to Document Root EM unit
  * Convert pixel string or numeric to root EM float.
  * "20px" returns 1.25
