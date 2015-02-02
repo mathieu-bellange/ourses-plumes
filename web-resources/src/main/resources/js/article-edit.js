@@ -57,9 +57,9 @@ var tags = (function() {
 				$(sel + "_tag").html($(sel + " .select").text()); // update text
 				$(sel + "_tag").removeClass("undefined wrong"); // reset class
 				if (id == "rubric") {
-					$("form, #" + id + "_tag").removeClass("struggles ourbody intersec internat educult ideas"); // WARNING : using 'form' as topmost parent element
+					$(".body, #" + id + "_tag").removeClass("struggles ourbody intersec internat educult ideas");
 					if ($(sel + " .selected").attr("data-color")) {
-						$("form, #" + id + "_tag").addClass($(sel + " .selected").attr("data-color")); // WARNING : using 'form' as topmost parent element
+						$(".body, #" + id + "_tag").addClass($(sel + " .selected").attr("data-color"));
 					}
 				} else {
 					$(sel + "_tag").addClass("inverse") // update color

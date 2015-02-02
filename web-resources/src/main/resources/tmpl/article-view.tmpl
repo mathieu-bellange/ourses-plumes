@@ -1,6 +1,6 @@
 ﻿				<!--Article-->
 				<section id="{{= data.beautify_title }}">
-					<article class="article {{= data.rubrique.classe }} clearfix">
+					<article class="article clearfix">
 						<div class="header">
 							<h2 class="title">{{= data.title }}</h2>
 							<p class="authoring icon-author">
@@ -20,7 +20,7 @@
 								{{~}}
 							</dl>
 						</div>
-						<div class="body">
+						<div class="body {{= data.rubrique.classe }}">
 							{{= data.body }}
 						</div>
 						<div class="footer">

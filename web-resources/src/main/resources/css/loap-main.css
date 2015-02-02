@@ -2719,50 +2719,6 @@ input:focus + button + .error + .autocomplete > ul {
 /* # View Article */
 /* ------------------------------------------------------------------ */
 
-/* Mix-in Generic/Rubric Colors */
-.article.red > .body h4, .article.red > .body a,
-.article.intersec > .body h4, .article.intersec > .body a,
-.article.red > .body .callout,
-.article.intersec > .body .callout {color: #c33; border-color: #c33;}
-.article.red > .body a:hover, .article.red > .body a:focus,
-.article.intersec > .body a:hover, .article.intersec > .body a:focus {color: #822;}
-.article.orange > .body h4, .article.orange > .body a,
-.article.struggles > .body h4, .article.struggles > .body a,
-.article.orange > .body .callout,
-.article.struggles > .body .callout {color: #f63; border-color: #f63;}
-.article.orange > .body a:hover, .article.orange > .body a:focus,
-.article.struggles > .body a:hover, .article.struggles > .body a:focus {color: #931;}
-.article.yellow > .body h4, .article.yellow > .body a,
-.article.ideas > .body h4, .article.ideas > .body a,
-.article.yellow > .body .callout,
-.article.ideas > .body .callout {color: #ca0; border-color: #ca0;}
-.article.yellow > .body a:hover, .article.yellow > .body a:focus,
-.article.ideas > .body a:hover, .article.ideas > .body a:focus {color: #761;}
-.article.green > .body h4, .article.green > .body a,
-.article.green > .body .callout {color: #393; border-color: #393;}
-.article.green > .body a:hover, .article.green > .body a:focus {color: #252;}
-.article.cyan > .body h4, .article.cyan > .body a,
-.article.educult > .body h4, .article.educult > .body a,
-.article.cyan > .body .callout,
-.article.educult > .body .callout {color: #399; border-color: #399;}
-.article.cyan > .body a:hover, .article.cyan > .body a:focus,
-.article.educult > .body a:hover, .article.educult > .body a:focus {color: #255;}
-.article.blue > .body h4, .article.blue > .body a,
-.article.internat > .body h4, .article.internat > .body a,
-.article.blue > .body .callout,
-.article.internat > .body .callout {color: #36c; border-color: #36c;}
-.article.blue > .body a:hover, .article.blue > .body a:focus,
-.article.internat > .body a:hover, .article.internat > .body a:focus {color: #248;}
-.article.purple > .body h4, .article.purple > .body a,
-.article.purple > .body .callout {color: #93c; border-color: #93c;}
-.article.purple > .body a:hover, .article.purple > .body a:focus {color: #517;}
-.article.magenta > .body h4, .article.magenta > .body a,
-.article.ourbody > .body h4, .article.ourbody > .body a,
-.article.magenta > .body .callout,
-.article.ourbody > .body .callout {color: #e2a; border-color: #e2a;}
-.article.magenta > .body a:hover, .article.magenta > .body a:focus,
-.article.ourbody > .body a:hover, .article.ourbody > .body a:focus {color: #a17;}
-
 /* Article Header */
 .article .header {}
 
@@ -2770,6 +2726,55 @@ input:focus + button + .error + .autocomplete > ul {
 .article .body > *:first-child:not(h4) {
   margin-top: 1rem;
 }
+
+.article .body {
+  color: inherit;
+}
+
+/* Mix-in Generic/Rubric Colors */
+.article .body.red h4, .article .body.red a,
+.article .body.intersec h4, .article .body.intersec a,
+.article .body.red .callout,
+.article .body.intersec .callout {color: #c33; border-color: #c33;}
+.article .body.red a:hover, .article .body.red a:focus,
+.article .body.intersec a:hover, .article .body.intersec a:focus {color: #822;}
+.article .body.orange h4, .article .body.orange a,
+.article .body.struggles h4, .article .body.struggles a,
+.article .body.orange .callout,
+.article .body.struggles .callout {color: #f63; border-color: #f63;}
+.article .body.orange a:hover, .article .body.orange a:focus,
+.article .body.struggles a:hover, .article .body.struggles a:focus {color: #931;}
+.article .body.yellow h4, .article .body.yellow a,
+.article .body.ideas h4, .article .body.ideas a,
+.article .body.yellow .callout,
+.article .body.ideas .callout {color: #ca0; border-color: #ca0;}
+.article .body.yellow a:hover, .article .body.yellow a:focus,
+.article .body.ideas a:hover, .article .body.ideas a:focus {color: #761;}
+.article .body.green h4, .article .body.green a,
+.article .body.green .callout {color: #393; border-color: #393;}
+.article .body.green a:hover, .article .body.green a:focus {color: #252;}
+.article .body.cyan h4, .article .body.cyan a,
+.article .body.educult h4, .article .body.educult a,
+.article .body.cyan .callout,
+.article .body.educult .callout {color: #399; border-color: #399;}
+.article .body.cyan a:hover, .article .body.cyan a:focus,
+.article .body.educult a:hover, .article .body.educult a:focus {color: #255;}
+.article .body.blue h4, .article .body.blue a,
+.article .body.internat h4, .article .body.internat a,
+.article .body.blue .callout,
+.article .body.internat .callout {color: #36c; border-color: #36c;}
+.article .body.blue a:hover, .article .body.blue a:focus,
+.article .body.internat a:hover, .article .body.internat a:focus {color: #248;}
+.article .body.purple h4, .article .body.purple a,
+.article .body.purple .callout {color: #93c; border-color: #93c;}
+.article .body.purple a:hover, .article .body.purple a:focus {color: #517;}
+.article .body.magenta h4, .article .body.magenta a,
+.article .body.ourbody h4, .article .body.ourbody a,
+.article .body.magenta .callout,
+.article .body.ourbody .callout {color: #e2a; border-color: #e2a;}
+.article .body.magenta a:hover, .article .body.magenta a:focus,
+.article .body.ourbody a:hover, .article .body.ourbody a:focus {color: #a17;}
+
 
 /* Article Footer */
 .article .footer {}
