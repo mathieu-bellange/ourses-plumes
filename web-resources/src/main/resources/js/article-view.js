@@ -182,10 +182,10 @@ function shareByMail(articleId, mail){
 
 function processArticle(article) {
 	set_page_title(article.title);
-	if (window.location.pathname !== article.path){
-		if (typeof history.pushState !== 'undefined'){
+	if (window.location.pathname !== article.path) {
+		if (typeof history.pushState !== 'undefined') {
 			window.history.pushState("", "", article.path); // live update address bar without reloading document (HTML5 method)
-		}else{
+		} else {
 			window.location.href = article.path;
 		}
 	}
@@ -194,6 +194,7 @@ function processArticle(article) {
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
 	displayRelatedArticle(article.id);
+	$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 }
 
 function processRelatedArticles(articles) {

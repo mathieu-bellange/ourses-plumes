@@ -200,8 +200,8 @@ function getProfile() {
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
 				processAvatar();
-				$(document).foundation("tooltip"); // TEMP : reload Foundation tooltip plugin
-				$(document).foundation("reveal"); // TEMP : reload Foundation reveal plugin
+				$(document).foundation("tooltip"); // TEMP : reload Foundation tooltip plugin for whole document
+				$(document).foundation("reveal"); // TEMP : reload Foundation reveal plugin for whole document
 				if (typeof profile.avatar !== "undefined" && profile.avatar.id > 0) {
 					$("#delete_avatar").show(); // show delete avatar link if avatar is defined
 				}

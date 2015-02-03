@@ -535,8 +535,7 @@ function displayArticles(url_params) {
 function processArticles(articles) {
 	// insert articles list template
 	$(".tool-bar").after(file_pool.article_list_tmpl(articles)).after(lb(1));
-	 // TEMP : reload Foundation tooltip plugin
-	$(document).foundation("tooltip");
+	$(document).foundation("tooltip"); // TEMP : reload Foundation tooltip plugin for whole document
 	// bind live events
 	$("html").on("mouseenter", ".over-block", function() {
 		$(this).find(".validate").show();
@@ -588,11 +587,11 @@ function processArticles(articles) {
 function processAfterValidation(article) {
 	$("#articles_standby").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_standby li:first").svg_icons(); // NEW : refresh svg icons for newly created article item
-	$("#articles_standby li:first").foundation("tooltip"); // NEW : refresh Foudnation toolip for newly created article item
 	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
+	$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 	//$("#articles_standby li:first .validate button[data-publish]").click(function() {
 		// publishArticle($(this).attr("data-publish"));
 	//});
@@ -601,7 +600,6 @@ function processAfterValidation(article) {
 function processAfterInValidation(article) {
 	$("#articles_draft").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
 	$("#articles_draft li:first").svg_icons(); // NEW : refresh svg icons for newly created article item
-	$("#articles_draft li:first").foundation("tooltip"); // NEW : refresh Foudnation toolip for newly created article item
 	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
@@ -609,6 +607,7 @@ function processAfterInValidation(article) {
 	$("#articles_draft li:first .validate button[data-delete]").click(function() {
 		confirmDelete($(this).attr("data-delete"));
 	});
+	$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 }
 
 function processAfterPublish(article) {
@@ -618,11 +617,11 @@ function processAfterPublish(article) {
 		if (date < article.publishedDate){
 			$(this).before(file_pool.article_item_tmpl(article)).prepend(lb(1));
 			$(this).prev().svg_icons(); // NEW : refresh svg icons for newly created article item
-			$(this).foundation("tooltip"); // NEW : refresh Foudnation toolip for newly created article item
 			$(this).prev().fadeIn(article_list_cfg.fade_duration); // NEW : show article
 			$(this).prev().find(".validate button[data-recall]").click(function() {
 				recallArticle($(this).attr("data-recall"));
 			});
+			$(document).foundation("tooltip"); // TEMP : reload Foundation tooltip plugin for whole document
 			return false
 		}
 	});

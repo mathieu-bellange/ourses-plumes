@@ -96,6 +96,7 @@ function displayProfile() {
 			processProfile(profile);
 			displayRole(profile.pseudoBeautify);
 			displayArticles(profile.id);
+			$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
