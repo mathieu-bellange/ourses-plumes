@@ -828,11 +828,11 @@ label.error {
 /* ------------------------------------------------------------------ */
 
 .validation-box {
-  position: relative;
+  height: 100%;
+  margin: -.125rem 0; /* Box full height fix toward border width ; I know about negative margin ... AND I DON'T CARE ! */
 }
 .validation-box > input {
   height: 100%;
-  margin: 0;
 }
 .validation-box > input.wrong {
   border-bottom-left-radius: 0;
@@ -1339,9 +1339,10 @@ a.disabled {
 /* Fast Nav */
 .fast-nav {
   position: relative;
+  display: inline-block;
   height: 2.5rem; /* WARNING : fixed height */
-  width: ; /* WARNING : fluid design width = .main-width - 2.5rem */
   margin-bottom: .5rem;
+  left: .5rem;
   vertical-align: middle;
   overflow: hidden;
 }
@@ -2592,8 +2593,14 @@ input:focus + button + .error + .autocomplete > ul {
 /* ------------------------------------------------------------------ */
 
 .tool-bar {
-  margin-bottom: .5rem;
-  padding-bottom: .5rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+.tool-bar:after {
+  content: '';
+  position: relative;
+  display: block;
+  bottom: -.5rem;
   border-bottom: .125rem dotted gainsboro;
 }
 
@@ -3110,7 +3117,7 @@ input:focus + button + .error + .autocomplete > ul {
   clear: both;
 }
 
-/* Articles List Types */
+/* Articles List Vertical Texts (i.e. 'labels') */
 .article-list.draft .over-block .title,
 .article-list.draft .over-block .overview,
 .article-list.online .over-block .title,
@@ -3157,8 +3164,10 @@ input:focus + button + .error + .autocomplete > ul {
   border-style: dotted;
   border-color: silver;
 }
-.article-list.draft .over-block:hover .over {
+.article-list.draft .owner .over-block:hover .over {
   border-style: solid;
+}
+.article-list.draft .other .over-block:hover .over {
   border-width: .125rem;
 }
 .article-list.draft .over-block .over:before {
@@ -3167,6 +3176,16 @@ input:focus + button + .error + .autocomplete > ul {
   left: 0;
   color: gray; /* RGBA Fix */
   color: rgba(0, 0, 0, .375);
+}
+.article-list.draft .owner .over-block:hover .over:before {
+  top: .375rem;
+  left: -.125rem;
+}
+.css-fx .article-list.draft .over-block {
+  transition: box-shadow .625s ease-out .125s;
+}
+.css-fx .article-list.draft .over-block:hover {
+  box-shadow: 0 0 2.5rem .5rem rgba(0,0,0,.0625) inset;
 }
 
 /* Articles List Standbys */
@@ -3254,14 +3273,14 @@ input:focus + button + .error + .autocomplete > ul {
 .article-list > .web-review > .topic {display: none;}
 .article-list > .web-review .title {font-size: 200%;}
 .article-list > .web-review .over-block {
+  min-height: 13.75rem;
   margin-bottom: .5rem;
-  padding: 200px 1rem 1rem;
+  padding: .1rem 21.25rem .5rem 1rem;
   color: #202020;
-  background-color: white;
   background: url('../img/svg/web-review.svg');
-  background-position: .5rem .5rem;
+  background-size: 20rem;
   background-repeat: no-repeat;
-  background-size: 280px;
+  background-position: right .5rem top .5rem;
 }
 .article-list > .web-review .over-block .over:not(:hover) {
   border-color: transparent;
@@ -3270,17 +3289,10 @@ input:focus + button + .error + .autocomplete > ul {
 .article-list > .web-review .over-block .over:hover {
   border-width: .5rem;
 }
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .article-list > .web-review .over-block {
     padding: 1rem;
     background-size: 0;
-    /*
-    padding-top: .5rem;
-    padding-right: 340px;
-    min-height: 220px;
-    background-size: 320px;
-    background-position: right .5rem;
-    */
   }
 }
 

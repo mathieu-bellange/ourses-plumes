@@ -35,9 +35,9 @@ var loax = (function() {
 var article_list_tools = (function(options) {
 	var defaults = {
 		"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
-		"search_spacing"        : 4.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
-		"search_load_delay"     : 1000,   // Integer  Time before search input expand on page load. Default : 1000
-		"anim_duration"         : 500     // Integer  Time during which animations are played. Default : 500
+		"search_spacing"        : 1.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
+		"search_load_delay"     : 500,    // Integer  Time before search input expand on page load. Default : 1000
+		"anim_duration"         : 375     // Integer  Time during which animations are played. Default : 500
 	};
 	var settings = $.extend({}, defaults, options);
 	return {
@@ -171,8 +171,8 @@ function displayArticles(url_params) {
 			// display article search empty message
 			if (articles.length == 0) {
 				createAlertBox($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null});
-			}else{
-				$("#alert_box").fadeOut(function(){
+			} else {
+				$("#alert_box").fadeOut(function() {
 					$("#alert_box").remove();
 				});
 			}
