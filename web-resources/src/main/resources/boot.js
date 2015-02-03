@@ -277,7 +277,6 @@ var head_tags = [
 	{elem: "meta", attr: {name: "generator", content: $app.genr}},
 	{elem: "title", text: $org.name},
 	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
-	{elem: "link", attr: {href: $loc.css + "fonts.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
 	{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
