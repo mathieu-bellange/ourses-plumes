@@ -2,20 +2,7 @@
 				<section id="articles">
 					<ul id="articles_publish" class="article-list">
 						{{~ data :params }}
-							<li class="{{= params.rubrique.classe }}">
-								<div class="topic">
-									<h4 class="rubric">{{= params.rubrique.rubrique }}</h4>
-								</div>
-								<div class="over-block">
-									<h4 class="title">{{= params.title }}</h4>
-									<p class="overview">
-										<span class="hide">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(params.publishedDate)) }}" class="date icon-date tiny">{{= dateToHTML(new Date(params.publishedDate)) }}</time>
-										<span class="summary">{{= params.description }}</span>
-										<strong class="author">{{= params.profile.pseudo }}</strong>
-									</p>
-									<a href="{{= params.path }}" class="over">Lire l&rsquo;article</a>
-								</div>
-							</li>
+							{{= file_pool.article_item_tmpl(params)}}
 						{{~}}
 					</ul>
 				</section>

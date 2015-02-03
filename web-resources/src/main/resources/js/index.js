@@ -4,7 +4,7 @@
 
 var loax_pool = {
 	"article_list_tmpl"    : $loc.tmpl + "online-article-list.tmpl",
-	"article_item_tmpl"    : $loc.tmpl + "article-item.tmpl",
+	"article_item_tmpl"    : $loc.tmpl + "online-article-item.tmpl",
 	"widget_timeline_tmpl" : $loc.tmpl + "widget-timeline.tmpl",
 	"widget_likebox_tmpl"  : $loc.tmpl + "widget-likebox.tmpl"
 }
@@ -34,7 +34,7 @@ var loax = (function() {
 var block_list = (function() {
 	// Configuration
 	var cfg = {
-		"list_name"    : ".article-list.latest", // [sel] The element targeted by the component. Default : ".article-list.latest"
+		"list_name"    : ".article-list",         // [sel] The element targeted by the component. Default : ".article-list"
 		"item_name"    : ".block",                // [sel] The element's child targeted by the component. Default : ".block"
 		"base_name"    : ".over-block",           // [sel] The inner element that will be resized (can be the item itself). Default : ".href-block"
 		"desc_name"    : ".summary",              // [sel] A inner text element that can be adjusted in length. Default : ".summary"
@@ -153,13 +153,9 @@ function displayLastWebReview() {
 		url : "/rest/articles/last/review",
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // TEMP : check line breaks for that !
-			$("#articles_publish > li").first().show(); // TEMP : show first item
-			$("#articles_publish > li").first().find(".validate").detach(); // TEMP : detach validate
-			$("#articles_publish > li").first().addClass("web-review"); // TEMP : add web review class
-			$("#articles_publish > li").first().removeClass("my"); // TEMP : remove useless classes
-			$("#articles_publish > li").not(":first").addClass("block"); // TEMP : set up block list classes
-			$("#articles_publish").addClass("latest"); // TEMP : set up latest class
+			$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // preprend last web review
+			$("#articles_publish > li").first().addClass("web-review"); // add web review class
+			$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
 			if ($build.timeline) {
 				$("head").append("<script src='https://platform.twitter.com/widgets.js' id='twitter-wjs'></script>").append(lb(1)); // insert Twitter widget API
 				$("#articles").append(file_pool.widget_timeline_tmpl()).append(lb(1)); // append Twitter timeline to section
