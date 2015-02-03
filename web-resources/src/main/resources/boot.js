@@ -267,9 +267,6 @@ $rest = {
 /* ------------------------------------------------------------------ */
 
 /* Prebuild vars */
-var IE_conditional_comments = [
-	lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
-];
 var head_tags = [
 	{elem: "meta", attr: {charset: "utf-8"}},
 	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
@@ -294,7 +291,6 @@ var head_tags = [
 	// {elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
 	// -------------------------------------------------------------------
 	{elem: "script", attr: {src: $loc.js + "conf-dot.js"}}, // IE Fix
-	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
 var body_tags = [
 	{elem: "script", attr: {src: $loc.js + "loap.js"}},
