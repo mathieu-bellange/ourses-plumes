@@ -3272,11 +3272,15 @@ input:focus + button + .error + .autocomplete > ul {
 }
 @media (min-width: 640px) {
   .article-list > .web-review .over-block {
+    padding: 1rem;
+    background-size: 0;
+    /*
     padding-top: .5rem;
     padding-right: 340px;
     min-height: 220px;
     background-size: 320px;
     background-position: right .5rem;
+    */
   }
 }
 
@@ -3301,6 +3305,7 @@ input:focus + button + .error + .autocomplete > ul {
 @media (max-width: 639px) {
   .article-list > .block {
     width: 100%;
+    padding: 0;
   }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
@@ -4061,8 +4066,11 @@ input:focus + button + .error + .autocomplete > ul {
     display: block;
   }
   .logo {
+    display: none;
+    /*
     margin-top: 0;
     margin-bottom: 0;
+    */
   }
   .main-nav {
     width: 100%;
@@ -4088,6 +4096,9 @@ input:focus + button + .error + .autocomplete > ul {
     left: 40%;
   }
   */
+  .orbit-container {
+    display: none;
+  }
   [data-magellan-expedition] {
     width: 100%;
     left: 0;

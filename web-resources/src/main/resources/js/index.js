@@ -161,7 +161,7 @@ function displayLastWebReview() {
 				$("#articles").append(file_pool.widget_timeline_tmpl()).append(lb(1)); // append Twitter timeline to section
 				widgets.customize(); // apply custom settings
 			}
-			if ($build.likebox) {
+			if ($build.likebox && Modernizr.mq("(min-width: 640px)")) { // display Facebook likebox only on small width and above devices (i.e. faces overflow bug fix)
 				$("#articles").append(file_pool.widget_likebox_tmpl()).append(lb(1)); // append Facebook likebox to section
 			}
 			$("#articles").svg_icons(); // always reload icons only for articles
