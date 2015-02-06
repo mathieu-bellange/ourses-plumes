@@ -618,7 +618,16 @@ html input[disabled] {
   cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
 }
 
+input + button,
+textarea + button,
+input + input[type='button'],
+textarea + input[type='button'],
+input + .button,
+textarea + .button {
+  margin-top: .75rem; /* TEMP */
+}
 .prefix, .postfix {
+  margin: 0; /* TEMP */
   padding: 0 .75rem;
 }
 .prefix.button, .postfix.button {
@@ -1184,7 +1193,9 @@ button.icon:after {
   height: 100%;
 }
 a.icon > svg,
-button.icon > svg {
+span.icon > svg,
+button.icon > svg,
+[tabindex].icon > svg {
   pointer-events: none; /* Pointer Events Fix */
 }
 
@@ -1215,12 +1226,14 @@ a.disabled {
 /* # Close */
 /* ------------------------------------------------------------------ */
 
-.close {
-  font-size: 1.5rem;
-  font-weight: bold;
+a.close {
   text-decoration: none; /* TEMP : links underline fix */
-  outline-offset: -.25rem;
+}
+.close {
+  cursor: pointer;
+  font-weight: bold;
   opacity: .5;
+  outline-offset: -.25rem;
 }
 .close:hover,
 .close:focus {
@@ -1662,6 +1675,10 @@ a.disabled {
   display: none; /* Visibility fix */
 }
 
+.inline-list > li > * {
+  display: inline; /* Foundation override */
+}
+
 /* Block Inline Lists -- UNUSED */
 /*
 .inline-list.block {
@@ -1879,6 +1896,7 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .panel.callout {
   border-color: lightgrey;
   background: lightyellow;
+  background-image: url('../img/ui/pattern-stripes.png'); /* TEMP */
 }
 .panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout p {
   color: #333333;
@@ -2608,11 +2626,121 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Validation Bar */
 /* ------------------------------------------------------------------ */
 
-.validation-bar {
+.confirmation-bar {
   display: none; /* Visibility fix */
   position: relative;
-  top: -.5rem;
+  /*top: -.5rem;*/
+  top: .25rem;
   line-height: 2rem;
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Confirmation Modal */
+/* ------------------------------------------------------------------ */
+
+.modal {
+  position: fixed;
+  display: table;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+}
+.modal .canvas {
+  position: fixed;
+  display: table-cell;
+  height: 100%;
+  width: 100%;
+  padding: 2rem;
+  vertical-align: middle;
+  background-color: dimgray; /* RGBA Fix */
+  background-color: rgba(0, 0, 0, .5);
+  background-image: url('../img/ui/pattern-lines.png');
+}
+.modal .dialog {
+  position: relative;
+  left: 50%;
+  /*top: 50%;*/
+  width: 50%;
+  max-height: 100%;
+  /*margin-top: -25%;*/
+  margin-left: -25%;
+  padding: .5rem 1.75rem 1.25rem;
+  text-align: center;
+  border-radius: .5rem;
+  background-color: white;
+  overflow-y: auto;
+}
+.css-fx .modal .dialog {
+  box-shadow: .125rem .125rem .375rem .125rem rgba(0, 0, 0, .375), 0 -2.5rem 5rem .25rem rgba(0, 0, 0, .125) inset;
+}
+.modal .dialog .title {
+  margin-top: 0;
+  color: silver;
+  text-align: left;
+  /*background-color: rgba(255, 0, 0, .5); /* DEBUG*/
+}
+.modal .dialog .close {
+  position: relative;
+  float: right;
+  top: .5rem;
+  right: -.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1rem;
+  text-align: center;
+  color: dimgray;
+  overflow: hidden; /* Outline Fix */
+  border-radius: .25rem;
+  /*background-color: rgba(255, 255, 0, .5); /* DEBUG*/
+}
+.modal .dialog .close:after {
+  display: block;
+  /*background-color: rgba(0, 255, 0, .5); /* DEBUG*/
+}
+.modal .dialog .close:hover,
+.modal .dialog .close:focus {
+  color: white;
+}
+.modal .dialog .close:hover {
+  background-color: indianred;
+}
+.modal .dialog .close:focus {
+  background-color: firebrick;
+}
+.css-fx .modal .dialog .close:hover,
+.css-fx .modal .dialog .close:focus {
+  box-shadow: 0 0 .5rem 0 firebrick inset;
+}
+.css-fx .modal .dialog .close:hover:after,
+.css-fx .modal .dialog .close:focus:after {
+  text-shadow: 0 0 .125rem firebrick;
+}
+.modal .dialog .message {
+  text-align: center;
+}
+.modal .dialog > button {
+  margin-bottom: 0;
+}
+@media (max-width: 479px) {
+  .modal .dialog {left: 0; width: 100%; margin-left: 0;}
+}
+@media (min-width: 480px) and (max-width: 639px) {
+  .modal .dialog {left: 10%; width: 90%; margin-left: -5%;}
+}
+@media (min-width: 640px) and (max-width: 959px) {
+  .modal .dialog {left: 20%; width: 80%; margin-left: -10%;}
+}
+@media (min-width: 960px) and (max-width: 1199px) {
+  .modal .dialog {left: 30%; width: 70%; margin-left: -15%;}
+}
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .modal .dialog {left: 40%; width: 60%; margin-left: -20%;}
+}
+@media (min-width: 1600px) {
+  .modal .dialog {left: 50%; width: 50%; margin-left: -25%;}
 }
 
 /* ------------------------------------------------------------ */
@@ -3289,7 +3417,7 @@ input:focus + button + .error + .autocomplete > ul {
 .article-list > .web-review .over-block .over:hover {
   border-width: .5rem;
 }
-@media (max-width: 640px) {
+@media (max-width: 639px) {
   .article-list > .web-review .over-block {
     padding: 1rem;
     background-size: 0;
@@ -3882,6 +4010,283 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* ------------------------------------------------------------------ */
+/* # FAQ View */
+/* ------------------------------------------------------------------ */
+
+.faq {}
+.faq .question {
+  position: relative;
+  display: block;
+  margin-bottom: .5rem;
+  padding: .25rem;
+  padding-right: 3rem;
+  color: #202020;
+  font-size: 1.375em;
+  font-weight: normal;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  letter-spacing: -.0625em;
+  line-height: 150%;
+  border-radius: .5rem;
+  outline: 0; /* Chrome Fix */
+}
+.css-fx .faq .question {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0;
+}
+.faq .question:hover,
+.faq .question:focus {
+  cursor: pointer;
+  /*color: #a8c;*/
+  /*text-decoration: underline;*/
+  background-color: rgb(232, 232, 232); /* IE Fix */
+  /*background: linear-gradient(90deg, rgba(232, 232, 232, 0) 0%, rgb(232, 232, 232) 25%);*/
+}
+.faq .question > .text {
+  color: inherit;
+}
+.faq .question > svg {
+  fill: white;
+  opacity: .75;
+  margin-right: .5rem;
+  padding: .25rem;
+  padding-right: .125rem;
+  overflow: visible;
+  vertical-align: text-bottom; /* TEMP : vertical align fix */
+  border-radius: 100%;
+  /*border: .125rem solid transparent;*/
+  background-color: silver;
+  /*-webkit-transform: rotate(0deg); /* Chrome, Opera and Safari */
+    -ms-transform: rotate(0deg); /* IE 9 */
+        transform: rotate(0deg);
+
+}
+.css-fx .faq .question > svg {
+  transition: background-color .25s ease-out .25s, transform .375s ease-in .125s;
+}
+.faq .question.active > svg {
+  background-color: #a8c;
+}
+.faq .question:hover > svg,
+.faq .question:focus > svg {
+  cursor: pointer;
+  /*opacity: 1;*/
+}
+.faq .question.active > svg,
+.faq .question:hover > svg,
+.faq .question:focus > svg {
+  /*-webkit-transform: rotate(90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(90deg); /* IE 9 */
+          transform: rotate(90deg);
+}
+.faq .question.active:hover > svg,
+.faq .question.active:focus > svg {
+  /*-webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-90deg); /* IE 9 */
+          transform: rotate(-90deg);
+}
+.faq .question > .vis-tip {
+  float: right;
+  /*opacity: .5;*/
+}
+.faq .question:hover > .vis-tip {
+  /*opacity: 1;*/
+}
+.faq .question > .vis-tip > svg {
+  position: absolute;
+  top: .125rem;
+  right: .125rem;
+  fill: lightgrey;
+  height: 95%;
+  transition: fill .5s ease-out;
+}
+.faq .question.active > .vis-tip > svg {
+  fill: dimgray;
+}
+.faq .question:hover > .vis-tip > svg,
+.faq .question:focus > .vis-tip > svg {
+  fill: darkgray;
+}
+.faq .answer {
+  margin: 0 3rem 1rem;
+  padding: .125rem .375rem;
+}
+@media (max-width: 639px) {
+  .faq .answer {margin: 0 0 1rem;}
+}
+@media (min-width: 640px) and (max-width: 799px) {
+  .faq .answer {margin: 0 1.5rem 1rem;}
+}
+.faq .answer p {
+  margin-bottom: 0; /* TEMP : Margin Fix */
+}
+.faq .answer p + p {
+  margin-top: .75rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* # FAQ Edit */
+/* ------------------------------------------------------------------ */
+
+.faq.edit {}
+.faq.edit .answer {
+  max-width: 100%;
+}
+.faq.edit .question {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 2.5rem;
+  /*height: 2.625rem;*/
+  /*overflow: hidden;*/
+}
+.faq.edit .question:before {
+  position: absolute;
+  content: '';
+  top: 0;
+  /*left: -3rem;*/
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  /*background-color: rgba(0, 0, 255, .25); /* DEBUG */
+  opacity: 0; /* IE Fix */
+  z-index: 1;
+}
+.faq.edit .question > svg {
+  position: absolute;
+  left: .25rem;
+  top: .25rem;
+  z-index: 1;
+}
+.faq.edit .question.active > svg {
+  pointer-events: auto;
+}
+.faq.edit .question.active:hover {
+  cursor: default; /* TEMP */
+  background-color: transparent;
+}
+/* Begin TEMP */
+.faq.edit .question.active:hover > svg {
+  /*-webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(90deg); /* IE 9 */
+          transform: rotate(90deg);
+}
+.faq.edit .question.active > svg:hover {
+  /*-webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-90deg); /* IE 9 */
+          transform: rotate(-90deg);
+}
+/* End TEMP  */
+.faq.edit .question.active:before {
+  height: 0;
+}
+.faq.edit .question.active > svg:hover {
+  background-color: #3a6;
+}
+.css-fx .faq.edit .question.warning {
+  transition: background-color .25s linear;
+}
+.faq.edit .question.warning > svg {
+  background-color: coral;
+  opacity: 1;
+}
+.faq.edit .question.warning,
+.faq.edit .question.warning.active {
+  background-color: lightsalmon; /* RGBA Fix*/
+  background-color: rgba(255, 96, 0, .5);
+}
+.css-fx .faq.edit .question.warning,
+.css-fx .faq.edit .question.warning.active {
+  background-image: url('../img/ui/ui-band.png');
+}
+.faq.edit .question > input {
+  height: 2.625rem;
+  padding: 0 .25rem;
+  font-size: inherit;
+  background-color: transparent;
+}
+.css-fx .faq.edit .question > input {
+}
+.faq.edit .question.active > input {
+  opacity: 1;
+}
+.faq.edit .question:not(.active):hover > input:hover {
+  cursor: pointer; /* IE Fix */
+  border-color: transparent; /* IE Fix */
+  background-color: transparent; /* IE Fix */
+}
+.faq.edit .answer {
+  /*margin: 0 2.5rem .5rem;*/
+  margin-bottom: .5rem;
+  padding: 0;
+}
+.faq.edit .answer > textarea {
+  padding: .125rem .375rem;
+  font-size: 1.0625em; /* WARNING : same as p tag */
+  line-height: 150%; /* WARNING : same as p tag */
+}
+.faq.edit .question > input {
+  margin-bottom: 0;
+}
+.faq.edit .question > input,
+.faq.edit .answer > textarea {
+  border-radius: 0;
+  border-color: transparent;
+}
+.faq.edit .question > input:hover {
+  cursor: initial;
+  /*cursor: pointer;*/
+  /*background-color: whitesmoke;*/
+}
+.faq.edit .question > input:focus{
+  /*cursor: initial;*/
+}
+.faq.edit .question > input:hover,
+.faq.edit .question > input:focus {
+  /*box-shadow: none;/* Overflow Fix */
+}
+.faq.edit .question > input:hover,
+.faq.edit .answer > textarea:hover {
+  border-style: dashed;
+  border-color: silver;
+  background-color: whitesmoke;
+}
+.faq.edit .question > input:focus,
+.faq.edit .answer > textarea:focus {
+  border-style: solid;
+  border-color: darkgray;
+  background-color: white;
+}
+.faq.edit .question > [data-delete] {
+  display: none;
+  position: absolute;
+  float: right;
+  top: .375rem;
+  right: .5rem;
+  margin: 0;
+  /*opacity: 0;*/
+}
+/*
+.faq.edit .question > [data-delete]:before {
+  content: '';
+  position: absolute;
+  top: -.5rem;
+  left: -.75rem;
+  width: 3rem;
+  height: 2.75rem;
+  /*background-color: rgba(0,255,0,.5); /* DEBUG /
+}
+*/
+.css-fx .faq.edit .question > [data-delete] {
+  transition: opacity .5s linear .125s;
+}
+.faq.edit .question > [data-delete]:hover,
+.faq.edit .question > [data-delete]:focus,
+.faq.edit .question.active > [data-delete] {
+  display: inline-block;
+  /*opacity: 1;*/
+}
+
+/* ------------------------------------------------------------------ */
 /* # Named Components */
 /* ------------------------------------------------------------------ */
 
@@ -3901,7 +4306,7 @@ input:focus + button + .error + .autocomplete > ul {
 #_toolbar_stick_toggle.active:before {content: 'Dock ';}
 
 /* Dev Testbar */
-#dev_testbar {position: absolute; width: 100%; top: -6.25rem; left: 0; margin-bottom: 0; padding: 2rem 3rem; font-size: .875rem; color: rgba(255, 255, 255, .75); background-color: brown; border-color: transparent; box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); transition: top .5s; z-index: 1;}
+#dev_testbar {position: absolute; width: 100%; top: -6.25rem; left: 0; margin-bottom: 0; padding: 2rem 3rem; font-size: .875rem; color: rgba(255, 255, 255, .75); background-color: brown; border-color: transparent; box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); transition: top .5s; z-index: 10;}
 #dev_testbar:hover {top: 0;}
 #dev_testbar > svg {display: inline-block; position: absolute; width: 5rem; height: 5rem; bottom: -2.5rem; left: 1.5rem; padding: 1rem .75rem .5rem; fill: rgba(255, 255, 255, 1); background-color: brown; border-radius: 100%;}
 #dev_testbar:hover > svg {fill: rgba(255, 255, 255, .5);}

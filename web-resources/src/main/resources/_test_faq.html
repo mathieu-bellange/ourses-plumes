@@ -1,0 +1,324 @@
+﻿<!doctype html>
+<html lang="fr">
+	<head>
+		<script src="boot.js"></script>
+	</head>
+	<body>
+
+		<h2 class="red">FAQ <small>.faq</small></h2>
+
+		<!--Dev Testbar-->
+		<div id="dev_testbar" class="panel">
+			<svg width="0" height="0" viewBox="0 0 48 48">
+				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
+			</svg>
+			<h4>Voir</h4>
+			<label for="show_view">Visualisation</label>
+			<input id="show_view" type="checkbox" name="show" value="faq_view" checked>
+			<label for="show_edit">Édition</label>
+			<input id="show_edit" type="checkbox" name="show" value="faq_edit" checked>
+			<label for="css_debug">Masques CSS</label>
+			<input id="css_debug" type="checkbox">
+		</div>
+		<script>
+		// Live Events
+		$("html").on("click", "[name='show']", function() {
+			var f = $(this).val();
+			$("#" + f).toggle();
+		});
+		$("html").on("click", "#css_debug", function() {
+			$("section").toggleClass("css-debug")
+		});
+		// Initialization
+		$(document).ready(function() {
+			$("#css_debug").is(":checked") ? $("section").addClass("css-debug") : $("section").removeClass("css-debug");
+			$("[name='show']").each(function() {
+				var f = $(this).val();
+				if ($(this).is(":checked")) {
+					$("#" + f).show();
+				} else {
+					$("#" + f).hide();
+				}
+			});
+		});
+		</script>
+
+		<!--View FAQ-->
+		<section id="faq_view">
+			<dl class="faq view">
+				<dt class="question icon-right small" tabindex="0">
+					<span class="text">Mais...Pourquoi &laquo; Les Ourses &agrave; plumes &raquo; ???</span>
+					<span class="icon-hide vis-tip"></span>
+				</dt>
+				<dd class="answer" style="display: none;">
+					<p>Nous n'avons pas d'explication r&eacute;ellement rationnelle &agrave; cette question. Ce que nous pouvons vous dire, c'est que nous ne voulions pas d'un titre trop &quot;intello&quot;, mais quelque chose allant vers l'imaginaire et qui sonne bien, que l'on retient. Nous avons donc choisi un animal : une ourse. Son c&ocirc;t&eacute; &quot;forte&quot; nous plaisait. De l&agrave;, est parti un brainstorming intense (si si !) pour choisir un nom. Vous avez donc &eacute;chapp&eacute; &agrave; notamment : &quot;les grandes ourses&quot;, &quot;ourses rousses&quot;, &quot;les ourses tricotent&quot;, ou encore &quot;le prisme des ourses&quot;. &quot;Les Ourses &agrave; plumes&quot; l'a emport&eacute; pour la double signification des &quot;plumes&quot;, celles pour &eacute;crire, mais &eacute;galement celles qui servent &agrave; s'envoler. Un grain de fantaisie, mais aussi d'espoir, que le f&eacute;minisme d&eacute;colle dans notre soci&eacute;t&eacute; o&ugrave; il est toujours malheureusement aussi n&eacute;cessaire.</p>
+				</dd>
+				<dt class="question icon-right small" tabindex="0">
+					<span class="text">Y a-t-il des crit&egrave;res pour &eacute;crire dans Les Ourses &agrave; plumes ?</span>
+					<span class="icon-hide vis-tip"></span>
+				</dt>
+				<dd class="answer" style="display: none;">
+					<p>Nous avons fait le choix que nos r&eacute;dactrices soient concern&eacute;es au premier chef par les oppressions qu'elles d&eacute;crivent. De m&ecirc;me qu&rsquo;il nous para&icirc;t important que les articles traitant d&rsquo;handicap ou du racisme soient &eacute;crits par des personnes en situation de handicap ou subissant le racisme, il nous semble primordial que cela soit les femmes (cis ou trans) et les hommes trans qui &eacute;crivent sur leur propre oppression.<br>Nous sommes toutefois pas compl&egrave;tement ferm&eacute;es &agrave; l&rsquo;id&eacute;e d&rsquo;avoir un jour des r&eacute;dacteurs- hommes cis f&eacute;ministes, mais cela restera des exceptions. Parce que nous consid&eacute;rons que les hommes cis ont d&eacute;j&agrave; &eacute;norm&eacute;ment d'espaces ailleurs pour s'exprimer, y compris sur le f&eacute;minisme.</p>
+					<p>Nous parlons des Ourses, des r&eacute;dactrices au f&eacute;minin, m&ecirc;me si des hommes trans, et exceptionnellement cis, peuvent y participer, car le masculin est d&eacute;j&agrave; omnipr&eacute;sent et dominant dans le langage courant, alors m&ecirc;me que les femmes sont majoritaires (dans la population...et surtout chez les Ourses !).</p>
+				</dd>
+				<dt class="question icon-right small" tabindex="0">
+					<span class="text">Comment peut-on soutenir votre site ? Peut-on y participer ?</span>
+					<span class="icon-hide vis-tip"></span>
+				</dt>
+				<dd class="answer" style="display: none;">
+					<p>Pour nous soutenir, il y a tout d&rsquo;abord des gestes gratuits, qui peuvent avoir beaucoup d&rsquo;impact : parler de nous autour de vous, relayez nos articles sur les r&eacute;seaux sociaux...Nous sommes aussi ouvertes &agrave; vos suggestions de sujets ou d&rsquo;&eacute;v&eacute;nements &agrave; rajouter dans notre agenda.</p>
+					<p><strong>Nous cherchons encore des r&eacute;dactrices et des illustratrices (dessinatrices, photographes), b&eacute;n&eacute;voles,</strong> qui soient en accord avec notre ligne &eacute;ditoriale, n&rsquo;h&eacute;sitez donc pas &agrave; nous contacter si vous &ecirc;tes int&eacute;ress&eacute;e par le projet.</p>
+					<p>Financi&egrave;rement, nous sommes toujours preneuses de dons, car la campagne de crowfunding sur Ulule ne permettra que de financer un an d&rsquo;h&eacute;bergement. Il nous reste &eacute;galement d&rsquo;autres frais de fonctionnement &agrave; prendre en compte, ainsi que peut-&ecirc;tre un investissement dans du mat&eacute;riel professionnel. Pour assurer la p&eacute;rennit&eacute; du site, un bouton Paypal devrait &ecirc;tre bient&ocirc;t mis en place, en attendant vous pouvez aussi nous envoyer un ch&egrave;que...</p>
+				</dd>
+			</dl>
+			<p class="panel callout radius text-center text-large">Pour toute autre question ou demande de pr&eacute;cision, vous pouvez bien s&ucirc;r nous contacter &agrave; cette adresse mail&#8239;: <a href="mailto:oursesaplumes@gmail.com">oursesaplumes@gmail.com</a></p>
+		</section>
+
+		<!--Edit FAQ-->
+		<section id="faq_edit">
+			<dl class="faq edit">
+				<dt class="question icon-right small" tabindex="0">
+					<input type="text" placeholder="Question" value="Mais...Pourquoi &laquo; Les Ourses &agrave; plumes &raquo; ???" disabled>
+					<button class="icon-remove alert tiny " title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
+				</dt>
+				<dd class="answer" style="display: none;">
+					<textarea placeholder="R&eacute;ponse" class="min">Nous n'avons pas d'explication r&eacute;ellement rationnelle &agrave; cette question. Ce que nous pouvons vous dire, c'est que nous ne voulions pas d'un titre trop &quot;intello&quot;, mais quelque chose allant vers l'imaginaire et qui sonne bien, que l'on retient. Nous avons donc choisi un animal : une ourse. Son c&ocirc;t&eacute; &quot;forte&quot; nous plaisait. De l&agrave;, est parti un brainstorming intense (si si !) pour choisir un nom. Vous avez donc &eacute;chapp&eacute; &agrave; notamment : &quot;les grandes ourses&quot;, &quot;ourses rousses&quot;, &quot;les ourses tricotent&quot;, ou encore &quot;le prisme des ourses&quot;. &quot;Les Ourses &agrave; plumes&quot; l'a emport&eacute; pour la double signification des &quot;plumes&quot;, celles pour &eacute;crire, mais &eacute;galement celles qui servent &agrave; s'envoler. Un grain de fantaisie, mais aussi d'espoir, que le f&eacute;minisme d&eacute;colle dans notre soci&eacute;t&eacute; o&ugrave; il est toujours malheureusement aussi n&eacute;cessaire.</textarea>
+				</dd>
+				<dt class="question icon-right small" tabindex="0">
+					<input type="text" placeholder="Question" value="Y a-t-il des crit&egrave;res pour &eacute;crire dans Les Ourses &agrave; plumes ?" disabled>
+					<button class="icon-remove alert tiny " title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
+				</dt>
+				<dd class="answer" style="display: none;">
+					<textarea placeholder="R&eacute;ponse" class="min">Nous avons fait le choix que nos r&eacute;dactrices soient concern&eacute;es au premier chef par les oppressions qu'elles d&eacute;crivent. De m&ecirc;me qu&rsquo;il nous para&icirc;t important que les articles traitant d&rsquo;handicap ou du racisme soient &eacute;crits par des personnes en situation de handicap ou subissant le racisme, il nous semble primordial que cela soit les femmes (cis ou trans) et les hommes trans qui &eacute;crivent sur leur propre oppression.<br>Nous sommes toutefois pas compl&egrave;tement ferm&eacute;es &agrave; l&rsquo;id&eacute;e d&rsquo;avoir un jour des r&eacute;dacteurs- hommes cis f&eacute;ministes, mais cela restera des exceptions. Parce que nous consid&eacute;rons que les hommes cis ont d&eacute;j&agrave; &eacute;norm&eacute;ment d'espaces ailleurs pour s'exprimer, y compris sur le f&eacute;minisme.
+
+Nous parlons des Ourses, des r&eacute;dactrices au f&eacute;minin, m&ecirc;me si des hommes trans, et exceptionnellement cis, peuvent y participer, car le masculin est d&eacute;j&agrave; omnipr&eacute;sent et dominant dans le langage courant, alors m&ecirc;me que les femmes sont majoritaires (dans la population...et surtout chez les Ourses !).</textarea>
+				</dd>
+				<dt class="question icon-right small" tabindex="0">
+					<input type="text" placeholder="Question" disabled>
+					<button class="icon-remove alert tiny " title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
+				</dt>
+				<dd class="answer" style="display: none;">
+					<textarea placeholder="R&eacute;ponse" class="min"></textarea>
+				</dd>
+			</dl>
+			<p class="text-center">
+				<button class="primary" data-create>Nouvelle FAQ</button>
+				<button class="success" data-valid>Valider les FAQ</button>
+			</p>
+		</section>
+
+		<script>
+			// Initialization
+			$(document).ready(function() {
+				$("textarea").add_confirmation_bar(); // TEMP : add confirmation to textarea
+			});
+
+			// Variables
+			var faq_template = "<dt class='question icon-right small' tabindex='0'><input type='text' placeholder='Question' value='' disabled><button class='icon-remove alert tiny ' title='Supprimer' data-delete><span class='hide'>Supprimer</span></button></dt><dd class='answer' style='display: none;'><textarea placeholder='R&eacute;ponse' class='min'></textarea></dd>";
+			// Functions
+			function create_faq() {
+				// AJAX : get faq new id
+				// - on fail, display error
+				// - on success, process faq template with param new id
+				$(".faq.edit").append(faq_template); // append faq item template
+				$(".faq.edit").svg_icons()// reload svg icons from parent
+				$("textarea").add_confirmation_bar(); // TEMP : add confirmation to textarea
+			}
+
+			function confirm_delete(obj) {
+				var c = {
+					"text" : $msg.confirm_delete,
+					"class" : "panel callout radius",
+					"on_confirm" :function() {
+						delete_faq(obj)
+					}
+				};
+				obj.create_confirmation_modal(c);
+			}
+
+			function delete_faq(obj) {
+				var id = obj.data("delete");
+				// AJAX : delete faq matching id
+				// - on fail, display error
+				// - on success, display delete confirmation
+				obj.parent(".question").next(".answer").detach();
+				obj.parent(".question").detach();
+			}
+
+			//////////////////////////////////////////////////////////////////
+			// Check inner valid flag (i.e. jQuery data) instead of
+			// HTML data-attribute that can be modifier by the user
+			//////////////////////////////////////////////////////////////////
+			function is_valid(obj) {
+				var v = true;
+				obj.each(function() {
+					if ($(this).data("valid") != true) {
+						v = false;
+					}
+				});
+				return v;
+			}
+			//////////////////////////////////////////////////////////////////
+			// Check one field
+			//////////////////////////////////////////////////////////////////
+			function check_field(obj, cond) {
+				var cond = (typeof(cond) !== "undefined" ? cond : true);
+				var str = obj.val().trim();
+				// 1. Reset field value without whitespaces
+				obj.val(str);
+				// 2. TODO : encode html
+				// 3. Reset autosize for any textarea
+				if (obj.is("textarea")) {
+					obj.trigger("autosize.resize");
+				}
+				// 4. Proceed validation
+				if (str.length > 0 && cond) { // default condition : not empty
+					//obj.set_validation(true);
+					obj.data("valid", true); // TEMP
+				} else {
+					//obj.set_validation(false);
+					obj.data("valid", false); // TEMP
+				}
+			}
+			//////////////////////////////////////////////////////////////////
+			// Check multiple fields
+			//////////////////////////////////////////////////////////////////
+			function check_validity(obj) {
+				obj.each(function() {
+					check_field($(this));
+				});
+			}
+			//////////////////////////////////////////////////////////////////
+			// Check multiple fields with custom condition
+			//////////////////////////////////////////////////////////////////
+			function check_custom(obj) {
+				obj.each(function() {
+					cond = $(this).val().trim() !== "null" ? true : false; // TEMP : custom condition example => not equal to null
+					check_field($(this), cond);
+				});
+			}
+			//////////////////////////////////////////////////////////////////
+
+			function check_faq() {
+				var q = $(".faq.edit .question > input");
+				var a = $(".faq.edit .answer > textarea");
+				check_custom(q); // check all question fields with custom condition
+				check_validity(a); // check all answer fields with default condition (not empty)
+				if (is_valid(q.add(a))) { // if all fields valid
+					submit_faq(); // send fields to db
+				} else {
+					// display form invalid or incomplete error
+					$("#dev_testbar").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long});
+				}
+
+			}
+			function submit_faq() {
+				// AJAX : send faq to db
+				// - on fail, display error
+				// - on success, display submit confirmation
+				$("#dev_testbar").create_alert_box($msg.form_valid, null, {"class" : "success", "timeout" : $time.duration.alert_short});
+			}
+
+			// Live Events
+			$(document)
+				.on("focus mouseenter", "[data-delete]", function() {$(this).parent().addClass("warning")})
+				.on("blur mouseleave", "[data-delete]", function() {$(this).parent().removeClass("warning")});
+			$(document).on("click", "[data-create]", function() {create_faq()});
+			$(document).on("click", "[data-delete]", function() {confirm_delete($(this))});
+			$(document).on("click", "[data-valid]", function() {check_faq()});
+			$(document).on("click keydown", ".faq.edit .question > input, [data-delete]", function(e) {
+				e.stopImmediatePropagation();
+				//e.stopPropagation();
+			});
+
+		</script>
+
+		<script>
+			var faq_view = (function() {
+				var cfg = {
+					"fx_d"       : 375,         // Integer  Visual effects duration (milliseconds). Default : 375
+					"toggle"     : true,        // Boolean  Switching behaviour for the component. Default : false
+					"trigger"    : ".question", // Selector Element intiating the component. Default : ".question"
+					"target"     : ".answer",   // Selector Element targeted by the component. Default : ".answer"
+					"icon"       : ".vis-tip",  // Selector Element toggling on activation. Default : ".vis-tip"
+					"icon_on"    : "show",      // IconName SVG icon shown while component is activated. Default : "show"
+					"icon_off"   : "hide"       // IconName SVG icon shown while component is deactivated. Default : "hide"
+				};
+				return {
+					init : function(opts) {
+						// Variables
+						cfg = $.extend({}, cfg, opts);
+						// Functions
+						function open(obj, d, f) {
+							var d = $conf.js_fx ? (d || cfg.fx_d) : 0, f = f || function() {};
+							// Input Focus Fix
+							var n = obj.prev(cfg.trigger).find("input")
+							if (n && n.attr("disabled")) {n.removeAttr("disabled")}
+							// Autosize Fix
+							if (obj.find("textarea").length > 0) {
+								var autosize = true; // set autosize flag
+								obj.find("textarea").trigger('autosize.destroy'); // destroy autosize
+							}
+							var h = obj.height();
+							obj.show();
+							obj.css({"height" : "0", "opacity" : "0"});
+							obj.animate({"height" : h, "opacity" : "1"}, d, function() {
+								obj.css({"height" : ""});
+								if (autosize) { obj.find("textarea").autosize(autosize_cfg) } // Autosize Fix : initialize autosize
+								obj.scroll_to({"fx_d" : d / 2, "spacing" : (1).toPx()});
+								f();
+							});
+						}
+						function close(obj, d, f) {
+							var d = $conf.js_fx ? (d || cfg.fx_d / 2) : 0, f = f || function() {};
+							// Input Focus Fix
+							var n = obj.prev(cfg.trigger).find("input")
+							if (n) {n.attr("disabled", true)}
+							obj.animate({"height" : "0", "opacity" : "0"}, d, function() {
+								obj.css({"height" : ""});
+								obj.hide();
+								f();
+							});
+						}
+						function toggle_icon(obj) {
+							var o = obj.find(cfg.icon + " > svg > use"), a = "xlink:href";
+							if (o.attr(a) == "#icon-" + cfg.icon_on) {
+								o.attr(a, "#icon-" + cfg.icon_off); // set icon off
+							} else {
+								o.attr(a, "#icon-" + cfg.icon_on); // set icon on
+							}
+						}
+						// Live Events
+						$(document).on("click", cfg.trigger, function() {
+							var self = $(this), obj = self.next(cfg.target);
+							self.toggleClass("active");
+							obj.finish();
+							if (obj.is(":hidden")) {
+								if (cfg.toggle) { // close all others
+									var other = self.siblings();
+									other.removeClass("active");
+									close(other.next(cfg.target), null, function() {
+										toggle_icon(other);
+									});
+								}
+								open(obj, null, function() {
+									toggle_icon(self);
+								});
+							} else {
+								close(obj, null, function() {
+									toggle_icon(self);
+								});
+							}
+						});
+					}
+				}
+			}());
+			faq_view.init();
+		</script>
+
+		<script>
+			$build.container = false;
+			load();
+		</script>
+	</body>
+</html>

@@ -414,7 +414,7 @@ jQuery.fn.extend({
 				else if ($(this).hasClass("large")) {s = cfg.s_large}
 				else if ($(this).hasClass("huge")) {s = cfg.s_huge}
 				// Define svg icon html code
-				var h = "<svg viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
+				var h = "<svg focusable='false' viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
 				// Append svg icon html code
 				$(this).removeClass(c);
 				$(this).addClass(k);
@@ -888,44 +888,49 @@ jQuery.fn.extend({
 		// functions
 		function valid(obj, cancel) {
 			var cancel = cancel || false;
-			$conf.js_fx ? $(".validation-bar").fadeOut("fast") : $(".validation-bar").hide();
-			$(".validation-bar").remove();
+			$conf.js_fx ? $(".confirmation-bar").fadeOut("fast") : $(".confirmation-bar").hide();
+			obj.css("margin-bottom", $(".confirmation-bar").css("margin-bottom")); // reset margin
+			$(".confirmation-bar").remove(); // remove element
 			if (cancel) {
 				obj.val(str);
 			}
 		}
 		// loop
 		$(this).each(function() {
-			var obj = $(this);
+			var self = $(this);
 			// events
-			obj.bind({
+			self.bind({
 				focus: function() {
-					if (obj.attr("disabled") == undefined && obj.attr("readonly") == undefined) {
-						str = $(obj).val();
+					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
+						str = $(self).val();
 					}
 				},
-				blur: function(event) {
-					if (obj.attr("disabled") == undefined && obj.attr("readonly") == undefined) {
-						if ($(".validation-bar [data-valid]").length > 0 && $(".validation-bar [data-cancel]").is(":hover")) {
-							valid(obj, true);
+				blur: function(e) {
+					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
+						if ($(".confirmation-bar [data-cancel]").length > 0 && $(".confirmation-bar [data-cancel]").is(":hover")) {
+							valid(self, true);
 						} else {
-							valid(obj);
+							valid(self);
 						}
-						obj.trigger('autosize.resize') // force autosize (i.e. wrong size on cancel bug fix)
+						self.trigger("autosize.resize") // force autosize (i.e. wrong size on cancel bug fix)
 					}
 				},
 				keyup: function(event) {
-					if (obj.attr("disabled") == undefined && obj.attr("readonly") == undefined) {
+					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
 						if (event.which == 27) { // Escape
-							valid(obj, true);
+							valid(self, true);
+							self.trigger("autosize.resize") // force autosize (i.e. wrong size on cancel bug fix)
 						} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
-							valid(obj);
-							obj.blur();
+							valid(self);
+							self.blur();
 						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
-							if ($(".validation-bar").length === 0) {
+							if ($(".confirmation-bar").length == 0) {
+								var m = self.css("margin-bottom");
 								$(this).after(file_pool.confirmation_bar_tmpl); // insert confirmation_bar template
-								$(".validation-bar").svg_icons(); // reflow all icons of validation bar
-								$conf.js_fx ? $(".validation-bar").fadeIn("slow") : $(".validation-bar").show();
+								$(".confirmation-bar").svg_icons(); // reflow all icons of validation bar
+								$(".confirmation-bar").css("margin-bottom", m); // apply margin
+								self.css("margin-bottom", 0); // clear margin
+								$conf.js_fx ? $(".confirmation-bar").fadeIn("slow") : $(".confirmation-bar").show();
 							}
 						}
 					}
@@ -981,6 +986,86 @@ jQuery.fn.extend({
 			$(sel).find(".icon svg use").attr("xlink:href", "#icon-" + cfg.icon);
 		}
 		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
+	}
+});
+
+/* Create confirmation modal */
+jQuery.fn.extend({
+	create_confirmation_modal : function(opts) {
+		var defs = {
+			"fx_d"       : 500,                 // [Integer]   Effects duration (milliseconds). Default : 500
+			"text"       : $msg.confirm_action, // [String]    Text of the message box. Default : $msg.confirm_action
+			"class"      : "",                  // [ClassName] CSS class of the message box. Default : ""
+			"focus"      : "confirm",           // [DataName]  Element focused upon modal creation. Default : "confirm"
+			"on_cancel"  : function() {},       // [Handler]   Function launched on modal cancel. Default : function() {}
+			"on_confirm" : function() {},       // [Handler]   Function launched on modal confirm. Default : function() {}
+		};
+		var cfg = $.extend({}, defs, opts);
+		var self = $(this);
+		// Functions
+		function get_center_y() {
+			var obj_h = $(".dialog").outerHeight(), win_h = $(window).height();
+			return obj_h <= win_h ? (win_h - obj_h) / 4 : 0;
+		}
+		function center_y() {
+			$(".dialog").css("top", get_center_y() + "px");
+		}
+		function open(d) {
+			var d = $conf.js_fx ? (d || cfg.fx_d) : 0;
+			var t = get_center_y() + "px";
+			var l = $(".dialog").css("left");
+			var w = $(".dialog").css("width");
+			var m = $(".dialog").css("margin-left");
+			$(".canvas").css("opacity", "0");
+			$(".canvas").animate({"opacity" : "1"}, d / 2);
+			$(".dialog").css({"left" : "50%", "width" : "25%", "margin-left" : "0", "top" : "0"});
+			$(".dialog").animate({"left" : l, "width" : w, "margin-left" : m, "top" : t}, d, function() {
+				$(".dialog").css({"left" : "", "width" : "", "margin-left" : ""}); // reset css
+			});
+		}
+		function close(d, f) {
+			var d = $conf.js_fx ? (d || cfg.fx_d) / 2 : 0, f = f || function() {};
+			$(".dialog").finish();
+			$(".canvas").animate({"opacity" : "0"}, d, function() {
+				$(".dialog").hide();
+				f(); // callback
+			});
+		}
+		function remove() {
+			$(".modal").remove(); // remove modal element from document nodes
+			$(document).off(".modal"); // remove modal namespace from document events
+			self.focus();
+		}
+		// Live events
+		$(window).on("resize.modal", function() {
+			center_y(); // center modal on screen resize
+		});
+		$(document).on("click.modal", ".close, [data-confirm],[data-cancel]", function() {
+			close(null, function() {
+				remove(); // remove upon closing
+			});
+		});
+		$(document).on("keydown.modal", function(e) {
+			if (e.which == 27) { // Escape
+				remove(); // close without animation
+			} else if (e.which == 9 || e.which == 37 || e.which == 39) { // Tab, Left or Right
+				e.preventDefault(); // override browser tab navigation
+				var i = $(".modal [data-focus]").index($(":focus"));
+				var max_i = $(".modal [data-focus]").size() - 1;
+				var prev = i == 0 ? max_i : i - 1;
+				var next = i == max_i ? 0 : i + 1;
+				var q = e.shiftKey || e.which == 37 ? prev : next; // define next or previous focusable element
+				$(".modal [data-focus]").eq(q).focus(); // switch to proper focusable element in modal
+			}
+		});
+		// Execution
+		$("body").prepend(file_pool.confirmation_modal_tmpl(cfg)); // insert confirmation modal template
+		$(".modal [data-confirm], .modal [data-cancel], .modal .close").attr("data-focus", true); // set focusable elements
+		$(".modal [data-confirm]").click(cfg.on_confirm); // attach confirm event handler
+		$(".modal [data-cancel]").click(cfg.on_cancel); // attach cancel event handler
+		$(".modal [data-" + cfg.focus + "]").focus(); // focus default action
+		$(".modal").svg_icons(); // reflow icons for confirmation modal
+		open(); // open dialog box
 	}
 });
 
@@ -1532,6 +1617,23 @@ $("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() 
 			$(this).toggleClass("active");
 			$(this).blur();
 		}
+	}
+});
+
+/* ------------------------------------------------------------------ */
+/* # Tab Navigation */
+/* ------------------------------------------------------------------ */
+
+/*
+ * NOTE
+ * The purpose of live event below is to simulate an anchor behaviour
+ * on any tab indexed element (i.e. <div> or <span>) by allowing user
+ * to click on those elements (e.g. span.close or dt.accordion).
+ * It may have unpredictable effect in some configuration, so be wary.
+ */
+$(document).on("keydown", "[tabindex]", function(e) {
+	if (e.which == 13) { // Enter
+		$(this).click();
 	}
 });
 
