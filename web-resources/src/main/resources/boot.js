@@ -135,16 +135,7 @@ $time = {
 		"alert_short" : 1250,                                       // Integer  Short alert duration in milliseconds. Default : 500
 		"alert"       : 2500,                                       // Integer  Alerts duration in milliseconds. Default : 2500
 		"alert_long"  : 5000,                                       // Integer  Long alert duration in milliseconds. Default : 500
-		"check"       : 1000,                                       // Integer  Check duration in milliseconds. Default : 1000
-		/*
-		 * WARNING
-		 * Code below is unsupported by old browsers.
-		 * Compatibility fix has been inserted above.
-		 */
-		// get fx_short() {return this.fx / 2},                        // Function Return short effects duration. Default {return this.fx / 2}
-		// get fx_long() {return this.fx * 2},                         // Function Return long effects duration. Default {return this.fx * 2}
-		// get alert_short() {return this.alert / 2},                  // Function Return short alert duration. Default {return this.alert / 2}
-		// get alert_long() {return this.alert * 2}                    // Function Return long alert duration. Default {return this.alert * 2}
+		"check"       : 1000                                        // Integer  Check duration in milliseconds. Default : 1000
 	}
 }
 
@@ -240,7 +231,7 @@ $prefs = {
 /* Regular Expressions */
 $regx = {
 	/* -------------------------------------------------------------------
-	 * # Multiple parts template pattern
+	 * ! Multiple parts template pattern
 	 * -------------------------------------------------------------------
 	 * expression used to delimitate multiple templates from one file
 	 * will return a compilation function appended to file_pool on launch
@@ -251,7 +242,7 @@ $regx = {
 	 */
 	"mptl" : /\t*\{\{%\s(\S+)\s?\}\}[\r|\n]?([\s\S]+?)[\r|\n]?\t*\{\{%\}\}/gim, // Regexp
 	/* -------------------------------------------------------------------
-	 * # Email address regular expression syntax
+	 * ! Email address regular expression syntax
 	 * -------------------------------------------------------------------
 	 * local part = accept any char separated by dot not including whitespaces, quotation marks, parenthesis, slashes, brackets, commas or arobase
 	 * second-level domain = at least one defined, max two defined, no length restriction
@@ -259,19 +250,86 @@ $regx = {
 	 */
 	"email" : /^(([^\s\"\'\(\)\[\]\/\\<>,;:@\.]+\.?)?[^\s\"\'\(\)\[\]\/\\<>,;:@\.])+@([\w\d]+\.){1,2}[\w\d]{1,4}$/i, // Regexp
 	/* -------------------------------------------------------------------
-	 * # Tags accepted characters list
+	 * ! Tags input accepted characters list (used in article-edit.js)
 	 * -------------------------------------------------------------------
-	 * below is the allowed chars pattern
+	 * below is the allowed chars pattern ; anything else will be considered has illegal
 	 */
 	"tags" : /[^\w\d\s\+\-\:\%\&\€\?\!\'\’\éêèëàâäùûüîïôœ]+/i // Regexp
-}
+};
+
+/* Characters */
+$chars = {
+	"illegal" : {
+		"&" : "&amp;",
+		"<" : "&lt;",
+		">" : "&gt;"
+	},
+	"format_enc" : {
+		"\\*(\.*)\\*" : "<strong>$1</strong>",
+		"\\^(\.*)\\^" : "<em>$1</em>"
+	},
+	"format_dec" : {
+		"<em>(\.*)<\\/em>" : "^$1^",
+		"<strong>(\.*)<\\/strong>" : "*$1*"
+	},
+	"punctuation" : {
+		'"\'(\\S)' : "&laquo;&#8239;$1",
+		'(\\S)\'"' : "$1&#8239;&raquo;",
+		"(\\S)'(\\S)" : "$1&rsquo;$2",
+		"'(\\S)" : "&lsquo;$1",
+		"(\\S)'" : "$1&rsquo;",
+		'"(\\S)' : "&ldquo;$1",
+		'(\\S)"' : "$1&rdquo;",
+		"\\s!" : "&nbsp;!",
+		"\\s\\?" : "&nbsp;?",
+		"\\.\\.\\." : "&hellip;",
+		"--" : "&mdash;",
+		"-" : "&ndash;"
+	},
+	"diacritical" : {
+		"à" : "&agrave;",
+		"À" : "&Agrave;",
+		"â" : "&acirc;",
+		"Â" : "&Acirc;",
+		"ä" : "&auml;",
+		"Ä" : "&Auml;",
+		"ç" : "&ccedil;",
+		"Ç" : "&Ccedil;",
+		"é" : "&eacute;",
+		"É" : "&Eacute;",
+		"è" : "&egrave;",
+		"É" : "&Eacute;",
+		"ê" : "&ecirc;",
+		"Ê" : "&Ecirc;",
+		"ë" : "&euml;",
+		"Ë" : "&Euml;",
+		"î" : "&icirc;",
+		"Î" : "&Icirc;",
+		"ï" : "&iuml;",
+		"Ï" : "&Iuml;",
+		"ô" : "&ocirc;",
+		"Ô" : "&Ocirc;",
+		"ö" : "&ouml;",
+		"Ö" : "&Ouml;",
+		"ù" : "&ugrave;",
+		"Ù" : "&Ugrave;",
+		"û" : "&ucirc;",
+		"Û" : "&Ucirc;",
+		"ü" : "&uuml;",
+		"Ü" : "&Uuml;",
+		"ae" : "&aelig;",
+		"Ae" : "&AElig;",
+		"oe" : "&oelig;",
+		"Oe" : "&OElig;"
+	}
+};
 
 /* REST */
 $rest = {
 	"authc"                 : "/rest/authc/connected",            // String   URL for REST service connected. Default : "/rest/authc/connected"
 	"admin"                 : "/rest/authz/isadmin",              // String   URL for REST service isadmin. Default : "/rest/authz/isadmin"
 	"redac"                 : "/rest/authz/isredac"               // String   URL for REST service isredac. Default : "/rest/authz/isredac"
-}
+};
 
 /* ------------------------------------------------------------------ */
 /* # Prebuild processing */

@@ -900,12 +900,12 @@ jQuery.fn.extend({
 			var self = $(this);
 			// events
 			self.bind({
-				focus: function() {
+				focus : function() {
 					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
 						str = $(self).val();
 					}
 				},
-				blur: function(e) {
+				blur : function(e) {
 					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
 						if ($(".confirmation-bar [data-cancel]").length > 0 && $(".confirmation-bar [data-cancel]").is(":hover")) {
 							valid(self, true);
@@ -915,15 +915,25 @@ jQuery.fn.extend({
 						self.trigger("autosize.resize") // force autosize (i.e. wrong size on cancel bug fix)
 					}
 				},
-				keyup: function(event) {
+				keydown : function(e) {
 					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
-						if (event.which == 27) { // Escape
+						if (e.which == 13 && !e.shiftKey && !e.ctrlKey) { // Enter AND NOT Shift
+							var str = $(this).val();
+							var pos = $(this).get(0).selectionStart; // get cursor position (n.b. HTML 5 feature)
+							$(this).val(str.trunc(pos) + "\n" + str.cut(pos)); // insert line end at cursor position
+							$(this).get(0).setSelectionRange(pos + 1, pos + 1); // reset cursor position
+						}
+					}
+				},
+				keyup : function(e) {
+					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
+						if (e.which == 27) { // Escape
 							valid(self, true);
 							self.trigger("autosize.resize") // force autosize (i.e. wrong size on cancel bug fix)
-						} else if (event.ctrlKey && event.which == 13) { // Ctrl + Enter
+						} else if (e.ctrlKey && e.which == 13) { // Ctrl + Enter
 							valid(self);
 							self.blur();
-						} else if (event.which == 0 || event.which == 8 || event.which == 13 || event.which == 32 || event.which == 46 || event.which >= 48 && event.which <= 90 || event.which >= 96 && event.which <= 111 || event.which >= 160 && event.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
+						} else if (e.which == 0 || e.which == 8 || e.which == 13 || e.which == 32 || e.which == 46 || e.which >= 48 && e.which <= 90 || e.which >= 96 && e.which <= 111 || e.which >= 160 && e.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
 							if ($(".confirmation-bar").length == 0) {
 								var m = self.css("margin-bottom");
 								$(this).after(file_pool.confirmation_bar_tmpl); // insert confirmation_bar template
@@ -1174,9 +1184,113 @@ var user_menu = (function() {
 /* ------------------------------------------------------------------ */
 /*
  * NOTE
- * Below are all methods called after or during build process.
- * These are not parts of the module and aren't supposed to be reloaded.
+ * Below are functions called during or after build process.
+ * They are core helpers strictly required by the main flow execution.
+ * Though, they are not parts of any specific block (but needed by all).
+ * And, thus, they aren't supposed to be reloaded after main processing.
  */
+
+/* Global String Replacement (low-level) */
+function gsub(str, obj, v_k, del) {
+	var v_k = v_k || false, del = del || false;
+	for (key in obj) {
+		var reg = new RegExp((v_k ? obj[key] : key), "g");
+		str = str.replace(reg, (del ? "" : (v_k ? key : obj[key])));
+	} return str;
+}
+function gsup(str, obj) {return gsub(str, obj, true)}
+function gdel(str, obj) {return gsub(str, obj, null, true)}
+
+/* Convert Illegal Characters */
+function encode_illegals(str) {return gsub(str, $chars.illegal)}
+function decode_illegals(str) {return gsup(str, $chars.illegal)}
+function remove_illegals(str) {return gdel(str, $chars.illegal)}
+
+/* Convert Format Marks */
+function encode_formats(str) {return gsub(str, $chars.format_enc)}
+function decode_formats(str) {return gsub(str, $chars.format_dec)}
+function remove_formats(str) {return gdel(str, $chars.format_enc)}
+
+/* Convert Punctuation Characters */
+function encode_punctuations(str) {return gsub(str, $chars.punctuation)}
+function decode_punctuations(str) {return gsup(str, $chars.punctuation)}
+function remove_punctuations(str) {return gdel(str, $chars.punctuation)}
+
+/* Convert Diacritical Characters */
+function encode_diacriticals(str) {return gsub(str, $chars.diacritical)}
+function decode_diacriticals(str) {return gsup(str, $chars.diacritical)}
+function remove_diacriticals(str) {return gdel(str, $chars.diacritical)}
+
+/* Convert Line Ends */
+function encode_line_ends(str) {
+	return (str + "\n\n")
+		.replace(/(.+)\n/g, "$1<br>")
+		.replace(/(.+)<br>\n/g, "<p>$1</p>")
+		.trim()
+		.replace(/\n/g, "<br>");
+}
+function decode_line_ends(str) {
+	return str
+		.replace(/<p>/g, "")
+		.replace(/<br>/g, "\n")
+		.replace(/<\/p>/g, "\n\n")
+		.trim();
+}
+
+/* Convert HTML */
+function encode_html(str) {
+	str = encode_illegals(str);
+	str = encode_formats(str);
+	str = encode_punctuations(str);
+	str = encode_diacriticals(str);
+	str = encode_line_ends(str);
+	return str;
+}
+function decode_html(str) {
+	str = decode_line_ends(str);
+	str = decode_diacriticals(str);
+	// str = decode_punctuations(str); // NOTE : Punctuation marks aren't decoded (useless if UTF-8 is used as HTML base encoding)
+	str = decode_illegals(str);
+	str = decode_formats(str);
+	str = str.replace(/&nbsp;/g, " "); // No-Break Space Fix
+	return str;
+}
+
+/* Convert long date format to short numeric */
+function getDateTime(date) { // passe une date en param pour obtenir une string au bon format pour la balise time
+	var year = date.getFullYear().toString();
+	var month;
+	var day;
+	var numMonth = date.getMonth() + 1;
+	if (numMonth < 10) {
+		month = "0" + numMonth.toString();
+	} else {
+		month = numMonth.toString();
+	}
+	if (date.getDate() < 10) {
+		day = "0" + date.getDate().toString();
+	} else {
+		day = date.getDate().toString();
+	}
+	return year + "-" + month + "-" + day;
+}
+
+/* Convert long date format to string */
+function dateToString(date) {
+	var year = date.getFullYear().toString();
+	var month;
+	var day = date.getDate().toString();
+	if (date.getDate() === 1) {
+		day += "er";
+	}
+	month = $time.months[date.getMonth()];
+	return day + " " + month + " " + year;
+}
+
+/* Convert long date format to HTML */
+function dateToHTML(date) {
+	return (dateToString(date).replace("1er", "1<sup>er</sup>").replace("é", "&eacute;").replace("û", "&ucirc;"));
+}
 
 /* Get URL search params */
 function get_url_search_params() {
@@ -1202,42 +1316,6 @@ function get_url_search_params() {
 /* Insert alert box after header */
 function createAlertBox(msg, id, opts) {
 	$("main > header").create_alert_box(msg, id, opts);
-}
-
-/* Convert long date format to short numeric */
-function getDateTime(date) { // passe une date en param pour obtenir une string au bon format pour la balise time
-	var year = date.getFullYear().toString();
-	var month;
-	var day;
-	var numMonth = date.getMonth() + 1;
-	if (numMonth < 10) {
-		month = "0" + numMonth.toString();
-	}else{
-		month = numMonth.toString();
-	}
-	if (date.getDate() <10) {
-		day = "0" + date.getDate().toString();
-	}else{
-		day = date.getDate().toString();
-	}
-	return year + "-" + month + "-" + day;
-}
-
-/* Convert long date format to string */
-function dateToString(date) {
-	var year = date.getFullYear().toString();
-	var month;
-	var day = date.getDate().toString();
-	if (date.getDate() === 1) {
-		day += "er";
-	}
-	month = $time.months[date.getMonth()];
-	return day + " " + month + " " + year;
-}
-
-/* Convert long date format to HTML */
-function dateToHTML(date) {
-	return (dateToString(date).replace("1er", "1<sup>er</sup>").replace("é", "&eacute;").replace("û", "&ucirc;"));
 }
 
 /* Set page title */
