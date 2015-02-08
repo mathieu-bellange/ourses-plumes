@@ -129,13 +129,22 @@ $time = {
 		"Décembre"                                                  // String   Set December literal.
 	],
 	"duration" : {                                                // Object   Global durations.
+		"fx_short"    : 250,                                        // Integer  Short effects duration in milliseconds. Default : 500
 		"fx"          : 500,                                        // Integer  Effects duration in milliseconds. Default : 500
+		"fx_long"     : 1000,                                       // Integer  Long effects duration in milliseconds. Default : 500
+		"alert_short" : 1250,                                       // Integer  Short alert duration in milliseconds. Default : 500
 		"alert"       : 2500,                                       // Integer  Alerts duration in milliseconds. Default : 2500
+		"alert_long"  : 5000,                                       // Integer  Long alert duration in milliseconds. Default : 500
 		"check"       : 1000,                                       // Integer  Check duration in milliseconds. Default : 1000
-		get fx_short() {return this.fx / 2},                        // Function Return short effects duration. Default {return this.fx / 2}
-		get fx_long() {return this.fx * 2},                         // Function Return long effects duration. Default {return this.fx * 2}
-		get alert_short() {return this.alert / 2},                  // Function Return short alert duration. Default {return this.alert / 2}
-		get alert_long() {return this.alert * 2}                    // Function Return long alert duration. Default {return this.alert * 2}
+		/*
+		 * WARNING
+		 * Code below is unsupported by old browsers.
+		 * Compatibility fix has been inserted above.
+		 */
+		// get fx_short() {return this.fx / 2},                        // Function Return short effects duration. Default {return this.fx / 2}
+		// get fx_long() {return this.fx * 2},                         // Function Return long effects duration. Default {return this.fx * 2}
+		// get alert_short() {return this.alert / 2},                  // Function Return short alert duration. Default {return this.alert / 2}
+		// get alert_long() {return this.alert * 2}                    // Function Return long alert duration. Default {return this.alert * 2}
 	}
 }
 
