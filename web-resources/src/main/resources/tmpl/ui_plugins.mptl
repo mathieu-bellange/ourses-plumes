@@ -9,16 +9,21 @@
 					</div>
 {{%}}
 
+<!--Error Box-->
+{{% error_box_tmpl }}
+					<small class="error {{= data.class }}">{{= data.text }}</small>
+{{%}}
+
 <!--Confirmation Bar-->
 {{% confirmation_bar_tmpl }}
 					<div class="confirmation-bar clearfix">
-						<ul class="left inline-list no-bullet text-tiny hide-for-touch hide-for-small" style="margin-top: .5rem;">
+						<ul class="left inline-list no-bullet text-tiny hide-for-touch" style="width: 75%; margin-top: .5rem;">
 							<li><kbd>Enter</kbd> Nouveau paragraphe</li>
 							<li><kbd>Shift+Enter</kbd> Retour &agrave; la ligne</li>
 							<li><kbd>Ctrl+Enter</kbd> Valider</li>
 							<li><kbd>Esc</kbd> Annuler</li>
 						</ul>
-						<div class="right">
+						<div class="right text-right" style="width: 25%;">
 							<a class="icon-confirm small" title="Valider" data-confirm><span class="hide">Valider</span></a>
 							<a class="icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></a>
 						</div>
@@ -27,22 +32,14 @@
 
 <!--Confirmation Modal-->
 {{% confirmation_modal_tmpl }}
-		<div class="modal">
-			<div class="canvas">
-				<div class="dialog">
-					<h4 class="title">Confirmation<span class="close" tabindex="0"></span></h4>
-					<p class="message {{= data.class }}">{{= data.text }}</p>
-					<button class="success icon-confirm small" title="Confirmer" data-confirm><span class="hide">Confirmer</span></button>
-					<button class="alert icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></button>
-				</div>
-			</div>
-		</div>
+					<div class="modal">
+						<div class="canvas">
+							<div class="dialog">
+								<h4 class="title">Confirmation<span class="close" tabindex="0"></span></h4>
+								<p class="message {{= data.class }}">{{= data.text }}</p>
+								<button class="success icon-confirm small" title="Confirmer" data-confirm><span class="hide">Confirmer</span></button>
+								<button class="alert icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></button>
+							</div>
+						</div>
+					</div>
 {{%}}
-
-<!--Error Box-->
-{{% error_box_tmpl }}<!--UNUSED for now...-->
-					<small class="error hide">Message d'erreur</small>
-{{%}}
-
-<!--Slider Previous Controller-->
-<!--Slider Next Controller-->

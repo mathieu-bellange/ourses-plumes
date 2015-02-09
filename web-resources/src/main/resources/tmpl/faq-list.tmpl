@@ -1,15 +1,15 @@
 ﻿				<!--FAQ-->
 				<section id="faq">
-					<ul id="faq-list" class="no-bullet">
+					<dl id="faq-list" class="faq view">
 						{{~ data :params }}
-							<li>
-								<h4>{{= params.question }}</h4>
-								<div>
-									{{= params.answer}}
-								</div>
-							</li>
+						<dt class="question icon-right small" tabindex="0">
+							<span class="text">{{= params.question }}</span>
+							<span class="icon-hide vis-tip"></span>
+						</dt>
+						<dd class="answer" style="display: none;">
+							{{= params.answer }}
+						</dd>
 						{{~}}
-					</ul>
-					<h5>Pour toute autre question ou demande de précision, vous pouvez bien sûr nous contacter à
-						cette adresse mail : <a href="mailto:oursesaplumes@gmail.com">oursesaplumes@gmail.com</a></h5>
+					</dl>
+					<p class="panel callout radius text-center text-large">Pour toute autre question ou demande de pr&eacute;cision, vous pouvez bien s&ucirc;r nous contacter &agrave; cette adresse mail&#8239;: <a href="mailto:oursesaplumes@gmail.com">oursesaplumes@gmail.com</a></p>
 				</section>

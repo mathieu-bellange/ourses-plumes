@@ -786,14 +786,14 @@ button.alert.active, .button.alert.active, button.error.active, .button.error.ac
 input.validation,
 input.validation:hover,
 input.validation:focus {
-  padding-right: 32px;
+  padding-right: 2rem;
   background-repeat: no-repeat;
   background-position: right center;
 }
 input.validation.wrong,
 input.validation.wrong:hover,
 input.validation.wrong:focus {
-  border-color: #c33; /* NEW */
+  border-color: #c33;
   background-image: url('../img/ui/icon-wrong.png');
 }
 input.validation.valid,
@@ -809,7 +809,7 @@ input.validation.loading:focus {
 textarea.validation.wrong,
 textarea.validation.wrong:hover,
 textarea.validation.wrong:focus {
-  border-color: #c33; /* NEW */
+  border-color: #c33;
 }
 .validation + small.error { /* Position fix */
   position: relative; /* VERY TEMP */
@@ -820,8 +820,10 @@ small.error {
   padding: .375rem .5rem; /* Foundation override */
   margin-top: -.125rem;
   margin-bottom: 0; /* Foundation override */
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   font-size: .75rem; /* Foundation override */
   font-style: italic; /* Foundation override */
+  line-height: 1.25;
   color: white; /* Foundation override */
   background: #c33; /* Foundation override */
 }
@@ -2629,10 +2631,7 @@ input:focus + button + .error + .autocomplete > ul {
 .confirmation-bar {
   display: none; /* Visibility fix */
   position: relative;
-  /*top: -.5rem;*/
   top: .25rem;
-  line-height: 2rem;
-  margin-bottom: 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -2662,10 +2661,8 @@ input:focus + button + .error + .autocomplete > ul {
 .modal .dialog {
   position: relative;
   left: 50%;
-  /*top: 50%;*/
   width: 50%;
   max-height: 100%;
-  /*margin-top: -25%;*/
   margin-left: -25%;
   padding: .5rem 1.75rem 1.25rem;
   text-align: center;
@@ -2680,7 +2677,6 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: 0;
   color: silver;
   text-align: left;
-  /*background-color: rgba(255, 0, 0, .5); /* DEBUG*/
 }
 .modal .dialog .close {
   position: relative;
@@ -2694,11 +2690,9 @@ input:focus + button + .error + .autocomplete > ul {
   color: dimgray;
   overflow: hidden; /* Outline Fix */
   border-radius: .25rem;
-  /*background-color: rgba(255, 255, 0, .5); /* DEBUG*/
 }
 .modal .dialog .close:after {
   display: block;
-  /*background-color: rgba(0, 255, 0, .5); /* DEBUG*/
 }
 .modal .dialog .close:hover,
 .modal .dialog .close:focus {
@@ -3876,6 +3870,7 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: rgba(255, 255, 255, .5);
   text-shadow: none;
 }
+
 .user-profile input.user-name:focus:not([disabled]):not([readonly]),
 .user-profile textarea.user-desc:focus:not([disabled]):not([readonly]),
 .user-profile input.user-name:not([disabled]):not([readonly]).wrong,
@@ -4036,10 +4031,7 @@ input:focus + button + .error + .autocomplete > ul {
 .faq .question:hover,
 .faq .question:focus {
   cursor: pointer;
-  /*color: #a8c;*/
-  /*text-decoration: underline;*/
   background-color: rgb(232, 232, 232); /* IE Fix */
-  /*background: linear-gradient(90deg, rgba(232, 232, 232, 0) 0%, rgb(232, 232, 232) 25%);*/
 }
 .faq .question > .text {
   color: inherit;
@@ -4051,12 +4043,11 @@ input:focus + button + .error + .autocomplete > ul {
   padding: .25rem;
   padding-right: .125rem;
   overflow: visible;
-  vertical-align: text-bottom; /* TEMP : vertical align fix */
+  vertical-align: text-bottom; /* Vertical Align Fix */
   border-radius: 100%;
-  /*border: .125rem solid transparent;*/
   background-color: silver;
-  /*-webkit-transform: rotate(0deg); /* Chrome, Opera and Safari */
-    -ms-transform: rotate(0deg); /* IE 9 */
+  -webkit-transform: rotate(0deg); /* Chrome, Opera and Safari */
+    -ms-transform: rotate(0deg); /* IE */
         transform: rotate(0deg);
 
 }
@@ -4074,22 +4065,18 @@ input:focus + button + .error + .autocomplete > ul {
 .faq .question.active > svg,
 .faq .question:hover > svg,
 .faq .question:focus > svg {
-  /*-webkit-transform: rotate(90deg); /* Chrome, Opera and Safari */
-      -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(90deg); /* IE */
           transform: rotate(90deg);
 }
 .faq .question.active:hover > svg,
 .faq .question.active:focus > svg {
-  /*-webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
-      -ms-transform: rotate(-90deg); /* IE 9 */
+  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-90deg); /* IE */
           transform: rotate(-90deg);
 }
 .faq .question > .vis-tip {
   float: right;
-  /*opacity: .5;*/
-}
-.faq .question:hover > .vis-tip {
-  /*opacity: 1;*/
 }
 .faq .question > .vis-tip > svg {
   position: absolute;
@@ -4117,7 +4104,7 @@ input:focus + button + .error + .autocomplete > ul {
   .faq .answer {margin: 0 1.5rem 1rem;}
 }
 .faq .answer p {
-  margin-bottom: 0; /* TEMP : Margin Fix */
+  margin-bottom: 0; /* Margin Fix */
 }
 .faq .answer p + p {
   margin-top: .75rem;
@@ -4135,19 +4122,15 @@ input:focus + button + .error + .autocomplete > ul {
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 2.5rem;
-  /*height: 2.625rem;*/
-  /*overflow: hidden;*/
 }
 .faq.edit .question:before {
   position: absolute;
   content: '';
   top: 0;
-  /*left: -3rem;*/
   left: 0;
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  /*background-color: rgba(0, 0, 255, .25); /* DEBUG */
   opacity: 0; /* IE Fix */
   z-index: 1;
 }
@@ -4161,21 +4144,19 @@ input:focus + button + .error + .autocomplete > ul {
   pointer-events: auto;
 }
 .faq.edit .question.active:hover {
-  cursor: default; /* TEMP */
+  cursor: default;
   background-color: transparent;
 }
-/* Begin TEMP */
 .faq.edit .question.active:hover > svg {
-  /*-webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
-      -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(90deg); /* IE */
           transform: rotate(90deg);
 }
 .faq.edit .question.active > svg:hover {
-  /*-webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
-      -ms-transform: rotate(-90deg); /* IE 9 */
+  -webkit-transform: rotate(-90deg); /* Chrome, Opera and Safari */
+      -ms-transform: rotate(-90deg); /* IE */
           transform: rotate(-90deg);
 }
-/* End TEMP  */
 .faq.edit .question.active:before {
   height: 0;
 }
@@ -4200,14 +4181,13 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .faq.edit .question > input {
   height: 2.625rem;
+  margin-bottom: 0;
   padding: 0 .25rem;
   font-size: inherit;
   background-color: transparent;
 }
-.css-fx .faq.edit .question > input {
-}
-.faq.edit .question.active > input {
-  opacity: 1;
+.faq.edit .question > input[disabled] {
+  color: #202020; /* Color Fix */
 }
 .faq.edit .question:not(.active):hover > input:hover {
   cursor: pointer; /* IE Fix */
@@ -4215,17 +4195,13 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: transparent; /* IE Fix */
 }
 .faq.edit .answer {
-  /*margin: 0 2.5rem .5rem;*/
   margin-bottom: .5rem;
   padding: 0;
 }
 .faq.edit .answer > textarea {
   padding: .125rem .375rem;
-  font-size: 1.0625em; /* WARNING : same as p tag */
-  line-height: 150%; /* WARNING : same as p tag */
-}
-.faq.edit .question > input {
-  margin-bottom: 0;
+  font-size: 1.0625em; /* NOTE : same as p tag */
+  line-height: 150%; /* NOTE : same as p tag */
 }
 .faq.edit .question > input,
 .faq.edit .answer > textarea {
@@ -4233,16 +4209,7 @@ input:focus + button + .error + .autocomplete > ul {
   border-color: transparent;
 }
 .faq.edit .question > input:hover {
-  cursor: initial;
-  /*cursor: pointer;*/
-  /*background-color: whitesmoke;*/
-}
-.faq.edit .question > input:focus{
-  /*cursor: initial;*/
-}
-.faq.edit .question > input:hover,
-.faq.edit .question > input:focus {
-  /*box-shadow: none;/* Overflow Fix */
+  cursor: initial; /* IE Fix */
 }
 .faq.edit .question > input:hover,
 .faq.edit .answer > textarea:hover {
@@ -4256,6 +4223,16 @@ input:focus + button + .error + .autocomplete > ul {
   border-color: darkgray;
   background-color: white;
 }
+.faq.edit .question > input.wrong,
+.faq.edit .question > input.wrong:focus,
+.faq.edit .answer > textarea.wrong,
+.faq.edit .answer > textarea.wrong:focus {
+  cursor: text;
+  border-color: #c33;
+  border-style: solid;
+  background-color: white;
+  text-shadow: none;
+}
 .faq.edit .question > [data-delete] {
   display: none;
   position: absolute;
@@ -4263,19 +4240,7 @@ input:focus + button + .error + .autocomplete > ul {
   top: .375rem;
   right: .5rem;
   margin: 0;
-  /*opacity: 0;*/
 }
-/*
-.faq.edit .question > [data-delete]:before {
-  content: '';
-  position: absolute;
-  top: -.5rem;
-  left: -.75rem;
-  width: 3rem;
-  height: 2.75rem;
-  /*background-color: rgba(0,255,0,.5); /* DEBUG /
-}
-*/
 .css-fx .faq.edit .question > [data-delete] {
   transition: opacity .5s linear .125s;
 }
@@ -4283,7 +4248,6 @@ input:focus + button + .error + .autocomplete > ul {
 .faq.edit .question > [data-delete]:focus,
 .faq.edit .question.active > [data-delete] {
   display: inline-block;
-  /*opacity: 1;*/
 }
 
 /* ------------------------------------------------------------------ */

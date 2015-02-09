@@ -155,10 +155,11 @@
 
 			<!--Input-->
 			<label for="textarea">Textarea</label>
-			<textarea id="textarea" class="min" style="margin-bottom: 1rem;" maxlength="-1" placeholder="Votre texte ici">L'apostrophe ? -- Un "'*signe diacritique...*'" - pour lequel la '^critique^' "n'a point d'égal" !</textarea>
+			<textarea id="textarea" class="min" style="margin-bottom: 1rem;" maxlength="-1" placeholder="Votre texte ici">L'apostrophe ? -- Un "'*signe diacritique...*'" - pour lequel la '^critique^' "n'a point d'égal" !
 
+"'*Auri Sacra Fames !*'" -- ^Virgile^</textarea>
 			<!--Output-->
-			<div style="width: 100%; font-size: 0;">
+			<div style="font-size: 0;">
 				<div style="display: inline-block; width: 50%; padding-right: .5rem; vertical-align: top; font-size: 1rem;">
 					<label for="output">Output</label>
 					<div id="output" class="panel">&hellip;</div>
@@ -168,185 +169,34 @@
 					<div id="input" class="panel callout">&hellip;</div>
 				</div>
 			</div>
-
 			<!--Buttons-->
 			<button id="encode" class="primary">Encoder</button>
 			<button id="decode" class="secondary">D&eacute;coder</button>
 			<button id="clear" class="alert">Effacer</button>
-
 		</section>
 		<script>
-
 			$(document).ready(function() {
-
-				$("#textarea").add_confirmation_bar();
-
-				// ===========================================================
-				// # HTML Entities
-				// ===========================================================
-
-				// Variables
-				var illegal_chars = {
-					"&" : "&amp;",
-					"<" : "&lt;",
-					">" : "&gt;"
-				}
-				var format_chars_enc = {
-					"\\*(\.*)\\*" : "<strong>$1</strong>",
-					"\\^(\.*)\\^" : "<em>$1</em>"
-				}
-				var format_chars_dec = {
-					"<em>(\.*)<\\/em>" : "^$1^",
-					"<strong>(\.*)<\\/strong>" : "*$1*"
-				}
-				var special_chars = {
-					'"\'(\\S)' : "&laquo;&#8239;$1",
-					'(\\S)\'"' : "$1&#8239;&raquo;",
-					"(\\S)'(\\S)" : "$1&rsquo;$2",
-					"'(\\S)" : "&lsquo;$1",
-					"(\\S)'" : "$1&rsquo;",
-					'"(\\S)' : "&ldquo;$1",
-					'(\\S)"' : "$1&rdquo;",
-					"\\s!" : "&nbsp;!",
-					"\\s\\?" : "&nbsp;?",
-					"\\.\\.\\." : "&hellip;",
-					"--" : "&mdash;",
-					"-" : "&ndash;"
-				}
-				var diacritical_chars = {
-					"à" : "&agrave;",
-					"À" : "&Agrave;",
-					"â" : "&acirc;",
-					"Â" : "&Acirc;",
-					"ä" : "&auml;",
-					"Ä" : "&Auml;",
-					"ç" : "&ccedil;",
-					"Ç" : "&Ccedil;",
-					"é" : "&eacute;",
-					"É" : "&Eacute;",
-					"è" : "&egrave;",
-					"É" : "&Eacute;",
-					"ê" : "&ecirc;",
-					"Ê" : "&Ecirc;",
-					"ë" : "&euml;",
-					"Ë" : "&Euml;",
-					"î" : "&icirc;",
-					"Î" : "&Icirc;",
-					"ï" : "&iuml;",
-					"Ï" : "&Iuml;",
-					"ô" : "&ocirc;",
-					"Ô" : "&Ocirc;",
-					"ö" : "&ouml;",
-					"Ö" : "&Ouml;",
-					"ù" : "&ugrave;",
-					"Ù" : "&Ugrave;",
-					"û" : "&ucirc;",
-					"Û" : "&Ucirc;",
-					"ü" : "&uuml;",
-					"Ü" : "&Uuml;",
-					"ae" : "&aelig;",
-					"Ae" : "&AElig;",
-					"oe" : "&oelig;",
-					"Oe" : "&OElig;"
-				}
-				// Functions
-				function gsub(str, obj, v_k, del) {
-					var v_k = v_k || false, del = del || false;
-					for (key in obj) {
-						var reg = new RegExp((v_k ? obj[key] : key), "g");
-						str = str.replace(reg, (del ? "" : (v_k ? key : obj[key])));
-					} return str;
-				}
-				function gsup(str, obj) {
-					return gsub(str, obj, true);
-				}
-				function gdel(str, obj) {
-					return gsub(str, obj, null, true);
-				}
-
-				function encode_illegal(str) {return gsub(str, illegal_chars)}
-				function decode_illegal(str) {return gsup(str, illegal_chars)}
-				function remove_illegal(str) {return gdel(str, illegal_chars)}
-
-				function encode_format(str) {return gsub(str, format_chars_enc)}
-				function decode_format(str) {return gsub(str, format_chars_dec)}
-				function remove_format(str) {return gdel(str, format_chars_enc)}
-
-				function encode_special(str) {return gsub(str, special_chars)}
-				function decode_special(str) {return gsup(str, special_chars)}
-				function remove_special(str) {return gdel(str, special_chars)}
-
-				function encode_diacritical(str) {return gsub(str, diacritical_chars)}
-				function decode_diacritical(str) {return gsup(str, diacritical_chars)}
-				function remove_diacritical(str) {return gdel(str, diacritical_chars)}
-
-				function encode_html(str) {
-					str = encode_illegal(str);
-					str = encode_format(str);
-					str = encode_special(str);
-					str = encode_diacritical(str);
-					return str;
-				}
-				function decode_html(str) {
-					str = decode_diacritical(str);
-					//str = decode_special(str); // WARNING ! Special chars are never decoded ! ()
-					str = decode_illegal(str);
-					str = decode_format(str);
-					str = str.replace(/&nbsp;/g, " "); // No-Break Space Fix
-					return str;
-				}
-				// L'apostrophe ? -- Un "'*signe diacritique...*'" - pour lequel la '^critique^' "n'a point d'égal" !
-				// "'*Auri Sacra Fames !*'" -- ^Virgile^
-
-				// ===========================================================
-				// # Line Ends
-				// ===========================================================
-
-				// Functions
-				function encode_line_ends(str) {
-					return (str + "\n\n")
-						.replace(/(.+)\n/g, "$1<br>")
-						.replace(/(.+)<br>\n/g, "<p>$1</p>")
-						.trim()
-						.replace(/\n/g, "<br>");
-				}
-				function decode_line_ends(str) {
-					return str
-						.replace(/<p>/g, "")
-						.replace(/<br>/g, "\n")
-						.replace(/<\/p>/g, "\n\n")
-						.trim();
-				}
-				// Events
+				// Live Events
 				$("#textarea").on("keydown", function(e) {
-					if (e.which == 13 && !e.shiftKey && !e.ctrlKey) { // Enter AND NOT Shift
-						var str = $(this).val();
-						var pos = $(this).get(0).selectionStart; // get cursor position (n.b. HTML 5 feature)
-						$(this).val(str.trunc(pos) + "\n" + str.cut(pos)); // insert line end at cursor position
-						$(this).get(0).setSelectionRange(pos + 1, pos + 1); // reset cursor position
-					}
 					if (e.which == 13 && e.ctrlKey) { // Enter + Ctrl = validation
-						$("#encode").click(); // NOTE : overriden event from validation_bar
+						$("#encode").click(); // NOTE : override event from validation_bar
 					}
 				});
 				$("#textarea").on("focusout", function() {
 					if ($(".confirmation-bar [data-confirm]").length > 0 && $(".confirmation-bar [data-confirm]").is(":hover")) {
-						$("#encode").click(); // NOTE : overriden event from validation_bar
+						$("#encode").click(); // NOTE : override event from validation_bar
 					}
 				});
 				$("#encode").click(function() {
-					var s = $("#textarea").val().trim(), t = encode_html(s), p = encode_line_ends(t);
+					var s = $("#textarea").val().trim(), t = encode_html(s, true);
+					$("#output").html(t.length > 0 ? t : "&nbsp;");
 					$("#textarea").val(s);
 					$("#textarea").trigger("autosize.resize") // force autosize
-					$("#output").html(p.length > 0 ? p : "&nbsp;");
-					////////////////////////////////////////////////////////////
-					// alert(p); // TODO -- this is what should be saved in db
-					////////////////////////////////////////////////////////////
 				});
 				$("#decode").click(function() {
-					var t = decode_line_ends($("#output").html()), s = decode_html(t);
-					$("#input").html(encode_html(t));
-					$("#textarea").val(s == "&nbsp;" ? "" : s);
+					var s = $("#output").html(), t = decode_html(s, true);
+					$("#input").html(encode_html(s, true));
+					$("#textarea").val(t == " " ? "" : t);
 					$("#textarea").trigger("autosize.resize") // force autosize
 				});
 				$("#clear").click(function() {
@@ -354,9 +204,9 @@
 					$("#textarea").val("");
 					$("#textarea").trigger("autosize.resize") // force autosize
 				});
-
+				// Execution
+				$("#textarea").add_confirmation_bar();
 			});
-
 		</script>
 
 		<script>

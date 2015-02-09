@@ -181,6 +181,9 @@ $msg = {
 	"form_valid"            : "Le formulaire que vous avez soumis est correct et a &eacute;t&eacute; envoy&eacute;&nbsp;!",
 	"form_invalid"          : "Le formulaire que vous avez soumis est incorrect et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
 	"form_incomplete"       : "Le formulaire que vous avez soumis est incomplet et n&rsquo;a pas &eacute;t&eacute; envoy&eacute;.",
+	"field_required"        : "Ce champ doit &ecirc;tre renseign&eacute;&nbsp;!",
+	"field_invalid"         : "Ce champ n&rsquo;est pas valide&nbsp;!",
+	"field_incomplete"      : "Ce champ est incomplet&nbsp;!",
 	"email_dup"             : "Le message a d&eacute;jà &eacute;t&eacute; envoy&eacute; à cette adresse.",
 	"email_sent"            : "Le message &eacute;lectronique a correctement &eacute;t&eacute; envoy&eacute;.",
 	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&nbsp;&hellip;",
@@ -194,6 +197,7 @@ $msg = {
 	"article_offline"       : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
 	"article_search_empty"  : "Aucun article ne correspond aux crit&egrave;res de recherche.",
 	"article_no_filter"     : "Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.",
+	"faq_deleted"           : "FAQ supprim&eacute;e&nbsp;!",
 	"sumething_weird"       : "Un esp&egrave;ce de truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
 };
 

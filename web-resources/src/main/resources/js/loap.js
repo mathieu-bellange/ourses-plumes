@@ -879,6 +879,86 @@ jQuery.fn.extend({
 	}
 });
 
+/* Field Validity */
+jQuery.fn.extend({
+	/* Is (field) Valid ?
+	 * This jQuery method match all jQuery data 'valid' flag
+	 * and return false if any is not valid.
+	 */
+	is_valid : function() { // Is Valid
+		var value = true;
+		$(this).each(function() {
+			if ($(this).data("valid") != true) {value = false}
+		}); return value;
+	},
+	/* Set (field) validity
+	 * This jQuery method register jQuery data 'valid' flag
+	 * and create an error box if field is not valid.
+	 */
+	set_validity : function(flag, msg) { // Set validity
+		var msg = msg || $msg.field_invalid;
+		$(this).each(function() {
+			var obj = $(this);
+			obj.removeData("valid"); // reset jQuery data
+			switch (flag) {
+				case false:
+					obj.data("valid", false); // match against jQuery data
+					obj.addClass("wrong"); // add styles
+					if (obj.next(".error").length == 0) { // insert error box
+						obj.after(file_pool.error_box_tmpl({"class" : "", "text" : msg})); // insert confirmation_bar template
+					} else { // update error message
+						obj.next(".error").show().html(msg);
+					}
+					break;
+				case true:
+					obj.data("valid", true); // match against jQuery data
+					obj.next(".error").detach(); // remove error box
+				default:
+					obj.removeClass("wrong"); // remove styles
+					obj.next(".error").hide(); // hide error box
+			}
+		});
+	},
+	/* Check (field) validity
+	 * This jQuery method checks wether a field is valid or not,
+	 * set is jQuery data validity flag and error box message if any,
+	 * and update field content according to his type.
+	 */
+	check_validity : function(cond, err_msg) { // Check validity (i.e. update field validity)
+		var cond = (typeof(cond) !== "undefined" ? cond : function() {return true});
+		var err_msg = err_msg || false;
+		$(this).each(function() {
+			var obj = $(this);
+			// 1. Reset field value without whitespaces according to type
+			if (obj.is("input") || obj.is("textarea") || obj.is("select")) {
+				// HTML field
+				var str = obj.val().trim();
+				obj.val(str); // reset field value
+			} else {
+				// HTML element (e.g. div or span)
+				var str = obj.text().trim();
+				obj.html(str); // reset element content
+			}
+			// 2. Reset autosize for any textarea
+			if (obj.is("textarea")) {obj.trigger("autosize.resize")}
+			// 3. Proceed validation
+			if (str.length > 0 && cond(str)) { // field required + custom condition (if any)
+				// Set validity
+				obj.set_validity(true);
+			} else {
+				// Define error message
+				if (str.length == 0) {
+					var msg = $msg.field_required; // set field required error message
+				} else if (typeof(err_msg) === "string") {
+					var msg = err_msg; // set custom error message if any
+				}
+				// Set validity
+				obj.set_validity(false, msg);
+			}
+		});
+	}
+});
+
 /* Add Confirmation Bar */
 jQuery.fn.extend({
 	add_confirmation_bar : function() {
@@ -972,28 +1052,36 @@ jQuery.fn.extend({
 			"class"           : "error",    // String   CSS class of the alert box (null to none). Default : "error"
 			"icon"            : "warning",  // String   Name of the message icon (null to none). Default : "warning"
 			"icon_class"      : "white",    // String   CSS color class of the message icon (null to none). Default : "white"
-			"timeout"         : 0,          // Integer  Time before alert box fade out (zero to never). Default : 0
+			"timeout"         : 0,          // Integer  Time before alert box fade out (zero for never). Default : 0
 			"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
 			"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
 			"fade_duration"   : 500         // Integer  Duration of the fading effeet. Default : 500
 		};
 		var cfg = $.extend({}, defs, opts);
 		var sel = "#" + id; // internal
-		if ($(sel).length == 0) {
+		function set_close_timeout(sel) {
+			if (cfg.timeout > 0) {
+				var timeout = setTimeout(function() {
+					$(sel).find(".close").first().click();
+				}, cfg.timeout);
+				$(sel).data("timeout", timeout);
+			}
+		}
+		if ($(sel).length == 0) { // create
 			$(this).first().after(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : msg}));
 			$(sel).svg_icons(); // set svg icons contained by alert box
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
-			if (cfg.timeout > 0) {
-				setTimeout(function() {
-					$(sel).find(".close").first().click();
-				}, cfg.timeout);
-			}
+			set_close_timeout(sel);
 		} else { // update
 			$(sel).removeClass("info secondary alert error success warning");
 			$(sel).addClass(cfg["class"]);
 			$(sel).find(".text").html(msg);
 			$(sel).find(".icon").removeClass("").addClass("icon small" + (cfg.icon_class !== null ? " " + cfg.icon_class : ""));
 			$(sel).find(".icon svg use").attr("xlink:href", "#icon-" + cfg.icon);
+			if ($(sel).data("timeout")) {
+				clearTimeout($(sel).data("timeout")); // reset timeout
+				set_close_timeout(sel);
+			}
 		}
 		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
 	}
@@ -1004,9 +1092,11 @@ jQuery.fn.extend({
 	create_confirmation_modal : function(opts) {
 		var defs = {
 			"fx_d"       : 500,                 // [Integer]   Effects duration (milliseconds). Default : 500
+			"fx_slide"   : true,                // [Boolean]   Slide box on opening. Default : true
+			"fx_resize"  : false,               // [Boolean]   Resize dialog box on opening. Default : false
 			"text"       : $msg.confirm_action, // [String]    Text of the message box. Default : $msg.confirm_action
-			"class"      : "",                  // [ClassName] CSS class of the message box. Default : ""
-			"focus"      : "confirm",           // [DataName]  Element focused upon modal creation. Default : "confirm"
+			"class"      : "",                  // [String]    CSS class name of the message box. Default : ""
+			"focus"      : "confirm",           // [String]    Data attribute of the element focused on launch. Default : "confirm"
 			"on_cancel"  : function() {},       // [Handler]   Function launched on modal cancel. Default : function() {}
 			"on_confirm" : function() {},       // [Handler]   Function launched on modal confirm. Default : function() {}
 		};
@@ -1026,9 +1116,10 @@ jQuery.fn.extend({
 			var l = $(".dialog").css("left");
 			var w = $(".dialog").css("width");
 			var m = $(".dialog").css("margin-left");
+			var f1 = cfg.fx_slide, f2 = cfg.fx_resize;
 			$(".canvas").css("opacity", "0");
-			$(".canvas").animate({"opacity" : "1"}, d / 2);
-			$(".dialog").css({"left" : "50%", "width" : "25%", "margin-left" : "0", "top" : "0"});
+			$(".canvas").animate({"opacity" : "1"}, d);
+			$(".dialog").css({"left" : (f2 ? "50%" : l), "width" : (f2 ? "25%" : w), "margin-left" : (f2 ? "0" : m), "top" : (f1 ? "0" : t)});
 			$(".dialog").animate({"left" : l, "width" : w, "margin-left" : m, "top" : t}, d, function() {
 				$(".dialog").css({"left" : "", "width" : "", "margin-left" : ""}); // reset css
 			});
@@ -1179,6 +1270,96 @@ var user_menu = (function() {
 	}
 }());
 
+var faq_ui = (function() {
+	var cfg = {
+		"fx_d"       : 250,         // Integer  Visual effects duration (milliseconds). Default : 250
+		"fx_toggle"  : true,        // Boolean  Switching behaviour for the component. Default : true
+		"trigger"    : ".question", // Selector Element intiating the component. Default : ".question"
+		"target"     : ".answer",   // Selector Element targeted by the component. Default : ".answer"
+		"icon"       : ".vis-tip",  // Selector Element toggling on activation. Default : ".vis-tip"
+		"icon_on"    : "show",      // IconName SVG icon shown while component is activated. Default : "show"
+		"icon_off"   : "hide"       // IconName SVG icon shown while component is deactivated. Default : "hide"
+	};
+	return {
+		open : function(o, d, f) {
+			var o = o || cfg.target,
+					d = $conf.js_fx ? (d || cfg.fx_d) : 0,
+					f = f || function() {},
+					p = o.prev(cfg.trigger),
+					n = p.find("input");
+			// Active Fix
+			p.addClass("active");
+			// Input Focus Fix
+			if (n && n.attr("disabled")) {n.removeAttr("disabled")}
+			// Autosize Fix
+			if (o.find("textarea").length > 0) {
+				var autosize = true; // set autosize flag
+				o.find("textarea").trigger("autosize.destroy"); // destroy autosize
+			}
+			// Play Animation
+			var h = o.height();
+			o.show();
+			o.css({"height" : "0", "opacity" : "0"});
+			o.animate({"height" : h, "opacity" : "1"}, d, function() {
+				o.css({"height" : ""});
+				if (autosize) { o.find("textarea").autosize(autosize_cfg) } // Autosize Fix : initialize autosize
+				o.scroll_to({"fx_d" : d / 2, "spacing" : (1).toPx()});
+				f();
+			});
+		},
+		close : function(o, d, f) {
+			var o = o || cfg.target,
+					d = $conf.js_fx ? (d || cfg.fx_d / 2) : 0,
+					f = f || function() {},
+					p = o.prev(cfg.trigger),
+					n = p.find("input");
+			// Active Fix
+			p.removeClass("active");
+			// Input Focus Fix
+			if (n) {n.attr("disabled", true)}
+			// Play Animation
+			o.animate({"height" : "0", "opacity" : "0"}, d, function() {
+				o.css({"height" : ""});
+				o.hide();
+				f();
+			});
+		},
+		init : function(opts) {
+			// Variables
+			cfg = $.extend({}, cfg, opts);
+			var self = this;
+			// Functions
+			function toggle_icon(obj) {
+				var icon = obj.find(cfg.icon + " > svg > use"), link = "xlink:href";
+				var name = icon.attr(link) == "#icon-" + cfg.icon_on ? cfg.icon_off : cfg.icon_on; // define on/off
+				icon.attr(link, "#icon-" + name); // set icon on/off
+			}
+			// Live Events
+			$(document).on("click", cfg.trigger, function() {
+				var bar = $(this);
+				var foo = bar.next(cfg.target);
+				foo.finish();
+				if (foo.is(":hidden")) {
+					if (cfg.fx_toggle) { // close all others
+						var other = bar.siblings();
+						other.removeClass("active");
+						self.close(other.next(cfg.target), null, function() {
+							toggle_icon(other);
+						});
+					}
+					self.open(foo, null, function() {
+						toggle_icon(bar);
+					});
+				} else {
+					self.close(foo, null, function() {
+						toggle_icon(bar);
+					});
+				}
+			});
+		}
+	}
+}());
+
 /* ------------------------------------------------------------------ */
 /* # Build methods declaration */
 /* ------------------------------------------------------------------ */
@@ -1238,16 +1419,22 @@ function decode_line_ends(str) {
 }
 
 /* Convert HTML */
-function encode_html(str) {
+function encode_html(str, lb) {
+	// var lb = (typeof (lb) !== "undefined" ? lb : true);
+	var lb = lb || false;
 	str = encode_illegals(str);
 	str = encode_formats(str);
 	str = encode_punctuations(str);
 	str = encode_diacriticals(str);
-	str = encode_line_ends(str);
+	str = (lb ? encode_line_ends(str) : str.trim());
 	return str;
 }
-function decode_html(str) {
-	str = decode_line_ends(str);
+function decode_html(str, lb) {
+	// var lb = (typeof (lb) !== "undefined" ? lb : true);
+	var lb = lb || false;
+	str = str.replace(/(")/g, "'"); // Double Quotations Fix
+	str = str.replace(/[\t|\r\n]*/g, ""); // Tabulation and Line Feed Fix
+	str = (lb ? decode_line_ends(str) : str.trim());
 	str = decode_diacriticals(str);
 	// str = decode_punctuations(str); // NOTE : Punctuation marks aren't decoded (useless if UTF-8 is used as HTML base encoding)
 	str = decode_illegals(str);
