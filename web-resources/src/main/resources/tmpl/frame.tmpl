@@ -15,7 +15,7 @@
 						<li><a href="{{= $nav.online_article_list.url }}">Articles</a></li>
 						<li><a href="{{= $nav.agenda.url }}">Agenda</a></li>
 						<li><a href="{{= $nav.faq.url }}">FAQ</a></li>
-						<li><a href="javascript:void(0)" class="disabled">Nos copines</a></li>
+						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="javascript:void(0)" class="disabled">Nos copines</a></li>
 						<li><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
 					</ul>
 				</nav>
@@ -52,7 +52,7 @@
 							<li class="cyan">
 								<div class="orbit-headline text-center text-huge">
 									<h1>{{= $org.name }}</h1>
-									<h4><span class="text-tiny">{{= $app.name + " " + $app.ver }}</span></h4>
+									<h4><span class="text-tiny">{{= $app.name + ($app.stage == "dev" ? "&nbsp;" + $app.ver : "") }}</span></h4>
 								</div>
 							</li>
 						</ul>
@@ -73,7 +73,7 @@
 						</ul>
 					</nav>
 					<!--Copyright-->
-					<div class="end-notes"><a href="javascript:void(0)">Nos remerciements</a>, <a href="javascript:void(0)">Conditions d'utilisation</a> et <a href="javascript:void(0)">Politique de confidentialité</a> &copy; 2014 &dash; Les Ourses &agrave; plumes.</div>
+					<div class="end-notes"><a href="javascript:void(0)">Nos remerciements</a>, <a href="javascript:void(0)">Conditions d&rsquo;utilisation</a> et <a href="javascript:void(0)">Politique de confidentialit&eacute;</a> &copy; 2014 &dash; Les Ourses &agrave; plumes.</div>
 				</footer>
 			</main>
 		</div>
