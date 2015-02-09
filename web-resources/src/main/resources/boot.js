@@ -223,7 +223,7 @@ $nav = {
 	"profile_edit"          : {"url" : "/parametres/profil",   "title" : "Mon profil"},
 	"privacy_policy"        : {"url" : null,                   "title" : "Politique de confidentialité"},
 	"terms_of_use"          : {"url" : null,                   "title" : "Conditions d'utilisation"},
-	"thanks"                : {"url" : null,                   "title" : "Remerciements"}
+	"thanks"                : {"url" : "/remerciements",       "title" : "Remerciements"}
 };
 
 /* Preferences */

@@ -4249,6 +4249,50 @@ input:focus + button + .error + .autocomplete > ul {
 .faq.edit .question.active > [data-delete] {
   display: inline-block;
 }
+/* ------------------------------------------------------------------ */
+/* # Thanks List */
+/* ------------------------------------------------------------------ */
+
+.thanks-list {
+  list-style: none;
+  margin-left: 0;
+  font-size: 0;
+}
+.thanks-list li {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: .5rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  vertical-align: middle;
+}
+@media (min-width: 640px) {
+  .thanks-list li {
+    width: 50%;
+  }
+}
+.thanks-list .picture {
+  width: 3rem;
+  height: 3rem;
+  margin-right: .5rem;
+  vertical-align: middle;
+}
+.thanks-list .picture[data-image] {
+  border-radius: 100%;
+}
+.thanks-list .picture[tabindex] {
+  cursor: pointer;
+}
+.css-fx .thanks-list .picture[tabindex] {
+  transition: margin .125s, width .125s, height .125s;
+}
+.thanks-list .picture[tabindex]:hover,
+.thanks-list .picture[tabindex]:focus {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: .25rem;
+  margin-right: .75rem;
+}
 
 /* ------------------------------------------------------------------ */
 /* # Named Components */

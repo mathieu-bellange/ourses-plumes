@@ -19,9 +19,15 @@
 	</rule>
 
 	<rule>
-		<note>redirection vers la faq</note>
+		<note>redirection vers la page d'affichage des faq</note>
 		<from>^/faq$</from>
 		<to>/faq-list.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page de modification des faq</note>
+		<from>^/parametres/faq$</from>
+		<to>/faq-edit.html</to>
 	</rule>
 
 	<rule>
@@ -89,13 +95,19 @@
 		<from>^/articles/([0-9]+)$</from>
 		<to>/article-edit.html</to>
 	</rule>
-	
+
 	<rule>
 		<note>redirection vers l'agenda</note>
 		<from>^/agenda$</from>
 		<to>/agenda.html</to>
 	</rule>
-	
+
+	<rule>
+		<note>redirection vers la pages des remerciements</note>
+		<from>^/remerciements$</from>
+		<to>/thanks.html</to>
+	</rule>
+
 	<rule>
 		<note>redirection vers sitemap</note>
 		<from>^/sitemap.xml$</from>
