@@ -13,10 +13,11 @@
 				<nav class="main-nav">
 					<ul>
 						<li><a href="{{= $nav.online_article_list.url }}">Articles</a></li>
-						<li><a href="{{= $nav.agenda.url }}">Agenda</a></li>
+						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="{{= $nav.agenda.url }}">Agenda</a></li>
 						<li><a href="{{= $nav.faq.url }}">FAQ</a></li>
 						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="javascript:void(0)" class="disabled">Nos copines</a></li>
-						<li><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
+						<li style="font-size: .9em;"><a href="{{= $nav.thanks.url }}">Remerciements</a></li>
+						<li style="font-size: .9em;"><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
 					</ul>
 				</nav>
 			</aside>
@@ -69,11 +70,11 @@
 							<li class="no-bullet"><a href="{{= $org.twitter }}" class="icon-twitter white bevel no-bg tip-top" title="Nous suivre sur Twitter" data-tooltip><span class="hide">Twitter</span></a></li>
 							<li class="no-bullet"><a href="{{= $org.facebook }}" class="icon-facebook white bevel no-bg tip-top" title="Nous rejoindre sur Facebook" data-tooltip><span class="hide">Facebook</span></a></li>
 							<li class="no-bullet"><a href="{{= $org.wordpress }}" class="icon-blog white bevel no-bg tip-top" title="L&rsquo;incubateur des Ourses" data-tooltip><span class="hide">Wordpress</span></a></li>
-							<li class="no-bullet"><a href="javascript:void(0)" class="icon-newsletter white bevel no-bg disabled tip-top" title="S&rsquo;abonner &agrave; la lettre d&rsquo;information" data-tooltip><span class="hide">Newsletter</span></a></li>
+							<li class="no-bullet{{= $app.stage == 'rtw' ? ' hide' : ''}}"><a href="javascript:void(0)" class="icon-newsletter white bevel no-bg disabled tip-top" title="S&rsquo;abonner &agrave; la lettre d&rsquo;information" data-tooltip><span class="hide">Newsletter</span></a></li>
 						</ul>
 					</nav>
 					<!--Copyright-->
-					<div class="end-notes"><a href="{{= $nav.thanks.url }}">Nos remerciements</a>, <a href="javascript:void(0)">Conditions d&rsquo;utilisation</a> et <a href="javascript:void(0)">Politique de confidentialit&eacute;</a> &copy; 2014 &dash; Les Ourses &agrave; plumes.</div>
+					<div class="end-notes"><a href="{{= $nav.terms_of_use.url }}">Conditions d&rsquo;utilisation</a> et <a href="{{= $nav.privacy_policy.url }}">Politique de confidentialit&eacute;</a> &copy; 2014 &ndash; Les Ourses &agrave; plumes.</div>
 				</footer>
 			</main>
 		</div>

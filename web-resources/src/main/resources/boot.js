@@ -203,27 +203,27 @@ $msg = {
 
 /* Navigation */
 $nav = {
-	"faq"                   : {"url" : "/faq",                 "title" : "FAQ"},
-	"account_list"          : {"url" : "/comptes",             "title" : "Lister les comptes"},
-	"account_create"        : {"url" : null,                   "title" : "Ajouter un compte"},
-	"account_edit"          : {"url" : "/parametres/compte",   "title" : "Mon compte"},
-	"agenda"                : {"url" : "/agenda",              "title" : "Agenda"},
-	"online_article_list"   : {"url" : "/articles",            "title" : "Tous les articles"},
-	"draft_article_list"    : {"url" : "/parametres/articles", "title" : "Mes articles"},
-	"article_view"          : {"url" : null,                   "title" : null},
-	"article_add"           : {"url" : "/articles/nouveau",    "title" : "Écrire un article"},
-	"article_edit"          : {"url" : null,                   "title" : "Modifier un article"},
-	"bug_report"            : {"url" : "/bug/nouveau",         "title" : "Signaler un bug"},
-	"contact"               : {"url" : null,                   "title" : "Nous contacter"},
-	"error"                 : {"url" : null,                   "title" : "Erreur"},
-	"home"                  : {"url" : "/",                    "title" : "Accueil"},
-	"login"                 : {"url" : "/connexion",           "title" : "Connexion"},
-	"partners"              : {"url" : null,                   "title" : "Nos copines"},
-	"profile_view"          : {"url" : null,                   "title" : null},
-	"profile_edit"          : {"url" : "/parametres/profil",   "title" : "Mon profil"},
-	"privacy_policy"        : {"url" : null,                   "title" : "Politique de confidentialité"},
-	"terms_of_use"          : {"url" : null,                   "title" : "Conditions d'utilisation"},
-	"thanks"                : {"url" : "/remerciements",       "title" : "Remerciements"}
+	"faq"                   : {"url" : "/faq",                     "title" : "FAQ"},
+	"account_list"          : {"url" : "/comptes",                 "title" : "Lister les comptes"},
+	"account_create"        : {"url" : null,                       "title" : "Ajouter un compte"},
+	"account_edit"          : {"url" : "/parametres/compte",       "title" : "Mon compte"},
+	"agenda"                : {"url" : "/agenda",                  "title" : "Agenda"},
+	"online_article_list"   : {"url" : "/articles",                "title" : "Tous les articles"},
+	"draft_article_list"    : {"url" : "/parametres/articles",     "title" : "Mes articles"},
+	"article_view"          : {"url" : null,                       "title" : null},
+	"article_add"           : {"url" : "/articles/nouveau",        "title" : "Écrire un article"},
+	"article_edit"          : {"url" : null,                       "title" : "Modifier un article"},
+	"bug_report"            : {"url" : "/bug/nouveau",             "title" : "Signaler un bug"},
+	"contact"               : {"url" : null,                       "title" : "Nous contacter"},
+	"error"                 : {"url" : null,                       "title" : "Erreur"},
+	"home"                  : {"url" : "/",                        "title" : "Accueil"},
+	"login"                 : {"url" : "/connexion",               "title" : "Connexion"},
+	"partners"              : {"url" : null,                       "title" : "Nos copines"},
+	"profile_view"          : {"url" : null,                       "title" : null},
+	"profile_edit"          : {"url" : "/parametres/profil",       "title" : "Mon profil"},
+	"thanks"                : {"url" : "/remerciements",           "title" : "Remerciements"},
+	"terms_of_use"          : {"url" : "/licence/utilisation",     "title" : "Conditions d'utilisation"},
+	"privacy_policy"        : {"url" : "/licence/confidentialite", "title" : "Politique de confidentialité"}
 };
 
 /* Preferences */

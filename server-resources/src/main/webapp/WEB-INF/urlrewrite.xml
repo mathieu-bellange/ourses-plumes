@@ -53,7 +53,7 @@
 		<from>^/parametres/compte$</from>
 		<to>/account-edit.html</to>
 	</rule>
-	
+
 	<rule>
 		<note>redirection vers la page de modification de mes articles</note>
 		<from>^/parametres/articles$</from>
@@ -106,6 +106,18 @@
 		<note>redirection vers la pages des remerciements</note>
 		<from>^/remerciements$</from>
 		<to>/thanks.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers les conditions d'utilisation</note>
+		<from>^/licence/utilisation$</from>
+		<to>/terms-of-use.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la politique de confidentialité</note>
+		<from>^/licence/confidentialite$</from>
+		<to>/privacy-policy.html</to>
 	</rule>
 
 	<rule>
