@@ -4253,10 +4253,32 @@ input:focus + button + .error + .autocomplete > ul {
 /* # Thanks List */
 /* ------------------------------------------------------------------ */
 
+.thanks {
+  margin-bottom: .5rem;
+  padding: 1.5rem 2.5rem .5rem;
+  color: sienna;
+  color: darkslateblue;
+  border: .125rem solid #e9e9e9;
+  border-radius: .75rem;
+  background-color: white;
+  background-image: url('../img/ui/ui-grid.png');
+}
+.css-fx .thanks {
+  box-shadow: 0 0 1.5rem .25rem aliceblue inset;
+  text-shadow: 1px 1px 0 white;
+}
+.thanks p {
+  margin-bottom: .75rem;
+  text-align: center;
+}
 .thanks-list {
   list-style: none;
   margin-left: 0;
+  padding: 1.5rem 0 .75rem;
   font-size: 0;
+  border: .125rem dashed lightgrey;
+  border-left: 0;
+  border-right: 0;
 }
 .thanks-list li {
   display: inline-block;
