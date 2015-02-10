@@ -125,5 +125,11 @@
 		<from>^/sitemap.xml$</from>
 		<to>/rest/sitemap</to>
 	</rule>
+	
+	<rule>
+		<condition name="user-agent" operator="equal">Mozilla/[1-4]</condition>
+		<from>^.*$</from>
+		<to>/browser-incompatible.html</to>
+	</rule>
 
 </urlrewrite>
