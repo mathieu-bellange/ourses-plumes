@@ -223,8 +223,9 @@ $nav = {
 	"profile_view"          : {"url" : null,                       "title" : null},
 	"profile_edit"          : {"url" : "/parametres/profil",       "title" : "Mon profil"},
 	"thanks"                : {"url" : "/remerciements",           "title" : "Remerciements"},
-	"terms_of_use"          : {"url" : "/licence/utilisation",     "title" : "Conditions d'utilisation"},
-	"privacy_policy"        : {"url" : "/licence/confidentialite", "title" : "Politique de confidentialité"}
+	"legal_notice"          : {"url" : "/service/mentions",        "title" : "Mentions légales"},
+	"terms_of_use"          : {"url" : "/service/utilisation",     "title" : "Conditions d'utilisation"},
+	"privacy_policy"        : {"url" : "/service/confidentialite", "title" : "Politique de confidentialité"}
 };
 
 /* Preferences */

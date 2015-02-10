@@ -109,14 +109,20 @@
 	</rule>
 
 	<rule>
+		<note>redirection vers les mentions légales</note>
+		<from>^/service/mentions$</from>
+		<to>/legal-notice.html</to>
+	</rule>
+
+	<rule>
 		<note>redirection vers les conditions d'utilisation</note>
-		<from>^/licence/utilisation$</from>
+		<from>^/service/utilisation$</from>
 		<to>/terms-of-use.html</to>
 	</rule>
 
 	<rule>
 		<note>redirection vers la politique de confidentialité</note>
-		<from>^/licence/confidentialite$</from>
+		<from>^/service/confidentialite$</from>
 		<to>/privacy-policy.html</to>
 	</rule>
 

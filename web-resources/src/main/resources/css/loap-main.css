@@ -1644,7 +1644,7 @@ a.close {
   text-align: center;
 }
 .end-notes a {color: inherit;}
-.end-notes a:hover {color: dimgray;}
+.end-notes a:hover {color: #404040;}
 
 /* ------------------------------------------------------------------ */
 /* # Inline Lists */
