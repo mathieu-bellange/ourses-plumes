@@ -90,10 +90,6 @@ Number.prototype.toPx = function() {
 	return (n * r);
 };
 
-Window.prototype.checkCompatibility = function() {
-	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
-}
-
 /* ------------------------------------------------------------------ */
 /* # Globals */
 /* ------------------------------------------------------------------ */
@@ -149,6 +145,7 @@ var loap = (function() {
 				// Prepend SVG icons
 				$("body").prepend(file_pool.icons_file).prepend(lb(1));
 			}
+			compatibilityWarning(); // user warning for compatibilities issues
 		},
 		update : function() {
 			$(document).svg_icons(); // WARNING : set svg icons for whole document
@@ -183,7 +180,7 @@ $.holdReady(true); // hold document ready event
 		if (files_ready == files_readied) {
 			loap.build(); // process primary build
 			if (typeof loax !== "undefined" && loax.hasOwnProperty("build")) {
-				loax.build() // process auxiliary build
+				loax.build(); // process auxiliary build
 			}
 			$.holdReady(false); // release document ready event
 		}
@@ -1088,6 +1085,24 @@ jQuery.fn.extend({
 			}
 		}
 		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
+	},
+	create_compatibility_warning_box : function() {
+		var id = "warning_compatibility";
+		var cfg = {
+				"class"           : "error",    // String   CSS class of the alert box (null to none). Default : "error"
+				"icon"            : "warning",  // String   Name of the message icon (null to none). Default : "warning"
+				"icon_class"      : "white",    // String   CSS color class of the message icon (null to none). Default : "white"
+				"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
+				"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
+				"fade_duration"   : 500         // Integer  Duration of the fading effeet. Default : 500
+		};
+		var sel = "#" + id; // internal
+		if ($(sel).length == 0) {
+			$(this).prepend(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : $msg.compatibility_warning}));
+			$(sel).svg_icons(); // set svg icons contained by alert box
+			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
+		}
+		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
 	}
 });
 
@@ -1834,6 +1849,21 @@ $("html").on("click", "#toolbar .close", function() {
 	}
 	$("#toolbar").addClass("hide");
 });
+
+
+/* ------------------------------------------------------------------ */
+/* # Compatibility */
+/* ------------------------------------------------------------------ */
+
+Window.prototype.checkCompatibility = function() {
+	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
+}
+
+function compatibilityWarning(){
+	if (!checkCompatibility()){
+		$("body").create_compatibility_warning_box();
+	}
+}
 
 /* ------------------------------------------------------------------ */
 /* # Alert Boxes */
