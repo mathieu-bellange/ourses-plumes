@@ -1,6 +1,6 @@
 ﻿				<!--Agenda-->
 				<section id="agenda">
-					<h3 class="red">{{=$time.upperCaseMonths[new Date().getMonth()] + " " + new Date().getFullYear()}}</h3>
+					<h3 class="red">{{= $time.months[new Date().getMonth()].capitalize() + " " + new Date().getFullYear()}}</h3>
 					<!--Date Table-->
 					<a href="javascript:void(0)" class="agenda prev">Pr&eacute;c&eacute;dent</a>
 					<a href="javascript:void(0)" class="agenda next">Suivant</a>

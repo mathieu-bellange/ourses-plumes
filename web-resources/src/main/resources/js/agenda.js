@@ -75,7 +75,7 @@ function getDaysInMonth(month, year) {
 }
 
 function buildCalendar(month, year){
-	$("#agenda h3").text($time.upperCaseMonths[month] + " " + year);
+	$("#agenda h3").text($time.months[month].capitalize() + " " + year);
 	var days = getDaysInMonth(month,year);
 	var nextMonth;
 	var nextYear;

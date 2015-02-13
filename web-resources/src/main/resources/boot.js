@@ -114,20 +114,6 @@ $time = {
 		"novembre",                                                 // String   Set November literal.
 		"décembre"                                                  // String   Set December literal.
 	],
-	"upperCaseMonths" : [
-		"Janvier",                                                  // String   Set January literal.
-		"Février",                                                  // String   Set February literal.
-		"Mars",                                                     // String   Set March literal.
-		"Avril",                                                    // String   Set April literal.
-		"Mai",                                                      // String   Set May literal.
-		"Juin",                                                     // String   Set June literal.
-		"Juillet",                                                  // String   Set July literal.
-		"Août",                                                     // String   Set August literal.
-		"Septembre",                                                // String   Set September literal.
-		"Octobre",                                                  // String   Set October literal.
-		"Novembre",                                                 // String   Set November literal.
-		"Décembre"                                                  // String   Set December literal.
-	],
 	"duration" : {                                                // Object   Global durations.
 		"fx_short"    : 250,                                        // Integer  Short effects duration in milliseconds. Default : 500
 		"fx"          : 500,                                        // Integer  Effects duration in milliseconds. Default : 500
