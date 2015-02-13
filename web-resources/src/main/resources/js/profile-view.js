@@ -4,7 +4,7 @@
 
 var loax_pool = {
 	"profile_view_tpml" : $loc.tmpl + "profile-view.tmpl",
-	"profile_view_related_tpml" : $loc.tmpl + "profile-view-related.tmpl"
+	"related_list_tmpl" : $loc.tmpl + "related-list.tmpl"
 }
 
 /* ------------------------------------------------------------------ */
@@ -43,8 +43,8 @@ function processArticles(articles) {
 		// a doit être égal à b
 		return 0;
 	});
-	$("#articles").append(file_pool.profile_view_related_tpml(articles)).append(lb(1));
-	attach_slider(); // bind events on sliding elements
+	$("#articles").append(file_pool.related_list_tmpl(articles)).append(lb(1));
+	list_overview.init(".related-list"); // initialize list overview component
 	loap.update();
 }
 
@@ -58,27 +58,6 @@ function sortSocialLinks(links) {
 		}
 		// a doit être égale à b
 		return 0;
-	});
-}
-
-function attach_slider(attachee) {
-	var attachee = attachee || ".related-list";
-	var triggerer = ".overview-tip";
-	var triggered = ".overview";
-	$(attachee).on("click", triggerer, function() {
-		var obj = $(this);
-		if (obj.data("is_sliding") !== "true") {
-			obj.data("is_sliding", "true");
-			obj.toggleClass("active");
-			if ($conf.js_fx) {
-				obj.next(triggered).slideToggle(250, function() {
-					obj.removeData("is_sliding");
-				});
-			} else {
-				obj.next(triggered).toggle();
-				obj.removeData("is_sliding");
-			}
-		}
 	});
 }
 

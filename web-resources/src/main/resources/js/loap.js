@@ -1379,6 +1379,31 @@ var faq_ui = (function() {
 	}
 }());
 
+
+var list_overview = (function() {
+	return {
+		init : function (attachee) {
+			var triggerer = ".overview-tip";
+			var triggered = ".overview";
+			$(attachee).on("click", triggerer, function() {
+				var obj = $(this);
+				if (obj.data("is_sliding") !== "true") {
+					obj.data("is_sliding", "true");
+					obj.toggleClass("active");
+					if ($conf.js_fx) {
+						obj.next(triggered).slideToggle(250, function() {
+							obj.removeData("is_sliding");
+						});
+					} else {
+						obj.next(triggered).toggle();
+						obj.removeData("is_sliding");
+					}
+				}
+			});
+		}
+	}
+}());
+
 /* ------------------------------------------------------------------ */
 /* # Build methods declaration */
 /* ------------------------------------------------------------------ */

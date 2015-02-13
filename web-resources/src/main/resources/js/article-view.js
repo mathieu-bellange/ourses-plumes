@@ -2,11 +2,9 @@
 /* # Globals */
 /* ------------------------------------------------------------------ */
 
-//var templateRelatedArticles = doT.compile(loadfile($loc.tmpl + "related-article-list.tmpl"));
-
 var loax_pool = {
 	"article_view_tmpl" : $loc.tmpl + "article-view.tmpl",
-	"related_article_tmpl" : $loc.tmpl + "related-article-list.tmpl"
+	"related_list_tmpl" : $loc.tmpl + "related-list.tmpl"
 }
 
 /* ------------------------------------------------------------------ */
@@ -16,7 +14,6 @@ var loax_pool = {
 var loax = (function() {
 	return {
 		build : function() {
-			/* Process */
 			displayArticle();
 		}
 	}
@@ -213,32 +210,14 @@ function processRelatedArticles(articles) {
 			// a doit être égal à b
 			return 0;
 		});
-		$(".article > .footer").append(file_pool.related_article_tmpl(articles)).append(lb(1)); // insert related template
-		attach_slider(); // bind events on sliding elements
+		var related = $("<div>", {"class" : "related", "style" : "clear: both;"})
+			.append($("<h4>", {"class" : "subheader"}).html("Articles connexes"))
+			.append(file_pool.related_list_tmpl(articles)) // insert related template
+			.append(lb(1));
+		$(".article > .footer").append(related); // append related list
+		list_overview.init(".related-list"); // initialize list overview component
 		loap.update(); //refresh icon
 	}
-}
-
-//TODO merge avec celui du profile.js
-function attach_slider(attachee) {
-	var attachee = attachee || ".related-list";
-	var triggerer = ".overview-tip";
-	var triggered = ".overview";
-	$(attachee).on("click", triggerer, function() {
-		var obj = $(this);
-		if (obj.data("is_sliding") !== "true") {
-			obj.data("is_sliding", "true");
-			obj.toggleClass("active");
-			if ($conf.js_fx) {
-				obj.next(triggered).slideToggle(250, function() {
-					obj.removeData("is_sliding");
-				});
-			} else {
-				obj.next(triggered).toggle();
-				obj.removeData("is_sliding");
-			}
-		}
-	});
 }
 
 /* ------------------------------------------------------------------ */
