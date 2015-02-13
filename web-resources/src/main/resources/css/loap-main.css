@@ -2446,6 +2446,9 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 /* # Magellan */
 /* ------------------------------------------------------------------ */
 
+[data-magellan-expedition]:not(.fixed) {
+  width: 100%;
+}
 [data-magellan-expedition] {
   min-width: 75%;
   z-index: 50;
@@ -4473,64 +4476,64 @@ input:focus + button + .error + .autocomplete > ul {
 @media (min-width: 2880px) {
   .frame {left: 16.66666666666667%; width: 66.66666666666667%;}
   .fast-nav {width: 94.8958333333333%;}
-  [data-magellan-expedition] {left: 33.3333333333333%; min-width: 50%;}
+  [data-magellan-expedition] {left: 33.3333333333333%; min-width: 50%; width: 50%;}
 }
 @media (min-width: 2720px) and (max-width: 2879px) {
   .frame {left: 16.1764705882353%; width: 67.64705882352941%;}
   .fast-nav {width: 94.8007246376812%;}
-  [data-magellan-expedition] {left: 33.0882352941177%; min-width: 50.7352941176471%;}
+  [data-magellan-expedition] {left: 33.0882352941177%; min-width: 50.7352941176471%; width: 50.7352941176471%;}
 }
 @media (min-width: 2560px) and (max-width: 2719px) {
   .frame {left: 15.625%; width: 68.75%;}
   .fast-nav {width: 94.6969696969697%;}
-  [data-magellan-expedition] {left: 32.8125%; min-width: 51.5625%;}
+  [data-magellan-expedition] {left: 32.8125%; min-width: 51.5625%; width: 51.5625%;}
 }
 @media (min-width: 2400px) and (max-width: 2559px) {
   .frame {left: 15%; width: 70%;}
   .fast-nav {width: 94.5833333333333%;}
-  [data-magellan-expedition] {left: 32.5%; min-width: 52.5%;}
+  [data-magellan-expedition] {left: 32.5%; min-width: 52.5%; width: 52.5%;}
 }
 @media (min-width: 2240px) and (max-width: 2399px) {
   .frame {left: 14.28571428571429%; width: 71.42857142857143%;}
   .fast-nav {width: 94.4583333333333%;}
-  [data-magellan-expedition] {left: 32.1428571428572%; min-width: 53.5714285714286%;}
+  [data-magellan-expedition] {left: 32.1428571428572%; min-width: 53.5714285714286%; width: 53.5714285714286%;}
 }
 @media (min-width: 2080px) and (max-width: 2239px) {
   .frame {left: 13.46153846153846%; width: 73.07692307692308%;}
   .fast-nav {width: 94.3201754385965%;}
-  [data-magellan-expedition] {left: 31.7307692307692%; min-width: 54.8076923076923%;}
+  [data-magellan-expedition] {left: 31.7307692307692%; min-width: 54.8076923076923%; width: 54.8076923076923%;}
 }
 @media (min-width: 1920px) and (max-width: 2079px) {
   .frame {left: 12.5%; width: 75%;}
   .fast-nav {width: 94.1666666666667%;}
-  [data-magellan-expedition] {left: 31.25%; min-width: 56.25%;}
+  [data-magellan-expedition] {left: 31.25%; min-width: 56.25%; width: 56.25%;}
 }
 @media (min-width: 1760px) and (max-width: 1919px) {
   .frame {left: 11.36363636363637%; width: 77.27272727272727%;}
   .fast-nav {width: 93.9950980392157%;}
-  [data-magellan-expedition] {left: 30.6818181818182%; min-width: 57.9545454545454%;}
+  [data-magellan-expedition] {left: 30.6818181818182%; min-width: 57.9545454545454%; width: 57.9545454545454%;}
 }
 
 /* Medium-res */
 @media (min-width: 1600px) and (max-width: 1759px) {
   .frame {left: 10%; width: 80%;}
   .fast-nav {width: 93.8020833333333%;}
-  [data-magellan-expedition] {left: 30%; min-width: 60%;}
+  [data-magellan-expedition] {left: 30%; min-width: 60%; width: 60%;}
 }
 @media (min-width: 1440px) and (max-width: 1599px) {
   .frame {left: 6.25%; width: 87.5%;}
   .fast-nav {width: 93.8888888888889%;}
-  [data-magellan-expedition] {left: 28.125%; min-width: 65.625%;}
+  [data-magellan-expedition] {left: 28.125%; min-width: 65.625%; width: 65.625%;}
 }
 @media (min-width: 1280px) and (max-width: 1439px) {
   .frame {left: 3.125%; width: 93.75%;}
   .fast-nav {width: 93.7777777777778%;}
-  [data-magellan-expedition] {left: 26.5625%; min-width: 70.3125%;}
+  [data-magellan-expedition] {left: 26.5625%; min-width: 70.3125%; width: 70.3125%;}
 }
 @media (min-width: 1120px) and (max-width: 1279px) {
   .frame {left: 1.785714285714285%; width: 96.42857142857143%;}
   .fast-nav {width: 93.3024691358025%;}
-  [data-magellan-expedition] {left: 25.8928571428571%; min-width: 72.3214285714286%;}
+  [data-magellan-expedition] {left: 25.8928571428571%; min-width: 72.3214285714286%; width: 72.3214285714286%;}
 }
 
 /* Low-res */
