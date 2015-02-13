@@ -28,13 +28,13 @@ var isLocalHost = (function() {
 /* Organization */
 $org = {
 	"name"               : "Les Ourses à plumes",                 // String   Organization name.
-	"d_name"             : "http://www.ourses-plumes.org/",       // String   Organization domain name.
 	"mail"               : "mailto:oursesaplumes@gmail.com",      // String   Organization mail.
+	"domain"             : "http://www.ourses-plumes.org/",       // String   Organization domain.
 	"newsletter"         : null,                                  // String   Organization newsletter.
 	"mailinglist"        : null,                                  // String   Organization mailinglist.
 	"twitter"            : "https://twitter.com/OursesaPlumes",
 	"facebook"           : "https://www.facebook.com/pages/Les-Ourses-%C3%A0-plumes/223829591145074",
-	"wordpress"          : "http://incubateurdesourses.wordpress.com/"
+	"wordpress"          : "http://incubateurdesourses.wordpress.com/",
 };
 
 /* Application */

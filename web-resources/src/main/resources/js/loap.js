@@ -1945,18 +1945,26 @@ $(document).on("keydown", "[tabindex]", function(e) {
 /* ------------------------------------------------------------------ */
 
 /* Define third-party on-the-fly custom settings */
-var autosize_cfg = {append: ""};              // Autosize jQuery plugin (i.e. remove line feed)
-var f_tooltip_cfg = {                         // Foundation Tooltip component
-	"touch_close_text" : "Appuyez pour fermer", // Translate message. Default : "Tap To Close"
-	"disable_for_touch" : true,                 // Global deactivation for touch devices. Default : false
-	"hover_delay" : 500                         // Increase time before tooltips appear. Default : 200
+var autosize_cfg = {append: ""};               // Autosize jQuery plugin (i.e. remove line feed)
+var f_tooltip_cfg = {                          // Foundation Tooltip component
+	"touch_close_text"  : "Appuyez pour fermer", // Translate message. Default : "Tap To Close"
+	"disable_for_touch" : true,                  // Global deactivation for touch devices. Default : false
+	"hover_delay"       : 500                    // Increase time before tooltips appear. Default : 200
+};
+var f_magellan_cfg = {                         // Foundation Magellan Sticky Nav component
+	"threshold"             : 0,                 // Pixels from the top of the expedition for it to become fixes. Default : 0
+	"destination_threshold" : 0,                 // Pixels from the top of destination for it to be considered active. Default : 20
+	"throttle_delay"        : 0,                 // Calculation throttling to increase framerate. Default : 30
+	"fixed_top"             : 0                  // Top distance in pixels assigend to the fixed element on scroll. Default : 0
 };
 
 /* Initialize third-party modules */
 $(document).ready(function() {
 	/* Apply Foundation custom config */
 	var f = Foundation.libs;
-	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings -- NOTE : override fucking Foundation fucking libs
+	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings for tooltips
+	$.extend(f["magellan-expedition"].settings, f_magellan_cfg, f["magellan-expedition"].settings); // Apply Foundation custom settings for magellan
+
 	/* Initialize third-party plugins */
 	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
 	$(document).foundation(); // Initialize Foundation module
