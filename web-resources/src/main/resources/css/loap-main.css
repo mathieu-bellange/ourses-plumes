@@ -3925,6 +3925,30 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* ------------------------------------------------------------------ */
+/* # Date Switcher */
+/* ------------------------------------------------------------------ */
+
+.date-switcher {
+  margin-bottom: .75rem;
+  text-align: center;
+}
+.date-switcher .prev {
+  float: left;
+}
+.date-switcher .next {
+  float: right;
+}
+.date-switcher h3 {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  color: firebrick;
+}
+.date-switcher a > svg {
+  vertical-align: text-bottom;
+}
+
+/* ------------------------------------------------------------------ */
 /* # Date Table */
 /* ------------------------------------------------------------------ */
 

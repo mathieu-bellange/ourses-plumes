@@ -1,9 +1,12 @@
 ﻿				<!--Agenda-->
 				<section id="agenda">
-					<h3 class="red">{{= $time.months[new Date().getMonth()].capitalize() + " " + new Date().getFullYear()}}</h3>
+					<!--Date Switcher-->
+					<div class="date-switcher">
+						<h3>{{= $time.months[new Date().getMonth()].capitalize() + " " + new Date().getFullYear()}}</h3>
+						<a href="javascript:void(0)" class="agenda prev icon-left firered" title="Pr&eacute;c&eacute;dent"></a>
+						<a href="javascript:void(0)" class="agenda next icon-right firered" title="Suivant"></a>
+					</div>
 					<!--Date Table-->
-					<a href="javascript:void(0)" class="agenda prev">Pr&eacute;c&eacute;dent</a>
-					<a href="javascript:void(0)" class="agenda next">Suivant</a>
 					<table class="date-table">
 						<thead>
 							<tr>
