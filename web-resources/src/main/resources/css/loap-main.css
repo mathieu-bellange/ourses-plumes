@@ -2447,6 +2447,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 [data-magellan-expedition]:not(.fixed) {
+  margin-left: -1rem; /* Position Fix */
   width: 100%;
 }
 [data-magellan-expedition] {
@@ -4324,9 +4325,6 @@ input:focus + button + .error + .autocomplete > ul {
 /* ------------------------------------------------------------------ */
 
 .legal-notes {}
-.legal-notes [data-magellan-expedition]:not(.fixed) {
-  margin-left: -1rem; /* Position Fix */
-}
 .legal-notes > .last-edit {
   margin-bottom: 1rem;
   padding-bottom: .5rem;
