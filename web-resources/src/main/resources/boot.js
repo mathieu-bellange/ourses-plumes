@@ -330,6 +330,9 @@ $rest = {
 /* ------------------------------------------------------------------ */
 
 /* Prebuild vars */
+var IE_conditional_comments = [
+    lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
+];
 var head_tags = [
 	{elem: "meta", attr: {charset: "utf-8"}},
 	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},

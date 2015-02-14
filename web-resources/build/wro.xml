@@ -1,5 +1,29 @@
 <groups xmlns="http://www.isdc.ro/wro">
 
+    <group name="terms-of-use-${project.version}">
+        <group-ref>commons-lib-${project.version}</group-ref>
+        <js>/js/terms-of-use.js</js>
+        <group-ref>commons-loap-${project.version}</group-ref>
+    </group>
+    
+    <group name="privacy-policy-${project.version}">
+        <group-ref>commons-lib-${project.version}</group-ref>
+        <js>/js/privacy-policy.js</js>
+        <group-ref>commons-loap-${project.version}</group-ref>
+    </group>
+    
+    <group name="legal-notice-${project.version}">
+        <group-ref>commons-lib-${project.version}</group-ref>
+        <js>/js/legal-notice.js</js>
+        <group-ref>commons-loap-${project.version}</group-ref>
+    </group>
+    
+    <group name="faq-list-${project.version}">
+        <group-ref>commons-lib-${project.version}</group-ref>
+        <js>/js/faq-list.js</js>
+        <group-ref>commons-loap-${project.version}</group-ref>
+    </group>
+    
     <group name="thanks-${project.version}">
         <group-ref>commons-lib-${project.version}</group-ref>
         <js>/js/thanks.js</js>
