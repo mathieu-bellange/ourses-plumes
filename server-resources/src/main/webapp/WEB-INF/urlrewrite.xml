@@ -70,13 +70,24 @@
 	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	    
 	</rule>
+	
 	<rule enabled="true">
+	    <name>Force HTTP</name>
+	    <note>Automatically redirect non secure requests to non secure protocol.</note>
+	    <condition type="scheme" operator="equal">^https$</condition>
+	    <condition type="parameter" name="criteria" operator="equal">^(.*)$</condition>
+	    <from>^/articles$</from>
+	    <to type="redirect">http://%{server-name}:8080/articles?criteria=%{parameter:criteria}</to>
+	</rule>
+	
+	<rule enabled="false">
 	    <name>Force HTTP</name>
 	    <note>Automatically redirect non secure requests to non secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^https$</condition>
 	    <condition type="request-uri" operator="equal">^/articles$</condition>
 	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
+	
 	
 	<rule enabled="true">
 	    <name>Force HTTP</name>
