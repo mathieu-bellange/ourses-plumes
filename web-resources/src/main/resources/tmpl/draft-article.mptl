@@ -1,3 +1,32 @@
+﻿<!--Article Toolbar-->
+{{% article_tool_tmpl }}
+					<div class="tool-bar clearfix">
+						{{? isRegAdmin() || isRegRedac() }}
+						<!--Filters-->
+						<dl class="sub-nav left">
+							<dt class="sub-list">
+								<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text">Filtrer</span></a>
+								<ul id="filters_list" class="small" style="display: none;">
+									<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
+									{{? isRegAdmin() }}
+									<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
+									<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
+									{{?}}
+									<li><a id="onlines" href="javascript:void(0)">Publi&eacute;s</a></li>
+								</ul>
+							</dt>
+						</dl>
+						<!--Write-->
+						<dl class="sub-nav right">
+							<dt>
+								<a id="write_article" href="{{= $nav.article_add.url }}" class="icon-article medium" title="{{= $nav.article_add.title }}"><span class="text">&Eacute;crire</span></a>
+							</dt>
+						</dl>
+						{{?}}
+					</div>
+{{%}}
+<!--Article Item-->
+{{% article_item_tmpl }}
 								<li data-published="{{= data.publishedDate}}" class="{{= data.profile.pseudo == docCookies.getItem($auth.user_name) ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
 									<div class="topic">
 										<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
@@ -49,3 +78,44 @@
 										{{?}}
 									</div>
 								</li>
+{{%}}
+<!--Article List-->
+{{% article_list_tmpl }}
+				{{## def.item: args: {{= file_pool.article_item_tmpl(args)}} #}}
+				<section id="articles">
+					<!--Draft articles list-->
+					<ul id="articles_draft" class="article-list draft">
+						{{~ data.drafts :params }}
+							{{? params.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
+							<li class="owner">{{# def.item:params }}</li>
+							{{?? isRegAdmin() }}
+							<li class="other">{{# def.item:params }}</li>
+							{{?}}
+						{{~}}
+					</ul>
+					<!--Standby articles list-->
+					<ul id="articles_standby" class="article-list standby">
+						{{~ data.toCheck :params }}
+							<li>{{# def.item:params }}</li>
+						{{~}}
+					</ul>
+					<!--Published articles list-->
+					<ul id="articles_publish" class="article-list online">
+						{{~ data.onLine :params }}
+							<li data-published="{{=params.publishedDate }}" >{{# def.item:params }}</li>
+						{{~}}
+					</ul>
+					<!--Publishing box-->
+					<div id="publishing_box" class="send-box publish" style="display: none;">
+						<a href="javascript:void(0)" class="close right"></a>
+						<label for="publish_day">Date de publication</label>
+						<div style="margin: .5rem 0 .75rem;">
+							<select id="publishing_day" style="width: 3.5rem;"></select>
+							<select id="publishing_month" style="width: 7rem;"></select>
+							<select id="publishing_year" style="width: 4.5rem;"></select>
+							<select id="publishing_hour" style="width: 5rem;"></select>
+							<button class="icon-confirm success tiny right" style="margin: .125rem 0 0"></button>
+						</div>
+					</div>
+				</section>
+{{%}}

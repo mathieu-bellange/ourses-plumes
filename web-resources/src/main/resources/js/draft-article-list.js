@@ -3,9 +3,7 @@
 /* ------------------------------------------------------------------ */
 
 var loax_pool = {
-	"article_tool_tmpl" : $loc.tmpl + "draft-article-tool.tmpl",
-	"article_list_tmpl" : $loc.tmpl + "draft-article-list.tmpl",
-	"article_item_tmpl" : $loc.tmpl + "article-item.tmpl"
+	"draft_article_mptl" : $loc.tmpl + "draft-article.mptl"
 }
 
 var article_list_prefs_defaults = { // Les filtres d'affichage de la liste d'articles par défaut.
