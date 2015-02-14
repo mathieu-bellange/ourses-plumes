@@ -737,7 +737,7 @@ function processArticle(article) {
 
 function processWriters(json, article){
 	var a = [];
-	$(".author:first .coauthor").each(function() {
+	$(".authoring .coauthor").each(function() {
 		a.push($(this).attr("data-id"));
 	});
 	$.each(json, function(i, obj) {
@@ -747,7 +747,7 @@ function processWriters(json, article){
 				v = false; // do not inject co-author in options list if it has already been put in template
 			}
 		}
-		if (v && docCookies.getItem($auth.profile_id) != obj.id) {
+		if (v && localStorage.getItem($auth.profile_id) != obj.id) {
 			var li = "<li data-id='"+ obj.id +"'>" + obj.pseudo + "</li>";
 			$("#coauthor ul").append(li);
 		}

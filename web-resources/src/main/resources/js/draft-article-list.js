@@ -592,9 +592,6 @@ function processAfterValidation(article) {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
 	$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
-	//$("#articles_standby li:first .validate button[data-publish]").click(function() {
-		// publishArticle($(this).attr("data-publish"));
-	//});
 }
 
 function processAfterInValidation(article) {
