@@ -4,7 +4,7 @@
 					<!--Draft articles list-->
 					<ul id="articles_draft" class="article-list draft">
 						{{~ data.drafts :params }}
-							{{? params.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
+							{{? params.profile.pseudo == docCookies.getItem($auth.user_name) }}
 							<li class="owner">{{# def.item:params }}</li>
 							{{?? isRegAdmin() }}
 							<li class="other">{{# def.item:params }}</li>

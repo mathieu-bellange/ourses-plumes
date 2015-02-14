@@ -1549,21 +1549,21 @@ function set_page_title(str) {
 
 /* Update user menu user name */
 function update_user_pseudo(pseudo) {
-	window.localStorage.setItem($auth.user_name, pseudo);
+	docCookies.setItem($auth.user_name, pseudo);
 	$(".user-name").html(pseudo);
 }
 
 /* Update user menu user picture */
 function update_user_avatar(pathAvatar) {
-	window.localStorage.setItem($auth.avatar_path, pathAvatar);
+	docCookies.setItem($auth.avatar_path, pathAvatar);
 	$("#user_avatar").attr("data-image", pathAvatar); // define avatar
 	$("#user_menu").user_pictures(); // reload user image
 }
 
 /* Check authentication before sending AJAX requests */
 function header_authentication(xhr) {
-	if (hasStorage && window.localStorage.getItem($auth.token) !== null) {
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // check authc token
+	if (hasStorage && localStorage.getItem($auth.token) !== null) {
+		xhr.setRequestHeader("Authorization", localStorage.getItem($auth.token)); // check authc token
 	}
 }
 

@@ -1,4 +1,4 @@
-								<li class="{{= data.profile.pseudo == window.localStorage.getItem($auth.user_name) ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
+								<li class="{{= data.profile.pseudo == docCookies.getItem($auth.user_name) ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
 									<div class="topic">
 										<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
 									</div>

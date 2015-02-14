@@ -47,9 +47,9 @@ function connection(){
 		contentType : "application/json; charset=utf-8",
 		data : authc.json(),
 		success : function(authcUser, textStatus, jqXHR) {
-			window.localStorage.setItem($auth.account_id, authcUser.accountId);
-			window.localStorage.setItem($auth.profile_id, authcUser.profileId);
-			window.localStorage.setItem($auth.token, authcUser.token);
+			localStorage.setItem($auth.account_id, authcUser.accountId);
+			localStorage.setItem($auth.profile_id, authcUser.profileId);
+			localStorage.setItem($auth.token, authcUser.token);
 			var tomorrow = new Date();
 			tomorrow.setDate(tomorrow.getDate() + 1);
 			//document.cookie=$auth.is_authenticated + "=true;";

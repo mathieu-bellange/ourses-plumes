@@ -9,10 +9,10 @@
 							<li><span id="user_avatar" class="picture medium radius" data-image="{{= docCookies.getItem($auth.avatar_path) }}">Image</span></li>
 							<li><a href="{{= $nav.account_edit.url }}">Mon compte</a></li>
 							<li><a href="{{= $nav.profile_edit.url }}">Mon profil</a></li>
-							{{? docCookies.getItem($auth.user_role) == $conf.role_redac || docCookies.getItem($auth.user_role) == $conf.role_admin}}
+							{{? isRegRedac() || isRegAdmin() }}
 								<li><a href="{{= $nav.draft_article_list.url }}">Mes articles</a></li>
 							{{?}}
-							{{? docCookies.getItem($auth.user_role) == $conf.role_admin }}
+							{{? isRegAdmin() }}
 								<li><a href="{{= $nav.account_list.url }}">Liste des comptes</a></li>
 								<li><a href="{{= $nav.bug_report.url }}">Signaler un bug</a></li>
 							{{?}}

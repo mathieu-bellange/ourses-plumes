@@ -56,7 +56,7 @@ function modifiyCouple(couple) { // Pair storing
 	if (couple.property == memoryCouple.property && couple.value !== memoryCouple.value) {
 		if (pseudoProperty == couple.property) {
 			// vérifie qu'il a pas resaisi son pseudo après une éventuelle erreur
-			if (couple.value != window.localStorage.getItem($auth.user_name)) {
+			if (couple.value != docCookies.getItem($auth.user_name)) {
 				checkPseudoAJAX(couple);
 			}
 			// si c'est son pseudo, on se contente de virer l'erreur
@@ -136,7 +136,7 @@ function checkPseudoAJAX(couple) {
 	var selector = $("#pseudo");
 	selector.set_validation();
 	var pseudo = selector.val();
-	var profileId = window.localStorage.getItem($auth.profile_id);
+	var profileId = localStorage.getItem($auth.profile_id);
 	$.ajax({
 		type : "POST",
 		url : "/rest/signup_check/pseudo?id=" + profileId,
@@ -184,7 +184,7 @@ function getRole(pseudo) {
 }
 
 function getProfile() {
-	var profileId = window.localStorage.getItem($auth.profile_id);
+	var profileId = localStorage.getItem($auth.profile_id);
 	if (profileId != null) {
 		$.ajax({
 			type : "GET",
@@ -217,7 +217,7 @@ function getProfile() {
 };
 
 function deleteAvatar(){
-	var profileId = window.localStorage.getItem($auth.profile_id);
+	var profileId = localStorage.getItem($auth.profile_id);
 	if(profileId != null) {
 		$.ajax({
 			type : "DELETE",
@@ -241,7 +241,7 @@ function deleteAvatar(){
 }
 
 function save(couple) {
-	var profileId = window.localStorage.getItem($auth.profile_id);
+	var profileId = localStorage.getItem($auth.profile_id);
 	if(profileId != null) {
 		$.ajax({
 			type : "PUT",
