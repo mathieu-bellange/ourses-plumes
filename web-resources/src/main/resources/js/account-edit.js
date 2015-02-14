@@ -65,7 +65,6 @@ function clearForm() {
 	$("#oldPassword").val("");
 	$("#newPassword").set_validation(null);
 	$("#newPassword").val("");
-	$("#newPassword").attr("placeholder", "Minimum 7 caract&egrave;res dont une minuscule et un chiffre");
 	$("#confirmPassword").set_validation(null);
 	$("#confirmPassword").val("");
 }
@@ -181,14 +180,9 @@ $("html").on("change", "#newPassword", function() {
 	checkConfirmPassword();
 });
 $("html").on("focus", "#newPassword", function() {
-	$(this).attr("placeholder", "");
 	newPassword = $(this).val();
 });
-$("html").on("blur", "#newPassword", function() {
-	if ($(this).val().length == 0) {
-		$(this).attr("placeholder", "Minimum 7 caract&egrave;res dont une minuscule et un chiffre");
-	}
-});
+
 $("html").on("focus", "#oldPassword, #newPassword, #confirmPassword", function() {
 	$(this).set_validation(null);
 });
