@@ -109,14 +109,15 @@ public class ArticleResources {
         // détermine si un article est lisible par un utilisateur
         if (article != null && articleHelper.isArticleReadable(null, null, article.getStatus())) {
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            // cache = 1 year
+            CacheControl cacheControl = new CacheControl();
+            cacheControl.setMaxAge(31536000);
+            responseBuilder.cacheControl(cacheControl).tag(article.getPath());
         }
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
-        // cache = 1 year
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(31536000);
-        return responseBuilder.cacheControl(cacheControl).tag(article.getPath()).build();
+        return responseBuilder.build();
     }
 
     @GET

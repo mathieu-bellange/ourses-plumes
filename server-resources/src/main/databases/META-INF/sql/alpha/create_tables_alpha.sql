@@ -35,7 +35,7 @@ create table ourses_authentication_info (
 create table ourses_authorization_info (
   id                        bigint not null DEFAULT nextval('ourses_authorization_info_seq'),
   roles_for_db              varchar(255) not null,
-  label              varchar(255) not null,
+  label                     varchar(255) not null,
   constraint pk_ourses_authorization_info primary key (id));
 
 

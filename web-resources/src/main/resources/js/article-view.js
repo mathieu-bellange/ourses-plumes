@@ -3,6 +3,7 @@
 /* ------------------------------------------------------------------ */
 
 var loax_pool = {
+	"error_tmpl" : $loc.tmpl + "error.tmpl",
 	"article_view_tmpl" : $loc.tmpl + "article-view.tmpl",
 	"related_list_tmpl" : $loc.tmpl + "related-list.tmpl"
 }
@@ -139,7 +140,7 @@ function displayArticle() {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
+				$("main > header").after(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}
@@ -158,7 +159,7 @@ function displayRelatedArticle(articleId) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
+				$("main > header").after(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}
