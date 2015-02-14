@@ -1,0 +1,42 @@
+﻿<!--Article Toolbar-->
+{{% article_tool_tmpl }}
+					<div class="tool-bar clearfix">
+						<!--Search-->
+						<dl class="sub-nav toggle left">
+							<dt class="sub-list stack small">
+								<a id="search_button" class="icon-search" href="javascript:void(0)" title="Rechercher dans les articles"><span class="text">Chercher</span></a>
+							</dt>
+						</dl>
+						<div id="search_field" class="validation-box left hide">
+							<input id="search" class="validation radius" type="text" maxlength="64" placeholder="Votre recherche (p. ex. homoparentalit&eacute;)">
+							<small class="error hide"></small>
+						</div>
+					</div>
+{{%}}
+<!--Article Item-->
+{{% article_item_tmpl }}
+							<li class="{{= data.rubrique.classe }}">
+								<div class="topic">
+									<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
+								</div>
+								<div class="over-block">
+									<h4 class="title">{{= data.title }}</h4>
+									<p class="overview">
+										<span class="hide">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date icon-date tiny">{{= dateToHTML(new Date(data.publishedDate)) }}</time>
+										<span class="summary">{{= data.description }}</span>
+										<strong class="author">{{= data.profile.pseudo }}</strong>
+									</p>
+									<a href="{{= data.path }}" class="over">Lire l&rsquo;article</a>
+								</div>
+							</li>
+{{%}}
+<!--Article List-->
+{{% article_list_tmpl }}
+				<section id="articles">
+					<ul id="articles_publish" class="article-list">
+						{{~ data :params }}
+							{{= file_pool.article_item_tmpl(params)}}
+						{{~}}
+					</ul>
+				</section>
+{{%}}
