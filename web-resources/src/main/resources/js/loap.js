@@ -100,7 +100,7 @@ var loap_pool = {
 	"ui_plugins_mptl"               : $loc.tmpl + "ui_plugins.mptl",
 	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
 	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
-	"icons_fx_file"                 : $file.icons_fx,
+	//"icons_fx_file"                 : $file.icons_fx,
 	"icons_file"                    : $file.icons
 };
 var loax_pool = loax_pool || null;
@@ -139,9 +139,9 @@ var loap = (function() {
 			// Build icons
 			if ($build.icons) {
 				// Prepend SVG effects
-				if ($conf.svg_fx) {
-					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
-				}
+//				if ($conf.svg_fx) {
+//					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
+//				}
 				// Prepend SVG icons
 				$("body").prepend(file_pool.icons_file).prepend(lb(1));
 			}
@@ -152,13 +152,13 @@ var loap = (function() {
 			$(document).user_pictures(); // WARNING : set user pictures for whole document
 		},
 		init : function() {
-			/* Apply user settings */
-			check_user_connected()
-			set_toolbar_prefs()
 			/* Load components */
 			this.update();
 			$(document).placeholder(); // set placeholder for whole document
 			$(document).zlider(); // launch zlider for whole document
+			/* Apply user settings */
+			check_user_connected();
+			set_toolbar_prefs();
 			user_menu.init(); // setup user menu
 		}
 	};
@@ -415,7 +415,7 @@ jQuery.fn.extend({
 				else if ($(this).hasClass("large")) {s = cfg.s_large}
 				else if ($(this).hasClass("huge")) {s = cfg.s_huge}
 				// Define svg icon html code
-				var h = "<svg focusable='false' viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
+				var h = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" focusable='false' viewBox='0 0 48 48' width='" + s + "' height='" + s + "'><use xlink:href='#" + c + "'></use></svg>";
 				// Append svg icon html code
 				$(this).removeClass(c);
 				$(this).addClass(k);
@@ -1237,22 +1237,13 @@ var user_menu = (function() {
 			}
 			// events
 			$("html").on("click", cfg.trigger, function() {
-				var done = (function() {
-					if ($(cfg.trigger).data("connected") == true) {
-						$(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
-					} else {
-						set_user_connected(true); // connect user
-						createAlertBox($msg.connected, "alert_auth", {"class" : "success", "timeout" : $time.duration.alert})
-					}
-				});
-				var fail = (function() {
-					if ($(cfg.trigger).data("connected") == true) {
-						set_user_connected(false); // set not connected
-						disconnect($msg.disconnected, {"timeout" : $time.duration.alert}); // disconnect
-					} else {
-						window.location.href = $nav.login.url; // redirect to the login page
-					}
-				});
+				if (docCookies.hasItem("isAuthenticated")){
+					 set_user_connected(true); // connect user
+					 $(cfg.trigger).data("connected", true);
+					 $(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
+				}else{
+					window.location.href = $nav.login.url; // redirect to the login page
+				}
 				////////////////////////////////////////////////////////////////
 				// Local TEST block for DEBUG
 				////////////////////////////////////////////////////////////////
@@ -1260,7 +1251,7 @@ var user_menu = (function() {
 				// $(cfg.trigger).data("connected", true);
 				// $(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
 				////////////////////////////////////////////////////////////////
-				checkAuthc(done, fail);
+				//checkAuthc(done, fail);
 				$(this).toggleClass("active");
 				$(this).blur();
 				////////////////////////////////////////////////////////////////
@@ -1621,9 +1612,12 @@ function disconnect(str) {
 		type : "POST",
 		url : "/rest/authc/logout",
 		contentType : "application/json; charset=utf-8",
-		data : window.localStorage.getItem($auth.token),
+		data : docCookies.getItem($auth.token_id),
 		success : function(data, status, jqXHR) {
 			clearStorage();
+			if(location.protocol == "https:"){
+				location.href = $nav.home.url;
+			}
 			if (str !== null) {
 				createAlertBox(str, "alert_auth", {"timeout" : $time.duration.alert});
 			}
@@ -1637,10 +1631,8 @@ function disconnect(str) {
 /* Check user connected through AJAX (deferred to document ready state) */
 function check_user_connected() {
 	if (checkCompatibility()){
-		var done = (function() { set_user_connected(true) });
-		var fail = (function() { set_user_connected(false) });
-		var always = (function() { $(".user-connect").fadeIn($conf.js_fx ? 500 : 0) });
-		checkAuthc(done, fail, always);
+		set_user_connected(docCookies.hasItem("isAuthenticated")); // connect user
+		$(".user-connect").fadeIn($conf.js_fx ? 500 : 0);
 	}
 }
 
@@ -1657,6 +1649,7 @@ function set_user_connected(is_connected) {
 			$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
 			$("#user_menu").user_pictures(); // reload user pictures of user menu
 		} else {
+			$("#user_connect").removeClass("active");
 			$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
 			$(sel + " svg use").attr("xlink:href", "#icon-connect");
 			$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip

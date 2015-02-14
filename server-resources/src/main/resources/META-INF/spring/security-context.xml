@@ -24,6 +24,7 @@
 			<value>
 				/rest/authc = anon
 				/rest/authc/connected = oursesAuthc
+				/rest/authc/logout = anon
 				
 				/rest/authz/isadmin = oursesAuthc, oursesAuthz[admin]
 				/rest/authz/isredac = oursesAuthc, oursesAuthz[writer]

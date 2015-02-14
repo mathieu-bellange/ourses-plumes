@@ -11,8 +11,34 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>src/main/resources/</directory>
+			<directory>src/main/resources</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>/fnt/**</include>
+				<include>/img/**</include>
+				<include>/json/**</include>
+				<include>/tmpl/**</include>
+				<include>/js/conf-cke.js</include>
+				<include>/js/ckeditor/**</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${wro4j.outputDirectory}</directory>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/resources</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*.html</include>
+			</includes>
+		</fileSet>
+<!-- 		<fileSet> -->
+<!-- 			<directory>${project.build.directory}/resources</directory> -->
+<!-- 			<outputDirectory>/WEB-INF</outputDirectory> -->
+<!-- 			<includes> -->
+<!-- 				<include>wro.properties</include> -->
+<!-- 			</includes> -->
+<!-- 		</fileSet> -->
 	</fileSets>
 </assembly>

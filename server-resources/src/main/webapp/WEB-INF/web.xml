@@ -33,6 +33,16 @@
 		<filter-name>encoding-filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- filter crawler -->
+	<filter>
+		<filter-name>CrawlFilter</filter-name>
+		<filter-class>org.ourses.server.indexation.filter.CrawlFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CrawlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<!-- security filter -->
 	<filter>
@@ -62,6 +72,7 @@
 		<filter-name>UrlRewriteFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 
 
 	<!-- REST servlet -->

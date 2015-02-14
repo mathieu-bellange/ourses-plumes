@@ -11,32 +11,39 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 
 @Component
 public final class CrawlFilter implements Filter {
+	
+	Logger logger = LoggerFactory.getLogger(CrawlFilter.class);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         if ((httpRequest.getQueryString() != null) && (httpRequest.getQueryString().contains("_escaped_fragment_"))) {
+        	logger.debug("Crawl page : {}", httpRequest.getRequestURI());
             // rewrite the URL back to the original #! version
             // remember to unescape any %XX characters
             // String url_with_hash_fragment = rewriteQueryString(httpRequest.getQueryString());
 
             // use the headless browser to obtain an HTML snapshot
-            final WebClient webClient = new WebClient(BrowserVersion.CHROME);
+            final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_11);
             webClient.addRequestHeader("Accept-Charset", "utf-8");
-            HtmlPage page = webClient.getPage(new URL(httpRequest.getScheme() + "://" + httpRequest.getServerName()
-                    + ":" + httpRequest.getServerPort() + httpRequest.getRequestURI()));
-
+            WebRequest webRequest = new WebRequest(new URL(httpRequest.getScheme() + "://" + httpRequest.getServerName()
+            		+ ":" + httpRequest.getServerPort() + httpRequest.getRequestURI()));
+            HtmlPage page = webClient.getPage(webRequest);
+            webClient.waitForBackgroundJavaScript(5000);
             // important! Give the headless browser enough time to execute JavaScript
             // The exact time to wait may depend on your application.
-            webClient.waitForBackgroundJavaScript(1000);
             // return the snapshot
             response.getWriter().write(page.asXml());
         }

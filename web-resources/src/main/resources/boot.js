@@ -50,12 +50,14 @@ $app = {
 
 /* Authentication */
 $auth = {
+	"is_authenticated"   : "isAuthenticated",					  // boolean  Cookie key of the user state connection. Default : "isAuthenticated"
+	"token_id"           : "oursesAuthcTokenId",                  // Long     Cookie key of the authentication token. Default : "oursesAuthcTokenId"
 	"token"              : "oursesAuthcToken",                    // String   Local storage key of the authentication token. Default : "oursesAuthcToken"
-	"user_name"          : "oursesUserPseudo",                    // String   Local storage key of the user name. Default : "oursesUserPseudo"
-	"user_role"          : "oursesUserRole",                      // String   Local storage key of the user role. Default : "oursesUserRole"
-	"account_id"         : "oursesAccountId",                     // String   Local storage key of the user account id. Default : "oursesAccountId"
-	"profile_id"         : "oursesProfileId",                     // String   Local storage key of the user profile id. Default : "oursesProfileId"
-	"avatar_path"        : "oursesAvatarPath"                     // String   Local storage key of the avatar path. Default : "oursesAvatarPath"
+	"user_name"          : "oursesUserPseudo",                    // String   Cookie key of the user name. Default : "oursesUserPseudo"
+	"user_role"          : "oursesUserRole",                      // String   Cookie key of the user role. Default : "oursesUserRole"
+	"account_id"         : "oursesAccountId",                     // Long     Local storage key of the user account id. Default : "oursesAccountId"
+	"profile_id"         : "oursesProfileId",                     // Long     Local storage key of the user profile id. Default : "oursesProfileId"
+	"avatar_path"        : "oursesAvatarPath"                     // String   Cookie key of the avatar path. Default : "oursesAvatarPath"
 };
 
 /* Build */
@@ -72,7 +74,7 @@ $build = {
 /* Configuration */
 $conf = {
 	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
-	"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
+	//"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
 	"css_debug"          : false,                                 // Boolean  Enable CSS debug on HTML elements (i.e. show background masks for all pages). Default : false
 	"css_fx"             : true,                                  // Boolean  Enable CSS effects on HTML elements (i.e. multiple backgrounds, transitions, animations, box shadows, text shadows and ribbons). Default : true
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
@@ -338,23 +340,18 @@ var head_tags = [
 	{elem: "meta", attr: {name: "generator", content: $app.genr}},
 	{elem: "title", text: $org.name},
 	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
-	{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
-	{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
-	{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
-	{elem: "script", attr: {src: $loc.js + "modernizr/modernizr" + $conf.lib_ext +".js"}},
-	{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
-	{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
-	{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
+
 	// -------------------------------------------------------------------
 	// NOTE : IE execute in-page script before external scripts ... so in-page customized dot settings are not allowed
 	// -------------------------------------------------------------------
 	// {elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
 	// -------------------------------------------------------------------
-	{elem: "script", attr: {src: $loc.js + "conf-dot.js"}}, // IE Fix
+	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
+//TODO delete
 var body_tags = [
-	{elem: "script", attr: {src: $loc.js + "loap.js"}},
-	{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
+	//{elem: "script", attr: {src: $loc.js + "loap.js"}},
+	//{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
 ];
 
 /* Prebuild methods */
@@ -400,6 +397,7 @@ function b_html(array) { // Build HTML Elements
 	return str;
 }
 
+//TODO delete
 function load(script) { // Define Postbuild Processing
 	if (typeof script !== "undefined") {
 		if (typeof script == "string") {
@@ -525,6 +523,7 @@ function clearStorage(hash) {
 	var hash = hash || $auth;
 	for (n in hash) {
 		localStorage.removeItem(hash[n]);
+		docCookies.removeItem(hash[n], "/");
 	}
 }
 

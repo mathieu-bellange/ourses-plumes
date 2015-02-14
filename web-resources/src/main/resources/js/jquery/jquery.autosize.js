@@ -37,11 +37,13 @@
 	mirror = $(copy).data('autosize', true)[0];
 
 	// test that line-height can be accurately copied.
-	mirror.style.lineHeight = '99px';
-	if ($(mirror).css('lineHeight') === '99px') {
-		typographyStyles.push('lineHeight');
+	if(mirror.style){
+		mirror.style.lineHeight = '99px';
+		if ($(mirror).css('lineHeight') === '99px') {
+			typographyStyles.push('lineHeight');
+		}
+		mirror.style.lineHeight = '';
 	}
-	mirror.style.lineHeight = '';
 
 	$.fn.autosize = function (options) {
 		if (!this.length) {

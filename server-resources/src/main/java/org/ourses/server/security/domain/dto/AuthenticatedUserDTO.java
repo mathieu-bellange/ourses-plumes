@@ -10,6 +10,8 @@ public class AuthenticatedUserDTO {
     private Long accountId;
     @JsonProperty("profileId")
     private Long profileId;
+    @JsonProperty("tokenId")
+    private Long tokenId;
     @JsonProperty("token")
     private String token;
     @JsonProperty("pseudo")
@@ -23,10 +25,11 @@ public class AuthenticatedUserDTO {
 
     }
 
-    public AuthenticatedUserDTO(Long accountId, Long profileId, String token, String pseudo, String role,
+    public AuthenticatedUserDTO(Long accountId, Long profileId, Long tokenId, String token, String pseudo, String role,
             String pathAvatar) {
         this.profileId = profileId;
         this.accountId = accountId;
+        this.tokenId = tokenId;
         this.token = token;
         this.pseudo = pseudo;
         this.role = role;
@@ -49,7 +52,15 @@ public class AuthenticatedUserDTO {
         this.profileId = profileId;
     }
 
-    public String getToken() {
+    public Long getTokenId() {
+		return tokenId;
+	}
+
+	public void setTokenId(Long tokenId) {
+		this.tokenId = tokenId;
+	}
+
+	public String getToken() {
         return token;
     }
 
