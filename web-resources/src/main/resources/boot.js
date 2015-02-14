@@ -502,21 +502,21 @@ var hasStorage = (function() {
 
 /* Check if user name is registred in local storage */
 function isRegAuthc() {
-	if (hasStorage && localStorage.getItem($auth.token) !== null) {
+	if (docCookies.getItem($auth.token) !== null) {
 		return true;
 	}
 }
 
 /* Check if user role is registred as an admin in local storage */
 function isRegAdmin() {
-	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $conf.role_admin) {
+	if (docCookies.getItem($auth.user_role) !== null && docCookies.getItem($auth.user_role) == $conf.role_admin) {
 		return true;
 	}
 }
 
 /* Check if user role is registred as a writer in local storage */
 function isRegRedac() {
-	if (hasStorage && localStorage.getItem($auth.user_role) !== null && localStorage.getItem($auth.user_role) == $conf.role_redac) {
+	if (docCookies.getItem($auth.user_role) !== null && docCookies.getItem($auth.user_role) == $conf.role_redac) {
 		return true;
 	}
 }
