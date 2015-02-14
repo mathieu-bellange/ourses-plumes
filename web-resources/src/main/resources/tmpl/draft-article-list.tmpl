@@ -4,23 +4,19 @@
 					<!--Draft articles list-->
 					<ul id="articles_draft" class="article-list draft">
 						{{~ data.drafts :params }}
-							{{? params.profile.pseudo == docCookies.getItem($auth.user_name) }}
-							<li class="owner">{{# def.item:params }}</li>
-							{{?? isRegAdmin() }}
-							<li class="other">{{# def.item:params }}</li>
-							{{?}}
+							{{# def.item:params }}
 						{{~}}
 					</ul>
 					<!--Standby articles list-->
 					<ul id="articles_standby" class="article-list standby">
 						{{~ data.toCheck :params }}
-							<li>{{# def.item:params }}</li>
+							{{# def.item:params }}
 						{{~}}
 					</ul>
 					<!--Published articles list-->
 					<ul id="articles_publish" class="article-list online">
 						{{~ data.onLine :params }}
-							<li data-published="{{=params.publishedDate }}" >{{# def.item:params }}</li>
+							{{# def.item:params }}
 						{{~}}
 					</ul>
 					<!--Publishing box-->
