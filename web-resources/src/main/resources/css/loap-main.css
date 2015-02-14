@@ -4563,7 +4563,6 @@ input:focus + button + .error + .autocomplete > ul {
   .fast-nav {width: 92.7083333333333%;}
 }
 @media (min-width: 800px) and (max-width: 959px) {
-  /*.fast-nav ul li a {font-size: 90%;} /* TEMP : font size adjustment for 800px to 959px display width */
   .fast-nav {width: 91.5416666666667%;}
 }
 @media (min-width: 640px) and (max-width: 799px) {
@@ -4611,21 +4610,6 @@ input:focus + button + .error + .autocomplete > ul {
     width: 33.33333333333333%;
     line-height: 3rem;
   }
-  /*
-  .fast-nav {
-    margin: 0;
-    width: 100%;
-  }
-  .fast-nav li {
-    margin: 0;
-    float: left;
-    width: 47%;
-  }
-  .fast-nav [class*='icon-'] {
-    position: relative;
-    left: 40%;
-  }
-  */
   .orbit-container {
     display: none;
   }

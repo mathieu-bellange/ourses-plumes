@@ -87,7 +87,7 @@ $conf = {
 		"border_color"     : "#dcdcdc",                             // String   Color of the Twitter timeline borders. Default : "#dcdcdc"
 		"tweet_limit"      : 4                                      // Integer  Number of items shown in Twitter timeline. Default : 4
 	}
-}
+};
 
 /* Time */
 $time = {
@@ -123,7 +123,7 @@ $time = {
 		"alert_long"  : 5000,                                       // Integer  Long alert duration in milliseconds. Default : 500
 		"check"       : 1000                                        // Integer  Check duration in milliseconds. Default : 1000
 	}
-}
+};
 
 /* Location */
 $loc = {                                                        // Object   Set application path to files.
@@ -142,7 +142,7 @@ $img = {
 	"ui"                    : $loc.img + "ui/",                   // String   Path to user interface graphics. Default : "/img/ui/"
 	"usr"                   : $loc.img + "usr/",                  // String   Path to user pictures. Default : "/img/usr/"
 	"web"                   : $loc.img + "web/"                   // String   Path to web images. Default : "/img/web/"
-}
+};
 
 /* Files */
 $file = {
@@ -177,6 +177,8 @@ $msg = {
 	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&nbsp;!",
 	"confirm_action"        : "&Ecirc;tes-vous certaine de vouloir faire cela&nbsp;?",
 	"confirm_delete"        : "&Ecirc;tes-vous certaine de vouloir supprimer cela&nbsp;?<br>Cette action est d&eacute;finitive.",
+	"confirm_delete_draft"  : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est d&eacute;finitive.",
+	"confirm_delete_avatar" : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est d&eacute;finitive.",
 	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
 	"account_deleted"       : "Compte supprim&eacute;&nbsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
