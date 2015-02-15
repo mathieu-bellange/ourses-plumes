@@ -7,13 +7,19 @@
 							<!--User picture-->
 							<div style="display: inline-block; width: 256px; max-width: 100%;">
 								<div class="user-picture">
-									<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round red tip-top" title="Supprimer l&rsquo;image utilisatrice" style="display: none;" data-tooltip><span class="text hide">Supprimer</span></a>
+									<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round red tip-top" title="Supprimer l&rsquo;image utilisatrice" style="display: none;" data-tooltip data-reveal-id="delete_avatar_modal" data-reveal><span class="text hide">Supprimer</span></a>
 									<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
 								</div>
 								<input type="file" style="display: none;">
 								<div class="progress radius" style="display: none;">
 									<span class="meter">0</span>
 								</div>
+							</div>
+							<!--User picture delete  modal-->
+							<div id="delete_avatar_modal" class="reveal-modal small-modal text-center" data-reveal>
+								<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?</p>
+								<button class="icon-confirm small success" style="margin-bottom: 0;"></button>
+								<button class="icon-cancel small alert"></button>
 							</div>
 						</div>
 						<!--Second Column-->

@@ -601,6 +601,18 @@ function processAvatar(options) {
 		var input = $(settings.selector).parent("div").next($("input[file]"));
 		$conf.js_fx ? input.fadeOut(250) : input.hide();
 	});
+	// Bind reveal events
+	$(document).on("opened", "#delete_avatar_modal", function() {
+		$("#delete_avatar_modal button.success").focus(); // focus button success on modal opened
+	});
+	$("#delete_avatar_modal").on("click", "button", function() {
+		$(this).foundation("reveal", "close"); // close modal on any button click
+		if ($(this).hasClass("success")) {
+			deleteAvatar(); // delete avatar on button success click
+		} else {
+			$("#delete_avatar").focus();
+		}
+	});
 }
 
 /* ------------------------------------------------------------------ */
@@ -657,16 +669,4 @@ $("html").on("keypress", "#user-link input", function(event) {
 	if (event.which == 13) { // Enter
 		$(this).blur();
 	}
-});
-
-/* Delete Avatar */
-$(document).on("click", "#delete_avatar", function() {
-	var modal_options = {
-		"text" : $msg.confirm_delete_avatar,
-		"class" : "panel radius",
-		"on_confirm" :function() {
-			deleteAvatar(); // // delete avatar
-		}
-	};
-	$(this).create_confirmation_modal(modal_options);
 });
