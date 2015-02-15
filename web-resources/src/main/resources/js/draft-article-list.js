@@ -300,17 +300,11 @@ var publishing_box = (function() {
 /* # AJAX */
 /* ------------------------------------------------------------------ */
 
+
 function confirmDelete(id) {
 	if (typeof(id) !== "undefined" && id > 0) { // Check article id validity
-		// Confirm Delete Draft
-		var modal_options = {
-			"text" : $msg.confirm_delete_draft,
-			"class" : "panel radius",
-			"on_confirm" :function() {
-				deleteArticle(id) // delete article
-			}
-		};
-		$("#articles").create_confirmation_modal(modal_options);
+		$("#delete_draft_modal").find("button.success").attr("data-delete", id); // Transfer article id to modal
+		$("#delete_draft_modal").foundation("reveal", "open"); // Reveal modal
 	}
 }
 
@@ -566,6 +560,16 @@ function processArticles(articles) {
 	});
 	$(".validate button[data-recall]").click(function() {
 		recallArticle($(this).attr("data-recall"));
+	});
+	// Modal events
+	$("#delete_draft_modal").on("click", "button", function() {
+		if ($(this).attr("data-delete")) {
+			deleteArticle($(this).attr("data-delete"));
+		}
+		$(this).foundation("reveal", "close");
+	});
+	$(document).on("opened", "#delete_draft_modal", function() {
+		$("#delete_draft_modal button.success").focus();
 	});
 	// Toolbar events
 	$("#write_article").mouseenter(function() { // check if user is authenticated

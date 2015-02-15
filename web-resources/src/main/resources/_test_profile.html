@@ -134,7 +134,7 @@
 					<!--User picture-->
 					<div style="display: inline-block; width: 256px; max-width: 100%;">
 						<div class="user-picture">
-							<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round tip-top red" title="Supprimer l&rsquo;image utilisatrice" data-tooltip><span class="text hide">Supprimer</span></a>
+							<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round tip-top red" title="Supprimer l&rsquo;image utilisatrice" data-tooltip data-reveal-id="delete_avatar_modal" data-reveal><span class="text hide">Supprimer</span></a>
 							<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="img/usr/usr-nadejda.jpg">Nadejda</a>
 						</div>
 						<input id="avatar_file" type="file">
@@ -142,17 +142,19 @@
 							<span class="meter" style="width: 100%;">100</span>
 						</div>
 					</div>
+
+					<!--User picture delete modal-->
+					<div id="delete_avatar_modal" class="reveal-modal small-modal text-center" data-reveal>
+						<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?</p>
+						<button class="icon-confirm small success" style="margin-bottom: 0;"></button>
+						<button class="icon-cancel small alert"></button>
+					</div>
 					<script>
-						// Confirm Delete Avatar
-						$(document).on("click", "#delete_avatar", function() {
-							var modal_options = {
-								"text" : $msg.confirm_delete_avatar,
-								"class" : "panel radius",
-								"on_confirm" :function() {
-									// delete avatar
-								}
-							};
-							$(this).create_confirmation_modal(modal_options);
+						$("#delete_avatar_modal").on("click", "button", function() {
+							$(this).foundation("reveal", "close");
+						});
+						$(document).on("opened", "#delete_avatar_modal", function() {
+							$("#delete_avatar_modal button.success").focus();
 						});
 					</script>
 
