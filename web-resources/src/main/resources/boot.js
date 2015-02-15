@@ -41,7 +41,7 @@ $org = {
 $app = {
 	"name"               : "Webzine féministe",                   // String   Application name.
 	"ver"                : "1.0.3",                               // String   Application version.
-	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
+	"stage"              : "rtw",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).

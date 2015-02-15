@@ -4,7 +4,7 @@
 
 <urlrewrite>
 
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTPS example</name>
 	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
 	    <condition type="scheme" operator="equal">^http$</condition>
@@ -13,7 +13,7 @@
 	    <to type="redirect">https://%{server-name}:443/connexion?redirection=%{parameter:redirection}</to>
 	</rule>
 
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTPS example</name>
 	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
 	    <condition type="scheme" operator="equal">^http$</condition>
@@ -21,7 +21,7 @@
 	    <to type="redirect">https://%{server-name}:443/connexion</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTPS example</name>
 	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^http$</condition>
@@ -29,7 +29,7 @@
 	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTPS example</name>
 	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^http$</condition>
@@ -37,7 +37,7 @@
 	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTPS example</name>
 	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^http$</condition>
@@ -45,7 +45,7 @@
 	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTPS example</name>
 	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^http$</condition>
@@ -53,7 +53,7 @@
 	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTPS example</name>
 	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^http$</condition>
@@ -62,7 +62,7 @@
 	</rule>
 	
 	<!-- Redirection http -->
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTP</name>
 	    <note>Automatically redirect non secure requests to non secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^https$</condition>
@@ -71,7 +71,7 @@
 	    
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTP</name>
 	    <note>Automatically redirect non secure requests to non secure protocol.</note>
 	    <condition type="scheme" operator="equal">^https$</condition>
@@ -89,7 +89,7 @@
 	</rule>
 	
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTP</name>
 	    <note>Automatically redirect non secure requests to non secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^https$</condition>
@@ -97,7 +97,7 @@
 	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTP</name>
 	    <note>Automatically redirect non secure requests to non secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^https$</condition>
@@ -105,7 +105,7 @@
 	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTP</name>
 	    <note>Automatically redirect non secure requests to non secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^https$</condition>
@@ -113,7 +113,7 @@
 	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 	    <name>Force HTTP</name>
 	    <note>Automatically redirect non secure requests to non secure protocol.</note>
 	    <condition next="and" type="scheme" operator="equal">^https$</condition>
