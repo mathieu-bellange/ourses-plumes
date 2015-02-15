@@ -184,11 +184,18 @@ public class ArticleResources {
     @GET
     @Path("/last/review")
     public Response readLastWebReview() {
-        // cache = 1 day
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(86400);
-        return Response.status(Status.OK).cacheControl(cacheControl)
-                .entity(articleHelper.findLastWebReview().toArticleDTO()).build();
+    	Article lastWebReview = articleHelper.findLastWebReview();
+    	ResponseBuilder response = null;
+    	if (lastWebReview != null){
+    		// cache = 1 day
+    		CacheControl cacheControl = new CacheControl();
+    		cacheControl.setMaxAge(86400);
+    		response = Response.status(Status.OK).cacheControl(cacheControl)
+                    .entity(lastWebReview.toArticleDTO());
+    	}else{
+    		response = Response.status(Status.NOT_FOUND);
+    	}
+        return response.build();
     }
 
     @PUT

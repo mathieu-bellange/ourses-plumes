@@ -156,20 +156,29 @@ function displayLastWebReview() {
 			$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // preprend last web review
 			$("#articles_publish > li").first().addClass("web-review"); // add web review class
 			$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
-			if ($build.timeline) {
-				$("head").append("<script src='https://platform.twitter.com/widgets.js' id='twitter-wjs'></script>").append(lb(1)); // insert Twitter widget API
-				$("#articles").append(file_pool.widget_timeline_tmpl()).append(lb(1)); // append Twitter timeline to section
-				widgets.customize(); // apply custom settings
-			}
-			if ($build.likebox && Modernizr.mq("(min-width: 640px)")) { // display Facebook likebox only on small width and above devices (i.e. faces overflow bug fix)
-				$("#articles").append(file_pool.widget_likebox_tmpl()).append(lb(1)); // append Facebook likebox to section
-			}
+			displaySocialNetwork();
 			$("#articles").svg_icons(); // always reload icons only for articles
 			block_list.init(); // initialize block list component
 		},
 		error : function(jqXHR, status, errorThrown) {
-			createAlertBox();
+			if (jqXHR.status !== 404){
+				createAlertBox();
+			}
+			displaySocialNetwork();
+			$("#articles").svg_icons(); // always reload icons only for articles
+			block_list.init(); // initialize block list component
 		},
 		dataType : "json"
 	});
+}
+
+function displaySocialNetwork(){
+	if ($build.timeline) {
+		$("head").append("<script src='https://platform.twitter.com/widgets.js' id='twitter-wjs'></script>").append(lb(1)); // insert Twitter widget API
+		$("#articles").append(file_pool.widget_timeline_tmpl()).append(lb(1)); // append Twitter timeline to section
+		widgets.customize(); // apply custom settings
+	}
+	if ($build.likebox && Modernizr.mq("(min-width: 640px)")) { // display Facebook likebox only on small width and above devices (i.e. faces overflow bug fix)
+		$("#articles").append(file_pool.widget_likebox_tmpl()).append(lb(1)); // append Facebook likebox to section
+	}
 }
