@@ -1,4 +1,4 @@
-								<li class="{{= data.profile.pseudo == window.localStorage.getItem($auth.user_name) ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
+								<li data-published="{{= data.publishedDate}}" class="{{= data.profile.pseudo == docCookies.getItem($auth.user_name) ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
 									<div class="topic">
 										<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
 									</div>
@@ -16,13 +16,13 @@
 											<strong class="author">{{= data.profile.pseudo }}</strong>
 										</p>
 										{{? data.status == "BROUILLON" }}
-											{{? data.profile.id == window.localStorage.getItem($auth.profile_id) }}
+											{{? data.profile.id == localStorage.getItem($auth.profile_id) }}
 												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
 											<p class="validate" style="display: none;">
-												{{? data.profile.id == window.localStorage.getItem($auth.profile_id) }}
+												{{? data.profile.id == localStorage.getItem($auth.profile_id) }}
 												<button class="icon-reply success tiny tip-left" title="Valider" data-validate="{{= data.id }}" data-tooltip></button>
 												{{?}}
 												<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="{{= data.id }}" data-tooltip></button>
@@ -41,7 +41,7 @@
 											</p>
 										{{??}}
 											<a href="{{= data.path }}" class="over">Lire l&rsquo;article</a>
-											{{? isRegAdmin() || data.profile.id == window.localStorage.getItem($auth.profile_id) }}
+											{{? isRegAdmin() || data.profile.id == localStorage.getItem($auth.profile_id) }}
 											<p class="validate" style="display: none;">
 												<button class="icon-reply alert tiny tip-left" title="Rappeler" data-recall="{{= data.id }}" data-tooltip></button>
 											</p>
