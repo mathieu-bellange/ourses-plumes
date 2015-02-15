@@ -1,0 +1,14 @@
+							<li class="{{= data.rubrique.classe }}">
+								<div class="topic">
+									<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
+								</div>
+								<div class="over-block">
+									<h4 class="title">{{= data.title }}</h4>
+									<p class="overview">
+										<span class="hide">Publi&eacute; le </span><time datetime="{{= getDateTime(new Date(data.publishedDate)) }}" class="date icon-date tiny">{{= dateToHTML(new Date(data.publishedDate)) }}</time>
+										<span class="summary">{{= data.description }}</span>
+										<strong class="author">{{= data.profile.pseudo }}</strong>
+									</p>
+									<a href="{{= data.path }}" class="over">Lire l&rsquo;article</a>
+								</div>
+							</li>

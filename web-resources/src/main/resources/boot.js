@@ -152,7 +152,7 @@ $file = {
 
 /* Messages */
 $msg = {
-	"compatibility_warning" : "Vous utilis&eacute; un navigateur obsol&egrave;te, certaines fonctionnalit&eacute;es ont donc &eacute;t&eacute; d&eacute;sactiv&eacute; pour cause de s&eacute;curit&eacute;. Vous pouvez consulter notre politique de <a href=\"#\">support des navigateurs</a>",
+	"compatibility_warning"	: "Vous utilis&eacute; un navigateur obsol&egrave;te, certaines fonctionnalit&eacute;es ont donc &eacute;t&eacute; d&eacute;sactiv&eacute; pour cause de s&eacute;curit&eacute;. Vous pouvez consulter notre politique de <a href=\"#\">support des navigateurs</a>",
 	"error"                 : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
 	"saving"                : "Enregistrement&hellip;",
 	"checking"              : "V&eacute;rification&hellip;",
