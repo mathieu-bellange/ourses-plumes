@@ -3,8 +3,7 @@
 /* ------------------------------------------------------------------ */
 
 var loax_pool = {
-	"article_list_tmpl"    : $loc.tmpl + "online-article-list.tmpl",
-	"article_item_tmpl"    : $loc.tmpl + "online-article-item.tmpl",
+	"online_article_mptl" : $loc.tmpl + "online-article.mptl",
 	"widget_timeline_tmpl" : $loc.tmpl + "widget-timeline.tmpl",
 	"widget_likebox_tmpl"  : $loc.tmpl + "widget-likebox.tmpl"
 }
