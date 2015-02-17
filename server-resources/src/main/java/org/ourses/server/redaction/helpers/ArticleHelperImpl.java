@@ -55,7 +55,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     private SecurityHelper securityHelper;
 
     @Override
-    public boolean isArticleUpdatable(Long idProfile, long idArticle, ArticleStatus status) {
+    public boolean isArticleUpdatable(final Long idProfile, final long idArticle, final ArticleStatus status) {
         boolean isUpdatable = false;
         switch (status) {
         case BROUILLON:
@@ -77,7 +77,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public boolean isArticleReadable(Long idProfile, Long idArticle, ArticleStatus status) {
+    public boolean isArticleReadable(final Long idProfile, final Long idArticle, final ArticleStatus status) {
         boolean isReadable = false;
         switch (status) {
         case BROUILLON:
@@ -99,7 +99,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public boolean isProfileIsTheOwner(Long idProfile, long idArticle, ArticleStatus status) {
+    public boolean isProfileIsTheOwner(final Long idProfile, final long idArticle, final ArticleStatus status) {
         boolean isProfileIsTheOwner = false;
         if (idProfile != null) {
             isProfileIsTheOwner = Article.countArticleByProfileAndStatus(idProfile, idArticle, status) > 0;
@@ -108,7 +108,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public boolean isAdminAndGoodStatusArticle(Long idProfile, long idArticle, ArticleStatus status) {
+    public boolean isAdminAndGoodStatusArticle(final Long idProfile, final long idArticle, final ArticleStatus status) {
         boolean isAdminAndValidateArticle = false;
         if (idProfile != null) {
             BearAccount account = BearAccount.findAdminAccountByProfileId(idProfile);
@@ -120,7 +120,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public void createDraft(Article article) {
+    public void createDraft(final Article article) {
         // place le status à brouillon
         article.setStatus(ArticleStatus.BROUILLON);
         article.setTitleBeautify(beautifyTitle(article.getTitle()));
@@ -132,7 +132,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public void updateFromDTO(Article article, ArticleDTO articleDTO) {
+    public void updateFromDTO(final Article article, final ArticleDTO articleDTO) {
         BeanUtils.copyProperties(articleDTO, article, new String[] { "category", "rubrique", "profile", "id", "status",
                 "tags", "coAuthors" });
         article.setRubrique(articleDTO.getRubrique().toRubrique());
@@ -174,7 +174,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Article validateDraft(long id) {
+    public Article validateDraft(final long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.AVERIFIER);
         article.setUpdatedDate(new Date());
@@ -183,7 +183,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Article publishArticle(long id, Date publishedDate) {
+    public Article publishArticle(final long id, final Date publishedDate) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.ENLIGNE);
         article.setPath(buildPath(article));
@@ -194,7 +194,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Article invalidateArticle(long id) {
+    public Article invalidateArticle(final long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.BROUILLON);
         article.setUpdatedDate(new Date());
@@ -203,7 +203,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Article recallArticle(long id) {
+    public Article recallArticle(final long id) {
         Article article = Article.findArticle(id);
         article.setStatus(ArticleStatus.AVERIFIER);
         OldPath oldPath = new OldPath();
@@ -223,7 +223,7 @@ public class ArticleHelperImpl implements ArticleHelper {
      * @param title
      * @return
      */
-    protected String beautifyTitle(String title) {
+    protected String beautifyTitle(final String title) {
         StrBuilder path = new StrBuilder();
         String[] tokens = title.split("\\W");
         for (String token : tokens) {
@@ -237,7 +237,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public String buildPath(Article article) {
+    public String buildPath(final Article article) {
         StringBuilder pathBuilder = new StringBuilder("/articles");
         switch (article.getStatus()) {
         // path /articles/{id}
@@ -261,7 +261,11 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public void delete(Article article) {
+    public void delete(final Article article) {
+        if (!article.getCoAuthors().isEmpty()) {
+            article.getCoAuthors().clear();
+            article.update();
+        }
         Set<Tag> tagsToDelete = article.getTags();
         article.delete();
         for (Tag tag : tagsToDelete) {
@@ -272,12 +276,12 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public boolean isTitleAlreadyTaken(String title, Long id) {
+    public boolean isTitleAlreadyTaken(final String title, final Long id) {
         return Article.articleWithSameTitleBeautify(beautifyTitle(title), id) > 0;
     }
 
     @Override
-    public Collection<? extends Article> findOnline(String parameter) {
+    public Collection<? extends Article> findOnline(final String parameter) {
         Set<String> parameters = Sets.newHashSet();
         if (parameter != null) {
             parameters.addAll(processParameters(parameter));
@@ -286,25 +290,25 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @VisibleForTesting
-    protected Collection<String> processParameters(String parameters) {
+    protected Collection<String> processParameters(final String parameters) {
         return Collections2.transform(
                 Collections2.filter(Sets.newHashSet(parameters.split(" ")), new Predicate<String>() {
 
                     @Override
-                    public boolean apply(String parameter) {
+                    public boolean apply(final String parameter) {
                         return !WORD_TO_ESCAPE.contains(parameter.toLowerCase());
                     }
                 }), new Function<String, String>() {
 
                     @Override
-                    public String apply(String parameter) {
+                    public String apply(final String parameter) {
                         return parameter.toLowerCase();
                     }
                 });
     }
 
     @Override
-    public Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, String token) {
+    public Collection<? extends Article> findToCheckAndDraftAndPublished(final Long profileId, final String token) {
         Set<Article> articles = Sets.newHashSet();
         OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
         // Je suis admin
@@ -319,7 +323,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Collection<? extends Article> findProfileArticles(Long profileId) {
+    public Collection<? extends Article> findProfileArticles(final Long profileId) {
         Set<Article> articles = Sets.newHashSet();
         if (profileId != null) {
             articles.addAll(Article.findProfileArticles(profileId));
@@ -328,7 +332,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public List<Article> findThreeArticlesWithMostTagsInCommon(long idArticle) {
+    public List<Article> findThreeArticlesWithMostTagsInCommon(final long idArticle) {
         // On ramène l'article
         Article article = Article.findArticle(idArticle);
         logger.info("Article: " + article);
@@ -339,7 +343,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @VisibleForTesting
-    protected List<Article> findThreeArticlesWithMostTagsInCommon(Article article, Set<Article> articles) {
+    protected List<Article> findThreeArticlesWithMostTagsInCommon(final Article article, final Set<Article> articles) {
         Set<Tag> tagsArticle = article.getTags();
         // ajout le fait que la rubrique est un tag
         tagsArticle.add(new Tag(article.getRubrique().getId(), article.getRubrique().getRubrique().toLowerCase()));
@@ -362,7 +366,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         Collections.sort(articlesByNbTags, new Comparator<RelatedArticle>() {
 
             @Override
-            public int compare(RelatedArticle relatedArticle1, RelatedArticle relatedArticle2) {
+            public int compare(final RelatedArticle relatedArticle1, final RelatedArticle relatedArticle2) {
                 return relatedArticle2.getNbTagsInCommon().compareTo(relatedArticle1.getNbTagsInCommon());
             }
         });
@@ -374,7 +378,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         return Lists.transform(articlesByNbTags.subList(0, length), new Function<RelatedArticle, Article>() {
 
             @Override
-            public Article apply(RelatedArticle relatedArticle) {
+            public Article apply(final RelatedArticle relatedArticle) {
                 return relatedArticle.getArticle();
             }
         });
@@ -391,7 +395,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Article findOnlineArticle(String rubrique, String title, long dateLong) {
+    public Article findOnlineArticle(final String rubrique, final String title, final long dateLong) {
         String path = "/articles/" + rubrique + "/" + dateLong + "/" + title;
         Article art = Article.findArticleByPath(path);
         if (art == null) {

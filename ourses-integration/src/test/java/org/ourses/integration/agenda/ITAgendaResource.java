@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.agenda.domain.dto.CalendarDayDTO;
@@ -37,6 +38,7 @@ public class ITAgendaResource {
     }
 
     @Test
+    @Ignore
     public void shouldNotCreateEventOnWrongDate() {
         URI uri = UriBuilder.fromPath(PATH_PUT_WRONG_DAY).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)

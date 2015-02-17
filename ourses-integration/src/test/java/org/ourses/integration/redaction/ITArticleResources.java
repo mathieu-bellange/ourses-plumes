@@ -18,7 +18,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.fest.assertions.Condition;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
@@ -59,7 +58,7 @@ public class ITArticleResources {
     private static final String PATH_INVALDIATE_OWN = "/rest/articles/18/invalidate";
     private static final String PATH_INVALDIATE_ANOTHER = "/rest/articles/19/invalidate";
     private static final String PATH_INVALIDATE_DRAFT = "/rest/articles/10/invalidate";
-    private static final String PATH_GET_PUBLISH = "/rest/articles/éducation-culture/2/titre-14";
+    private static final String PATH_GET_PUBLISH = "/rest/articles/education-culture/2/titre-14";
     private static final String PATH_GET_PUBLISH_IN_UPDATE = "/rest/articles/22";
     private static final String PATH_GET_DRAFT = "/rest/articles/12";
     private static final String PATH_GET_VALIDATE = "/rest/articles/13";
@@ -145,7 +144,7 @@ public class ITArticleResources {
         Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
 
             @Override
-            public boolean apply(ArticleDTO input) {
+            public boolean apply(final ArticleDTO input) {
                 return ArticleStatus.BROUILLON.equals(input.getStatus());
             }
         });
@@ -153,7 +152,7 @@ public class ITArticleResources {
         Collection<ArticleDTO> toChecks = Collections2.filter(articles, new Predicate<ArticleDTO>() {
 
             @Override
-            public boolean apply(ArticleDTO input) {
+            public boolean apply(final ArticleDTO input) {
                 return ArticleStatus.AVERIFIER.equals(input.getStatus());
             }
         });
@@ -161,7 +160,7 @@ public class ITArticleResources {
         Collection<ArticleDTO> toOnline = Collections2.filter(articles, new Predicate<ArticleDTO>() {
 
             @Override
-            public boolean apply(ArticleDTO input) {
+            public boolean apply(final ArticleDTO input) {
                 return ArticleStatus.ENLIGNE.equals(input.getStatus());
             }
         });
@@ -524,7 +523,7 @@ public class ITArticleResources {
         URI uri = UriBuilder.fromPath(PATH_VALIDATE_PUBLISH).build();
         Date publishedDate = DateTime.parse("25/08/2016 12:55", DateTimeFormat.forPattern("dd/MM/yyyy hh:mm")).toDate();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class,publishedDate);
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, publishedDate);
         // status attendu 200
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         ArticleDTO article = clientResponse.getEntity(ArticleDTO.class);
@@ -547,7 +546,7 @@ public class ITArticleResources {
     public void shouldNotPublishDraft() {
         URI uri = UriBuilder.fromPath(PATH_DRAFT_PUBLISH).build();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri).type(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class,new Date());
+                .accept(MediaType.APPLICATION_JSON).put(ClientResponse.class, new Date());
         // status attendu 404
         assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
@@ -709,7 +708,7 @@ public class ITArticleResources {
             assertThat(articleDTO.getTags()).onProperty("id").satisfies(new Condition<Collection<?>>() {
 
                 @Override
-                public boolean matches(Collection<?> arg0) {
+                public boolean matches(final Collection<?> arg0) {
                     return arg0.contains(3l) || arg0.contains(4l) || arg0.contains(5l) || arg0.contains(7l);
                 }
             });
@@ -764,7 +763,7 @@ public class ITArticleResources {
         assertThat(article.getId()).isEqualTo(16l);
     }
 
-    private ArticleDTO newArticle(String title) {
+    private ArticleDTO newArticle(final String title) {
         ArticleDTO newArticle = new ArticleDTO();
         newArticle.setTitle(title);
         newArticle.setDescription("desc");
@@ -776,7 +775,7 @@ public class ITArticleResources {
         return newArticle;
     }
 
-    private ArticleDTO updateArticle(long id, String title) {
+    private ArticleDTO updateArticle(final long id, final String title) {
         ArticleDTO newArticle = new ArticleDTO();
         newArticle.setId(id);
         newArticle.setTitle(title);
