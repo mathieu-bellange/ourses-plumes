@@ -1548,13 +1548,17 @@ function set_page_title(str) {
 
 /* Update user menu user name */
 function update_user_pseudo(pseudo) {
-	docCookies.setItem($auth.user_name, pseudo);
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
+	docCookies.setItem($auth.user_name, pseudo,tomorrow,"/");
 	$(".user-name").html(pseudo);
 }
 
 /* Update user menu user picture */
 function update_user_avatar(pathAvatar) {
-	docCookies.setItem($auth.avatar_path, pathAvatar);
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
+	docCookies.setItem($auth.avatar_path, pathAvatar,tomorrow,"/");
 	$("#user_avatar").attr("data-image", pathAvatar); // define avatar
 	$("#user_menu").user_pictures(); // reload user image
 }
