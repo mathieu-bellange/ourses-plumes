@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
@@ -225,7 +226,7 @@ public class ArticleHelperImpl implements ArticleHelper {
      */
     protected String beautifyTitle(final String title) {
         StrBuilder path = new StrBuilder();
-        String[] tokens = title.split("\\W");
+        String[] tokens = StringUtils.stripAccents(title).split("\\W");
         for (String token : tokens) {
             if (!token.isEmpty()) {
                 path.appendSeparator(URL_SEPARATOR);
