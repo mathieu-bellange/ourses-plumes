@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.ourses.server.administration.domain.dto.CoupleDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
@@ -35,7 +36,7 @@ public class ProfileHelperImpl implements ProfileHelper {
     private final String URL_SEPARATOR = "-";
 
     @Override
-    public boolean updateProfileProperty(Profile profile, CoupleDTO coupleDTO) {
+    public boolean updateProfileProperty(final Profile profile, final CoupleDTO coupleDTO) {
 
         boolean updated = false;
         try {
@@ -70,13 +71,13 @@ public class ProfileHelperImpl implements ProfileHelper {
             // avatar
             else if ("avatar".equals(coupleDTO.getProperty())) {
                 Avatar avatar = Avatar.findAvatar(Long.valueOf(coupleDTO.getValue()));
-                if (avatar != null){
-                	Avatar oldAvatar = profile.getAvatar();
-                	profile.setAvatar(avatar);
-                	profile.updateProfileProperty("avatar");
-                	if (!oldAvatar.getId().equals(0l)){
-                		oldAvatar.delete();
-                	}
+                if (avatar != null) {
+                    Avatar oldAvatar = profile.getAvatar();
+                    profile.setAvatar(avatar);
+                    profile.updateProfileProperty("avatar");
+                    if (!oldAvatar.getId().equals(0l)) {
+                        oldAvatar.delete();
+                    }
                 }
             }
             else {
@@ -106,7 +107,7 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
-    public Profile findPublicProfile(String id) {
+    public Profile findPublicProfile(final String id) {
         Profile profile = null;
         // la recherche est possible soit par l'id long soit par le pseudoBeautify
         try {
@@ -125,7 +126,7 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
-    public Profile findProfileByAuthcToken(String token) {
+    public Profile findProfileByAuthcToken(final String token) {
         Profile profile = null;
         // test si la requête est authentifié
         if (token != null) {
@@ -143,7 +144,7 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
-    public Long findIdProfile(String token) {
+    public Long findIdProfile(final String token) {
         Long idProfile = null;
         // le token peut être pour une personne qui se contente de consulter le site
         if (token != null) {
@@ -157,7 +158,7 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
-    public String findProfileRole(String pseudoBeautify) {
+    public String findProfileRole(final String pseudoBeautify) {
         BearAccount account = BearAccount.findAccountByPseudo(pseudoBeautify);
         String role = null;
         if (account != null) {
@@ -167,8 +168,8 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
-    public void buildProfilePath(Profile profile) {
-        profile.setPseudoBeautify(beautifyPseudo(profile.getPseudo()));
+    public void buildProfilePath(final Profile profile) {
+        profile.setPseudoBeautify(beautifyPseudo(StringUtils.stripAccents(profile.getPseudo())));
         StringBuilder pathBuilder = new StringBuilder("/profils");
         pathBuilder.append("/");
         pathBuilder.append(profile.getPseudoBeautify());
@@ -176,7 +177,7 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
-    public String beautifyPseudo(String pseudo) {
+    public String beautifyPseudo(final String pseudo) {
         StrBuilder path = new StrBuilder();
         String[] tokens = pseudo.split("\\W");
         for (String token : tokens) {
@@ -189,13 +190,13 @@ public class ProfileHelperImpl implements ProfileHelper {
     }
 
     @Override
-    public void addDefaultAvatar(Profile profile) {
+    public void addDefaultAvatar(final Profile profile) {
         Avatar avatar = Avatar.findDefaultAvatar();
         profile.setAvatar(avatar);
     }
 
     @Override
-    public Profile deleteAvatar(Long id) {
+    public Profile deleteAvatar(final Long id) {
         Profile profile = Profile.findPublicProfile(id);
         if (profile != null) {
             Avatar oldAvatar = profile.getAvatar();
