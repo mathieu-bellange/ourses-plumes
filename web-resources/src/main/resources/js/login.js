@@ -47,17 +47,7 @@ function connection(){
 		contentType : "application/json; charset=utf-8",
 		data : authc.json(),
 		success : function(authcUser, textStatus, jqXHR) {
-			localStorage.setItem($auth.account_id, authcUser.accountId);
-			localStorage.setItem($auth.profile_id, authcUser.profileId);
-			localStorage.setItem($auth.token, authcUser.token);
-			var tomorrow = new Date();
-			tomorrow.setDate(tomorrow.getDate() + 1);
-			//document.cookie=$auth.is_authenticated + "=true;";
-			docCookies.setItem($auth.is_authenticated,true,tomorrow, "/");
-			docCookies.setItem($auth.user_role, authcUser.role,tomorrow, "/");
-			docCookies.setItem($auth.user_name, authcUser.pseudo,tomorrow, "/");
-			docCookies.setItem($auth.token_id, authcUser.tokenId,tomorrow, "/");
-			docCookies.setItem($auth.avatar_path, authcUser.avatar,tomorrow, "/");
+			UserSession.save(authcUser);
 			var redirection = window.location.search.replace($conf.redir_param, "");
 			if (redirection != "") {
 				window.location.href = redirection;

@@ -1237,7 +1237,7 @@ var user_menu = (function() {
 			}
 			// events
 			$("html").on("click", cfg.trigger, function() {
-				if (docCookies.hasItem("isAuthenticated")){
+				if (UserSession.isConnected()){
 					 set_user_connected(true); // connect user
 					 $(cfg.trigger).data("connected", true);
 					 $(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
@@ -1548,25 +1548,21 @@ function set_page_title(str) {
 
 /* Update user menu user name */
 function update_user_pseudo(pseudo) {
-	var tomorrow = new Date();
-	tomorrow.setDate(tomorrow.getDate() + 1);
-	docCookies.setItem($auth.user_name, pseudo,tomorrow,"/");
+	UserSession.updatePseudo(pseudo);
 	$(".user-name").html(pseudo);
 }
 
 /* Update user menu user picture */
 function update_user_avatar(pathAvatar) {
-	var tomorrow = new Date();
-	tomorrow.setDate(tomorrow.getDate() + 1);
-	docCookies.setItem($auth.avatar_path, pathAvatar,tomorrow,"/");
+	UserSession.updateAvatar();
 	$("#user_avatar").attr("data-image", pathAvatar); // define avatar
 	$("#user_menu").user_pictures(); // reload user image
 }
 
 /* Check authentication before sending AJAX requests */
 function header_authentication(xhr) {
-	if (hasStorage && localStorage.getItem($auth.token) !== null) {
-		xhr.setRequestHeader("Authorization", localStorage.getItem($auth.token)); // check authc token
+	if (hasStorage && UserSession.getUserToken() !== null) {
+		xhr.setRequestHeader("Authorization", UserSession.getUserToken()); // check authc token
 	}
 }
 
@@ -1615,9 +1611,10 @@ function disconnect(str) {
 		type : "POST",
 		url : "/rest/authc/logout",
 		contentType : "application/json; charset=utf-8",
-		data : docCookies.getItem($auth.token_id),
+		data : UserSession.getUserTokenId(),
 		success : function(data, status, jqXHR) {
 			clearStorage();
+			UserSession.delete();
 			if(location.protocol == "https:"){
 				location.href = $nav.home.url;
 			}
@@ -1634,7 +1631,7 @@ function disconnect(str) {
 /* Check user connected through AJAX (deferred to document ready state) */
 function check_user_connected() {
 	if (checkCompatibility()){
-		set_user_connected(docCookies.hasItem("isAuthenticated")); // connect user
+		set_user_connected(UserSession.isConnected()); // connect user
 		$(".user-connect").fadeIn($conf.js_fx ? 500 : 0);
 	}
 }
@@ -1960,6 +1957,129 @@ $(document).on("keydown", "[tabindex]", function(e) {
 		$(this).click();
 	}
 });
+
+/* ------------------------------------------------------------------ */
+/* # User Session */
+/* ------------------------------------------------------------------ */
+
+var UserSession = (function(){
+	
+	var is_client_connected = docCookies.hasItem($auth.is_authenticated);
+	var user_account_id = localStorage.getItem($auth.account_id);
+	var user_account_role = docCookies.getItem($auth.user_role);
+	var user_token = localStorage.getItem($auth.token);
+	var user_token_id = docCookies.getItem($auth.token_id);
+	var user_profile_id = localStorage.getItem($auth.profile_id);
+	var user_profile_pseudo = docCookies.getItem($auth.user_name);
+	var user_profile_avatar = docCookies.getItem($auth.avatar_path);
+	
+	var persist_user_session = function(authcUser){
+		//TODO remember me
+		//persist sur une journée
+		var tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		docCookies.setItem($auth.is_authenticated,true,tomorrow, "/");
+		docCookies.setItem($auth.user_role, authcUser.role,tomorrow, "/");
+		docCookies.setItem($auth.user_name, authcUser.pseudo,tomorrow, "/");
+		docCookies.setItem($auth.token_id, authcUser.tokenId,tomorrow, "/");
+		docCookies.setItem($auth.avatar_path, authcUser.avatar,tomorrow, "/");
+		// données sensibles restent dans le local storage
+		localStorage.setItem($auth.account_id, authcUser.accountId);
+		localStorage.setItem($auth.profile_id, authcUser.profileId);
+		localStorage.setItem($auth.token, authcUser.token);
+	}
+	
+	var delete_user_session = function(){
+		docCookies.removeItem($auth.is_authenticated, "/");
+		docCookies.removeItem($auth.user_role, "/");
+		docCookies.removeItem($auth.user_name, "/");
+		docCookies.removeItem($auth.token_id, "/");
+		docCookies.removeItem($auth.avatar_path, "/");
+		localStorage.removeItem($auth.account_id);
+		localStorage.removeItem($auth.profile_id);
+		localStorage.removeItem($auth.token);
+		is_client_connected = false;
+		user_account_id = null;
+		user_account_role = null;
+		user_token = null;
+		user_token_id = null;
+		user_profile_id = null;
+		user_profile_pseudo = null;
+		user_profile_avatar = null;
+	}
+	
+	var update_user_pseudo = function(pseudo){
+		var tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		docCookies.setItem($auth.user_name, pseudo,tomorrow,"/");
+		user_profile_pseudo = docCookies.getItem($auth.user_name);
+	}
+	
+	var update_user_avatar = function(avatar){
+		var tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		docCookies.setItem($auth.avatar_path, pathAvatar,tomorrow,"/");
+		user_profile_avatar = docCookies.getItem($auth.avatar_path);
+	}
+	
+	return {
+		isConnected : function(){
+			return is_client_connected;
+		},
+		save : function(authcUser){
+			persist_user_session(authcUser);
+		},
+		delete : function(){
+			delete_user_session();
+		},
+		updatePseudo : function(pseudo){
+			update_user_pseudo(pseudo);
+		},
+		updateAvatar : function(avatar){
+			update_user_avatar(avatar);
+		},
+		getAccountId : function(){
+			return user_account_id;
+		},
+		getUserToken : function(){
+			return user_token;
+		},
+		getUserTokenId : function(){
+			return user_token_id;
+		},
+		getUserProfileId : function(){
+			return user_profile_id;
+		},
+		getUserPseudo : function(){
+			return user_profile_pseudo;
+		},
+		getUserAvatar : function(){
+			return user_profile_avatar;
+		},
+		getUserRole : function(){
+			return user_account_role;
+		}
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # Ourses Security */
+/* ------------------------------------------------------------------ */
+var OursesSecurity = (function(){
+	
+	var is_user_admin = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_admin;
+	
+	var is_user_writer = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_redac;
+	
+	return {
+		isUserAdmin : function(){
+			return is_user_admin;
+		},
+		isUserWriter : function(){
+			return is_user_writer;
+		}
+	}
+})();
 
 /* ------------------------------------------------------------------ */
 /* # Initialize */

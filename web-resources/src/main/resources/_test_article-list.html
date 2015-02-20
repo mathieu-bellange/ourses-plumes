@@ -448,10 +448,10 @@
 								//docCookies.setItem($auth.user_role, $conf.role_admin); // TEMP : set as admin for tests
 								//docCookies.setItem($auth.user_role, $conf.role_redac); // TEMP : set as redac for tests
 								//docCookies.removeItem($auth.user_role); // set as admin for tests
-								//if (isRegAdmin()) { alert("is admin!") } // DEBUG
+								//if (OursesSecurity.isUserAdmin()) { alert("is admin!") } // DEBUG
 								//else if (isRegRedac()) { alert("is redac!") } // DEBUG
 								//else { alert("is anonymous!") } // DEBUG
-								if ((isRegAdmin() || isRegRedac()) && k == 0) { // all switches are off
+								if ((OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter()) && k == 0) { // all switches are off
 									$("#filter_button").addClass("orange");
 									if (!window.location.search) { // no search params in url -- open filters
 										$("#filter_button").addClass("active");

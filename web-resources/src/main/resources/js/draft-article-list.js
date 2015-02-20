@@ -176,7 +176,7 @@ var article_list_prefs = (function() {
 					$("#" + key).removeClass("active");
 				}
 			}
-			if ((isRegAdmin() || isRegRedac()) && k == 0) { // all switches are off
+			if ((OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter()) && k == 0) { // all switches are off
 				$("#filter_button").addClass("orange");
 				if (!window.location.search) { // no search params in url -- open filters
 					$("#filter_button").addClass("active");

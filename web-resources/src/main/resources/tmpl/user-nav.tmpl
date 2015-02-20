@@ -3,16 +3,16 @@
 						<h3 class="hide">Menu utilisateur</h3>
 						<div class="clearfix">
 							<a href="javascript:void(0)" class="close"></a><span class="hide">Fermer</span>
-							<h4 class="user-name">{{= docCookies.getItem($auth.user_name) }}</h4>
+							<h4 class="user-name">{{= UserSession.getUserPseudo() }}</h4>
 						</div>
 						<ul>
-							<li><span id="user_avatar" class="picture medium radius" data-image="{{= docCookies.getItem($auth.avatar_path) }}">Image</span></li>
+							<li><span id="user_avatar" class="picture medium radius" data-image="{{= UserSession.getUserAvatar() }}">Image</span></li>
 							<li><a href="{{= $nav.account_edit.url }}">Mon compte</a></li>
 							<li><a href="{{= $nav.profile_edit.url }}">Mon profil</a></li>
-							{{? isRegRedac() || isRegAdmin() }}
+							{{? OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter() }}
 								<li><a href="{{= $nav.draft_article_list.url }}">Mes articles</a></li>
 							{{?}}
-							{{? isRegAdmin() }}
+							{{? OursesSecurity.isUserAdmin() }}
 								<li><a href="{{= $nav.account_list.url }}">Liste des comptes</a></li>
 								<li><a href="{{= $nav.bug_report.url }}">Signaler un bug</a></li>
 							{{?}}

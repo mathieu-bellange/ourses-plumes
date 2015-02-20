@@ -17,8 +17,8 @@
 								<td>{{= account.profile.pseudo }}</td>
 								<td><a href="mailto:{{= account.mail }}">{{= account.mail }}</a></td>
 								<td>
-									{{? account.profile.pseudo == docCookies.getItem($auth.user_name) }}
-									<input type="text" value="{{ docCookies.getItem($auth.user_role) == $conf.role_admin ? out+='Administrarice' : out+='R&eacute;dactrice'; }}" disabled>
+									{{? account.profile.pseudo == UserSession.getUserPseudo() }}
+									<input type="text" value="{{ out+='Administrarice'; }}" disabled>
 									{{??}}
 									<select>
 									{{~ roles :item }}
@@ -28,7 +28,7 @@
 									{{?}}
 								</td>
 								<td class="text-right">
-								{{? account.profile.pseudo !== docCookies.getItem($auth.user_name) }}
+								{{? account.profile.pseudo !== UserSession.getUserPseudo() }}
 									<button class="alert icon-remove tiny" title="Supprimer ce compte"><span class="text hide">Supprimer</span></button>
 								{{?}}
 								</td>

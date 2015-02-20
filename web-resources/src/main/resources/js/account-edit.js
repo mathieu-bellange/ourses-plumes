@@ -74,7 +74,7 @@ function clearForm() {
 /* ------------------------------------------------------------------ */
 
 function getAccount() {
-	var accountId = localStorage.getItem($auth.account_id);
+	var accountId = UserSession.getAccountId();
 	if(accountId != null) {
 		$.ajax({
 			type : "GET",
@@ -128,7 +128,7 @@ function submitAccountAJAX() {
 	var bearAccount = new BearAccount($("#oldPassword").val(),$("#newPassword").val(),$("#confirmPassword").val());
 	$.ajax({
 		type : "PUT",
-		url : "/rest/account/" + localStorage.getItem($auth.account_id),
+		url : "/rest/account/" + UserSession.getAccountId(),
 		contentType : "application/json; charset=utf-8",
 		data : bearAccount.json(),
 		beforeSend : function(request) {

@@ -747,7 +747,7 @@ function processWriters(json, article){
 				v = false; // do not inject co-author in options list if it has already been put in template
 			}
 		}
-		if (v && localStorage.getItem($auth.profile_id) != obj.id) {
+		if (v && UserSession.getUserProfileId() != obj.id) {
 			var li = "<li data-id='"+ obj.id +"'>" + obj.pseudo + "</li>";
 			$("#coauthor ul").append(li);
 		}

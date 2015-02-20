@@ -10,7 +10,7 @@
 								<small class="error hide"></small>
 								<!--Author-->
 								<p class="authoring icon-author">
-									<span class="text hide">Par </span><span class="author">{{= data.status == "AVERIFIER" ? data.profile.pseudo : docCookies.getItem($auth.user_name) }}</span>
+									<span class="text hide">Par </span><span class="author">{{= data.status == "AVERIFIER" ? data.profile.pseudo : UserSession.getUserPseudo() }}</span>
 									{{~ data.coAuthors : coAuthor }}
 									<span class="separator"></span><span class="coauthor" data-id="{{= coAuthor.id }}">{{= coAuthor.pseudo }}<a href="javascript:void(0)" class="close"></a></span>
 									{{~}}
@@ -100,7 +100,7 @@
 						<div class="footer">
 							<!--Author-->
 							<p class="authoring right">
-								<span class="hide">Par </span><strong class="author">{{= data.status == "AVERIFIER" ? data.profile.pseudo : docCookies.getItem($auth.user_name) }}</strong>
+								<span class="hide">Par </span><strong class="author">{{= data.status == "AVERIFIER" ? data.profile.pseudo : UserSession.getUserPseudo() }}</strong>
 								{{~ data.coAuthors : coAuthor }}
 								<span class="separator"></span><strong class="coauthor">{{= coAuthor.pseudo }}</strong>
 								{{~}}

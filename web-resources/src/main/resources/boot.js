@@ -502,33 +502,11 @@ var hasStorage = (function() {
 	return typeof window.localStorage !== "undefined" ? true : false;
 }());
 
-/* Check if user name is registred in local storage */
-function isRegAuthc() {
-	if (docCookies.getItem($auth.token) !== null) {
-		return true;
-	}
-}
-
-/* Check if user role is registred as an admin in local storage */
-function isRegAdmin() {
-	if (docCookies.getItem($auth.user_role) !== null && docCookies.getItem($auth.user_role) == $conf.role_admin) {
-		return true;
-	}
-}
-
-/* Check if user role is registred as a writer in local storage */
-function isRegRedac() {
-	if (docCookies.getItem($auth.user_role) !== null && docCookies.getItem($auth.user_role) == $conf.role_redac) {
-		return true;
-	}
-}
-
 /* Clear user local storage from registred globals */
 function clearStorage(hash) {
 	var hash = hash || $auth;
 	for (n in hash) {
 		localStorage.removeItem(hash[n]);
-		docCookies.removeItem(hash[n], "/");
 	}
 }
 
@@ -548,7 +526,7 @@ function checkAuthz(url, redir, flush) {
 		var loc = window.location.pathname;
 		xhr.open("GET", url, false); // define request arguments
 		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request MIME type
-		xhr.setRequestHeader("Authorization", window.localStorage.getItem($auth.token)); // set authc token
+		xhr.setRequestHeader("Authorization", UserSession.getUserToken()); // set authc token
 		try {
 			xhr.send(null); // send request to server
 			if (xhr.status == 401) {

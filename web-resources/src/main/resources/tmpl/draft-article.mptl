@@ -1,14 +1,13 @@
 ﻿<!--Article Toolbar-->
 {{% article_tool_tmpl }}
 					<div class="tool-bar clearfix">
-						{{? isRegAdmin() || isRegRedac() }}
 						<!--Filters-->
 						<dl class="sub-nav left">
 							<dt class="sub-list">
 								<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text">Filtrer</span></a>
 								<ul id="filters_list" class="small" style="display: none;">
 									<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
-									{{? isRegAdmin() }}
+									{{? OursesSecurity.isUserAdmin() }}
 									<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
 									<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
 									{{?}}
@@ -22,12 +21,11 @@
 								<a id="write_article" href="{{= $nav.article_add.url }}" class="icon-article medium" title="{{= $nav.article_add.title }}"><span class="text">&Eacute;crire</span></a>
 							</dt>
 						</dl>
-						{{?}}
 					</div>
 {{%}}
 <!--Article Item-->
 {{% article_item_tmpl }}
-								<li data-published="{{= data.publishedDate}}" class="{{= data.profile.pseudo == docCookies.getItem($auth.user_name) ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
+								<li data-published="{{= data.publishedDate}}" class="{{= data.profile.pseudo == UserSession.getUserPseudo() ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
 									<div class="topic">
 										<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
 									</div>
@@ -45,32 +43,32 @@
 											<strong class="author">{{= data.profile.pseudo }}</strong>
 										</p>
 										{{? data.status == "BROUILLON" }}
-											{{? data.profile.id == localStorage.getItem($auth.profile_id) }}
+											{{? data.profile.id == UserSession.getUserProfileId() }}
 												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
 											<p class="validate" style="display: none;">
-												{{? data.profile.id == localStorage.getItem($auth.profile_id) }}
+												{{? data.profile.id == UserSession.getUserProfileId() }}
 												<button class="icon-reply success tiny tip-left" title="Valider" data-validate="{{= data.id }}" data-tooltip></button>
 												{{?}}
 												<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="{{= data.id }}" data-tooltip></button>
 											</p>
 										{{?? data.status == "AVERIFIER" }}
-											{{? isRegAdmin() }}
+											{{? OursesSecurity.isUserAdmin() }}
 												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
 											<p class="validate" style="display: none;">
-												{{? isRegAdmin() }}
+												{{? OursesSecurity.isUserAdmin() }}
 												<button class="icon-confirm success tiny tip-left" title="Publier" data-publish="{{= data.id }}" data-tooltip></button>
 												{{?}}
 												<button class="icon-cancel alert tiny tip-left" title="Renvoyer" data-invalidate="{{= data.id }}" data-tooltip></button>
 											</p>
 										{{??}}
 											<a href="{{= data.path }}" class="over">Lire l&rsquo;article</a>
-											{{? isRegAdmin() || data.profile.id == localStorage.getItem($auth.profile_id) }}
+											{{? OursesSecurity.isUserAdmin() || data.profile.id == UserSession.getUserProfileId() }}
 											<p class="validate" style="display: none;">
 												<button class="icon-reply alert tiny tip-left" title="Rappeler" data-recall="{{= data.id }}" data-tooltip></button>
 											</p>
@@ -86,9 +84,9 @@
 					<!--Draft articles list-->
 					<ul id="articles_draft" class="article-list draft">
 						{{~ data.drafts :params }}
-							{{? params.profile.pseudo == window.localStorage.getItem($auth.user_name) }}
+							{{? params.profile.pseudo == UserSession.getUserPseudo() }}
 							<li class="owner">{{# def.item:params }}</li>
-							{{?? isRegAdmin() }}
+							{{?? OursesSecurity.isUserAdmin() }}
 							<li class="other">{{# def.item:params }}</li>
 							{{?}}
 						{{~}}
