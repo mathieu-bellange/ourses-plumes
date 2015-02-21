@@ -1750,7 +1750,7 @@ a.close {
 }
 
 .inline-list > li > * {
-  display: inline; /* Foundation override */
+  display: inline-block; /* Foundation override */
 }
 
 /* Block Inline Lists -- UNUSED */
