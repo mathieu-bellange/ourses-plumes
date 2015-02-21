@@ -300,15 +300,19 @@ var publishing_box = (function() {
 
 function confirmDelete(id) {
 	if (typeof(id) !== "undefined" && id > 0) { // Check article id validity
-		// Confirm Delete Draft
-		var modal_options = {
-			"text" : $msg.confirm_delete_draft,
-			"class" : "panel radius",
-			"on_confirm" :function() {
-				deleteArticle(id) // delete article
-			}
-		};
-		$("#articles").create_confirmation_modal(modal_options);
+		if ($conf.confirm_delete.draft) {
+			// Confirm Delete Draft
+			var modal_options = {
+				"text" : $msg.confirm_delete.draft,
+				"class" : "panel radius",
+				"on_confirm" : function() {
+					deleteArticle(id) // delete article
+				}
+			};
+			$("#articles").create_confirmation_modal(modal_options);
+		} else {
+			deleteArticle(id) // delete article
+		}
 	}
 }
 

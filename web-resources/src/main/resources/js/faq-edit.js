@@ -26,14 +26,18 @@ var loax = (function() {
 /* ------------------------------------------------------------------ */
 
 function confirm_delete(obj) {
-	var modal_options = {
-		"text" : $msg.confirm_delete,
-		"class" : "panel callout radius",
-		"on_confirm" :function() {
-			delete_faq(obj)
-		}
-	};
-	obj.create_confirmation_modal(modal_options);
+	if ($conf.confirm_delete.faq) {
+		var modal_options = {
+			"text" : $msg.confirm_delete.faq,
+			"class" : "panel callout radius",
+			"on_confirm" : function() {
+				delete_faq(obj)
+			}
+		};
+		obj.create_confirmation_modal(modal_options);
+	} else {
+		delete_faq(obj)
+	}
 }
 
 function check_faq() {

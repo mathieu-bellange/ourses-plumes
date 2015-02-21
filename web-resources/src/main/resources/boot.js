@@ -90,6 +90,12 @@ $conf = {
 		"link_color"       : "#666688",                             // String   Color of the Twitter timeline links. Default : "#666688"
 		"border_color"     : "#c0c0c0",                             // String   Color of the Twitter timeline borders. Default : "#dcdcdc"
 		"tweet_limit"      : 4                                      // Integer  Number of items shown in Twitter timeline. Default : 4
+	},
+	"confirm_delete"     : {                                      // Object   Confirm delete configuration hash.
+		"avatar"           : true,                                  // Boolean  Confirm delete avatar. Default : true
+		"account"          : false,                                 // Boolean  Confirm delete account. Default : false
+		"draft"            : true,                                  // Boolean  Confirm delete draft. Default : true
+		"faq"              : true                                   // Boolean  Confirm delete faq. Default : true
 	}
 };
 
@@ -180,9 +186,12 @@ $msg = {
 	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&nbsp;&hellip;",
 	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&nbsp;!",
 	"confirm_action"        : "&Ecirc;tes-vous certaine de vouloir faire cela&nbsp;?",
-	"confirm_delete"        : "&Ecirc;tes-vous certaine de vouloir supprimer cela&nbsp;?<br>Cette action est d&eacute;finitive.",
-	"confirm_delete_draft"  : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est d&eacute;finitive.",
-	"confirm_delete_avatar" : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est d&eacute;finitive.",
+	"confirm_delete"        : {
+		"avatar"              : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est d&eacute;finitive.",
+		"account"             : "&Ecirc;tes-vous certaine de vouloir supprimer ce compte&nbsp;?<br>Cette action est d&eacute;finitive.",
+		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est d&eacute;finitive.",
+		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est d&eacute;finitive."
+	},
 	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
 	"account_deleted"       : "Compte supprim&eacute;&nbsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",

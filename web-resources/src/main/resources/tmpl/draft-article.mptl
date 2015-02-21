@@ -46,37 +46,37 @@
 										</p>
 										{{? data.status == "BROUILLON" }}
 											{{? data.profile.id == UserSession.getUserProfileId() && isComputer() }}
-												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
+												<a href="{{= data.path }}" class="over" title="Modifier l&rsquo;article">Modifier</a>
 											{{??}}
 												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
 											<p class="validate" style="display: none;">
 												{{? isComputer() }}
 												{{? data.profile.id == UserSession.getUserProfileId() }}
-												<button class="icon-reply success tiny" title="Valider" data-validate="{{= data.id }}"></button>
+												<button class="icon-reply success tiny" title="Valider l&rsquo;article" data-validate="{{= data.id }}"></button>
 												{{?}}
-												<button class="icon-remove alert tiny" title="Supprimer" data-delete="{{= data.id }}"></button>
+												<button class="icon-remove alert tiny" title="Supprimer l&rsquo;article" data-delete="{{= data.id }}"></button>
 												{{?}}
 											</p>
 										{{?? data.status == "AVERIFIER" }}
 											{{? OursesSecurity.isUserAdmin() && isComputer() }}
-												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
+												<a href="{{= data.path }}" class="over" title="Modifier l&rsquo;article">Modifier</a>
 											{{??}}
 												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
 											<p class="validate" style="display: none;">
 												{{? OursesSecurity.isUserAdmin() }}
-												<button class="icon-confirm success tiny" title="Publier" data-publish="{{= data.id }}"></button>
+												<button class="icon-confirm success tiny" title="Publier l&rsquo;article" data-publish="{{= data.id }}"></button>
 												{{?}}
 												{{? isComputer() }}
-												<button class="icon-cancel alert tiny" title="Renvoyer" data-invalidate="{{= data.id }}"></button>
+												<button class="icon-cancel alert tiny" title="Renvoyer l&rsquo;article" data-invalidate="{{= data.id }}"></button>
 												{{?}}
 											</p>
 										{{??}}
-											<a href="{{= data.path }}" class="over">Lire l&rsquo;article</a>
+											<a href="{{= data.path }}" class="over" title="Lire l&rsquo;article">Lire</a>
 											{{? OursesSecurity.isUserAdmin() || data.profile.id == UserSession.getUserProfileId() }}
 											<p class="validate" style="display: none;">
-												<button class="icon-reply alert tiny" title="Rappeler" data-recall="{{= data.id }}"></button>
+												<button class="icon-reply alert tiny" title="Rappeler l&rsquo;article" data-recall="{{= data.id }}"></button>
 											</p>
 											{{?}}
 										{{?}}

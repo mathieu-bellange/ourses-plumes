@@ -658,12 +658,16 @@ $("html").on("keypress", "#user-link input", function(event) {
 
 /* Delete Avatar */
 $(document).on("click", "#delete_avatar", function() {
-	var modal_options = {
-		"text" : $msg.confirm_delete_avatar,
-		"class" : "panel radius",
-		"on_confirm" :function() {
-			deleteAvatar(); // // delete avatar
-		}
-	};
-	$(this).create_confirmation_modal(modal_options);
+	if ($conf.confirm_delete.avatar) {
+		var modal_options = {
+			"text" : $msg.confirm_delete.avatar,
+			"class" : "panel radius",
+			"on_confirm" : function() {
+				deleteAvatar(); // delete avatar
+			}
+		};
+		$(this).create_confirmation_modal(modal_options);
+	} else {
+		deleteAvatar(); // delete avatar
+	}
 });

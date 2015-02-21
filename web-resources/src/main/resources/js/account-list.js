@@ -127,7 +127,19 @@ function deleteEvent(id) {
 
 $("html").on("click", "#accountsTable [data-account-id] button", function() {
 	var id = $(this).parents("tr").attr("data-account-id");
-	deleteEvent(id);
+	if ($conf.confirm_delete.account) {
+		// Confirm Delete Account
+		var modal_options = {
+			"text" : $msg.confirm_delete.account,
+			"class" : "panel radius",
+			"on_confirm" : function() {
+				deleteEvent(id) // delete account
+			}
+		};
+		$("#articles").create_confirmation_modal(modal_options);
+	} else {
+		deleteEvent(id) // delete account
+	}
 });
 
 $("html").on("change", "#accountsTable [data-account-id] select", function() {
