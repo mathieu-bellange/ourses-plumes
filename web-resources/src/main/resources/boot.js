@@ -50,7 +50,7 @@ $app = {
 
 /* Authentication */
 $auth = {
-	"is_authenticated"   : "isAuthenticated",					  // boolean  Cookie key of the user state connection. Default : "isAuthenticated"
+	"is_authenticated"   : "isAuthenticated",                     // Boolean  Cookie key of the user state connection. Default : "isAuthenticated"
 	"token_id"           : "oursesAuthcTokenId",                  // Long     Cookie key of the authentication token. Default : "oursesAuthcTokenId"
 	"token"              : "oursesAuthcToken",                    // String   Local storage key of the authentication token. Default : "oursesAuthcToken"
 	"user_name"          : "oursesUserPseudo",                    // String   Cookie key of the user name. Default : "oursesUserPseudo"
@@ -74,7 +74,7 @@ $build = {
 /* Configuration */
 $conf = {
 	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
-	//"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
+	"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
 	"css_debug"          : false,                                 // Boolean  Enable CSS debug on HTML elements (i.e. show background masks for all pages). Default : false
 	"css_fx"             : true,                                  // Boolean  Enable CSS effects on HTML elements (i.e. multiple backgrounds, transitions, animations, box shadows, text shadows and ribbons). Default : true
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
@@ -149,7 +149,7 @@ $img = {
 /* Files */
 $file = {
 	"icons"                 : $img.svg + "icons.svg",             // String   Store URL of SVG icons file. Default : "/svg/icons.svg"
-	"icons_fx"              : $loc.css + "icons-fx.css"           // String   Store URL of SVG icons effects file. Default : "/css/icons-fx.css"
+	"icons_fx"              : $img.svg + "icons.css"              // String   Store URL of SVG icons effects file. Default : "/css/icons-fx.css"
 };
 
 /* Messages */
@@ -332,9 +332,6 @@ $rest = {
 /* ------------------------------------------------------------------ */
 
 /* Prebuild vars */
-var IE_conditional_comments = [
-    lb() + tb(3) + "<style type='text/css'>.gradient{filter:none;}</style>"
-];
 var head_tags = [
 	{elem: "meta", attr: {charset: "utf-8"}},
 	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
@@ -345,19 +342,25 @@ var head_tags = [
 	{elem: "meta", attr: {name: "generator", content: $app.genr}},
 	{elem: "title", text: $org.name},
 	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
-
-	// -------------------------------------------------------------------
-	// NOTE : IE execute in-page script before external scripts ... so in-page customized dot settings are not allowed
-	// -------------------------------------------------------------------
-	// {elem: "script", text: lb() + tb(3) + "doT.templateSettings.varname = 'data';" + lb() + tb(3) + "doT.templateSettings.strip = false;" + lb() + tb(2)},
-	// -------------------------------------------------------------------
-	{elem: "!--[lt IE 9]", text: IE_conditional_comments[0] + lb() + tb(2) + "<![endif]-->"}
 ];
-//TODO delete
-var body_tags = [
-	//{elem: "script", attr: {src: $loc.js + "loap.js"}},
-	//{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
-];
+var body_tags = [];
+if (isFileProtocol) {
+	var head_tags_ext = [
+		{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
+		{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
+		{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
+		{elem: "script", attr: {src: $loc.js + "modernizr/modernizr" + $conf.lib_ext +".js"}},
+		{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
+		{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
+		{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
+		{elem: "script", attr: {src: $loc.js + "cookies.js"}},
+	];
+	head_tags = head_tags.concat(head_tags_ext);
+	body_tags = [
+		{elem: "script", attr: {src: $loc.js + "loap.js"}},
+		{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
+	];
+}
 
 /* Prebuild methods */
 function p_char(n, c) { // Print Character (n.b. for local use only)
@@ -418,7 +421,6 @@ function load(script) { // Define Postbuild Processing
 
 /* Process Prebuild */
 document.write(b_html(head_tags));
-
 
 /* ------------------------------------------------------------------ */
 /* # XMLHttpRequest */

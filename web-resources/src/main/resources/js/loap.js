@@ -100,7 +100,7 @@ var loap_pool = {
 	"ui_plugins_mptl"               : $loc.tmpl + "ui_plugins.mptl",
 	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
 	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
-	//"icons_fx_file"                 : $file.icons_fx,
+	"icons_fx_file"                 : $file.icons_fx,
 	"icons_file"                    : $file.icons
 };
 var loax_pool = loax_pool || null;
@@ -124,9 +124,9 @@ var loap = (function() {
 	return {
 		build : function() {
 			// Apply css debug
-			if ($conf.css_debug) { $("body").addClass("css-debug") }
+			if ($conf.css_debug) {$("body").addClass("css-debug")}
 			// Apply css fx
-			if ($conf.css_fx) { $("body").addClass("css-fx"); }
+			if ($conf.css_fx) {$("body").addClass("css-fx")}
 			// Build container
 			if ($build.container) {
 				// Apply standard layout (i.e. two columns view)
@@ -135,13 +135,13 @@ var loap = (function() {
 				$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
 			}
 			// Build toolbar template
-			if ($build.toolbar) { $("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1)) }
+			if ($build.toolbar) {$("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1))}
 			// Build icons
 			if ($build.icons) {
 				// Prepend SVG effects
-//				if ($conf.svg_fx) {
-//					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
-//				}
+				if ($conf.svg_fx) {
+					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
+				}
 				// Prepend SVG icons
 				$("body").prepend(file_pool.icons_file).prepend(lb(1));
 			}
@@ -163,7 +163,7 @@ var loap = (function() {
 		}
 	};
 }());
- 
+
 /* ------------------------------------------------------------------ */
 /* # Files Loader */
 /* ------------------------------------------------------------------ */

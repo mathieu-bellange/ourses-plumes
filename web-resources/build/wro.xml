@@ -1,136 +1,135 @@
 <groups xmlns="http://www.isdc.ro/wro">
 
-    <group name="terms-of-use-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/terms-of-use.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="privacy-policy-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/privacy-policy.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="legal-notice-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/legal-notice.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="faq-list-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/faq-list.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="thanks-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/thanks.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="account-create-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/account-create.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="account-edit-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/account-edit.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="account-list-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/account-list.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="article-edit-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/article-edit.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="article-view-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/article-view.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="agenda-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/agenda.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="bug-report-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/bug-report.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="error-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/error.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="index-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/index.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="login-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/login.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="online-articles-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/online-article-list.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="draft-articles-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/draft-article-list.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="profile-edit-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/profile-edit.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="profile-view-${project.version}">
-        <group-ref>commons-lib-${project.version}</group-ref>
-        <js>/js/profile-view.js</js>
-        <group-ref>commons-loap-${project.version}</group-ref>
-    </group>
-    
-    <group name="commons-loap-${project.version}">
+	<group name="terms-of-use-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/terms-of-use.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="privacy-policy-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/privacy-policy.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="legal-notice-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/legal-notice.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="faq-list-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/faq-list.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="thanks-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/thanks.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="account-create-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/account-create.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="account-edit-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/account-edit.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="account-list-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/account-list.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="article-edit-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/article-edit.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="article-view-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/article-view.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="agenda-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/agenda.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="bug-report-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/bug-report.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="error-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/error.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="index-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/index.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="login-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/login.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="online-articles-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/online-article-list.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="draft-articles-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/draft-article-list.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="profile-edit-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/profile-edit.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="profile-view-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/profile-view.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
+	<group name="commons-loap-${project.version}">
 		<js>/js/loap.js</js>
-        <css>/css/icons-fx.css</css>
-        <css>/css/loap-fx.css</css>
-        <css>/css/loap-main.css</css>
-    </group>
-    
-    <group name="commons-lib-${project.version}">
-        <js>/js/jquery/jquery-2.x.min.js</js>
-        <js>/js/jquery/jquery.autosize.js</js>
-        <js>/js/modernizr/modernizr.min.js</js>
+		<css>/css/loap-main.css</css>
+		<css>/css/loap-fx.css</css>
+	</group>
+
+	<group name="commons-lib-${project.version}">
+		<js>/js/jquery/jquery-2.x.min.js</js>
+		<js>/js/jquery/jquery.autosize.js</js>
+		<js>/js/modernizr/modernizr.min.js</js>
 		<js>/js/dot/dot.min.js</js>
 		<js>/js/conf-dot.js</js>
 		<js>/js/foundation/foundation.lib.js</js>
-        <css>/css/foundation.css</css>
-        <js>/js/cookies.js</js>
+		<css>/css/foundation.css</css>
+		<js>/js/cookies.js</js>
 		<js>/boot.js</js>
-    </group>
-    
+	</group>
+
 </groups>
