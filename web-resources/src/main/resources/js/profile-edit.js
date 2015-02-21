@@ -152,7 +152,9 @@ function checkPseudoAJAX(couple) {
 			// erreur 403, normal le pseudo est soit vide soit déjà pris
 			if (jqXHR.status == 403) {
 				pseudoTimeoutValid = setTimeout(function() {
-					selector.set_validation(false, "Le nom d&rsquo;utilisatrice doit obligatoirement &ecirc;tre renseign&eacute;");
+					var empty = "Le nom d&rsquo;utilisatrice doit obligatoirement &ecirc;tre renseign&eacute;";
+					var dup   = "Ce nom d&rsquo;utilisatrice est d&eacute;j&agrave; pris&nbsp;!";
+					selector.set_validation(false, selector.val().trim() == "" ? empty : dup);
 					$(selector).css("margin-bottom", "0");
 					role_display.update();
 					}, 500);
