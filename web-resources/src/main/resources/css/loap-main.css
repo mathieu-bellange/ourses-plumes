@@ -3249,7 +3249,7 @@ input:focus + button + .error + .autocomplete > ul {
 .article.edit input.tag {display: inline-block;}
 .article.edit input.tag,
 .article.edit input.tag + button,
-.article.edit input.tag + button + small.error {margin-bottom: 0; vertical-align: middle;}
+.article.edit input.tag + button + small.error {margin: 0; vertical-align: middle;}
 .article.edit input.tag,
 .article.edit input.tag + button + small.error,
 .article.edit input.tag + button + small.error + .autocomplete {width: 18rem;}
