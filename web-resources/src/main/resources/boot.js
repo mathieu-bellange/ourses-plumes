@@ -69,7 +69,7 @@ $build = {
 	"icons"              : true,                                  // Boolean  Create SVG icons. Default : true
 	"slider"             : false,                                 // Boolean  Create Foundation orbit slider. Default : true
 	"timeline"           : true,                                  // Boolean  Create Twitter timeline widget on home page. Default : true
-	"likebox"            : true                                   // Boolean  Create Facebook likebox widget on home page. Default : false
+	"likebox"            : false                                  // Boolean  Create Facebook likebox widget on home page. Default : false
 };
 
 /* Configuration */

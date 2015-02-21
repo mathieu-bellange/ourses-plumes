@@ -7,17 +7,17 @@
 					<a href="{{= $nav.home.url }}"><span></span></a>
 				</div>
 				<!--Main Navigation-->
-				<h2 class="hide">Navigation interne</h2>
+				<h2 class="hide">Navigation principale</h2>
 				<h3 class="hide">Menu principal</h3>
 				<h4 class="hide">Sections</h4>
 				<nav class="main-nav">
 					<ul>
+						<li class="home"><a href="{{= $nav.home.url }}">Accueil</a></li>
 						<li><a href="{{= $nav.online_article_list.url }}">Articles</a></li>
 						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="{{= $nav.agenda.url }}">Agenda</a></li>
 						<li><a href="{{= $nav.faq.url }}">FAQ</a></li>
-						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="javascript:void(0)" class="disabled">Nos copines</a></li>
-						<li style="font-size: .9em;"><a href="{{= $nav.thanks.url }}">Remerciements</a></li>
-						<li style="font-size: .9em;"><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
+						<li class="text-small"><a href="{{= $nav.thanks.url }}">Remerciements</a></li>
+						<li class="text-small"><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
 					</ul>
 				</nav>
 			</aside>
@@ -28,9 +28,7 @@
 					<!--Fast Nav-->
 					<h5 class="hide">Rubriques</h5>
 					<nav class="fast-nav" data-zlider>
-						<div class="prev" style="display: none;">
-							<a href="javascript:void(0)" class="icon-left small left"></a><span class="hide">Pr&eacute;c&eacute;dent</span>
-						</div>
+						<span class="prev" style="display: none;"><span class="icon-left small left" tabindex="0"></span></span>
 						<ul>
 							<li class="orange"><a href="/articles?criteria=luttes">Luttes</a></li>
 							<li class="magenta"><a href="/articles?criteria=nos-corps">Nos corps, nous-m&ecirc;mes</a></li>
@@ -39,19 +37,17 @@
 							<li class="cyan"><a href="/articles?criteria=education-culture">&Eacute;ducation &amp; Culture</a></li>
 							<li class="yellow"><a href="/articles?criteria=idees">Id&eacute;es</a></li>
 						</ul>
-						<div class="next" style="display: none;">
-							<a href="javascript:void(0)" class="icon-right small right"></a><span class="hide">Suivant</span>
-						</div>
+						<span class="next" style="display: none;"><span class="icon-right small right" tabindex="0"></span></span>
 					</nav>
 					<!--User Connect-->
-					<div class="user-connect right" style="display: none;">
-						<p><a id="user_connect" href="javascript:void(0)" class="icon-connect tip-left" title="S&rsquo;identifier" data-tooltip><strong class="hide">Connexion</strong></a></p>
+					<div class="user-connect" style="display: none;">
+						<p><a id="user_connect" href="javascript:void(0)" class="icon-connect" title="S&rsquo;identifier"><strong class="text connect">Connexion</strong></a></p>
 					</div>
 					<!--Document Title-->
 					<div class="orbit-container">
 						<ul class="orbit-slides-container">
 							<li class="cyan">
-								<div class="orbit-headline text-center text-huge">
+								<div class="orbit-headline text-huge">
 									<h1>{{= $org.name }}</h1>
 									<h4><span class="text-tiny">{{= $app.name + ($app.stage == "dev" ? "&nbsp;" + $app.ver : "") }}</span></h4>
 								</div>
@@ -61,20 +57,30 @@
 				</header>
 				<!--Footer-->
 				<footer class="footer text-center hide-for-print">
-					<!--Site Navigation-->
-					<h2 class="hide">Navigation externe</h2>
+					<!--Subsidiary Navigation-->
+					<h2 class="hide">Navigation subsidiaire</h2>
 					<h3 class="hide">Menu de site</h3>
+					<h4 class="hide">Liens externes</h4>
 					<nav class="site-nav">
 						<ul>
-							<li class="no-bullet"><a href="{{= $org.mail }}" class="icon-mail white bevel no-bg no-current tip-top" title="Nous contacter par mail" data-tooltip><span class="hide">Contact</span></a></li>
-							<li class="no-bullet"><a href="{{= $org.twitter }}" class="icon-twitter white bevel no-bg tip-top" title="Nous suivre sur Twitter" data-tooltip><span class="hide">Twitter</span></a></li>
-							<li class="no-bullet"><a href="{{= $org.facebook }}" class="icon-facebook white bevel no-bg tip-top" title="Nous rejoindre sur Facebook" data-tooltip><span class="hide">Facebook</span></a></li>
-							<li class="no-bullet"><a href="{{= $org.wordpress }}" class="icon-blog white bevel no-bg tip-top" title="L&rsquo;incubateur des Ourses" data-tooltip><span class="hide">Wordpress</span></a></li>
-							<li class="no-bullet{{= $app.stage == 'rtw' ? ' hide' : ''}}"><a href="javascript:void(0)" class="icon-newsletter white bevel no-bg disabled tip-top" title="S&rsquo;abonner &agrave; la lettre d&rsquo;information" data-tooltip><span class="hide">Newsletter</span></a></li>
+							<li class="no-bullet"><a href="{{= $org.mail }}" class="icon-mail white bevel no-bg no-current" title="Nous contacter par mail"><span class="hide">Contact</span></a></li>
+							<li class="no-bullet"><a href="{{= $org.twitter }}" class="icon-twitter white bevel no-bg" title="Nous suivre sur Twitter"><span class="hide">Twitter</span></a></li>
+							<li class="no-bullet"><a href="{{= $org.facebook }}" class="icon-facebook white bevel no-bg" title="Nous rejoindre sur Facebook"><span class="hide">Facebook</span></a></li>
+							<li class="no-bullet"><a href="{{= $org.wordpress }}" class="icon-blog white bevel no-bg" title="L&rsquo;incubateur des Ourses"><span class="hide">Wordpress</span></a></li>
+							<li class="no-bullet{{= $app.stage == 'rtw' ? ' hide' : ''}}"><a href="javascript:void(0)" class="icon-newsletter white bevel no-bg disabled" title="S&rsquo;abonner &agrave; la lettre d&rsquo;information"><span class="hide">Newsletter</span></a></li>
+						</ul>
+					</nav>
+					<!--Legal Notes-->
+					<h4 class="hide">Informations juridiques</h4>
+					<nav class="legal-nav">
+						<ul>
+							<li><a href="{{= $nav.legal_notice.url }}">Mentions l&eacute;gales</a></li>
+							<li><a href="{{= $nav.terms_of_use.url }}">Conditions d&rsquo;utilisation</a></li>
+							<li><a href="{{= $nav.privacy_policy.url }}">Politique de confidentialit&eacute;</a></li>
 						</ul>
 					</nav>
 					<!--Copyright-->
-					<div class="end-notes"><a href="{{= $nav.legal_notice.url }}">Mentions l&eacute;gales</a>, <a href="{{= $nav.terms_of_use.url }}">Conditions d&rsquo;utilisation</a> et <a href="{{= $nav.privacy_policy.url }}">Politique de confidentialit&eacute;</a><br class="show-for-small-only"> &copy; 2015 &ndash; Les Ourses &agrave; plumes.</div>
+					<p class="copyright">Les Ourses &agrave; plumes &copy; 2014 &ndash; 2015 </p>
 				</footer>
 			</main>
 		</div>

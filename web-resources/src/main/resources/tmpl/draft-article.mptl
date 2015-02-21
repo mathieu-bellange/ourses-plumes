@@ -4,7 +4,7 @@
 						<!--Filters-->
 						<dl class="sub-nav left">
 							<dt class="sub-list">
-								<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text">Filtrer</span></a>
+								<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text hide-for-small">Filtrer</span></a>
 								<ul id="filters_list" class="small" style="display: none;">
 									<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
 									{{? OursesSecurity.isUserAdmin() }}
@@ -16,11 +16,13 @@
 							</dt>
 						</dl>
 						<!--Write-->
+						{{? isComputer() }}
 						<dl class="sub-nav right">
 							<dt>
 								<a id="write_article" href="{{= $nav.article_add.url }}" class="icon-article medium" title="{{= $nav.article_add.title }}"><span class="text">&Eacute;crire</span></a>
 							</dt>
 						</dl>
+						{{?}}
 					</div>
 {{%}}
 <!--Article Item-->
@@ -43,34 +45,38 @@
 											<strong class="author">{{= data.profile.pseudo }}</strong>
 										</p>
 										{{? data.status == "BROUILLON" }}
-											{{? data.profile.id == UserSession.getUserProfileId() }}
+											{{? data.profile.id == UserSession.getUserProfileId() && isComputer() }}
 												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
 											<p class="validate" style="display: none;">
+												{{? isComputer() }}
 												{{? data.profile.id == UserSession.getUserProfileId() }}
-												<button class="icon-reply success tiny tip-left" title="Valider" data-validate="{{= data.id }}" data-tooltip></button>
+												<button class="icon-reply success tiny" title="Valider" data-validate="{{= data.id }}"></button>
 												{{?}}
-												<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="{{= data.id }}" data-tooltip></button>
+												<button class="icon-remove alert tiny" title="Supprimer" data-delete="{{= data.id }}"></button>
+												{{?}}
 											</p>
 										{{?? data.status == "AVERIFIER" }}
-											{{? OursesSecurity.isUserAdmin() }}
+											{{? OursesSecurity.isUserAdmin() && isComputer() }}
 												<a href="{{= data.path }}" class="over">Modifier l&rsquo;article</a>
 											{{??}}
 												<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 											{{?}}
 											<p class="validate" style="display: none;">
 												{{? OursesSecurity.isUserAdmin() }}
-												<button class="icon-confirm success tiny tip-left" title="Publier" data-publish="{{= data.id }}" data-tooltip></button>
+												<button class="icon-confirm success tiny" title="Publier" data-publish="{{= data.id }}"></button>
 												{{?}}
-												<button class="icon-cancel alert tiny tip-left" title="Renvoyer" data-invalidate="{{= data.id }}" data-tooltip></button>
+												{{? isComputer() }}
+												<button class="icon-cancel alert tiny" title="Renvoyer" data-invalidate="{{= data.id }}"></button>
+												{{?}}
 											</p>
 										{{??}}
 											<a href="{{= data.path }}" class="over">Lire l&rsquo;article</a>
 											{{? OursesSecurity.isUserAdmin() || data.profile.id == UserSession.getUserProfileId() }}
 											<p class="validate" style="display: none;">
-												<button class="icon-reply alert tiny tip-left" title="Rappeler" data-recall="{{= data.id }}" data-tooltip></button>
+												<button class="icon-reply alert tiny" title="Rappeler" data-recall="{{= data.id }}"></button>
 											</p>
 											{{?}}
 										{{?}}

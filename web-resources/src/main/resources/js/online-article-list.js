@@ -33,7 +33,7 @@ var loax = (function() {
 var article_list_tools = (function(options) {
 	var defaults = {
 		"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
-		"search_spacing"        : 1.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
+		"search_spacing"        : 1.5,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
 		"search_load_delay"     : 500,    // Integer  Time before search input expand on page load. Default : 1000
 		"anim_duration"         : 375     // Integer  Time during which animations are played. Default : 500
 	};

@@ -143,7 +143,6 @@ var tags = (function() {
 						}
 						// add tag to tags list 
 						$(target).find("#tag_new").parent("dd").before("<dd data-tag><span class='label radius'>" + str + "<a href='javascript:void(0)' class='close'></a></span></dd>\n");
-						$(target).foundation("alert");
 						$(source).val("");
 						// reset autocomplete
 						$(source).nextAll(".autocomplete").first().find("ul > li").addClass("hide");

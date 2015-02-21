@@ -156,7 +156,7 @@ function displayLastWebReview() {
 			$("#articles_publish > li").first().addClass("hide"); // EDIT : add class 'hide' instead of 'web-review'
 			$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
 			$("#articles_publish")
-				.wrap("<div class='row' style='padding: .25rem;'></div>") // add row wrapper with padding fix
+				.wrap("<div class='row'></div>") // add row wrapper
 				.wrap("<div class='column small-24 large-16'></div>"); // add column wrapper with padding fix
 			displaySocialNetwork();
 			$("#articles").svg_icons(); // always reload icons only for articles

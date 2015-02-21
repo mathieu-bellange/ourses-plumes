@@ -554,6 +554,7 @@ jQuery.fn.extend({
 		var defs = {
 			"prev_selector"  : ".prev",        // Selector  Forward controller. Default : ".prev"
 			"next_selector"  : ".next",        // Selector  Backward controller. Default : ".next"
+			"ctrl_selector"  : "span",         // Selector  Inner controller element. Default : "span"
 			"inner_selector" : "ul",           // Selector  Inside box (i.e. the sliding content). Default : ".fast-nav ul"
 			"item_selector"  : "li",           // Selector  Items contained by the inner box. Default : "li"
 			"link_selector"  : "a",            // Selector  Links contained by each item. Default : "a"
@@ -608,8 +609,8 @@ jQuery.fn.extend({
 					// proceed positioning and sizing
 					obj.find(cfg.inner_selector).css("left", inner_left);
 					obj.find(cfg.inner_selector).css("width", outer_width + cfg.extra_spacing);
-					obj.find(cfg.next_selector).find(cfg.link_selector).addClass("disabled");
-					obj.find(cfg.prev_selector).find(cfg.link_selector).removeClass("disabled");
+					obj.find(cfg.next_selector).find(cfg.ctrl_selector).addClass("disabled");
+					obj.find(cfg.prev_selector).find(cfg.ctrl_selector).removeClass("disabled");
 					obj.find(cfg.prev_selector).css({"padding-right" : "0", "background" : "none"});
 					slide_step = Math.floor(outer_width / inner_width); // compute sliding steps
 					set_items_focusability(obj, cfg.item_selector, inner_width); // set items focusability
@@ -624,10 +625,10 @@ jQuery.fn.extend({
 				var dir_selector = (dir == "forward" ? cfg.next_selector : cfg.prev_selector);
 				var reverse_selector = (dir == "forward" ? cfg.prev_selector : cfg.next_selector);
 				var e_event = (e == "mouse" ? "mousedown" : "keydown");
-				obj.find(reverse_selector + " " + cfg.link_selector).removeClass("disabled");
+				obj.find(reverse_selector + " " + cfg.ctrl_selector).removeClass("disabled");
 				dir == "forward" ? obj.find(dir_selector).css({"padding-left" : "", "background" : ""}) : obj.find(dir_selector).css({"padding-right" : "", "background" : ""});
 				if (!obj.find(dir_selector).hasClass("disabled")) {
-					obj.find(dir_selector).find(cfg.link_selector).data(e_event, true);
+					obj.find(dir_selector).find(cfg.ctrl_selector).data(e_event, true);
 					if (dir == "forward" ? slide_count < 0 : slide_count > -slide_step) {
 						dir == "forward" ? slide_count++ : slide_count--;
 						inner_left = (dir == "forward" ? inner_left + inner_width : inner_left - inner_width);
@@ -635,46 +636,46 @@ jQuery.fn.extend({
 							set_items_focusability(obj, "li", inner_width);
 							if (dir == "forward" ? slide_count < 0 : slide_count > -slide_step) {
 								if ($conf.js_fx) {
-									if (obj.find(dir_selector).find(cfg.link_selector).data(e_event) == true) {
+									if (obj.find(dir_selector).find(cfg.ctrl_selector).data(e_event) == true) {
 										if (e_event == "mousedown") {
-											obj.find(dir_selector).find(cfg.link_selector).mousedown();
+											obj.find(dir_selector).find(cfg.ctrl_selector).mousedown();
 										} else if (e_event == "keydown") {
-											obj.find(dir_selector).find(cfg.link_selector).keydown();
+											obj.find(dir_selector).find(cfg.ctrl_selector).keydown();
 										}
 									}
 								}
 							} else {
-								obj.find(dir_selector).find(cfg.link_selector).addClass("disabled");
+								obj.find(dir_selector).find(cfg.ctrl_selector).addClass("disabled");
 								dir == "forward" ? obj.find(reverse_selector).css({"padding-right" : "0", "background" : "none"}) : obj.find(reverse_selector).css({"padding-left" : "0", "background" : "none"});
 							}
 						});
 					} else {
-						obj.find(dir_selector).find(cfg.link_selector).addClass("disabled");
+						obj.find(dir_selector).find(cfg.ctrl_selector).addClass("disabled");
 						dir == "forward" ? obj.find(reverse_selector).css({"padding-right" : "0", "background" : "none"}) : obj.find(reverse_selector).css({"padding-left" : "0", "background" : "none"});
 					}
 				}
 			}
 			// events
-			$(this).find(cfg.prev_selector + " " + cfg.link_selector).mousedown(function() {
+			$(this).find(cfg.prev_selector + " " + cfg.ctrl_selector).mousedown(function() {
 				slide(self, "backward", "mouse");
 			});
-			$(this).find(cfg.next_selector + " " + cfg.link_selector).mousedown(function() {
+			$(this).find(cfg.next_selector + " " + cfg.ctrl_selector).mousedown(function() {
 				slide(self, "forward", "mouse");
 			});
-			$(this).find(cfg.prev_selector + " " + cfg.link_selector + ", " + cfg.next_selector + " " + cfg.link_selector).mouseup(function() {
+			$(this).find(cfg.prev_selector + " " + cfg.ctrl_selector + ", " + cfg.next_selector + " " + cfg.ctrl_selector).mouseup(function() {
 				$(this).removeData("mousedown");
 			});
-			$(this).find(cfg.prev_selector + " " + cfg.link_selector).keydown(function(e) {
+			$(this).find(cfg.prev_selector + " " + cfg.ctrl_selector).keydown(function(e) {
 				if (e.which == 13) { // Enter
 					slide(self, "backward", "keyboard");
 				}
 			});
-			$(this).find(cfg.next_selector + " " + cfg.link_selector).keydown(function(e) {
+			$(this).find(cfg.next_selector + " " + cfg.ctrl_selector).keydown(function(e) {
 				if (e.which == 13) { // Enter
 					slide(self, "forward", "keyboard");
 				}
 			});
-			$(this).find(cfg.prev_selector + " " + cfg.link_selector + ", " + cfg.next_selector + " " + cfg.link_selector).keyup(function(e) {
+			$(this).find(cfg.prev_selector + " " + cfg.ctrl_selector + ", " + cfg.next_selector + " " + cfg.ctrl_selector).keyup(function(e) {
 				if (e.which == 13) { // Enter
 					$(this).removeData("keydown");
 				}
@@ -1404,6 +1405,11 @@ var list_overview = (function() {
  * Though, they are not parts of any specific block (but needed by all).
  * And, thus, they aren't supposed to be reloaded after main processing.
  */
+
+/* Is Computer (i.e. Desktop or Laptop) */
+function isComputer() {
+	return (Modernizr.mq("(min-width: 800px)") && !Modernizr.touch); // Not Small Display and not Touch Device (i.e. exclude smartphones and tablets)
+}
 
 /* Global String Replacement (low-level) */
 function gsub(str, obj, v_k, del) {

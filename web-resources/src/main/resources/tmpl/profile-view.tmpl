@@ -18,7 +18,7 @@
 							<!--User links-->
 							<ul id="user_links_icons" class="inline-list">
 								{{~ data.socialLinks :socialLink }}
-									<li><a href="{{= socialLink.path }}" class="icon-{{= socialLink.network }} tip-top" title="{{= socialLink.description }}" data-tooltip><span class="hide">{{= socialLink.description }}</span></a></li>
+									<li><a href="{{= socialLink.path }}" class="icon-{{= socialLink.network }}" title="{{= socialLink.description }}"><span class="hide">{{= socialLink.description }}</span></a></li>
 								{{~}}
 							</ul>
 							<p class="user-desc">{{= data.description === null ? "" : data.description }}</p>

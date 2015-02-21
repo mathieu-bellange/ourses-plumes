@@ -4,9 +4,9 @@
 						<div class="header">
 							<h2 class="title">{{= data.title }}</h2>
 							<p class="authoring icon-author">
-								<span class="hide">Par </span><a href="{{= data.profile.path }}" class="author" rel="author" title="Voir le profil de l&rsquo;auteure" data-tooltip>{{= data.profile.pseudo }}</a>
+								<span class="hide">Par </span><a href="{{= data.profile.path }}" class="author" rel="author" title="Voir le profil de l&rsquo;auteure">{{= data.profile.pseudo }}</a>
 								{{~ data.coAuthors : coAuthor }}
-								<span class="separator"></span><a href="{{= coAuthor.path }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure" data-tooltip>{{= coAuthor.pseudo }}</a>
+								<span class="separator"></span><a href="{{= coAuthor.path }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure">{{= coAuthor.pseudo }}</a>
 								{{~}}
 							</p>
 							<time class="date icon-date small" pubdate="{{= getDateTime(new Date(data.publishedDate)) }}"><small class="text"><span class="hide">Publi&eacute; le </span>{{= dateToHTML(new Date(data.publishedDate)) }}</small></time>
@@ -25,16 +25,16 @@
 						</div>
 						<div class="footer">
 							<p class="authoring right">
-								<span class="hide">Par </span><a href="{{= data.profile.path }}" class="author tip-top" rel="author" title="Voir le profil de l&rsquo;auteure" data-tooltip>{{= data.profile.pseudo }}</a>
+								<span class="hide">Par </span><a href="{{= data.profile.path }}" class="author" rel="author" title="Voir le profil de l&rsquo;auteure">{{= data.profile.pseudo }}</a>
 								{{~ data.coAuthors : coAuthor }}
-								<span class="separator"></span><a href="{{= coAuthor.path }}" class="coauthor tip-top" rel="author" title="Voir le profil de la co-auteure" data-tooltip>{{= coAuthor.pseudo }}</a></span>
+								<span class="separator"></span><a href="{{= coAuthor.path }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure">{{= coAuthor.pseudo }}</a></span>
 								{{~}}
 							</p>
 							<ul class="inline-list left">
 								<!--UNUSED for now ... DO NOT REMOVE !-->
 								<!--
 								<li>
-									<a id="share_mail" href="javascript:void(0)" class="icon-mail share" title="Partager par mail" data-tooltip data-article="{{= data.id }}"><span class="text">Mail</span></a>
+									<a id="share_mail" href="javascript:void(0)" class="icon-mail share" title="Partager par mail" data-article="{{= data.id }}"><span class="text">Mail</span></a>
 									<div class="send-box" style="display: none;">
 										<a href="javascript:void(0)" class="close right"></a>
 										<label for="share_mail_input">Partager par mail</label>
@@ -43,10 +43,10 @@
 									</div>
 								</li>
 								-->
-								<li><a id="share_twitter" href="" class="icon-twitter share tip-top" title="Partager sur Twitter" data-tooltip><span class="text">Twitter</span></a></li>
-								<li><a id="share_facebook" href="" class="icon-facebook share tip-top" title="Partager sur Facebook" data-tooltip><span class="text">Facebook</span></a></li>
-								<li><a id="share_googleplus" href="" class="icon-googleplus share tip-top" title="Partager sur Google+" data-tooltip><span class="text">Google+</span></a></li>
-								<li><a id="share_linkedin" href="" class="icon-linkedin share tip-top" title="Partager sur LinkedIn" data-tooltip><span class="text">LinkedIn</span></a></li>
+								<li><a id="share_twitter" href="" class="icon-twitter share" title="Partager sur Twitter"><span class="text">Twitter</span></a></li>
+								<li><a id="share_facebook" href="" class="icon-facebook share" title="Partager sur Facebook"><span class="text">Facebook</span></a></li>
+								<li><a id="share_googleplus" href="" class="icon-googleplus share" title="Partager sur Google+"><span class="text">Google+</span></a></li>
+								<li><a id="share_linkedin" href="" class="icon-linkedin share" title="Partager sur LinkedIn"><span class="text">LinkedIn</span></a></li>
 							</ul>
 						</div>
 					</article>

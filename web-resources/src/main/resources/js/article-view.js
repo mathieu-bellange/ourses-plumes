@@ -198,7 +198,6 @@ function processArticle(article) {
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
 	displayRelatedArticle(article.id);
-	$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 }
 
 function processRelatedArticles(articles) {

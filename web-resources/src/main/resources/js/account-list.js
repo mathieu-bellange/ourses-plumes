@@ -70,7 +70,6 @@ function getAccount() {
 		success : function(accounts, status, jqxhr) {
 			$("main > header").after(file_pool.account_list_tmpl(accounts)).after(lb(1)); // process template
 			loap.update(); // update main module
-			$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);

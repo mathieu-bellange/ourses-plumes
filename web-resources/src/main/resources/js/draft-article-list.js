@@ -539,7 +539,6 @@ function displayArticles(url_params) {
 function processArticles(articles) {
 	// insert articles list template
 	$(".tool-bar").after(file_pool.article_list_tmpl(articles)).after(lb(1));
-	$(document).foundation("tooltip"); // TEMP : reload Foundation tooltip plugin for whole document
 	// bind live events
 	$("html").on("mouseenter", ".over-block", function() {
 		$(this).find(".validate").show();
@@ -585,7 +584,6 @@ function processAfterValidation(article) {
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
-	$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 }
 
 function processAfterInValidation(article) {
@@ -598,7 +596,6 @@ function processAfterInValidation(article) {
 	$("#articles_draft li:first .validate button[data-delete]").click(function() {
 		confirmDelete($(this).attr("data-delete"));
 	});
-	$(document).foundation("tooltip"); // TEMP : reload Foundation toolip plugin for whole document
 }
 
 function processAfterPublish(article) {
@@ -612,7 +609,6 @@ function processAfterPublish(article) {
 			$(this).prev().find(".validate button[data-recall]").click(function() {
 				recallArticle($(this).attr("data-recall"));
 			});
-			$(document).foundation("tooltip"); // TEMP : reload Foundation tooltip plugin for whole document
 			return false
 		}
 	});

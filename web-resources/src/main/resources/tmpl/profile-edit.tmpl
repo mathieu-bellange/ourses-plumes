@@ -1,14 +1,14 @@
 ﻿				<!--User Profile-->
 				<section id="user-update-profile">
 					<!--First Row-->
-					<div class="row panel radius user-profile">
+					<div class="row collapse panel radius user-profile">
 						<!--First Column-->
 						<div class="column small-24 medium-10 large-8 text-center">
 							<!--User picture-->
-							<div style="display: inline-block; width: 256px; max-width: 100%;">
+							<div>
 								<div class="user-picture">
-									<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round red tip-top" title="Supprimer l&rsquo;image utilisatrice" style="display: none;" data-tooltip><span class="text hide">Supprimer</span></a>
-									<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height tip-top" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-tooltip data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
+									<a href="javascript:void(0)" id="delete_avatar" class="icon-remove round red" title="Supprimer l&rsquo;image utilisatrice" style="display: none;"><span class="text hide">Supprimer</span></a>
+									<a href="javascript:void(0)" id="avatar" class="picture large cover radius max-height" title="Faites glisser et d&eacute;posez votre image&thinsp;!" data-image="{{= data.avatar.path }}">{{= data.pseudo }}</a>
 								</div>
 								<input type="file" style="display: none;">
 								<div class="progress radius" style="display: none;">
@@ -20,7 +20,7 @@
 						<div class="column small-24 medium-14 large-16">
 							<div class="clearfix" style="position: relative;">
 								<!--Pseudo-->
-								<input id="pseudo" class="user-name validation disable tip-top" type="text" value="{{= data.pseudo }}" maxlength="24" title="Votre nom d&rsquo;utilisatrice" placeholder="Nom d&rsquo;utilistratice" data-tooltip>
+								<input id="pseudo" class="user-name validation disable" type="text" value="{{= data.pseudo }}" maxlength="24" title="Votre nom d&rsquo;utilisatrice" placeholder="Nom d&rsquo;utilistratice">
 								<small class="error hide">Le nom d&rsquo;utilisatrice doit obligatoirement &ecirc;tre renseign&eacute;</small>
 								<!--Role-->
 								<h4 id="role" class="user-role" style="display: none;"></h4>
@@ -31,12 +31,12 @@
 								<input class="left" type="text" placeholder="L&rsquo;URL de votre lien">
 							</div>
 							<ul id="user_links_icons" class="inline-list">
-								<li><a href="javascript:void(0)" class="icon-mail tip-top" title="Adresse mail" data-tooltip data-id="0"><span class="hide">Mail</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-link tip-top" title="Blog ou page perso" data-tooltip data-id="1" data-url-prefix="http://"><span class="hide">Lien perso</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-twitter tip-top" title="Compte Twitter" data-tooltip data-id="2" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-facebook tip-top" title="Compte Facebook" data-tooltip data-id="3" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-googleplus tip-top" title="Page Google+" data-tooltip data-id="4" data-url-prefix="https://plus.google.com/"><span class="hide">GooglePlus</span></a></li>
-								<li><a href="javascript:void(0)" class="icon-linkedin tip-top" title="Profil LinkedIn" data-tooltip data-id="5" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-mail" title="Adresse mail" data-id="0"><span class="hide">Mail</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-link" title="Blog ou page perso" data-id="1" data-url-prefix="http://"><span class="hide">Lien perso</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-twitter" title="Compte Twitter" data-id="2" data-url-prefix="https://www.twitter.com/"><span class="hide">Twitter</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-facebook" title="Compte Facebook" data-id="3" data-url-prefix="https://www.facebook.com/"><span class="hide">Facebook</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-googleplus" title="Page Google+" data-id="4" data-url-prefix="https://plus.google.com/"><span class="hide">GooglePlus</span></a></li>
+								<li><a href="javascript:void(0)" class="icon-linkedin" title="Profil LinkedIn" data-id="5" data-url-prefix="https://www.linkedin.com/"><span class="hide">LinkedIn</span></a></li>
 							</ul>
 							<!--Description-->
 							<textarea id="description" class="user-desc min disable" maxlength="1000" placeholder="Votre description (1000 caract&egrave;res maximum)">{{= data.description === null ? "" : data.description }}</textarea>

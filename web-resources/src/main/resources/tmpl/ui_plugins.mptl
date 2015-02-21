@@ -17,12 +17,14 @@
 <!--Confirmation Bar-->
 {{% confirmation_bar_tmpl }}
 					<div class="confirmation-bar clearfix">
-						<ul class="left inline-list no-bullet text-tiny hide-for-touch" style="width: 75%; margin-top: .5rem;">
+						{{? isComputer() }}
+						<ul class="left inline-list no-bullet text-tiny hide-for-touch hide-for-small" style="width: 75%; margin-top: .5rem;">
 							<li><kbd>Enter</kbd> Nouveau paragraphe</li>
 							<li><kbd>Shift+Enter</kbd> Retour &agrave; la ligne</li>
 							<li><kbd>Ctrl+Enter</kbd> Valider</li>
 							<li><kbd>Esc</kbd> Annuler</li>
 						</ul>
+						{{?}}
 						<div class="right text-right" style="width: 25%;">
 							<a class="icon-confirm small" title="Valider" data-confirm><span class="hide">Valider</span></a>
 							<a class="icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></a>

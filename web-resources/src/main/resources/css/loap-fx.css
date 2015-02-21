@@ -166,17 +166,6 @@
           box-shadow: 0 0 .5rem .125rem rgba(255, 32, 192, 0.5);
 }
 
-/* Orbit Slider */
-.css-fx .orbit-slides-container li {box-shadow: 0 .5rem .25rem -0.25rem rgba(0, 0, 0, .25);} 
-.css-fx .orbit-slides-container blockquote,
-.css-fx .orbit-slides-container h1,
-.css-fx .orbit-slides-container h2,
-.css-fx .orbit-slides-container h3 {text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);}
-.css-fx .orbit-slides-container cite,
-.css-fx .orbit-slides-container h4,
-.css-fx .orbit-slides-container h5,
-.css-fx .orbit-slides-container h6 {text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);}
-
 /* Articles List */
 .article-list.draft .href-block {
   -webkit-transition: background-color .5s ease-out;
@@ -215,59 +204,70 @@
 .css-fx button,
 .css-fx .button,
 .css-fx .site-nav,
-.css-fx .orbit-slides-container li:not(.black),
 .css-fx .user-profile {background-image: url('../img/ui/ui-noise.png');}
 .css-fx .nav-pane {background-image: url('../img/ui/ui-noise.png'), url('../img/ui/pattern-meshes.png');}
 
-/* Ribbons Effect */
-.css-fx .orbit-container,
-.css-fx .site-nav {
-  position: relative;
-  width: 100%;
-  left: 0;
+/* Orbit */
+@media (min-width: 800px) {
+  .css-fx .orbit-container,
+  .css-fx .site-nav {
+    position: relative;
+    width: 100%;
+    left: 0;
+  }
+  .css-fx .orbit-container li:before,
+  .css-fx .orbit-container li:after,
+  .css-fx .site-nav ul:before,
+  .css-fx .site-nav ul:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    background-image: url('../img/ui/ui-carousel.png');
+    background-repeat: no-repeat;
+  }
+  .css-fx .orbit-slides-container li:not(.black) {background-image: url('../img/ui/ui-noise.png');}
+  .css-fx .orbit-container li:before,
+  .css-fx .orbit-container li:after {top: 100%; height: 100%;}
+  .css-fx .site-nav ul:before,
+  .css-fx .site-nav ul:after {bottom: 100%; margin-bottom: .125rem;}
+  .css-fx .orbit-container li:before,
+  .css-fx .site-nav ul:before {left: 0;}
+  .css-fx .orbit-container li:after,
+  .css-fx .site-nav ul:after {right: 0;}
+  .css-fx .orbit-container li:before {background-position: 0 0;}
+  .css-fx .orbit-container li:after {background-position: right 0;}
+  .css-fx .orbit-container .black:before {background-position: 0 -24px;}
+  .css-fx .orbit-container .black:after {background-position: right -24px;}
+  .css-fx .orbit-container .red:before {background-position: 0 -48px;}
+  .css-fx .orbit-container .red:after {background-position: right -48px;}
+  .css-fx .orbit-container .orange:before {background-position: 0 -72px;}
+  .css-fx .orbit-container .orange:after {background-position: right -72px;}
+  .css-fx .orbit-container .yellow:before {background-position: 0 -96px;}
+  .css-fx .orbit-container .yellow:after {background-position: right -96px;}
+  .css-fx .orbit-container .green:before {background-position: 0 -120px;}
+  .css-fx .orbit-container .green:after {background-position: right -120px;}
+  .css-fx .orbit-container .cyan:before {background-position: 0 -144px;}
+  .css-fx .orbit-container .cyan:after {background-position: right -144px;}
+  .css-fx .orbit-container .blue:before {background-position: 0 -168px;}
+  .css-fx .orbit-container .blue:after {background-position: right -168px;}
+  .css-fx .orbit-container .purple:before {background-position: 0 -192px;}
+  .css-fx .orbit-container .purple:after {background-position: right -192px;}
+  .css-fx .orbit-container .magenta:before {background-position: 0 -216px;}
+  .css-fx .orbit-container .magenta:after {background-position: right -216px;}
+  .css-fx .site-nav ul:before {background-position: 0 -240px;}
+  .css-fx .site-nav ul:after {background-position: right -240px;}
+  .css-fx .orbit-slides-container li {box-shadow: 0 .5rem .25rem -0.25rem rgba(0, 0, 0, .25);} 
+  .css-fx .orbit-slides-container blockquote,
+  .css-fx .orbit-slides-container h1,
+  .css-fx .orbit-slides-container h2,
+  .css-fx .orbit-slides-container h3 {text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);}
+  .css-fx .orbit-slides-container cite,
+  .css-fx .orbit-slides-container h4,
+  .css-fx .orbit-slides-container h5,
+  .css-fx .orbit-slides-container h6 {text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);}
 }
-.css-fx .orbit-container li:before,
-.css-fx .orbit-container li:after,
-.css-fx .site-nav ul:before,
-.css-fx .site-nav ul:after {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 0;
-  height: 0;
-  background-image: url('../img/ui/ui-carousel.png');
-  background-repeat: no-repeat;
-}
-.css-fx .orbit-container li:before,
-.css-fx .orbit-container li:after {top: 100%; height: 100%;}
-.css-fx .site-nav ul:before,
-.css-fx .site-nav ul:after {bottom: 100%; margin-bottom: .125rem;}
-.css-fx .orbit-container li:before,
-.css-fx .site-nav ul:before {left: 0;}
-.css-fx .orbit-container li:after,
-.css-fx .site-nav ul:after {right: 0;}
-.css-fx .orbit-container li:before {background-position: 0 0;}
-.css-fx .orbit-container li:after {background-position: right 0;}
-.css-fx .orbit-container .black:before {background-position: 0 -24px;}
-.css-fx .orbit-container .black:after {background-position: right -24px;}
-.css-fx .orbit-container .red:before {background-position: 0 -48px;}
-.css-fx .orbit-container .red:after {background-position: right -48px;}
-.css-fx .orbit-container .orange:before {background-position: 0 -72px;}
-.css-fx .orbit-container .orange:after {background-position: right -72px;}
-.css-fx .orbit-container .yellow:before {background-position: 0 -96px;}
-.css-fx .orbit-container .yellow:after {background-position: right -96px;}
-.css-fx .orbit-container .green:before {background-position: 0 -120px;}
-.css-fx .orbit-container .green:after {background-position: right -120px;}
-.css-fx .orbit-container .cyan:before {background-position: 0 -144px;}
-.css-fx .orbit-container .cyan:after {background-position: right -144px;}
-.css-fx .orbit-container .blue:before {background-position: 0 -168px;}
-.css-fx .orbit-container .blue:after {background-position: right -168px;}
-.css-fx .orbit-container .purple:before {background-position: 0 -192px;}
-.css-fx .orbit-container .purple:after {background-position: right -192px;}
-.css-fx .orbit-container .magenta:before {background-position: 0 -216px;}
-.css-fx .orbit-container .magenta:after {background-position: right -216px;}
-.css-fx .site-nav ul:before {background-position: 0 -240px;}
-.css-fx .site-nav ul:after {background-position: right -240px;}
 
 /* Responsive Ribbons Effect */
 @media (min-width: 1120px) { /* Left and Right Ribbons */

@@ -499,8 +499,8 @@
 							</p>
 							<a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
 							<p class="validate">
-								<button class="icon-reply success tiny tip-left" title="Valider" data-validate="0" data-tooltip></button>
-								<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="0" data-tooltip></button>
+								<button class="icon-reply success tiny" title="Valider" data-validate="0"></button>
+								<button class="icon-remove alert tiny" title="Supprimer" data-delete="0"></button>
 							</p>
 						</div>
 					</li>
@@ -517,7 +517,7 @@
 							</p>
 							<a href="javascript:void(0)" class="over" style="cursor: default;"></a>
 							<p class="validate">
-								<button class="icon-remove alert tiny tip-left" title="Supprimer" data-delete="0" data-tooltip></button>
+								<button class="icon-remove alert tiny" title="Supprimer" data-delete="0"></button>
 							</p>
 						</div>
 					</li>
@@ -537,8 +537,8 @@
 							</p>
 							<a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
 							<p class="validate">
-								<button class="icon-confirm success tiny tip-left" title="Publier" data-publish="0" data-tooltip></button>
-								<button class="icon-cancel alert tiny tip-left" title="Renvoyer" data-invalidate="0" data-tooltip></button>
+								<button class="icon-confirm success tiny" title="Publier" data-publish="0"></button>
+								<button class="icon-cancel alert tiny" title="Renvoyer" data-invalidate="0"></button>
 							</p>
 						</div>
 					</li>
@@ -558,7 +558,7 @@
 							</p>
 							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 							<p class="validate">
-								<button class="icon-reply alert tiny tip-left" title="Rappeler" data-recall="0" data-tooltip></button>
+								<button class="icon-reply alert tiny" title="Rappeler" data-recall="0"></button>
 							</p>
 						</div>
 					</li>
@@ -620,36 +620,6 @@
 						</div>
 					</li>
 				</ul>
-
-				<!--Draft confirm delete modal-->
-				<div id="delete_draft_modal" class="reveal-modal small-modal text-center" data-reveal>
-					<p class="panel radius">&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?</p>
-					<button class="success icon-confirm small" style="margin-bottom: 0;"></button>
-					<button class="alert icon-cancel small"></button>
-				</div>
-				<script>
-					// List events
-					$("button[data-delete]").click(function() {
-						var id = $(this).attr("data-delete");
-						// check id validity
-						if (typeof(id) !== "undefined" && id > 0) {
-							// pass id to modal
-							$("#delete_draft_modal").find("button.success").attr("data-delete", id);
-							// show modal
-							$("#delete_draft_modal").foundation("reveal", "open");
-						}
-					});
-					// Modal events
-					$("#delete_draft_modal").on("click", "button", function() {
-						if ($(this).attr("data-delete")) {
-							alert("draft " + $(this).attr("data-delete") + " deleted"); // DEBUG
-						}
-						$(this).foundation("reveal", "close");
-					});
-					$(document).on("opened", "#delete_draft_modal", function() {
-						$("#delete_draft_modal button.success").focus();
-					});
-				</script>
 
 				<!------------------------------------------------------------->
 				<!--| Standbys |-->

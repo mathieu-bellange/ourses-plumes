@@ -13,7 +13,7 @@
 						<tbody>
 						{{~ data :account }}
 							<tr data-account-id="{{= account.id }}">
-								<td><a href="{{= account.profile.path }}" class="icon-show tip-right" title="Voir le profil" data-tooltip><span class="text hide">Voir</span></a></td>
+								<td><a href="{{= account.profile.path }}" class="icon-show" title="Voir le profil"><span class="text hide">Voir</span></a></td>
 								<td>{{= account.profile.pseudo }}</td>
 								<td><a href="mailto:{{= account.mail }}">{{= account.mail }}</a></td>
 								<td>
