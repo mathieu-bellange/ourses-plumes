@@ -57,7 +57,8 @@ $auth = {
 	"user_role"          : "oursesUserRole",                      // String   Cookie key of the user role. Default : "oursesUserRole"
 	"account_id"         : "oursesAccountId",                     // Long     Local storage key of the user account id. Default : "oursesAccountId"
 	"profile_id"         : "oursesProfileId",                     // Long     Local storage key of the user profile id. Default : "oursesProfileId"
-	"avatar_path"        : "oursesAvatarPath"                     // String   Cookie key of the avatar path. Default : "oursesAvatarPath"
+	"avatar_path"        : "oursesAvatarPath",                    // String   Cookie key of the avatar path. Default : "oursesAvatarPath"
+	"remember_me"        : "oursesRememberMe"                     // boolean  Cookie key of the remember me. Default : "oursesRememberMe"
 };
 
 /* Build */

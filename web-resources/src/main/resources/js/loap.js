@@ -1964,29 +1964,37 @@ $(document).on("keydown", "[tabindex]", function(e) {
 
 var UserSession = (function(){
 	
+	var is_user_remembered = docCookies.getItem($auth.remember_me) === "true";
 	var is_client_connected = docCookies.hasItem($auth.is_authenticated);
-	var user_account_id = localStorage.getItem($auth.account_id);
+	var user_account_id = is_user_remembered ? localStorage.getItem($auth.account_id) : sessionStorage.getItem($auth.account_id);
 	var user_account_role = docCookies.getItem($auth.user_role);
-	var user_token = localStorage.getItem($auth.token);
+	var user_token = is_user_remembered  ? localStorage.getItem($auth.token) : sessionStorage.getItem($auth.token);
 	var user_token_id = docCookies.getItem($auth.token_id);
-	var user_profile_id = localStorage.getItem($auth.profile_id);
+	var user_profile_id = is_user_remembered ? localStorage.getItem($auth.profile_id) : sessionStorage.getItem($auth.profile_id);
 	var user_profile_pseudo = docCookies.getItem($auth.user_name);
 	var user_profile_avatar = docCookies.getItem($auth.avatar_path);
 	
-	var persist_user_session = function(authcUser){
-		//TODO remember me
+	var persist_user_session = function(authcUser, rememberMe){
+		delete_user_session();
 		//persist sur une journée
-		var tomorrow = new Date();
-		tomorrow.setDate(tomorrow.getDate() + 1);
-		docCookies.setItem($auth.is_authenticated,true,tomorrow, "/");
-		docCookies.setItem($auth.user_role, authcUser.role,tomorrow, "/");
-		docCookies.setItem($auth.user_name, authcUser.pseudo,tomorrow, "/");
-		docCookies.setItem($auth.token_id, authcUser.tokenId,tomorrow, "/");
-		docCookies.setItem($auth.avatar_path, authcUser.avatar,tomorrow, "/");
-		// données sensibles restent dans le local storage
-		localStorage.setItem($auth.account_id, authcUser.accountId);
-		localStorage.setItem($auth.profile_id, authcUser.profileId);
-		localStorage.setItem($auth.token, authcUser.token);
+		var expirationDate = rememberMe ? new Date() : 0;
+		if (rememberMe){
+			expirationDate.setDate(expirationDate.getDate() + 1);
+			// données sensibles restent dans le local storage
+			localStorage.setItem($auth.account_id, authcUser.accountId);
+			localStorage.setItem($auth.profile_id, authcUser.profileId);
+			localStorage.setItem($auth.token, authcUser.token);
+		}else{
+			sessionStorage.setItem($auth.account_id, authcUser.accountId);
+			sessionStorage.setItem($auth.profile_id, authcUser.profileId);
+			sessionStorage.setItem($auth.token, authcUser.token);
+		}
+		docCookies.setItem($auth.is_authenticated,true,expirationDate, "/");
+		docCookies.setItem($auth.user_role, authcUser.role,expirationDate, "/");
+		docCookies.setItem($auth.user_name, authcUser.pseudo,expirationDate, "/");
+		docCookies.setItem($auth.token_id, authcUser.tokenId,expirationDate, "/");
+		docCookies.setItem($auth.avatar_path, authcUser.avatar,expirationDate, "/");
+		docCookies.setItem($auth.remember_me,rememberMe,expirationDate,"/");
 	}
 	
 	var delete_user_session = function(){
@@ -1995,9 +2003,16 @@ var UserSession = (function(){
 		docCookies.removeItem($auth.user_name, "/");
 		docCookies.removeItem($auth.token_id, "/");
 		docCookies.removeItem($auth.avatar_path, "/");
-		localStorage.removeItem($auth.account_id);
-		localStorage.removeItem($auth.profile_id);
-		localStorage.removeItem($auth.token);
+		if (is_user_remembered){
+			localStorage.removeItem($auth.account_id);
+			localStorage.removeItem($auth.profile_id);
+			localStorage.removeItem($auth.token);
+		}else{
+			sessionStorage.removeItem($auth.account_id);
+			sessionStorage.removeItem($auth.profile_id);
+			sessionStorage.removeItem($auth.token);
+		}
+		is_user_remembered = false;
 		is_client_connected = false;
 		user_account_id = null;
 		user_account_role = null;
@@ -2009,15 +2024,19 @@ var UserSession = (function(){
 	}
 	
 	var update_user_pseudo = function(pseudo){
-		var tomorrow = new Date();
-		tomorrow.setDate(tomorrow.getDate() + 1);
+		var tomorrow = is_user_remembered ? new Date() : 0;
+		if(is_user_remembered){
+			tomorrow.setDate(tomorrow.getDate() + 1);			
+		}
 		docCookies.setItem($auth.user_name, pseudo,tomorrow,"/");
 		user_profile_pseudo = docCookies.getItem($auth.user_name);
 	}
 	
 	var update_user_avatar = function(avatar){
-		var tomorrow = new Date();
-		tomorrow.setDate(tomorrow.getDate() + 1);
+		var tomorrow = is_user_remembered ? new Date() : 0;
+		if(is_user_remembered){
+			tomorrow.setDate(tomorrow.getDate() + 1);			
+		}
 		docCookies.setItem($auth.avatar_path, pathAvatar,tomorrow,"/");
 		user_profile_avatar = docCookies.getItem($auth.avatar_path);
 	}
@@ -2026,8 +2045,8 @@ var UserSession = (function(){
 		isConnected : function(){
 			return is_client_connected;
 		},
-		save : function(authcUser){
-			persist_user_session(authcUser);
+		save : function(authcUser, rememberMe){
+			persist_user_session(authcUser, rememberMe);
 		},
 		delete : function(){
 			delete_user_session();

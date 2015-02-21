@@ -47,7 +47,7 @@ function connection(){
 		contentType : "application/json; charset=utf-8",
 		data : authc.json(),
 		success : function(authcUser, textStatus, jqXHR) {
-			UserSession.save(authcUser);
+			UserSession.save(authcUser,$("#remember_me").is(':checked'));
 			var redirection = window.location.search.replace($conf.redir_param, "");
 			if (redirection != "") {
 				window.location.href = redirection;
