@@ -583,8 +583,8 @@ function processArticles(articles) {
 
 function processAfterValidation(article) {
 	$("#articles_standby").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
-	$("#articles_standby li:first").svg_icons(); // NEW : refresh svg icons for newly created article item
-	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
+	$("#articles_standby li:first").svg_icons(); // refresh svg icons for newly created article item
+	$("#articles_standby li:first").fadeIn(article_list_cfg.fade_duration); // show article
 	$("#articles_standby li:first .validate button[data-invalidate]").click(function() {
 		inValidateArticle($(this).attr("data-invalidate"));
 	});
@@ -592,8 +592,12 @@ function processAfterValidation(article) {
 
 function processAfterInValidation(article) {
 	$("#articles_draft").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1));
-	$("#articles_draft li:first").svg_icons(); // NEW : refresh svg icons for newly created article item
-	$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // NEW : show article
+	$("#articles_draft li:first").svg_icons(); // refresh svg icons for newly created article item
+	var o = $("#articles_draft li:first"), p = $prefs.articles_filters;
+	if ((o.hasClass("owner") && get_pref(p, "owner_drafts") == "true")
+	 || (o.hasClass("other") && get_pref(p, "other_drafts") == "true")) {
+		$("#articles_draft li:first").fadeIn(article_list_cfg.fade_duration); // show article
+	}
 	$("#articles_draft li:first .validate button[data-validate]").click(function() {
 		validateArticle($(this).attr("data-validate"));
 	});
@@ -608,8 +612,8 @@ function processAfterPublish(article) {
 		var date = new Date(parseInt($(this).attr("data-published"), 10));
 		if (date < article.publishedDate){
 			$(this).before(file_pool.article_item_tmpl(article)).prepend(lb(1));
-			$(this).prev().svg_icons(); // NEW : refresh svg icons for newly created article item
-			$(this).prev().fadeIn(article_list_cfg.fade_duration); // NEW : show article
+			$(this).prev().svg_icons(); // refresh svg icons for newly created article item
+			$(this).prev().fadeIn(article_list_cfg.fade_duration); // show article
 			$(this).prev().find(".validate button[data-recall]").click(function() {
 				recallArticle($(this).attr("data-recall"));
 			});
@@ -619,7 +623,7 @@ function processAfterPublish(article) {
 }
 
 function processAfterRecall(article) {
-	processAfterValidation(article); //mêmes étapes qu'une validation
+	processAfterValidation(article); // mêmes étapes qu'une validation
 }
 
 /* ------------------------------------------------------------------ */
