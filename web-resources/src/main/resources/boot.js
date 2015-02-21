@@ -29,6 +29,7 @@ var isLocalHost = (function() {
 $org = {
 	"name"               : "Les Ourses à plumes",                 // String   Organization name.
 	"mail"               : "mailto:oursesaplumes@gmail.com",      // String   Organization mail.
+	"spam"               : "mailto:spam@noaned.bzh",              // String   Organization spam.
 	"domain"             : "http://www.ourses-plumes.org/",       // String   Organization domain.
 	"newsletter"         : null,                                  // String   Organization newsletter.
 	"mailinglist"        : null,                                  // String   Organization mailinglist.

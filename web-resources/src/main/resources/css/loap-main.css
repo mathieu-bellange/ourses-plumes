@@ -1687,18 +1687,11 @@ a.close {
 .legal-nav > ul > li > a,
 .legal-nav > ul > li > a:link,
 .legal-nav > ul > li > a:visited {
-  color: dimgray;
   font-weight: bold;
-  text-decoration: none;
-  border-bottom: .0625rem solid lightgrey;
 }
 .legal-nav > ul > li > a:hover,
 .legal-nav > ul > li > a:focus,
-.legal-nav > ul > li > a:active {
-  color: #444;
-  border-bottom-style: dotted;
-  border-bottom-color: darkgray;
-}
+.legal-nav > ul > li > a:active {}
 .legal-nav > ul > li + li {
   margin-left: .0625rem;
 }
