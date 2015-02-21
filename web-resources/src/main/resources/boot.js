@@ -28,7 +28,7 @@ var isLocalHost = (function() {
 /* Organization */
 $org = {
 	"name"               : "Les Ourses à plumes",                 // String   Organization name.
-	"mail"               : "mailto:oursesaplumes@gmail.com",      // String   Organization mail.
+	"mail"               : "oursesaplumes at gmail dot com",      // String   Organization mail (unbound -- Google Bot can actually parse JS [or so they say]).
 	"spam"               : "mailto:spam@noaned.bzh",              // String   Organization spam.
 	"domain"             : "http://www.ourses-plumes.org/",       // String   Organization domain.
 	"newsletter"         : null,                                  // String   Organization newsletter.
@@ -407,7 +407,6 @@ function b_html(array) { // Build HTML Elements
 	return str;
 }
 
-//TODO delete
 function load(script) { // Define Postbuild Processing
 	if (typeof script !== "undefined") {
 		if (typeof script == "string") {

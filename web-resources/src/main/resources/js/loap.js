@@ -56,19 +56,47 @@ String.prototype.format = function(l, p) {
 	return s;
 };
 
-/* Encode string to UTF-8 * UNUSED (for now ...) */
-/*
+/* Encode string to UTF-8 */
 String.prototype.encode = function() {
 	return unescape(encodeURIComponent(this));
 };
-*/
 
-/* Decode string from UTF-8 * UNUSED (for now ...) */
-/*
+/* Decode string from UTF-8 */
 String.prototype.decode = function() {
 	return decodeURIComponent(escape(this));
 };
-*/
+
+/* Unbind email address
+ * Replace separators from a valid email address by whitespaced strings.
+ * "gizmo@mogwai.ch".unbind_email() returns "gizmo at mogwai dot ch"
+ */
+String.prototype.unbind_postmail = function() {
+	return this.replace(/@/g, " at ").replace(/\./g, " dot ");
+};
+
+/* Rebind email address
+ * Replace whitespaced strings from an unbound email address by valid separators.
+ * "gizmo at mogwai dot ch".rebind_email() returns "gizmo@mogwai.ch"
+ */
+String.prototype.rebind_postmail = function() {
+	return this.replace(/ at /g, "@").replace(/ dot /g, ".");
+};
+
+/* Get postmaster (from an email address)
+ * Returns a valid email address local part.
+ * "gizmo@mogwai.ch".get_postmaster() returns "gizmo"
+ */
+String.prototype.get_postmaster = function() {
+	return this.split("@")[0];
+};
+
+/* Get postdomain (from an email address)
+ * Returns a valid email address domain part.
+ * "gizmo@mogwai.ch".get_postdomain() returns "mogwai.ch"
+ */
+String.prototype.get_postdomain = function() {
+	return this.split("@")[1];
+};
 
 /* String to Document Root EM unit
  * Convert pixel string or numeric to root EM float.
@@ -1238,11 +1266,11 @@ var user_menu = (function() {
 			}
 			// events
 			$("html").on("click", cfg.trigger, function() {
-				if (UserSession.isConnected()){
+				if (UserSession.isConnected()) {
 					 set_user_connected(true); // connect user
 					 $(cfg.trigger).data("connected", true);
 					 $(cfg.target).data("open") ? close_menu(cfg.target) : open_menu(cfg.target); // show menu
-				}else{
+				} else {
 					window.location.href = $nav.login.url; // redirect to the login page
 				}
 				////////////////////////////////////////////////////////////////
@@ -1345,6 +1373,12 @@ var faq_ui = (function() {
 				var name = icon.attr(link) == "#icon-" + cfg.icon_on ? cfg.icon_off : cfg.icon_on; // define on/off
 				icon.attr(link, "#icon-" + name); // set icon on/off
 			}
+			function turn_icon(obj, tog) {
+				var toggle = tog || false;
+				var icon = obj.find(cfg.icon + " > svg > use"), link = "xlink:href";
+				var name = tog ? cfg.icon_on : cfg.icon_off; // define on/off
+				icon.attr(link, "#icon-" + name); // set icon on/off
+			}
 			// Live Events
 			$(document).on("click", cfg.trigger, function() {
 				var bar = $(this);
@@ -1355,15 +1389,15 @@ var faq_ui = (function() {
 						var other = bar.siblings();
 						other.removeClass("active");
 						self.close(other.next(cfg.target), null, function() {
-							toggle_icon(other);
+							turn_icon(other);
 						});
 					}
 					self.open(foo, null, function() {
-						toggle_icon(bar);
+						turn_icon(bar, true);
 					});
 				} else {
 					self.close(foo, null, function() {
-						toggle_icon(bar);
+						turn_icon(bar);
 					});
 				}
 			});
@@ -1621,7 +1655,7 @@ function disconnect(str) {
 		success : function(data, status, jqXHR) {
 			clearStorage();
 			UserSession.delete();
-			if(location.protocol == "https:"){
+			if (location.protocol == "https:") {
 				location.href = $nav.home.url;
 			}
 			if (str !== null) {
@@ -1636,7 +1670,7 @@ function disconnect(str) {
 
 /* Check user connected through AJAX (deferred to document ready state) */
 function check_user_connected() {
-	if (checkCompatibility()){
+	if (checkCompatibility()) {
 		set_user_connected(UserSession.isConnected()); // connect user
 		$(".user-connect").fadeIn($conf.js_fx ? 500 : 0);
 	}
@@ -1646,7 +1680,7 @@ function check_user_connected() {
  * NOTE : connected auth check has been deferred to ready state.
  */
 function set_user_connected(is_connected) {
-	if(checkCompatibility()){
+	if (checkCompatibility()) {
 		var is_connected = is_connected || false, sel = "#user_connect";
 		if (is_connected) {
 			$(sel + " svg use").attr("xlink:href", "#icon-menu");
@@ -1883,8 +1917,8 @@ Window.prototype.checkCompatibility = function() {
 	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
 }
 
-function compatibilityWarning(){
-	if (!checkCompatibility()){
+function compatibilityWarning() {
+	if (!checkCompatibility()) {
 		$("body").create_compatibility_warning_box();
 	}
 }
@@ -1965,11 +1999,24 @@ $(document).on("keydown", "[tabindex]", function(e) {
 });
 
 /* ------------------------------------------------------------------ */
+/* # Post Mailing */
+/* ------------------------------------------------------------------ */
+
+/*
+ * NOTE
+ * This live event simply redirects an unbound email address contained 
+ * in postmail data-attribute toward a valid email address using mailto.
+ */
+$(document).on("click", "[data-postmail]", function() {
+	document.location.href = "mailto:" + $(this).attr("data-postmail").rebind_postmail();
+});
+
+/* ------------------------------------------------------------------ */
 /* # User Session */
 /* ------------------------------------------------------------------ */
 
-var UserSession = (function(){
-	
+var UserSession = (function() {
+
 	var is_user_remembered = docCookies.getItem($auth.remember_me) === "true";
 	var is_client_connected = docCookies.hasItem($auth.is_authenticated);
 	var user_account_id = is_user_remembered ? localStorage.getItem($auth.account_id) : sessionStorage.getItem($auth.account_id);
@@ -1979,18 +2026,18 @@ var UserSession = (function(){
 	var user_profile_id = is_user_remembered ? localStorage.getItem($auth.profile_id) : sessionStorage.getItem($auth.profile_id);
 	var user_profile_pseudo = docCookies.getItem($auth.user_name);
 	var user_profile_avatar = docCookies.getItem($auth.avatar_path);
-	
-	var persist_user_session = function(authcUser, rememberMe){
+
+	var persist_user_session = function(authcUser, rememberMe) {
 		delete_user_session();
-		//persist sur une journée
+		// persiste sur une journée
 		var expirationDate = rememberMe ? new Date() : 0;
-		if (rememberMe){
+		if (rememberMe) {
 			expirationDate.setDate(expirationDate.getDate() + 1);
 			// données sensibles restent dans le local storage
 			localStorage.setItem($auth.account_id, authcUser.accountId);
 			localStorage.setItem($auth.profile_id, authcUser.profileId);
 			localStorage.setItem($auth.token, authcUser.token);
-		}else{
+		} else {
 			sessionStorage.setItem($auth.account_id, authcUser.accountId);
 			sessionStorage.setItem($auth.profile_id, authcUser.profileId);
 			sessionStorage.setItem($auth.token, authcUser.token);
@@ -2002,18 +2049,18 @@ var UserSession = (function(){
 		docCookies.setItem($auth.avatar_path, authcUser.avatar,expirationDate, "/");
 		docCookies.setItem($auth.remember_me,rememberMe,expirationDate,"/");
 	}
-	
-	var delete_user_session = function(){
+
+	var delete_user_session = function() {
 		docCookies.removeItem($auth.is_authenticated, "/");
 		docCookies.removeItem($auth.user_role, "/");
 		docCookies.removeItem($auth.user_name, "/");
 		docCookies.removeItem($auth.token_id, "/");
 		docCookies.removeItem($auth.avatar_path, "/");
-		if (is_user_remembered){
+		if (is_user_remembered) {
 			localStorage.removeItem($auth.account_id);
 			localStorage.removeItem($auth.profile_id);
 			localStorage.removeItem($auth.token);
-		}else{
+		} else {
 			sessionStorage.removeItem($auth.account_id);
 			sessionStorage.removeItem($auth.profile_id);
 			sessionStorage.removeItem($auth.token);
@@ -2028,60 +2075,60 @@ var UserSession = (function(){
 		user_profile_pseudo = null;
 		user_profile_avatar = null;
 	}
-	
-	var update_user_pseudo = function(pseudo){
+
+	var update_user_pseudo = function(pseudo) {
 		var tomorrow = is_user_remembered ? new Date() : 0;
-		if(is_user_remembered){
-			tomorrow.setDate(tomorrow.getDate() + 1);			
+		if (is_user_remembered) {
+			tomorrow.setDate(tomorrow.getDate() + 1);
 		}
-		docCookies.setItem($auth.user_name, pseudo,tomorrow,"/");
+		docCookies.setItem($auth.user_name, pseudo, tomorrow, "/");
 		user_profile_pseudo = docCookies.getItem($auth.user_name);
 	}
-	
-	var update_user_avatar = function(avatar){
+
+	var update_user_avatar = function(avatar) {
 		var tomorrow = is_user_remembered ? new Date() : 0;
-		if(is_user_remembered){
-			tomorrow.setDate(tomorrow.getDate() + 1);			
+		if (is_user_remembered) {
+			tomorrow.setDate(tomorrow.getDate() + 1);
 		}
-		docCookies.setItem($auth.avatar_path, pathAvatar,tomorrow,"/");
+		docCookies.setItem($auth.avatar_path, pathAvatar, tomorrow, "/");
 		user_profile_avatar = docCookies.getItem($auth.avatar_path);
 	}
-	
+
 	return {
-		isConnected : function(){
+		isConnected : function() {
 			return is_client_connected;
 		},
-		save : function(authcUser, rememberMe){
+		save : function(authcUser, rememberMe) {
 			persist_user_session(authcUser, rememberMe);
 		},
-		delete : function(){
+		delete : function() {
 			delete_user_session();
 		},
-		updatePseudo : function(pseudo){
+		updatePseudo : function(pseudo) {
 			update_user_pseudo(pseudo);
 		},
-		updateAvatar : function(avatar){
+		updateAvatar : function(avatar) {
 			update_user_avatar(avatar);
 		},
-		getAccountId : function(){
+		getAccountId : function() {
 			return user_account_id;
 		},
-		getUserToken : function(){
+		getUserToken : function() {
 			return user_token;
 		},
-		getUserTokenId : function(){
+		getUserTokenId : function() {
 			return user_token_id;
 		},
-		getUserProfileId : function(){
+		getUserProfileId : function() {
 			return user_profile_id;
 		},
-		getUserPseudo : function(){
+		getUserPseudo : function() {
 			return user_profile_pseudo;
 		},
-		getUserAvatar : function(){
+		getUserAvatar : function() {
 			return user_profile_avatar;
 		},
-		getUserRole : function(){
+		getUserRole : function() {
 			return user_account_role;
 		}
 	}
@@ -2090,17 +2137,15 @@ var UserSession = (function(){
 /* ------------------------------------------------------------------ */
 /* # Ourses Security */
 /* ------------------------------------------------------------------ */
-var OursesSecurity = (function(){
-	
+
+var OursesSecurity = (function() {
 	var is_user_admin = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_admin;
-	
 	var is_user_writer = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_redac;
-	
 	return {
-		isUserAdmin : function(){
+		isUserAdmin : function() {
 			return is_user_admin;
 		},
-		isUserWriter : function(){
+		isUserWriter : function() {
 			return is_user_writer;
 		}
 	}
@@ -2112,11 +2157,6 @@ var OursesSecurity = (function(){
 
 /* Define third-party on-the-fly custom settings */
 var autosize_cfg = {append: ""};               // Autosize jQuery plugin (i.e. remove line feed)
-var f_tooltip_cfg = {                          // Foundation Tooltip component
-	"touch_close_text"  : "Appuyez pour fermer", // Translate message. Default : "Tap To Close"
-	"disable_for_touch" : true,                  // Global deactivation for touch devices. Default : false
-	"hover_delay"       : 500                    // Increase time before tooltips appear. Default : 200
-};
 var f_magellan_cfg = {                         // Foundation Magellan Sticky Nav component
 	"threshold"             : 0,                 // Pixels from the top of the expedition for it to become fixes. Default : 0
 	"destination_threshold" : 0,                 // Pixels from the top of destination for it to be considered active. Default : 20
@@ -2128,7 +2168,6 @@ var f_magellan_cfg = {                         // Foundation Magellan Sticky Nav
 $(document).ready(function() {
 	/* Apply Foundation custom config */
 	var f = Foundation.libs;
-	$.extend(f.tooltip.settings, f_tooltip_cfg, f.tooltip.settings); // Apply Foundation custom settings for tooltips
 	$.extend(f["magellan-expedition"].settings, f_magellan_cfg, f["magellan-expedition"].settings); // Apply Foundation custom settings for magellan
 
 	/* Initialize third-party plugins */

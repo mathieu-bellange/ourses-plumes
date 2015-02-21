@@ -15,7 +15,7 @@
 							<tr data-account-id="{{= account.id }}">
 								<td><a href="{{= account.profile.path }}" class="icon-show" title="Voir le profil"><span class="text hide">Voir</span></a></td>
 								<td>{{= account.profile.pseudo }}</td>
-								<td><a href="mailto:{{= account.mail }}">{{= account.mail }}</a></td>
+								<td><a href="javascript:void(0)" data-postmail="{{= account.mail.unbind_postmail() }}" title="Envoyer un courrier &eacute;lectronique">{{= account.mail.get_postmaster() }}</a></td>
 								<td>
 									{{? account.profile.pseudo == UserSession.getUserPseudo() }}
 									<input type="text" value="{{ out+='Administrarice'; }}" disabled>

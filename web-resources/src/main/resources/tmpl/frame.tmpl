@@ -17,7 +17,7 @@
 						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="{{= $nav.agenda.url }}">Agenda</a></li>
 						<li><a href="{{= $nav.faq.url }}">FAQ</a></li>
 						<li class="text-small"><a href="{{= $nav.thanks.url }}">Remerciements</a></li>
-						<li class="text-small"><a href="mailto:oursesaplumes@gmail.com" class="no-current">Nous contacter</a></li>
+						<li class="text-small"><a href="javascript:void(0)" class="no-current" title="Envoyer un courrier &eacute;l&eacute;ctronique &agrave; {{= $org.name}}" rel="contact" data-postmail="{{= $org.mail }}">Nous contacter</a></li>
 					</ul>
 				</nav>
 			</aside>
@@ -63,7 +63,7 @@
 					<h4 class="hide">Liens externes</h4>
 					<nav class="site-nav">
 						<ul>
-							<li class="no-bullet"><a href="{{= $org.mail }}" class="icon-mail white bevel no-bg no-current" title="Nous contacter par mail"><span class="hide">Contact</span></a></li>
+							<li class="no-bullet"><a href="javascript:void(0)" class="icon-mail white bevel no-bg no-current" title="Envoyer un courrier &eacute;l&eacute;ctronique &agrave; {{= $org.name}}" rel="contact" data-postmail="{{= $org.mail }}"><span class="hide">Contact</span></a></li>
 							<li class="no-bullet"><a href="{{= $org.twitter }}" class="icon-twitter white bevel no-bg" title="Nous suivre sur Twitter"><span class="hide">Twitter</span></a></li>
 							<li class="no-bullet"><a href="{{= $org.facebook }}" class="icon-facebook white bevel no-bg" title="Nous rejoindre sur Facebook"><span class="hide">Facebook</span></a></li>
 							<li class="no-bullet"><a href="{{= $org.wordpress }}" class="icon-blog white bevel no-bg" title="L&rsquo;incubateur des Ourses"><span class="hide">Wordpress</span></a></li>
