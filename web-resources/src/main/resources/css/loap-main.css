@@ -3025,7 +3025,22 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .article > .header .authoring a {
   padding: 0 .375rem;
+  padding-right: 0;
   border-radius: .375rem;
+}
+.article:not(.edit) > .header .authoring a {
+  padding-left: .1875rem;
+}
+.article:not(.edit) > .header .authoring a + .separator {
+  margin-right: 0;
+}
+.article:not(.edit) > .header .authoring a:hover {
+  padding-left: .375rem;
+  padding-right: .375rem;
+}
+.article:not(.edit) > .header .authoring a:hover + .separator {
+  margin-left: -.5625rem;
+  color: transparent;
 }
 .article > .footer .authoring {
   color: dimgray;
@@ -3038,6 +3053,21 @@ input:focus + button + .error + .autocomplete > ul {
 .article > .footer .authoring a {
   padding: .125rem .25rem;
   border-radius: .25rem;
+}
+.article:not(.edit) > .footer .authoring a {
+  padding-left: 0;
+  padding-right: 0;
+}
+.article:not(.edit) > .footer .authoring a + .separator {
+  margin-left: 0;
+}
+.article:not(.edit) > .footer .authoring a:hover {
+  padding-left: .25rem;
+  padding-right: .25rem;
+}
+.article:not(.edit) > .footer .authoring a:hover + .separator {
+  margin-left: -.5rem;
+  color: transparent;
 }
 .article > .header .author,
 .article > .header .coauthor {
