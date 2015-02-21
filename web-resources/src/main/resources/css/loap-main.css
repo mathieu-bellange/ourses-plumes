@@ -595,6 +595,17 @@ select > optgroup {
 }
 select > optgroup > option {}
 
+/* Checkboxes and Radios */
+input[type="checkbox"],
+input[type="radio"] {
+  vertical-align: middle;
+}
+input[type="checkbox"] + label,
+input[type="radio"] + label {
+  margin: 0; /* Foundation override */
+  vertical-align: middle;
+}
+
 /* ------------------------------------------------------------------ */
 /* # Input Fixes */
 /* ------------------------------------------------------------------ */
@@ -620,8 +631,8 @@ html input[disabled] {
 
 input + button,
 textarea + button,
-input + input[type='button'],
-textarea + input[type='button'],
+input + input,
+textarea + input,
 input + .button,
 textarea + .button {
   margin-top: .75rem; /* TEMP */
@@ -935,8 +946,8 @@ label.error {
 
 .css-fx .text-webfont {font-family: 'Oswald', sans-serif;} /* TEMP */
 
-.text-tiny {font-size: 75%;}
-.text-small {font-size: 87.5%;}
+.text-tiny {font-size: 81.25%;}
+.text-small {font-size: 93.75%;}
 .text-medium {font-size: 100%;}
 .text-large {font-size: 112.5%;}
 .text-huge {font-size: 125%;}
@@ -1662,12 +1673,12 @@ a.close {
 /* ------------------------------------------------------------------ */
 
 .legal-nav {
-  font-size: .875rem;
-  color: dimgray;
+  font-size: .9375rem;
+  color: gray;
 }
 .legal-nav {}
 .legal-nav > ul {
-  margin: .625rem 0 0;
+  margin: .875rem 0 .375rem;
   list-style: none;
 }
 .legal-nav > ul > li {

@@ -87,7 +87,7 @@ $conf = {
 	"timeline"           : {                                      // Object   Twitter timeline configuration hash.
 		"theme"            : "light",                               // String   Style scheme used with Twitter timeline (n.b. API based). Default : "light"
 		"link_color"       : "#666688",                             // String   Color of the Twitter timeline links. Default : "#666688"
-		"border_color"     : "#dcdcdc",                             // String   Color of the Twitter timeline borders. Default : "#dcdcdc"
+		"border_color"     : "#c0c0c0",                             // String   Color of the Twitter timeline borders. Default : "#dcdcdc"
 		"tweet_limit"      : 4                                      // Integer  Number of items shown in Twitter timeline. Default : 4
 	}
 };
