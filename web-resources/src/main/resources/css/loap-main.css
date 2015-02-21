@@ -3446,19 +3446,9 @@ input:focus + button + .error + .autocomplete > ul {
     padding: 0;
   }
 }
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (min-width: 640px) {
   .article-list > .block {
     width: 50%;
-  }
-}
-@media (min-width: 1024px) and (max-width: 1599px) {
-  .article-list > .block {
-    width: 33.333333333333333333333333333333%;
-  }
-}
-@media (min-width: 1600px) {
-  .article-list > .block {
-    width: 25%;
   }
 }
 

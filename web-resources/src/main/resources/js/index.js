@@ -153,8 +153,11 @@ function displayLastWebReview() {
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
 			$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // preprend last web review
-			$("#articles_publish > li").first().addClass("web-review"); // add web review class
+			$("#articles_publish > li").first().addClass("hide"); // EDIT : add class 'hide' instead of 'web-review'
 			$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
+			$("#articles_publish")
+				.wrap("<div class='row' style='padding: .25rem;'></div>") // add row wrapper with padding fix
+				.wrap("<div class='column small-24 large-16'></div>"); // add column wrapper with padding fix
 			displaySocialNetwork();
 			$("#articles").svg_icons(); // always reload icons only for articles
 			block_list.init(); // initialize block list component
@@ -174,7 +177,8 @@ function displayLastWebReview() {
 function displaySocialNetwork(){
 	if ($build.timeline) {
 		$("head").append("<script src='https://platform.twitter.com/widgets.js' id='twitter-wjs'></script>").append(lb(1)); // insert Twitter widget API
-		$("#articles").append(file_pool.widget_timeline_tmpl()).append(lb(1)); // append Twitter timeline to section
+		var timeline = $("<div class='column small-24 large-8'>").html(file_pool.widget_timeline_tmpl());
+		$("#articles").find(".row").first().append(timeline); // append Twitter timeline to first row in section
 		widgets.customize(); // apply custom settings
 	}
 	if ($build.likebox && Modernizr.mq("(min-width: 640px)")) { // display Facebook likebox only on small width and above devices (i.e. faces overflow bug fix)
