@@ -1948,27 +1948,11 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .picture.cover {background-size: cover;}
 .picture.contain {background-size: contain;}
 
-/*
-.picture.huge {width: 384px; height: 384px;}
-.picture.large {width: 256px; height: 256px;}
-.picture.medium {width: 128px; height: 128px;}
-.picture.small {width: 96px; height: 96px;}
-.picture.tiny {width: 48px; height: 48px;}
-*/
-
 .picture.huge {width: 24rem; height: 24rem;}
 .picture.large {width: 16rem; height: 16rem;}
 .picture.medium {width: 8rem; height: 8rem;}
 .picture.small {width: 6rem; height: 6rem;}
 .picture.tiny {width: 3rem; height: 3rem;}
-
-/* TEMP : responsive design for pictures * UNFINISHED TEST */
-/*
-@media (max-width: 479px) {
-  .picture.huge {width: 256px; height: 256px;}
-  .picture.large {width: 196px; height: 196px;}
-}
-*/
 
 .picture.radius {border-radius: .5rem;}
 .picture.round {border-radius: 100%;}
@@ -2337,28 +2321,65 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
  * .xlarge   -> .xlarge-modal
  */
 
-.reveal-modal .close-reveal-modal {
-  text-decoration: none; /* TEMP : links underline fix */
+.reveal-modal-bg {
+  background-color: gray;
+  background-image: url('../img/ui/pattern-lines.png');
+  opacity: .5;
 }
-
-.reveal-modal > h2:first-of-type {padding-bottom: .25rem; margin-bottom: 2rem; border-bottom: .15rem solid gainsboro;}
-
-@media only screen and (min-width: 40.063em) {
-  dialog.tiny-modal, .reveal-modal.tiny-modal {
-    width: 30%;
-  }
-  dialog.small-modal, .reveal-modal.small-modal {
-    width: 40%;
-  }
-  dialog.medium-modal, .reveal-modal.medium-modal {
-    width: 60%;
-  }
-  dialog.large-modal, .reveal-modal.large-modal {
-    width: 70%;
-  }
-  dialog.xlarge-modal, .reveal-modal.xlarge-modal {
-    width: 95%;
-  }
+.css-fx .reveal-modal-bg {
+  box-shadow: 0 0 16rem 4rem black inset;
+}
+.reveal-modal {
+  padding: .75rem 2rem 1rem;
+  border: solid .125rem gainsboro;
+  border-radius: .5rem;
+}
+.css-fx .reveal-modal {
+  box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
+}
+.reveal-modal > h2 {
+  padding-bottom: .25rem;
+  margin: 0 0 1rem;
+  font-size: 2.25em;
+  border-bottom: .125rem solid gainsboro;
+}
+.reveal-modal > h2.icon {
+  display: block;
+}
+.reveal-modal > h2.icon > svg {
+  margin-right: .5rem;
+  vertical-align: text-top;
+}
+.reveal-modal > h4 {}
+.close-reveal-modal {
+  margin: .5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none; /* TEMP : links underline fix */
+  border-radius: .375rem;
+}
+.close-reveal-modal:hover,
+.close-reveal-modal:focus {
+  color: white;
+  outline: none;
+  background-color: crimson;
+}
+.css-fx .close-reveal-modal:hover,
+.css-fx .close-reveal-modal:focus {
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
+  box-shadow: 0 0 .5rem .125rem rgba(0, 0, 0, .25) inset;
+}
+@media only screen and (max-width: 640px) {
+  .reveal-modal {border-radius: 0;}
+}
+@media only screen and (min-width: 641px) {
+  .reveal-modal.tiny-modal {width: 30%;}
+  .reveal-modal.small-modal {width: 40%;}
+  .reveal-modal.medium-modal {width: 60%;}
+  .reveal-modal.large-modal {width: 70%;}
+  .reveal-modal.xlarge-modal {width: 95%;}
 }
 
 /* ------------------------------------------------------------------ */
@@ -4045,10 +4066,23 @@ input:focus + button + .error + .autocomplete > ul {
   display: inline-block;
   margin: 0;
   padding: 0;
-  color: firebrick;
 }
 .date-switcher a > svg {
   vertical-align: text-bottom;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Date Names */
+/* ------------------------------------------------------------------ */
+
+.date-name-prefix {}
+.date-name-suffix {
+  display: none;
+}
+@media (min-width: 800px) {
+  .date-name-suffix {
+    display: inline;
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -4060,10 +4094,26 @@ input:focus + button + .error + .autocomplete > ul {
   border: none;
   table-layout: fixed;
 }
+.date-table thead {}
+.date-table tbody {}
+.date-table tfoot{}
 .date-table th,
 .date-table td {
   width: 14.28571428571429%;
   text-align: center;
+}
+.date-table th,
+.date-table thead,
+.date-table thead > tr,
+.date-table tbody > tr {
+  background-color: initial; /* Reset background color for table head*/
+}
+.date-table th {
+  color: #606060;
+  border-top: .125rem solid gainsboro;
+  border-bottom-width: .125rem;
+  background-color: whitesmoke;
+  background-image: url('../img/ui/pattern-stripes.png');
 }
 .date-table td {
   padding: 0;
@@ -4075,25 +4125,39 @@ input:focus + button + .error + .autocomplete > ul {
 .date-table .over-block > time {
   display: block;
   color: silver;
-  font-size: 175%;
-  line-height: 200%;
+  font-size: 1.75rem;
+  line-height: 3rem;
   letter-spacing: -.0625em;
 }
+@media (max-width: 640px) {
+  .date-table .over-block > time {
+    line-height: 2rem;
+  }
+}
 .css-fx .date-table .over-block > time {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
-.date-table .over-block > ul {
+.date-table .over-block .event-list {
   margin: 0 0 .25rem;
   list-style: none inside;
 }
-.date-table .over-block > ul li {
+.date-table .over-block .event-list li {
   font-size: 75%;
 }
 .date-table .has-event {
-  background-color: lightyellow;
-  border: 2px solid darkgray;
+  background-color: ivory;
+}
+.css-fx .date-table .has-event {
+  box-shadow: 0 0 2.5rem beige inset;
+}
+.date-table .has-event .over {
+  border-color: lightgrey;
+}
+.date-table .has-event .over:hover,
+.date-table .has-event .over:focus {
+  border-color: tan;
 }
 .date-table .has-event > time {
   font-weight: bold;
-  color: #333;
+  color: #404040;
 }
 
 /* ------------------------------------------------------------------ */

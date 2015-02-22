@@ -12,20 +12,20 @@
 			<!--Date Switcher-->
 			<div class="date-switcher">
 				<h3>Juillet 2014</h3>
-				<a href="javascript:void(0)" class="agenda prev icon-left firered" title="Pr&eacute;c&eacute;dent"></a>
-				<a href="javascript:void(0)" class="agenda next icon-right firered" title="Suivant"></a>
+				<a href="javascript:void(0)" class="prev icon-left" title="Pr&eacute;c&eacute;dent"></a>
+				<a href="javascript:void(0)" class="next icon-right" title="Suivant"></a>
 			</div>
 			<!--Date Table-->
 			<table class="date-table">
 				<thead>
 					<tr>
-						<th><span class="hide-for-medium-up">Lun</span><span class="hide">-</span><span class="hide-for-small">Lundi</span></th>
-						<th><span class="hide-for-medium-up">Mar</span><span class="hide">-</span><span class="hide-for-small">Mardi</span></th>
-						<th><span class="hide-for-medium-up">Mer</span><span class="hide">-</span><span class="hide-for-small">Mercredi</span></th>
-						<th><span class="hide-for-medium-up">Jeu</span><span class="hide">-</span><span class="hide-for-small">Jeudi</span></th>
-						<th><span class="hide-for-medium-up">Ven</span><span class="hide">-</span><span class="hide-for-small">Vendredi</span></th>
-						<th><span class="hide-for-medium-up">Sam</span><span class="hide">-</span><span class="hide-for-small">Samedi</span></th>
-						<th><span class="hide-for-medium-up">Dim</span><span class="hide">-</span><span class="hide-for-small">Dimanche</span></th>
+						<th>Lun<span class="date-name-suffix">di</span></th>
+						<th>Mar<span class="date-name-suffix">di</span></th>
+						<th>Mer<span class="date-name-suffix">credi</span></th>
+						<th>Jeu<span class="date-name-suffix">di</span></th>
+						<th>Ven<span class="date-name-suffix">dredi</span></th>
+						<th>Sam<span class="date-name-suffix">edi</span></th>
+						<th>Dim<span class="date-name-suffix">anche</span></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -36,22 +36,24 @@
 							<div class="over-block has-event">
 								<time datetime="2014-07-02">2</time>
 								<ul class="event-list hide">
-									<li>Colloque</li>
-									<li>Expo</li>
-									<li>D&eacute;bat public</li>
-									<li><del>Manif</del></li>
-									<li>Concert</li>
+									<li><strong class="title">Colloque</strong><span class="hide">&#8201;: </span><span class="text hide">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus.</span></li>
+									<li><strong class="title">Expo</strong></li>
+									<li><strong class="title"></strong></li>
+									<li></li>
+									<li><strong class="title">D&eacute;bat public</strong><span class="hide">&#8201;: </span><span class="text hide">&nbsp;</span></li>
+									<li><strong class="title"><del>Manif</del></strong><span class="hide">&#8201;: </span><span class="text hide">Annulé !</span></li>
+									<li><strong class="title">Concert</strong><span class="hide">&#8201;: </span><span class="text hide">C'est à 22 heures !</span></li>
 								</ul>
-								<a class="over" href="javascript:void(0)" data-reveal-id="_date_modal_2014-07-02" data-reveal></a>
+								<a class="over" href="javascript:void(0)"></a>
 							</div>
 						</td>
 						<td>
 							<div class="over-block has-event">
 								<time datetime="2014-07-03">3</time>
 								<ul class="event-list hide">
-									<li>Ap&eacute;ro g&eacute;ant</li>
+									<li><strong class="title">Ap&eacute;ro g&eacute;ant</strong></li>
 								</ul>
-								<a class="over" href="javascript:void(0)" data-reveal-id="_date_modal_2014-07-03" data-reveal></a>
+								<a class="over" href="javascript:void(0)"></a>
 							</div>
 						</td>
 						<td><div class="over-block"><time datetime="2014-07-04">4</time></div></td>
@@ -72,9 +74,9 @@
 							<div class="over-block has-event">
 								<time datetime="2014-07-14">14</time>
 								<ul class="event-list hide">
-									<li>F&ecirc;te nationale</li>
+									<li><strong class="title">F&ecirc;te nationale</strong></li>
 								</ul>
-								<a class="over" href="javascript:void(0)" data-reveal-id="_date_modal_2014-07-14" data-reveal></a>
+								<a class="over" href="javascript:void(0)"></a>
 							</div>
 						</td>
 						<td><div class="over-block"><time datetime="2014-07-15">15</time></div></td>
@@ -95,7 +97,7 @@
 									<li>Marche des fiert&eacute;s</li>
 									<li>Anniv Popi</li>
 								</ul>
-								<a class="over" href="javascript:void(0)" data-reveal-id="_date_modal_2014-07-24" data-reveal></a>
+								<a class="over" href="javascript:void(0)"></a>
 							</div>
 						</td>
 						<td><div class="over-block"><time datetime="2014-07-25">25</time></div></td>
@@ -113,72 +115,84 @@
 					</tr>
 				</tbody>
 			</table>
-			<!--Date Modals-->
-			<div id="_date_modal_2014-07-02" class="reveal-modal large-modal" data-reveal>
-				<h2>Mercredi 2 juillet 2014</h2>
-				<h4 class="subheader"><time datetime="2014-07-02 09:00" class="red">9H00</time> <span>Colloque</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<h4 class="subheader"><time datetime="2014-07-02 11:00" class="red">11H00</time> <span>Expo</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<h4 class="subheader"><time datetime="2014-07-02 13:00" class="red">13H00</time> <span>D&eacute;bat public</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<h4 class="subheader"><del><time datetime="2014-07-02 14:30" class="red">14H30</time> <span>Manif</span></del> <span class="red">Annul&eacute;<span></h4>
-				<p class="panel radius"><del><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </del></p>
-				<h4 class="subheader"><time datetime="2014-07-02 20:30" class="red">20H30</time> <span>Concert</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<a class="close-reveal-modal"></a>
-			</div>
-			<div id="_date_modal_2014-07-03" class="reveal-modal large-modal" data-reveal>
-				<h2>Jeudi 3 juillet 2014</h2>
-				<h4 class="subheader"><time datetime="2014-07-03 18:00" class="red">18H00</time> <span>Ap&eacute;ro g&eacute;ant</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<a class="close-reveal-modal"></a>
-			</div>
-			<div id="_date_modal_2014-07-14" class="reveal-modal large-modal" data-reveal>
-				<h2>Lundi 14 juillet 2014</h2>
-				<h4 class="subheader"><time datetime="2014-07-14 19:00" class="red">19H00</time> <span>F&ecirc;te nationale</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<a class="close-reveal-modal"></a>
-			</div>
-			<div id="_date_modal_2014-07-24" class="reveal-modal large-modal" data-reveal>
-				<h2>Jeudi 24 juillet 2014</h2>
-				<h4 class="subheader"><time datetime="2014-07-24 14:00" class="red">14H00</time> <span>Marche des fiert&eacute;s</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<h4 class="subheader"><time datetime="2014-07-24 19:00" class="red">19H00</time> <span>Anniv Popi</span></h4>
-				<p class="panel radius"><small style="color: gray;">[255 chars]</small> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla sem vitae justo aliquet, semper tempus quam scelerisque. Maecenas quis neque urna. Donec ut iaculis magna. Sed fermentum, leo at sodales pellentesque, ante nibh pharetra mauris metus. </p>
-				<a class="close-reveal-modal"></a>
-			</div>
 		</section>
 		<script>
-			$("html").on("mouseenter", ".date-table .over-block.has-event", function() {
-				$(this).addClass("mouseenter");
-				var handler = $(this);
-				handler.data("hover", true);
-				setTimeout(function() {
-					if (handler.data("hover") == true) {
-						handler.css("width", handler.outerWidth());
-						handler.css("position", "absolute");
-						handler.css("z-index", "10");
-						$conf.js_fx ? handler.children(".event-list").slideDown("fast") : handler.children(".event-list").show();
-					}
-				}, 400);
-			});
-			$("html").on("mouseleave", ".date-table .over-block.has-event", function() {
-				$(this).data("hover", false);
-				$(this).removeClass("mouseenter");
-				if ($conf.js_fx) {
-					$(this).children(".event-list").slideUp("slow", function() {
-						$(this).css("position", "relative");
-						$(this).css("z-index", "auto");
+		var agenda_ui = (function() {
+			var cfg = {
+				"fx_d"        : 375, // [Int]  Duration of effects (ms). Default : 375
+				"ev_t"        : 500, // [Int]  Timeout before showing date events (ms). Default : 500
+				"show_events" : true // [Bool] Show sliding date events ? Default : true
+			};
+			return {
+				init : function(opts) {
+					cfg = $.extend({}, cfg, opts);
+					$(document).on("mouseenter", ".has-event", function() {
+						if (isComputer() && cfg.show_events) {
+							var self = $(this);
+							self.data("hover", true);
+							setTimeout(function() {
+								if (self.data("hover") == true) {
+									self.css({"width" : self.outerWidth(), "position" : "absolute", "z-index" : "1"});
+									self.children(".event-list").slideDown($conf.js_fx ? cfg.fx_d / 2 : 0);
+								}
+							}, cfg.ev_t);
+						}
 					});
-				} else {
-					$(this).children(".event-list").hide();
-					$(this).css("position", "relative");
-					$(this).css("z-index", "auto");
+					$(document).on("mouseleave", ".has-event", function() {
+						if (isComputer() && cfg.show_events) {
+							var self = $(this);
+							self.data("hover", false);
+							self.children(".event-list").slideUp($conf.js_fx ? cfg.fx_d : 0, function() {
+								self.css({"width" : "", "position" : "", "z-index" : ""});
+							});
+						}
+					});
+					$(document).on("click", ".has-event", function() {
+						if ($(".reveal-modal").is(":visible")) {
+							if (!$("html").data("revealing-modal")) {
+								$(".reveal-modal").foundation("reveal", "close");
+							}
+						} else {
+							// Create modal
+							var e = [];
+							$(this).find(".event-list").children("li").each(function() {
+								var title = $(this).find(".title").text().trim() || null;
+								var text = $(this).find(".text").text().trim() || null;
+								if (title) {e.push({"title" : title, "text" : (text ? text : null)})}
+							});
+							var d = $(this).find("time").first().attr("datetime") || 0;  // Datetime
+							var a = d.split("-"); // YMD array
+							var t = new Date(a[0], a[1], a[2]); // Timestamp
+							var c = {
+								"id"       : d,
+								"date"     : $time.days[t.getDay()].capitalize() + " " + dateToHTML(t),
+								"events"   : e
+							};
+							var modal = $(file_pool.date_modal_tmpl(c));
+							// Append modal
+							$("body").append(modal);
+							// Reload SVG icons
+							modal.svg_icons();
+							// Initialize modal
+							modal.foundation("reveal", "open");
+							// Bind live events
+							$(document).on("open", ".reveal-modal", function() {
+								$("html").data("revealing-modal", true);
+							});
+							$(document).on("close", ".reveal-modal", function() {});
+							$(document).on("opened", ".reveal-modal", function() {
+								$("html").removeData("revealing-modal");
+							});
+							$(document).on("closed", ".reveal-modal", function() {
+								$(this).detach();
+							});
+						}
+					});
 				}
-			});
+			}
+		}());
+		agenda_ui.init();
 		</script>
-
 		<script>
 			$build.container = false;
 			load();

@@ -174,6 +174,7 @@ $msg = {
 	"tag_dup"               : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
 	"tag_max"               : "Maximum de tags&nbsp;!",
 	"char_illegal"          : "Caract&egrave;re invalide&nbsp;!",
+	"faq_deleted"           : "FAQ supprim&eacute;e&nbsp;!",
 	"form_sent"             : "Le formulaire que vous avez soumis a bien &eacute;t&eacute; envoy&eacute;&nbsp;!",
 	"form_valid"            : "Le formulaire que vous avez soumis est correct et a &eacute;t&eacute; envoy&eacute;&nbsp;!",
 	"form_invalid"          : "Le formulaire que vous avez soumis est incorrect et n&rsquo;a pas pu &ecirc;tre envoy&eacute;.",
@@ -185,13 +186,6 @@ $msg = {
 	"email_sent"            : "Le message &eacute;lectronique a correctement &eacute;t&eacute; envoy&eacute;.",
 	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&nbsp;&hellip;",
 	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&nbsp;!",
-	"confirm_action"        : "&Ecirc;tes-vous certaine de vouloir faire cela&nbsp;?",
-	"confirm_delete"        : {
-		"avatar"              : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est d&eacute;finitive.",
-		"account"             : "&Ecirc;tes-vous certaine de vouloir supprimer ce compte&nbsp;?<br>Cette action est d&eacute;finitive.",
-		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est d&eacute;finitive.",
-		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est d&eacute;finitive."
-	},
 	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
 	"account_deleted"       : "Compte supprim&eacute;&nbsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
@@ -199,7 +193,14 @@ $msg = {
 	"article_offline"       : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
 	"article_search_empty"  : "Aucun article ne correspond aux crit&egrave;res de recherche.",
 	"article_no_filter"     : "Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.",
-	"faq_deleted"           : "FAQ supprim&eacute;e&nbsp;!",
+	"date_event_empty"      : "Pas d&rsquo;&eacute;v&egrave;nement pr&eacute;vu ce jour.",
+	"confirm_action"        : "&Ecirc;tes-vous certaine de vouloir faire cela&nbsp;?",
+	"confirm_delete"        : {
+		"avatar"              : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est d&eacute;finitive.",
+		"account"             : "&Ecirc;tes-vous certaine de vouloir supprimer ce compte&nbsp;?<br>Cette action est d&eacute;finitive.",
+		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est d&eacute;finitive.",
+		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est d&eacute;finitive."
+	},
 	"sumething_weird"       : "Un esp&egrave;ce de truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
 };
 
@@ -365,6 +366,7 @@ if (isFileProtocol) {
 		{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 		{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
 		{elem: "script", attr: {src: $loc.js + "dot/dot" + $conf.lib_ext + ".js"}},
+		{elem: "script", attr: {src: $loc.js + "conf-dot.js"}},
 		{elem: "script", attr: {src: $loc.js + "cookies.js"}},
 	];
 	head_tags = head_tags.concat(head_tags_ext);

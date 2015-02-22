@@ -34,14 +34,32 @@
 
 <!--Confirmation Modal-->
 {{% confirmation_modal_tmpl }}
-					<div class="modal">
-						<div class="canvas">
-							<div class="dialog">
-								<h4 class="title">Confirmation<span class="close" tabindex="0"></span></h4>
-								<p class="message {{= data.class }}">{{= data.text }}</p>
-								<button class="success icon-confirm small" title="Confirmer" data-confirm><span class="hide">Confirmer</span></button>
-								<button class="alert icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></button>
-							</div>
-						</div>
+			<div class="modal">
+				<div class="canvas">
+					<div class="dialog">
+						<h4 class="title">Confirmation<span class="close" tabindex="0"></span></h4>
+						<p class="message {{= data.class }}">{{= data.text }}</p>
+						<button class="success icon-confirm small" title="Confirmer" data-confirm><span class="hide">Confirmer</span></button>
+						<button class="alert icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></button>
 					</div>
+				</div>
+			</div>
+{{%}}
+
+<!--Date Modal-->
+{{% date_modal_tmpl }}
+			<div id="{{= data.id }}" class="reveal-modal large-modal" data-reveal>
+				<h2 class="icon-date large">{{= data.date }}</h2>
+				{{? data.events.length > 0 }}
+					{{~ data.events :params }}
+				<h4 class="subheader">{{= params.title }}</h4>
+						{{? params.text }}
+				<p class="panel radius">{{= params.text }}</p>
+						{{?}}
+					{{~}}
+				{{??}}
+				<p class="panel radius text-gray text-center">{{= $msg.date_event_empty }}</p>
+				{{?}}
+				<span class="close-reveal-modal" tabindex="0"></span>
+			</div>
 {{%}}

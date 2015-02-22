@@ -3,20 +3,20 @@
 					<!--Date Switcher-->
 					<div class="date-switcher">
 						<h3>{{= $time.months[new Date().getMonth()].capitalize() + " " + new Date().getFullYear()}}</h3>
-						<a href="javascript:void(0)" class="agenda prev icon-left firered" title="Pr&eacute;c&eacute;dent"></a>
-						<a href="javascript:void(0)" class="agenda next icon-right firered" title="Suivant"></a>
+						<a href="javascript:void(0)" class="prev icon-left" title="Pr&eacute;c&eacute;dent"></a>
+						<a href="javascript:void(0)" class="next icon-right" title="Suivant"></a>
 					</div>
 					<!--Date Table-->
 					<table class="date-table">
 						<thead>
 							<tr>
-								<th><span class="hide-for-medium-up">Dim</span><span class="hide">-</span><span class="hide-for-small">Dimanche</span></th>
-								<th><span class="hide-for-medium-up">Lun</span><span class="hide">-</span><span class="hide-for-small">Lundi</span></th>
-								<th><span class="hide-for-medium-up">Mar</span><span class="hide">-</span><span class="hide-for-small">Mardi</span></th>
-								<th><span class="hide-for-medium-up">Mer</span><span class="hide">-</span><span class="hide-for-small">Mercredi</span></th>
-								<th><span class="hide-for-medium-up">Jeu</span><span class="hide">-</span><span class="hide-for-small">Jeudi</span></th>
-								<th><span class="hide-for-medium-up">Ven</span><span class="hide">-</span><span class="hide-for-small">Vendredi</span></th>
-								<th><span class="hide-for-medium-up">Sam</span><span class="hide">-</span><span class="hide-for-small">Samedi</span></th>
+								<th>Lun<span class="date-name-suffix">di</span></th>
+								<th>Mar<span class="date-name-suffix">di</span></th>
+								<th>Mer<span class="date-name-suffix">credi</span></th>
+								<th>Jeu<span class="date-name-suffix">di</span></th>
+								<th>Ven<span class="date-name-suffix">dredi</span></th>
+								<th>Sam<span class="date-name-suffix">edi</span></th>
+								<th>Dim<span class="date-name-suffix">anche</span></th>
 							</tr>
 						</thead>
 						<tbody>
