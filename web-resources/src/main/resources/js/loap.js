@@ -1684,7 +1684,10 @@ function set_user_connected(is_connected) {
 		var is_connected = is_connected || false, sel = "#user_connect";
 		if (is_connected) {
 			$(sel + " svg use").attr("xlink:href", "#icon-menu");
-			$(sel).reload_tooltip("Menu"); // reset Foundation tooltip
+			$(sel + " .connect").html("Menu");
+
+			$(sel).attr("title", "Ouvrir le menu utilisatrice");
+
 			$(sel).data("connected", true); // register connected state in local data var
 			$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
 			$("#user_menu").user_pictures(); // reload user pictures of user menu
@@ -1692,7 +1695,10 @@ function set_user_connected(is_connected) {
 			$("#user_connect").removeClass("active");
 			$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
 			$(sel + " svg use").attr("xlink:href", "#icon-connect");
-			$(sel).reload_tooltip("S&rsquo;identifier"); // reset Foundation tooltip
+			$(sel + " .connect").html("Connexion");
+
+			$(sel).attr("title", "Se connecter");
+
 			$(sel).data("connected", false); // register connected state in local data var
 		}
 	}
