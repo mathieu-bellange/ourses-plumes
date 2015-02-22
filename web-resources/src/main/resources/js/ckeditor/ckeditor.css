@@ -1,0 +1,63 @@
+﻿/*
+ * Les Ourses à plumes
+ * CKEditor Cascading Style Sheet
+ * Require CKEditor
+ */
+
+/* ------------------------------------------------------------------ */
+/* # CKEditor Styles */
+/* ------------------------------------------------------------------ */
+
+/* CKEditor */
+[class*=' cke'] .callout { /* CKEditor Format Styles Combo */
+  position: relative; /* Fix CKEditor callout position bug */
+  width: 75%;
+  margin-left: 12.5%;
+  margin-bottom: 1rem;
+  color: gray;
+  font-size: 150%;
+  line-height: 150%;
+  letter-spacing: -.0625em;
+  text-align: center;
+  word-wrap: break-word; /* Fix long strings */
+  border: .25rem solid gray;
+  border-left: 0;
+  border-right: 0;
+}
+
+/* CKEditor Panel */
+[class*='cke_panel'] p,
+[class*='cke_panel'] h4,
+[class*='cke_panel'] .panel,
+[class*='cke_panel'] .incorrect,
+[class*='cke_panel'] .annotation {
+  font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif; /* Fix to common font due to broken path server-side */
+}
+
+[class*='cke_panel'] p {}
+[class*='cke_panel'] h4 {font-size: 133%;}
+[class*='cke_panel'] .callout {
+  margin-bottom: 0; /* Fix margin bottom */
+  font-size: 125%;
+}
+[class*='cke_panel'] .panel {
+  padding: .375rem;
+  border: 1px solid #d8d8d8; /* TEMP */
+  background-color: #f2f2f2; /* TEMP */
+}
+[class*='cke_panel'] .incorrect {
+  display: inline;
+  color: brown;
+  font-weight: normal;
+  text-decoration: line-through;
+}
+[class*='cke_panel'] .annotation {
+  display: inline;
+  margin: 0 .25rem;
+  padding: .125rem .25rem;
+  color: indianred;
+  font-size: .875em;
+  font-style: italic;
+  border: 1px solid indianred;
+  background-color: floralwhite;
+}

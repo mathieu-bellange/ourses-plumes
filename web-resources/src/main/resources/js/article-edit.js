@@ -719,7 +719,7 @@ function processArticle(article) {
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
 		customConfig : $loc.js + "conf-cke.js",
-		contentsCss : $loc.css + "loap-main.css",
+		contentsCss  : $loc.js + "ckeditor/ckeditor.css",
 		extraAllowedContent : {"span" : {classes : "placeholder"}}
 	});
 	// initialize plugins and components

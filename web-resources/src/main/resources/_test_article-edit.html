@@ -2,8 +2,7 @@
 <html lang="fr">
 	<head>
 		<script src="boot.js"></script>
-		<script src="js/ckeditor/ckeditor.js"></script><!--TEMP-->
-		<script src="js/ckeditor/adapters/jquery.js"></script><!--TEMP-->
+		<script src="js/ckeditor/ckeditor.js"></script>
 		<script>
 			// TEMP : Set route CKEditor configuration file route
 			var loc = location.href.split("/");
@@ -918,15 +917,15 @@
 				// Initialize classic CKEditor with custom config
 				CKEDITOR.replace("classic_editor", {
 					customConfig : $cke_config_path + "conf-cke.js",
-					//contentsCss : "css/loap-main.css",
-					bodyClass : "article",
+					contentsCss  : "css/loap-main.css",
+					bodyClass    : "article",
 					toolbarLocation : "bottom"
 				});
 				// Initialize inline CKEditor with custom config
 				CKEDITOR.disableAutoInline = true;
 				CKEDITOR.inline("editor", {
 					customConfig : $cke_config_path + "conf-cke.js",
-					//contentsCss : "css/loap-main.css",
+					contentsCss  : $cke_config_path + "ckeditor/ckeditor.css",
 					extraAllowedContent : {"span" : {classes : "placeholder"}},
 				});
 			});
