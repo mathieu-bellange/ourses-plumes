@@ -1595,7 +1595,7 @@ function update_user_pseudo(pseudo) {
 
 /* Update user menu user picture */
 function update_user_avatar(pathAvatar) {
-	UserSession.updateAvatar();
+	UserSession.updateAvatar(pathAvatar);
 	$("#user_avatar").attr("data-image", pathAvatar); // define avatar
 	$("#user_menu").user_pictures(); // reload user image
 }
