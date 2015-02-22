@@ -226,10 +226,10 @@ function deleteAvatar(){
 				header_authentication(request);
 			},
 			success : function(profile, status, jqxhr) {
-				$("#avatar").attr("data-image",profile.avatar.path);
+				$("#delete_avatar").hide(); // hide delete avatar link
+				$("#avatar").attr("data-image", profile.avatar.path);
 				loap.update();
 				update_user_avatar(profile.avatar.path);
-				$("#delete_avatar").hide(); // hide delete avatar link
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
