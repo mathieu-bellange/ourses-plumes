@@ -12,11 +12,11 @@
 				<h4 class="hide">Sections</h4>
 				<nav class="main-nav">
 					<ul>
-						<li class="home"><a href="{{= $nav.home.url }}">Accueil</a></li>
-						<li><a href="{{= $nav.online_article_list.url }}">Articles</a></li>
-						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="{{= $nav.agenda.url }}">Agenda</a></li>
-						<li><a href="{{= $nav.faq.url }}">FAQ</a></li>
-						<li class="text-small"><a href="{{= $nav.thanks.url }}">Remerciements</a></li>
+						<li class="home"><a href="{{= $nav.home.url }}" data-current>Accueil</a></li>
+						<li><a href="{{= $nav.online_article_list.url }}" data-current>Articles</a></li>
+						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="{{= $nav.agenda.url }}" data-current>Agenda</a></li>
+						<li><a href="{{= $nav.faq.url }}" data-current>FAQ</a></li>
+						<li class="text-small"><a href="{{= $nav.thanks.url }}" data-current>Remerciements</a></li>
 						<li class="text-small"><a href="javascript:void(0)" class="no-current" title="Envoyer un courrier &eacute;l&eacute;ctronique &agrave; {{= $org.name}}" rel="contact" data-postmail="{{= $org.mail }}">Nous contacter</a></li>
 					</ul>
 				</nav>
@@ -30,12 +30,12 @@
 					<nav class="fast-nav" data-zlider>
 						<span class="prev" style="display: none;"><span class="icon-left small left" tabindex="0"></span></span>
 						<ul>
-							<li class="orange"><a href="/articles?criteria=luttes">Luttes</a></li>
-							<li class="magenta"><a href="/articles?criteria=nos-corps">Nos corps, nous-m&ecirc;mes</a></li>
-							<li class="red"><a href="/articles?criteria=intersectionnalite">Intersectionnalit&eacute;</a></li>
-							<li class="blue"><a href="/articles?criteria=international">International</a></li>
-							<li class="cyan"><a href="/articles?criteria=education-culture">&Eacute;ducation &amp; Culture</a></li>
-							<li class="yellow"><a href="/articles?criteria=idees">Id&eacute;es</a></li>
+							<li class="orange"><a href="/articles?criteria=luttes" data-current>Luttes</a></li>
+							<li class="magenta"><a href="/articles?criteria=nos-corps" data-current>Nos corps, nous-m&ecirc;mes</a></li>
+							<li class="red"><a href="/articles?criteria=intersectionnalite" data-current>Intersectionnalit&eacute;</a></li>
+							<li class="blue"><a href="/articles?criteria=international" data-current>International</a></li>
+							<li class="cyan"><a href="/articles?criteria=education-culture" data-current>&Eacute;ducation &amp; Culture</a></li>
+							<li class="yellow"><a href="/articles?criteria=idees" data-current>Id&eacute;es</a></li>
 						</ul>
 						<span class="next" style="display: none;"><span class="icon-right small right" tabindex="0"></span></span>
 					</nav>
@@ -74,9 +74,9 @@
 					<h4 class="hide">Informations juridiques</h4>
 					<nav class="legal-nav">
 						<ul>
-							<li><a href="{{= $nav.legal_notice.url }}">Mentions l&eacute;gales</a></li>
-							<li><a href="{{= $nav.terms_of_use.url }}">Conditions d&rsquo;utilisation</a></li>
-							<li><a href="{{= $nav.privacy_policy.url }}">Politique de confidentialit&eacute;</a></li>
+							<li><a href="{{= $nav.legal_notice.url }}" data-current>Mentions l&eacute;gales</a></li>
+							<li><a href="{{= $nav.terms_of_use.url }}" data-current>Conditions d&rsquo;utilisation</a></li>
+							<li><a href="{{= $nav.privacy_policy.url }}" data-current>Politique de confidentialit&eacute;</a></li>
 						</ul>
 					</nav>
 					<!--Copyright-->

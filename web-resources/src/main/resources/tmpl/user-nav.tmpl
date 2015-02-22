@@ -8,15 +8,15 @@
 						<ul>
 							<li class="hide-for-small"><span id="user_avatar" class="picture medium radius" data-image="{{= UserSession.getUserAvatar() }}">Image</span></li>
 							{{? isComputer() }}
-							<li><a href="{{= $nav.account_edit.url }}">Mon compte</a></li>
-							<li><a href="{{= $nav.profile_edit.url }}">Mon profil</a></li>
+							<li><a href="{{= $nav.account_edit.url }}" data-current>Mon compte</a></li>
+							<li><a href="{{= $nav.profile_edit.url }}" data-current>Mon profil</a></li>
 							{{?}}
 							{{? OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter() }}
-								<li><a href="{{= $nav.draft_article_list.url }}">Mes articles</a></li>
+								<li><a href="{{= $nav.draft_article_list.url }}" data-current>Mes articles</a></li>
 							{{?}}
 							{{? OursesSecurity.isUserAdmin() && isComputer() }}
-								<li><a href="{{= $nav.account_list.url }}">Liste des comptes</a></li>
-								<li><a href="{{= $nav.bug_report.url }}">Signaler un bug</a></li>
+								<li><a href="{{= $nav.account_list.url }}" data-current>Liste des comptes</a></li>
+								<li><a href="{{= $nav.bug_report.url }}" data-current>Signaler un bug</a></li>
 							{{?}}
 							<li><a href="javascript:void(0)" class="disconnect no-current">D&eacute;connexion</a></li>
 						</ul>

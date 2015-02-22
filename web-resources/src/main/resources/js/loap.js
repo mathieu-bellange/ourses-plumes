@@ -188,6 +188,7 @@ var loap = (function() {
 			check_user_connected();
 			set_toolbar_prefs();
 			user_menu.init(); // setup user menu
+			check_current_page(); // check_current page
 		}
 	};
 }());
@@ -1685,9 +1686,7 @@ function set_user_connected(is_connected) {
 		if (is_connected) {
 			$(sel + " svg use").attr("xlink:href", "#icon-menu");
 			$(sel + " .connect").html("Menu");
-
 			$(sel).attr("title", "Ouvrir le menu utilisatrice");
-
 			$(sel).data("connected", true); // register connected state in local data var
 			$(".user-connect").append(file_pool.user_nav_tmpl); // process user menu template
 			$("#user_menu").user_pictures(); // reload user pictures of user menu
@@ -1696,12 +1695,23 @@ function set_user_connected(is_connected) {
 			$("#user_menu").detach(); // remove user menu from DOM (n.b. keep data and events)
 			$(sel + " svg use").attr("xlink:href", "#icon-connect");
 			$(sel + " .connect").html("Connexion");
-
 			$(sel).attr("title", "Se connecter");
-
 			$(sel).data("connected", false); // register connected state in local data var
 		}
 	}
+}
+
+/* Check current page */
+function check_current_page() {
+	$("[data-current]").each(function () {
+		// var m = window.location.toString();
+		var h = $(this).attr("href");
+		var p = window.location.pathname.toString().split("/");
+		var m = window.location.pathname.toString() + window.location.search.toString();
+		if (h.indexOf(p[1]) >= 0 && m.indexOf(h) >= 0) {
+			$(this).addClass("current");
+		}
+	});
 }
 
 /* Set prefs on toolbar (deferred to document ready state) */

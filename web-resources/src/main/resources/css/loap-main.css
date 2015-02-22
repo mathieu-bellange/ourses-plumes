@@ -1692,6 +1692,13 @@ a.close {
 .legal-nav > ul > li > a:hover,
 .legal-nav > ul > li > a:focus,
 .legal-nav > ul > li > a:active {}
+.legal-nav > ul > li > a.current {
+  cursor: default;
+  padding: .125rem .25rem;
+  color: dimgray;
+  text-decoration: none;
+  border: .125rem dotted silver;
+}
 .legal-nav > ul > li + li {
   margin-left: .0625rem;
 }
