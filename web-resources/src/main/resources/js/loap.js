@@ -2090,7 +2090,7 @@ var UserSession = (function() {
 		if (is_user_remembered) {
 			tomorrow.setDate(tomorrow.getDate() + 1);
 		}
-		docCookies.setItem($auth.avatar_path, pathAvatar, tomorrow, "/");
+		docCookies.setItem($auth.avatar_path, avatar, tomorrow, "/");
 		user_profile_avatar = docCookies.getItem($auth.avatar_path);
 	}
 
