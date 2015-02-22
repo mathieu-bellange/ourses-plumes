@@ -146,12 +146,19 @@
 		<from>^/parametres/faq$</from>
 		<to>/faq-edit.html</to>
 	</rule>
+
 	<rule>
 		<note>redirection vers la page d'ajout d'un bug github</note>
 		<from>^/bug/nouveau$</from>
 		<to>/bug-report.html</to>
 	</rule>
-	
+
+	<rule>
+		<note>redirection vers la réinitialisation d'un mot de passe</note>
+		<from>^/parametres/motdepasse$</from>
+		<to>/password-reset.html</to>
+	</rule>
+
 	<rule>
 		<note>redirection vers la liste des comptes</note>
 		<from>^/comptes$</from>

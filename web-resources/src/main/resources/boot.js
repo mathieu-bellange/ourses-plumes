@@ -216,6 +216,7 @@ $nav = {
 	"article_add"           : {"url" : "/articles/nouveau",        "title" : "Écrire un article"},
 	"article_edit"          : {"url" : null,                       "title" : "Modifier un article"},
 	"bug_report"            : {"url" : "/bug/nouveau",             "title" : "Signaler un bug"},
+	"password_reset"        : {"url" : "/parametres/motdepasse",   "title" : "Réinitialiser son mot de passe"},
 	"contact"               : {"url" : null,                       "title" : "Nous contacter"},
 	"error"                 : {"url" : null,                       "title" : "Erreur"},
 	"home"                  : {"url" : "/",                        "title" : "Accueil"},
