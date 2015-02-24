@@ -534,7 +534,7 @@
 						CKEDITOR.instances["classic_editor"].destroy(); // Destroy classic editor instance
 						CKEDITOR.replace("classic_editor", { // Reinitialize classic editor instance with rubric class
 							customConfig : $cke_config_path + "conf-cke.js",
-							contentsCss : "css/loap-main.css",
+							contentsCss : "css/loap.css",
 							bodyClass : "article " + cls,
 							toolbarLocation : "bottom"
 						});
@@ -917,7 +917,7 @@
 				// Initialize classic CKEditor with custom config
 				CKEDITOR.replace("classic_editor", {
 					customConfig : $cke_config_path + "conf-cke.js",
-					contentsCss  : "css/loap-main.css",
+					contentsCss  : "css/loap.css",
 					bodyClass    : "article",
 					toolbarLocation : "bottom"
 				});

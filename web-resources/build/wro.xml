@@ -128,8 +128,7 @@
 
 	<group name="commons-loap-${project.version}">
 		<js>/js/loap.js</js>
-		<css>/css/loap-main.css</css>
-		<css>/css/loap-fx.css</css>
+		<css>/css/loap.css</css>
 	</group>
 
 	<group name="commons-lib-${project.version}">

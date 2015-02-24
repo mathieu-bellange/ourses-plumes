@@ -17,7 +17,7 @@ CKEDITOR.editorConfig = function( config ) {
 	//config.bodyClass = "article"; // Sets the class attribute to be used on the body element of the editing area. This can be useful when you intend to reuse the original CSS file you are using on your live website and want to assign the editor the same class as the section that will include the contents. In this way class-specific CSS rules will be enabled.
 
 	// CSS
-	//config.contentsCss = "css/loap-main.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
+	//config.contentsCss = "css/loap.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
 
 	// Autogrow Plugin
 	config.autoGrow_onStartup = true; // Whether automatic editor height adjustment brought by the Auto Grow feature should happen on editor creation.

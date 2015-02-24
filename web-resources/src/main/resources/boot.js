@@ -363,7 +363,7 @@ var body_tags = [];
 if (isFileProtocol) {
 	var head_tags_ext = [
 		{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
-		{elem: "link", attr: {href: $loc.css + "loap-main.css", rel: "stylesheet"}},
+		{elem: "link", attr: {href: $loc.css + "loap.css", rel: "stylesheet"}},
 		{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
 		{elem: "script", attr: {src: $loc.js + "modernizr/modernizr" + $conf.lib_ext +".js"}},
 		{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
