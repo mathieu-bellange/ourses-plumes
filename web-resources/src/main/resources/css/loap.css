@@ -3184,7 +3184,6 @@ input:focus + button + .error + .autocomplete > ul {
 .article .body.magenta a:hover, .article .body.magenta a:focus,
 .article .body.ourbody a:hover, .article .body.ourbody a:focus {color: #a17;}
 
-
 /* Article Footer */
 .article .footer {}
 .article .footer:after {
@@ -3341,6 +3340,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 /* Article Callout */
 .article .callout {
+  position: relative;
   width: 75%;
   margin-left: 12.5%;
   margin-bottom: 1rem;
