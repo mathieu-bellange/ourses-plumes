@@ -29,7 +29,6 @@ var isLocalHost = (function() {
 $org = {
 	"name"               : "Les Ourses à plumes",                 // String   Organization name.
 	"mail"               : "oursesaplumes at gmail dot com",      // String   Organization mail (unbound -- Google Bot can actually parse JS [or so they say]).
-	"spam"               : "mailto:spam@noaned.bzh",              // String   Organization spam.
 	"domain"             : "http://www.ourses-plumes.org/",       // String   Organization domain.
 	"newsletter"         : null,                                  // String   Organization newsletter.
 	"mailinglist"        : null,                                  // String   Organization mailinglist.
@@ -68,7 +67,6 @@ $build = {
 	"toolbar"            : isFileProtocol ? true : false,         // Boolean  Create dev toolbar. Default : false
 	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
 	"icons"              : true,                                  // Boolean  Create SVG icons. Default : true
-	"slider"             : false,                                 // Boolean  Create Foundation orbit slider. Default : true
 	"timeline"           : true,                                  // Boolean  Create Twitter timeline widget on home page. Default : true
 	"likebox"            : false                                  // Boolean  Create Facebook likebox widget on home page. Default : false
 };
