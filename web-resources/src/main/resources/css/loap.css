@@ -389,6 +389,7 @@ svg:not(:root) {
 fieldset {
   position: relative;
   min-height: 3.25rem;
+  margin: 0; /* Foundation override */
   padding: 1rem;
   padding-top: 0;
   padding: 1rem;
@@ -400,6 +401,9 @@ fieldset > *:last-child, /* TEMP : Remove bottom margin for last fieldset elemen
 fieldset > div[class*=row]:last-child > *, /* TEMP : Remove bottom margin for last row elements */
 fieldset > div[class*=row]:last-child > div[class*=column] > * { /* TEMP : Remove bottom margin for all columns childs of last row */
   margin-bottom: 0;
+}
+fieldset + fieldset {
+  margin-top: 1.125rem;
 }
 fieldset > legend {
   top: 0;
@@ -2727,13 +2731,17 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 /* ------------------------------------------------------------------ */
 
 [data-magellan-expedition]:not(.fixed) {
-  margin-left: -1rem; /* Position Fix */
+  margin-top: -.25rem; /* Position Fix */
+  padding-left: 0; /* Position Fix */
+  padding-top: 0; /* Position Fix */
   width: 100%;
+  border-bottom: .125rem dotted lightgray;
 }
 [data-magellan-expedition] {
   min-width: 75%;
   z-index: 50;
   left: 25%;
+  margin-top: 0;
   padding: .25rem 1rem .5rem;
 }
 
@@ -4284,6 +4292,7 @@ input:focus + button + .error + .autocomplete > ul {
 
 .date-table {
   width: 100%;
+  margin: 0; /* Foundation override */
   border: none;
   table-layout: fixed;
 }
@@ -4794,9 +4803,7 @@ input:focus + button + .error + .autocomplete > ul {
   margin: 0 0 .5rem;
   padding: .125rem 0 .375rem;
   color: #404040;
-  border-width: .125rem 0;
-  border-style: dotted;
-  border-color: lightgray;
+  border-bottom: .125rem dotted lightgray;
 }
 .legal-notes > h4 {
   margin: 1.5rem 0 .5rem;

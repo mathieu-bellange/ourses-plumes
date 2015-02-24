@@ -183,7 +183,8 @@ function displayArticles(url_params) {
 				return 0;
 			});
 			if (article_list_cfg.startup !== true) { // this is first launch of the page
-				$("main > header").after(file_pool.article_tool_tmpl(articles)).after(lb(1)); // process toolbar
+				var section = $("<section>", {"id" : "articles"}).html(file_pool.article_tool_tmpl(articles) + lb(1)); // create section
+				$("main > header").after(section); // process toolbar
 			} else { // this is not first launch of the page, articles lists need to be flushed
 				$(".article-list").detach(); // clear articles list (if any)
 			}

@@ -86,7 +86,6 @@
 <!--Article List-->
 {{% article_list_tmpl }}
 				{{## def.item: args: {{= file_pool.article_item_tmpl(args)}} #}}
-				<section id="articles">
 					<!--Draft articles list-->
 					<ul id="articles_draft" class="article-list draft">
 						{{~ data.drafts :params }}
@@ -121,5 +120,4 @@
 							<button class="icon-confirm success tiny right" style="margin: .125rem 0 0"></button>
 						</div>
 					</div>
-				</section>
 {{%}}
