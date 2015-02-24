@@ -793,7 +793,12 @@ button.alert.active, .button.alert.active, button.error.active, .button.error.ac
 /* ------------------------------------------------------------------ */
 /* # Inputs Validation */
 /* ------------------------------------------------------------------ */
-
+input[required].wrong,
+input[required].wrong:hover,
+input[required].wrong:focus {
+  border-color: #c33;
+  border-style: solid;
+}
 input.validation,
 input.validation:hover,
 input.validation:focus {
@@ -1688,14 +1693,19 @@ a.close {
 .legal-nav > ul > li > a:link,
 .legal-nav > ul > li > a:visited {
   font-weight: bold;
+  color: #666;
+  text-decoration: none;
 }
 .legal-nav > ul > li > a:hover,
 .legal-nav > ul > li > a:focus,
-.legal-nav > ul > li > a:active {}
+.legal-nav > ul > li > a:active {
+  color: #333;
+  text-decoration: underline;
+}
 .legal-nav > ul > li > a.current {
   cursor: default;
   padding: .125rem .25rem;
-  color: dimgray;
+  color: #999;
   text-decoration: none;
   border: .125rem dotted silver;
 }
@@ -1963,6 +1973,11 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 
 .panel > *:first-child {margin-top: 0;}
 .panel > *:last-child {margin-bottom: 0;}
+
+.panel {
+  border: .125rem solid lightgrey; /* Foundation override */
+  background-color: whitesmoke; /* Foundation override */
+}
 
 .panel.radius {
   border-radius: .5rem; /* Foundation override */
@@ -2325,6 +2340,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   background-color: gray;
   background-image: url('../img/ui/pattern-lines.png');
   opacity: .5;
+  z-index: 1004;
 }
 .css-fx .reveal-modal-bg {
   box-shadow: 0 0 16rem 4rem black inset;
@@ -2333,6 +2349,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   padding: .75rem 2rem 1rem;
   border: solid .125rem gainsboro;
   border-radius: .5rem;
+  z-index: 1005;
 }
 .css-fx .reveal-modal {
   box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
@@ -2351,8 +2368,9 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   vertical-align: text-top;
 }
 .reveal-modal > h4 {}
-.close-reveal-modal {
-  margin: .5rem;
+.reveal-modal .close-reveal-modal {
+  top: 1rem;
+  right: 1rem;
   width: 2.5rem;
   height: 2.5rem;
   line-height: 1;
@@ -2360,19 +2378,25 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   text-decoration: none; /* TEMP : links underline fix */
   border-radius: .375rem;
 }
-.close-reveal-modal:hover,
-.close-reveal-modal:focus {
+.reveal-modal .close-reveal-modal:hover,
+.reveal-modal .close-reveal-modal:focus {
   color: white;
   outline: none;
   background-color: crimson;
 }
-.css-fx .close-reveal-modal:hover,
-.css-fx .close-reveal-modal:focus {
+.css-fx .reveal-modal .close-reveal-modal:hover,
+.css-fx .reveal-modal .close-reveal-modal:focus {
   text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
   box-shadow: 0 0 .5rem .125rem rgba(0, 0, 0, .25) inset;
 }
 @media only screen and (max-width: 640px) {
-  .reveal-modal {border-radius: 0;}
+  .reveal-modal {
+    padding: .375rem .75rem .5rem;
+    border-radius: 0;
+  }
+  .reveal-modal .close-reveal-modal {
+    top: .75rem;
+  }
 }
 @media only screen and (min-width: 641px) {
   .reveal-modal.tiny-modal {width: 30%;}
@@ -2762,7 +2786,7 @@ input:focus + button + .error + .autocomplete > ul {
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 1000;
+  z-index: 9999;
 }
 .modal .canvas {
   position: fixed;
@@ -4119,22 +4143,37 @@ input:focus + button + .error + .autocomplete > ul {
   padding: 0;
   vertical-align: top;
 }
+
+/* Over block */
 .date-table .over-block {
-  margin: .25rem;
+  margin: .5rem .375rem;
 }
 .date-table .over-block > time {
   display: block;
-  color: silver;
+  color: darkgray;
   font-size: 1.75rem;
   line-height: 3rem;
   letter-spacing: -.0625em;
 }
-@media (max-width: 640px) {
-  .date-table .over-block > time {
-    line-height: 2rem;
-  }
-}
 .css-fx .date-table .over-block > time {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
+.date-table .over-block:not(.has-event) .over {
+  border-style: dotted;
+}
+.date-table .over-block:not(.has-event) .over:hover,
+.date-table .over-block:not(.has-event) .over:focus {
+  border-style: solid;
+  border-color: silver;
+}
+.css-fx .date-table .over-block:not(.has-event) .over:hover,
+.css-fx .date-table .over-block:not(.has-event) .over:focus {
+  box-shadow: 0 0 1.25rem .25rem rgba(128, 128, 128, .125) inset;
+}
+@media (max-width: 640px) {
+  .date-table .over-block {margin: .25rem .125rem;}
+  .date-table .over-block > time {line-height: 2rem;}
+}
+
+/* Event list */
 .date-table .over-block .event-list {
   margin: 0 0 .25rem;
   list-style: none inside;
@@ -4142,6 +4181,8 @@ input:focus + button + .error + .autocomplete > ul {
 .date-table .over-block .event-list li {
   font-size: 75%;
 }
+
+/* Has event */
 .date-table .has-event {
   background-color: ivory;
 }
@@ -4160,43 +4201,103 @@ input:focus + button + .error + .autocomplete > ul {
   color: #404040;
 }
 
+/* Today */
+.date-table .today {}
+.date-table .today > time {
+  color: crimson;
+}
+.date-table .today .over {
+  border-color: crimson;
+}
+
 /* ------------------------------------------------------------------ */
-/* # Date List */
+/* # Date Modal Edit */
 /* ------------------------------------------------------------------ */
 
-.date-list {
-  display: table;
-  width: 100%;
+.date-edit {}
+.date-edit > h2 {
+  margin-bottom: .5rem;
 }
-.date-list > li {
-  display: table-cell;
-}
-.date-list .over-block {
-  min-height: 5rem;
-  border-style: solid;
-  border-color: silver;
-}
-.date-list .over-block > time {
-  display: block;
-  color: silver;
-  font-size: 175%;
-  line-height: 5rem;
-  letter-spacing: -.0625em;
-}
-.css-fx .date-list .over-block > time {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
-.date-list .over-block > ul {
+.date-edit > fieldset {
   margin: 0 0 .25rem;
-  list-style: none inside;
 }
-.date-list .over-block > ul li {}
-.date-list .has-event {
-  background-color: lightyellow;
+.date-edit [data-delete] {
+  float: left;
+  margin: .375rem 0 0;
+  margin-right: .5rem;
+}
+.date-edit [data-delete]:focus {
+  outline-offset: 0;
+  outline: .375rem solid orangered;
+}
+.css-fx .date-edit [data-delete]:focus {
+  outline: 0;
+  box-shadow: 0 0 .375rem .25rem orangered;
+}
+.date-edit .title {
+  position: relative;
+  display: inline-block;
+  width: 90%; /* WARNING : arbitrary relative width */
+  margin: 0;
+  padding: 0 .375rem;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  letter-spacing: -.0625em;
+  color: #666;
+  font-size: 1.625rem;
+  height: auto;
+  border-color: transparent;
+}
+.css-fx .date-edit .title {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0;
+}
+.date-edit .title:hover,
+.date-edit .title:focus {
   border-color: darkgray;
 }
-.date-list .has-event > time {
-  font-weight: bold;
-  line-height: 3rem;
-  color: #333;
+.date-edit .title:hover {
+  border-style: dotted;
+}
+.date-edit .title:focus {
+  border-style: solid;
+}
+.date-edit .title.wrong,
+.date-edit .title.wrong:hover,
+.date-edit .title.wrong:focus {
+  border-style: solid;
+  border-color: #c33;
+}
+.date-edit .title + .error {
+  display: inline-block;
+  width: 90%; /* WARNING : arbitrary relative width */
+  margin-top: 0;
+  margin-left: 2.25rem;
+}
+.date-edit .description {
+  margin: .5rem 0 .5rem;
+  padding: 1.5rem;
+  font-size: 1.0625rem;
+  border-radius: .5rem;
+  border: .125rem solid lightgrey;
+  background-color: whitesmoke;
+}
+.date-edit .description:hover,
+.date-edit .description:focus {
+  background-color: white;
+  border-color: darkgray;
+}
+.date-edit .description:hover {
+  border-style: dotted;
+}
+.date-edit .description:focus {
+  border-style: solid;
+}
+.date-edit .button-bar {
+  margin-top: .5rem;
+  text-align: center;
+}
+.date-edit .button-bar button {
+  margin-bottom: 0;
 }
 
 /* ------------------------------------------------------------------ */

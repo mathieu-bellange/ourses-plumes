@@ -53,7 +53,10 @@ function check_faq() {
 	if (q.add(a).is_valid()) { // if all fields are valid
 		var data = [];
 		$(".faq.edit .question").each(function() {
-			data.push({"question" : encode_html($(this).find("input").val()), "answer" : encode_html($(this).next(".answer").find("textarea").val(), true)});
+			data.push({
+				"question" : encode_html($(this).find("input").val()),
+				"answer" : encode_html($(this).next(".answer").find("textarea").val(), true)
+			});
 		});
 		submit_faq(data); // send data to db
 	} else { // any field is invalid
@@ -140,6 +143,5 @@ $(document)
 	.on("click", "[data-create]", function() {create_faq()})
 	.on("click", "[data-delete]", function() {confirm_delete($(this))})
 	.on("click", "[data-valid]", function() {check_faq()})
-	.on("focus", "[required]", function() {$(this).set_validity()}) // set field validity to undefined on focus (could also be on change or on blur)
 	// User Interface
 	.on("click keydown", ".faq.edit .question > input, [data-delete]", function(e) {e.stopImmediatePropagation()});

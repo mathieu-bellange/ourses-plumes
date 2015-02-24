@@ -5,120 +5,120 @@
 <urlrewrite>
 
 	<rule enabled="false">
-	    <name>Force HTTPS example</name>
-	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
-	    <condition type="scheme" operator="equal">^http$</condition>
-	    <condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
-	    <from>^/connexion$</from>
-	    <to type="redirect">https://%{server-name}:443/connexion?redirection=%{parameter:redirection}</to>
+		<name>Force HTTPS example</name>
+		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition type="scheme" operator="equal">^http$</condition>
+		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
+		<from>^/connexion$</from>
+		<to type="redirect">https://%{server-name}:443/connexion?redirection=%{parameter:redirection}</to>
 	</rule>
 
 	<rule enabled="false">
-	    <name>Force HTTPS example</name>
-	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
-	    <condition type="scheme" operator="equal">^http$</condition>
-	    <from>^/connexion$</from>
-	    <to type="redirect">https://%{server-name}:443/connexion</to>
+		<name>Force HTTPS example</name>
+		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition type="scheme" operator="equal">^http$</condition>
+		<from>^/connexion$</from>
+		<to type="redirect">https://%{server-name}:443/connexion</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTPS example</name>
-	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^http$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/bug/nouveau$</condition>
-	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
+		<name>Force HTTPS example</name>
+		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^http$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/bug/nouveau$</condition>
+		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTPS example</name>
-	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^http$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/comptes(.*)$</condition>
-	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
+		<name>Force HTTPS example</name>
+		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^http$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/comptes(.*)$</condition>
+		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTPS example</name>
-	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^http$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/parametres/(.*)$</condition>
-	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
+		<name>Force HTTPS example</name>
+		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^http$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/parametres/(.*)$</condition>
+		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTPS example</name>
-	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^http$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/articles/nouveau$</condition>
-	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
+		<name>Force HTTPS example</name>
+		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^http$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/articles/nouveau$</condition>
+		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTPS example</name>
-	    <note>Automatically redirects adminstration requests to a secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^http$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/articles/([0-9]+)$</condition>
-	    <to type="redirect">https://%{server-name}:443%{request-uri}</to>
+		<name>Force HTTPS example</name>
+		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^http$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/articles/([0-9]+)$</condition>
+		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
-	
+
 	<!-- Redirection http -->
 	<rule enabled="false">
-	    <name>Force HTTP</name>
-	    <note>Automatically redirect non secure requests to non secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^https$</condition>
-	    <condition type="request-uri" operator="equal">^/faq$</condition>
-	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
-	    
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/faq$</condition>
+		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTP</name>
-	    <note>Automatically redirect non secure requests to non secure protocol.</note>
-	    <condition type="scheme" operator="equal">^https$</condition>
-	    <condition type="parameter" name="criteria" operator="equal">^(.*)$</condition>
-	    <from>^/articles$</from>
-	    <to type="redirect">http://%{server-name}:8080/articles?criteria=%{parameter:criteria}</to>
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition type="scheme" operator="equal">^https$</condition>
+		<condition type="parameter" name="criteria" operator="equal">^(.*)$</condition>
+		<from>^/articles$</from>
+		<to type="redirect">http://%{server-name}:8080/articles?criteria=%{parameter:criteria}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTP</name>
-	    <note>Automatically redirect non secure requests to non secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^https$</condition>
-	    <condition type="request-uri" operator="equal">^/articles$</condition>
-	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/articles$</condition>
+		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
-	
-	
+
+
 	<rule enabled="false">
-	    <name>Force HTTP</name>
-	    <note>Automatically redirect non secure requests to non secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^https$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/articles/(.*)/([0-9]*)/(.*)$</condition>
-	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/articles/(.*)/([0-9]*)/(.*)$</condition>
+		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTP</name>
-	    <note>Automatically redirect non secure requests to non secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^https$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/profils/(.*)$</condition>
-	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/profils/(.*)$</condition>
+		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTP</name>
-	    <note>Automatically redirect non secure requests to non secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^https$</condition>
-	    <condition next="or" type="request-uri" operator="equal">^/agenda$</condition>
-	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition next="or" type="request-uri" operator="equal">^/agenda$</condition>
+		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
-	
+
 	<rule enabled="false">
-	    <name>Force HTTP</name>
-	    <note>Automatically redirect non secure requests to non secure protocol.</note>
-	    <condition next="and" type="scheme" operator="equal">^https$</condition>
-	    <condition type="request-uri" operator="equal">^/$</condition>
-	    <to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/$</condition>
+		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
 	</rule>
 
 	<!--Redirections JS-->
@@ -170,7 +170,7 @@
 		<from>^/comptes/nouveau$</from>
 		<to>/account-create.html</to>
 	</rule>
-	
+
 	<rule>
 		<note>redirection vers la page de modification de mon compte</note>
 		<from>^/parametres/compte$</from>
@@ -182,13 +182,13 @@
 		<from>^/parametres/articles$</from>
 		<to>/draft-article-list.html</to>
 	</rule>
-	
+
 	<rule>
 		<note>redirection vers la page de modification de mon profil</note>
 		<from>^/parametres/profil$</from>
 		<to>/profile-edit.html</to>
 	</rule>
-	
+
 	<rule>
 		<note>redirection vers la page de création d'un article</note>
 		<from>^/articles/nouveau$</from>
@@ -200,7 +200,13 @@
 		<from>^/articles/([0-9]+)$</from>
 		<to>/article-edit.html</to>
 	</rule>
-	
+
+	<rule>
+		<note>redirection vers la page de modification de l'agenda</note>
+		<from>^/parametres/agenda$</from>
+		<to>/agenda-edit.html</to>
+	</rule>
+
 	<!--Redirections HTML non sécurisé-->
 	<rule>
 		<note>redirection vers la faq</note>
@@ -225,11 +231,13 @@
 		<from>^/articles/(.*)/([0-9]*)/(.*)$</from>
 		<to>/article-view.html</to>
 	</rule>
+
 	<rule>
 		<note>redirection vers la page de modification d'un article</note>
 		<from>^/articles/([0-9]+)$</from>
 		<to>/article-edit.html</to>
 	</rule>
+
 	<rule>
 		<note>redirection vers l'agenda</note>
 		<from>^/agenda$</from>
@@ -265,7 +273,7 @@
 		<from>^/sitemap.xml$</from>
 		<to>/rest/sitemap</to>
 	</rule>
-	
+
 	<rule>
 		<condition name="user-agent" operator="equal">Mozilla/[1-4]</condition>
 		<from>^.*$</from>

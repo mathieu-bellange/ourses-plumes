@@ -60,5 +60,4 @@ function submit_email(data) {
 $(document)
 	// Data Handling
 	.on("click", "#submit", function() {check_email()})
-	.on("keydown", "#email", function(e) {if (e.which == 13) {$("#submit").click().focus()}})
-	.on("focus", "[required]", function() {$(this).set_validity()}); // set field validity to undefined on focus (could also be on change or on blur)
+	.on("keydown", "#email", function(e) {if (e.which == 13) {$("#submit").click().focus()}});

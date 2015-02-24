@@ -66,6 +66,12 @@
 		<group-ref>commons-loap-${project.version}</group-ref>
 	</group>
 
+	<group name="agenda-edit-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/agenda-edit.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
+
 	<group name="bug-report-${project.version}">
 		<group-ref>commons-lib-${project.version}</group-ref>
 		<js>/js/bug-report.js</js>

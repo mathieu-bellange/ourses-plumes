@@ -191,18 +191,18 @@
 					var s = $("#textarea").val().trim(), t = encode_html(s, true);
 					$("#output").html(t.length > 0 ? t : "&nbsp;");
 					$("#textarea").val(s);
-					$("#textarea").trigger("autosize.resize") // force autosize
+					$("#textarea").trigger("autosize.resize") // force autosize resize
 				});
 				$("#decode").click(function() {
 					var s = $("#output").html(), t = decode_html(s, true);
 					$("#input").html(encode_html(s, true));
 					$("#textarea").val(t == " " ? "" : t);
-					$("#textarea").trigger("autosize.resize") // force autosize
+					$("#textarea").trigger("autosize.resize") // force autosize resize
 				});
 				$("#clear").click(function() {
 					$("#input").html("&nbsp;");
 					$("#textarea").val("");
-					$("#textarea").trigger("autosize.resize") // force autosize
+					$("#textarea").trigger("autosize.resize") // force autosize resize
 				});
 				// Execution
 				$("#textarea").add_confirmation_bar();

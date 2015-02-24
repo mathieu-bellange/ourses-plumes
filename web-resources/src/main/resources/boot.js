@@ -95,7 +95,8 @@ $conf = {
 		"avatar"           : true,                                  // Boolean  Confirm delete avatar. Default : true
 		"account"          : false,                                 // Boolean  Confirm delete account. Default : false
 		"draft"            : true,                                  // Boolean  Confirm delete draft. Default : true
-		"faq"              : true                                   // Boolean  Confirm delete faq. Default : true
+		"faq"              : true,                                  // Boolean  Confirm delete faq. Default : true
+		"date_event"       : false                                  // Boolean  Confirm delete date event. Default : false
 	}
 };
 
@@ -162,7 +163,7 @@ $file = {
 
 /* Messages */
 $msg = {
-	"compatibility_warning"	: "Vous utilisez un navigateur obsol&egrave;te, certaines fonctionnalit&eacute;es ont donc &eacute;t&eacute; d&eacute;sactiv&eacute; pour cause de s&eacute;curit&eacute;.",
+	"compatibility_warning" : "Vous utilisez un navigateur obsol&egrave;te, certaines fonctionnalit&eacute;s ont donc &eacute;t&eacute; d&eacute;sactiv&eacute;es pour cause de s&eacute;curit&eacute;.",
 	"error"                 : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
 	"saving"                : "Enregistrement&hellip;",
 	"checking"              : "V&eacute;rification&hellip;",
@@ -196,10 +197,11 @@ $msg = {
 	"date_event_empty"      : "Pas d&rsquo;&eacute;v&egrave;nement pr&eacute;vu ce jour.",
 	"confirm_action"        : "&Ecirc;tes-vous certaine de vouloir faire cela&nbsp;?",
 	"confirm_delete"        : {
-		"avatar"              : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est d&eacute;finitive.",
-		"account"             : "&Ecirc;tes-vous certaine de vouloir supprimer ce compte&nbsp;?<br>Cette action est d&eacute;finitive.",
-		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est d&eacute;finitive.",
-		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est d&eacute;finitive."
+		"avatar"              : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"account"             : "&Ecirc;tes-vous certaine de vouloir supprimer ce compte&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"date_event"          : "&Ecirc;tes-vous certaine de vouloir supprimer cet &eacute;v&egrave;nement&nbsp;?<br>Cette action est irr&eacute;versible."
 	},
 	"sumething_weird"       : "Un esp&egrave;ce de truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
 };
@@ -211,6 +213,7 @@ $nav = {
 	"account_create"        : {"url" : null,                       "title" : "Ajouter un compte"},
 	"account_edit"          : {"url" : "/parametres/compte",       "title" : "Mon compte"},
 	"agenda"                : {"url" : "/agenda",                  "title" : "Agenda"},
+	"agenda_edit"           : {"url" : "/parametres/agenda",       "title" : "Modifier l'agenda"},
 	"online_article_list"   : {"url" : "/articles",                "title" : "Tous les articles"},
 	"draft_article_list"    : {"url" : "/parametres/articles",     "title" : "Mes articles"},
 	"article_view"          : {"url" : null,                       "title" : null},

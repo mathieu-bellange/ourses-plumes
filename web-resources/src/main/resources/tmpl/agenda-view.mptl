@@ -1,0 +1,56 @@
+﻿<!--Date Event List-->
+{{% date_event_list_tmpl }}
+								<ul style="display: none;" class="event-list hide">
+									{{~ data.events :params }}
+									<li>
+										<strong class="title">{{= params.title }}</strong>
+										{{? typeof(params.description) !== "undefined" && params.description != "" }}
+										<span class="hide">&#8201;: </span>
+										<span class="text hide">{{= params.description }}</span>
+										{{?}}
+									</li>
+									{{~}}
+								</ul>
+{{%}}
+
+<!--Date Block-->
+{{% date_block_tmpl }}
+							<div class="over-block{{= typeof(data.events) !== 'undefined' ? ' has-event' : '' }}{{= data.date == getDateTime(new Date()) ? ' today' : '' }}">
+								<time datetime="{{= data.date }}">{{= data.num }}</time>
+								{{? typeof(data.events) === "object" }}
+									{{= file_pool.date_event_list_tmpl(data) }}
+								{{?}}
+								{{? typeof(data.events) !== 'undefined' || typeof(agenda_edit) !== 'undefined' && agenda_edit }}
+								<a class="over" href="javascript:void(0)" title="{{= typeof(agenda_edit) !== 'undefined' && agenda_edit ? (typeof(data.events) !== 'undefined' ? 'Modifier les' : 'Ajouter des') : 'Voir les' }} &eacute;v&egrave;nements &agrave; cette date"></a>
+								{{?}}
+							</div>
+{{%}}
+
+<!--Date Table-->
+{{% date_table_tmpl }}
+						{{~ data.month :week }}
+						<tr>
+							{{ for (var day in week) { }}
+							<td>{{= typeof(week[day].num) !== "undefined" ? file_pool.date_block_tmpl(week[day]) : '' }}</td>
+							{{ } }}
+						</tr>
+						{{~}}
+{{%}}
+
+<!--Date Modal-->
+{{% date_modal_tmpl }}
+			<div id="{{= data.id }}" class="reveal-modal large-modal" data-reveal>
+				<span class="close-reveal-modal" tabindex="0" title="Fermer la fen&ecirc;tre"></span>
+				<h2 class="icon-date large">{{= data.date }}</h2>
+				{{? data.events.length > 0 }}
+					{{~ data.events :params }}
+				<h4 class="subheader">{{= params.title }}</h4>
+						{{? params.text }}
+				<p class="panel radius">{{= params.text }}</p>
+						{{?}}
+					{{~}}
+				{{??}}
+				<p class="panel radius text-gray text-center">{{= $msg.date_event_empty }}</p>
+				{{?}}
+			</div>
+{{%}}

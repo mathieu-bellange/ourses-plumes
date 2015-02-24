@@ -260,6 +260,27 @@ jQuery.fn.extend({
 	}
 });
 
+/* Toggle Tabnav */
+jQuery.fn.extend({
+	disable_tabnav : function() {
+		$(this).find("[tabindex]").each(function() {
+			$(this).data("tabindex", $(this).attr("tabindex"));
+			$(this).attr("tabindex", "-1");
+		});
+		$(this).find("a").attr("tabindex", "-1");
+	},
+	renable_tabnav : function() {
+		$(this).find("a").each(function() {
+			if (!$(this).data("tabindex")) {
+				$(this).removeAttr("tabindex");
+			}
+		});
+		$(this).find("[tabindex]").each(function() {
+			$(this).attr("tabindex", $(this).data("tabindex"));
+		});
+	}
+});
+
 /* Cursor Position */
 jQuery.fn.extend({
 	select_text : function(start, end) {
@@ -489,7 +510,6 @@ jQuery.fn.extend({
 					$conf.js_fx ? $(this).find(cfg.options).slideUp(cfg.slide_duration) : $(this).find(cfg.options).hide();
 				},
 				keydown: function(e) {
-					// var str = $(this).find(cfg.options + " > li.selected").text();
 					if (e.which == 13) { // Enter
 						$(this).blur();
 					}
@@ -950,6 +970,30 @@ jQuery.fn.extend({
 			}
 		});
 	},
+	/* Clean (field) value
+	 * This jQuery method removes whitespaces at the begining and the end
+	 * of a field value according to his type and returns the result.
+	 */
+	clean_value : function() {
+		var str = "";
+		$(this).each(function() {
+			var obj = $(this);
+			// 1. Reset field value without whitespaces according to type
+			if (obj.is("input") || obj.is("textarea") || obj.is("select")) {
+				// HTML field
+				str = obj.val().trim();
+				obj.val(str); // reset field value
+			} else {
+				// HTML element (e.g. div or span)
+				str = obj.text().trim();
+				obj.html(str); // reset element content
+			}
+			// 2. Force autosize resize for any textarea
+			if (obj.is("textarea")) {obj.trigger("autosize.resize")}
+		});
+		// 3. Return last field value
+		return str;
+	},
 	/* Check (field) validity
 	 * This jQuery method checks wether a field is valid or not,
 	 * set is jQuery data validity flag and error box message if any,
@@ -960,19 +1004,9 @@ jQuery.fn.extend({
 		var err_msg = err_msg || false;
 		$(this).each(function() {
 			var obj = $(this);
-			// 1. Reset field value without whitespaces according to type
-			if (obj.is("input") || obj.is("textarea") || obj.is("select")) {
-				// HTML field
-				var str = obj.val().trim();
-				obj.val(str); // reset field value
-			} else {
-				// HTML element (e.g. div or span)
-				var str = obj.text().trim();
-				obj.html(str); // reset element content
-			}
-			// 2. Reset autosize for any textarea
-			if (obj.is("textarea")) {obj.trigger("autosize.resize")}
-			// 3. Proceed validation
+			// 1. Define and clean field value
+			str = obj.clean_value();
+			// 2. Proceed validation
 			if (str.length > 0 && cond(str)) { // field required + custom condition (if any)
 				// Set validity
 				obj.set_validity(true);
@@ -992,66 +1026,90 @@ jQuery.fn.extend({
 
 /* Add Confirmation Bar */
 jQuery.fn.extend({
-	add_confirmation_bar : function() {
+	add_confirmation_bar : function(opts) {
 		// vars
-		var str = "";
-		var t = 0;
+		var defs = {
+			"target"  : ".confirmation-bar", // [Sel]  Selector of the confirmation bar. Default : ".confirmation-bar"
+			"timeout" : 1000                 // [Int]  Time before the confirmation bar shut down upon blur. Default : 1000
+		};
+		var cfg = $.extend({}, defs, opts);
 		// functions
-		function valid(obj, cancel) {
+		function open(obj) {
+			var m = obj.css("margin-bottom");
+			obj.after(file_pool.confirmation_bar_tmpl); // insert confirmation_bar template
+			job = obj.next(cfg.target);
+			job.svg_icons(); // reflow all icons of validation bar
+			job.css("margin-bottom", m); // apply margin
+			obj.css("margin-bottom", 0); // clear margin
+			$conf.js_fx ? job.fadeIn("slow") : job.show();
+		}
+		function close(obj, job, cancel) {
 			var cancel = cancel || false;
-			$conf.js_fx ? $(".confirmation-bar").fadeOut("fast") : $(".confirmation-bar").hide();
-			obj.css("margin-bottom", $(".confirmation-bar").css("margin-bottom")); // reset margin
-			$(".confirmation-bar").remove(); // remove element
-			if (cancel) {
-				obj.val(str);
+			job.fadeOut(($conf.js_fx ? "fast" : 0), function() {
+				obj.css("margin-bottom", job.css("margin-bottom")); // reset margin
+				job.remove(); // remove element
+				if (cancel) {obj.val(cancel)} // cancel value
+			});
+		}
+		function is_editable(obj) {
+			if (obj.attr("disabled") == undefined
+			 && obj.attr("readonly") == undefined) {
+				return true
 			}
 		}
 		// loop
 		$(this).each(function() {
+			// internals
 			var self = $(this);
+			var str = "";
+			var t = 0;
 			// events
 			self.bind({
 				focus : function() {
-					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
+					if (is_editable(self)) {
 						str = $(self).val();
+						clearTimeout(t);
 					}
 				},
 				blur : function(e) {
-					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
-						if ($(".confirmation-bar [data-cancel]").length > 0 && $(".confirmation-bar [data-cancel]").is(":hover")) {
-							valid(self, true);
+					if (is_editable(self)) {
+						if (self.next(cfg.target).find("[data-cancel]").length > 0
+						 && self.next(cfg.target).find("[data-cancel]").is(":hover")) {
+							close(self, self.next(cfg.target), str);
+						} else if (self.next(cfg.target).find("[data-confirm]").length > 0
+						 && self.next(cfg.target).find("[data-confirm]").is(":hover")) {
+							close(self, self.next(cfg.target));
 						} else {
-							valid(self);
+							t = setTimeout(function() {
+								close(self, self.next(cfg.target));
+							}, cfg.timeout);
 						}
-						self.trigger("autosize.resize") // force autosize (i.e. wrong size on cancel bug fix)
+						self.trigger("autosize.resize") // force autosize resize
 					}
 				},
 				keydown : function(e) {
-					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
+					if (is_editable(self)) {
+						var str = $(this).val();
 						if (e.which == 13 && !e.shiftKey && !e.ctrlKey) { // Enter AND NOT Shift
-							var str = $(this).val();
-							var pos = $(this).get(0).selectionStart; // get cursor position (n.b. HTML 5 feature)
-							$(this).val(str.trunc(pos) + "\n" + str.cut(pos)); // insert line end at cursor position
-							$(this).get(0).setSelectionRange(pos + 1, pos + 1); // reset cursor position
+							if (self.attr("maxlength") && str.length < self.attr("maxlength")) { // only if not max length
+								var pos = $(this).get(0).selectionStart; // get cursor position (n.b. HTML 5 feature)
+								$(this).val(str.trunc(pos) + "\n" + str.cut(pos)); // insert line end at cursor position
+								$(this).get(0).setSelectionRange(pos + 1, pos + 1); // reset cursor position
+							}
 						}
 					}
 				},
 				keyup : function(e) {
-					if (self.attr("disabled") == undefined && self.attr("readonly") == undefined) {
+					if (is_editable(self)) {
 						if (e.which == 27) { // Escape
-							valid(self, true);
-							self.trigger("autosize.resize") // force autosize (i.e. wrong size on cancel bug fix)
+							close(self, self.next(cfg.target), str);
+							self.trigger("autosize.resize") // force autosize resize
 						} else if (e.ctrlKey && e.which == 13) { // Ctrl + Enter
-							valid(self);
+							close(self, self.next(cfg.target));
 							self.blur();
 						} else if (e.which == 0 || e.which == 8 || e.which == 13 || e.which == 32 || e.which == 46 || e.which >= 48 && e.which <= 90 || e.which >= 96 && e.which <= 111 || e.which >= 160 && e.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
-							if ($(".confirmation-bar").length == 0) {
-								var m = self.css("margin-bottom");
-								$(this).after(file_pool.confirmation_bar_tmpl); // insert confirmation_bar template
-								$(".confirmation-bar").svg_icons(); // reflow all icons of validation bar
-								$(".confirmation-bar").css("margin-bottom", m); // apply margin
-								self.css("margin-bottom", 0); // clear margin
-								$conf.js_fx ? $(".confirmation-bar").fadeIn("slow") : $(".confirmation-bar").show();
+							if (self.next(cfg.target).length == 0) {
+								open(self);
 							}
 						}
 					}
@@ -1083,6 +1141,7 @@ jQuery.fn.extend({
 			"class"           : "error",    // String   CSS class of the alert box (null to none). Default : "error"
 			"icon"            : "warning",  // String   Name of the message icon (null to none). Default : "warning"
 			"icon_class"      : "white",    // String   CSS color class of the message icon (null to none). Default : "white"
+			"insert"          : "after",    // String   DOM manipulation type (before, after, append or prepend). Default : "after"
 			"timeout"         : 0,          // Integer  Time before alert box fade out (zero for never). Default : 0
 			"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
 			"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
@@ -1099,7 +1158,13 @@ jQuery.fn.extend({
 			}
 		}
 		if ($(sel).length == 0) { // create
-			$(this).first().after(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : msg}));
+			var alert_box = file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : msg});
+			switch(cfg.insert) {
+				case "append" : $(this).first().append(alert_box); break;
+				case "prepend" : $(this).first().prepend(alert_box); break;
+				case "before" : $(this).first().before(alert_box); break;
+				default : $(this).first().after(alert_box); // after
+			}
 			$(sel).svg_icons(); // set svg icons contained by alert box
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
 			set_close_timeout(sel);
@@ -1116,23 +1181,17 @@ jQuery.fn.extend({
 		}
 		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
 	},
-	create_compatibility_warning_box : function() {
-		var id = "warning_compatibility";
-		var cfg = {
-				"class"           : "error",    // String   CSS class of the alert box (null to none). Default : "error"
-				"icon"            : "warning",  // String   Name of the message icon (null to none). Default : "warning"
-				"icon_class"      : "white",    // String   CSS color class of the message icon (null to none). Default : "white"
-				"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
-				"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
-				"fade_duration"   : 500         // Integer  Duration of the fading effeet. Default : 500
-		};
-		var sel = "#" + id; // internal
-		if ($(sel).length == 0) {
-			$(this).prepend(file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : $msg.compatibility_warning}));
-			$(sel).svg_icons(); // set svg icons contained by alert box
-			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
-		}
-		if (cfg.scroll == true) { $(sel).scroll_to({"fx_d" : cfg.scroll_duration, "spacing" : $(sel).innerHeight()}) } // scroll to alert box
+	append_alert_box : function(msg, id, opts) {
+		$(this).create_alert_box(msg, id, $.extend(opts, {"insert" : "append"}));
+	},
+	prepend_alert_box : function(msg, id, opts) {
+		$(this).create_alert_box(msg, id, $.extend(opts, {"insert" : "prepend"}));
+	},
+	clear_alert_box : function() {
+		$(this).find(".alert-box").each(function() {
+			clearTimeout($(this).data("timeout")); // reset_timeout
+			$(this).remove(); // remove alert
+		});
 	}
 });
 
@@ -1400,6 +1459,169 @@ var faq_ui = (function() {
 					self.close(foo, null, function() {
 						turn_icon(bar);
 					});
+				}
+			});
+		}
+	}
+}());
+
+var agenda_ui = (function() {
+	var cfg = {
+		"fx_d"         : 375,            // [Int]  Duration of effects (ms). Default : 375
+		"ev_t"         : 750,            // [Int]  Timeout before showing date events (ms). Default : 500
+		"show_events"  : true,           // [Bool] Show sliding date events ? Default : true
+		"template"     : function() {},  // [Func] Template function for compiling. Default : function() {}
+		"on_open"      : function() {},  // [Func] Callback function before modal opening. Default : function() {}
+		"on_close"     : function() {},  // [Func] Callback function before modal opening. Default : function() {}
+		"on_opened"    : function() {},  // [Func] Callback function after modal opening. Default : function() {}
+		"on_closed"    : function() {},  // [Func] Callback function after modal closing. Default : function() {}
+	};
+	return {
+		build : function(db) {
+			// variables
+			var today = new Date();
+			var m = today.getMonth();
+			var y = today.getFullYear();
+			// functions
+			function build_calendar(year, month) {
+				var q = new Date(year, month, 1); // first day in month
+				var m = []; // month array
+				var w = []; // week array
+				var n = q.getDay();
+				var i = 1; // num counter
+				for (i; i < (n == 0 ? 7 : n); i++) {
+					w.push({}); // fill first week gap with empty object
+				} i = 1; // reset counter
+				while (q.getMonth() === month) {
+					var ymd = getDateTime(new Date(q));
+					var d = {}; // day object in week array
+					// set day object
+					d.num = i;
+					d.date = ymd;
+					for (k in db) { // check date in db
+						if (getDateTime(new Date(q)) == getDateTime(new Date(db[k].day))) {
+							if (typeof(db[k].events) !== "undefined") {
+								d.events = [];
+								for (e in db[k].events) {
+									var h = {};
+									if (typeof(db[k].events[e].title) !== "undefined") {
+										h.title = db[k].events[e].title; // get name
+									}
+									if (typeof(db[k].events[e].description) !== "undefined") {
+										h.description = db[k].events[e].description; // get desc
+									}
+									d.events.push(h);
+								}
+							}
+						}
+					}
+					// push week array
+					w.push(d);
+					// check week last day
+					if (q.getDay() == 0) {
+						m.push(w);
+						w = []; // reset week array
+					}
+					// increment all
+					q.setDate(q.getDate() + 1);
+					i++;
+				}
+				// push last values
+				var n = q.getDay();
+				for (i = (n == 0 ? 7 : n); i <= 7; i++) {
+					w.push({}); // fill last week gap with empty object
+				}
+				m.push(w); // push last week array
+				return m; // return month array
+			}
+			function update_agenda(year, month) {
+				$(".date-switcher h3").html($time.months[month].capitalize() + " " + year);
+				$(".date-table tbody").html(file_pool.date_table_tmpl({"month" : build_calendar(y, m)})); // append table body
+			}
+			// process build
+			update_agenda(y, m);
+			// live events
+			$(".date-switcher .prev").click(function() {
+				if (m == 0) {m = 11; y -= 1;} else {m -= 1}
+				update_agenda(y, m);
+			});
+			$(".date-switcher .next").click(function() {
+				if (m == 11) {m = 0; y += 1;} else {m += 1}
+				update_agenda(y, m);
+			});
+		},
+		init : function(opts) {
+			cfg = $.extend({}, cfg, opts);
+			$(document).on("mouseenter", ".has-event", function() {
+				if (isComputer() && cfg.show_events) {
+					var self = $(this);
+					self.data("hover", true);
+					setTimeout(function() {
+						if (self.data("hover") == true) {
+							self.css({"width" : self.outerWidth(), "position" : "absolute", "z-index" : "2"});
+							self.children(".event-list").slideDown($conf.js_fx ? cfg.fx_d / 2 : 0);
+						}
+					}, cfg.ev_t);
+				}
+			});
+			$(document).on("mouseleave", ".has-event", function() {
+				if (isComputer() && cfg.show_events) {
+					var self = $(this);
+					self.data("hover", false);
+					self.children(".event-list").slideUp($conf.js_fx ? cfg.fx_d : 0, function() {
+						self.css({"width" : "", "position" : "", "z-index" : ""});
+					});
+				}
+			});
+			$(document).on("click", ".over", function() {
+				if ($(".reveal-modal").is(":visible")) {
+					if (!$("html").data("revealing-modal")) {
+						$(".reveal-modal").foundation("reveal", "close");
+					}
+				} else {
+					// Create modal
+					var self = $(this);
+					var p = self.parent();
+					var e = [];
+					p.find(".event-list").children("li").each(function() {
+						var title = $(this).find(".title").html() || null;
+						var text = $(this).find(".text").html() || null;
+						if (title) {e.push({"title" : decode_html(title), "text" : (text ? decode_html(text, true) : null)})}
+					});
+					var d = p.find("time").first().attr("datetime") || 0;  // Datetime
+					var a = d.split("-"); // YMD array
+					var t = new Date(a[0], a[1] - 1, a[2]); // Timestamp
+					var c = {
+						"id"       : d,
+						"date"     : $time.days[t.getDay() == 0 ? 6 : t.getDay() - 1].capitalize() + " " + dateToHTML(t),
+						"events"   : e
+					};
+					var modal = $(cfg.template(c));
+					// Append modal
+					$("body").append(modal);
+					// Reload SVG icons
+					modal.svg_icons();
+					// Remember caller
+					modal.data("caller", self);
+					// Bind events
+					modal.on("open", function() {
+						$("html").data("revealing-modal", true);
+						cfg.on_open(); // callback
+					});
+					modal.on("close", function() {
+						cfg.on_close(); // callback
+					});
+					modal.on("opened", function() {
+						$("html").removeData("revealing-modal");
+						cfg.on_opened(); // callback
+					});
+					modal.on("closed", function() {
+						cfg.on_closed(); // callback
+						self.focus(); // restore focus
+						$(this).remove();
+					});
+					// Initialize modal
+					modal.foundation("reveal", "open");
 				}
 			});
 		}
@@ -1704,7 +1926,6 @@ function set_user_connected(is_connected) {
 /* Check current page */
 function check_current_page() {
 	$("[data-current]").each(function () {
-		// var m = window.location.toString();
 		var h = $(this).attr("href");
 		var p = window.location.pathname.toString().split("/");
 		var m = window.location.pathname.toString() + window.location.search.toString();
@@ -1935,7 +2156,7 @@ Window.prototype.checkCompatibility = function() {
 
 function compatibilityWarning() {
 	if (!checkCompatibility()) {
-		$("body").create_compatibility_warning_box();
+		$("body").prepend_alert_box($msg.compatibility_warning, "warning");
 	}
 }
 
@@ -2012,6 +2233,18 @@ $(document).on("keydown", "[tabindex]", function(e) {
 	if (e.which == 13) { // Enter
 		$(this).click();
 	}
+});
+
+/* ------------------------------------------------------------------ */
+/* # Required Fields */
+/* ------------------------------------------------------------------ */
+
+/*
+ * NOTE
+ * This live event is used for field validity convenience.
+ */
+$(document).on("focus", "[required]", function() {
+	$(this).set_validity() // set field validity to undefined on focus (could also be on change or on blur)
 });
 
 /* ------------------------------------------------------------------ */
@@ -2172,7 +2405,10 @@ var OursesSecurity = (function() {
 /* ------------------------------------------------------------------ */
 
 /* Define third-party on-the-fly custom settings */
-var autosize_cfg = {append: ""};               // Autosize jQuery plugin (i.e. remove line feed)
+var autosize_cfg = {                           // Autosize jQuery plugin (i.e. remove line feed)
+	"append"                : "",                // New line appended at the end of the textarea. Default : "\n"
+	"resizeDelay"           : -1                  // Debounce timeout before resizing. Default : 10
+};
 var f_magellan_cfg = {                         // Foundation Magellan Sticky Nav component
 	"threshold"             : 0,                 // Pixels from the top of the expedition for it to become fixes. Default : 0
 	"destination_threshold" : 0,                 // Pixels from the top of destination for it to be considered active. Default : 20
@@ -2180,22 +2416,19 @@ var f_magellan_cfg = {                         // Foundation Magellan Sticky Nav
 	"fixed_top"             : 0                  // Top distance in pixels assigend to the fixed element on scroll. Default : 0
 };
 
-/* Initialize third-party modules */
+/* Initialize modules on document ready */
 $(document).ready(function() {
-	/* Apply Foundation custom config */
-	var f = Foundation.libs;
-	$.extend(f["magellan-expedition"].settings, f_magellan_cfg, f["magellan-expedition"].settings); // Apply Foundation custom settings for magellan
-
-	/* Initialize third-party plugins */
-	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin -- WARNING : compatibility need to be checked on IE10
-	$(document).foundation(); // Initialize Foundation module
-	loap.init(); // Initialize primary module
+	var f = Foundation.libs, f_m = f["magellan-expedition"].settings; // define foundation custom settings
+	$.extend(f_m, f_magellan_cfg, f_m); // appply foundation custom settings
+	$(document).foundation(); // initialize foundation module
+	loap.init(); // initialize primary module
 	if (typeof loax !== "undefined" && loax.hasOwnProperty("init")) {
-		loax.init() // Initialize auxiliary module
+		loax.init() // initialize auxiliary module
 	}
+	$("textarea").autosize(autosize_cfg); // initialize autosize plugin
 });
 
 /* Reload modules on window resize event */
 $(window).on("resize", function() {
-	$("textarea").autosize(autosize_cfg); // Autosize jQuery plugin
+	$("textarea").trigger("autosize.resize") // force autosize resize
 });

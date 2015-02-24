@@ -45,21 +45,3 @@
 				</div>
 			</div>
 {{%}}
-
-<!--Date Modal-->
-{{% date_modal_tmpl }}
-			<div id="{{= data.id }}" class="reveal-modal large-modal" data-reveal>
-				<h2 class="icon-date large">{{= data.date }}</h2>
-				{{? data.events.length > 0 }}
-					{{~ data.events :params }}
-				<h4 class="subheader">{{= params.title }}</h4>
-						{{? params.text }}
-				<p class="panel radius">{{= params.text }}</p>
-						{{?}}
-					{{~}}
-				{{??}}
-				<p class="panel radius text-gray text-center">{{= $msg.date_event_empty }}</p>
-				{{?}}
-				<span class="close-reveal-modal" tabindex="0"></span>
-			</div>
-{{%}}
