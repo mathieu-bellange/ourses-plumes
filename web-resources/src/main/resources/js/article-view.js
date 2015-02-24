@@ -197,6 +197,20 @@ function processArticle(article) {
 	$(".header, .footer").update_separators(); // update separators
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
+	$("a[rel='author']").on("click",function(){
+		$.ajax({
+			type : "GET",
+			url : "/rest/profile/" + $(this).attr("data-profile-id"),
+			contentType : "application/json; charset=utf-8",
+			success : function(profile, status, jqxhr) {
+				window.location.href = profile.path;
+			},
+			error : function(jqXHR, status, errorThrown) {
+				createAlertBox();
+			},
+			dataType : "json"
+		});
+	});
 	displayRelatedArticle(article.id);
 }
 

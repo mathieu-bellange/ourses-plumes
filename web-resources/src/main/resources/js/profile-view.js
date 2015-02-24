@@ -3,6 +3,7 @@
 /* ------------------------------------------------------------------ */
 
 var loax_pool = {
+	"error_tmpl" : $loc.tmpl + "error.tmpl",
 	"profile_view_tpml" : $loc.tmpl + "profile-view.tmpl",
 	"related_list_tmpl" : $loc.tmpl + "related-list.tmpl"
 }
@@ -78,7 +79,7 @@ function displayProfile() {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").after(doT.compile(loadfile($loc.tmpl + "error.tmpl")));
+				$("main > header").after(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}

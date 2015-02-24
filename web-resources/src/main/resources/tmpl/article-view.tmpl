@@ -4,9 +4,9 @@
 						<div class="header">
 							<h2 class="title">{{= data.title }}</h2>
 							<p class="authoring icon-author">
-								<span class="hide">Par </span><a href="{{= data.profile.path }}" class="author" rel="author" title="Voir le profil de l&rsquo;auteure">{{= data.profile.pseudo }}</a>
+								<span class="hide">Par </span><a href="javascript:void(0);" data-profile-id="{{= data.profile.id }}" class="author" rel="author" title="Voir le profil de l&rsquo;auteure">{{= data.profile.pseudo }}</a>
 								{{~ data.coAuthors : coAuthor }}
-								<span class="separator"></span><a href="{{= coAuthor.path }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure">{{= coAuthor.pseudo }}</a>
+									<span class="separator"></span><a href="javascript:void(0);" data-profile-id="{{= coAuthor.id }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure">{{= coAuthor.pseudo }}</a>
 								{{~}}
 							</p>
 							<time class="date icon-date small" pubdate="{{= getDateTime(new Date(data.publishedDate)) }}"><small class="text"><span class="hide">Publi&eacute; le </span>{{= dateToHTML(new Date(data.publishedDate)) }}</small></time>
@@ -25,9 +25,9 @@
 						</div>
 						<div class="footer">
 							<p class="authoring right">
-								<span class="hide">Par </span><a href="{{= data.profile.path }}" class="author" rel="author" title="Voir le profil de l&rsquo;auteure">{{= data.profile.pseudo }}</a>
+								<span class="hide">Par </span><a href="javascript:void(0);" data-profile-id="{{= data.profile.id }}" class="author" rel="author" title="Voir le profil de l&rsquo;auteure">{{= data.profile.pseudo }}</a>
 								{{~ data.coAuthors : coAuthor }}
-								<span class="separator"></span><a href="{{= coAuthor.path }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure">{{= coAuthor.pseudo }}</a></span>
+									<span class="separator"></span><a href="javascript:void(0);" data-profile-id="{{= coAuthor.id }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure">{{= coAuthor.pseudo }}</a></span>
 								{{~}}
 							</p>
 							<ul class="inline-list left">
