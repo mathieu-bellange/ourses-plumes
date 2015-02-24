@@ -28,7 +28,7 @@ html {
 
 body {
   margin: 0; /* Normalize 3.0.1 : Remove default margin. */
-  padding: 1rem;
+  padding: 0;
   font-size: 100%;
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   line-height: 1.25; /* Foundation override */
@@ -37,7 +37,6 @@ body {
 }
 
 body.standard-layout {
-  padding: 0;
   background-color: #324;
 }
 
@@ -62,7 +61,9 @@ section,
 article {
   display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
 }
-
+section {
+  padding: 1rem; /* TEMP */
+}
 hgroup { /* Headers Grouping */
   display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
   background-color: ivory;
@@ -103,6 +104,15 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
   color: silver;
 }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration: none;} /* TEMP : links underline fix */
+
+section > h1:first-of-type,
+section > h2:first-of-type,
+section > h3:first-of-type,
+section > h4:first-of-type,
+section > h5:first-of-type,
+section > h6:first-of-type {
+  margin-top: 0;
+}
 
 /* Paragraphs */
 p {
@@ -1402,12 +1412,7 @@ a.close {
   vertical-align: top;
 }
 
-.main-pane > * {
-  margin-left: 1rem; /* WARNING : fix for ribbons ; set left margin for anything directly following main-pane */
-  margin-right: 1rem; /* WARNING : fix for ribbons ; set right margin for anything directly following main-pane */
-}
-
-.main-pane > header {margin: 0 0 1rem 0;} /* WARNING : nullify header margin for ribbons effect */
+.main-pane > header {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
 .main-pane > footer {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
 
 .nav-pane a {
@@ -1713,7 +1718,6 @@ a.close {
 .site-nav {
   width: 100%;
   line-height: 0;
-  margin-top: 1rem;
   background-color: #cb8;
   border-bottom: .15rem solid #ba7;
   border-top: .15rem solid #eda;
@@ -4828,36 +4832,6 @@ input:focus + button + .error + .autocomplete > ul {
 .legal-notes > p + ul {
   margin-top: .75rem;
 }
-
-/* ------------------------------------------------------------------ */
-/* # Named Components */
-/* ------------------------------------------------------------------ */
-
-/* Dev Toolbar */
-#toolbar a:focus {outline-offset: -.5rem;}
-#_null_links_toggle:before {content: 'Enable ';}
-#_null_links_toggle.active:before {content: 'Disable ';}
-#_css_fx_toggle:before,
-#_svg_fx_toggle:before,
-#_js_fx_toggle:before {content: 'Show ';}
-#_css_fx_toggle.active:before ,
-#_svg_fx_toggle.active:before,
-#_js_fx_toggle.active:before {content: 'Hide ';}
-#toolbar [id^='_css_debug_']:not(.disabled):before {content: 'Show ';}
-#toolbar [id^='_css_debug_']:not(.disabled).active:before {content: 'Hide ';}
-#_toolbar_stick_toggle:before {content: 'Undock ';}
-#_toolbar_stick_toggle.active:before {content: 'Dock ';}
-
-/* Dev Testbar */
-#dev_testbar {position: absolute; width: 100%; top: -6.25rem; left: 0; margin-bottom: 0; padding: 2rem 3rem; font-size: .875rem; color: rgba(255, 255, 255, .75); background-color: brown; border-color: transparent; box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); transition: top .5s; z-index: 10;}
-#dev_testbar:hover {top: 0;}
-#dev_testbar > svg {display: inline-block; position: absolute; width: 5rem; height: 5rem; bottom: -2.5rem; left: 1.5rem; padding: 1rem .75rem .5rem; fill: rgba(255, 255, 255, 1); background-color: brown; border-radius: 100%;}
-#dev_testbar:hover > svg {fill: rgba(255, 255, 255, .5);}
-#dev_testbar > h4 {display: inline-block; margin: .25rem 1rem .25rem 0; font-size: 112.5%; color: rgba(255, 255, 255, .5); line-height: 150%; vertical-align: middle;}
-#dev_testbar > label {margin: 0 0 0 .5rem; color: white; vertical-align: middle}
-#dev_testbar > input[type='checkbox'] {margin: 0; vertical-align: middle;}
-#dev_testbar > input[type='button'] {margin-left: 1rem; vertical-align: middle;}
-#dev_testbar > input[type='range'] {margin: 0; vertical-align: middle;}
 
 /* ------------------------------------------------------------------ */
 /* # Responsive Font Sizing */

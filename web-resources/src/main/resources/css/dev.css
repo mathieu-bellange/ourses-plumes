@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Dev Cascading Style Sheet
  * Requires CSS Main File
- * Includes CSS Debug
+ * Includes CSS Debug and Named Components
  */
 
 /* ------------------------------------------------------------------ */
@@ -144,3 +144,33 @@
 .css-debug .thanks-list {background-color: rgba(255, 255, 0, .25);}
 .css-debug .thanks-list li {background-color: rgba(255, 0, 0, .25);}
 .css-debug .thanks-list .picture {background-color: rgba(0,0,255,.5);}
+
+/* ------------------------------------------------------------------ */
+/* # Named Components */
+/* ------------------------------------------------------------------ */
+
+/* Dev Toolbar */
+#toolbar a:focus {outline-offset: -.5rem;}
+#_null_links_toggle:before {content: 'Enable ';}
+#_null_links_toggle.active:before {content: 'Disable ';}
+#_css_fx_toggle:before,
+#_svg_fx_toggle:before,
+#_js_fx_toggle:before {content: 'Show ';}
+#_css_fx_toggle.active:before ,
+#_svg_fx_toggle.active:before,
+#_js_fx_toggle.active:before {content: 'Hide ';}
+#toolbar [id^='_css_debug_']:not(.disabled):before {content: 'Show ';}
+#toolbar [id^='_css_debug_']:not(.disabled).active:before {content: 'Hide ';}
+#_toolbar_stick_toggle:before {content: 'Undock ';}
+#_toolbar_stick_toggle.active:before {content: 'Dock ';}
+
+/* Dev Testbar */
+#dev_testbar {position: absolute; width: 100%; top: -6.25rem; left: 0; margin-bottom: 0; padding: 2rem 3rem; font-size: .875rem; color: rgba(255, 255, 255, .75); background-color: brown; border-color: transparent; box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); transition: top .5s; z-index: 10;}
+#dev_testbar:hover {top: 0;}
+#dev_testbar > svg {display: inline-block; position: absolute; width: 5rem; height: 5rem; bottom: -2.5rem; left: 1.5rem; padding: 1rem .75rem .5rem; fill: rgba(255, 255, 255, 1); background-color: brown; border-radius: 100%;}
+#dev_testbar:hover > svg {fill: rgba(255, 255, 255, .5);}
+#dev_testbar > h4 {display: inline-block; margin: .25rem 1rem .25rem 0; font-size: 112.5%; color: rgba(255, 255, 255, .5); line-height: 150%; vertical-align: middle;}
+#dev_testbar > label {margin: 0 0 0 .5rem; color: white; vertical-align: middle}
+#dev_testbar > input[type='checkbox'] {margin: 0; vertical-align: middle;}
+#dev_testbar > input[type='button'] {margin-left: 1rem; vertical-align: middle;}
+#dev_testbar > input[type='range'] {margin: 0; vertical-align: middle;}
