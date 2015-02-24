@@ -123,8 +123,8 @@
 			+ "';return out;")
 			.replace(/\n/g, '\\n').replace(/\t/g, '\\t').replace(/\r/g, '\\r')
 			.replace(/(\s|;|\}|^|\{)out\+='';/g, '$1').replace(/\+''/g, '')
-			.replace(/(\s|;|\}|^|\{)out\+=''\+/g,'$1out+=');
-
+			.replace(/(\s|;|\}|^|\{)out\+=''\+/g,'$1out+=')
+			.replace(/(\\r)?(\\n)?(\\t)*'/g, "'"); // NEW : strip lines of strict evaluation (i.e. tidy compilation)
 		if (needhtmlencode && c.selfcontained) {
 			str = "String.prototype.encodeHTML=(" + encodeHTMLSource.toString() + "());" + str;
 		}
