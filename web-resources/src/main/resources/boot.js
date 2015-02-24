@@ -65,7 +65,7 @@ $auth = {
 /* Build */
 $build = {
 	"compress"           : $app.stage == "rtw" ? true : false,    // Boolean  Compress generated content (i.e. remove tabs and line ends). Default : true
-	"toolbar"            : $app.stage == "rtw" ? false : true,    // Boolean  Create dev toolbar. Default : false
+	"toolbar"            : isFileProtocol ? true : false,         // Boolean  Create dev toolbar. Default : false
 	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
 	"icons"              : true,                                  // Boolean  Create SVG icons. Default : true
 	"slider"             : false,                                 // Boolean  Create Foundation orbit slider. Default : true
@@ -364,7 +364,7 @@ if (isFileProtocol) {
 	var head_tags_ext = [
 		{elem: "link", attr: {href: $loc.css + "foundation.css", rel: "stylesheet"}},
 		{elem: "link", attr: {href: $loc.css + "loap.css", rel: "stylesheet"}},
-		{elem: "link", attr: {href: $loc.css + "loap-fx.css", rel: "stylesheet"}},
+		{elem: "link", attr: {href: $loc.css + "dev.css", rel: "stylesheet"}},
 		{elem: "script", attr: {src: $loc.js + "modernizr/modernizr" + $conf.lib_ext +".js"}},
 		{elem: "script", attr: {src: $loc.js + "jquery/jquery-2.x" + $conf.lib_ext + ".js"}},
 		{elem: "script", attr: {src: $loc.js + "jquery/jquery.autosize" + $conf.lib_ext + ".js"}},
@@ -374,6 +374,7 @@ if (isFileProtocol) {
 	];
 	head_tags = head_tags.concat(head_tags_ext);
 	body_tags = [
+		{elem: "script", attr: {src: $loc.js + "dev.js"}},
 		{elem: "script", attr: {src: $loc.js + "loap.js"}},
 		{elem: "script", attr: {src: $loc.js + "foundation/foundation.lib.js", defer: "true" }},
 	];

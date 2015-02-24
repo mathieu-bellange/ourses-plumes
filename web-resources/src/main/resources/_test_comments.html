@@ -19,7 +19,7 @@
 			<!--Comment List-->
 			<div id="comments" class="comment-list">
 				<!--Connect Row-->
-				<div class="row connect">
+				<div class="row">
 					<a href="javascript:void(0)" class="connect-launcher icon-connect" title="Se connecter pour poster un commentaire"><span class="text hide">Connexion</span></a>
 				</div>
 				<script>
@@ -33,12 +33,12 @@
 							$(this).find("use").attr("xlink:href", "#icon-disconnect");
 							$(".comment > .column:nth-child(2)").removeClass("medium-11");
 							$(".comment > .column:nth-child(2)").addClass("medium-8");
-							$(this).reload_tooltip("Se d&eacute;connecter");
+							$(this).attr("title", "Se d&eacute;connecter");
 						} else {
 							$(this).find("use").attr("xlink:href", "#icon-connect");
 							$(".comment > .column:nth-child(2)").removeClass("medium-8");
 							$(".comment > .column:nth-child(2)").addClass("medium-11");
-							$(this).reload_tooltip("Se connecter pour poster un commentaire");
+							$(this).attr("title", "Se connecter pour poster un commentaire");
 						}
 					});
 				</script>
