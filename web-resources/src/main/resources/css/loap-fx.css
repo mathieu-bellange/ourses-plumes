@@ -61,7 +61,7 @@
 /* Buttons */
 .css-fx button, .css-fx .button {
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .25) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+  text-shadow: 1px 1px rgba(0, 0, 0, .5);
   -webkit-transition: background-color .1s ease-out, box-shadow .25s linear;
      -moz-transition: background-color .1s ease-out, box-shadow .25s linear;
        -o-transition: background-color .1s ease-out, box-shadow .25s linear;
@@ -82,7 +82,7 @@
 .css-fx button.secondary[disabled]:hover, .css-fx .button.secondary[disabled]:hover,
 .css-fx button.secondary.disabled:focus, .css-fx .button.secondary.disabled:focus,
 .css-fx button.secondary[disabled]:focus, .css-fx .button.secondary[disabled]:focus {
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+  text-shadow: 1px 1px rgba(255, 255, 255, .5);
   box-shadow: 0 .125em 0 0 rgba(255, 255, 255, .66) inset, 0 .125rem .25rem 0 rgba(0, 0, 0, .25);
 }
 .css-fx button.secondary:hover, .css-fx .button.secondary:hover,
@@ -107,32 +107,30 @@
 /* Keystrokes */
 .css-fx kbd,
 .css-fx .keystroke {
-  text-shadow: 1px 1px 0 white;
-  -webkit-box-shadow: 0 .25rem .25rem -.125rem gainsboro inset, .125rem .125rem .25rem 0 rgba(0, 0, 0, .075);
-          box-shadow: 0 .125rem .5rem -.125rem gainsboro inset, .125rem .125rem .25rem 0 rgba(0, 0, 0, .075);
+  text-shadow: 1px 1px white;
+  -webkit-box-shadow: 0 .25rem .25rem -.125rem gainsboro inset, .125rem .125rem .25rem 0 rgba(128, 128, 128, .125);
+          box-shadow: 0 .125rem .5rem -.125rem gainsboro inset, .125rem .125rem .25rem 0 rgba(128, 128, 128, .125);
 }
 
 /* Containers */
-.css-fx .frame {box-shadow: 5px 0px 10px 5px rgba(0, 0, 0, .25);}
-.css-fx .frame > .main-pane {box-shadow: -5px 0 10px 0 rgba(0, 0, 0, .25);}
-.css-fx .frame > .nav-pane input {box-shadow: 1px 1px 2.5px 0 rgba(0, 0, 0, .5) inset, 1px 1px 0 0 rgba(255, 255, 255, .25);}
-.css-fx .frame > .nav-pane input:focus {box-shadow: 1px 1px 2.5px 0 rgba(0, 0, 0, .5) inset, 1px 1px 0 0 rgba(255, 255, 255, .25), 0 0 .75rem .25rem #a8c;}
+.css-fx .frame {box-shadow: .375rem 0px .75rem .375rem rgba(0, 0, 0, .25);}
+.css-fx .frame > .main-pane {box-shadow: -.375rem 0 .75rem 0 rgba(0, 0, 0, .25);}
 
 /* Navs */
 .css-fx .user-nav {box-shadow: .125rem .125rem .5rem .125rem rgba(0, 0, 0, .25);}
-.css-fx .user-nav .user-name {text-shadow: .05rem .05rem .05rem rgba(0, 0, 0, .5);}
+.css-fx .user-nav .user-name {text-shadow: 1px 1px rgba(0, 0, 0, .5);}
 .css-fx .main-nav {
   -webkit-transition: top .5s ease-out; /* Sliding effect */
      -moz-transition: top .5s ease-out; /* Sliding effect */
           transition: top .5s ease-out; /* Sliding effect */
 }
-.css-fx .main-nav ul li a {text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);}
+.css-fx .main-nav ul li a {text-shadow: 1px 1px rgba(0, 0, 0, .5);}
 .css-fx .main-nav ul li > a:active,
-.css-fx .main-nav ul li > a.current {text-shadow: -1px -1px 0px rgba(0, 0, 0, .5);}
+.css-fx .main-nav ul li > a.current {text-shadow: -1px -1px rgba(0, 0, 0, .5);}
 .css-fx .site-nav {box-shadow: 0 .25rem .5rem .125rem rgba(0, 0, 0, .25);}
-.css-fx .site-nav ul li {text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);}
+.css-fx .site-nav ul li {text-shadow: -1px -1px rgba(0, 0, 0, .25);}
 .css-fx .site-nav ul li a:hover,
-.css-fx .site-nav ul li a:focus {text-shadow: -1px -1px 0 rgba(0, 0, 0, .075), 0 0 .5rem #ffb;}
+.css-fx .site-nav ul li a:focus {text-shadow: -1px -1px rgba(0, 0, 0, .075), 0 0 .5rem #ffb;}
 
 /* Disabled */
 [class*="-nav"] ul li a.disabled,
@@ -174,7 +172,7 @@
 }
 .css-fx .article-list.draft .href-block a:before {
   color: rgba(0, 0, 0, .375);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+  text-shadow: 1px 1px rgba(255, 255, 255, .5);
 }
 .css-fx .article-list.standby .href-block a {
   -webkit-transition: border-color .25s ease-out;
@@ -186,7 +184,7 @@
      -moz-transition: background-color .25s ease-out;
           transition: background-color .25s ease-out;
 }
-.css-fx .article-list.standby .href-block a:before {text-shadow: 1px 1px 0 rgba(0, 0, 0, .25);}
+.css-fx .article-list.standby .href-block a:before {text-shadow: 1px 1px rgba(0, 0, 0, .25);}
 
 /* Comment List */
 .css-fx .comment-toggle a:after {
@@ -262,11 +260,11 @@
   .css-fx .orbit-slides-container blockquote,
   .css-fx .orbit-slides-container h1,
   .css-fx .orbit-slides-container h2,
-  .css-fx .orbit-slides-container h3 {text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);}
+  .css-fx .orbit-slides-container h3 {text-shadow: -1px -1px rgba(0, 0, 0, .25);}
   .css-fx .orbit-slides-container cite,
   .css-fx .orbit-slides-container h4,
   .css-fx .orbit-slides-container h5,
-  .css-fx .orbit-slides-container h6 {text-shadow: 1px 1px 0 rgba(255, 255, 255, .25);}
+  .css-fx .orbit-slides-container h6 {text-shadow: 1px 1px rgba(255, 255, 255, .25);}
 }
 
 /* Responsive Ribbons Effect */

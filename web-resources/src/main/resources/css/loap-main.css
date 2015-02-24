@@ -184,7 +184,7 @@ sub {
 /* Abbreviations and acronyms */
 abbr {} /* Any abbreviation or acronym */
 abbr[title] {
-  border-bottom: 1px dotted; /* Normalize 3.0.1 : Address styling not present in IE 8/9/10/11, Safari, and Chrome. */
+  border-bottom: .125rem dotted; /* Normalize 3.0.1 : Address styling not present in IE 8/9/10/11, Safari, and Chrome. */
 }
 
 /* Marked text ; */
@@ -1613,12 +1613,12 @@ a.close {
 .site-nav ul {}
 .site-nav ul li {
   float: left;
-  height: 48px;
+  height: 3rem;
   margin-left: .75rem;
   color: white;
   font-size: 1.15rem;
   list-style: none;
-  line-height: 48px;
+  line-height: 3rem;
 }
 .site-nav ul li:before {
   margin-right: .75rem;
@@ -1787,10 +1787,10 @@ a.close {
 /* # Images Thumbnails */
 /* ------------------------------------------------------------------ */
 
-.th img {height: 96px; width: auto;}
-.th.small img {height: 64px; width: auto;}
-.th.medium img {height: 96px; width: auto;}
-.th.large img {height: 128px; width: auto;}
+.th img {height: 6rem; width: auto;}
+.th.small img {height: 4rem; width: auto;}
+.th.medium img {height: 6rem; width: auto;}
+.th.large img {height: 8rem; width: auto;}
 
 /* ------------------------------------------------------------------ */
 /* # Sub Navigation */
@@ -2386,7 +2386,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 }
 .css-fx .reveal-modal .close-reveal-modal:hover,
 .css-fx .reveal-modal .close-reveal-modal:focus {
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, .25);
+  text-shadow: -1px -1px rgba(0, 0, 0, .25);
   box-shadow: 0 0 .5rem .125rem rgba(0, 0, 0, .25) inset;
 }
 @media only screen and (max-width: 640px) {
@@ -2952,7 +2952,7 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: rgba(255, 255, 255, 0);
   border-color: gray;
 }
-.over-block .over:focus {outline-offset: -4px;}
+.over-block .over:focus {outline-offset: -.25rem;}
 .over-block .over:after {background-color: silver;}
 
 /* Mix-in Generic/Rubric Colors */
@@ -3337,7 +3337,7 @@ input:focus + button + .error + .autocomplete > ul {
   font-size: .875em;
   font-style: italic;
   font-family: Georgia, Liberation Serif, Droid Serif, Tinos, serif;
-  border: 1px solid indianred;
+  border: .125rem solid indianred;
   background-color: floralwhite;
 }
 
@@ -3504,7 +3504,7 @@ input:focus + button + .error + .autocomplete > ul {
   content: 'À vérifier';
 }
 .css-fx .article-list.standby .over-block .over:before {
-  text-shadow: -1px 1px 1px lightcoral;
+  text-shadow: -1px 1px lightcoral;
 }
 @media (min-width: 800px) {
   .article-list.standby .over-block:hover {
@@ -3770,9 +3770,6 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 .comment-list .reply textarea {
-  min-width: 160px;
-  max-width: 100%;
-  /*min-height: 96px;*/
   margin: 0;
   background-color: whitesmoke;
   border-color: silver;
@@ -3789,11 +3786,11 @@ input:focus + button + .error + .autocomplete > ul {
   display: inline-block;
   width: 0;
   height: 0;
-  top: 38px;
-  left: -10px;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid silver;
+  top: .625rem;
+  left: -.625rem;
+  border-top: .625rem solid transparent;
+  border-bottom: .625rem solid transparent;
+  border-right: .625rem solid silver;
 }
 
 /* Comment Row */
@@ -3830,11 +3827,7 @@ input:focus + button + .error + .autocomplete > ul {
 .comment-list .moderation {padding: 0 1rem;}
 .comment-list .moderation fieldset {border-color: coral; padding: 1rem 0 .5rem;}
 .comment-list .moderation legend {margin-left: 1rem; color: coral;}
-.comment-list .moderation textarea {
-  min-width: 160px;
-  max-width: 100%;
-  /*min-height: 12rem;*/
-}
+.comment-list .moderation textarea {}
 
 /* ------------------------------------------------------------------ */
 /* # Users Table */
@@ -3936,7 +3929,7 @@ input:focus + button + .error + .autocomplete > ul {
   letter-spacing: -.0625em;
   color: white;
   text-indent: 0;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+  text-shadow: 1px 1px rgba(0, 0, 0, .5);
 }
 .css-fx .user-picture .picture {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .user-picture .picture:hover:before {
@@ -4561,7 +4554,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .css-fx .thanks {
   box-shadow: 0 0 1.5rem .25rem aliceblue inset;
-  text-shadow: 1px 1px 0 white;
+  text-shadow: 1px 1px white;
 }
 .thanks p {
   margin-bottom: .75rem;
@@ -4869,7 +4862,7 @@ input:focus + button + .error + .autocomplete > ul {
   .orbit-slides-container {margin: 0; list-style: none;}
   .orbit-headline {margin-left: 1rem;}
   .orbit-headline > h1 {font-size: 1.5rem; line-height: 2.5rem; margin: 0; color: silver;}
-  .css-fx .orbit-headline > h1 {text-shadow: 1px 1px 0 white;}
+  .css-fx .orbit-headline > h1 {text-shadow: 1px 1px white;}
   .orbit-headline > h4 {display: none;}
   .main-nav {font-size: 75%;}
   .main-nav li {
