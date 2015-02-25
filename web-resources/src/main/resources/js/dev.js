@@ -89,7 +89,7 @@ $("html").on("click", "#_null_links_toggle", function() {
 $("html").on("click", "[id^='_css_debug_']", function() {
 	if (!$(this).hasClass("disabled")) {
 		$(this).toggleClass("active");
-		$("." + $(this).attr("id").cut(11)).toggleClass("css-debug");
+		$("body").toggleClass("css-debug");
 	}
 });
 

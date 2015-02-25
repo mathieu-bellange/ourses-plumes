@@ -140,6 +140,15 @@
 .css-debug .faq .answer > p,
 .css-debug .faq .answer > textarea {background-color: rgba(0, 0, 255, .25);}
 
+/* Folders */
+.css-debug .folder-switcher h4 {background-color: rgba(255, 0, 0, .5);}
+.css-debug .folder-switcher .prev {background-color: rgba(0, 255, 0, .5);}
+.css-debug .folder-switcher .next {background-color: rgba(0, 0, 255, .5);}
+.css-debug .folder-switcher .prev .icon > svg,
+.css-debug .folder-switcher .next .icon > svg {background-color: rgba(0, 255, 255, .5);}
+.css-debug .folder-switcher .prev .text-label,
+.css-debug .folder-switcher .next .text-label {background-color: rgba(255, 255, 0, .5);}
+
 /* Thanks */
 .css-debug .thanks-list {background-color: rgba(255, 255, 0, .25);}
 .css-debug .thanks-list li {background-color: rgba(255, 0, 0, .25);}

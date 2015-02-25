@@ -4729,6 +4729,242 @@ input:focus + button + .error + .autocomplete > ul {
 .faq.edit .question.active > [data-delete] {
   display: inline-block;
 }
+
+/* ------------------------------------------------------------------ */
+/* # Folders Switcher */
+/* ------------------------------------------------------------------ */
+
+.folder-switcher a {
+  text-decoration: none;
+}
+.folder-switcher h4 {
+  display: inline-block;
+  float: none;
+  width: 40%;
+  margin: 0;
+  line-height: 3.5rem;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.folder-switcher h4 > svg {
+  margin-right: .25rem;
+  fill: silver;
+}
+.folder-switcher .prev,
+.folder-switcher .next {
+  position: relative;
+  width: 30%;
+  height: 3.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+  border-radius: .375rem;
+}
+.folder-switcher .prev .icon {
+  float: left;
+}
+.folder-switcher .next .icon {
+  float: right;
+}
+.folder-switcher .prev .icon > svg,
+.folder-switcher .next .icon > svg {
+  display: table-cell;
+  fill: darkgray;
+}
+.folder-switcher .prev:hover,
+.folder-switcher .prev:focus,
+.folder-switcher .next:hover,
+.folder-switcher .next:focus {
+  background-color: #a8c;
+}
+.css-fx .folder-switcher .prev:hover,
+.css-fx .folder-switcher .prev:focus,
+.css-fx .folder-switcher .next:hover,
+.css-fx .folder-switcher .next:focus {
+  box-shadow: 0 0 1.5rem .125rem rgba(0, 0, 0, .125) inset;
+  text-shadow: -1px -1px rgba(0, 0, 0, .25);
+}
+.folder-switcher .prev:hover .icon > svg,
+.folder-switcher .prev:focus .icon > svg,
+.folder-switcher .next:hover .icon > svg,
+.folder-switcher .next:focus .icon > svg {
+  fill: white;
+}
+.folder-switcher .prev:hover .text-label,
+.folder-switcher .prev:focus .text-label,
+.folder-switcher .next:hover .text-label,
+.folder-switcher .next:focus .text-label {
+  color: white;
+}
+.folder-switcher .prev {
+  float: left;
+  padding-right: .75rem;
+}
+.folder-switcher .next {
+  float: right;
+  padding-left: .75rem;
+}
+.folder-switcher .prev .text-label,
+.folder-switcher .next .text-label {
+  display: inline-block;
+  max-width: 82.5%;
+  line-height: 3.5rem;
+  font-size: 1.125rem;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  letter-spacing: -.0625em;
+  color: #505050;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.css-fx .folder-switcher .prev .text-label,
+.css-fx .folder-switcher .next .text-label {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0;
+}
+.folder-switcher .prev .text-label {
+  padding-left: .5rem;
+}
+.folder-switcher .next .text-label {
+  padding-right: .5rem;
+}
+@media (max-width: 640px) {
+  .folder-switcher {position: relative;}
+  .folder-switcher h4 { position: absolute; left: 16.25%; width: 67.5%;}
+  .folder-switcher .prev,
+  .folder-switcher .next {width: 3.5rem;}
+  .folder-switcher .prev .text-label,
+  .folder-switcher .next .text-label {display: none;}
+}
+
+/* ------------------------------------------------------------------ */
+/* # Folders List */
+/* ------------------------------------------------------------------ */
+
+.folder-list {
+  list-style: none;
+  margin: 0;
+}
+.folder {
+  position: relative;
+  padding: .5rem .75rem .75rem;
+  background-color: whitesmoke;
+  border: .125rem solid lightgrey;
+}
+.folder *:first-child {margin-top: 0;}
+.folder *:last-child {margin-bottom: 0;}
+.folder + .folder {
+  margin-top: 1rem;
+}
+.folder > .name {}
+.folder > .name .icon > svg {
+  fill: silver;
+  margin-right: .25rem;
+}
+.folder > .desc {
+  position: relative;
+  margin: .5rem 1rem .75rem 2.75rem;
+}
+.folder > .desc:before {
+  display: inline-block;
+  position: absolute;
+  content: '';
+  top: 0;
+  left: -1.75rem;
+  width: .25rem;
+  height: 100%;
+  background-color: gainsboro;
+}
+.folder > .desc > p {
+  padding: .375rem;
+  color: dimgray;
+  font-size: .925rem;
+}
+.folder > .list {
+  list-style: none;
+  margin: 0;
+}
+.folder > .list > li{
+  position: relative;
+  font-size: 1.0625rem;
+  line-height: 1.5rem;
+  padding-right: 6.5rem; /* WARNING : fixed widh adjustment for button bar (i.e. 3x small buttons + .5rem safety padding) */
+}
+.folder > .list > li + li {
+  margin-top: .25rem;
+}
+.folder > .list > li .button-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.folder > .list > li .button {
+  padding: 0;
+  margin-bottom: 0;
+}
+.folder > .list > li .button > svg {
+  fill: white;
+}
+.folder > .list > li .button + .button {
+  margin-left: 0;
+}
+.folder > .list > li .button + .icon:not(.button) {
+  margin-left: 0;
+}
+.css-debug .folder > .list > li:nth-child(odd) {background-color: rgba(255, 0, 0, .5);}
+.css-debug .folder > .list > li:nth-child(even) {background-color: rgba(0, 255, 0, .5);}
+
+/* Folder List Edit */
+.folder-list.edit .folder > .name .icon {
+  position: absolute;
+  margin-top: .125rem;
+}
+.folder-list.edit .folder > .name .icon > svg {}
+.folder-list.edit .folder > .name input {
+  padding: 0 .125rem;
+  padding-left: 2.5rem;
+  height: 2.75rem;
+  letter-spacing: -.0625em;
+  font-size: 1.75rem;
+  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
+}
+.css-fx .folder-list.edit .folder > .name input {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0;
+}
+.folder-list.edit .folder > .desc textarea {
+  padding: .375rem;
+  font-size: .925rem;
+  color: dimgray;
+  line-height: 1.375rem;
+}
+.folder-list.edit .folder > .name input,
+.folder-list.edit .folder > .desc textarea {
+  border-color: transparent;
+  background-color: transparent;
+}
+.folder-list.edit .folder > .name input:hover,
+.folder-list.edit .folder > .desc textarea:hover {
+  border-color: silver;
+  border-style: dotted;
+  background-color: white;
+}
+.folder-list.edit .folder > .name input:focus,
+.folder-list.edit .folder > .desc textarea:focus {
+  border-color: darkgray;
+  border-style: solid;
+  background-color: white;
+}
+.folder-list.edit + .button-bar {
+  margin-top: 1rem;
+  text-align: center;
+}
+.folder-list.edit + .button-bar > button {
+  /*margin-bottom: 0; /* TEMP */
+}
+
 /* ------------------------------------------------------------------ */
 /* # Thanks List */
 /* ------------------------------------------------------------------ */

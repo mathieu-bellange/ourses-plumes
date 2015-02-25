@@ -6,19 +6,17 @@
 	<body>
 
 		<!--Dev Testbar-->
-		<div id="dev_testbar">
+		<div id="dev_testbar" class="">
 			<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" viewBox="0 0 48 48">
 				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
 			</svg>
 			<h4>Voir</h4>
-			<label for="show_folders_list">Liste des Dossiers</label>
-			<input id="show_folders_list" type="checkbox" name="show" value="folders_list">
-			<label for="show_folder_view">Affichage d'un dossier</label>
-			<input id="show_folder_view" type="checkbox" name="show" value="folder_view">
-			<label for="show_article_in_a_folder">Article dans un dossier</label>
-			<input id="show_article_in_a_folder" type="checkbox" name="show" value="article_in_a_folder" checked>
-			<label for="debug_marks">Masques</label>
-			<input id="debug_marks" type="checkbox" value="true">
+			<label for="show_folder_switcher">Barre de dossier</label>
+			<input id="show_folder_switcher" type="checkbox" name="show" value="folder_switcher">
+			<label for="show_folder_list">Liste des Dossiers</label>
+			<input id="show_folder_list" type="checkbox" name="show" value="folder_list" checked>
+			<label for="test_overflow">D&eacute;bordement</label>
+			<input id="test_overflow" type="checkbox" name="show">
 			<label>Largeur</label>
 			<input id="section_width_slider" type="range" min="20" max="120" step="10" value="100">
 			<span id="section_width_tip"></span>
@@ -30,13 +28,7 @@
 				$("section").css("width", w);
 				$("#section_width_tip").text(w + " (" + $("section").outerWidth(true) + "px)");
 			}
-			function check_debug_marks(selector) {
-				if ($(selector).is(":checked")) {
-					$("section").addClass("css-debug");
-				} else {
-					$("section").removeClass("css-debug");
-				}
-			}
+			function check_test_overflow() {$("#test_overflow").is(":checked") ? $(".test-overflow").show() : $(".test-overflow").hide()}
 			// Eventing
 			$("html").on("click", "[name='show']", function() {
 				var f = $(this).val();
@@ -45,6 +37,7 @@
 			$("#section_width_slider").change(function() {change_width(this)});
 			$("#section_width_slider").keyup(function() {change_width(this)});
 			$("#debug_marks").change(function() {check_debug_marks(this)});
+			$("#test_overflow").change(function() {check_test_overflow()});
 			// Initialization
 			$(document).ready(function() {
 				$("[name='show']").each(function() {
@@ -56,7 +49,7 @@
 					}
 				});
 				change_width("#section_width_slider");
-				check_debug_marks("#debug_marks");
+				check_test_overflow();
 			});
 		</script>
 
@@ -64,131 +57,74 @@
 
 			<h2 class="red">Dossiers <small>.folders</small></h2>
 
+			<!--Folder Switcher-->
+			<div id="folder_switcher" style="margin-bottom: 1rem;">
+				<h3 class="subheader">Article dans un dossier</h3>
+				<div class="folder-switcher">
+					<a href="javascript:void(0)" class="prev" title="Article précédent">
+						<span class="icon-left large"></span>
+						<span class="hide">Article précédent : </span>
+						<span class="text-label" style="">Avortement : un droit mal acquis<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></span>
+					</a>
+					<h4 class="icon-folder"><span class="hide">Dossier : </span><a href="javascript:void(0)" title="Aller au dossier">Natalité<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></h4>
+					<a href="javascript:void(0)" class="next" title="Article suivant">
+						<span class="icon-right large"></span>
+						<span class="hide">Article suivant : </span>
+						<span class="text-label" style="">La guerre des poupons<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></span>
+					</a>
+				</div>
+			</div>
+
 			<!--Folders List-->
-			<div id="folders_list">
-				<h3>Liste des dossiers</h3>
-				<dl>
-					<dt>Natalité</dt>
-					<dd>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</dd>
-					<!--
-					<dd>Avortement : un droit mal acquis</dd>
-					<dd>Gestation pour autrui, une autre étape ?</dd>
-					<dd>La guerre des poupons</dd>
-					-->
-					<dt>Égalité des sexes</dt>
-					<dd>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</dd>
-					<!--
-					<dd>Le troisième sexe</dd>
-					<dd>Parité : une théorie éculée ?</dd>
-					<dd>Une paire de seins vaut bien une paire de couilles</dd>
-					-->
-				</dl>
-			</div>
-
-			<!--Folder View-->
-			<div id="folder_view">
-				<h3>Affichage d'un dossier</h3>
-				<style>
-					.folder {
-						padding: .75rem;
-						background-color: whitesmoke;
-						border: .0625rem solid silver;
-					}
-					.folder *:first-child {margin-top: 0;}
-					.folder *:last-child {margin-bottom: 0;}
-					.folder + .folder {
-						margin-top: 1rem;
-					}
-				</style>
-				<div class="folder">
-					<h4>Natalité</h4>
-					<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
-					<ul>
-						<li>Avortement : un droit mal acquis</li>
-						<li>Gestation pour autrui, une autre étape ?</li>
-						<li>La guerre des poupons</li>
-					</ul>
+			<div id="folder_list">
+				<h3 class="subheader">Liste des dossiers</h3>
+				<ul class="folder-list edit">
+					<li class="folder">
+						<div class="name"><span class="icon-folder"></span><input type="text" maxlength="64" value="Natalité" placeholder="Le titre du dossier"></div>
+						<div class="desc">
+							<textarea class="min" maxlength="1024" placeholder="La description du dossier (1024 charact&egrave;res max.)">Description … Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</textarea>
+						</div>
+						<ul class="list">
+							<li class="clearfix"><span class="icon-struggles small"></span><a href="javascript:void(0)">Avortement : un droit mal acquis<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+								<div class="button-bar">
+									<span class="icon-up button tiny disabled" tabindex="-1"></span>
+									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier"></span>
+									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
+								</div>
+							</li>
+							<li class="clearfix"><span class="icon-ourbody small"></span><a href="javascript:void(0)">Gestation pour autrui, une autre étape ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+								<div class="button-bar">
+									<span class="icon-up button tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier"></span>
+									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier"></span>
+									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
+								</div>
+							</li>
+							<li class="clearfix"><span class="icon-internat small"></span><a href="javascript:void(0)">La guerre des poupons<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+								<div class="button-bar">
+									<span class="icon-up button tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier"></span>
+									<span class="icon-down button tiny disabled" tabindex="-1"></span>
+									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<div class="button-bar">
+					<button class="icon-add"><span class="text">Nouveau dossier</span></button>
 				</div>
-				<div class="folder">
-					<h4>Égalité des sexes</h4>
-					<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
-					<ul>
-						<li>Le troisième sexe</li>
-						<li>Parité : une théorie éculée ?</li>
-						<li>Une paire de seins vaut bien une paire de couilles</li>
-					</ul>
-				</div>
+				<ul class="folder-list">
+					<li class="folder">
+						<div class="name"><h4 class="icon-folder">Égalité des sexes<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4></div>
+						<div class="desc">
+							<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+						</div>
+						<ul class="list">
+							<li><span class="icon-ourbody small"></span><a href="javascript:void(0)">Le troisième sexe<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
+							<li><span class="icon-intersec small"></span><a href="javascript:void(0)">Parité : une théorie éculée ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
+						</ul>
+					</li>
+				</ul>
 			</div>
-
-			<!--Folder Slider-->
-			<div id="article_in_a_folder">
-				<h3>Article dans un dossier</h3>
-				<style>
-					.folder-slider {
-						clear: both;
-					}
-					.folder-slider h4 {
-						display: inline-block;
-						float: none;
-						width: 40%;
-						text-align: center;
-					}
-					.folder-slider .prev,
-					.folder-slider .next {
-						display: table;
-					}
-					.folder-slider .prev {
-						width: 30%;
-						float: left;
-						text-align: left;
-					}
-					.folder-slider .next {
-						width: 30%;
-						float: right;
-						text-align: right;
-					}
-					.folder-slider .prev .text-webfont,
-					.folder-slider .next .text-webfont {
-						display: table-cell;
-						vertical-align: middle;
-					}
-					.css-debug .folder-slider h4 {
-						background-color: rgba(255, 0, 0, .5);
-					}
-					.css-debug .folder-slider .prev {
-						background-color: rgba(0, 255, 0, .5);
-					}
-					.css-debug .folder-slider .next {
-						background-color: rgba(0, 0, 255, .5);
-					}
-				</style>
-				<div class="folder-slider">
-					<h4><span class="hide">Dossier : </span><a href="javascript:void(0)">Natalité</a></h4>
-					<div class="prev"><a href="javascript:void(0)"class="icon-left huge left"></a><span class="text hide">Article précédent : </span><a href="javascript:void(0)" class="text-webfont text-large">Avortement : un droit mal acquis &hellip; abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde &hellip;</a></div>
-					<div class="next"><span class="hide">Article suivant : </span><a href="javascript:void(0)" class="text-webfont text-large">La guerre des poupons</a><a href="javascript:void(0)"class="icon-right huge right"></a></div>
-				</div>
-				<hr>
-				<article class="article ourbody">
-					<h2 class="title">Gestation pour autrui, une autre étape ?</h2>
-					<h4 class="author"><a href="javascript:void(0)" class="icon-author" rel="author" title="Auteure"><span class="text">Nadejda</span></a></h4>
-					<time class="date icon-date small" datetime="2015-01-01"><small class="text"><span class="hide">Publi&eacute; le </span>1<sup>er</sup> janvier 2015</small></time>
-					<p class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
-					<dl class="tags inline-list clearfix">
-						<dt><span class="icon-tag small" title="Tags"><strong class="hide">Tags</strong></span></dt>
-						<dd><a href="javascript:void(0)" rel="tag" class="label radius ourbody">Nos corps, nous-mêmes</a></dd>
-						<dd><a href="javascript:void(0)" rel="tag" class="label radius inverse">Dossier</a></dd>
-						<dd><a href="javascript:void(0)" rel="tag" class="label radius">Théorie du genre</a></dd>
-						<dd><a href="javascript:void(0)" rel="tag" class="label radius">Puériculture</a></dd>
-					</dl>
-
-					<h4>Un inter-titre</h4>
-					<p>Lorem ipsum dolor sit amet, <a href="javascript:void(0)">consectetur adipiscing elit</a>. Vivamus egestas dignissim consectetur. Aenean feugiat ligula at mi varius ultricies. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. <a href="javascript:void(0)">Etiam quis convallis tellus</a>. Duis id metus malesuada, aliquet tellus vel, lobortis massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla malesuada pulvinar mauris, sed finibus orci ullamcorper luctus.</p>
-					<div class="callout">Vivamus egestas dignissim consectetur.</div>
-					<p>Quisque risus ipsum, volutpat non fermentum ut, sodales sit amet eros. Aliquam iaculis sit amet mi vestibulum faucibus. Aliquam velit ligula, scelerisque vitae egestas dictum, efficitur nec arcu. Donec egestas ultricies ligula, eu condimentum est maximus eget. Class aptent taciti sociosqu <a href="javascript:void(0)">ad litora torquent</a> per conubia nostra, per inceptos himenaeos. Vivamus eget augue a velit finibus ultrices. Praesent tempus venenatis dapibus. Phasellus justo velit, laoreet ac tellus id, tempus feugiat massa. Maecenas feugiat luctus ipsum. Nulla nec dui rhoncus, dignissim mauris at, suscipit felis.</p>
-					<p class="author"><a href="javascript:void(0)" rel="author" title="Voir le profil">Nadejda</a></p>
-				</article>
-			</div>
-
 		</div>
 
 		<script>
