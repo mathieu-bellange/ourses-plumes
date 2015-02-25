@@ -165,7 +165,7 @@
 #_toolbar_stick_toggle.active:before {content: 'Dock ';}
 
 /* Dev Testbar */
-#dev_testbar {position: absolute; width: 100%; top: -6.25rem; left: 0; margin-bottom: 0; padding: 2rem 3rem; font-size: .875rem; color: rgba(255, 255, 255, .75); background-color: brown; border-color: transparent; box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); transition: top .5s; z-index: 10;}
+#dev_testbar {position: absolute; width: 100%; line-height: 90px; top: -90px; left: 0; margin: 0; padding: 0 3rem; font-size: .875rem; color: rgba(255, 255, 255, .75); background-color: brown; border-color: transparent; box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); transition: top .5s; z-index: 2;}
 #dev_testbar:hover {top: 0;}
 #dev_testbar > svg {display: inline-block; position: absolute; width: 5rem; height: 5rem; bottom: -2.5rem; left: 1.5rem; padding: 1rem .75rem .5rem; fill: rgba(255, 255, 255, 1); background-color: brown; border-radius: 100%;}
 #dev_testbar:hover > svg {fill: rgba(255, 255, 255, .5);}

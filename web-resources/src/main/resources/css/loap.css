@@ -1407,16 +1407,17 @@ a.close {
 
 .main-pane > .main-head {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
 .main-pane > .main-foot {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
-.main-pane > .main-body {
-  padding: 1rem; /* TEMP */
-}
+.main-pane > .main-body {padding: 1rem;}
 .main-pane > .main-body > h1:first-of-type,
 .main-pane > .main-body > h2:first-of-type,
 .main-pane > .main-body > h3:first-of-type,
 .main-pane > .main-body > h4:first-of-type,
 .main-pane > .main-body > h5:first-of-type,
 .main-pane > .main-body > h6:first-of-type {
-  margin-top: 0;
+  margin-top: 0; /* TEMP */
+}
+.main-pane > .main-body > .alert-box:last-child {
+  margin-bottom: 0;
 }
 
 .nav-pane a {
@@ -4024,9 +4025,12 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Below are default classes for user profile using display HTML tags */
 .user-profile {
-  margin-bottom: 0;
+  margin-bottom: 1rem;
   border-color: transparent;
   background-color: #f0f0f0;
+}
+.user-profile:last-of-type {
+  margin-bottom: 0;
 }
 .user-profile .picture {
   margin-bottom: .5rem;

@@ -466,10 +466,6 @@ function displayArticles(url_params) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
-			// display article search empty message
-			if (articles.length == 0) {
-				$(".main-body").create_alert_box($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null, "insert" : "append"});
-			}
 			// set articles status
 			var brouillons = articles.filter(function(n) {
 				return n.status === "BROUILLON";
@@ -530,6 +526,10 @@ function displayArticles(url_params) {
 				$(".tool-bar").svg_icons(); // reload icons only for toolbar
 			}
 			$("#articles").svg_icons(); // always reload icons only for articles
+			// display article search empty message
+			if (articles.length == 0) {
+				$(".main-body").create_alert_box($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null, "insert" : "append"});
+			}
 		},
 		error : function(jqXHR, status, errorThrown) {
 			createAlertBox();
