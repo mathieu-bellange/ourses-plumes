@@ -1628,6 +1628,74 @@ var agenda_ui = (function() {
 	}
 }());
 
+var folder_ui = (function() {
+	var cfg = {
+		"inspect" : true,  // [bool] Search for folder hash in url (open it on success). Default : true
+		"manify"  : false, // [bool] Start all folders manified (i.e. opened). Default : false
+		"toggle"  : true,  // [bool] Siblings are closed on self opening. Default : true
+		"fx_d"    : 375    // [int]  Duration of effects. Default : 375
+	};
+	return {
+		open : function(o, b) {
+			var n = o.find(".name"), b = b || false, s = this;
+			if (!o.hasClass("open")) {
+				if (b) {o.siblings().each(function() {s.close($(this))});}
+				o.addClass("open"); // show this
+				o.find("textarea").trigger("autosize.resize"); // reload autosize
+				var h = o.outerHeight();
+				o.css("height", n.outerHeight()) // set css
+				o.animate({"height" : h}, cfg.fx_d, function() {
+					if (o.parent(".folder-list").hasClass("edit")) {
+						n.eq(0).hide(); n.eq(1).show();
+					} else {
+						n.removeAttr("tabindex"); // disable tabnav for this
+						o.find(".vis-toggle").focus(); // focus visibility toggle
+					} o.css({"height" : ""}); // reset css
+				});
+			}
+		},
+		close : function(o) {
+			var n = o.find(".name");
+			if (o.hasClass("open")) {
+				if (o.parent(".folder-list").hasClass("edit")) {
+					n.eq(0).show(); n.eq(1).hide();
+				} else {
+					n.attr("tabindex", "0"); // enable tabnav for this
+				} o.css({"padding" : "0 .375rem"}); // set css
+				o.animate({"height" : n.outerHeight()}, cfg.fx_d, function() {
+					o.removeClass("open"); // hide this
+					o.css({"height" : "", "padding" : ""}); // reset css
+				});
+			}
+		},
+		init : function(opts) {
+			// Variables
+			cfg = $.extend({}, cfg, opts);
+			var self = this;
+			// Live events
+			$(".folder-list").on("click", ".folder .name", function() {
+				self.open($(this).parent(".folder"), cfg.toggle);
+			});
+			$(".folder-list").on("click", ".folder .vis-toggle", function(e) {
+				self.close($(this).parent(".name").parent(".folder"));
+				e.stopPropagation();
+			});
+			// Execution
+			var u = window.location.hash, r = true;
+			$(".folder-list .folder").each(function() {
+				if ($(this).attr("id") == u.cut(1)) { // check address bar for hash
+					self.open($(u)); r = false;
+				}
+			});
+			if (r && cfg.manify) {
+				$(".folder-list .folder").each(function() {
+					self.open($(this));
+				});
+			}
+		}
+	}
+}());
+
 var list_overview = (function() {
 	return {
 		init : function (attachee) {

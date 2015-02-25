@@ -4849,21 +4849,33 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .folder {
   position: relative;
-  padding: .5rem .75rem .75rem;
-  background-color: whitesmoke;
-  border: .125rem solid lightgrey;
+  border: .125rem solid transparent;
 }
 .folder *:first-child {margin-top: 0;}
 .folder *:last-child {margin-bottom: 0;}
 .folder + .folder {
   margin-top: 1rem;
 }
-.folder > .name {}
+.folder > .name {
+  padding: 0 .375rem;
+}
+.folder > .name:after { /* Clearfix */
+  content: '';
+  display: block;
+  clear: both;
+}
+.folder > .name .icon {
+  margin-bottom: 0;
+}
+.folder > .name h4.icon {
+  float: left;
+}
 .folder > .name .icon > svg {
   fill: silver;
   margin-right: .25rem;
 }
 .folder > .desc {
+  display: none;
   position: relative;
   margin: .5rem 1rem .75rem 2.75rem;
 }
@@ -4883,8 +4895,9 @@ input:focus + button + .error + .autocomplete > ul {
   font-size: .925rem;
 }
 .folder > .list {
-  list-style: none;
+  display: none;
   margin: 0;
+  list-style: none;
 }
 .folder > .list > li{
   position: relative;
@@ -4913,22 +4926,20 @@ input:focus + button + .error + .autocomplete > ul {
 .folder > .list > li .button + .icon:not(.button) {
   margin-left: 0;
 }
-.css-debug .folder > .list > li:nth-child(odd) {background-color: rgba(255, 0, 0, .5);}
-.css-debug .folder > .list > li:nth-child(even) {background-color: rgba(0, 255, 0, .5);}
 
 /* Folder List Edit */
-.folder-list.edit .folder > .name .icon {
+.folder-list.edit .folder > .name span.icon {
   position: absolute;
   margin-top: .125rem;
 }
 .folder-list.edit .folder > .name .icon > svg {}
 .folder-list.edit .folder > .name input {
-  padding: 0 .125rem;
-  padding-left: 2.5rem;
+  padding: 0 2.5rem;
   height: 2.75rem;
-  letter-spacing: -.0625em;
+  color: #202020;
   font-size: 1.75rem;
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
+  letter-spacing: -.0625em;
 }
 .css-fx .folder-list.edit .folder > .name input {
   font-family: 'Oswald', sans-serif;
@@ -4962,8 +4973,86 @@ input:focus + button + .error + .autocomplete > ul {
   text-align: center;
 }
 .folder-list.edit + .button-bar > button {
-  /*margin-bottom: 0; /* TEMP */
+  margin-bottom: 0;
+  margin-bottom: 1rem; /* TEMP */
 }
+
+/* Folder Open */
+.folder.open {
+  padding: .5rem .75rem .75rem;
+  background-color: whitesmoke;
+  border-radius: .25rem;
+  border: .125rem solid gainsboro;
+  transition: background-color .75s, border-color .75s, padding .375s;
+}
+.folder.open > .desc,
+.folder.open > .list {
+  display: block;
+}
+.folder.open > .name {
+  padding: 0;
+}
+.folder:not(.open) > .name:hover,
+.folder:not(.open) > .name:focus {
+  cursor: pointer;
+  border-radius: .625rem;
+  background-color: #eee; /* DEBUG */
+}
+.folder:not(.open) > .name:hover svg,
+.folder:not(.open) > .name:focus svg {
+  fill: darkgray;
+}
+
+/* Visibility Toggle */
+.folder .vis-toggle {
+  margin-top: .375rem; /* WARNING : top adjustment for floating icon */
+  float: right;
+}
+.folder:not(.open) .vis-toggle {
+  display: none;
+}
+.folder.open .vis-toggle,
+.folder.open .vis-toggle {
+  display: inline-block;
+}
+.folder .vis-toggle:hover,
+.folder .vis-toggle:focus {
+  cursor: pointer;
+}
+.folder .vis-toggle:hover > svg,
+.folder .vis-toggle:focus > svg {
+  fill: dimgray;
+}
+.folder-list.edit .folder .vis-toggle {
+  position: absolute;
+  top: .375rem;
+  right: .375rem;
+}
+.folder-list.edit .folder .vis-toggle > svg {
+  height: 2.75rem;
+  width: 2.75rem;
+  padding: .375rem;
+}
+
+/*
+.folder:not(.open) > .name > input:hover,
+.folder:not(.open) > .name > input:focus {
+  cursor: pointer;
+  border-color: transparent;
+  background-color: red;
+}
+*/
+/*
+.folder:not(.open):before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 255, .25);
+  pointer-events: none;
+  z-index: 999;
+}
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Thanks List */
@@ -5257,32 +5346,53 @@ input:focus + button + .error + .autocomplete > ul {
   .frame > .main-pane,
   .article > .header .authoring {width: 100%;}
   .frame > .main-pane {padding-top: 0;}
-  .main-pane > .header {
+  .main-pane > .main-head {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 3.5rem;
     padding-top: .5rem;
-    border-bottom: .125rem solid gainsboro;
+    border-bottom: .125rem solid silver;
     background-color: whitesmoke;
+  }
+  .css-fx .main-pane > .main-head {
+    background: linear-gradient(180deg, whitesmoke 0%, gainsboro 100%);
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25);
+  }
+  .nav-pane {
+    position: relative;
+    top: 0; /* menu hidden*/
+    top: 3.5rem; /* menu visible*/
+  }
+  .main-body {
+    margin-top: 1rem;  /* menu hidden*/
+    margin-top: 3.5rem; /* menu visible*/
+  }
+  .main-nav {
+    display: none; /* menu hidden*/
+    display: block; /* menu visible*/
   }
   .logo,
   .fast-nav {display: none;}
   .orbit-container {}
   .orbit-slides-container {margin: 0; list-style: none;}
-  .orbit-headline {margin-left: 1rem;}
-  .orbit-headline > h1 {font-size: 1.5rem; line-height: 2.5rem; margin: 0; color: silver;}
+  .orbit-headline {margin-left: 1rem; overflow: hidden;}
+  .orbit-headline > h1 {font-size: 1.5rem; line-height: 2.5rem; margin: 0; color: darkgray; white-space: nowrap;}
   .css-fx .orbit-headline > h1 {text-shadow: 1px 1px white;}
   .orbit-headline > h4 {display: none;}
   .main-nav {font-size: 75%;}
-  .main-nav li {
-    float: left;
-    width: 33.33333333333333%;
-    line-height: 3rem;
-  }
-  [data-magellan-expedition] {
-    width: 100%;
-    left: 0;
-  }
+  .main-nav li {float: left;}
+  [data-magellan-expedition] {width: 100%; left: 0;}
   .article > .header .date {
     float: none;
     margin-bottom: .5rem;
     text-align: right;
   }
+}
+@media (min-width: 480px) and (max-width: 799px) {
+  .main-nav li {width: 25%; line-height: 2.5rem;}
+}
+@media (max-width: 479px) {
+  .main-nav li {width: 33.333333333333333333333333333333%; line-height: 2rem;}
+  .main-nav li a {font-size: .825em;}
 }

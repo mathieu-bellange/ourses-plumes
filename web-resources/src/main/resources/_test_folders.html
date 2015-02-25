@@ -59,7 +59,7 @@
 
 			<!--Folder Switcher-->
 			<div id="folder_switcher" style="margin-bottom: 1rem;">
-				<h3 class="subheader">Article dans un dossier</h3>
+				<h3>Article dans un dossier</h3>
 				<div class="folder-switcher">
 					<a href="javascript:void(0)" class="prev" title="Article précédent">
 						<span class="icon-left large"></span>
@@ -77,29 +77,92 @@
 
 			<!--Folders List-->
 			<div id="folder_list">
-				<h3 class="subheader">Liste des dossiers</h3>
+				<h3>Liste des dossiers</h3>
+				<h4 class="text-silver">Voir la liste des dossiers</h4>
+				<!--Folders List View-->
+				<ul class="folder-list">
+					<li id="v1" class="folder">
+						<div class="name" tabindex="0">
+							<h4 class="icon-folder">Égalité des sexes<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4>
+							<span class="icon-cancel small vis-toggle" tabindex="0" title="Fermer le dossier"></span>
+						</div>
+						<div class="desc">
+							<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+						</div>
+						<ul class="list">
+							<li><span class="icon-ourbody small"></span><a href="javascript:void(0)">Le troisième sexe<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
+							<li><span class="icon-intersec small"></span><a href="javascript:void(0)">Parité : une théorie éculée ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
+						</ul>
+					</li>
+					<li id="v2" class="folder">
+						<div class="name" tabindex="0">
+							<h4 class="icon-folder">Natalité<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4>
+							<span class="icon-cancel small vis-toggle" tabindex="0" title="Fermer le dossier"></span>
+							</div>
+						<div class="desc">
+							<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+						</div>
+						<ul class="list">
+							<li><span class="icon-struggles small"></span><a href="javascript:void(0)">Avortement : un droit mal acquis<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
+							<li><span class="icon-ourbody small"></span><a href="javascript:void(0)">Gestation pour autrui, une autre étape ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
+							<li><span class="icon-internat small"></span><a href="javascript:void(0)">La guerre des poupons<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
+						</ul>
+					</li>
+				</ul>
+				<!--Folders List Edit-->
+				<h4 class="text-silver" style="margin-top: 1rem;">Modifier la liste des dossiers</h4>
 				<ul class="folder-list edit">
-					<li class="folder">
-						<div class="name"><span class="icon-folder"></span><input type="text" maxlength="64" value="Natalité" placeholder="Le titre du dossier"></div>
+					<li id="e1" class="folder">
+						<div class="name" tabindex="0"><h4 class="icon-folder">Égalité des sexes<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4></div>
+						<div class="name" style="display: none;">
+							<span class="icon-folder"></span><input type="text" maxlength="64" value="Égalité des sexes" placeholder="Le titre du dossier">
+							<span class="icon-cancel small vis-toggle" tabindex="0" title="Fermer le dossier"></span>
+						</div>
 						<div class="desc">
 							<textarea class="min" maxlength="1024" placeholder="La description du dossier (1024 charact&egrave;res max.)">Description … Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</textarea>
 						</div>
 						<ul class="list">
-							<li class="clearfix"><span class="icon-struggles small"></span><a href="javascript:void(0)">Avortement : un droit mal acquis<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+							<li><span class="icon-ourbody small"></span><a href="javascript:void(0)">Le troisième sexe<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
 								<div class="button-bar">
 									<span class="icon-up button tiny disabled" tabindex="-1"></span>
 									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier"></span>
 									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
 								</div>
 							</li>
-							<li class="clearfix"><span class="icon-ourbody small"></span><a href="javascript:void(0)">Gestation pour autrui, une autre étape ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+							<li><span class="icon-intersec small"></span><a href="javascript:void(0)">Parité : une théorie éculée ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+								<div class="button-bar">
+									<span class="icon-up button tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier"></span>
+									<span class="icon-down button tiny disabled" tabindex="-1"></span>
+									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li id="e2" class="folder">
+						<div class="name" tabindex="0"><h4 class="icon-folder">Natalité<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4></div>
+						<div class="name" style="display: none;">
+							<span class="icon-folder"></span><input type="text" maxlength="64" value="Natalité" placeholder="Le titre du dossier">
+							<span class="icon-cancel small vis-toggle" tabindex="0" title="Fermer le dossier"></span>
+						</div>
+						<div class="desc">
+							<textarea class="min" maxlength="1024" placeholder="La description du dossier (1024 charact&egrave;res max.)">Description … Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</textarea>
+						</div>
+						<ul class="list">
+							<li><span class="icon-struggles small"></span><a href="javascript:void(0)">Avortement : un droit mal acquis<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+								<div class="button-bar">
+									<span class="icon-up button tiny disabled" tabindex="-1"></span>
+									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier"></span>
+									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
+								</div>
+							</li>
+							<li><span class="icon-ourbody small"></span><a href="javascript:void(0)">Gestation pour autrui, une autre étape ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
 								<div class="button-bar">
 									<span class="icon-up button tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier"></span>
 									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier"></span>
 									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
 								</div>
 							</li>
-							<li class="clearfix"><span class="icon-internat small"></span><a href="javascript:void(0)">La guerre des poupons<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
+							<li><span class="icon-internat small"></span><a href="javascript:void(0)">La guerre des poupons<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a>
 								<div class="button-bar">
 									<span class="icon-up button tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier"></span>
 									<span class="icon-down button tiny disabled" tabindex="-1"></span>
@@ -112,18 +175,19 @@
 				<div class="button-bar">
 					<button class="icon-add"><span class="text">Nouveau dossier</span></button>
 				</div>
-				<ul class="folder-list">
-					<li class="folder">
-						<div class="name"><h4 class="icon-folder">Égalité des sexes<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4></div>
-						<div class="desc">
-							<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
-						</div>
-						<ul class="list">
-							<li><span class="icon-ourbody small"></span><a href="javascript:void(0)">Le troisième sexe<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
-							<li><span class="icon-intersec small"></span><a href="javascript:void(0)">Parité : une théorie éculée ?<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></a></li>
-						</ul>
-					</li>
+				<!--Link to a folder-->
+				<h3>Lien vers un dossier</h3>
+				<ul>
+					<li><a href="_test_folders.html#v1" target="_blank">Voir le dossier n°1 dans une nouvelle fenêtre</a></li>
+					<li><a href="_test_folders.html#v2" target="_blank">Voir le dossier n°2 dans une nouvelle fenêtre</a></li>
+					<li><a href="_test_folders.html#e1" target="_blank">Modifier le dossier n°1 dans une nouvelle fenêtre</a></li>
+					<li><a href="_test_folders.html#e2" target="_blank">Modifier le dossier n°2 dans une nouvelle fenêtre</a></li>
 				</ul>
+				<script>
+					$(document).ready(function() {
+						folder_ui.init();
+					});
+				</script>
 			</div>
 		</div>
 
