@@ -84,7 +84,7 @@ function getAccount() {
 				header_authentication(request);
 			},
 			success : function(account, status, jqxhr) {
-				$("main > header").after(file_pool.account_edit_tmpl(account)).after(lb(1));
+				$(".main-body").append(file_pool.account_edit_tmpl(account)).after(lb(1));
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();

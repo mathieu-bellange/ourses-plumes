@@ -65,7 +65,7 @@ function check_faq() {
 				faq_ui.open($(this).parent(), -1); // force open tab withtout scrolling
 			}
 		});
-		$("main > header").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long}); // display form invalid alert
+		$(".main-body").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long}); // display form invalid alert
 	}
 }
 
@@ -79,7 +79,7 @@ function displayFAQ() {
 		url : "/rest/faq",
 		contentType : "application/json; charset=utf-8",
 		success : function(faq, status, jqxhr) {
-			$("main > header").after(file_pool.faq_list_tmpl(faq)).after(lb(1)); // process faq
+			$(".main-body").append(file_pool.faq_list_tmpl(faq)).after(lb(1)); // process faq
 			$(".faq textarea").add_confirmation_bar(); // add confirmation to textarea
 			$(".faq").svg_icons()// reload svg icons
 			faq_ui.init(); // init ui component
@@ -115,7 +115,7 @@ function delete_faq(obj) {
 	////////////////////////////////////////////////////////////////
 	obj.parent(".question").next(".answer").detach();
 	obj.parent(".question").detach();
-	$("main > header").create_alert_box($msg.faq_deleted, id, {"class" : "warning", "icon" : "info", "timeout" : $time.duration.alert_short}); // display form invalid alert
+	$(".main-body").create_alert_box($msg.faq_deleted, id, {"class" : "warning", "icon" : "info", "timeout" : $time.duration.alert_short}); // display form invalid alert
 }
 
 function submit_faq(data) {
@@ -128,7 +128,7 @@ function submit_faq(data) {
 	////////////////////////////////////////////////////////////////
 	alert(JSON.stringify(data)); // TO REMOVE
 	////////////////////////////////////////////////////////////////
-	$("main > header").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
+	$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
 }
 
 /* ------------------------------------------------------------------ */

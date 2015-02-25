@@ -68,7 +68,7 @@ function getAccount() {
 			header_authentication(request);
 		},
 		success : function(accounts, status, jqxhr) {
-			$("main > header").after(file_pool.account_list_tmpl(accounts)).after(lb(1)); // process template
+			$(".main-body").append(file_pool.account_list_tmpl(accounts)).after(lb(1)); // process template
 			loap.update(); // update main module
 		},
 		error : function(jqXHR, status, errorThrown) {

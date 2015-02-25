@@ -28,7 +28,7 @@ function processProfile(profile) {
 	/* Set page title */
 	set_page_title(profile.pseudo);
 	/* Insert template */
-	$("main > header").after(file_pool.profile_view_tpml(profile)).after(lb(1));
+	$(".main-body").append(file_pool.profile_view_tpml(profile)).after(lb(1));
 }
 
 function processRole(role) {
@@ -79,7 +79,7 @@ function displayProfile() {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}

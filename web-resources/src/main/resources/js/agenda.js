@@ -17,7 +17,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.agenda.title);
 			/* Insert template */
-			$("main > header").after(file_pool.agenda_tmpl).after(lb(1));
+			$(".main-body").append(file_pool.agenda_tmpl).after(lb(1));
 			/*
 			$(".date-switcher").on("click", ".next", function() {
 				buildCalendar($(this).data("month"), $(this).data("year"));
@@ -162,7 +162,7 @@ function getCalendarDays() {
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}

@@ -16,7 +16,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.terms_of_use.title);
 			/* Insert template */
-			$("main > header").after(file_pool.terms_of_use_tmpl).after(lb(1));
+			$(".main-body").append(file_pool.terms_of_use_tmpl).after(lb(1));
 		}
 	}
 }());

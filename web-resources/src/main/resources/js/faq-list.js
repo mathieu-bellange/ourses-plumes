@@ -35,7 +35,7 @@ function displayFAQ() {
 		url : "/rest/faq",
 		contentType : "application/json; charset=utf-8",
 		success : function(faq, status, jqxhr) {
-			$("main > header").after(file_pool.faq_list_tmpl(faq)).after(lb(1)); // process faq
+			$(".main-body").append(file_pool.faq_list_tmpl(faq)).after(lb(1)); // process faq
 			$(".faq").svg_icons()// reload svg icons
 			faq_ui.init(); // init ui component
 		},

@@ -25,6 +25,7 @@
 		</script>
 	</head>
 	<body>
+
 		<!--Dev Testbar-->
 		<div id="dev_testbar" class="panel">
 			<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" viewBox="0 0 48 48">
@@ -42,34 +43,40 @@
 			<label for="show_customize">Customize</label>
 			<input id="show_customize" type="checkbox" name="show" value="dev_customize_settings">
 		</div>
-		<script>
-		// Live Events
-		$("[name='show']").click(function() { $("#" + $(this).val()).toggle() });
-		</script>
-		<section id="dev_internal_templating">
-			<!--Process Internal Template-->
+
+		<div id="dev_container">
+
 			<script>
-				var users_list = { // set data
-						title: "Internal templating",
-						caption: "Liste des utilisateurs",
-						users: [
-							{login: "Polluxette", mail: "polluxette@hotmail.com"},
-							{login: "Casperine", mail: "casperine@gmail.com", password: "195033F0"},
-							{login: "Sigmunda", password: "PAL0A983"}
-						]},
-						template = document.getElementById("_template").text, // retrieve template
-						compiled = doT.compile(template); // compile template to var
-				document.write(compiled(users_list)); // write templated data
+			// Live Events
+			$("[name='show']").click(function() { $("#" + $(this).val()).toggle() });
 			</script>
-		</section>
-		<section id="dev_external_templating">
-		<!--Processed External Template will be put here-->
-		</section>
-		<section id="dev_multiple_templating">
-			<h2 class="red">Multiple parts templating</h2>
-			<div id="mptl_holder" class="panel callout radius">
-			</div>
-			<div class="code-block radius">
+
+			<section id="dev_internal_templating">
+				<!--Process Internal Template-->
+				<script>
+					var users_list = { // set data
+							title: "Internal templating",
+							caption: "Liste des utilisateurs",
+							users: [
+								{login: "Polluxette", mail: "polluxette@hotmail.com"},
+								{login: "Casperine", mail: "casperine@gmail.com", password: "195033F0"},
+								{login: "Sigmunda", password: "PAL0A983"}
+							]},
+							template = document.getElementById("_template").text, // retrieve template
+							compiled = doT.compile(template); // compile template to var
+					document.write(compiled(users_list)); // write templated data
+				</script>
+			</section>
+
+			<section id="dev_external_templating">
+			<!--Processed External Template will be put here-->
+			</section>
+
+			<section id="dev_multiple_templating">
+				<h2 class="red">Multiple parts templating</h2>
+				<div id="mptl_holder" class="panel callout radius">
+				</div>
+				<div class="code-block radius">
 	<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
 	<pre class="code">
 <mark>&#123;&#123;%</mark> <b class="var">part1</b> <mark>&#125;&#125;</mark>
@@ -81,11 +88,12 @@
 	<span class="tag">&lt;p&gt;</span>&#123;&#123;= data.text &#125;&#125; <span class="tag">&lt;/p&gt;</span>
 <mark>&#123;&#123;%&#125;&#125;</mark>
 </pre>
-		</div>
-		</section>
-		<section id="dev_customize_settings">
-			<h2 class="red">Customize settings</h2>
-			<h3>Standard configuration</h3>
+			</div>
+			</section>
+
+			<section id="dev_customize_settings">
+				<h2 class="red">Customize settings</h2>
+				<h3>Standard configuration</h3>
 <pre class="panel code">
 <var class="var">doT.templateSettings</var> = {
 	<span class="key">evaluate</span> : <span class="pair">regexp</span>,      <span class="comment">// parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)</span>
@@ -101,12 +109,15 @@
 	<span class="key">selfcontained</span> : <span class="pair">boolean</span> <span class="comment">// include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)</span>
 };
 </pre>
-			<h3>Custom configuration</h3>
+				<h3>Custom configuration</h3>
 <pre class="panel callout code">
 <var class="var">doT.templateSettings.varname</var> = <span class="val">"<mark>data</mark>"</span>;
 <var class="var">doT.templateSettings.strip</var> = <span class="val">false</span>;
 </pre>
-		</section>
+			</section>
+
+		</div>
+
 		<script>
 			var loax_pool = {
 				"test_data" : $loc.json + "_dev_templating.json", // define data
@@ -136,6 +147,7 @@
 				}
 			}());
 		</script>
+
 		<script>
 			$build.container = false;
 			load();

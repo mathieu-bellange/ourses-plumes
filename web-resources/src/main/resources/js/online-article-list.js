@@ -168,7 +168,7 @@ function displayArticles(url_params) {
 		success : function(articles, status, jqxhr) {
 			// display article search empty message
 			if (articles.length == 0) {
-				createAlertBox($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null});
+				$(".main-body").create_alert_box($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null, "insert" : "append"});
 			} else {
 				$("#alert_box").fadeOut(function() {
 					$("#alert_box").remove();
@@ -183,8 +183,7 @@ function displayArticles(url_params) {
 				return 0;
 			});
 			if (article_list_cfg.startup !== true) { // this is first launch of the page
-				var section = $("<section>", {"id" : "articles"}).html(file_pool.article_tool_tmpl(articles) + lb(1)); // create section
-				$("main > header").after(section); // process toolbar
+				$(".main-body").append(file_pool.article_tool_tmpl(articles) + lb(1)); // process toolbar
 			} else { // this is not first launch of the page, articles lists need to be flushed
 				$(".article-list").detach(); // clear articles list (if any)
 			}

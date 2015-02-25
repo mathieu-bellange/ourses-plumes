@@ -136,7 +136,7 @@ function displayArticles() {
 		url : "/rest/articles/last",
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
-			$("main > header").after(file_pool.article_list_tmpl(articles)).after(lb(1));
+			$(".main-body").append(file_pool.article_list_tmpl(articles) + lb(1));
 			displayLastWebReview(); // get last web review
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -156,7 +156,7 @@ function displayLastWebReview() {
 			$("#articles_publish > li").first().addClass("hide"); // EDIT : add class 'hide' instead of 'web-review'
 			$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
 			$("#articles_publish")
-				.wrap("<div class='row'></div>") // add row wrapper
+				.wrap("<div class='row collapse'></div>") // add row wrapper
 				.wrap("<div class='column small-24 large-16'></div>"); // add column wrapper with padding fix
 			displaySocialNetwork();
 			$("#articles").svg_icons(); // always reload icons only for articles
@@ -175,13 +175,13 @@ function displayLastWebReview() {
 }
 
 function displaySocialNetwork(){
-	if ($build.timeline) {
+	if ($build.timeline && isComputer()) {
 		$("head").append("<script src='https://platform.twitter.com/widgets.js' id='twitter-wjs'></script>").append(lb(1)); // insert Twitter widget API
 		var timeline = $("<div class='column small-24 large-8'>").html(file_pool.widget_timeline_tmpl());
 		$("#articles").find(".row").first().append(timeline); // append Twitter timeline to first row in section
 		widgets.customize(); // apply custom settings
 	}
-	if ($build.likebox && Modernizr.mq("(min-width: 640px)")) { // display Facebook likebox only on small width and above devices (i.e. faces overflow bug fix)
+	if ($build.likebox && isComputer() && Modernizr.mq("(min-width: 640px)")) { // display Facebook likebox only on small width and above devices (i.e. faces overflow bug fix)
 		$("#articles").append(file_pool.widget_likebox_tmpl()).append(lb(1)); // append Facebook likebox to section
 	}
 }

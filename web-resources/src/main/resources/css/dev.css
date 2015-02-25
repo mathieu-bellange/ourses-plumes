@@ -25,7 +25,7 @@
 /* Main Pane */
 
 /* Header */
-.css-debug .header .right {background-color: rgba(0, 0, 255, .25);} /* user-connect icon container */
+.css-debug .user-connect {background-color: rgba(0, 0, 255, .25);}
 
 /* Section */
 
@@ -174,3 +174,7 @@
 #dev_testbar > input[type='checkbox'] {margin: 0; vertical-align: middle;}
 #dev_testbar > input[type='button'] {margin-left: 1rem; vertical-align: middle;}
 #dev_testbar > input[type='range'] {margin: 0; vertical-align: middle;}
+
+/* Dev Container*/
+#dev_container {padding: 1rem;}
+#dev_container > h2:first-of-type {margin-top: 0;}

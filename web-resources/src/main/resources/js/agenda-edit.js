@@ -20,7 +20,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.agenda.title);
 			/* Insert template */
-			$("main > header").after(file_pool.agenda_tmpl).after(lb(1));
+			$(".main-body").append(file_pool.agenda_tmpl).after(lb(1));
 			getCalendarDays()
 			agenda_ui.init({ // initialize ui component
 				"template" : function(arg) {return file_pool.date_modal_edit_tmpl(arg)},
@@ -99,7 +99,7 @@ function check_date_event() {
 		});
 		send_date_event(data); // send data to db
 	} else { // any field is invalid
-		$("#date_modal").find("h2").first().create_alert_box($msg.form_invalid, "fail", {"timeout" : $time.duration.alert_long}); // display form invalid alert
+		$("#date_modal").find("h2").first().create_alert_box($msg.form_invalid, "fail", {"timeout" : $time.duration.alert_long, "insert" : "after"}); // display form invalid alert
 	}
 }
 
@@ -119,7 +119,7 @@ function send_date_event(data) {
 //////////////////////////////////////////////////////////////////
 	remove_date_modal();
 //////////////////////////////////////////////////////////////////
-	$("main > header").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form valid alert
+	$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form valid alert
 //////////////////////////////////////////////////////////////////
 	var c = $("#date_modal").data("caller").parent(".over-block");
 	var l = $(file_pool.date_event_list_tmpl({"events" : data}));
@@ -146,7 +146,7 @@ function getCalendarDays() {
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}

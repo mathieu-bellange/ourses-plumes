@@ -32,9 +32,11 @@
 {{%}}
 <!--Article List-->
 {{% article_list_tmpl }}
+				<section id="articles">
 					<ul id="articles_publish" class="article-list">
 						{{~ data :params }}
 							{{= file_pool.article_item_tmpl(params)}}
 						{{~}}
 					</ul>
+				</section>
 {{%}}

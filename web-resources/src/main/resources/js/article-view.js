@@ -140,7 +140,7 @@ function displayArticle() {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}
@@ -159,7 +159,7 @@ function displayRelatedArticle(articleId) {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}
@@ -193,7 +193,7 @@ function processArticle(article) {
 			window.location.href = article.path;
 		}
 	}
-	$("main > header").after(file_pool.article_view_tmpl(article)).after(lb(1));
+	$(".main-body").append(file_pool.article_view_tmpl(article)).after(lb(1));
 	$(".header, .footer").update_separators(); // update separators
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module

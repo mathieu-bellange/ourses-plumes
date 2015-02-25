@@ -1044,11 +1044,11 @@ jQuery.fn.extend({
 			$conf.js_fx ? job.fadeIn("slow") : job.show();
 		}
 		function close(obj, job, cancel) {
-			var cancel = cancel || false;
+			var cancel = typeof(cancel) !== "undefined" ? cancel : false;
 			job.fadeOut(($conf.js_fx ? "fast" : 0), function() {
 				obj.css("margin-bottom", job.css("margin-bottom")); // reset margin
 				job.remove(); // remove element
-				if (cancel) {obj.val(cancel)} // cancel value
+				if (typeof(cancel) === "string") {obj.val(cancel)} // cancel value
 			});
 		}
 		function is_editable(obj) {
@@ -1141,7 +1141,7 @@ jQuery.fn.extend({
 			"class"           : "error",    // String   CSS class of the alert box (null to none). Default : "error"
 			"icon"            : "warning",  // String   Name of the message icon (null to none). Default : "warning"
 			"icon_class"      : "white",    // String   CSS color class of the message icon (null to none). Default : "white"
-			"insert"          : "after",    // String   DOM manipulation type (before, after, append or prepend). Default : "after"
+			"insert"          : "prepend",  // String   DOM manipulation type (before, after, append or prepend). Default : "after"
 			"timeout"         : 0,          // Integer  Time before alert box fade out (zero for never). Default : 0
 			"scroll"          : true,       // Boolean  Scroll to alert box after insertion. Default : true
 			"scroll_duration" : 500,        // Integer  Duration of the scrolling effect. Default : 500
@@ -1160,10 +1160,10 @@ jQuery.fn.extend({
 		if ($(sel).length == 0) { // create
 			var alert_box = file_pool.alert_box_tmpl({"id" : id, "class" : cfg["class"], "icon" : cfg.icon, "icon_class" : cfg.icon_class, "text" : msg});
 			switch(cfg.insert) {
-				case "append" : $(this).first().append(alert_box); break;
-				case "prepend" : $(this).first().prepend(alert_box); break;
 				case "before" : $(this).first().before(alert_box); break;
-				default : $(this).first().after(alert_box); // after
+				case "after"  : $(this).first().after(alert_box);  break;
+				case "append" : $(this).first().append(alert_box); break;
+				default       : $(this).first().prepend(alert_box); // prepend
 			}
 			$(sel).svg_icons(); // set svg icons contained by alert box
 			$(sel).fadeIn($conf.js_fx ? cfg.fade_duration / 2 : 0); // show alert box
@@ -1799,7 +1799,7 @@ function get_url_search_params() {
 
 /* Insert alert box after header */
 function createAlertBox(msg, id, opts) {
-	$("main > header").create_alert_box(msg, id, opts);
+	$(".main-body").create_alert_box(msg, id, opts);
 }
 
 /* Set page title */
@@ -2051,7 +2051,7 @@ Window.prototype.checkCompatibility = function() {
 
 function compatibilityWarning() {
 	if (!checkCompatibility()) {
-		$("body").prepend_alert_box($msg.compatibility_warning, "warning");
+		$("body").create_alert_box($msg.compatibility_warning, "warning");
 	}
 }
 

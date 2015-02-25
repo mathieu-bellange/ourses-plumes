@@ -17,7 +17,7 @@ var loax = (function() {
 			set_page_title($nav.login.title);
 			/* Insert template */
 			if(checkCompatibility()){
-				$("main > header").after(file_pool.login_tmpl).after(lb(1));
+				$(".main-body").append(file_pool.login_tmpl).after(lb(1));
 			}
 		}
 	}

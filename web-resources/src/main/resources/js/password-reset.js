@@ -16,7 +16,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.password_reset.title);
 			/* Insert template */
-			$("main > header").after(file_pool.password_reset_tmpl).after(lb(1));
+			$(".main-body").append(file_pool.password_reset_tmpl).after(lb(1));
 		}
 	}
 }());
@@ -34,7 +34,7 @@ function check_email() {
 	if (q.is_valid()) {
 		submit_email(q.val());
 	} else {
-		$("main > header").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long}); // display form invalid alert
+		$(".main-body").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long}); // display form invalid alert
 	}
 }
 
@@ -50,7 +50,7 @@ function submit_email(data) {
 	// - on fail, display error
 	// - on success, send email and display submit confirmation
 	////////////////////////////////////////////////////////////////
-	$("main > header").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
+	$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
 }
 
 /* ------------------------------------------------------------------ */

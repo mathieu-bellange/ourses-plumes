@@ -29,7 +29,7 @@ var loax = (function() {
 					error: function(jqXHR, status, errorThrown) {
 						ajax_error(jqXHR, status, errorThrown);
 						if (jqXHR.status == 404) {
-							$("main > header").after(file_pool.error_tmpl).after(lb(1));
+							$(".main-body").append(file_pool.error_tmpl).after(lb(1));
 						} else {
 							createAlertBox();
 						}
@@ -672,7 +672,7 @@ function processArticle(article) {
 	// affiche le template en passant en param l'article
 	// la catégorie et la rubrique ne sont pas setté dans le template
 	// il faut attendre la récupération asynchrone des données
-	$("main > header").after(file_pool.article_edit_tmpl(article)).after(lb(1));
+	$(".main-body").append(file_pool.article_edit_tmpl(article)).after(lb(1));
 	// le js est rattaché aux nouveaux articles avec comme path /articles/nouveau
 	// et aux draft en update avec comme path /articles/{id}
 	//si il y a un id dans le path on est en update
@@ -708,7 +708,7 @@ function processArticle(article) {
 		error: function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
-				$("main > header").after(file_pool.error_tmpl).after(lb(1));
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
 			} else {
 				createAlertBox();
 			}

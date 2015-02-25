@@ -61,9 +61,6 @@ section,
 article {
   display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
 }
-section {
-  padding: 1rem; /* TEMP */
-}
 hgroup { /* Headers Grouping */
   display: block; /* Normalize 3.0.1 : Correct `block` display not defined for HTML5 element in IE 8/9. */
   background-color: ivory;
@@ -104,15 +101,6 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
   color: silver;
 }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration: none;} /* TEMP : links underline fix */
-
-section > h1:first-of-type,
-section > h2:first-of-type,
-section > h3:first-of-type,
-section > h4:first-of-type,
-section > h5:first-of-type,
-section > h6:first-of-type {
-  margin-top: 0;
-}
 
 /* Paragraphs */
 p {
@@ -316,6 +304,7 @@ template {
 
 table {
   width: 100%;
+  margin-bottom: 1rem; /* Foundation override*/
   border-color: gainsboro; /* Foundation override*/
   border-collapse: collapse; /* Normalize 3.0.1 : Remove most spacing between table cells. */
   border-spacing: 0; /* Normalize 3.0.1 : Remove most spacing between table cells. */
@@ -1416,8 +1405,19 @@ a.close {
   vertical-align: top;
 }
 
-.main-pane > header {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
-.main-pane > footer {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
+.main-pane > .main-head {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
+.main-pane > .main-foot {margin: 0;} /* WARNING : nullify header margin for ribbons effect */
+.main-pane > .main-body {
+  padding: 1rem; /* TEMP */
+}
+.main-pane > .main-body > h1:first-of-type,
+.main-pane > .main-body > h2:first-of-type,
+.main-pane > .main-body > h3:first-of-type,
+.main-pane > .main-body > h4:first-of-type,
+.main-pane > .main-body > h5:first-of-type,
+.main-pane > .main-body > h6:first-of-type {
+  margin-top: 0;
+}
 
 .nav-pane a {
   color: white;
@@ -2906,13 +2906,13 @@ input:focus + button + .error + .autocomplete > ul {
 
 .tool-bar {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 .tool-bar:after {
   content: '';
   position: relative;
   display: block;
-  bottom: -.5rem;
+  bottom: -.75rem;
   border-bottom: .125rem dotted gainsboro;
 }
 
@@ -3149,6 +3149,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 .article .body {
+  margin-bottom: 1rem;
   color: inherit;
 }
 
@@ -4023,8 +4024,9 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Below are default classes for user profile using display HTML tags */
 .user-profile {
-  background-color: #f0f0f0;
+  margin-bottom: 0;
   border-color: transparent;
+  background-color: #f0f0f0;
 }
 .user-profile .picture {
   margin-bottom: .5rem;

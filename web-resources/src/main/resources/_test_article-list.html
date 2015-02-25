@@ -5,9 +5,6 @@
 	</head>
 	<body>
 
-		<!----------------------------------------------------------------->
-		<!--| Dev Testbar |-->
-		<!----------------------------------------------------------------->
 		<div id="dev_testbar">
 			<svg width="0" height="0" viewBox="0 0 48 48">
 				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
@@ -34,7 +31,7 @@
 			function change_width(selector) {
 				var w = $(selector).val() + "%";
 				$("section").css("width", w);
-				$("#section_width_tip").text(w + " (" + $("#articles").outerWidth(true) + "px)");
+				$("#section_width_tip").text(w + " (" + $("#dev_container").outerWidth(true) + "px)");
 			}
 			function check_debug_marks(selector) {
 				if ($(selector).is(":checked")) {
@@ -89,8 +86,8 @@
 			});
 		</script>
 
-		<!--Articles-->
-		<section id="articles">
+
+		<div id="dev_container">
 
 			<h2 class="red">Liste des articles <small>.article-list</small></h2>
 
@@ -1098,7 +1095,8 @@
 
 			</div>
 
-		</section>
+		</div>
+
 		<script>
 			$build.container = false;
 			load();
