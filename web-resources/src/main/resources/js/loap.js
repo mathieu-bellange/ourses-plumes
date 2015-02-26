@@ -1644,7 +1644,7 @@ var folder_ui = (function() {
 				o.find("textarea").trigger("autosize.resize"); // reload autosize
 				var h = o.outerHeight();
 				o.css("height", n.outerHeight()) // set css
-				o.animate({"height" : h}, cfg.fx_d, function() {
+				o.animate({"height" : h}, $conf.js_fx ? cfg.fx_d : 0, function() {
 					if (o.parent(".folder-list").hasClass("edit")) {
 						n.eq(0).hide(); n.eq(1).show();
 					} else {
@@ -1662,7 +1662,7 @@ var folder_ui = (function() {
 				} else {
 					n.attr("tabindex", "0"); // enable tabnav for this
 				} o.css({"padding" : "0 .375rem"}); // set css
-				o.animate({"height" : n.outerHeight()}, cfg.fx_d, function() {
+				o.animate({"height" : n.outerHeight()}, $conf.js_fx ? cfg.fx_d : 0, function() {
 					o.removeClass("open"); // hide this
 					o.css({"height" : "", "padding" : ""}); // reset css
 				});

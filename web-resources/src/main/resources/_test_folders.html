@@ -5,16 +5,28 @@
 	</head>
 	<body>
 
+		<script>
+			var folder_edit = true;
+			var loax_pool = {
+				"folder_view_mptl" : $loc.tmpl + "folder-view.mptl",
+				"folder_edit_mptl" : $loc.tmpl + "folder-edit.mptl"
+			};
+		</script>
+
 		<!--Dev Testbar-->
 		<div id="dev_testbar" class="">
 			<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" viewBox="0 0 48 48">
 				<polygon points="27,35.59 40,22.59 40,31.91 24,47.91 8,31.91 8,22.59 21,35.59 21,0 27,0 "/>
 			</svg>
 			<h4>Voir</h4>
-			<label for="show_folder_switcher">Barre de dossier</label>
+			<label for="show_folder_switcher">Barre</label>
 			<input id="show_folder_switcher" type="checkbox" name="show" value="folder_switcher">
-			<label for="show_folder_list">Liste des Dossiers</label>
-			<input id="show_folder_list" type="checkbox" name="show" value="folder_list" checked>
+			<label for="show_folder_list_view">Visualisation</label>
+			<input id="show_folder_list_view" type="checkbox" name="show" value="folder_list_view" checked>
+			<label for="show_folder_list_edit">Édition</label>
+			<input id="show_folder_list_edit" type="checkbox" name="show" value="folder_list_edit" checked>
+			<label for="show_link_to_a_folder">Liens</label>
+			<input id="show_link_to_a_folder" type="checkbox" name="show" value="link_to_a_folder" checked>
 			<label for="test_overflow">D&eacute;bordement</label>
 			<input id="test_overflow" type="checkbox" name="show">
 			<label>Largeur</label>
@@ -75,11 +87,10 @@
 				</div>
 			</div>
 
-			<!--Folders List-->
-			<div id="folder_list">
-				<h3>Liste des dossiers</h3>
-				<h4 class="text-silver">Voir la liste des dossiers</h4>
-				<!--Folders List View-->
+			<!--Folders List View-->
+			<div id="folder_list_view">
+				<h3>Voir la liste des dossiers</h3>
+				<!--
 				<ul class="folder-list">
 					<li id="v1" class="folder">
 						<div class="name" tabindex="0">
@@ -87,6 +98,8 @@
 							<span class="icon-cancel small vis-toggle" tabindex="0" title="Fermer le dossier"></span>
 						</div>
 						<div class="desc">
+							<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
+							<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
 							<p>Description &hellip; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Maecenas sagittis vitae risus eget consectetur. Proin euismod bibendum massa, nec ultricies felis posuere a. Curabitur aliquet vestibulum ante et auctor. Suspendisse ut sapien sed nisl semper egestas in vitae eros. Donec et leo a nisl condimentum consequat vel et velit.</p>
 						</div>
 						<ul class="list">
@@ -109,8 +122,14 @@
 						</ul>
 					</li>
 				</ul>
-				<!--Folders List Edit-->
-				<h4 class="text-silver" style="margin-top: 1rem;">Modifier la liste des dossiers</h4>
+				-->
+			</div>
+
+
+			<!--Folders List Edit-->
+			<div id="folder_list_edit">
+				<h3>Modifier la liste des dossiers</h3>
+				<!--
 				<ul class="folder-list edit">
 					<li id="e1" class="folder">
 						<div class="name" tabindex="0"><h4 class="icon-folder">Égalité des sexes<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4></div>
@@ -137,6 +156,11 @@
 								</div>
 							</li>
 						</ul>
+						<div class="text-center button-bar">
+							<button class="icon-confirm success small" title="Valider les modifications" data-submit><span class="text">Valider</span></button>
+							<button class="icon-cancel alert small" title="Annuler les modifications" data-cancel><span class="text">Annuler</span></button>
+							<button class="icon-remove alert tiny right" title="Supprimer le dossier" data-delete><span class="text hide">Supprimer</span></button>
+						</div>
 					</li>
 					<li id="e2" class="folder">
 						<div class="name" tabindex="0"><h4 class="icon-folder">Natalité<span class="test-overflow"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper. Phasellus eget eros orci. Sed vulputate hendrerit eros a semper.</span></h4></div>
@@ -173,15 +197,100 @@
 					</li>
 				</ul>
 				<div class="button-bar">
-					<button class="icon-add"><span class="text">Nouveau dossier</span></button>
+					<button class="icon-add" data-add><span class="text">Nouveau dossier</span></button>
 				</div>
-				<!--Link to a folder-->
+				-->
+			</div>
+			<script>
+				var db_rubrique = [
+					{"id" : 1, "classe" : "struggles"},
+					{"id" : 2, "classe" : "ourbody"},
+					{"id" : 3, "classe" : "intersec"},
+					{"id" : 4, "classe" : "internat"},
+					{"id" : 5, "classe" : "educult"},
+					{"id" : 6, "classe" : "ideas"}
+				];
+				var db_article = [
+					{"id" : 1, "title" : "Le troisième sexe", "rubrique_id" : 1, "path" : "javascript:void(0)"},
+					{"id" : 2, "title" : "Gestation pour autrui, une autre étape ?", "rubrique_id" : 1, "path" : "javascript:void(0)"},
+					{"id" : 3, "title" : "Parité : une théorie éculée ?", "rubrique_id" : 2, "path" : "javascript:void(0)"},
+					{"id" : 4, "title" : "Avortement : un droit mal acquis", "rubrique_id" : 4, "path" : "javascript:void(0)"},
+					{"id" : 5, "title" : "La guerre des poupons", "rubrique_id" : 3, "path" : "javascript:void(0)"}
+				];
+				var db_folder = [
+					{
+						"id" : 1,
+						"hash" : "natalite",
+						"name" : "Natalité",
+						"desc" : "<p>Le dossier qui regroupe les sujets sur la natalité.</p>",
+						"list" : [
+							{"num" : 6, "id" : 5},
+							{"num" : 7, "id" : 4},
+							{"num" : 3, "id" : 2}
+						]
+					},
+					{
+						"id" : 2,
+						"hash" : "egalite-des-sexes",
+						"name" : "Égalité des sexes",
+						"desc" : "<p>Le dossier qui regroupe les sujets sur l'égalité des sexes.</p>",
+						"list" : [
+							{"num" : 0, "id" : 1},
+							{"num" : 1, "id" : 3},
+						]
+					}
+				];
+				function sort_list_by_num(a) {
+					var b = [], c = [];
+					for (n in a) {
+						b.push(a[n].num);
+					} b.sort(function(a, b) {return a - b});
+					for (var i = 0; i < b.length; i++) {
+						for (n in a) {
+							if (a[n].num == b[i]) {
+								c.push(a[n]);
+							}
+						}
+					} return c;
+				}
+				$(document).ready(function() {
+					// 1. Build folder list template
+					$("#folder_list_view").append(file_pool.folder_view_list_tmpl(db_folder));
+					$("#folder_list_edit").append(file_pool.folder_edit_list_tmpl(db_folder));
+					// 2. Build folder list item
+					$(".folder .list li").each(function() {
+						var id = $(this).attr("data-id"), a = db_article;
+						if (typeof(id) !== "undefined") {
+							for (k in a) {
+								if (a[k].id == id) {
+									$(this).prepend(file_pool.folder_list_item_tmpl({"title" : a[k].title, "rubric" : " rubric-id-" + a[k].rubrique_id, "path" : a[k].path}));
+								}
+							}
+						}
+					});
+					// 3. Update rubric id from db
+					$("[class*='rubric-id']").each(function() {
+						var o = $(this), d = db_rubrique, r = o.attr("class").match(/rubric-id-(\d*)/), c;
+						for (n in d) {
+							if (d[n].id == r[1]) {
+								c = d[n].classe;
+							}
+						}
+						o.removeClass(r[0]);
+						o.addClass("icon-" + c);
+					});
+					$(".folder-list").svg_icons(); // reload svg icons
+				});
+			</script>
+
+			<!--Link to a folder-->
+			<div id="link_to_a_folder">
 				<h3>Lien vers un dossier</h3>
 				<ul>
-					<li><a href="_test_folders.html#v1" target="_blank">Voir le dossier n°1 dans une nouvelle fenêtre</a></li>
-					<li><a href="_test_folders.html#v2" target="_blank">Voir le dossier n°2 dans une nouvelle fenêtre</a></li>
-					<li><a href="_test_folders.html#e1" target="_blank">Modifier le dossier n°1 dans une nouvelle fenêtre</a></li>
-					<li><a href="_test_folders.html#e2" target="_blank">Modifier le dossier n°2 dans une nouvelle fenêtre</a></li>
+					<li><a href="_test_folders.html#natalite" target="_blank">Voir le dossier n°1 dans une nouvelle fenêtre</a></li>
+					<li><a href="_test_folders.html#egalite-des-sexes" target="_blank">Voir le dossier n°2 dans une nouvelle fenêtre</a></li>
+					<li><a href="_test_folders.html#natalite-edit" target="_blank">Modifier le dossier n°1 dans une nouvelle fenêtre</a></li>
+					<li><a href="_test_folders.html#egalite-des-sexes-edit" target="_blank">Modifier le dossier n°2 dans une nouvelle fenêtre</a></li>
 				</ul>
 				<script>
 					$(document).ready(function() {
