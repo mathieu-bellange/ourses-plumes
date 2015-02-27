@@ -46,7 +46,6 @@ public class BearAccount implements Account {
     private static final long serialVersionUID = -4826475879469336578L;
     static Logger logger = LoggerFactory.getLogger(BearAccount.class);
 
-
     protected static final String REALM_NAME = "staticRealm";
 
     @Id
@@ -58,8 +57,18 @@ public class BearAccount implements Account {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
+    }
+
+    private String renewPasswordDate;
+
+    public String getRenewPasswordDate() {
+        return renewPasswordDate;
+    }
+
+    public void setRenewPasswordDate(final String renewPasswordDate) {
+        this.renewPasswordDate = renewPasswordDate;
     }
 
     @Version
@@ -69,7 +78,7 @@ public class BearAccount implements Account {
         return version;
     }
 
-    public void setVersion(Integer version) {
+    public void setVersion(final Integer version) {
         this.version = version;
     }
 
@@ -83,7 +92,7 @@ public class BearAccount implements Account {
         return authcInfo;
     }
 
-    public void setAuthcInfo(OursesAuthenticationInfo authcInfo) {
+    public void setAuthcInfo(final OursesAuthenticationInfo authcInfo) {
         this.authcInfo = authcInfo;
     }
 
@@ -97,7 +106,7 @@ public class BearAccount implements Account {
         return authzInfo;
     }
 
-    public void setAuthzInfo(OursesAuthorizationInfo authzInfo) {
+    public void setAuthzInfo(final OursesAuthorizationInfo authzInfo) {
         this.authzInfo = authzInfo;
     }
 
@@ -113,7 +122,8 @@ public class BearAccount implements Account {
     public BearAccount() {
     }
 
-    public BearAccount(Long id, Object principal, Object credentials, Profile profile, Integer version) {
+    public BearAccount(final Long id, final Object principal, final Object credentials, final Profile profile,
+            final Integer version) {
         this.id = id;
         if (principal != null) {
             this.authcInfo = new OursesAuthenticationInfo(principal, credentials);
@@ -134,7 +144,7 @@ public class BearAccount implements Account {
     /**
      * Set le profil lié au compte
      */
-    public void setProfile(Profile profile) {
+    public void setProfile(final Profile profile) {
         this.profile = profile;
     }
 
@@ -158,7 +168,7 @@ public class BearAccount implements Account {
      *            all the principals, aka the identifying attributes, of this Account.
      * @see Account#getPrincipals()
      */
-    public void setPrincipals(PrincipalCollection principals) {
+    public void setPrincipals(final PrincipalCollection principals) {
         this.authcInfo.setPrincipals(principals);
     }
 
@@ -182,7 +192,7 @@ public class BearAccount implements Account {
      *            the credentials associated with this Account that verify one or more of the Account principals.
      * @see org.apache.shiro.authc.Account#getCredentials()
      */
-    public void setCredentials(Object credentials) {
+    public void setCredentials(final Object credentials) {
         this.authcInfo.setCredentials((String) credentials);
     }
 
@@ -204,7 +214,7 @@ public class BearAccount implements Account {
      *            the Account's assigned roles.
      * @see Account#getRoles()
      */
-    public void setRoles(Set<String> roles) {
+    public void setRoles(final Set<String> roles) {
         this.authzInfo.setRoles(roles);
     }
 
@@ -215,7 +225,7 @@ public class BearAccount implements Account {
      * @param role
      *            a role to assign to this Account.
      */
-    public void addRole(String role) {
+    public void addRole(final String role) {
         this.authzInfo.addRole(role);
     }
 
@@ -246,7 +256,7 @@ public class BearAccount implements Account {
         Ebean.save(this);
     }
 
-    public void update(Set<String> updateProps) {
+    public void update(final Set<String> updateProps) {
         Ebean.update(this, updateProps);
     }
 
@@ -254,7 +264,7 @@ public class BearAccount implements Account {
         Ebean.delete(BearAccount.class, id);
     }
 
-    public static BearAccount find(Long id) {
+    public static BearAccount find(final Long id) {
         return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").where()
                 .eq("id", id).findUnique();
     }
@@ -265,7 +275,7 @@ public class BearAccount implements Account {
      * @param id
      * @return
      */
-    public static BearAccount findAdminAccount(Long id) {
+    public static BearAccount findAdminAccount(final Long id) {
         return Ebean.find(BearAccount.class).fetch("authcInfo").setId(id).findUnique();
     }
 
@@ -275,7 +285,7 @@ public class BearAccount implements Account {
      * @param id
      * @return
      */
-    public static BearAccount findAdminAccountByProfileId(Long profileId) {
+    public static BearAccount findAdminAccountByProfileId(final Long profileId) {
         return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").where().eq("profile.id", profileId)
                 .findUnique();
     }
@@ -295,7 +305,7 @@ public class BearAccount implements Account {
      * @param mail
      * @return
      */
-    public static String getBearAccountCredentials(String mail) {
+    public static String getBearAccountCredentials(final String mail) {
         String password = null;
         BearAccount account = Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("authcInfo.mail", mail)
                 .findUnique();
@@ -311,7 +321,7 @@ public class BearAccount implements Account {
      * @param mail
      * @return
      */
-    public static Set<String> getBearAccountRoles(String mail) {
+    public static Set<String> getBearAccountRoles(final String mail) {
         BearAccount account = Ebean.find(BearAccount.class).fetch("authzInfo").where().eq("authcInfo.mail", mail)
                 .findUnique();
         Set<String> roles = Sets.newHashSet();
@@ -327,20 +337,21 @@ public class BearAccount implements Account {
      * @param mail
      * @return
      */
-    public static BearAccount findAuthcUserProperties(String mail) {
+    public static BearAccount findAuthcUserProperties(final String mail) {
         return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo", "mainRole").fetch("profile")
                 .fetch("profile.avatar", "path").where().eq("authcInfo.mail", mail).findUnique();
     }
 
-    public static BearAccount findAccountByPseudo(String pseudoBeautify) {
+    public static BearAccount findAccountByPseudo(final String pseudoBeautify) {
         return Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("profile.pseudoBeautify", pseudoBeautify)
                 .findUnique();
     }
-    
-    public static void deleteOldToken(String mail) {
-    	Set<OurseSecurityToken> tokensToDelete = Ebean.find(OurseSecurityToken.class).where().eq("login", mail).le("expirationDate", DateTime.now().minusDays(1)).findSet();
-    	logger.debug("token to delete : {}",tokensToDelete);
-    	Ebean.delete(tokensToDelete);
+
+    public static void deleteOldToken(final String mail) {
+        Set<OurseSecurityToken> tokensToDelete = Ebean.find(OurseSecurityToken.class).where().eq("login", mail)
+                .le("expirationDate", DateTime.now().minusDays(1)).findSet();
+        logger.debug("token to delete : {}", tokensToDelete);
+        Ebean.delete(tokensToDelete);
     }
 
     /**
@@ -369,6 +380,5 @@ public class BearAccount implements Account {
     public void updateCredentials() {
         this.authcInfo.update(Sets.newHashSet("credentials"));
     }
-
 
 }

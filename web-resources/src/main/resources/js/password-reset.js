@@ -33,8 +33,6 @@ function check_email() {
 	q.check_validity(c, $msg.email_invalid);
 	if (q.is_valid()) {
 		submit_email(q.val());
-	} else {
-		$(".main-body").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long}); // display form invalid alert
 	}
 }
 
@@ -43,14 +41,22 @@ function check_email() {
 /* ------------------------------------------------------------------ */
 
 function submit_email(data) {
-	////////////////////////////////////////////////////////////////
-	// TODO
-	////////////////////////////////////////////////////////////////
-	// AJAX : send password by mail
-	// - on fail, display error
-	// - on success, send email and display submit confirmation
-	////////////////////////////////////////////////////////////////
-	$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
+	$.ajax({
+		type : "PUT",
+		url : "/rest/account/" + encodeURI(data) + "/passwordReset",
+		contentType : "application/json; charset=utf-8",
+		success : function(article, status, jqxhr) {
+			$("main > header").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404) {
+				$("main > header").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long}); // display form invalid alert
+			} else {
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
 }
 
 /* ------------------------------------------------------------------ */

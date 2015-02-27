@@ -32,4 +32,6 @@ public interface BearAccountHelper {
     BearAccount create(BearAccount account) throws AccountProfileNullException, AccountAuthcInfoNullException,
             AccountAuthzInfoNullException;
 
+    void resetAccountPassword(String host, String mail);
+
 }

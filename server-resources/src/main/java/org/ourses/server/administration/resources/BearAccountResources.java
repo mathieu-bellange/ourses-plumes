@@ -3,6 +3,7 @@ package org.ourses.server.administration.resources;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -47,10 +49,12 @@ public class BearAccountResources {
     private SecurityHelper securityHelper;
     @Autowired
     private MailHelper mailHelper;
+    @Context
+    ServletContext context;
 
     @PUT
     @Path("/create")
-    public Response createAccount(BearAccountDTO bearAccountDTO) {
+    public Response createAccount(final BearAccountDTO bearAccountDTO) {
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
         String pseudo = null;
         if (bearAccountDTO.getProfile() != null) {
@@ -78,8 +82,8 @@ public class BearAccountResources {
     @PUT
     @Path("/{id}")
     public Response updateAccount(@PathParam("id")
-    Long id, MergeBearAccountDTO mergeBearAccountDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final Long id, final MergeBearAccountDTO mergeBearAccountDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         ResponseBuilder builder = null;
         try {
             BearAccount bearAccount = BearAccount.findAdminAccount(id);
@@ -112,18 +116,33 @@ public class BearAccountResources {
     @PUT
     @Path("/{id}/role")
     public Response updateAccount(@PathParam("id")
-    long id, OursesAuthzInfoDTO role) {
+    final long id, final OursesAuthzInfoDTO role) {
         BearAccount bearAccount = BearAccount.find(id);
         bearAccount.setAuthzInfo(role.toOursesAuthorizationInfo());
         bearAccount.update(Sets.newHashSet("authzInfo"));
         return Response.status(Status.NO_CONTENT).build();
     }
 
+    @PUT
+    @Path("/{mail}/passwordReset")
+    public Response resetPassword(@PathParam("mail")
+    final String mail) {
+        ResponseBuilder response = null;
+        if (!helper.isNewMail(mail)) {
+            helper.resetAccountPassword(context.getServletContextName(), mail);
+            response = Response.status(Status.NO_CONTENT);
+        }
+        else {
+            response = Response.status(Status.NOT_FOUND);
+        }
+        return response.build();
+    }
+
     @GET
     @Path("/{id}")
     public Response getAccount(@PathParam("id")
-    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         BearAccount bearAccount = BearAccount.findAdminAccount(id);
 
         ResponseBuilder builder;
@@ -148,7 +167,7 @@ public class BearAccountResources {
     @DELETE
     @Path("/{id}")
     public Response deleteAccount(@PathParam("id")
-    long id) {
+    final long id) {
         BearAccount bearAccount = new BearAccount();
         bearAccount.setId(id);
         bearAccount.delete();
@@ -164,7 +183,7 @@ public class BearAccountResources {
                     @Override
                     @Nullable
                     public BearAccountDTO apply(@Nullable
-                    BearAccount bearAccount) {
+                    final BearAccount bearAccount) {
                         return bearAccount.toBearAccountDTO();
                     }
                 });

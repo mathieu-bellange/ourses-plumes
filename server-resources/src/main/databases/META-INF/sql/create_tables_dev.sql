@@ -27,6 +27,7 @@ create table bear_account (
   version                   int not null,
   authz_info_id             bigint not null,
   profile_id                bigint not null,
+  renew_password_date		varchar(255),
   constraint pk_bear_account primary key (id))
 ;
 

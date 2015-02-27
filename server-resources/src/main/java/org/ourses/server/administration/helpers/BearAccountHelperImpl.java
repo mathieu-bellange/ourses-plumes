@@ -2,6 +2,8 @@ package org.ourses.server.administration.helpers;
 
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.OursesAuthenticationInfo;
 import org.ourses.server.administration.domain.entities.OursesAuthorizationInfo;
@@ -27,23 +29,26 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     @Autowired
     private ProfileHelper profileHelper;
 
+    @Autowired
+    private RenewPasswordHelper renewPasswordHelper;
+
     @Override
-    public String getPassword(String username) {
+    public String getPassword(final String username) {
         return BearAccount.getBearAccountCredentials(username);
     }
 
     @Override
-    public Set<String> getRoles(String username) {
+    public Set<String> getRoles(final String username) {
         return BearAccount.getBearAccountRoles(username);
     }
 
     @Override
-    public Set<String> getPermissions(String username) {
+    public Set<String> getPermissions(final String username) {
         return Sets.newHashSet();
     }
 
     @Override
-    public boolean isNewPseudo(String pseudo, Long id) {
+    public boolean isNewPseudo(final String pseudo, final Long id) {
         boolean isNewPseudo = false;
         if (id != null) {
             isNewPseudo = Profile.countPseudo(profileHelper.beautifyPseudo(pseudo), id) == 0;
@@ -55,23 +60,23 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     }
 
     @Override
-    public boolean isNewMail(String mail) {
+    public boolean isNewMail(final String mail) {
         return OursesAuthenticationInfo.countMail(mail) == 0;
     }
 
     @Override
-    public boolean isPseudoValid(String pseudo) {
+    public boolean isPseudoValid(final String pseudo) {
         return !Strings.isNullOrEmpty(pseudo);
     }
 
     @Override
-    public boolean isPasswordValid(String password) {
+    public boolean isPasswordValid(final String password) {
         return !Strings.isNullOrEmpty(password) && BearAccountUtil.passwordPattern.matcher(password).matches();
     }
 
     @Override
-    public BearAccount create(BearAccount account) throws AccountProfileNullException, AccountAuthcInfoNullException,
-            AccountAuthzInfoNullException {
+    public BearAccount create(final BearAccount account) throws AccountProfileNullException,
+            AccountAuthcInfoNullException, AccountAuthzInfoNullException {
         account.setCredentials(securityHelper.encryptedPassword((String) account.getCredentials()));
         account.setAuthzInfo(OursesAuthorizationInfo.findRoleByName(RolesUtil.REDACTRICE));
         profileHelper.buildProfilePath(account.getProfile());
@@ -80,4 +85,14 @@ public class BearAccountHelperImpl implements BearAccountHelper {
         return account;
     }
 
+    @Override
+    public void resetAccountPassword(final String host, final String mail) {
+        BearAccount bearAccount = BearAccount.findAuthcUserProperties(mail);
+        if (bearAccount != null) {
+            bearAccount.setRenewPasswordDate(DateTime.now().plusHours(1).toString(DateTimeFormat.fullTime()));
+            renewPasswordHelper.generateUrlToRenewPassword(host, mail, bearAccount.getRenewPasswordDate());
+            // TODO envoi de mail
+        }
+
+    }
 }
