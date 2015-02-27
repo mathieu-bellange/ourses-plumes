@@ -1,41 +1,63 @@
-﻿<!--Folder Edit Item-->
-{{% folder_edit_item_tmpl }}
+﻿<!--Folder Edit Article List Item-->
+{{% folder_edit_article_list_item_tmpl }}
 							<li data-id="{{= data.id }}" data-num="{{= data.num }}">
 								<div class="button-bar">
-									<span class="icon-up button tiny" tabindex="0"></span>
-									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier"></span>
-									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier"></span>
+									<span class="icon-up button tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier" data-up></span>
+									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier" data-down></span>
+									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier" data-remove></span>
 								</div>
 							</li>
 {{%}}
 
-<!--Folder Edit List-->
-{{% folder_edit_list_tmpl }}
-				<ul class="folder-list edit">
-					{{~ data :params }}
-					<li id="{{= params.hash + '-edit' }}" class="folder">
-						<div class="name" tabindex="0"><h4 class="icon-folder">{{= params.name }}</h4></div>
+<!--Folder Edit Article List Empty-->
+{{% folder_edit_article_list_empty_tmpl }}
+						<div class="list alert-box info text-center">
+							<span class="close" tabindex="0"></span>
+							<span class="icon-info tiny gray"></span>
+							<span class="text">Pas d&rsquo;article dans ce dossier. Vous pouvez ajouter des articles &agrave; ce dossier depuis la <a href="{{= $nav.draft_article_list.url }}" title="Modifier les articles">liste des articles</a>.</span>
+						</div>
+{{%}}
+
+<!--Folder Edit List Item-->
+{{% folder_edit_list_item_tmpl }}
+					<li id="{{= data.hash + '-edit' }}" class="folder" data-id="{{= data.id}}">
+						<div class="name" tabindex="0"><h4 class="icon-folder"><span class="text">{{= decode_html(data.name) }}</span></h4></div>
 						<div class="name" style="display: none;">
-							<span class="icon-folder"></span><input type="text" maxlength="64" value="{{= params.name }}" placeholder="Le titre du dossier">
+							<span class="icon-folder"></span><input type="text" maxlength="64" value="{{= data.name }}" placeholder="Le titre du dossier" required>
 							<span class="icon-cancel small vis-toggle" tabindex="0" title="Fermer le dossier"></span>
 						</div>
 						<div class="desc">
-							<textarea class="min" maxlength="1024" placeholder="La description du dossier (1024 charact&egrave;res max.)">{{= params.desc }}</textarea>
+							<textarea class="min" maxlength="1024" placeholder="La description du dossier (1024 charact&egrave;res max.)" required>{{= decode_html(data.desc, true) }}</textarea>
+							<button class="icon-remove alert tiny" title="Supprimer le dossier" data-delete><span class="text hide">Supprimer</span></button>
 						</div>
+						{{? typeof(data.list) === "undefined" || data.list.length == 0 || data.list === "{}" }}
+							{{? typeof(data.name) !== "undefined" && data.name !== "" }}
+								{{= file_pool.folder_edit_article_list_empty_tmpl() }}
+							{{?}}
+						{{??}}
 						<ul class="list">
-						{{~ sort_list_by_num(params.list) :art }}
-							{{= file_pool.folder_edit_item_tmpl(art) }}
+						{{~ folder_list.num(data.list) :art }}
+							{{= file_pool.folder_edit_article_list_item_tmpl(art) }}
 						{{~}}
 						</ul>
-						<div class="text-center button-bar">
+						{{?}}
+						<div class="text-center button-bar" style="display: none;">
 							<button class="icon-confirm success small" title="Valider les modifications" data-submit><span class="text">Valider</span></button>
-							<button class="icon-cancel alert small" title="Annuler les modifications" data-cancel><span class="text">Annuler</span></button>
-							<button class="icon-remove alert tiny right" title="Supprimer le dossier" data-delete><span class="text hide">Supprimer</span></button>
+							<button class="icon-cancel alert small" title="Annuler les modifications" data-reset><span class="text">Annuler</span></button>
 						</div>
 					</li>
+{{%}}
+
+<!--Folder Edit List-->
+{{% folder_edit_list_tmpl }}
+			<section id="folder_list_edit">
+				<ul class="folder-list edit">
+					{{~ data :folder }}
+						{{= file_pool.folder_edit_list_item_tmpl(folder) }}
 					{{~}}
 				</ul>
 				<div class="button-bar">
 					<button class="icon-add" data-add><span class="text">Nouveau dossier</span></button>
 				</div>
+			</section>
 {{%}}

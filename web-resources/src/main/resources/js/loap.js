@@ -10,6 +10,21 @@
 /* ------------------------------------------------------------------ */
 /*
  * NOTE
+ * Below is a minimalistic proto type check shorthand.
+ * This is not a tribute to neither Malcom nor Angus Young.
+ * 'is_def(typeof var)' returns 'true' or 'false' (without ref error).
+ */
+
+/* Is Defined */
+function is_def(type) {
+	return type !== "undefined";
+}
+
+/* ------------------------------------------------------------------ */
+/* # Protos */
+/* ------------------------------------------------------------------ */
+/*
+ * NOTE
  * Below are private javascript prototypes extensions.
  * They must be called before anything else.
  * Well, at least if you can catch the rime of an ancient mariner ...
@@ -45,7 +60,7 @@ String.prototype.capitalize = function() {
 	return (this.trunc(1).toUpperCase() + this.cut(1).toLowerCase());
 };
 
-/* Format string
+/* Format string numeric
  * Fill a string with pattern up to length (default pattern is "0").
  * "7".format(3) returns "007"
  * "lebite".format(9, "mo") returns "momolebite"
@@ -54,6 +69,18 @@ String.prototype.format = function(l, p) {
 	var p = p || "0", s = this;
 	while (s.length < l) { s = p + s }
 	return s;
+};
+
+/* Format string literal
+ * Fill a formatted string with pattern object or string.
+ * "%2-%1-%3".sprintf(["momo", "le"]) returns "le-momo-"
+ * "%3 no %1".sprintf("momo") returns " no momo"
+ */
+String.prototype.sprintf = function(a) {
+	var a = a || [], s = this;
+	if (typeof(a) === "string") {s = s.replace("%1", a)} else {
+	for (n in a) {s = s.replace("%" + (parseInt(n) + 1).toString(), a[n])}}
+	return s.replace(/%[\d]+/g, "");
 };
 
 /* Encode string to UTF-8 */
@@ -1037,7 +1064,7 @@ jQuery.fn.extend({
 		function open(obj) {
 			var m = obj.css("margin-bottom");
 			obj.after(file_pool.confirmation_bar_tmpl); // insert confirmation_bar template
-			job = obj.next(cfg.target);
+			job = obj.nextAll(cfg.target).first();
 			job.svg_icons(); // reflow all icons of validation bar
 			job.css("margin-bottom", m); // apply margin
 			obj.css("margin-bottom", 0); // clear margin
@@ -1049,6 +1076,7 @@ jQuery.fn.extend({
 				obj.css("margin-bottom", job.css("margin-bottom")); // reset margin
 				job.remove(); // remove element
 				if (typeof(cancel) === "string") {obj.val(cancel)} // cancel value
+				obj.trigger("autosize.resize") // force autosize resize
 			});
 		}
 		function is_editable(obj) {
@@ -1073,18 +1101,18 @@ jQuery.fn.extend({
 				},
 				blur : function(e) {
 					if (is_editable(self)) {
-						if (self.next(cfg.target).find("[data-cancel]").length > 0
-						 && self.next(cfg.target).find("[data-cancel]").is(":hover")) {
-							close(self, self.next(cfg.target), str);
-						} else if (self.next(cfg.target).find("[data-confirm]").length > 0
-						 && self.next(cfg.target).find("[data-confirm]").is(":hover")) {
-							close(self, self.next(cfg.target));
+						var obj = self.nextAll(cfg.target).first();
+						if (obj.find("[data-cancel]").length > 0
+						 && obj.find("[data-cancel]").is(":hover")) {
+							close(self, obj, str);
+						} else if (obj.find("[data-confirm]").length > 0
+						 && obj.find("[data-confirm]").is(":hover")) {
+							close(self, obj);
 						} else {
 							t = setTimeout(function() {
-								close(self, self.next(cfg.target));
+								close(self, obj);
 							}, cfg.timeout);
 						}
-						self.trigger("autosize.resize") // force autosize resize
 					}
 				},
 				keydown : function(e) {
@@ -1101,14 +1129,14 @@ jQuery.fn.extend({
 				},
 				keyup : function(e) {
 					if (is_editable(self)) {
+						var obj = self.nextAll(cfg.target).first();
 						if (e.which == 27) { // Escape
-							close(self, self.next(cfg.target), str);
-							self.trigger("autosize.resize") // force autosize resize
+							close(self, obj, str);
 						} else if (e.ctrlKey && e.which == 13) { // Ctrl + Enter
-							close(self, self.next(cfg.target));
+							close(self, obj);
 							self.blur();
 						} else if (e.which == 0 || e.which == 8 || e.which == 13 || e.which == 32 || e.which == 46 || e.which >= 48 && e.which <= 90 || e.which >= 96 && e.which <= 111 || e.which >= 160 && e.which <= 192) { // ² or Backspace or Enter or Space or Suppr or A-Z 0-9 or Numpad or Punctuation Mark
-							if (self.next(cfg.target).length == 0) {
+							if (obj.length == 0) {
 								open(self);
 							}
 						}
@@ -1152,7 +1180,7 @@ jQuery.fn.extend({
 		function set_close_timeout(sel) {
 			if (cfg.timeout > 0) {
 				var timeout = setTimeout(function() {
-					$(sel).find(".close").first().click();
+					close_alert_box($(sel), true);
 				}, cfg.timeout);
 				$(sel).data("timeout", timeout);
 			}
@@ -1187,8 +1215,9 @@ jQuery.fn.extend({
 	prepend_alert_box : function(msg, id, opts) {
 		$(this).create_alert_box(msg, id, $.extend(opts, {"insert" : "prepend"}));
 	},
-	clear_alert_box : function() {
-		$(this).find(".alert-box").each(function() {
+	clear_alert_box : function(id) {
+		var id = id || false;
+		$(this).find((id ? "#" + id.toString() : ".alert-box")).each(function() {
 			clearTimeout($(this).data("timeout")); // reset_timeout
 			$(this).remove(); // remove alert
 		});
@@ -1628,9 +1657,9 @@ var agenda_ui = (function() {
 	}
 }());
 
-var folder_ui = (function() {
+var folder_list = (function() {
 	var cfg = {
-		"inspect" : true,  // [bool] Search for folder hash in url (open it on success). Default : true
+		"inspect" : true,  // [bool] Search for folder hash in url (open it on success on and let others closed). Default : true
 		"manify"  : false, // [bool] Start all folders manified (i.e. opened). Default : false
 		"toggle"  : true,  // [bool] Siblings are closed on self opening. Default : true
 		"fx_d"    : 375    // [int]  Duration of effects. Default : 375
@@ -1646,7 +1675,7 @@ var folder_ui = (function() {
 				o.css("height", n.outerHeight()) // set css
 				o.animate({"height" : h}, $conf.js_fx ? cfg.fx_d : 0, function() {
 					if (o.parent(".folder-list").hasClass("edit")) {
-						n.eq(0).hide(); n.eq(1).show();
+						n.eq(0).hide(); n.eq(1).show(); // hide h4, show input
 					} else {
 						n.removeAttr("tabindex"); // disable tabnav for this
 						o.find(".vis-toggle").focus(); // focus visibility toggle
@@ -1654,19 +1683,54 @@ var folder_ui = (function() {
 				});
 			}
 		},
-		close : function(o) {
-			var n = o.find(".name");
+		close : function(o, f) {
+			var n = o.find(".name"), f = f || function() {};
 			if (o.hasClass("open")) {
-				if (o.parent(".folder-list").hasClass("edit")) {
-					n.eq(0).show(); n.eq(1).hide();
-				} else {
-					n.attr("tabindex", "0"); // enable tabnav for this
-				} o.css({"padding" : "0 .375rem"}); // set css
+				o.css({"padding" : "0 .375rem"}); // set css
 				o.animate({"height" : n.outerHeight()}, $conf.js_fx ? cfg.fx_d : 0, function() {
 					o.removeClass("open"); // hide this
 					o.css({"height" : "", "padding" : ""}); // reset css
+					f(); n = o.find(".name"); // callback
+					if (o.parent(".folder-list").hasClass("edit")) {
+						n.eq(0).find(".text").text(n.eq(1).find("input").val().trim()); // feed h4 with input value
+						n.eq(0).show(); n.eq(1).hide(); // show h4, hide input
+					} else {
+						n.attr("tabindex", "0"); // enable tabnav for this
+					}
 				});
 			}
+		},
+		num : function(s) {
+			var a = eval("(" + (s) + ")"), r = [];
+			for (n in a) {r.push({"num" : n, "id" : a[n]})}
+			return r;
+		},
+		build : function(ref, tmpl, art, rub) {
+			// 1. Process folder list template
+			ref.append(tmpl);
+			// 2. Process folder list item from articles db
+			ref.find(".folder .list li").each(function() {
+				var id = $(this).attr("data-id"), a = art;
+				if (is_def(typeof id)) {
+					for (k in a) {
+						if (a[k].id == id) {
+							$(this).prepend(file_pool.folder_article_list_link_tmpl({"title" : a[k].title, "rubric" : " rubric-id-" + a[k].rubrique_id, "path" : a[k].path}));
+						}
+					}
+				}
+			});
+			// 3. Process rubric id from rubrics db
+			ref.find("[class*='rubric-id']").each(function() {
+				var o = $(this), d = rub, r = o.attr("class").match(/rubric-id-(\d*)/), c;
+				for (n in d) {
+					if (d[n].id == r[1]) {
+						c = d[n].classe;
+					}
+				}
+				o.removeClass(r[0]);
+				o.addClass("icon-" + c);
+			});
+			ref.svg_icons(); // reload svg icons
 		},
 		init : function(opts) {
 			// Variables
@@ -1721,7 +1785,7 @@ var list_overview = (function() {
 }());
 
 /* ------------------------------------------------------------------ */
-/* # Build methods declaration */
+/* # Build methods */
 /* ------------------------------------------------------------------ */
 /*
  * NOTE
@@ -1808,6 +1872,21 @@ function decode_html(str, lb) {
 	return str;
 }
 
+/* Convert string to location */
+function encode_html_id(str, div) {
+	var div = div || "-";
+	str = str.toLowerCase()
+		.replace(/[à|â|ä]/gi, "a") // a
+		.replace(/ç/gi, "c") // c
+		.replace(/[é|è|ê|ë]/gi, "e") // e
+		.replace(/[î|ï]/gi, "i") // i
+		.replace(/[ô|ö]/gi, "o") // o
+		.replace(/ù/gi, "u") // u
+		.replace(/\s/g, div) // blank spaces (strict -- no tabulation, no line feed)
+		.replace(/[^a-z|0-9|\-_]/gi, ""); // strip anything else (except alphanumeric, hypens and underscores)
+	return str;
+}
+
 /* Convert long date format to short numeric */
 function getDateTime(date) { // passe une date en param pour obtenir une string au bon format pour la balise time
 	var year = date.getFullYear().toString();
@@ -1863,6 +1942,20 @@ function get_url_search_params() {
 		}
 	}
 	return null; // search is null
+}
+
+/* Close alert box */
+function close_alert_box(o) {
+	$(o).css("color", "transparent"); // mask box content
+	$(o).children().css("visibility", "hidden"); // mask box content
+	$(o).animate({
+		"height": "0",
+		"margin" : o.height() / 2 + "px 0 0",
+		"padding" : "0",
+		"opacity":"0"
+	}, $conf.js_fx ? $time.duration.fx : 0, function() { // hide alert box
+		o.remove();
+	});
 }
 
 /* Insert alert box after header */
@@ -2088,7 +2181,7 @@ function remove_pref(prefs, key) {
 }
 
 /* ------------------------------------------------------------------ */
-/* # Process user prefs */
+/* # User prefs */
 /* ------------------------------------------------------------------ */
 
 /* Check app conf user prefs */
@@ -2129,17 +2222,7 @@ function compatibilityWarning() {
 
 /* Close Alert Boxes */
 $("html").on("click", ".alert-box .close", function() {
-	var self = $(this).parent(".alert-box");
-	$(self).css("color", "transparent"); // mask box content
-	$(self).children().css("visibility", "hidden"); // mask box content
-	$(self).animate({
-		"height": "0",
-		"margin" : self.height() / 2 + "px 0 0",
-		"padding" : "0",
-		"opacity":"0"
-	}, $conf.js_fx ? $time.duration.fx : 0, function() { // hide alert box
-		self.remove();
-	});
+	close_alert_box($(this).parent(".alert-box"));
 });
 
 /* ------------------------------------------------------------------ */

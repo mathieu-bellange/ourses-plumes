@@ -94,7 +94,11 @@ $conf = {
 		"account"          : false,                                 // Boolean  Confirm delete account. Default : false
 		"draft"            : true,                                  // Boolean  Confirm delete draft. Default : true
 		"faq"              : true,                                  // Boolean  Confirm delete faq. Default : true
-		"date_event"       : false                                  // Boolean  Confirm delete date event. Default : false
+		"date_event"       : false,                                 // Boolean  Confirm delete date event. Default : false
+		"folder"           : true                                   // Boolean  Confirm delete folder. Default : true
+	},
+	"confirm_remove"     : {                                      // Object   Confirm remove configuration hash.
+		"folder_article"   : false                                  // Boolean  Confirm remove folder article. Default : false
 	}
 };
 
@@ -201,12 +205,15 @@ $msg = {
 		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"date_event"          : "&Ecirc;tes-vous certaine de vouloir supprimer cet &eacute;v&egrave;nement&nbsp;?<br>Cette action est irr&eacute;versible."
 	},
+	"confirm_remove_p"      : "&Ecirc;tes-vous certaine de vouloir retirer %1&nbsp;?",
+	"confirm_delete_p"      : "&Ecirc;tes-vous certaine de vouloir supprimer %1&nbsp;?<br>Cette action est irr&eacute;versible.",
+	"removed_p"             : "%1 <strong>%2</strong> retir&eacute%3;&nbsp;!",
+	"deleted_p"             : "%1 <strong>%2</strong> supprim&eacute%3;&nbsp;!",
 	"sumething_weird"       : "Un esp&egrave;ce de truc vraiment chelou s&rsquo;est produit. Veuillez &eacute;teindre votre ordinateur et faire le poirier en attendant les secours."
 };
 
 /* Navigation */
 $nav = {
-	"faq"                   : {"url" : "/faq",                     "title" : "FAQ"},
 	"account_list"          : {"url" : "/comptes",                 "title" : "Lister les comptes"},
 	"account_create"        : {"url" : null,                       "title" : "Ajouter un compte"},
 	"account_edit"          : {"url" : "/parametres/compte",       "title" : "Mon compte"},
@@ -217,6 +224,8 @@ $nav = {
 	"article_view"          : {"url" : null,                       "title" : null},
 	"article_add"           : {"url" : "/articles/nouveau",        "title" : "Écrire un article"},
 	"article_edit"          : {"url" : null,                       "title" : "Modifier un article"},
+	"folder_view"           : {"url" : null,                       "title" : "Dossiers"},
+	"folder_edit"           : {"url" : null,                       "title" : "Modifier les dossiers"},
 	"bug_report"            : {"url" : "/bug/nouveau",             "title" : "Signaler un bug"},
 	"password_reset"        : {"url" : "/parametres/motdepasse",   "title" : "Réinitialiser son mot de passe"},
 	"contact"               : {"url" : null,                       "title" : "Nous contacter"},
@@ -226,6 +235,7 @@ $nav = {
 	"partners"              : {"url" : null,                       "title" : "Nos copines"},
 	"profile_view"          : {"url" : null,                       "title" : null},
 	"profile_edit"          : {"url" : "/parametres/profil",       "title" : "Mon profil"},
+	"faq"                   : {"url" : "/faq",                     "title" : "FAQ"},
 	"thanks"                : {"url" : "/remerciements",           "title" : "Remerciements"},
 	"legal_notice"          : {"url" : "/service/mentions",        "title" : "Mentions légales"},
 	"terms_of_use"          : {"url" : "/service/utilisation",     "title" : "Conditions d'utilisation"},

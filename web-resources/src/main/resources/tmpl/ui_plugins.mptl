@@ -1,8 +1,8 @@
 ﻿<!--Alert Box-->
 {{% alert_box_tmpl }}
 					<div{{= typeof data.id !== "undefined" ? " id=" + data.id : "" }} class="alert-box radius text-center {{= typeof data.class !== 'undefined' ? ' ' + data.class : '' }}" style="display: none;">
+						<span class="close" tabindex="0"></span>
 						{{? data.icon !== null }}
-						<a href="javascript:void(0)" class="close"></a><span class="hide">Fermer</span>
 						<span class="icon-{{= data.icon }} small{{= data.icon_class !== null ? ' ' + data.icon_class : '' }}"></span>
 						{{?}}
 						<span class="text">{{= data.text }}</span>
@@ -18,7 +18,7 @@
 {{% confirmation_bar_tmpl }}
 					<div class="confirmation-bar clearfix">
 						{{? isComputer() }}
-						<ul class="left inline-list no-bullet text-tiny hide-for-touch hide-for-small" style="width: 75%; margin-top: .5rem;">
+						<ul class="left inline-list no-bullet text-tiny hide-for-touch hide-for-small" style="width: 75%; margin: .5rem 0 0;">
 							<li><kbd>Enter</kbd> Nouveau paragraphe</li>
 							<li><kbd>Shift+Enter</kbd> Retour &agrave; la ligne</li>
 							<li><kbd>Ctrl+Enter</kbd> Valider</li>
@@ -34,7 +34,7 @@
 
 <!--Confirmation Modal-->
 {{% confirmation_modal_tmpl }}
-			<div class="modal">
+			<div class="modal" data-confirmation-modal>
 				<div class="canvas">
 					<div class="dialog">
 						<h4 class="title">Confirmation<span class="close" tabindex="0"></span></h4>

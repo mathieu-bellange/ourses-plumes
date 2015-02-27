@@ -1331,7 +1331,7 @@ button.icon > svg,
 /* Anchors */
 a.disabled {
   cursor: default;
-/*outline: none;*/ /* TEMP : need to think about that ... */
+/*outline: none; /* TEMP : need to think about that ... */
   opacity: .5;
 }
 [class*='-nav'] ul li a.disabled,
@@ -1342,7 +1342,7 @@ a.disabled {
 [class*='-nav'] ul li a:hover.disabled.current,
 [class*='-nav'] ul li a:focus.disabled.current,
 [class*='-nav'] ul li a:active.disabled.current {
-  color: inherit; /* TEMP */
+  color: inherit; /* TEMP : need to check compatibility for that ... */
   background-color: inherit;
   border-color: transparent;
 }
@@ -2182,8 +2182,10 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
   text-align: center;
   display: block;
 }
-.alert-box .close + * {margin-top: 0; margin-right: 1.75rem;}
-.alert-box.info a {text-decoration: none;} /* TEMP : links underline fix */
+.alert-box .close + * {
+  margin-top: 0;
+}
+
 .alert-box.info,
 .alert-box.info a,
 .alert-box.info .close {
@@ -2208,6 +2210,9 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 .alert-box.error .close,
 .alert-box.warning .close {
   color: white;
+}
+.alert-box a {
+  font-weight: bold;
 }
 .alert-box.secondary {background-color: silver; border-color: darkgray;}
 .alert-box.success {background-color: #3a6; border-color: #274;}
@@ -4867,6 +4872,9 @@ input:focus + button + .error + .autocomplete > ul {
 .folder > .name .icon {
   margin-bottom: 0;
 }
+.folder > .name h4 {
+  line-height: 2.75rem;
+}
 .folder > .name h4.icon {
   float: left;
 }
@@ -4874,10 +4882,13 @@ input:focus + button + .error + .autocomplete > ul {
   fill: silver;
   margin-right: .25rem;
 }
+.folder > .name .icon > .text {
+  color: #202020;
+}
 .folder > .desc {
   display: none;
   position: relative;
-  margin: .5rem 1rem .75rem 2.75rem;
+  margin: .5rem 0 .75rem 2.75rem;
 }
 .folder > .desc:before {
   display: inline-block;
@@ -4889,10 +4900,20 @@ input:focus + button + .error + .autocomplete > ul {
   height: 100%;
   background-color: gainsboro;
 }
+.folder > .desc:after {
+  display: inline-block;
+  position: absolute;
+  content: '';
+  top: 0;
+  right: 0;
+  width: 10%;
+  height: 100%;
+}
 .folder > .desc > p {
   padding: .375rem;
   color: dimgray;
   font-size: .925rem;
+  width: 90%;
 }
 .folder > .list {
   display: none;
@@ -4930,11 +4951,12 @@ input:focus + button + .error + .autocomplete > ul {
 /* Folder List Edit */
 .folder-list.edit .folder > .name span.icon {
   position: absolute;
-  margin-top: .125rem;
+  margin-top: .375rem;
 }
 .folder-list.edit .folder > .name .icon > svg {}
 .folder-list.edit .folder > .name input {
-  padding: 0 2.5rem;
+  margin-bottom: .625rem;
+  padding: 0 2.625rem;
   height: 2.75rem;
   color: #202020;
   font-size: 1.75rem;
@@ -4945,11 +4967,24 @@ input:focus + button + .error + .autocomplete > ul {
   font-family: 'Oswald', sans-serif;
   letter-spacing: 0;
 }
+.folder-list.edit .folder > .desc {
+  position: relative;
+  margin-right: 0;
+}
 .folder-list.edit .folder > .desc textarea {
   padding: .375rem;
+  padding-right: 0;
   font-size: .925rem;
   color: dimgray;
   line-height: 1.375rem;
+  width: 90%;
+}
+.folder-list.edit .folder > .desc button {
+  position: absolute;
+  margin: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
 }
 .folder-list.edit .folder > .name input,
 .folder-list.edit .folder > .desc textarea {
@@ -4967,6 +5002,22 @@ input:focus + button + .error + .autocomplete > ul {
   border-color: darkgray;
   border-style: solid;
   background-color: white;
+}
+.folder-list.edit .folder > .name input.wrong,
+.folder-list.edit .folder > .desc textarea.wrong {
+  border-color: #c33;
+  border-style: solid;
+}
+.folder-list.edit .folder > .name input.wrong {
+  margin-bottom: 0;
+}
+.folder-list.edit .folder > .desc textarea.wrong + .error {
+  width: 90%;
+}
+.folder-list.edit .folder > .desc textarea + .confirmation-bar,
+.folder-list.edit .folder > .desc textarea + .error + .confirmation-bar {
+  padding-bottom: 0;
+  width: 90%;
 }
 .folder-list.edit .folder > .button-bar {
   display: none;
@@ -5006,15 +5057,28 @@ input:focus + button + .error + .autocomplete > ul {
 .folder.open > .name {
   padding: 0;
 }
+.folder:not(.open) > .name {
+  border-radius: .625rem;
+}
 .folder:not(.open) > .name:hover,
 .folder:not(.open) > .name:focus {
   cursor: pointer;
-  border-radius: .625rem;
   background-color: #eee; /* DEBUG */
 }
 .folder:not(.open) > .name:hover svg,
 .folder:not(.open) > .name:focus svg {
   fill: darkgray;
+}
+
+/* Folder Abide */
+.folder-list.edit .folder.abide:not(.open) > .name {
+  background-color: orange;
+}
+.folder-list.edit .folder.abide:not(.open) > .name svg{
+  fill: white;
+}
+.folder-list.edit .folder.abide:not(.open) > .name .text {
+  color: white;
 }
 
 /* Visibility Toggle */
@@ -5039,13 +5103,18 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .folder-list.edit .folder .vis-toggle {
   position: absolute;
-  top: .375rem;
+  top: .25rem;
   right: .375rem;
 }
 .folder-list.edit .folder .vis-toggle > svg {
   height: 2.75rem;
   width: 2.75rem;
   padding: .375rem;
+}
+
+/* Folder Alerts */
+.folder-list > .alert-box {
+  margin: .75rem 0;/* Position Fix */
 }
 
 /* ------------------------------------------------------------------ */

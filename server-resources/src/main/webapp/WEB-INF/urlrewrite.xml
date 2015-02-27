@@ -202,6 +202,18 @@
 	</rule>
 
 	<rule>
+		<note>redirection vers la page d'affichage des dossiers</note>
+		<from>^/dossiers$</from>
+		<to>/folder-view.html</to>
+	</rule>
+
+	<rule>
+		<note>redirection vers la page de modification des dossiers</note>
+		<from>^/dossiers/modifier$</from>
+		<to>/folder-edit.html</to>
+	</rule>
+
+	<rule>
 		<note>redirection vers la page de modification de l'agenda</note>
 		<from>^/parametres/agenda$</from>
 		<to>/agenda-edit.html</to>
