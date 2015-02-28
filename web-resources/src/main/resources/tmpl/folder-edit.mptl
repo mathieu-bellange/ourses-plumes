@@ -50,7 +50,7 @@
 
 <!--Folder Edit List-->
 {{% folder_edit_list_tmpl }}
-			<section id="folder_list_edit">
+			<section id="folder_list_edit" class="large-20 large-push-2">
 				<ul class="folder-list edit">
 					{{~ data :folder }}
 						{{= file_pool.folder_edit_list_item_tmpl(folder) }}

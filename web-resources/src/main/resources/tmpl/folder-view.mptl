@@ -5,7 +5,7 @@
 
 <!--Folder View List-->
 {{% folder_view_list_tmpl }}
-			<section id="folder_list">
+			<section id="folder_list" class="large-20 large-push-2">
 				<ul class="folder-list">
 					{{~ data :article }}
 					<li id="{{= article.hash }}" class="folder">
