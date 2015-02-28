@@ -1,4 +1,12 @@
-﻿<!--Alert Box-->
+﻿<!--Alert Bar-->
+{{% alert_bar_tmpl }}
+		<div class="alert-bar {{= data.class }}">
+			<ul></ul>
+			<span class="close" tabindex="0"></span>
+		</div>
+{{%}}
+
+<!--Alert Box-->
 {{% alert_box_tmpl }}
 					<div{{= typeof data.id !== "undefined" ? " id=" + data.id : "" }} class="alert-box radius text-center {{= typeof data.class !== 'undefined' ? ' ' + data.class : '' }}" style="display: none;">
 						<span class="close" tabindex="0"></span>

@@ -1151,7 +1151,7 @@ jQuery.fn.extend({
  * Insert closable notification dialog after first matched element.
  *
  * NOTE : Though this extension uses Foundation CSS styles, it is has
- * no dependences with Foundation alert plugin script.
+ * no dependency with Foundation alert plugin script.
  *
  * Arguments are optional.
  * - msg  = text displayed in the alert box     [string]
@@ -1944,6 +1944,33 @@ function get_url_search_params() {
 	return null; // search is null
 }
 
+/* Create alert bar */
+function create_alert_bar(msg, opts) {
+	var msg = msg || $msg.error;
+	var defs = {
+		"target"   : ".alert-bar", // [sel] Selector of the targeted plugin element. Default : ".alert-bar"
+		"position" : "top",        // [str] Can be either "top" or "bottom" (stuck on caller place if undefined). Default : "top"
+		"fx_d"     : 250,          // [int] Duration of effects (ms). Default : 250
+	};
+	var cfg = $.extend({}, defs, opts);
+	function fix(m, t) {
+		var m = m ? $(cfg.target).outerHeight() : "", t = t || 0;
+		$(cfg.target).nextAll("div").first().animate({"margin-top" : m}, t);
+	}
+	if ($(cfg.target).length == 0) {
+		$("body").prepend(file_pool.alert_bar_tmpl({"class" : cfg.position}));
+		if (cfg.position == "top") {fix(true)}
+		$(document).on("click", cfg.target + " .close", function() {
+			var o = $(this).parent(cfg.target);
+			var t = $conf.js_fx ? cfg.fx_d : 0;
+			if (cfg.position == "top") {fix(null, t)}
+			o.slideUp(t, function() {o.remove()});
+		});
+	}
+	$(cfg.target).children("ul").append($("<li>").html(msg));
+	if (cfg.position == "top") {fix(true)}
+}
+
 /* Close alert box */
 function close_alert_box(o) {
 	$(o).css("color", "transparent"); // mask box content
@@ -2212,7 +2239,7 @@ Window.prototype.checkCompatibility = function() {
 
 function compatibilityWarning() {
 	if (!checkCompatibility()) {
-		$("body").create_alert_box($msg.compatibility_warning, "warning");
+		create_alert_bar($msg.compatibility_warning);
 	}
 }
 

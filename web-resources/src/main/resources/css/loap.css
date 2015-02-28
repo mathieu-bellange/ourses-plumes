@@ -992,7 +992,6 @@ label.error {
   border-bottom-right-radius: .25rem;
 }
 
-
 /* ------------------------------------------------------------------ */
 /* # Send Boxes */
 /* ------------------------------------------------------------------ */
@@ -2163,6 +2162,58 @@ ul.pagination li.current a:hover, ul.pagination li.current a:focus {background-c
 /* ------------------------------------------------------------------ */
 
 .top-bar a {text-decoration: none;} /* TEMP : links underline fix */
+
+/* ------------------------------------------------------------------ */
+/* # Alert Bar */
+/* ------------------------------------------------------------------ */
+
+.alert-bar {
+  z-index: 9999;
+  position: fixed;
+  width: 100%;
+  padding: .375rem .5rem;
+  background-color: #ff9;
+  border: .125rem solid transparent;
+}
+.alert-bar.top {
+  top: 0;
+  border-bottom-color: silver; /* RGBA Fix */
+  border-bottom-color: rgba(0, 0, 0, .125);
+}
+.alert-bar.bottom {
+  bottom: 0;
+  border-top-color: silver; /* RGBA Fix */
+  border-top-color: rgba(0, 0, 0, .125);
+}
+.css-fx .alert-bar {
+  box-shadow: 0 0 2.5rem .75rem rgba(224, 192, 0, .25) inset;
+}
+.alert-bar ul {
+  margin: 0;
+  list-style: none;
+}
+.alert-bar ul li {
+  color: #333;
+  font-size: .9375rem;
+  text-align: justify;
+  line-height: 1.125;
+}
+.alert-bar ul li:first-child {
+  padding-right: 1.25rem; /* Close Fix */
+}
+.alert-bar ul li + li {
+  margin-top: .5rem;
+}
+.alert-bar a {
+  color: #333;
+  font-weight: bold;
+}
+.alert-bar .close {
+  position: absolute;
+  top: -.125rem;
+  right: .5rem;
+  font-size: 1.5rem;
+}
 
 /* ------------------------------------------------------------------ */
 /* # Alert Boxes */
