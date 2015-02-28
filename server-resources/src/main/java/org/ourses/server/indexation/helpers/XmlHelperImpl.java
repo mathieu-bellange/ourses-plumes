@@ -8,6 +8,7 @@ import org.ourses.server.indexation.domain.dto.Sitemap;
 import org.ourses.server.indexation.domain.dto.SitemapChangeFreq;
 import org.ourses.server.indexation.domain.dto.SitemapUrl;
 import org.ourses.server.redaction.domain.entities.Article;
+import org.ourses.server.util.EnvironnementVariable;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Sets;
@@ -31,7 +32,7 @@ public class XmlHelperImpl implements XmlHelper {
             artUrl.setChangeFrequency(SitemapChangeFreq.YEARLY);
             artUrl.setPriority(1.0);
             artUrl.setLastModification(art.getPublishedDate());
-            artUrl.setPath("domain" + art.getPath());
+            artUrl.setPath("http://"+ EnvironnementVariable.DOMAIN_NAME + art.getPath());
             articlesUrl.add(artUrl);
         }
         return articlesUrl;
@@ -39,11 +40,11 @@ public class XmlHelperImpl implements XmlHelper {
 
     private Collection<? extends SitemapUrl> buildStaticSitemapUrl() {
         SitemapUrl homeUrl = new SitemapUrl();
-        homeUrl.setPath("home");
+        homeUrl.setPath("http://"+ EnvironnementVariable.DOMAIN_NAME);
         homeUrl.setChangeFrequency(SitemapChangeFreq.DAILY);
         homeUrl.setPriority(0.8);
         SitemapUrl faqUrl = new SitemapUrl();
-        faqUrl.setPath("faq");
+        faqUrl.setPath("http://"+ EnvironnementVariable.DOMAIN_NAME + "/faq");
         faqUrl.setChangeFrequency(SitemapChangeFreq.MONTHLY);
         faqUrl.setPriority(0.5);
         return Sets.newHashSet(homeUrl, faqUrl);
