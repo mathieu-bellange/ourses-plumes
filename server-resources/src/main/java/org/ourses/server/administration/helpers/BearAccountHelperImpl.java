@@ -91,11 +91,11 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     }
 
     @Override
-    public void resetAccountPassword(final String host, final String mail) {
+    public void resetAccountPassword(final String mail) {
         BearAccount bearAccount = BearAccount.findAuthcUserProperties(mail);
         if (bearAccount != null) {
             bearAccount.setRenewPasswordDate(DateTime.now().plusHours(1).toString(DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")));
-            String renewUrl = renewPasswordHelper.generateUrlToRenewPassword(host, mail, bearAccount.getRenewPasswordDate());
+            String renewUrl = renewPasswordHelper.generateUrlToRenewPassword(mail, bearAccount.getRenewPasswordDate());
             mailHelper.renewPassword(renewUrl, mail);
             bearAccount.update("renewPasswordDate");
         }

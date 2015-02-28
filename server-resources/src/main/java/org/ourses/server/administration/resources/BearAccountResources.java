@@ -50,8 +50,6 @@ public class BearAccountResources {
     private SecurityHelper securityHelper;
     @Autowired
     private MailHelper mailHelper;
-    @Context
-    ServletContext context;
 
     @PUT
     @Path("/create")
@@ -130,7 +128,7 @@ public class BearAccountResources {
     final String mail) {
         ResponseBuilder response = null;
         if (!helper.isNewMail(mail)) {
-            helper.resetAccountPassword(context.getServletContextName(), mail);
+            helper.resetAccountPassword(mail);
             response = Response.status(Status.NO_CONTENT);
         }
         else {

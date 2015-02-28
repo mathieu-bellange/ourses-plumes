@@ -26,19 +26,19 @@ public class RenewPasswordHelperImpl implements RenewPasswordHelper {
     }
 
     @Override
-    public String generateUrlToRenewPassword(final String host, final String mail, final String expiredDate) {
+    public String generateUrlToRenewPassword(final String mail, final String expiredDate) {
         String id = generateRenewPasswordId(mail, expiredDate);
-        return generateUrl(host, id);
+        return generateUrl(id);
     }
 
     protected String generateRenewPasswordId(final String mail, final String date) {
         return passwordService.encryptPassword(mail + date);
     }
 
-    private String generateUrl(final String host, final String id) {
+    private String generateUrl(final String id) {
         URIBuilder uriBuilder = new URIBuilder();
         uriBuilder.setScheme(URL_RENEW_SCHEME);
-        uriBuilder.setHost(host);
+        uriBuilder.setHost(EnvironnementVariable.DOMAIN_NAME);
         uriBuilder.setPath(URL_RENEW_PATH);
         uriBuilder.setParameter(URL_RENEW_PARAM, id);
         return uriBuilder.toString();
