@@ -1,5 +1,6 @@
 package org.ourses.server.administration.helpers;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -12,6 +13,7 @@ import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullExc
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
 import org.ourses.server.administration.util.BearAccountUtil;
+import org.ourses.server.newsletter.helper.MailHelper;
 import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class BearAccountHelperImpl implements BearAccountHelper {
 
     @Autowired
     private RenewPasswordHelper renewPasswordHelper;
+    
+    @Autowired
+    private MailHelper mailHelper;
 
     @Override
     public String getPassword(final String username) {
@@ -89,10 +94,27 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     public void resetAccountPassword(final String host, final String mail) {
         BearAccount bearAccount = BearAccount.findAuthcUserProperties(mail);
         if (bearAccount != null) {
-            bearAccount.setRenewPasswordDate(DateTime.now().plusHours(1).toString(DateTimeFormat.fullTime()));
-            renewPasswordHelper.generateUrlToRenewPassword(host, mail, bearAccount.getRenewPasswordDate());
-            // TODO envoi de mail
+            bearAccount.setRenewPasswordDate(DateTime.now().plusHours(1).toString(DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")));
+            String renewUrl = renewPasswordHelper.generateUrlToRenewPassword(host, mail, bearAccount.getRenewPasswordDate());
+            mailHelper.renewPassword(renewUrl, mail);
+            bearAccount.update("renewPasswordDate");
         }
 
     }
+
+	@Override
+	public boolean renewPassword(String mail, String id, String password) {
+		BearAccount bearAccount = BearAccount.findAuthcUserProperties(mail);
+		boolean isOk = false;
+		DateTime renewPasswordDate = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").parseDateTime(bearAccount.getRenewPasswordDate());
+		Long now = new DateTime().getMillis();
+		if (bearAccount != null && renewPasswordDate.isAfter(now)) {
+			isOk = renewPasswordHelper.isRenewPasswordIdMatch(id, mail, bearAccount.getRenewPasswordDate());
+			if(isOk){
+				bearAccount.setCredentials(securityHelper.encryptedPassword(password));
+				bearAccount.updateCredentials();
+			} 
+		}
+		return isOk;
+	}
 }

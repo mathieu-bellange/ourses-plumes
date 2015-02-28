@@ -1,6 +1,7 @@
 package org.ourses.server.administration.domain.entities;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -256,8 +257,8 @@ public class BearAccount implements Account {
         Ebean.save(this);
     }
 
-    public void update(final Set<String> updateProps) {
-        Ebean.update(this, updateProps);
+    public void update(final String... updateProps) {
+        Ebean.update(this, Sets.newHashSet(updateProps));
     }
 
     public void delete() {

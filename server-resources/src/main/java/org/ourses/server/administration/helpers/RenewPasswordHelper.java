@@ -5,4 +5,6 @@ public interface RenewPasswordHelper {
 
     String generateUrlToRenewPassword(String host, String mail, String expiredDate);
 
+	boolean isRenewPasswordIdMatch(String id, String mail, String date);
+
 }

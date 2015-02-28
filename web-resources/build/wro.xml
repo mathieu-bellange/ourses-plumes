@@ -95,6 +95,12 @@
 		<js>/js/password-reset.js</js>
 		<group-ref>commons-loap-${project.version}</group-ref>
 	</group>
+	
+	<group name="password-renew-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/password-renew.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
 
 	<group name="error-${project.version}">
 		<group-ref>commons-lib-${project.version}</group-ref>

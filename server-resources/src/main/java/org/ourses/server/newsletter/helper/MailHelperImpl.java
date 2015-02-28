@@ -1,6 +1,5 @@
 package org.ourses.server.newsletter.helper;
 
-import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -30,10 +29,45 @@ public class MailHelperImpl implements MailHelper {
 
     private static final String SHARING_SUBJECT_PREFIX = "Les Ourses à plumes : ";
     private static final String SHARING_BODY = "Quelqu'un vous a invité à lire <a href=\"http://{1}{2}\">{0}</a> sur <a href=\"http://{1}\">Les Ourses à plumes</a>. Bonne lecture !";
+    
+    private static final String RENEW_SUBJECT = "Renouvellement de votre mot de passe sur les Ourses à plumes";
+    private static final String RENEW_BODY = "Vous avez demandé à renouveller votre mot de passe sur les Ourses à plumes, pour le faire cliquez ici: <a href=\"{0}\">{0}</a>.<br/>Si vous n'êtes pas à l'origine de cette demande, n'en tenez pas compte.<br/><i>Ceci est un mail automatique, merci de ne pas y répondre.</i><br/><br/><br/>Cordialement,<br/>L'équipe des ourses à plumes.";
 
     @Override
     public boolean isMailValid(String mail) {
         return !Strings.isNullOrEmpty(mail) && MailHelperImpl.MAIL_PATTERN.matcher(mail).matches();
+    }
+    
+    @Override
+    public void renewPassword(String renewUrl,String mail) {
+        // build mail
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "mail.gandi.net");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        //props.put("mail.smtp.port", "25");
+
+        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(EnvironnementVariable.SHARE_MAIL_ACCOUNT,
+                        EnvironnementVariable.SHARE_MAIL_PASSWORD);
+            }
+        });
+
+        try {
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(EnvironnementVariable.SHARE_MAIL_ACCOUNT));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
+            message.setSubject(RENEW_SUBJECT);
+            message.setText(RENEW_BODY.replace("{0}", renewUrl), "utf-8", "html");
+            Transport.send(message);
+        }
+        catch (MessagingException e) {
+            logger.error("error renew password by mail", e);
+        }
     }
 
     @Override

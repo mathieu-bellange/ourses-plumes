@@ -46,11 +46,11 @@ function submit_email(data) {
 		url : "/rest/account/" + encodeURI(data) + "/passwordReset",
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			$("main > header").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
+			$("main > header").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert, "insert" : "after"}); // display form submit alert
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
-				$("main > header").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long}); // display form invalid alert
+				$("main > header").create_alert_box($msg.form_invalid, null, {"timeout" : $time.duration.alert_long, "insert" : "after"}); // display form invalid alert
 			} else {
 				createAlertBox();
 			}

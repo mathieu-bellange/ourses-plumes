@@ -239,7 +239,8 @@ $nav = {
 	"thanks"                : {"url" : "/remerciements",           "title" : "Remerciements"},
 	"legal_notice"          : {"url" : "/service/mentions",        "title" : "Mentions légales"},
 	"terms_of_use"          : {"url" : "/service/utilisation",     "title" : "Conditions d'utilisation"},
-	"privacy_policy"        : {"url" : "/service/confidentialite", "title" : "Politique de confidentialité"}
+	"privacy_policy"        : {"url" : "/service/confidentialite", "title" : "Politique de confidentialité"},
+	"password_renew"        : {"url" : null,                       "title" : "Renouveller son mot de passe"}
 };
 
 /* Preferences */

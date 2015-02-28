@@ -34,4 +34,6 @@ public interface BearAccountHelper {
 
     void resetAccountPassword(String host, String mail);
 
+	boolean renewPassword(String mail, String id, String password);
+
 }
