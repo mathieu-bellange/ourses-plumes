@@ -962,6 +962,7 @@ label.error {
 /* ------------------------------------------------------------------ */
 
 .validation-box {
+  position: relative;
   height: 100%;
   margin: -.125rem 0; /* Box full height fix toward border width ; I know about negative margin ... AND I DON'T CARE ! */
 }
@@ -981,6 +982,16 @@ label.error {
   border-bottom-right-radius: .375rem;
   z-index: 5;
 }
+.validation-box > button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 3rem;
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
 
 /* ------------------------------------------------------------------ */
 /* # Send Boxes */

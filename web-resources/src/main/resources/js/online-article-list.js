@@ -77,6 +77,13 @@ var article_list_tools = (function(options) {
 					close_search(settings.anim_duration);
 				}
 			});
+			$("#find").click(function() {
+				$(function() {
+					e = $.Event("keyup");
+					e.which = 13; // 0
+					$("#search").trigger(e); // force keyup 13 (i.e. valid search field)
+				});
+			});
 			$("#search").keyup(function(e) {
 				var f = "criteria";
 				var s = $(this).val().trim().replace(f + settings.search_delimiter, "");
