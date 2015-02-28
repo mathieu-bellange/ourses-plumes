@@ -29,7 +29,7 @@ var isLocalHost = (function() {
 $org = {
 	"name"               : "Les Ourses à plumes",                 // String   Organization name.
 	"mail"               : "oursesaplumes at gmail dot com",      // String   Organization mail (unbound -- Google Bot can actually parse JS [or so they say]).
-	"domain"             : "http://www.ourses-plumes.org/",       // String   Organization domain.
+	"domain"             : "http://www.lesoursesaplumes.com/",       // String   Organization domain.
 	"newsletter"         : null,                                  // String   Organization newsletter.
 	"mailinglist"        : null,                                  // String   Organization mailinglist.
 	"twitter"            : "https://twitter.com/OursesaPlumes",
@@ -41,7 +41,7 @@ $org = {
 $app = {
 	"name"               : "Webzine féministe",                   // String   Application name.
 	"ver"                : "1.0.3",                               // String   Application version.
-	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
+	"stage"              : "rtw",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
@@ -64,7 +64,7 @@ $auth = {
 /* Build */
 $build = {
 	"compress"           : $app.stage == "rtw" ? true : false,    // Boolean  Compress generated content (i.e. remove tabs and line ends). Default : true
-	"toolbar"            : isFileProtocol ? true : false,         // Boolean  Create dev toolbar. Default : false
+	"toolbar"            : false,         // Boolean  Create dev toolbar. Default : false
 	"container"          : true,                                  // Boolean  Generate container elements (i.e. sidebar, header, footer). Default : true
 	"icons"              : true,                                  // Boolean  Create SVG icons. Default : true
 	"timeline"           : true,                                  // Boolean  Create Twitter timeline widget on home page. Default : true

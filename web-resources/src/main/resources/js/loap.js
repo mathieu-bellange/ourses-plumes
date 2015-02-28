@@ -151,7 +151,6 @@ Number.prototype.toPx = function() {
 
 var loap_pool = {
 //"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
-	"dev_toolbar_tmpl"              : $loc.tmpl + "_dev_toolbar.tmpl",
 	"ui_plugins_mptl"               : $loc.tmpl + "ui_plugins.mptl",
 	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
 	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",
@@ -189,8 +188,6 @@ var loap = (function() {
 				// Prepend frame
 				$("body").prepend(file_pool.frame_tmpl).prepend(lb(1));
 			}
-			// Build toolbar template
-			if ($build.toolbar) {$("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1))}
 			// Build icons
 			if ($build.icons) {
 				// Prepend SVG effects

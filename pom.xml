@@ -49,20 +49,6 @@
 		<tag>HEAD</tag>
 	</scm>
 
-	<!-- private repository cloudbees -->
-	<distributionManagement>
-		<repository>
-			<id>ourses-plumes-release</id>
-			<name>ourses-plumes-release</name>
-			<url>dav:https://repository-ourses-plumes.forge.cloudbees.com/release/</url>
-		</repository>
-		<snapshotRepository>
-			<id>ourses-plumes-snapshot</id>
-			<name>ourses-plumes-snapshot</name>
-			<url>dav:https://repository-ourses-plumes.forge.cloudbees.com/snapshot/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<repositories>
 		<repository>
 			<id>project.local</id>
@@ -125,13 +111,6 @@
 	</dependencyManagement>
 
 	<build>
-		<extensions>
-				<extension>
-					<groupId>org.apache.maven.wagon</groupId>
-					<artifactId>wagon-webdav</artifactId>
-					<version>1.0-beta-2</version>
-				</extension>
-		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

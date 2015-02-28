@@ -36,15 +36,21 @@
 	<profiles>
 		<profile>
 			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<minimize>false</minimize>
 			</properties>
 		</profile>
 		<profile>
 			<id>recette</id>
+			<properties>
+				<minimize>true</minimize>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<minimize>true</minimize>
 			</properties>

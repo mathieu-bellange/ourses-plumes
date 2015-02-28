@@ -270,9 +270,6 @@
 	<profiles>
 		<profile>
 			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<spring.db.context>db-dev-context.xml</spring.db.context>
 				<logback.level>DEBUG</logback.level>
@@ -296,6 +293,27 @@
 			<properties>
 				<spring.db.context>db-recette-context.xml</spring.db.context>
 				<logback.level>INFO</logback.level>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/databases</directory>
+						<filtering>false</filtering>
+						<includes>
+							<include>META-INF/spring/db-recette-context.xml</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>production</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.db.context>db-recette-context.xml</spring.db.context>
+				<logback.level>ERROR</logback.level>
 			</properties>
 			<build>
 				<resources>
