@@ -174,10 +174,8 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        // cache = 1 hour
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(3600);
-        responseBuilder = Response.status(Status.OK).cacheControl(cacheControl).entity(articlesDto);
+        // no-cache
+        responseBuilder = Response.status(Status.OK).entity(articlesDto);
         return responseBuilder.build();
     }
 
@@ -187,10 +185,8 @@ public class ArticleResources {
     	Article lastWebReview = articleHelper.findLastWebReview();
     	ResponseBuilder response = null;
     	if (lastWebReview != null){
-    		// cache = 1 day
-    		CacheControl cacheControl = new CacheControl();
-    		cacheControl.setMaxAge(86400);
-    		response = Response.status(Status.OK).cacheControl(cacheControl)
+    		// no-cache
+    		response = Response.status(Status.OK)
                     .entity(lastWebReview.toArticleDTO());
     	}else{
     		response = Response.status(Status.NOT_FOUND);

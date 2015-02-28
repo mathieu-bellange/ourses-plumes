@@ -7,5 +7,5 @@ Disallow: /bug/nouveau
 Disallow: /articles/nouveau
 Disallow: /profils/*
 
-Sitemap: http://oursedomain/sitemap.xml
+Sitemap: http://www.lesoursesaplumes.com/sitemap.xml
 
