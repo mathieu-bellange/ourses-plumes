@@ -7,12 +7,12 @@
 						</div>
 						<ul>
 							<li class="hide-for-small"><span id="user_avatar" class="picture medium radius" data-image="{{= UserSession.getUserAvatar() }}">Image</span></li>
-							{{? isComputer() }}
-							<li><a href="{{= $nav.account_edit.url }}" data-current>Mon compte</a></li>
-							<li><a href="{{= $nav.profile_edit.url }}" data-current>Mon profil</a></li>
-							{{?}}
 							{{? OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter() }}
 								<li><a href="{{= $nav.draft_article_list.url }}" data-current>Mes articles</a></li>
+							{{?}}
+							{{? isComputer() }}
+							<li><a href="{{= $nav.profile_edit.url }}" data-current>Mon profil</a></li>
+							<li><a href="{{= $nav.account_edit.url }}" data-current>Mon compte</a></li>
 							{{?}}
 							{{? OursesSecurity.isUserAdmin() && isComputer() }}
 								<li><a href="{{= $nav.account_list.url }}" data-current>Liste des comptes</a></li>
