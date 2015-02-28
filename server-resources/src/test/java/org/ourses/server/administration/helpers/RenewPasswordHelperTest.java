@@ -14,7 +14,7 @@ public class RenewPasswordHelperTest {
 
     @Test
     public void shouldBuildRenewPasswordUrl() {
-        String renewPasswordUrl = helper.generateUrlToRenewPassword("host", "toto", "date");
+        String renewPasswordUrl = helper.generateUrlToRenewPassword("toto", "date");
         assertThat(renewPasswordUrl).startsWith("https://host/parametres/compte/renouvellement?id=");
     }
 

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class RenewPasswordHelperImpl implements RenewPasswordHelper {
 
     private static final String URL_RENEW_SCHEME = "https";
-    private static final String URL_RENEW_PATH = "parametres/compte/renouvellement";
+    private static final String URL_RENEW_PATH = "/parametres/compte/renouvellement";
     private static final String URL_RENEW_PARAM = "id";
     DefaultHashService hashService = new DefaultHashService();
     DefaultPasswordService passwordService = new DefaultPasswordService();
