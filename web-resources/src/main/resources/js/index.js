@@ -152,8 +152,8 @@ function displayLastWebReview() {
 		url : "/rest/articles/last/review",
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
-			$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // preprend last web review
-			$("#articles_publish > li").first().addClass("hide"); // EDIT : add class 'hide' instead of 'web-review'
+			//$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // preprend last web review
+			//$("#articles_publish > li").first().addClass("hide"); // EDIT : add class 'hide' instead of 'web-review'
 			$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
 			$("#articles_publish")
 				.wrap("<div class='row collapse'></div>") // add row wrapper
