@@ -698,12 +698,13 @@ textarea + .button {
   margin-top: .75rem; /* TEMP */
 }
 .prefix, .postfix {
-  margin: 0; /* TEMP */
-  padding: 0 .75rem;
+  height: 2.25rem;
 }
+/*
 .prefix.button, .postfix.button {
-  padding: 0; /* Foundation override */
+  padding: 0;
 }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Inputs Placeholders */
@@ -990,6 +991,7 @@ label.error {
 /* # Send Boxes */
 /* ------------------------------------------------------------------ */
 
+/* TEMP : Compatibility Fix */
 .send-box {
   position: absolute;
   bottom: 2rem;
@@ -1054,6 +1056,74 @@ label.error {
   padding: .125rem .375rem;
 }
 .send-box > .error{
+  margin-bottom: 0;
+  line-height: 100%;
+}
+
+.spring-box {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 20rem;
+  padding: 0 .75rem 0;
+  background-color: rgba(255, 255, 0, 1);
+  background-color: whitesmoke;
+  background: linear-gradient(180deg, whitesmoke 0%, #f0f0f0 100%);
+  border: .125rem solid silver;
+  border-radius: .375rem;
+  box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
+  z-index: 100;
+}
+.spring-box.folder {width: 24rem;}
+.spring-box.publish {width: 26rem;}
+.spring-box.folder,
+.spring-box.publish {
+  max-width: 100%;
+  bottom: auto;
+  top: 0;
+}
+.spring-box:before {
+  content: '';
+  position: absolute;
+  display: inline-box;
+  bottom: -1rem;
+  left: 1rem;
+  width: 1rem;
+  height: 1rem;
+  border: .5rem solid transparent;
+  border-top-color: silver;
+}
+.spring-box.publish:before {
+  left: auto;
+  right: 1rem;
+}
+.spring-box:after {
+  content: '';
+  position: absolute;
+  display: inline-box;
+  bottom: -.875rem;
+  left: 1rem;
+  width: 1rem;
+  height: 1rem;
+  border: .5rem solid transparent;
+  border-top-color: #f0f0f0;
+}
+.spring-box.publish:after {
+  left: auto;
+  right: 1rem;
+}
+.spring-box > label {
+  margin-top: .5rem;
+}
+.spring-box select {
+  height: 2rem;
+  padding: 0 .25rem;
+  font-size: .875em;
+}
+.spring-box select > option{
+  padding: .125rem .375rem;
+}
+.spring-box > .error{
   margin-bottom: 0;
   line-height: 100%;
 }

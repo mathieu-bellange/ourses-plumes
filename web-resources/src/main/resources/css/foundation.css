@@ -2202,7 +2202,9 @@ select::-ms-expand {
 /* # Input Fixes */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
 /* Attach elements to the beginning or end of an input */
+/*
 .prefix,
 .postfix {
   display: block;
@@ -2218,8 +2220,11 @@ select::-ms-expand {
   font-size: 0.875rem;
   height: 2.3125rem;
   line-height: 2.3125rem; }
+*/
 
+/* UNUSED */
 /* Adjust padding, alignment and radius if pre/post element is a button */
+/*
 .postfix.button {
   padding-left: 0;
   padding-right: 0;
@@ -2265,8 +2270,11 @@ select::-ms-expand {
   -webkit-border-top-right-radius: 1000px;
   border-bottom-right-radius: 1000px;
   border-top-right-radius: 1000px; }
+*/
 
+/* UNUSED */
 /* Separate prefix and postfix styles when on span or label so buttons keep their own */
+/*
 span.prefix, label.prefix {
   background: #f2f2f2;
   border-right: none;
@@ -2278,6 +2286,7 @@ span.postfix, label.postfix {
   border-left: none;
   color: #333333;
   border-color: #cccccc; }
+*/
 
 /* We use this to get basic styling on all basic form elements */
 input[type="text"],
