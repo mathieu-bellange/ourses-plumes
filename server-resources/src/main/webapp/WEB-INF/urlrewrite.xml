@@ -9,6 +9,7 @@
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="scheme" operator="equal">^http$</condition>
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<from>^/connexion$</from>
 		<to type="redirect">https://%{server-name}:443/connexion?redirection=%{parameter:redirection}</to>
 	</rule>
@@ -17,6 +18,7 @@
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="scheme" operator="equal">^http$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<from>^/connexion$</from>
 		<to type="redirect">https://%{server-name}:443/connexion</to>
 	</rule>
@@ -24,40 +26,45 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^http$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/bug/nouveau$</condition>
+		<condition type="scheme" operator="equal">^http$</condition>
+		<condition type="request-uri" operator="equal">^/bug/nouveau$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^http$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/comptes(.*)$</condition>
+		<condition type="scheme" operator="equal">^http$</condition>
+		<condition type="request-uri" operator="equal">^/comptes(.*)$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^http$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/parametres/(.*)$</condition>
+		<condition type="scheme" operator="equal">^http$</condition>
+		<condition type="request-uri" operator="equal">^/parametres/(.*)$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^http$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/articles/nouveau$</condition>
+		<condition type="scheme" operator="equal">^http$</condition>
+		<condition type="request-uri" operator="equal">^/articles/nouveau$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^http$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/articles/([0-9]+)$</condition>
+		<condition type="scheme" operator="equal">^http$</condition>
+		<condition type="request-uri" operator="equal">^/articles/([0-9]+)$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 	
@@ -66,6 +73,7 @@
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="scheme" operator="equal">^http$</condition>
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
+		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<from>^/parametres/compte/renouvellement$</from>
 		<to type="redirect">https://%{server-name}:443/parametres/compte/renouvellement?id=%{parameter:id}</to>
 	</rule>
