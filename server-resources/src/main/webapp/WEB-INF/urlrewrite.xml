@@ -4,7 +4,7 @@
 
 <urlrewrite>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
@@ -13,7 +13,7 @@
 		<to type="redirect">https://%{server-name}:443/connexion?redirection=%{parameter:redirection}</to>
 	</rule>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
@@ -21,7 +21,7 @@
 		<to type="redirect">https://%{server-name}:443/connexion</to>
 	</rule>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="request-uri" operator="equal">^/bug/nouveau$</condition>
@@ -29,7 +29,7 @@
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="request-uri" operator="equal">^/comptes(.*)$</condition>
@@ -37,7 +37,7 @@
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="request-uri" operator="equal">^/parametres/(.*)$</condition>
@@ -45,7 +45,7 @@
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="request-uri" operator="equal">^/articles/nouveau$</condition>
@@ -53,7 +53,7 @@
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="request-uri" operator="equal">^/articles/([0-9]+)$</condition>
@@ -61,7 +61,7 @@
 		<to type="redirect">https://%{server-name}:443%{request-uri}</to>
 	</rule>
 	
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
