@@ -137,10 +137,6 @@ function displayArticles() {
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
 			$(".main-body").append(file_pool.article_list_tmpl(articles) + lb(1));
-			$("#articles_publish > li").addClass("block"); // set up block list classes
-			$("#articles_publish")
-				.wrap("<div class='row collapse'></div>") // add row wrapper
-				.wrap("<div class='column small-24 large-16'></div>"); // add column wrapper with padding fix
 			displayLastWebReview(); // get last web review
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -156,6 +152,13 @@ function displayLastWebReview() {
 		url : "/rest/articles/last/review",
 		contentType : "application/json; charset=utf-8",
 		success : function(article, status, jqxhr) {
+			//$("#articles_publish").prepend(file_pool.article_item_tmpl(article)).prepend(lb(1)); // preprend last web review
+			//$("#articles_publish > li").first().addClass("hide"); // EDIT : add class 'hide' instead of 'web-review'
+			//$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
+			$("#articles_publish > li").addClass("block"); // set up block list classes
+			$("#articles_publish")
+				.wrap("<div class='row collapse'></div>") // add row wrapper
+				.wrap("<div class='column small-24 large-16'></div>"); // add column wrapper with padding fix
 			displaySocialNetwork();
 			$("#articles").svg_icons(); // always reload icons only for articles
 			block_list.init(); // initialize block list component
