@@ -1952,6 +1952,8 @@ select {
 /* # Buttons */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 button, .button {
   border-style: solid;
   border-width: 0px;
@@ -2137,6 +2139,7 @@ button::-moz-focus-inner {
 @media only screen and (min-width: 40.063em) {
   button, .button {
     display: inline-block; } }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Forms */
@@ -3103,6 +3106,8 @@ meta.foundation-mq-topbar {
 /* # Breadcrumbs */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .breadcrumbs {
   display: block;
   padding: 0.5625rem 0.875rem 0.5625rem;
@@ -3151,6 +3156,7 @@ meta.foundation-mq-topbar {
     .breadcrumbs > *:first-child:before {
       content: " ";
       margin: 0; }
+*/
 
 /* Accessibility - hides the forward slash */
 [aria-label="breadcrumbs"] [aria-hidden="true"]:after {
@@ -3235,6 +3241,7 @@ meta.foundation-mq-topbar {
 /* # Button Groups */
 /* ------------------------------------------------------------------ */
 
+/*
 .button-group {
   list-style: none;
   margin: 0;
@@ -3598,11 +3605,14 @@ meta.foundation-mq-topbar {
       border-left: 0; }
     .button-group.even-8 li button, .button-group.even-8 li .button {
       width: 100%; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Button Bars */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED*/
+/*
 .button-bar:before, .button-bar:after {
   content: " ";
   display: table; }
@@ -3613,6 +3623,7 @@ meta.foundation-mq-topbar {
   margin-right: 0.625rem; }
   .button-bar .button-group div {
     overflow: hidden; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Panels */
@@ -4481,6 +4492,8 @@ blockquote p {
 /* # Pagination */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 ul.pagination {
   display: block;
   min-height: 1.5rem;
@@ -4519,8 +4532,11 @@ ul.pagination {
   ul.pagination li {
     float: left;
     display: block; }
+*/
 
 /* Pagination centred wrapper */
+/* UNUSED */
+/*
 .pagination-centered {
   text-align: center; }
   .pagination-centered ul.pagination li {
@@ -4561,11 +4577,14 @@ ul.pagination {
       font-size: 0.875rem;
       font-weight: bold;
       text-transform: uppercase; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Accordions */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .accordion {
   margin-bottom: 0; }
   .accordion:before, .accordion:after {
@@ -4593,11 +4612,14 @@ ul.pagination {
       .accordion .accordion-navigation > .content.active, .accordion dd > .content.active {
         display: block;
         background: white; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Splits */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .split.button {
   position: relative;
   padding-right: 5.0625rem; }
@@ -4679,6 +4701,7 @@ ul.pagination {
     -webkit-border-top-right-radius: 1000px;
     border-bottom-right-radius: 1000px;
     border-top-right-radius: 1000px; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Reveal Modals */
@@ -4820,6 +4843,8 @@ dialog {
 /* ------------------------------------------------------------------ */
 
 /* Tooltips */
+/* UNUSED */
+/*
 .has-tip {
   border-bottom: dotted 1px #cccccc;
   cursor: help;
@@ -4895,6 +4920,7 @@ dialog {
     left: -10px;
     top: 50%;
     margin-top: -5px; } }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Clearing Lightbox */
