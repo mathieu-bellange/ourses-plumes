@@ -16,8 +16,8 @@ import com.avaje.ebean.Ebean;
 public class OurseSecurityToken {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "bear_security_token_seq_gen")
-    @SequenceGenerator(name = "bear_security_token_seq_gen", sequenceName = "bear_security_token_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ourse_security_token_seq_gen")
+    @SequenceGenerator(name = "ourse_security_token_seq_gen", sequenceName = "ourse_security_token_seq")
 	private Long id;
     private String token;
     private Date expirationDate;
