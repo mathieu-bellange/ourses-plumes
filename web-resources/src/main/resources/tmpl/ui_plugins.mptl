@@ -26,7 +26,7 @@
 {{% confirmation_bar_tmpl }}
 					<div class="confirmation-bar clearfix">
 						{{? isComputer() }}
-						<ul class="left inline-list no-bullet text-tiny hide-for-touch hide-for-small" style="width: 75%; margin: .5rem 0 0;">
+						<ul class="left inline-list text-tiny hide-for-touch hide-for-small" style="width: 75%; margin: .5rem 0 0;">
 							<li><kbd>Enter</kbd> Nouveau paragraphe</li>
 							<li><kbd>Shift+Enter</kbd> Retour &agrave; la ligne</li>
 							<li><kbd>Ctrl+Enter</kbd> Valider</li>

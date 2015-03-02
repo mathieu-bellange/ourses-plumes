@@ -33,9 +33,9 @@ var loax = (function() {
 var article_list_tools = (function(options) {
 	var defaults = {
 		"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
-		"search_spacing"        : 1.5,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
-		"search_load_delay"     : 500,    // Integer  Time before search input expand on page load. Default : 1000
-		"anim_duration"         : 375     // Integer  Time during which animations are played. Default : 500
+		"search_spacing"        : 1.5,    // Float    Space deduced from search input total width when shown (rem). Default : 1.5
+		"search_load_delay"     : 0,      // Integer  Time before search input expand on page load. Default : 0
+		"anim_duration"         : 375     // Integer  Time during which animations are played. Default : 375
 	};
 	var settings = $.extend({}, defaults, options);
 	return {
@@ -46,7 +46,9 @@ var article_list_tools = (function(options) {
 				var w = $(".tool-bar").innerWidth() // compute search input width
 				 - $("#search_button").outerWidth(true)
 				 - (f ? settings.search_spacing.toPx() : (settings.search_spacing * 2).toPx()); // arbitrary safety spacing (2rem / 4rem)
-				var h = $("#search_field").css("height");
+				var h = $("#search").css("height");
+				$("#find").hide();
+				$("#search").css("height", "100%");
 				$("#search_field").css({ // reset css
 					"width" : "0",
 					"height" : "0",
@@ -56,6 +58,8 @@ var article_list_tools = (function(options) {
 				});
 				$("#search_field").removeClass("hide");
 				$("#search_field").animate({"width" : w, "height" : h, "margin-top" : "0", "opacity" : "1"}, d, function() {
+					$("#search").css("height", "");
+					$("#find").fadeIn(d);
 					if (f) { $("#search").focus() } // focus search input
 				});
 			}

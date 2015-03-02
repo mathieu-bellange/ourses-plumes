@@ -41,8 +41,7 @@ var article_list_tools = (function(options) {
 	var defaults = {
 		"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
 		"search_spacing"        : 4.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
-		"search_load_delay"     : 1000,   // Integer  Time before search input expand on page load. Default : 1000
-		"anim_duration"         : 500     // Integer  Time during which animations are played. Default : 500
+		"anim_duration"         : 250     // Integer  Time during which animations are played. Default : 375
 	};
 	var settings = $.extend({}, defaults, options);
 	return {
@@ -98,8 +97,8 @@ var article_list_tools = (function(options) {
 							"padding" : ".75rem",
 							"font-size" : "1.35em",
 							"opacity" : ".75"
-						}, settings.anim_duration / 4)
-						.animate({"top" : (y + 8.0).toString() + "px", "opacity" : 0}, settings.anim_duration / 4, function() {
+						}, settings.anim_duration / 2)
+						.animate({"top" : (y + 8.0).toString() + "px", "opacity" : 0}, settings.anim_duration / 2, function() {
 							c.remove();
 						});
 					}

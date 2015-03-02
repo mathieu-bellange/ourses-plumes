@@ -74,9 +74,18 @@
 											</p>
 										{{??}}
 											<a href="{{= data.path }}" class="over" title="Lire l&rsquo;article">Lire</a>
-											{{? OursesSecurity.isUserAdmin() || data.profile.id == UserSession.getUserProfileId() }}
+											{{? OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter() || data.profile.id == UserSession.getUserProfileId() }}
 											<p class="validate" style="display: none;">
+
+												{{? $app.stage == "dev" && true }}
+												<button class="icon-folder tiny" title="Ajouter au dossier" data-folder="{{= data.id }}"></button>
+												{{?? $app.stage == "dev" }}
+												<button class="icon-folder warning tiny" title="Modifier le dossier" data-folder="{{= data.id }}"></button>
+												{{?}}
+
+												{{? OursesSecurity.isUserAdmin() }}
 												<button class="icon-reply alert tiny" title="Rappeler l&rsquo;article" data-recall="{{= data.id }}"></button>
+												{{?}}
 											</p>
 											{{?}}
 										{{?}}
@@ -110,7 +119,7 @@
 						{{~}}
 					</ul>
 					<!--Publishing box-->
-					<div id="publishing_box" class="send-box publish" style="display: none;">
+					<div id="publishing_box" class="spring-box publish" style="display: none;">
 						<a href="javascript:void(0)" class="close right"></a>
 						<label for="publish_day">Date de publication</label>
 						<div style="margin: .5rem 0 .75rem;">
