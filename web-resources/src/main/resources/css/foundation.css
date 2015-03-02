@@ -83,6 +83,8 @@ img {
 /* # Google Maps Implementation */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 #map_canvas img,
 #map_canvas embed,
 #map_canvas object,
@@ -90,11 +92,14 @@ img {
 .map_canvas embed,
 .map_canvas object {
   max-width: none !important; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Positioning */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .left {
   float: left !important; }
 
@@ -124,6 +129,7 @@ textarea {
 
 select {
   width: 100%; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Rows */
@@ -2644,22 +2650,22 @@ meta.foundation-mq-topbar {
   .contain-to-grid .top-bar {
     margin-bottom: 0; }
 
-.fixed {
+.top-pane.fixed {
   width: 100%;
   left: 0;
   position: fixed;
   top: 0;
   z-index: 99; }
-  .fixed.expanded:not(.top-bar) {
+  .top-pane.fixed.expanded:not(.top-bar) {
     overflow-y: auto;
     height: auto;
     width: 100%;
     max-height: 100%; }
-    .fixed.expanded:not(.top-bar) .title-area {
+    .top-pane.fixed.expanded:not(.top-bar) .title-area {
       position: fixed;
       width: 100%;
       z-index: 99; }
-    .fixed.expanded:not(.top-bar) .top-bar-section {
+    .top-pane.fixed.expanded:not(.top-bar) .top-bar-section {
       z-index: 98;
       margin-top: 45px; }
 
@@ -3231,6 +3237,8 @@ meta.foundation-mq-topbar {
 /* # Inline Lists */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .inline-list {
   margin: 0 auto 1.0625rem auto;
   margin-left: -1.375rem;
@@ -3245,6 +3253,7 @@ meta.foundation-mq-topbar {
     display: block; }
     .inline-list > li > * {
       display: block; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Button Groups */
@@ -3752,7 +3761,9 @@ meta.foundation-mq-topbar {
 /* # Pricing Tables */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
 /* Pricing Tables */
+/*
 .pricing-table {
   border: solid 1px #dddddd;
   margin-left: 0;
@@ -3797,6 +3808,7 @@ meta.foundation-mq-topbar {
     background-color: white;
     text-align: center;
     padding: 1.25rem 1.25rem 0; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Magellan */
@@ -3818,6 +3830,8 @@ meta.foundation-mq-topbar {
 /* # Icon Bars */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .icon-bar {
   width: 100%;
   font-size: 0;
@@ -3941,6 +3955,7 @@ meta.foundation-mq-topbar {
 @media only screen and (min-width: 64.063em) {
   .icon-bar.six-up.large-vertical .item {
     width: auto; } }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Texts */
@@ -4416,6 +4431,8 @@ blockquote p {
 /* # Tabs */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .tabs {
   margin-bottom: 0 !important;
   margin-left: 0; }
@@ -4496,6 +4513,7 @@ blockquote p {
 .no-js .tabs-content > .content {
   display: block;
   float: none; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Pagination */
@@ -5195,11 +5213,16 @@ dialog {
 /* # Joyrides */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
 /* Foundation Joyride */
+/*
 .joyride-list {
   display: none; }
+*/
 
+/* UNUSED */
 /* Default styles for the container */
+/*
 .joyride-tip-guide {
   display: none;
   position: absolute;
@@ -5224,8 +5247,11 @@ dialog {
     margin-bottom: 0 !important; }
   .joyride-content-wrapper .joyride-prev-tip {
     margin-right: 10px; }
+*/
 
+/* UNUSED */
 /* Add a little css triangle pip, older browser just miss out on the fanciness of it */
+/*
 .joyride-tip-guide .joyride-nub {
   display: block;
   position: absolute;
@@ -5251,8 +5277,11 @@ dialog {
     right: -20px; }
   .joyride-tip-guide .joyride-nub.left {
     left: -20px; }
+*/
 
+/* UNUSED */
 /* Typography */
+/*
 .joyride-tip-guide h1,
 .joyride-tip-guide h2,
 .joyride-tip-guide h3,
@@ -5321,8 +5350,11 @@ dialog {
   z-index: 9999;
   top: 0;
   left: 0; }
+*/
 
+/* UNUSED */
 /* Styles for screens that are at least 768px; */
+/*
 @media only screen and (min-width: 40.063em) {
   .joyride-tip-guide {
     width: 300px;
@@ -5349,11 +5381,14 @@ dialog {
       top: 22px;
       left: -20px;
       right: auto; } }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Labels */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .label {
   font-weight: normal;
   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
@@ -5387,11 +5422,14 @@ dialog {
   .label.info {
     background-color: #a0d3e8;
     color: #333333; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Off Canvas */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .off-canvas-wrap {
   -webkit-backface-visibility: hidden;
   position: relative;
@@ -5415,11 +5453,14 @@ dialog {
     display: table; }
   .inner-wrap:after {
     clear: both; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Tab Bars */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .tab-bar {
   -webkit-backface-visibility: hidden;
   background: #333333;
@@ -5811,12 +5852,15 @@ ul.off-canvas-list {
   content: "\AB";
   margin-right: 0.5rem;
   display: inline; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Foundation Dropdowns */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
 /* Foundation Dropdowns */
+/*
 .f-dropdown {
   position: absolute;
   left: -9999px;
@@ -6044,6 +6088,7 @@ ul.off-canvas-list {
     max-width: 100% !important; }
     .f-dropdown.mega.open {
       left: 0 !important; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Tables */
@@ -6096,6 +6141,8 @@ table {
 /* # Range Sliders */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .range-slider {
   display: block;
   position: relative;
@@ -6174,11 +6221,14 @@ table {
   background: #aa88cc; }
   .range-slider-handle:hover {
     background: #966bc0; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Block Grids */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 [class*="block-grid-"] {
   display: block;
   padding: 0;
@@ -6193,11 +6243,14 @@ table {
     height: auto;
     float: left;
     padding: 0 0.625rem 1.25rem; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Small Block Grids */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 @media only screen {
   .small-block-grid-1 > li {
     width: 100%;
@@ -6294,11 +6347,14 @@ table {
       clear: none; }
     .small-block-grid-12 > li:nth-of-type(12n+1) {
       clear: both; } }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Medium Block Grids */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 @media only screen and (min-width: 40.063em) {
   .medium-block-grid-1 > li {
     width: 100%;
@@ -6395,11 +6451,14 @@ table {
       clear: none; }
     .medium-block-grid-12 > li:nth-of-type(12n+1) {
       clear: both; } }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Large Block Grids */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 @media only screen and (min-width: 64.063em) {
   .large-block-grid-1 > li {
     width: 100%;
@@ -6496,11 +6555,14 @@ table {
       clear: none; }
     .large-block-grid-12 > li:nth-of-type(12n+1) {
       clear: both; } }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Flex Video */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .flex-video {
   position: relative;
   padding-top: 1.5625rem;
@@ -6521,11 +6583,14 @@ table {
     left: 0;
     width: 100%;
     height: 100%; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Keystrokes */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .keystroke,
 kbd {
   background-color: #ededed;
@@ -6538,11 +6603,14 @@ kbd {
   font-size: inherit;
   padding: 0.125rem 0.25rem 0;
   border-radius: 6px; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Switches */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
+/*
 .switch {
   padding: 0;
   border: none;
@@ -6635,6 +6703,7 @@ kbd {
       border-radius: 2rem; }
     .switch.round label:after {
       border-radius: 2rem; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Visbility */

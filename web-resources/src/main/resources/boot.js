@@ -39,9 +39,9 @@ $org = {
 
 /* Application */
 $app = {
-	"name"               : "Webzine féministe",                   // String   Application name.
-	"ver"                : "1.0.3",                               // String   Application version.
 	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
+	"ver"                : "1.0.3",                               // String   Application version.
+	"name"               : "Webzizine féministe",                   // String   Application name.
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
@@ -91,7 +91,7 @@ $conf = {
 	},
 	"confirm_delete"     : {                                      // Object   Confirm delete configuration hash.
 		"avatar"           : true,                                  // Boolean  Confirm delete avatar. Default : true
-		"account"          : false,                                 // Boolean  Confirm delete account. Default : false
+		"account"          : true,                                  // Boolean  Confirm delete account. Default : true
 		"draft"            : true,                                  // Boolean  Confirm delete draft. Default : true
 		"faq"              : true,                                  // Boolean  Confirm delete faq. Default : true
 		"date_event"       : false,                                 // Boolean  Confirm delete date event. Default : false
