@@ -374,7 +374,7 @@ jQuery.fn.extend({
 			"tag" : "span",                         // String    The tag of the placeholder element. Default : "span"
 			"attr" : "data-placeholder",            // String    Attribute name of the placeholder element. Default : "data-placeholder"
 			"class" : "placeholder",                // String    Class name of the placeholder element. Default : "placeholder"
-			"delay" : 750                           // Integer   Timeout before checking empty field value on blur. Default : 500
+			"delay" : 10                            // Integer   Timeout before checking empty field value on blur (ms). Default : 10
 		};
 		var cfg = $.extend({}, defs, opts);
 		var t = 0;
@@ -388,7 +388,7 @@ jQuery.fn.extend({
 		// loop
 		$(this).each(function () {
 			// events
-			$(this).on("click", "[" + cfg.attr + "]", function() {
+			$(this).on("focusin", "[" + cfg.attr + "]", function() {
 				clearTimeout(t);
 				removePlaceholder($(this)); // erase placeholder
 			});
@@ -1906,7 +1906,7 @@ function getDateTime(date) { // passe une date en param pour obtenir une string 
 	return year + "-" + month + "-" + day;
 }
 
-/* Convert long date format to string */
+/* Convert date to string literal */
 function dateToString(date) {
 	var year = date.getFullYear().toString();
 	var month;
@@ -1918,9 +1918,23 @@ function dateToString(date) {
 	return day + " " + month + " " + year;
 }
 
-/* Convert long date format to HTML */
+/* Convert date to HTML */
 function dateToHTML(date) {
 	return (dateToString(date).replace("1er", "1<sup>er</sup>").replace("é", "&eacute;").replace("û", "&ucirc;"));
+}
+
+/* Convert date to long format string */
+function format_date(date) {
+	var d = date.getDay();
+	var day = d == 0 ? $time.days[6] : $time.days[d-1];
+	var d = date.getDate();
+	var m = date.getMonth();
+	var month = $time.months[m + 1];
+	var y = date.getFullYear();
+	var h = date.getHours().toString().format(2);
+	var mm = date.getMinutes().toString().format(2);
+	var s = date.getSeconds().toString().format(2);
+	return day.capitalize() + " " + (d == 1 ? d + "er" : d) + " " + month + " " + y + " à " + h + "h" + mm;
 }
 
 /* Get URL search params */
