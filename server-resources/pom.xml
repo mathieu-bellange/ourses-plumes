@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>ourses-plumes</artifactId>
 		<groupId>org.ourses</groupId>
-		<version>1.0.3-SNAPSHOT</version>
+		<version>1.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>server-resources</artifactId>
 	<packaging>war</packaging>
@@ -304,6 +304,24 @@
 						<filtering>false</filtering>
 						<includes>
 							<include>META-INF/spring/db-recette-context.xml</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>production</id>
+			<properties>
+				<spring.db.context>db-production-context.xml</spring.db.context>
+				<logback.level>ERROR</logback.level>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/databases</directory>
+						<filtering>false</filtering>
+						<includes>
+							<include>META-INF/spring/db-production-context.xml</include>
 						</includes>
 					</resource>
 				</resources>

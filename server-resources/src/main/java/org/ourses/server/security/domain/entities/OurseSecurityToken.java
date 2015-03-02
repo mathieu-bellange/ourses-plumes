@@ -15,10 +15,10 @@ import com.avaje.ebean.Ebean;
 @Entity
 public class OurseSecurityToken {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "bear_security_token_seq_gen")
-    @SequenceGenerator(name = "bear_security_token_seq_gen", sequenceName = "bear_security_token_seq")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ourse_security_token_seq_gen")
+    @SequenceGenerator(name = "ourse_security_token_seq_gen", sequenceName = "ourse_security_token_seq")
+    private Long id;
     private String token;
     private Date expirationDate;
     private String login;
@@ -27,13 +27,13 @@ public class OurseSecurityToken {
 
     }
 
-    public OurseSecurityToken(String login, AuthcToken authcToken) {
+    public OurseSecurityToken(final String login, final AuthcToken authcToken) {
         this.login = login;
         this.token = authcToken.getToken();
         this.expirationDate = authcToken.getExpirationDate();
     }
 
-    public OurseSecurityToken(String login, String token, Date expirationDate) {
+    public OurseSecurityToken(final String login, final String token, final Date expirationDate) {
         this.login = login;
         this.token = token;
         this.expirationDate = expirationDate;
@@ -43,7 +43,7 @@ public class OurseSecurityToken {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
     }
 
@@ -51,7 +51,7 @@ public class OurseSecurityToken {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(final Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -59,35 +59,35 @@ public class OurseSecurityToken {
         return login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(final String login) {
         this.login = login;
     }
 
     public Long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void save() {
+    public void save() {
         Ebean.save(this);
     }
 
-    public static OurseSecurityToken findByToken(String token) {
+    public static OurseSecurityToken findByToken(final String token) {
         return Ebean.find(OurseSecurityToken.class).where().eq("token", token).findUnique();
     }
 
-    public static OurseSecurityToken findByLogin(String login) {
+    public static OurseSecurityToken findByLogin(final String login) {
         return Ebean.find(OurseSecurityToken.class).where().eq("login", login).findUnique();
     }
-    
-    public void deleteMe(){
-    	Ebean.delete(this);
+
+    public void deleteMe() {
+        Ebean.delete(this);
     }
 
-	public static OurseSecurityToken findByTokenId(Long tokenId) {
-		return Ebean.find(OurseSecurityToken.class, tokenId);
-	}
+    public static OurseSecurityToken findByTokenId(final Long tokenId) {
+        return Ebean.find(OurseSecurityToken.class, tokenId);
+    }
 }

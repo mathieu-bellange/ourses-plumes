@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.ourses</groupId>
 		<artifactId>ourses-plumes</artifactId>
-		<version>1.0.3-SNAPSHOT</version>
+		<version>1.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>web-resources</artifactId>
 
@@ -45,6 +45,12 @@
 		</profile>
 		<profile>
 			<id>recette</id>
+			<properties>
+				<minimize>false</minimize>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
 			<properties>
 				<minimize>true</minimize>
 			</properties>
