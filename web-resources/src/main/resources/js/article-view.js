@@ -68,19 +68,19 @@ var share = (function() {
 				/* UNUSED for now ... DO NOT REMOVE ! */
 				/*
 				$("#share_mail").on("click", function() {
-					if ($(this).next(".send-box").is(":hidden")) {
-						$(this).next(".send-box").find("input").first().set_validation(null); // reset validation
-						$(this).next(".send-box").find("input").first().val(""); // reset value
-						open_box($(this).next(".send-box"), settings.fx_d);
+					if ($(this).next(".spring-box").is(":hidden")) {
+						$(this).next(".spring-box").find("input").first().set_validation(null); // reset validation
+						$(this).next(".spring-box").find("input").first().val(""); // reset value
+						open_box($(this).next(".spring-box"), settings.fx_d);
 					} else {
-						close_box($(this).next(".send-box"), settings.fx_d);
+						close_box($(this).next(".spring-box"), settings.fx_d);
 					}
 				});
-				$(".send-box").parent().css("position", "relative");
-				$(".send-box .close").on("click", function() {
-					close_box($(this).parent(".send-box"), settings.fx_d)
+				$(".spring-box").parent().css("position", "relative");
+				$(".spring-box .close").on("click", function() {
+					close_box($(this).parent(".spring-box"), settings.fx_d)
 				});
-				$(".send-box input").on("keydown", function(e) {
+				$(".spring-box input").on("keydown", function(e) {
 					var email = $(this).val().trim().toLowerCase();
 					if (e.which == 13) { // Enter
 						$(this).val(email); // format value
@@ -91,7 +91,7 @@ var share = (function() {
 								addr.push(email); // register email to prevent multiple sending
 								$(this).set_validation(true);
 								shareByMail($("#share_mail").attr("data-article"), email); // send email
-								close_box($("#share_mail").next(".send-box"), settings.fx_d);
+								close_box($("#share_mail").next(".spring-box"), settings.fx_d);
 							} else { // email has already been sent
 								$(this).set_validation(false, $msg.email_dup);
 							}
@@ -99,7 +99,7 @@ var share = (function() {
 							$(this).set_validation(false, $msg.email_invalid);
 						}
 					} else if (e.which == 27) { // Esc
-						close_box($(this).parent(".send-box"), settings.fx_d);
+						close_box($(this).parent(".spring-box"), settings.fx_d);
 					} else {
 						$(this).set_validation(null); // reset validation
 					}

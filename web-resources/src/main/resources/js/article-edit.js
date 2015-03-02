@@ -715,14 +715,21 @@ function processArticle(article) {
 		},
 		dataType: "json"
 	});
-	// initialize inline CKEditor with custom config
+	// Extra Plugins
+	CKEDITOR.config.extraPlugins = "autosave";                             // https://github.com/w8tcha/CKEditor-AutoSave-Plugin
+	// Autosave Plugin
+	CKEDITOR.config.autosave_saveOnDestroy          = true;                // Setting to Save content on editor destroy (Default is false) ...
+	CKEDITOR.config.autosave_delay                  = 5;                   // The Plugin saves the content every 25 seconds (can be defined in the Config - autosave_delay), but only when the content has changed.
+	CKEDITOR.config.autosave_NotOlderThen           = 2880;                // The Default Minutes (Default is 1440 which is one day) after the auto saved content is ignored can beoveridden from the config ...
+	CKEDITOR.config.autosave_saveDetectionSelectors = "button[id='save']"; // Setting to set the Save button to inform the plugin when the content is saved by the user and doesn't need to be stored temporary ... Default = "a[href^='javascript:__doPostBack'][id*='Save'],a[id*='Cancel']"
+	// Initialize inline CKEditor with custom config
 	CKEDITOR.disableAutoInline = true;
 	CKEDITOR.inline("editor", {
 		customConfig : $loc.js + "conf-cke.js",
 		contentsCss  : $loc.js + "ckeditor/ckeditor.css",
-		extraAllowedContent : {"span" : {classes : "placeholder"}}
+		extraAllowedContent : {"p" : {classes : "placeholder"}}
 	});
-	// initialize plugins and components
+	// Initialize plugins and components
 	$("section textarea").autosize({append: ""}); // apply autosize after AJAX request for whole section
 	$("section textarea").add_confirmation_bar(); // apply add_confirmation_bar plugin to all textarea of the page after AJAX request for whole section
 	$("section .options-select").options_select(); // apply options_select plugin to all .options-select of the page after AJAX request for whole section

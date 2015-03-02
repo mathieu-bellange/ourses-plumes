@@ -20,10 +20,10 @@ CKEDITOR.editorConfig = function( config ) {
 	//config.contentsCss = "css/loap.css"; // The CSS file(s) to be used to apply style to editor content. It should reflect the CSS used in the target pages where the content is to be displayed.
 
 	// Autogrow Plugin
-	config.autoGrow_onStartup = true; // Whether automatic editor height adjustment brought by the Auto Grow feature should happen on editor creation.
-	config.autoGrow_minHeight = 0; // The minimum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 300).
-	config.autoGrow_maxHeight = 0; // The maximum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 600). Zero (0) means that the maximum height is not limited and the editor will expand infinitely.
-	config.autoGrow_bottomSpace = 0; // Extra vertical space to be added between the content and the editor bottom bar when adjusting editor height to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 50).
+	config.autoGrow_onStartup   = true; // Whether automatic editor height adjustment brought by the Auto Grow feature should happen on editor creation.
+	config.autoGrow_minHeight   = 0;    // The minimum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 300).
+	config.autoGrow_maxHeight   = 0;    // The maximum height that the editor can assume when adjusting to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 600). Zero (0) means that the maximum height is not limited and the editor will expand infinitely.
+	config.autoGrow_bottomSpace = 0;    // Extra vertical space to be added between the content and the editor bottom bar when adjusting editor height to content by using the Auto Grow feature. This option accepts a value in pixels, without the unit (for example: 50).
 
 	// Paste
 	config.forcePasteAsPlainText = false; // Whether to force all pasting operations to insert on plain text into the editor, loosing any formatting information possibly available in the source text.

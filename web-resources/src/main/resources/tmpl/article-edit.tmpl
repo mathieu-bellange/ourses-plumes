@@ -22,16 +22,12 @@
 									<div class="clearfix">
 										<div id="coauthor" class="options-select left" style="margin: 0; min-width: 20rem;" tabindex="0">
 											<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
-											<ul class="options hide">
+											<ul class="options" style="display: none;">
 											</ul>
 										</div>
-										<button id="coauthor_add" type="button" class="icon-add small left" style="margin: 0;"></button>
+										<button id="coauthor_add" type="button" class="icon-add small postfix left" style="height: 2.25rem;"></button>
 									</div>
 								</div>
-								<!--Date-->
-								<!--
-								<time datetime="2014-01-01" class="date icon-date small">1<sup>er</sup> janvier 2014</span>
-								-->
 								<!--Summary-->
 								<label for="summary" class="hide">R&eacute;sum&eacute;</label>
 								<textarea id="summary" class="summary{{= data.description.length == 0 ? ' empty' : '' }} min" maxlength="1000" placeholder="Une description facultative de l&rsquo;article pour le r&eacute;f&eacute;rencement (1000 caract&egrave;res maximum)">{{= data.description === undefined ? "" : data.description }}</textarea>
@@ -53,7 +49,7 @@
 									<label for="rubric">Rubrique <small class="red">*</small></label>
 									<div id="rubric" class="options-select validation" tabindex="0">
 										<span class="select"><span class="text-silver">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
-										<ul class="options hide">
+										<ul class="options" style="display: none;">
 										</ul>
 									</div>
 									<small class="error hide"></small>
@@ -63,7 +59,7 @@
 									<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
 									<div id="category" class="options-select validation" tabindex="0">
 										<span class="select"><span class="text-silver">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
-										<ul class="options hide">
+										<ul class="options" style="display: none;">
 										</ul>
 									</div>
 									<small class="error hide"></small>
@@ -72,7 +68,7 @@
 								<div id="tag_field" style="display: none;" style="margin-bottom: 1rem;">
 									<label for="tag">Tags</label>
 									<div>
-										<input id="tag" class="tag validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class=" icon-add small"></button>
+										<input id="tag" class="tag validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class="icon-add small postfix"></button>
 										<small class="error"></small>
 										<div class="autocomplete">
 											<ul>
@@ -91,7 +87,7 @@
 									{{? data.body !== "" && data.body !== undefined }}
 									{{= data.body }}
 									{{??}}
-									<span class="placeholder">Le corps de l&rsquo;article</span>
+									<p class="placeholder">Le corps de l&rsquo;article</p>
 									{{?}}
 								</div>
 								<small class="error hide"></small>
@@ -118,7 +114,7 @@
 						</div>
 						<!--Validation Buttons-->
 						<div class="text-center">
-							<input id="save" class="button" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard" style="margin-bottom: 0;">
+							<input id="save" type="button" value="Enregistrer" class="button" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard">
 						</div>
 					</form>
 				</section>

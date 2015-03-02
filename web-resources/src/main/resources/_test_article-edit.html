@@ -55,7 +55,7 @@
 			});
 		</script>
 
-		<div id="dev_container">
+		<div id="dev_container" class="frame">
 
 			<h2 class="red">&Eacute;diteur <small>.article.edit</small></h2>
 
@@ -85,7 +85,7 @@
 							<div class="clearfix">
 								<div id="coauthor" class="options-select left" style="margin: 0; width: 20rem;" tabindex="0">
 									<span class="select"><span class="text-silver">Ajouter une co-auteure</span></span>
-									<ul class="options hide">
+									<ul class="options" style="display: none;">
 										<li data-id="0">Janine</li>
 										<li data-id="1">Pauline Personne</li>
 										<li data-id="2">Ourse &agrave; &oelig;illets</li>
@@ -93,7 +93,7 @@
 										<li data-id="4">&#220;ber Big Keenv&eacute;</li>
 									</ul>
 								</div>
-								<button id="coauthor_add" type="button" class="icon-add small left" style="margin: 0;"></button>
+								<button id="coauthor_add" type="button" class="icon-add small left postfix" style="height: 2.25rem;"></button>
 							</div>
 						</div>
 						<script>
@@ -187,7 +187,9 @@
 									}
 								}
 							}());
-							coauthoring.init();
+							$(document).ready(function() {
+								coauthoring.init();
+							});
 						</script>
 
 						<!--Date-->
@@ -227,7 +229,7 @@
 							<label for="rubric">Rubrique <small class="red">*</small></label>
 							<div id="rubric" class="options-select validation" tabindex="0">
 								<span class="select"><span class="placeholder">Veuillez indiquer la rubrique de l&rsquo;article</span></span>
-								<ul class="options hide">
+								<ul class="options" style="display: none;">
 									<li data-color="struggles"><span class="icon-struggles small" style="margin-right: .25rem;"></span>Luttes</li>
 									<li data-color="ourbody"><span class="icon-ourbody small" style="margin-right: .25rem;"></span>Nos corps, nous-m&ecirc;mes</li>
 									<li data-color="intersec"><span class="icon-intersec small" style="margin-right: .25rem;"></span>Intersectionnalit&eacute;</li>
@@ -244,7 +246,7 @@
 							<label for="category">Cat&eacute;gorie <small class="red">*</small></label>
 							<div id="category" class="options-select validation" tabindex="0">
 								<span class="select"><span class="placeholder">Veuillez choisir une une cat&eacute;gorie d&rsquo;article</span></span>
-								<ul class="options hide">
+								<ul class="options" style="display: none;">
 									<li>Br&egrave;ve</li>
 									<li>Reportage</li>
 									<li>Dossier</li>
@@ -261,7 +263,7 @@
 						<div id="tag_field" style="display: none;" style="margin-bottom: 1rem;">
 							<label for="tag">Tags</label>
 							<div>
-								<input id="tag" class="tag validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class=" icon-add small"></button>
+								<input id="tag" class="tag validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class="icon-add small postfix"></button>
 								<small class="error"></small>
 								<div class="autocomplete">
 									<ul>
@@ -569,7 +571,8 @@
 						<legend class="hide">R&eacute;daction</legend>
 						<label for="editor" class="hide">Corps de texte <span class="text-silver">inline</span></label>
 						<div id="editor" class="inline-editor" contenteditable="true" data-placeholder>
-							<span class="placeholder">Le corps de l&rsquo;article</span>
+							<p class="placeholder">Le corps de l&rsquo;article</p>
+						</div>
 							<!--
 							<h4>Un inter&dash;titre tout &agrave; fait ordinaire</h4>
 							<div class="callout">Une accroche qui reprend le texte en-dessous pour attirer l&rsquo;attention du lectorat</div>
@@ -578,7 +581,6 @@
 							<p><iframe allowfullscreen="" frameborder="0" width="640" height="360" src="//www.youtube.com/embed/iUs2Wzupf1c?rel=0"></iframe></p>
 							<p>Cette pr&eacute;somption est accablante, mais ce n'est pas ce que vous <span class="incorrect">croivez</span><span class="annotation">Le verbe "croiver" n&rsquo;existe pas (c.f. Peter Bescherelle)</span>.</p>
 							-->
-						</div>
 						<small class="error hide"></small>
 					</fieldset>
 
@@ -690,7 +692,7 @@
 				<div class="text-center">
 					<input id="readonly" class="button secondary" type="button" value="Lecture seule" title="Visualiser l&rsquo;article sans les fonctionnalit&eacute;s d&rsquo;&eacute;dition">
 					<input id="save" class="button success" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard">
-					<input id="validate" class="button alert" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" disabled>
+					<input id="validate" class="button alert" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" tabindex="-1" disabled>
 				</div>
 				<script>
 					// Validate component
@@ -918,19 +920,30 @@
 		</script>
 		<script>
 			$(document).ready(function(){
+
 				// Initialize classic CKEditor with custom config
 				CKEDITOR.replace("classic_editor", {
-					customConfig : $cke_config_path + "conf-cke.js",
-					contentsCss  : "css/loap.css",
-					bodyClass    : "article",
+					customConfig    : $cke_config_path + "conf-cke.js",
+					contentsCss     : "css/loap.css",
+					bodyClass       : "article",
 					toolbarLocation : "bottom"
 				});
+
+				// Extra Plugins
+				CKEDITOR.config.extraPlugins = "autosave";                             // https://github.com/w8tcha/CKEditor-AutoSave-Plugin
+
+				// Autosave Plugin
+				CKEDITOR.config.autosave_saveOnDestroy          = true;                // Setting to Save content on editor destroy (Default is false) ...
+				CKEDITOR.config.autosave_delay                  = 1;                   // The Plugin saves the content every 25 seconds (can be defined in the Config - autosave_delay), but only when the content has changed.
+				CKEDITOR.config.autosave_NotOlderThen           = 2880;                // The Default Minutes (Default is 1440 which is one day) after the auto saved content is ignored can beoveridden from the config ...
+				CKEDITOR.config.autosave_saveDetectionSelectors = "button[id='save']"; // Setting to set the Save button to inform the plugin when the content is saved by the user and doesn't need to be stored temporary ... Default = "a[href^='javascript:__doPostBack'][id*='Save'],a[id*='Cancel']"
+
 				// Initialize inline CKEditor with custom config
 				CKEDITOR.disableAutoInline = true;
 				CKEDITOR.inline("editor", {
-					customConfig : $cke_config_path + "conf-cke.js",
-					contentsCss  : $cke_config_path + "ckeditor/ckeditor.css",
-					extraAllowedContent : {"span" : {classes : "placeholder"}},
+					customConfig        : $cke_config_path + "conf-cke.js",
+					contentsCss         : $cke_config_path + "ckeditor/ckeditor.css",
+					extraAllowedContent : {"p" : {classes : "placeholder"}},
 				});
 			});
 		</script>
