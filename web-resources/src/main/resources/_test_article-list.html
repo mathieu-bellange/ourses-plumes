@@ -11,9 +11,9 @@
 			</svg>
 			<h4>Voir</h4>
 			<label for="show_articles_filtering">Filtering</label>
-			<input id="show_articles_filtering" type="checkbox" name="show" value="articles_filtering" checked>
+			<input id="show_articles_filtering" type="checkbox" name="show" value="articles_filtering">
 			<label for="show_articles_publishing">Publishing</label>
-			<input id="show_articles_publishing" type="checkbox" name="show" value="articles_publishing">
+			<input id="show_articles_publishing" type="checkbox" name="show" value="articles_publishing" checked>
 			<label for="show_articles_displaying">Displaying</label>
 			<input id="show_articles_displaying" type="checkbox" name="show" value="articles_displaying">
 			<label for="show_social_networks_widgets">Widgets</label>
@@ -87,7 +87,7 @@
 		</script>
 
 
-		<div id="dev_container">
+		<div id="dev_container" class="frame">
 
 			<h2 class="red">Liste des articles <small>.article-list</small></h2>
 
@@ -111,7 +111,7 @@
 				<div id="search_field" class="validation-box left hide">
 					<input id="search" class="validation radius" type="text" maxlength="64" placeholder="Votre recherche (p. ex. homoparentalit&eacute;)">
 					<small class="error hide"></small>
-					<button id="find" class="icon-reply primary small" title="Lancer la recherche"><span class="text hide">Trouver</span></button>
+					<button id="find" class="icon-reply small postfix" title="Lancer la recherche"><span class="text hide">Trouver</span></button>
 				</div>
 				<!--Filter-->
 				<dl class="sub-nav left">
@@ -137,8 +137,8 @@
 					var defaults = {
 						"search_delimiter"      : ":",    // String   Delimiter used between search filter and search value in search input. Default : ":"
 						"search_spacing"        : 4.0,    // Float    Space deduced from search input total width when shown (rem). Default : 2.0
-						"search_load_delay"     : 1000,   // Integer  Time before search input expand on page load. Default : 1000
-						"anim_duration"         : 500     // Integer  Time during which animations are played. Default : 500
+						"search_load_delay"     : 0,      // Integer  Time before search input expand on page load. Default : 0
+						"anim_duration"         : 375     // Integer  Time during which animations are played. Default : 375
 					};
 					var settings = $.extend({}, defaults, options);
 					return {
@@ -160,7 +160,9 @@
 								 - $("#filter_button").outerWidth(true)
 								 - $("#write_article").outerWidth(true)
 								 - (f ? settings.search_spacing.toPx() : (settings.search_spacing * 2).toPx()); // arbitrary safety spacing (2rem / 4rem)
-								var h = $("#search_field").css("height");
+								var h = $("#search").css("height");
+								$("#find").hide();
+								$("#search").css("height", "100%");
 								$("#search_field").css({ // reset css
 									"width" : "0",
 									"height" : "0",
@@ -170,6 +172,8 @@
 								});
 								$("#search_field").removeClass("hide");
 								$("#search_field").animate({"width" : w, "height" : h, "margin-top" : "0", "opacity" : "1"}, d, function() {
+									$("#search").css("height", "");
+									$("#find").fadeIn(d);
 									if (f) { $("#search").focus() } // focus search input
 								});
 							}
@@ -258,8 +262,8 @@
 											"padding" : ".75rem",
 											"font-size" : "1.35em",
 											"opacity" : ".75"
-										}, settings.anim_duration / 4)
-										.animate({"top" : (y + 8.0).toString() + "px", "opacity" : 0}, settings.anim_duration / 4, function() {
+										}, settings.anim_duration / 2)
+										.animate({"top" : (y + 8.0).toString() + "px", "opacity" : 0}, settings.anim_duration / 2, function() {
 											c.remove();
 										});
 									}
@@ -497,8 +501,8 @@
 							</p>
 							<a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
 							<p class="validate">
-								<button class="icon-reply success tiny" title="Valider" data-validate="0"></button>
-								<button class="icon-remove alert tiny" title="Supprimer" data-delete="0"></button>
+								<button class="icon-reply success tiny" title="Valider le brouillon" data-validate="0"></button>
+								<button class="icon-remove alert tiny" title="Supprimer le brouillon" data-delete="0"></button>
 							</p>
 						</div>
 					</li>
@@ -535,8 +539,8 @@
 							</p>
 							<a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
 							<p class="validate">
-								<button class="icon-confirm success tiny" title="Publier" data-publish="0"></button>
-								<button class="icon-cancel alert tiny" title="Renvoyer" data-invalidate="0"></button>
+								<button class="icon-confirm success tiny" title="Publier" data-publish="1"></button>
+								<button class="icon-cancel alert tiny" title="Renvoyer" data-invalidate="1"></button>
 							</p>
 						</div>
 					</li>
@@ -556,7 +560,8 @@
 							</p>
 							<a href="javascript:void(0)" class="over">Lire l&rsquo;article</a>
 							<p class="validate">
-								<button class="icon-reply alert tiny" title="Rappeler" data-recall="0"></button>
+								<button class="icon-folder tiny" title="Ajouter au dossier" data-folder="1"></button>
+								<button class="icon-reply alert tiny" title="Rappeler l'article" data-recall="1"></button>
 							</p>
 						</div>
 					</li>
@@ -576,15 +581,14 @@
 				<ul class="article-list draft">
 
 					<!--Side Validation-->
+					<!--
 					<li id="draft1" class="intersec owner" style="display: none;">
 						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
 						<div class="row collapse" style="margin: 0;">
 							<div class="column small-20">
-								<!--Over Block-->
 								<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
 							</div>
 							<div class="column small-4">
-								<!--Validation-->
 								<div id="draft1_validation" style="margin-left: .5rem; display: none;">
 									<button class="small" style="margin-bottom: .25rem;">Valider</button>
 									<br>
@@ -593,27 +597,56 @@
 							</div>
 						</div>
 					</li>
+					-->
 
 					<!--Bottom Validation-->
+					<!--
 					<li id="draft2" class="ideas owner" style="display: none;">
 						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
-						<!--Over Block-->
 						<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
-						<!--Validation-->
 						<div id="draft2_validation" class="text-right" style="height: 2.25rem;">
 							<button class="tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Valider</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-delete="2">Supprimer</button>
 						</div>
 					</li>
+					-->
 
 					<!--Inside Validation-->
+					<!--
 					<li id="draft3" class="educult owner" style="display: none;">
 						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
-						<!--Over Block-->
 						<div class="over-block">
 							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
-							<!--Validation-->
 							<div id="draft3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
-								<button class="small" style="margin-bottom: 0; z-index: 100;">Valider</button><button class="alert small" style="margin-bottom: 0; z-index: 100;" data-delete="3">Supprimer</button>
+								<button class="icon-reply success tiny" style="margin-bottom: 0; z-index: 100;" title="Valider le brouillon" data-validate="3"><span class="hide">Valider</span></button><button class="icon-remove alert tiny" style="margin-bottom: 0; z-index: 100;" title="Supprimer le brouillon" data-delete="3"><span class="hide">Supprimer</span></button>
+							</div>
+						</div>
+					</li>
+					<li id="draft4" class="educult other" style="display: none;">
+						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
+						<div class="over-block">
+							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over" style="cursor: default;"></a>
+							<div id="draft4_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
+								<button class="icon-remove alert tiny" style="margin-bottom: 0; z-index: 100;" title="Supprimer le brouillon" data-delete="4"><span class="hide">Supprimer</span></button>
+							</div>
+						</div>
+					</li>
+					-->
+					<li class="educult owner" style="display: none;">
+						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
+						<div class="over-block">
+							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
+							<div class="validate" style="display: none;">
+								<button class="icon-reply success tiny" title="Valider le brouillon" data-validate="3"><span class="hide">Valider</span></button>
+								<button class="icon-remove alert tiny" title="Supprimer le brouillon" data-delete="3"><span class="hide">Supprimer</span></button>
+							</div>
+						</div>
+					</li>
+					<li class="educult other" style="display: none;">
+						<div class="topic"><h4 class="rubric">Rubrique</h4></div>
+						<div class="over-block">
+							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-edit tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over" style="cursor: default;"></a>
+							<div class="validate" style="display: none;">
+								<button class="icon-remove alert tiny" title="Supprimer le brouillon" data-delete="4"><span class="hide">Supprimer</span></button>
 							</div>
 						</div>
 					</li>
@@ -625,17 +658,16 @@
 				<ul class="article-list standby">
 
 					<!--Side Validation-->
+					<!--
 					<li id="standby1" class="intersec" style="display: none;">
 						<div class="topic">
 							<h4 class="rubric">Rubrique</h4>
 						</div>
 						<div class="row collapse" style="margin: 0;">
 							<div class="column small-20">
-								<!--Over Block-->
 								<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
 							</div>
 							<div class="column small-4">
-								<!--Validation-->
 								<div id="standby1_validation" style="margin-left: .5rem; display: none;">
 									<button class="small success" style="margin-bottom: .25rem;" data-publish="1">Publier</button>
 									<br>
@@ -644,39 +676,52 @@
 							</div>
 						</div>
 					</li>
+					-->
 
 					<!--Bottom Validation-->
+					<!--
 					<li id="standby2" class="ideas" style="display: none;">
 						<div class="topic">
 							<h4 class="rubric">Rubrique</h4>
 						</div>
-						<!--Over Block-->
 						<div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a></div>
-						<!--Validation-->
 						<div id="standby2_validation" class="text-right" style="height: 2.25rem;">
 							<button class="tiny success" style="display: none; margin-top: .5rem; margin-bottom: 0;" data-publish="2">Publier</button><button class="alert tiny" style="display: none; margin-top: .5rem; margin-bottom: 0;">Renvoyer</button>
 						</div>
 					</li>
+					-->
 
 					<!--Inside Validation-->
+					<!--
 					<li id="standby3" class="educult" style="display: none;">
 						<div class="topic">
 							<h4 class="rubric">Rubrique</h4>
 						</div>
-						<!--Over Block-->
 						<div class="over-block">
 							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
-							<!--Validation-->
 							<div id="standby3_validation" style="display: none; position: absolute; top: 1.75rem; right: .625rem; margin-top: -1.125rem;">
-								<button class="small success" style="margin-bottom: 0; z-index: 100;" data-publish="3">Publier</button><button class="alert small" style="margin-bottom: 0; z-index: 100;">Renvoyer</button>
+								<button class="icon-confirm success tiny" style="margin-bottom: 0; z-index: 100;" title="Publier l'article" data-publish="3"><span class="hide">Publier</span></button><button class="icon-cancel alert tiny" style="margin-bottom: 0; z-index: 100;" title="Renvoyer l'article aux brouillons" data-invalidate="3"><span class="hide">Renvoyer</span></button>
+							</div>
+						</div>
+					</li>
+					-->
+					<li class="educult" style="display: none;">
+						<div class="topic">
+							<h4 class="rubric">Rubrique</h4>
+						</div>
+						<div class="over-block">
+							<h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-alert tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Modifier l&rsquo;article</a>
+							<div class="validate" style="display: none;">
+								<button class="icon-confirm success tiny" title="Publier l'article" data-publish="3"><span class="hide">Publier</span></button>
+								<button class="icon-cancel alert tiny" title="Renvoyer l'article aux brouillons" data-invalidate="3"><span class="hide">Renvoyer</span></button>
 							</div>
 						</div>
 					</li>
 				</ul>
 
 				<!--Publishing Box-->
-				<div id="publishing_box" class="send-box publish" style="display: none;">
-					<a href="javascript:void(0)" class="close right"></a>
+				<div id="publishing_box" class="spring-box publish" style="display: none;">
+					<span class="close right" tabindex="0"></span>
 					<label for="publish_day">Date de publication</label>
 					<div style="margin: .5rem 0 .75rem;">
 						<select id="publishing_day" style="width: 3.5rem;"></select>
@@ -686,7 +731,146 @@
 						<button class="icon-confirm success tiny right" style="margin: .125rem 0 0"></button>
 					</div>
 				</div>
+
 				<script>
+					var spring_box =(function() {
+						// Configuration
+						var cfg = {
+							"fx_d"      : 375,                 // Integer  Visual effets duration (milliseconds). Default : 375
+							"box_x"     : 0,                   // Numeric  Vertical position adjustment for box (root EM). Default : 0
+							"box_y"     : 0.75,                // Numeric  Horizontal position adjustment for box (root EM). Default : 0.75
+							"box_name"  : ".spring-box",       // Selector The publishing box element identifier. Default : "#publishing_box"
+							"box_valid" : "button.success",    // Selector The confirmation element identifier. Default : "button.success"
+							"box_close" : ".close",            // Selector The cancel element identifier. Default : ".close"
+							"launcher"  : "data-publish",      // DataAttr The triggerer for the publishing box. Default : "data-publish"
+						};
+						return {
+							open : function(o, d, t) {
+								o.finish(); // prompt any pending animation
+								o.scroll_to({"fx_d" : d / 2, "spacing" : o.outerHeight() / 4}); // scroll to box top
+								var w = o.outerWidth(), h = o.outerHeight(); // set animation vars
+								o.css({"width" : 0, "height" : 0, "margin-top" : h, "margin-left" : w, "opacity" : 0}); // set CSS values before animating
+								o.children().hide(); // hide children before animating
+								o.show().animate({"width" : w, "height" : h, "margin-top" : 0, "margin-left" : 0, "opacity" : 1 }, $conf.js_fx ? d : 0, function() {
+									o.children().show(); // show children on animation completion
+									o.css({"width" : "", "height" : "",}); // reset CSS values to default on animation completion
+									o.find(t).focus(); // focus confirm button on animation completion
+								});
+							},
+							close : function(o, d, b) {
+								$(".over-block").find(".validate.show").hide(); // hide validate under opened box
+								o.fadeOut($conf.js_fx ? d : 0, function() { // hide box
+									$("[" + b + "]").removeAttr("disabled"); // enable all buttons
+								});
+							},
+							init : function(opts) {
+
+								cfg = $.extend({}, cfg, opts);
+								// Variables
+								var self = this;
+								var obj = $(cfg.box_name);
+
+								// Functions
+								function open_box() {
+									self.open(obj, cfg.fx_d, cfg.box_valid)
+								}
+								function close_box() {
+									self.close(obj, cfg.fx_d, cfg.launcher)
+								}
+								// Document Events
+								$(document).on("click", ".validate button, .tool-bar, " + cfg.box_close, function() {
+									close_box();
+								});
+								// Publishing Box Events
+								obj.on("click", cfg.box_valid, function() {
+									//TODO : callback
+								});
+								$(document).on("click", "[" + cfg.launcher + "]", function() {
+									$(".over-block").find(".validate").hide(); // hide all validate
+									$(this).parent(".validate").show().addClass("show"); // show this validate
+									$("[" + cfg.launcher + "]").removeAttr("disabled"); // enable all launchers
+									$(this).attr("disabled", true); // disable current launcher
+									obj.find(cfg.box_valid).attr(cfg.launcher, $(this).attr(cfg.launcher)) // transfer launcher attribute
+									var x = $(this).offset().left + $(this).outerWidth() - obj.outerWidth() + cfg.box_x.toPx(); // define vertical position
+									var y = $(this).offset().top - obj.outerHeight() - cfg.box_y.toPx(); // define horizontal position
+									obj.css({"left" : x, "top" : y}); // set box position
+									open_box();
+								});
+							}
+						}
+					}());
+
+					var publishing_box = (function() {
+						// Configuration
+						var cfg = {
+							"min_age"   : 1,                   // Integer  Year variation toward past (n - 1). Default : 1
+							"max_age"   : 1,                   // Integer  Year variation toward future (n + 1). Default : 1
+							"box_name"  : "#publishing_box",   // Selector The publishing box element identifier. Default : "#publishing_box"
+							"box_day"   : "#publishing_day",   // Selector The day combo box identifier. Default : "#publishing_day"
+							"box_month" : "#publishing_month", // Selector The month combo box identifier. Default : "#publishing_month"
+							"box_year"  : "#publishing_year",  // Selector The year combo box identifier. Default : "#publishing_year"
+							"box_hour"  : "#publishing_hour",  // Selector The hour combo box identifier. Default : "#publishing_hour"
+						};
+						// Variables
+						var obj = $(cfg.box_name);
+						var date = new Date();
+						var day = date.getDate();
+						var month = date.getMonth();
+						var year = date.getFullYear();
+						var hour = date.getHours();
+
+						return {
+							output : function() {
+								var id = $(this).attr(cfg.launcher);
+								// ===========================================================
+								// # TEMP : Display publishing alert
+								// ===========================================================
+								var d = obj.find(cfg.box_day).val().format(2);
+								var m = (parseInt(obj.find(cfg.box_month + " option:selected").attr("id"))+ 1).toString().format(2);
+								var y = obj.find(cfg.box_year).val().format(2);
+								var h = obj.find(cfg.box_hour).val();
+								alert("article " + id + " (will be) published the " + d + "/" + m + "/" + y + " at " + h); // DEBUG
+								// ===========================================================
+								// # TODO : Differ date for publising
+								// ===========================================================
+								// publishArticle(id);
+								// ===========================================================
+							},
+							build : function(opts) {
+
+								cfg = $.extend({}, cfg, opts); // update vars
+
+								for (i = 1; i <= 31; i++) { // Build days
+									var e = $("<option>");
+									if (i == day) { e.attr("selected", true) }
+									obj.find(cfg.box_day).append(e.html(i));
+								}
+								for (i in $time.months) { // Build months
+									var e = $("<option>", {"id": i});
+									if (i == month) { e.attr("selected", true) }
+									obj.find(cfg.box_month).append(e.html($time.months[i].capitalize()));
+								}
+								for (i = year - cfg.min_age; i <= year + cfg.max_age; i++) { // Build years
+									var e = $("<option>");
+									if (i == year) { e.attr("selected", true) }
+									obj.find(cfg.box_year).append(e.html(i));
+								}
+								for (i = 0; i < 24; i++) { // Build hours
+									var e = $("<option>");
+									if (i == hour) { e.attr("selected", true) }
+									obj.find(cfg.box_hour).append(e.html(i.toString().format(2) + ":00"));
+								}
+
+							}
+						}
+					}());
+
+					$(document).ready(function() {
+						spring_box.init();
+						publishing_box.build();
+					});
+
+					/*
 					var publishing_box = (function() {
 						return {
 							open : function(o, d, t) {
@@ -702,7 +886,7 @@
 								});
 							},
 							close : function(o, d, b) {
-								$(".over-block").find(".validate").hide(); // hide all validate
+								$(".over-block").find(".validate.show").hide(); // hide validate under opened box
 								o.fadeOut($conf.js_fx ? d : 0, function() { // hide box
 									$("[" + b + "]").removeAttr("disabled"); // enable all buttons
 								});
@@ -747,7 +931,7 @@
 								// Articles List Events
 								$(".standby").on("click", "[" + cfg.launcher + "]", function() {
 									$(".over-block").find(".validate").hide(); // hide all validate
-									$(this).parents(".validate").show(); // show this validate
+									$(this).parent(".validate").show().addClass("show"); // show this validate
 									$("[" + cfg.launcher + "]").removeAttr("disabled"); // enable all launchers
 									$(this).attr("disabled", true); // disable current launcher
 									obj.find(cfg.box_valid).attr(cfg.launcher, $(this).attr(cfg.launcher)) // transfer launcher attribute
@@ -801,48 +985,77 @@
 					$(document).ready(function() {
 						publishing_box.init();
 					});
+					*/
 				</script>
 
 				<!------------------------------------------------------------->
 				<!--| Onlines |-->
 				<!------------------------------------------------------------->
-				<ul class="article-list online">
-					<li class="intersec" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a></div></li>
-					<li class="ideas" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a></div></li>
-					<li class="educult" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a></div></li>
+				<ul id="online_articles" class="article-list online">
+					<li class="intersec" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a><p class="validate" style="display: none;"><button class="icon-folder tiny" title="Ajouter au dossier" data-folder="0"></button><button class="icon-reply alert tiny" title="Rappeler l'article" data-recall="0"></button></p></div></li>
+					<li class="ideas" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a><p class="validate" style="display: none;"><button class="icon-folder tiny" title="Ajouter au dossier" data-folder="0"></button><button class="icon-reply alert tiny" title="Rappeler l'article" data-recall="0"></button></p></div></li>
+					<li class="educult" style="display: none;"><div class="topic"><h4 class="rubric">Rubrique</h4></div><div class="over-block"><h4 class="title"></h4><p class="overview"><time datetime="2014-09-01" class="date icon-date tiny">1<sup>er</sup> septembre 2014</time><span class="summary"></span><strong class="author"></strong></p><a href="javascript:void(0)" class="over">Lire l&rsquo;article</a><p class="validate" style="display: none;"><button class="icon-folder tiny" title="Ajouter au dossier" data-folder="0"></button><button class="icon-reply alert tiny" title="Rappeler l'article" data-recall="0"></button></p></div></li>
 				</ul>
 			</div>
+
+				<!--Folder Box-->
+				<div id="folder_box" class="spring-box folder" style="">
+					<a href="javascript:void(0)" class="close right"></a>
+					<label for="folder">Dossier</label>
+					<div style="margin: .5rem 0 .75rem;">
+						<select id="folder" style="width: 20rem;">
+							<option>folder1</option>
+							<option>folder2</option>
+							<option>folder3</option>
+						</select>
+						<button class="icon-confirm success tiny right" style="margin: .125rem 0 0"></button>
+					</div>
+				</div>
+
+			<script>
+				var folder_box = (function() {}());
+			
+			</script>
+
 			<script>
 				// Standbys Side Validation
-				$("#standby1 .over-block").hover(function() {$("#standby1_validation").css("display", "inline-block");});
-				$("#standby1").mouseleave(function() {
-					if (!$("#standby1_validation").find("[data-publish]").attr("disabled")) { // NEW
-						$("#standby1_validation").hide();
-					}
-				});
+				//$("#standby1 .over-block").hover(function() {$("#standby1_validation").css("display", "inline-block");});
+				//$("#standby1").mouseleave(function() {
+				//	if (!$("#standby1_validation").find("[data-publish]").attr("disabled")) { // NEW
+				//		$("#standby1_validation").hide();
+				//	}
+				//});
 				// Standbys Bottom Validation
-				$("#standby2 .over-block").hover(function() {$("#standby2_validation button").show();});
-				$("#standby2").mouseleave(function() {
-					if (!$("#standby2_validation").find("[data-publish]").attr("disabled")) { // NEW
-						$("#standby2_validation button").hide();
-					}
-				});
+				//$("#standby2 .over-block").hover(function() {$("#standby2_validation button").show();});
+				//$("#standby2").mouseleave(function() {
+				//	if (!$("#standby2_validation").find("[data-publish]").attr("disabled")) { // NEW
+				//		$("#standby2_validation button").hide();
+				//	}
+				//});
 				// Standbys Inside Validation
-				$("#standby3 .over-block").mouseenter(function() {$("#standby3_validation").show();});
-				$("#standby3 .over-block").mouseleave(function() {
-					if (!$("#standby3_validation").find("[data-publish]").attr("disabled")) { // NEW
-						$("#standby3_validation").hide();
+				//$("#standby3 .over-block").mouseenter(function() {$("#standby3_validation").show();});
+				//$("#standby3 .over-block").mouseleave(function() {
+				//	if (!$("#standby3_validation").find("[data-publish]").attr("disabled")) { // NEW
+				//		$("#standby3_validation").hide();
+				//	}
+				//});
+				// Drafts Side Validation
+				//$("#draft1 .over-block").hover(function() {$("#draft1_validation").css("display", "inline-block");});
+				//$("#draft1").mouseleave(function() {$("#draft1_validation").hide();});
+				// Drafts Bottom Validation
+				//$("#draft2 .over-block").hover(function() {$("#draft2_validation button").show();});
+				//$("#draft2").mouseleave(function() {$("#draft2_validation button").hide();});
+				// Drafts Inside Validation
+				//$("#draft3 .over-block").mouseenter(function() {$("#draft3_validation").show();});
+				//$("#draft3 .over-block").mouseleave(function() {$("#draft3_validation").hide();});
+				//$("#draft4 .over-block").mouseenter(function() {$("#draft4_validation").show();});
+				//$("#draft4 .over-block").mouseleave(function() {$("#draft4_validation").hide();});
+				$(".over-block").mouseenter(function() {$(this).find(".validate").show();});
+				$(".over-block").mouseleave(function() {
+					if (!$(this).find(".validate").children("[data-publish]").attr("disabled")) { // NEW
+						$(this).find(".validate").hide();
 					}
 				});
-				// Drafts Side Validation
-				$("#draft1 .over-block").hover(function() {$("#draft1_validation").css("display", "inline-block");});
-				$("#draft1").mouseleave(function() {$("#draft1_validation").hide();});
-				// Drafts Bottom Validation
-				$("#draft2 .over-block").hover(function() {$("#draft2_validation button").show();});
-				$("#draft2").mouseleave(function() {$("#draft2_validation button").hide();});
-				// Drafts Inside Validation
-				$("#draft3 .over-block").mouseenter(function() {$("#draft3_validation").show();});
-				$("#draft3 .over-block").mouseleave(function() {$("#draft3_validation").hide();});
 			</script>
 
 			<!--------------------------------------------------------------->
