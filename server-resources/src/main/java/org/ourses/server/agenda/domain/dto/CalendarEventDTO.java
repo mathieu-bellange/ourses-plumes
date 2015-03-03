@@ -16,33 +16,28 @@ public class CalendarEventDTO implements Serializable {
      */
     private static final long serialVersionUID = -3748061448697176813L;
 
-    private Long id;
     private String title;
+    private String description;
 
-    public Long getId() {
-        return id;
+    public String getDescription() {
+        return description;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
     public CalendarEvent toCalendarEvent() {
         CalendarEvent event = new CalendarEvent();
-        if (this.id != null) {
-            event = CalendarEvent.find(id);
-        }
-        else {
-            BeanUtils.copyProperties(this, event);
-        }
+        BeanUtils.copyProperties(this, event);
         return event;
 
     }

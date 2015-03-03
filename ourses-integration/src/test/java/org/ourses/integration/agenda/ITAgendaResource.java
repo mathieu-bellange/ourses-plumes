@@ -15,14 +15,16 @@ import org.ourses.server.agenda.domain.dto.CalendarEventDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Sets;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 
 public class ITAgendaResource {
 
     private static final String PATH_GET_CALENDAR_DAYS = "/rest/agenda";
-    private static final String PATH_PUT_NEW_EVENT = "/rest/agenda/25-12-2014/create";
-    private static final String PATH_PUT_WRONG_DAY = "/rest/agenda/77777/create";
+    // 25/12/2014
+    private static final String PATH_PUT_NEW_EVENT = "/rest/agenda/1419465600000";
+    private static final String PATH_PUT_WRONG_DAY = "/rest/agenda/77777";
 
     Logger logger = LoggerFactory.getLogger(ITAgendaResource.class);
 
@@ -51,11 +53,12 @@ public class ITAgendaResource {
         URI uri = UriBuilder.fromPath(PATH_PUT_NEW_EVENT).build();
         CalendarEventDTO event = new CalendarEventDTO();
         event.setTitle("Title");
+        event.setDescription("ma desc");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
-                .header("Content-Type", "application/json").put(ClientResponse.class, event);
+                .header("Content-Type", "application/json").put(ClientResponse.class, Sets.newHashSet(event));
         assertThat(clientResponse.getStatus()).isEqualTo(200);
-        CalendarEventDTO eventDTO = clientResponse.getEntity(CalendarEventDTO.class);
-        assertThat(eventDTO.getId()).isNotNull();
-        assertThat(eventDTO.getTitle()).isEqualTo("Title");
+        CalendarDayDTO day = clientResponse.getEntity(CalendarDayDTO.class);
+        assertThat(day.getEvents()).onProperty("title").containsOnly(event.getTitle());
+        assertThat(day.getEvents()).onProperty("description").containsOnly(event.getDescription());
     }
 }

@@ -1,5 +1,7 @@
 package org.ourses.server.agenda.resources;
 
+import java.util.Set;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -34,12 +36,12 @@ public class AgendaResource {
     }
 
     @PUT
-    @Path("/{calendarDay}/create")
+    @Path("/{calendarDay}")
     public Response createEventOnOneDay(@PathParam("calendarDay")
-    String calendarDay, CalendarEventDTO event) {
+    final long calendarDay, final Set<CalendarEventDTO> events) {
         ResponseBuilder builder;
         try {
-            builder = Response.ok().entity(agendaHelper.createEventOnOneDay(calendarDay, event));
+            builder = Response.ok().entity(agendaHelper.createEventOnOneDay(calendarDay, events));
         }
         catch (IllegalArgumentException e) {
             builder = Response.serverError();

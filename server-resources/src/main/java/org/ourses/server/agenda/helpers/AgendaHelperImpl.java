@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatterBuilder;
 import org.ourses.server.agenda.domain.dto.CalendarDayDTO;
 import org.ourses.server.agenda.domain.dto.CalendarEventDTO;
 import org.ourses.server.agenda.domain.entities.CalendarEvent;
@@ -34,13 +32,17 @@ public class AgendaHelperImpl implements AgendaHelper {
     }
 
     @Override
-    public CalendarEventDTO createEventOnOneDay(String calendarDay, CalendarEventDTO eventDTO) {
-        Date day = DateTime
-                .parse(calendarDay, new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy").toFormatter()).toDate();
-        CalendarEvent event = eventDTO.toCalendarEvent();
-        event.setEventDate(day);
-        event.save();
-        return event.toCalendarEventDTO();
+    public CalendarDayDTO createEventOnOneDay(final long calendarDay, final Set<CalendarEventDTO> eventsDTO) {
+        Date day = new Date(calendarDay);
+        Set<CalendarEvent> events = CalendarEvent.findCalendarEvents(day);
+        for (CalendarEvent event : events) {
+            event.delete();
+        }
+        for (CalendarEventDTO eventDTO : eventsDTO) {
+            CalendarEvent event = eventDTO.toCalendarEvent();
+            event.setEventDate(day);
+            event.save();
+        }
+        return new CalendarDayDTO(day, eventsDTO);
     }
-
 }

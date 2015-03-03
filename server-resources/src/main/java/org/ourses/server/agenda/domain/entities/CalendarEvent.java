@@ -28,12 +28,21 @@ public class CalendarEvent {
     @Temporal(TemporalType.DATE)
     private Date eventDate;
     private String title;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -41,7 +50,7 @@ public class CalendarEvent {
         return eventDate;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(final Date eventDate) {
         this.eventDate = eventDate;
     }
 
@@ -49,7 +58,7 @@ public class CalendarEvent {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -57,7 +66,11 @@ public class CalendarEvent {
         return Ebean.find(CalendarEvent.class).findSet();
     }
 
-    public static CalendarEvent find(Long id) {
+    public static Set<CalendarEvent> findCalendarEvents(final Date day) {
+        return Ebean.find(CalendarEvent.class).where().eq("eventDate", day).findSet();
+    }
+
+    public static CalendarEvent find(final Long id) {
         return Ebean.find(CalendarEvent.class, id);
     }
 
@@ -74,6 +87,10 @@ public class CalendarEvent {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    public void delete() {
+        Ebean.delete(this);
     }
 
 }
