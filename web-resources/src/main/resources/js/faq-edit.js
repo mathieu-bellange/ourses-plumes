@@ -92,13 +92,6 @@ function displayFAQ() {
 }
 
 function create_faq() {
-	////////////////////////////////////////////////////////////////
-	// TODO
-	////////////////////////////////////////////////////////////////
-	// AJAX : get faq new id
-	// - on fail, display error
-	// - on success, process faq template with param new id
-	////////////////////////////////////////////////////////////////
 	$(".faq.edit").append(file_pool.faq_item_tmpl({"question" : "", "answer" : ""})); // append faq item template
 	$("textarea").add_confirmation_bar(); // add confirmation to textarea
 	$(".faq.edit").svg_icons()// reload svg icons from parent
@@ -106,29 +99,25 @@ function create_faq() {
 
 function delete_faq(obj) {
 	var id = obj.data("delete");
-	////////////////////////////////////////////////////////////////
-	// TODO
-	////////////////////////////////////////////////////////////////
-	// AJAX : delete faq matching id
-	// - on fail, display error
-	// - on success, display delete confirmation
-	////////////////////////////////////////////////////////////////
 	obj.parent(".question").next(".answer").detach();
 	obj.parent(".question").detach();
 	$(".main-body").create_alert_box($msg.faq_deleted, id, {"class" : "warning", "icon" : "info", "timeout" : $time.duration.alert_short}); // display form invalid alert
 }
 
 function submit_faq(data) {
-	////////////////////////////////////////////////////////////////
-	// TODO
-	////////////////////////////////////////////////////////////////
-	// AJAX : send faq to db
-	// - on fail, display error
-	// - on success, display submit confirmation
-	////////////////////////////////////////////////////////////////
-	alert(JSON.stringify(data)); // TO REMOVE
-	////////////////////////////////////////////////////////////////
-	$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
+	$.ajax({
+		type : "PUT",
+		url : "/rest/faq",
+		contentType : "application/json; charset=utf-8",
+		data : JSON.stringify(data),
+		success : function(faq, status, jqxhr) {
+			$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form submit alert
+		},
+		error : function(jqXHR, status, errorThrown) {
+			createAlertBox();
+		},
+		dataType : "json"
+	});
 }
 
 /* ------------------------------------------------------------------ */

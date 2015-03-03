@@ -12,16 +12,28 @@ import com.google.common.collect.Lists;
 @Component
 public class FreqAskedQuestionHelperImpl implements FreqAskedQuestionHelper {
 
-	@Override
-	public List<FreqAskedQuestionDTO> findAllFaq() {
-		List<FreqAskedQuestion> faq = FreqAskedQuestion.findAll();
-		return Lists.transform(faq, new Function<FreqAskedQuestion, FreqAskedQuestionDTO>() {
+    @Override
+    public List<FreqAskedQuestionDTO> findAllFaq() {
+        List<FreqAskedQuestion> faq = FreqAskedQuestion.findAll();
+        return Lists.transform(faq, new Function<FreqAskedQuestion, FreqAskedQuestionDTO>() {
 
-			@Override
-			public FreqAskedQuestionDTO apply(FreqAskedQuestion faq) {
-				return faq.toFreqAskedQuestionDTO();
-			}
-		});
-	}
+            @Override
+            public FreqAskedQuestionDTO apply(final FreqAskedQuestion faq) {
+                return faq.toFreqAskedQuestionDTO();
+            }
+        });
+    }
+
+    @Override
+    public List<FreqAskedQuestionDTO> updateFaq(final List<FreqAskedQuestionDTO> faqsDto) {
+        List<FreqAskedQuestion> faqs = FreqAskedQuestion.findAll();
+        for (FreqAskedQuestion faq : faqs) {
+            faq.delete();
+        }
+        for (FreqAskedQuestionDTO dto : faqsDto) {
+            dto.toFreqAskedQuestion().save();
+        }
+        return faqsDto;
+    }
 
 }

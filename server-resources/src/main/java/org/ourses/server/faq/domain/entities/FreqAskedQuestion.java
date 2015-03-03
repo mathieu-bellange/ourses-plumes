@@ -18,51 +18,67 @@ import com.avaje.ebean.Ebean;
 @Entity
 public class FreqAskedQuestion {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "faq_seq_gen")
-	@SequenceGenerator(name = "faq_seq_gen", sequenceName = "faq_seq")
-	private Long id;
-	private String question;
-	private String answer;
-	private int questionOrder;
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getQuestion() {
-		return question;
-	}
-	public void setQuestion(String question) {
-		this.question = question;
-	}
-	public String getAnswer() {
-		return answer;
-	}
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
-	public int getQuestionOrder() {
-		return questionOrder;
-	}
-	public void setQuestionOrder(int questionOrder) {
-		this.questionOrder = questionOrder;
-	}
-	
-	public static List<FreqAskedQuestion> findAll() {
-		return Ebean.find(FreqAskedQuestion.class).orderBy().asc("questionOrder").findList();
-	}
-	
-	public FreqAskedQuestionDTO toFreqAskedQuestionDTO() {
-		FreqAskedQuestionDTO dto = new FreqAskedQuestionDTO();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "faq_seq_gen")
+    @SequenceGenerator(name = "faq_seq_gen", sequenceName = "faq_seq")
+    private Long id;
+    private String question;
+    private String answer;
+    private int questionOrder;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(final String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(final String answer) {
+        this.answer = answer;
+    }
+
+    public int getQuestionOrder() {
+        return questionOrder;
+    }
+
+    public void setQuestionOrder(final int questionOrder) {
+        this.questionOrder = questionOrder;
+    }
+
+    public static List<FreqAskedQuestion> findAll() {
+        return Ebean.find(FreqAskedQuestion.class).orderBy().asc("questionOrder").findList();
+    }
+
+    public void delete() {
+        Ebean.delete(this);
+    }
+
+    public void save() {
+        Ebean.save(this);
+    }
+
+    public FreqAskedQuestionDTO toFreqAskedQuestionDTO() {
+        FreqAskedQuestionDTO dto = new FreqAskedQuestionDTO();
         BeanUtils.copyProperties(this, dto);
         return dto;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
+
 }

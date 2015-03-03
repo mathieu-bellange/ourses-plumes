@@ -11,10 +11,11 @@
 								<li><a href="{{= $nav.draft_article_list.url }}" data-current>Mes articles</a></li>
 							{{?}}
 							{{? isComputer() }}
-							<li><a href="{{= $nav.profile_edit.url }}" data-current>Mon profil</a></li>
-							<li><a href="{{= $nav.account_edit.url }}" data-current>Mon compte</a></li>
+								<li><a href="{{= $nav.profile_edit.url }}" data-current>Mon profil</a></li>
+								<li><a href="{{= $nav.account_edit.url }}" data-current>Mon compte</a></li>
 							{{?}}
 							{{? OursesSecurity.isUserAdmin() && isComputer() }}
+								<li><a href="{{= $nav.faq_edit.url }}" data-current>FAQ</a></li>
 								<li><a href="{{= $nav.account_list.url }}" data-current>Liste des comptes</a></li>
 								<li><a href="{{= $nav.bug_report.url }}" data-current>Signaler un bug</a></li>
 							{{?}}

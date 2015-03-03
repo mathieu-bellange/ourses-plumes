@@ -236,6 +236,7 @@ $nav = {
 	"profile_view"          : {"url" : null,                       "title" : null},
 	"profile_edit"          : {"url" : "/parametres/profil",       "title" : "Mon profil"},
 	"faq"                   : {"url" : "/faq",                     "title" : "FAQ"},
+	"faq_edit"              : {"url" : "/parametres/faq",          "title" : "FAQ"},
 	"thanks"                : {"url" : "/remerciements",           "title" : "Remerciements"},
 	"legal_notice"          : {"url" : "/service/mentions",        "title" : "Mentions légales"},
 	"terms_of_use"          : {"url" : "/service/utilisation",     "title" : "Conditions d'utilisation"},

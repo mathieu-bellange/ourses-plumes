@@ -23,6 +23,12 @@
 		<js>/js/faq-list.js</js>
 		<group-ref>commons-loap-${project.version}</group-ref>
 	</group>
+	
+	<group name="faq-edit-${project.version}">
+		<group-ref>commons-lib-${project.version}</group-ref>
+		<js>/js/faq-edit.js</js>
+		<group-ref>commons-loap-${project.version}</group-ref>
+	</group>
 
 	<group name="thanks-${project.version}">
 		<group-ref>commons-lib-${project.version}</group-ref>
