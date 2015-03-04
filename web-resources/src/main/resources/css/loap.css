@@ -4416,6 +4416,7 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Over block */
 .date-table .over-block {
+  position: relative;
   margin: .5rem .375rem;
 }
 .date-table .over-block > time {
@@ -4445,11 +4446,36 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Event list */
 .date-table .over-block .event-list {
-  margin: 0 0 .25rem;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin: 0;
+  margin-left: 0;
+  padding: .5rem;
+  color: white;
   list-style: none inside;
+  background-color: lightgrey;
+  border: .125rem solid lightgrey;
+  border-top-right-radius: .5rem;
+  border-top-left-radius: .5rem;
+  z-index: 2;
+}
+.date-table .over-block .over:focus {
+  border-width: .25rem;
+  outline: 0;
+}
+.date-table .over-block:hover .event-list,
+.date-table .over-block .over:focus + .event-list {
+  background-color: tan;
+  border-color: tan;
+}
+.date-table .over-block:hover .event-list:hover {
+  background-color: lightgrey;
+  border-color: lightgrey;
 }
 .date-table .over-block .event-list li {
   font-size: 75%;
+  text-align: left;
 }
 
 /* Has event */
@@ -4464,6 +4490,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .date-table .has-event .over:hover,
 .date-table .has-event .over:focus {
+  border-width: .25rem;
   border-color: tan;
 }
 .date-table .has-event > time {
@@ -4543,7 +4570,7 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: 0;
   margin-left: 2.25rem;
 }
-.date-edit .description {
+.date-edit .desc {
   margin: .5rem 0 .5rem;
   padding: 1.5rem;
   font-size: 1.0625rem;
@@ -4551,15 +4578,15 @@ input:focus + button + .error + .autocomplete > ul {
   border: .125rem solid lightgrey;
   background-color: whitesmoke;
 }
-.date-edit .description:hover,
-.date-edit .description:focus {
+.date-edit .desc:hover,
+.date-edit .desc:focus {
   background-color: white;
   border-color: darkgray;
 }
-.date-edit .description:hover {
+.date-edit .desc:hover {
   border-style: dotted;
 }
-.date-edit .description:focus {
+.date-edit .desc:focus {
   border-style: solid;
 }
 .date-edit .button-bar {

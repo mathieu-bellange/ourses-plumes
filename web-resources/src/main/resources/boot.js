@@ -41,7 +41,7 @@ $org = {
 $app = {
 	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
 	"ver"                : "1.0.3",                               // String   Application version.
-	"name"               : "Webzizine féministe",                   // String   Application name.
+	"name"               : "Webzine féministe",                   // String   Application name.
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
@@ -94,7 +94,7 @@ $conf = {
 		"account"          : true,                                  // Boolean  Confirm delete account. Default : true
 		"draft"            : true,                                  // Boolean  Confirm delete draft. Default : true
 		"faq"              : true,                                  // Boolean  Confirm delete faq. Default : true
-		"date_event"       : false,                                 // Boolean  Confirm delete date event. Default : false
+		"date_event"       : true,                                 // Boolean  Confirm delete date event. Default : true
 		"folder"           : true                                   // Boolean  Confirm delete folder. Default : true
 	},
 	"confirm_remove"     : {                                      // Object   Confirm remove configuration hash.

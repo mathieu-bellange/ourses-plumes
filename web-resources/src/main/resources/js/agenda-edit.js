@@ -25,7 +25,7 @@ var loax = (function() {
 			agenda_ui.init({ // initialize ui component
 				"template" : function(arg) {return file_pool.date_modal_edit_tmpl(arg)},
 				"on_open" : function() {$("#agenda").disable_tabnav()},
-				"on_close" : function() {$("#agenda").renable_tabnav()},
+				"on_close" : function() {$("#agenda").renable_tabnav(); $("#date_modal").data("caller").focus();},
 				"on_opened" : function() {
 					$("#date_modal").find(".close-reveal-modal").focus();
 					init_date_event();
@@ -45,6 +45,14 @@ function remove_date_modal() {
 
 function remove_date_event(obj) {
 	if ($("#date_modal").find("[data-delete]").size() == 1) {
+	////////////////////////////////////////////////////////////////
+	// TODO : AJAX
+	////////////////////////////////////////////////////////////////
+	// - on fail : display error alert
+	// - on success : delete day
+	////////////////////////////////////////////////////////////////
+		alert("DELETE : day = " + new Date($("#date_modal time").attr("datetime")).valueOf());
+	////////////////////////////////////////////////////////////////
 		var c = $("#date_modal").data("caller").parent(".over-block");
 		c.find(".event-list").remove(); // remove event list
 		c.removeClass("has-event"); // remove has event class
@@ -52,12 +60,12 @@ function remove_date_event(obj) {
 	}
 	obj.nextAll(".title").first().next(".error").remove();
 	obj.nextAll(".title").first().remove();
-	obj.nextAll(".description").first().remove();
+	obj.nextAll(".desc").first().remove();
 	obj.remove();
 }
 
 function delete_date_event(obj) {
-	if ($conf.confirm_delete.date_event) {
+	if ($conf.confirm_delete.date_event && $("#date_modal").find("[data-delete]").size() == 1) {
 		var modal_options = {
 			"text" : $msg.confirm_delete.date_event,
 			"class" : "panel radius",
@@ -72,7 +80,7 @@ function delete_date_event(obj) {
 }
 
 function create_date_event() {
-	$("#date_modal fieldset").append(file_pool.date_event_edit_tmpl({"title" : "", "text" : ""}));
+	$("#date_modal fieldset").append(file_pool.date_event_edit_tmpl({"id" : 0, "title" : "", "text" : ""}));
 	$("#date_modal").svg_icons();
 	init_date_event();
 }
@@ -84,17 +92,21 @@ function init_date_event() {
 
 function check_date_event() {
 	var a = $("#date_modal .title");
-	var b = $("#date_modal .description");
+	var b = $("#date_modal .desc");
 	// 1. Check fields validity
 	a.check_validity();
 	b.clean_value();
 	// 2. Check form validity
 	if (a.is_valid()) { // if all fields are valid
-		var data = [];
+		var data = {
+			"day" : new Date($("#date_modal time").attr("datetime")).valueOf(),
+			"events" : []
+		};
 		$("#date_modal .title").each(function() {
-			data.push({
+			data["events"].push({
+				"id"    : $(this).attr("id"),
 				"title" : encode_html($(this).val()),
-				"description" : encode_html($(this).nextAll(".description").first().val(), true)
+				"desc"  : encode_html($(this).nextAll(".desc").first().val(), true)
 			});
 		});
 		send_date_event(data); // send data to db
@@ -115,17 +127,18 @@ function send_date_event(data) {
 // - on fail : display error alert
 // - on success : register output to db
 //////////////////////////////////////////////////////////////////
-	alert("output : " + JSON.stringify(data));
+	alert("[" + JSON.stringify(data) + "]"); // DEBUG
 //////////////////////////////////////////////////////////////////
 	remove_date_modal();
 //////////////////////////////////////////////////////////////////
 	$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form valid alert
 //////////////////////////////////////////////////////////////////
 	var c = $("#date_modal").data("caller").parent(".over-block");
-	var l = $(file_pool.date_event_list_tmpl({"events" : data}));
+	var l = $(file_pool.date_event_list_tmpl({"events" : data.events}));
 	if (!c.hasClass("has-event")) {c.addClass("has-event")}
 	c.find(".event-list").remove(); // remove event list
-	c.find(".over").before(l); // insert event list
+	c.find(".over").after(l); // insert event list
+	c.svg_icons(); // reload svg icons
 }
 
 /* ------------------------------------------------------------------ */

@@ -1496,14 +1496,14 @@ var faq_ui = (function() {
 
 var agenda_ui = (function() {
 	var cfg = {
-		"fx_d"         : 375,            // [Int]  Duration of effects (ms). Default : 375
-		"ev_t"         : 750,            // [Int]  Timeout before showing date events (ms). Default : 500
-		"show_events"  : true,           // [Bool] Show sliding date events ? Default : true
-		"template"     : function() {},  // [Func] Template function for compiling. Default : function() {}
-		"on_open"      : function() {},  // [Func] Callback function before modal opening. Default : function() {}
-		"on_close"     : function() {},  // [Func] Callback function before modal opening. Default : function() {}
-		"on_opened"    : function() {},  // [Func] Callback function after modal opening. Default : function() {}
-		"on_closed"    : function() {},  // [Func] Callback function after modal closing. Default : function() {}
+		"fx_d"         : 375,           // [Int]  Duration of effects (ms). Default : 375
+		"ev_t"         : 500,           // [Int]  Timeout before showing date events (ms). Default : 500
+		"show_events"  : true,          // [Bool] Show sliding date events ? Default : true
+		"template"     : function() {}, // [Func] Template function for compiling. Default : function() {}
+		"on_open"      : function() {}, // [Func] Callback function before modal opening. Default : function() {}
+		"on_close"     : function() {}, // [Func] Callback function before modal opening. Default : function() {}
+		"on_opened"    : function() {}, // [Func] Callback function after modal opening. Default : function() {}
+		"on_closed"    : function() {}, // [Func] Callback function after modal closing. Default : function() {}
 	};
 	return {
 		build : function(db) {
@@ -1516,8 +1516,8 @@ var agenda_ui = (function() {
 				var q = new Date(year, month, 1); // first day in month
 				var m = []; // month array
 				var w = []; // week array
-				var n = q.getDay();
 				var i = 1; // num counter
+				var n = q.getDay();
 				for (i; i < (n == 0 ? 7 : n); i++) {
 					w.push({}); // fill first week gap with empty object
 				} i = 1; // reset counter
@@ -1527,18 +1527,17 @@ var agenda_ui = (function() {
 					// set day object
 					d.num = i;
 					d.date = ymd;
+					var e = [];
 					for (k in db) { // check date in db
-						if (getDateTime(new Date(q)) == getDateTime(new Date(db[k].day))) {
+						var day = new Date(q);
+						if (getDateTime(day) == getDateTime(new Date(db[k].day))) {
 							if (typeof(db[k].events) !== "undefined") {
 								d.events = [];
 								for (e in db[k].events) {
 									var h = {};
-									if (typeof(db[k].events[e].title) !== "undefined") {
-										h.title = db[k].events[e].title; // get name
-									}
-									if (typeof(db[k].events[e].description) !== "undefined") {
-										h.description = db[k].events[e].description; // get desc
-									}
+									h.id = db[k].events[e].id; // get name
+									h.title = db[k].events[e].title; // get name
+									h.desc = db[k].events[e].desc || undefined; // get desc
 									d.events.push(h);
 								}
 							}
@@ -1561,11 +1560,14 @@ var agenda_ui = (function() {
 					w.push({}); // fill last week gap with empty object
 				}
 				m.push(w); // push last week array
+				// get last id in array
 				return m; // return month array
 			}
 			function update_agenda(year, month) {
+				var calendar = build_calendar(year, month);
 				$(".date-switcher h3").html($time.months[month].capitalize() + " " + year);
-				$(".date-table tbody").html(file_pool.date_table_tmpl({"month" : build_calendar(y, m)})); // append table body
+				$(".date-table tbody").html(file_pool.date_table_tmpl({"month" : calendar})); // append table body
+				$(".date-table tbody").svg_icons(); // reload svg icons
 			}
 			// process build
 			update_agenda(y, m);
@@ -1581,27 +1583,26 @@ var agenda_ui = (function() {
 		},
 		init : function(opts) {
 			cfg = $.extend({}, cfg, opts);
-			$(document).on("mouseenter", ".has-event", function() {
+			function show_events(obj) {
 				if (isComputer() && cfg.show_events) {
-					var self = $(this);
-					self.data("hover", true);
+					obj.data("hover", true);
 					setTimeout(function() {
-						if (self.data("hover") == true) {
-							self.css({"width" : self.outerWidth(), "position" : "absolute", "z-index" : "2"});
-							self.children(".event-list").slideDown($conf.js_fx ? cfg.fx_d / 2 : 0);
+						if (obj.data("hover") == true) {
+							obj.children(".event-list").slideDown($conf.js_fx ? cfg.fx_d / 2 : 0);
 						}
 					}, cfg.ev_t);
 				}
-			});
-			$(document).on("mouseleave", ".has-event", function() {
+			}
+			function hide_events(obj) {
 				if (isComputer() && cfg.show_events) {
-					var self = $(this);
-					self.data("hover", false);
-					self.children(".event-list").slideUp($conf.js_fx ? cfg.fx_d : 0, function() {
-						self.css({"width" : "", "position" : "", "z-index" : ""});
-					});
+					obj.data("hover", false);
+					obj.children(".event-list").slideUp($conf.js_fx ? cfg.fx_d : 0);
 				}
-			});
+			}
+			$(document).on("focus", ".has-event .over", function() {show_events($(this).parent(".has-event"))});
+			$(document).on("blur", ".has-event .over", function() {hide_events($(this).parent(".has-event"))});
+			$(document).on("mouseenter", ".has-event .over", function() {$(this).blur(); show_events($(this).parent(".has-event"))});
+			$(document).on("mouseleave", ".has-event .over", function() {hide_events($(this).parent(".has-event"))});
 			$(document).on("click", ".over", function() {
 				if ($(".reveal-modal").is(":visible")) {
 					if (!$("html").data("revealing-modal")) {
@@ -1613,17 +1614,18 @@ var agenda_ui = (function() {
 					var p = self.parent();
 					var e = [];
 					p.find(".event-list").children("li").each(function() {
+						var id = $(this).find(".title").attr("id") || null;
 						var title = $(this).find(".title").html() || null;
-						var text = $(this).find(".text").html() || null;
-						if (title) {e.push({"title" : decode_html(title), "text" : (text ? decode_html(text, true) : null)})}
+						var desc = $(this).find(".desc").html() || null;
+						if (title) {e.push({"id" : id, "title" : decode_html(title), "desc" : (desc ? decode_html(desc, true) : null)})}
 					});
 					var d = p.find("time").first().attr("datetime") || 0;  // Datetime
 					var a = d.split("-"); // YMD array
 					var t = new Date(a[0], a[1] - 1, a[2]); // Timestamp
 					var c = {
-						"id"       : d,
-						"date"     : $time.days[t.getDay() == 0 ? 6 : t.getDay() - 1].capitalize() + " " + dateToHTML(t),
-						"events"   : e
+						"day"    : $time.days[t.getDay() == 0 ? 6 : t.getDay() - 1].capitalize() + " " + dateToHTML(t),
+						"date"   : d,
+						"events" : e
 					};
 					var modal = $(cfg.template(c));
 					// Append modal
@@ -1646,7 +1648,6 @@ var agenda_ui = (function() {
 					});
 					modal.on("closed", function() {
 						cfg.on_closed(); // callback
-						self.focus(); // restore focus
 						$(this).remove();
 					});
 					// Initialize modal
