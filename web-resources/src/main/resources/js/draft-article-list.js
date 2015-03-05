@@ -188,107 +188,140 @@ var article_list_prefs = (function() {
 	}
 }());
 
-var publishing_box = (function() {
+var article_list_dialogs = (function() {
+	// Configuration
+	var cfg = {
+		"min_age"   : 1,                   // Integer  Year variation toward past (n - 1). Default : 1
+		"max_age"   : 1,                   // Integer  Year variation toward future (n + 1). Default : 1
+		"pub_name"  : "#publishing_box",   // Selector Publishing box element identifier. Default : "#publishing_box"
+		"pub_day"   : "#publishing_day",   // Selector Day combo box identifier. Default : "#publishing_day"
+		"pub_month" : "#publishing_month", // Selector Month combo box identifier. Default : "#publishing_month"
+		"pub_year"  : "#publishing_year",  // Selector Year combo box identifier. Default : "#publishing_year"
+		"pub_hour"  : "#publishing_hour",  // Selector Hour combo box identifier. Default : "#publishing_hour"
+		"fld_name"  : "#folder_box"        // Selector Folder box element identifier. Default : "#folder_box"
+	};
+	// Variables
+	var c, id, obj;
+	var date = new Date();
+	var day = date.getDate();
+	var month = date.getMonth();
+	var year = date.getFullYear();
+	var hour = date.getHours();
 	return {
-		open : function(o, d, t) {
-			o.finish(); // prompt any pending animation
-			o.scroll_to({"fx_d" : d / 2, "spacing" : o.outerHeight() / 4}); // scroll to box top
-			var w = o.outerWidth(), h = o.outerHeight(); // set animation vars
-			o.css({"width" : 0, "height" : 0, "margin-top" : h, "margin-left" : w, "opacity" : 0}); // set CSS values before animating
-			o.children().hide(); // hide children before animating
-			o.show().animate({"width" : w, "height" : h, "margin-top" : 0, "margin-left" : 0, "opacity" : 1 }, $conf.js_fx ? d : 0, function() {
-				o.children().show(); // show children on animation completion
-				o.css({"width" : "", "height" : "",}); // reset CSS values to default on animation completion
-				o.find(t).focus(); // focus confirm button on animation completion
-			});
+		output_publishing : function() {
+			var d = parseInt(obj.find(cfg.pub_day).val());
+			var m = parseInt(obj.find(cfg.pub_month + " option:selected").attr("id"));
+			var y = parseInt(obj.find(cfg.pub_year).val());
+			var h = parseInt(obj.find(cfg.pub_hour).val());
+			publishArticle(id, new Date(y, m, d, h)); // publish article at differed date
 		},
-		close : function(o, d, b) {
-			$(".over-block").find(".validate").hide(); // hide all validate
-			o.fadeOut($conf.js_fx ? d : 0, function() { // hide box
-				$("[" + b + "]").removeAttr("disabled"); // enable all buttons
-			});
+		output_folder : function() {
+			// ===============================================================
+			var fld = obj.find("#folder_select option:selected");
+			if (fld.is(":enabled")) {
+				$("[data-folder='" + id + "']").attr("data-folder-id", fld.attr("data-id"));
+				alert("article " + id + " put to folder " + fld.attr("data-id"));
+			}
+			// ===============================================================
+			// # TODO : AJAX
+			// ===============================================================
+			// - success : update article's folder
+			// - fail    : display error alert
+			// ===============================================================
 		},
-		init : function(opts) {
-			// Configuration
-			var defs = {
-				"fx_d"      : 375,                 // Integer  Visual effets duration (milliseconds). Default : 375
-				"min_age"   : 1,                   // Integer  Year variation toward past (n - 1). Default : 1
-				"max_age"   : 1,                   // Integer  Year variation toward future (n + 1). Default : 1
-				"box_x"     : 0,                   // Numeric  Vertical position adjustment for box (root EM). Default : 0
-				"box_y"     : 0.75,                // Numeric  Horizontal position adjustment for box (root EM). Default : 0.75
-				"box_name"  : "#publishing_box",   // Selector The publishing box element identifier. Default : "#publishing_box"
-				"box_day"   : "#publishing_day",   // Selector The day combo box identifier. Default : "#publishing_day"
-				"box_month" : "#publishing_month", // Selector The month combo box identifier. Default : "#publishing_month"
-				"box_year"  : "#publishing_year",  // Selector The year combo box identifier. Default : "#publishing_year"
-				"box_hour"  : "#publishing_hour",  // Selector The hour combo box identifier. Default : "#publishing_hour"
-				"box_valid" : "button.success",    // Selector The confirmation element identifier. Default : "button.success"
-				"box_close" : ".close",            // Selector The cancel element identifier. Default : ".close"
-				"launcher"  : "data-publish",      // DataAttr The triggerer for the publishing box. Default : "data-publish"
-			};
-			var cfg = $.extend({}, defs, opts);
-			// Variables
-			var self = this;
-			var obj = $(cfg.box_name);
-			var date = new Date();
-			var day = date.getDate();
-			var month = date.getMonth();
-			var year = date.getFullYear();
-			var hour = date.getHours();
-			// Functions
-			function open_box() {
-				self.open(obj, cfg.fx_d, cfg.box_valid)
-			}
-			function close_box() {
-				self.close(obj, cfg.fx_d, cfg.launcher)
-			}
-			// Document Events
-			$(document).on("click", ".validate button, .tool-bar, " + cfg.box_close, function() {
-				close_box();
-			});
-			// Articles List Events
-			$(".standby").on("click", "[" + cfg.launcher + "]", function() {
-				$(".over-block").find(".validate").hide(); // hide all validate
-				$(this).parents(".validate").show(); // show this validate
-				$("[" + cfg.launcher + "]").removeAttr("disabled"); // enable all launchers
-				$(this).attr("disabled", true); // disable current launcher
-				obj.find(cfg.box_valid).attr(cfg.launcher, $(this).attr(cfg.launcher)) // transfer launcher attribute
-				var x = $(this).offset().left + $(this).outerWidth() - obj.outerWidth() + cfg.box_x.toPx(); // define vertical position
-				var y = $(this).offset().top - obj.outerHeight() - cfg.box_y.toPx(); // define horizontal position
-				obj.css({"left" : x, "top" : y}); // set box position
-				open_box();
-			});
-			// Publishing Box Events
-			obj.on("click", cfg.box_valid, function() {
-				var id = $(this).attr(cfg.launcher);
-				var d = obj.find(cfg.box_day).val();
-				var m = (parseInt(obj.find(cfg.box_month + " option:selected").attr("id")));
-				var y = obj.find(cfg.box_year).val();
-				var h = obj.find(cfg.box_hour).val();
-				publishArticle(id,new Date(y,m,d,h));
-				close_box();
-			});
-			// Execution
+		build_publishing : function() {
+			obj = $(cfg.pub_name);
+			obj.find("[data-submit-publish]").attr("data-submit-publish", id);
+			obj.svg_icons(); // reload svg icons
 			for (i = 1; i <= 31; i++) { // Build days
 				var e = $("<option>");
 				if (i == day) { e.attr("selected", true) }
-				obj.find(cfg.box_day).append(e.html(i));
+				obj.find(cfg.pub_day).append(e.html(i));
 			}
 			for (i in $time.months) { // Build months
 				var e = $("<option>", {"id": i});
 				if (i == month) { e.attr("selected", true) }
-				obj.find(cfg.box_month).append(e.html($time.months[i].capitalize()));
+				obj.find(cfg.pub_month).append(e.html($time.months[i].capitalize()));
 			}
 			for (i = year - cfg.min_age; i <= year + cfg.max_age; i++) { // Build years
 				var e = $("<option>");
 				if (i == year) { e.attr("selected", true) }
-				obj.find(cfg.box_year).append(e.html(i));
+				obj.find(cfg.pub_year).append(e.html(i));
 			}
 			for (i = 0; i < 24; i++) { // Build hours
 				var e = $("<option>");
 				if (i == hour) { e.attr("selected", true) }
-				obj.find(cfg.box_hour).append(e.html(i.toString().format(2) + ":00"));
-				e.val(i);
+				obj.find(cfg.pub_hour).append(e.html(i.toString().format(2) + ":00"));
 			}
+		},
+		build_folder : function() {
+			obj = $(cfg.fld_name);
+			obj.find("[data-submit-folder]").attr("data-submit-folder", id);
+			$(".spring-box.folder").svg_icons(); // reload svg icons
+			// ===============================================================
+			// # TODO : AJAX
+			// ===============================================================
+			// - success : get folders list
+			// - fail    : display error alert
+			// ===============================================================
+			var db_folders = [
+				{"id" : "1", "name" : "Dossier 1"},
+				{"id" : "2", "name" : "Dossier 2"},
+				{"id" : "3", "name" : "Dossier 3"},
+				{"id" : "4", "name" : "Dossier 4"}
+			];
+			// ===============================================================
+			// # TODO : AJAX
+			// ===============================================================
+			// - success : 1. append folders list in select
+			//             2. select the article's folder if any
+			// - fail    : display alert error
+			// ===============================================================
+			var fld_opts = "";
+			for (i in db_folders) {
+				var sel = "";
+				if ($("[data-folder='" + id +"']").attr("data-folder-id") == db_folders[i].id) {
+					sel = " selected";
+				}
+				fld_opts += "<option data-id='" + db_folders[i].id + "'" + sel + ">" + db_folders[i].name + "</option>";
+			}
+			obj.find("#folder_select").append(fld_opts);
+			// ===============================================================
+		},
+		init : function(o) {
+			var self = this;
+			function show_bar(o) {
+				o.attr("disabled", true); // disable calling element
+				o.parent(".validate").addClass("show");
+			}
+			function hide_bar(o) {
+				o.removeAttr("disabled");
+				o.parent(".validate").removeClass("show");
+				if (!o.parent(".validate").is(":hover")) {
+					o.parent(".validate").fadeOut($conf.js_fx ? "fast" : 0);
+				}
+			}
+			$(document).on("click", "[data-submit-publish], [data-submit-folder], .validate button, .tool-bar", function() {
+				spring_box.close($(".spring-box")); // close spring box
+			});
+			$(document).on("click", "[data-publish]", function() {
+				c = $(this);
+				id = c.attr("data-publish"); // transfer article id through a variable
+				show_bar(c); // lock button bar
+				spring_box.create(c, {"box_id" : "publishing_box", "box_class" : "publish", "box_html" : file_pool.publishing_box_tmpl(), "box_focus" : ".success", "on_opened" : self.build_publishing, "on_close" : function() {hide_bar(c)}}); // create spring box
+			});
+			$(document).on("click", "[data-folder]", function() {
+				c = $(this);
+				id = c.attr("data-folder"); // transfer article id through a variable
+				show_bar(c); // lock button bar
+				spring_box.create(c, {"box_id" : "folder_box", "box_class" : "folder", "box_html" : file_pool.folder_box_tmpl(), "box_focus" : ".close", "on_opened" : self.build_folder, "on_close" : function() {hide_bar(c)}}); // create spring box
+			});
+			$(document).on("click", "[data-submit-publish]", function() {
+				self.output_publishing(); // submit publishing
+			});
+			$(document).on("click", "[data-submit-folder]", function() {
+				self.output_folder(); // submit folder
+			});
 		}
 	}
 }());
@@ -397,7 +430,7 @@ function inValidateArticle(id) {
 	});
 }
 
-function publishArticle(id,publishedDate) {
+function publishArticle(id, publishedDate) {
 	$.ajax({
 		type : "PUT",
 		url : "/rest/articles/" + id + "/publish",
@@ -520,7 +553,8 @@ function displayArticles(url_params) {
 			if (article_list_cfg.startup !== true) { // this is first launch of the page
 				article_list_tools.init(); // set up articles list tools
 				article_list_prefs.init(); // set up articles list user prefs
-				publishing_box.init(); // set up publishing box
+				//publishing_box.init(); // set up publishing box
+				article_list_dialogs.init(); // set up dialogs for drafts
 				article_list_cfg.startup = true; // first launch has been done
 				$(".tool-bar").svg_icons(); // reload icons only for toolbar
 			}
@@ -545,7 +579,7 @@ function processArticles(articles) {
 		$(this).find(".validate").show();
 	});
 	$("html").on("mouseleave", ".over-block", function() {
-		if (!$(this).find("[data-publish]").attr("disabled")) {
+		if (!$(this).find(".validate").hasClass("show")) {
 			$(this).find(".validate").hide();
 		}
 	});
@@ -605,9 +639,9 @@ function processAfterInValidation(article) {
 
 function processAfterPublish(article) {
 	var elems = $("#articles_publish li");
-	elems.each(function (elem){
+	elems.each(function(elem) {
 		var date = new Date(parseInt($(this).attr("data-published"), 10));
-		if (date < article.publishedDate){
+		if (date < article.publishedDate) {
 			$(this).before(file_pool.article_item_tmpl(article)).prepend(lb(1));
 			$(this).prev().svg_icons(); // refresh svg icons for newly created article item
 			$(this).prev().fadeIn(article_list_cfg.fade_duration); // show article

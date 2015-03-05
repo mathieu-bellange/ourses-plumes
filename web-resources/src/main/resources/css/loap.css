@@ -1058,8 +1058,8 @@ label.error {
   box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
   z-index: 100;
 }
-.spring-box.folder {width: 24rem;}
-.spring-box.publish {width: 26rem;}
+.spring-box.folder,
+.spring-box.publish {width: 24rem;}
 .spring-box.folder,
 .spring-box.publish {
   max-width: 100%;
@@ -1077,6 +1077,7 @@ label.error {
   border: .5rem solid transparent;
   border-top-color: silver;
 }
+.spring-box.folder:before,
 .spring-box.publish:before {
   left: auto;
   right: 1rem;
@@ -1092,22 +1093,41 @@ label.error {
   border: .5rem solid transparent;
   border-top-color: #f0f0f0;
 }
+.spring-box.folder:after,
 .spring-box.publish:after {
   left: auto;
   right: 1rem;
 }
-.spring-box > label {
-  margin-top: .5rem;
+.spring-box > .close {
+  position: absolute;
+  /*float: right;*/
+  /*margin-right: -.5rem; /* Fix X Position */
+  top: 0;
+  right: .75rem;
+  padding: .25rem .5rem;
+  font-size: 1.25rem;
+  z-index: 2;
+}
+.spring-box > fieldset {
+  display: block;
+  margin: .5rem 0 .75rem;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+.spring-box label {
+  margin-bottom: .25rem;
 }
 .spring-box select {
-  height: 2rem;
-  padding: 0 .25rem;
+  height: 1.875rem;
+  padding: 0;
   font-size: .875em;
+  border: .125rem solid lightgrey;
 }
-.spring-box select > option{
-  padding: .125rem .375rem;
+.spring-box select > option {
+  padding: .125rem .25rem;
 }
-.spring-box > .error{
+.spring-box .error {
   margin-bottom: 0;
   line-height: 100%;
 }

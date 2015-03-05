@@ -76,13 +76,11 @@
 											<a href="{{= data.path }}" class="over" title="Lire l&rsquo;article">Lire</a>
 											{{? OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter() || data.profile.id == UserSession.getUserProfileId() }}
 											<p class="validate" style="display: none;">
-
 												{{? $app.stage == "dev" && true }}
 												<button class="icon-folder tiny" title="Ajouter au dossier" data-folder="{{= data.id }}"></button>
 												{{?? $app.stage == "dev" }}
 												<button class="icon-folder warning tiny" title="Modifier le dossier" data-folder="{{= data.id }}"></button>
 												{{?}}
-
 												{{? OursesSecurity.isUserAdmin() }}
 												<button class="icon-reply alert tiny" title="Rappeler l&rsquo;article" data-recall="{{= data.id }}"></button>
 												{{?}}
@@ -118,17 +116,28 @@
 							<li data-published="{{=params.publishedDate }}" >{{# def.item:params }}</li>
 						{{~}}
 					</ul>
-					<!--Publishing box-->
-					<div id="publishing_box" class="spring-box publish" style="display: none;">
-						<a href="javascript:void(0)" class="close right"></a>
-						<label for="publish_day">Date de publication</label>
-						<div style="margin: .5rem 0 .75rem;">
-							<select id="publishing_day" style="width: 3.5rem;"></select>
-							<select id="publishing_month" style="width: 7rem;"></select>
-							<select id="publishing_year" style="width: 4.5rem;"></select>
-							<select id="publishing_hour" style="width: 5rem;"></select>
-							<button class="icon-confirm success tiny right" style="margin: .125rem 0 0"></button>
-						</div>
-					</div>
 				</section>
+{{%}}
+<!--Publishing Box-->
+{{% publishing_box_tmpl }}
+					<div class="row collapse">
+						<label for="publishing_day">Date de publication</label>
+					</div>
+					<div class="row collapse">
+						<div class="column small-4"><select id="publishing_day"></select></div>
+						<div class="column small-7"><select id="publishing_month"></select></div>
+						<div class="column small-5"><select id="publishing_year"></select></div>
+						<div class="column small-5"><select id="publishing_hour"></select></div>
+						<div class="column small-3 text-right"><button class="icon-confirm success tiny" data-submit-publish><span class="hide">Publier</span></button></div>
+					</div>
+{{%}}
+<!--Folder Box-->
+{{% folder_box_tmpl }}
+					<div class="row collapse">
+						<label for="folder_select">Dossier</label>
+					</div>
+					<div class="row collapse">
+						<div class="column small-21"><select id="folder_select"><option disabled selected>Choisir un dossier</select></div>
+						<div class="column small-3 text-right"><button class="icon-confirm success tiny right" data-submit-folder><span class="hide">Dossier</span></button></div>
+					</div>
 {{%}}

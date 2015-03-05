@@ -234,7 +234,7 @@ function deleteAvatar(){
 
 function save(couple) {
 	var profileId = UserSession.getUserProfileId();
-	if(profileId != null) {
+	if (profileId != null) {
 		$.ajax({
 			type : "PUT",
 			url : "/rest/profile/" + profileId,

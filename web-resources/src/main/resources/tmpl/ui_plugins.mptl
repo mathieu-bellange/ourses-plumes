@@ -17,6 +17,14 @@
 					</div>
 {{%}}
 
+<!--Spring Box-->
+{{% spring_box_tmpl }}
+			<div id="{{= data.id }}" class="spring-box {{= data.class }}">
+				<span class="close" tabindex="0"></span>
+				<fieldset>{{= data.html ? data.html : "" }}</fieldset>
+			</div>
+{{%}}
+
 <!--Error Box-->
 {{% error_box_tmpl }}
 					<small class="error {{= data.class }}">{{= data.text }}</small>

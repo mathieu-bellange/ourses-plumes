@@ -1398,6 +1398,85 @@ var user_menu = (function() {
 	}
 }());
 
+var spring_box = (function() {
+	// Configuration
+	var cfg = {
+		"fx_d"      : 375,              // Integer  Visual effets duration (milliseconds). Default : 375
+		"box_x"     : 0.5,              // Numeric  Vertical position adjustment for box (root EM). Default : 0.5
+		"box_y"     : 0.75,             // Numeric  Horizontal position adjustment for box (root EM). Default : 0.75
+		"box_id"    : "spring_box",     // String   Spring box element identifier. Default : "spring_box"
+		"box_class" : "",               // Selector Spring box element class. Default : ""
+		"box_close" : ".close",         // Selector Cancel element identifier. Default : ".close"
+		"box_valid" : ".success",       // Selector Confirmation element identifier. Default : ".success"
+		"box_focus" : ".success",       // Selector Focus element on creation. Default : ".success"
+		"box_html"  : null,             // String   Spring box content. Default : null
+		"on_open"   : function() {},    // Function Callback for opening. Default : function() {}
+		"on_close"  : function() {},    // Function Callback for closing. Default : function() {}
+		"on_opened" : function() {},    // Function Callback when opened. Default : function() {}
+		"on_closed" : function() {},    // Function Callback when closed. Default : function() {}
+	};
+	return {
+		open : function(o, d, t) {
+			cfg.on_open(); // open callback
+			o.finish(); // prompt any pending animation
+			o.scroll_to({"fx_d" : d / 2, "spacing" : o.outerHeight() / 4}); // scroll to box top
+			var w = o.outerWidth(), h = o.outerHeight(); // set animation vars
+			o.css({"width" : 0, "height" : 0, "margin-top" : h, "margin-left" : w, "opacity" : 0}); // set CSS values before animating
+			o.children().hide(); // hide children before animating
+			o.show().animate({"width" : w, "height" : h, "margin-top" : 0, "margin-left" : 0, "opacity" : 1 }, $conf.js_fx ? d : 0, function() {
+				o.children().show(); // show children on animation completion
+				o.css({"width" : "", "height" : "",}); // reset CSS values to default on animation completion
+				o.find(t).focus(); // focus confirm button on animation completion
+				cfg.on_opened(); // open callback
+			});
+		},
+		close : function(o, d, t) {
+			cfg.on_close(); // close callback
+			o.fadeOut($conf.js_fx ? d / 2 : 0, function() { // hide box
+				cfg.on_closed(); // close callback
+				o.remove(); // destroy spring box
+			});
+		},
+		create : function(launcher, opts) {
+			cfg = $.extend({}, cfg, opts); // extend config
+			var self = this; // set self
+			var obj = $(file_pool.spring_box_tmpl({"id" : cfg.box_id, "class" : cfg.box_class, "html" : cfg.box_html})); // create template
+			$("body").append(obj); // append template
+			var x = launcher.offset().left + launcher.outerWidth() - obj.outerWidth() + cfg.box_x.toPx(); // define vertical position
+			var y = launcher.offset().top - obj.outerHeight() - cfg.box_y.toPx(); // define horizontal position
+			obj.css({"left" : x, "top" : y}); // set box position
+			self.open(obj, cfg.fx_d, cfg.box_focus);
+			$(obj).on("click", cfg.box_close, function() { // bind close event
+				self.close(obj, cfg.fx_d, launcher);
+			});
+		}
+	}
+}());
+
+var list_overview = (function() {
+	return {
+		init : function (attachee) {
+			var triggerer = ".overview-tip";
+			var triggered = ".overview";
+			$(attachee).on("click", triggerer, function() {
+				var obj = $(this);
+				if (obj.data("is_sliding") !== "true") {
+					obj.data("is_sliding", "true");
+					obj.toggleClass("active");
+					if ($conf.js_fx) {
+						obj.next(triggered).slideToggle(250, function() {
+							obj.removeData("is_sliding");
+						});
+					} else {
+						obj.next(triggered).toggle();
+						obj.removeData("is_sliding");
+					}
+				}
+			});
+		}
+	}
+}());
+
 var faq_ui = (function() {
 	var cfg = {
 		"fx_d"       : 250,         // Integer  Visual effects duration (milliseconds). Default : 250
@@ -1757,30 +1836,6 @@ var folder_list = (function() {
 					self.open($(this));
 				});
 			}
-		}
-	}
-}());
-
-var list_overview = (function() {
-	return {
-		init : function (attachee) {
-			var triggerer = ".overview-tip";
-			var triggered = ".overview";
-			$(attachee).on("click", triggerer, function() {
-				var obj = $(this);
-				if (obj.data("is_sliding") !== "true") {
-					obj.data("is_sliding", "true");
-					obj.toggleClass("active");
-					if ($conf.js_fx) {
-						obj.next(triggered).slideToggle(250, function() {
-							obj.removeData("is_sliding");
-						});
-					} else {
-						obj.next(triggered).toggle();
-						obj.removeData("is_sliding");
-					}
-				}
-			});
 		}
 	}
 }());
