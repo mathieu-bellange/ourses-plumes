@@ -89,7 +89,7 @@ public class ProfileHelperImpl implements ProfileHelper {
                         Method getter = property.getReadMethod();
                         Object oldValue = getter.invoke(profile);
                         Object newValue = coupleDTO.getValue();
-                        if (!oldValue.equals(newValue)) {
+                        if (oldValue == null || !oldValue.equals(newValue)) {
                             property.getWriteMethod().invoke(profile, newValue);
                             updated = true;
                             if (property.getName().equals("pseudo")) {
