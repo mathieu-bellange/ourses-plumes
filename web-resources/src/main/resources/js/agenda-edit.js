@@ -45,14 +45,6 @@ function remove_date_modal() {
 
 function remove_date_event(obj) {
 	if ($("#date_modal").find("[data-delete]").size() == 1) {
-	////////////////////////////////////////////////////////////////
-	// TODO : AJAX
-	////////////////////////////////////////////////////////////////
-	// - on fail : display error alert
-	// - on success : delete day
-	////////////////////////////////////////////////////////////////
-		alert("DELETE : day = " + new Date($("#date_modal time").attr("datetime")).valueOf());
-	////////////////////////////////////////////////////////////////
 		var c = $("#date_modal").data("caller").parent(".over-block");
 		c.find(".event-list").remove(); // remove event list
 		c.removeClass("has-event"); // remove has event class
@@ -116,29 +108,30 @@ function check_date_event() {
 }
 
 function send_date_event(data) {
-//////////////////////////////////////////////////////////////////
-// 1. save data
-// 2. remove modal
-// 3. display success alert
-// 4. update date table with new values
-//////////////////////////////////////////////////////////////////
-// TODO : AJAX
-//////////////////////////////////////////////////////////////////
-// - on fail : display error alert
-// - on success : register output to db
-//////////////////////////////////////////////////////////////////
-	alert("[" + JSON.stringify(data) + "]"); // DEBUG
-//////////////////////////////////////////////////////////////////
-	remove_date_modal();
-//////////////////////////////////////////////////////////////////
-	$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form valid alert
-//////////////////////////////////////////////////////////////////
-	var c = $("#date_modal").data("caller").parent(".over-block");
-	var l = $(file_pool.date_event_list_tmpl({"events" : data.events}));
-	if (!c.hasClass("has-event")) {c.addClass("has-event")}
-	c.find(".event-list").remove(); // remove event list
-	c.find(".over").after(l); // insert event list
-	c.svg_icons(); // reload svg icons
+	$.ajax({
+		type: "PUT",
+		url: "/rest/agenda/" + data.day,
+		contentType: "application/json; charset=utf-8",
+		data : JSON.stringify(data.events),
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success: function(data, status, jqxhr) {
+			remove_date_modal();
+			$(".main-body").create_alert_box($msg.form_valid, null, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert}); // display form valid alert
+			var c = $("#date_modal").data("caller").parent(".over-block");
+			var l = $(file_pool.date_event_list_tmpl({"events" : data.events}));
+			if (!c.hasClass("has-event")) {c.addClass("has-event")}
+			c.find(".event-list").remove(); // remove event list
+			c.find(".over").after(l); // insert event list
+			c.svg_icons(); // reload svg icons
+		},
+		error: function(jqXHR, status, errorThrown) {
+			remove_date_modal();
+			createAlertBox();
+		},
+		dataType: "json"
+	});
 }
 
 /* ------------------------------------------------------------------ */

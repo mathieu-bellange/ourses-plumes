@@ -28,14 +28,14 @@ public class CalendarEvent {
     @Temporal(TemporalType.DATE)
     private Date eventDate;
     private String title;
-    private String description;
+    private String desc;
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(final String description) {
-        this.description = description;
+    public void setDesc(final String description) {
+        this.desc = description;
     }
 
     public Long getId() {

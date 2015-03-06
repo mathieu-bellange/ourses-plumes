@@ -53,12 +53,12 @@ public class ITAgendaResource {
         URI uri = UriBuilder.fromPath(PATH_PUT_NEW_EVENT).build();
         CalendarEventDTO event = new CalendarEventDTO();
         event.setTitle("Title");
-        event.setDescription("ma desc");
+        event.setDesc("ma desc");
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
                 .header("Content-Type", "application/json").put(ClientResponse.class, Sets.newHashSet(event));
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         CalendarDayDTO day = clientResponse.getEntity(CalendarDayDTO.class);
         assertThat(day.getEvents()).onProperty("title").containsOnly(event.getTitle());
-        assertThat(day.getEvents()).onProperty("description").containsOnly(event.getDescription());
+        assertThat(day.getEvents()).onProperty("description").containsOnly(event.getDesc());
     }
 }

@@ -17,14 +17,14 @@ public class CalendarEventDTO implements Serializable {
     private static final long serialVersionUID = -3748061448697176813L;
 
     private String title;
-    private String description;
+    private String desc;
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(final String description) {
-        this.description = description;
+    public void setDesc(final String description) {
+        this.desc = description;
     }
 
     public String getTitle() {
