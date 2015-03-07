@@ -4,10 +4,10 @@
 
 <urlrewrite>
 
-	<rule enabled="true">
+	<rule enabled="false">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
 		<from>^/connexion$</from>
 		<to type="permanent-redirect">https://%{server-name}/connexion?redirection=%{parameter:redirection}</to>
@@ -16,7 +16,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<from>^/connexion$</from>
 		<to type="permanent-redirect">https://%{server-name}/connexion</to>
 	</rule>
@@ -24,7 +24,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/bug/nouveau$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
@@ -32,7 +32,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/comptes(.*)$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
@@ -40,7 +40,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/parametres/(.*)$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
@@ -48,7 +48,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/articles/nouveau$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
@@ -56,7 +56,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/articles/([0-9]+)$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
@@ -64,7 +64,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
 		<from>^/parametres/compte/renouvellement$</from>
 		<to type="permanent-redirect">https://%{server-name}/parametres/compte/renouvellement?id=%{parameter:id}</to>
