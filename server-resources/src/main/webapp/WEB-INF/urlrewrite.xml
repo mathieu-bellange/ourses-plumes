@@ -18,7 +18,7 @@
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
 		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<from>^/connexion$</from>
-		<to type="permanent-redirect">https://%{server-name}${request-uri}</to>
+		<to type="permanent-redirect">https://%{server-name}/connexion</to>
 	</rule>
 
 	<rule enabled="true">
