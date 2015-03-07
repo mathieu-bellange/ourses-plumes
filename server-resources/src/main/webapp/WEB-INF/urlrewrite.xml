@@ -129,6 +129,21 @@
 		<condition type="request-uri" operator="equal">^/$</condition>
 		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
 	</rule>
+	<rule enabled="true">
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/service/(.*)$</condition>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
+	</rule>
+
+	<rule enabled="true">
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/remerciements$</condition>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
+	</rule>
 
 	<!--Redirections JS-->
 	<rule>
