@@ -16,6 +16,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
+		<condition next="and" type="scheme" operator="equal">^http$</condition>
 		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<from>^/connexion$</from>
 		<to type="permanent-redirect">https://%{server-name}/connexion</to>
