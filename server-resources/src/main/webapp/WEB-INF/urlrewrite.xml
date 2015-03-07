@@ -140,7 +140,7 @@
 	<!--Redirections HTML sécurisé-->
 	<rule>
 		<note>redirection vers la page de connexion</note>
-		<condition type="scheme" operator="equal">^https$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">https</condition>
 		<from>^/connexion$</from>
 		<to>/login.html</to>
 	</rule>
