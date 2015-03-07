@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
         "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 
@@ -10,15 +10,15 @@
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
 		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
 		<from>^/connexion$</from>
-		<to type="redirect">https://%{server-name}:443/connexion?redirection=%{parameter:redirection}</to>
+		<to type="redirect">https://%{server-name}/connexion?redirection=%{parameter:redirection}</to>
 	</rule>
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="x-forwarded-proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<from>^/connexion$</from>
-		<to type="redirect">https://%{server-name}:443/connexion</to>
+		<to type="redirect">https://%{server-name}/connexion</to>
 	</rule>
 
 	<rule enabled="false">
