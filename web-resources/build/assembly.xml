@@ -31,14 +31,8 @@
 			<outputDirectory>/</outputDirectory>
 			<includes>
 				<include>*.html</include>
+				<include>robots.txt</include>
 			</includes>
 		</fileSet>
-<!-- 		<fileSet> -->
-<!-- 			<directory>${project.build.directory}/resources</directory> -->
-<!-- 			<outputDirectory>/WEB-INF</outputDirectory> -->
-<!-- 			<includes> -->
-<!-- 				<include>wro.properties</include> -->
-<!-- 			</includes> -->
-<!-- 		</fileSet> -->
 	</fileSets>
 </assembly>

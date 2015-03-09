@@ -66,6 +66,8 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>wro.xml</include>
+					<include>*.properties</include>
+					<include>robots.txt</include>
 				</includes>
 				<targetPath>${project.build.directory}/resources</targetPath>
 			</resource>
@@ -74,14 +76,6 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>*.html</include>
-				</includes>
-				<targetPath>${project.build.directory}/resources</targetPath>
-			</resource>
-			<resource>
-				<directory>build</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>*.properties</include>
 				</includes>
 				<targetPath>${project.build.directory}/resources</targetPath>
 			</resource>
