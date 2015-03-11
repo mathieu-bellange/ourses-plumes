@@ -198,6 +198,7 @@ function processArticle(article) {
 	$("section").svg_icons(); // reload svg icons for whole section
 	share.init(); // initialize share module
 	$("a[rel='author']").on("click",function(){
+		var pseudo = $(this).html();
 		$.ajax({
 			type : "GET",
 			url : "/rest/profile/" + $(this).attr("data-profile-id"),
@@ -206,7 +207,11 @@ function processArticle(article) {
 				window.location.href = profile.path;
 			},
 			error : function(jqXHR, status, errorThrown) {
-				createAlertBox();
+				if (jqXHR.status == 404) {
+					window.location.href = "/profils/" + pseudo;
+				}else{
+					createAlertBox();
+				}
 			},
 			dataType : "json"
 		});

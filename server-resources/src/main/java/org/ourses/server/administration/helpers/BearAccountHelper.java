@@ -32,8 +32,10 @@ public interface BearAccountHelper {
     BearAccount create(BearAccount account) throws AccountProfileNullException, AccountAuthcInfoNullException,
             AccountAuthzInfoNullException;
 
-	boolean renewPassword(String mail, String id, String password);
+    boolean renewPassword(String mail, String id, String password);
 
-	void resetAccountPassword(String mail);
+    void resetAccountPassword(String mail);
+
+    boolean delete(long id, boolean deleteArticles);
 
 }

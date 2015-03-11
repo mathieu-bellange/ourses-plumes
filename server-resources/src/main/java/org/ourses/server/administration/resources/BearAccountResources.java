@@ -3,7 +3,6 @@ package org.ourses.server.administration.resources;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -35,7 +33,6 @@ import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 
 @Controller
@@ -136,17 +133,20 @@ public class BearAccountResources {
         }
         return response.build();
     }
-    
+
     @PUT
     @Path("/{mail}/renew")
-    public Response renewPassword(@PathParam("mail") final String mail, @QueryParam("id") final String id, final String password){
-    	ResponseBuilder response = null;
-    	if(helper.renewPassword(mail, id, password)){
-    		response = Response.status(Status.NO_CONTENT);
-    	}else{
-    		response = Response.status(Status.FORBIDDEN);
-    	}
-    	return response.build();
+    public Response renewPassword(@PathParam("mail")
+    final String mail, @QueryParam("id")
+    final String id, final String password) {
+        ResponseBuilder response = null;
+        if (helper.renewPassword(mail, id, password)) {
+            response = Response.status(Status.NO_CONTENT);
+        }
+        else {
+            response = Response.status(Status.FORBIDDEN);
+        }
+        return response.build();
     }
 
     @GET
@@ -178,10 +178,9 @@ public class BearAccountResources {
     @DELETE
     @Path("/{id}")
     public Response deleteAccount(@PathParam("id")
-    final long id) {
-        BearAccount bearAccount = new BearAccount();
-        bearAccount.setId(id);
-        bearAccount.delete();
+    final long id, @QueryParam("deleteArticles")
+    final boolean deleteArticles) {
+        helper.delete(id, deleteArticles);
         return Response.status(Status.NO_CONTENT).build();
     }
 

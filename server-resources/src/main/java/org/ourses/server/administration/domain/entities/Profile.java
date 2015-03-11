@@ -37,6 +37,7 @@ public class Profile {
     public static final String PSEUDO = "pseudo";
     public static final String PATH = "path";
     public static final String PSEUDO_BEAUTIFY = "pseudoBeautify";
+    private static final Long DEFAULT_ID_PRODILE = 0l;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "profile_seq_gen")
     @SequenceGenerator(name = "profile_seq_gen", sequenceName = "profile_seq")
@@ -62,7 +63,7 @@ public class Profile {
         return version;
     }
 
-    public void setVersion(Integer version) {
+    public void setVersion(final Integer version) {
         this.version = version;
     }
 
@@ -70,14 +71,14 @@ public class Profile {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
     public Profile() {
     }
 
-    public Profile(Long id, String pseudo, String description) {
+    public Profile(final Long id, final String pseudo, final String description) {
         this.id = id;
         this.pseudo = pseudo;
         this.description = description;
@@ -87,7 +88,7 @@ public class Profile {
         return pseudo;
     }
 
-    public void setPseudo(String pseudo) {
+    public void setPseudo(final String pseudo) {
         this.pseudo = pseudo;
     }
 
@@ -95,7 +96,7 @@ public class Profile {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -103,7 +104,7 @@ public class Profile {
         return avatar;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatar(final Avatar avatar) {
         this.avatar = avatar;
     }
 
@@ -111,7 +112,7 @@ public class Profile {
         return socialLinks;
     }
 
-    public void setSocialLinks(Set<SocialLink> socialLinks) {
+    public void setSocialLinks(final Set<SocialLink> socialLinks) {
         this.socialLinks = socialLinks;
     }
 
@@ -119,11 +120,11 @@ public class Profile {
         return account;
     }
 
-    public void setAccount(BearAccount account) {
+    public void setAccount(final BearAccount account) {
         this.account = account;
     }
 
-    public void setPath(String path) {
+    public void setPath(final String path) {
         this.path = path;
     }
 
@@ -131,7 +132,7 @@ public class Profile {
         return pseudoBeautify;
     }
 
-    public void setPseudoBeautify(String pseudoBeautify) {
+    public void setPseudoBeautify(final String pseudoBeautify) {
         this.pseudoBeautify = pseudoBeautify;
     }
 
@@ -139,25 +140,25 @@ public class Profile {
         return path;
     }
 
-    public static Profile findPublicProfile(Long id) {
+    public static Profile findPublicProfile(final Long id) {
         return Ebean.find(Profile.class).fetch("socialLinks").fetch("avatar", "path").setId(id).findUnique();
     }
 
-    public static Profile findPublicProfile(String pseudoBeautify) {
+    public static Profile findPublicProfile(final String pseudoBeautify) {
         return Ebean.find(Profile.class).fetch("socialLinks").fetch("avatar", "path").where()
                 .eq("pseudoBeautify", pseudoBeautify).findUnique();
     }
 
-    public static int countPseudo(String pseudoBeautify) {
+    public static int countPseudo(final String pseudoBeautify) {
         return Ebean.find(Profile.class).where().eq("pseudoBeautify", pseudoBeautify).findRowCount();
     }
 
-    public static int countPseudo(String pseudoBeautify, Long profileId) {
+    public static int countPseudo(final String pseudoBeautify, final Long profileId) {
         return Ebean.find(Profile.class).where().eq("pseudoBeautify", pseudoBeautify).ne("id", profileId)
                 .findRowCount();
     }
 
-    public void updateProfileProperty(String... propertiesToUpdate) {
+    public void updateProfileProperty(final String... propertiesToUpdate) {
         Ebean.update(this, Sets.newHashSet(propertiesToUpdate));
     }
 
@@ -188,6 +189,50 @@ public class Profile {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    public static Profile findDefaultWriterProfile() {
+        return Ebean.find(Profile.class).where().eq("id", DEFAULT_ID_PRODILE).findUnique();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((pseudo == null) ? 0 : pseudo.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Profile other = (Profile) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        }
+        else if (!id.equals(other.id)) {
+            return false;
+        }
+        if (pseudo == null) {
+            if (other.pseudo != null) {
+                return false;
+            }
+        }
+        else if (!pseudo.equals(other.pseudo)) {
+            return false;
+        }
+        return true;
     }
 
 }

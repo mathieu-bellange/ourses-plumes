@@ -42,7 +42,7 @@ public class ITProfileResources {
         GenericType<List<ProfileDTO>> gt = new GenericType<List<ProfileDTO>>() {
         };
         List<ProfileDTO> profiles = clientResponse.getEntity(gt);
-        assertThat(profiles).onProperty("pseudo").containsOnly("mbellange", "jpetit", "Nadejda", "to_update",
+        assertThat(profiles).onProperty("pseudo").containsOnly("Ourses à plumes", "mbellange", "jpetit", "to_update",
                 "Ourse du Cheshire", "to_delete", "pseudo");
     }
 

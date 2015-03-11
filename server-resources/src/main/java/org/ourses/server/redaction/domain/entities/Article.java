@@ -38,7 +38,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.ExpressionList;
 import com.google.common.collect.Sets;
 
@@ -87,7 +86,7 @@ public class Article implements Serializable {
     public Article() {
     }
 
-    public Article(Long id) {
+    public Article(final Long id) {
         this.id = id;
     }
 
@@ -95,7 +94,7 @@ public class Article implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -103,7 +102,7 @@ public class Article implements Serializable {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -111,7 +110,7 @@ public class Article implements Serializable {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -119,7 +118,7 @@ public class Article implements Serializable {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(final String body) {
         this.body = body;
     }
 
@@ -127,7 +126,7 @@ public class Article implements Serializable {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(final Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -135,7 +134,7 @@ public class Article implements Serializable {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Date updatedDate) {
+    public void setUpdatedDate(final Date updatedDate) {
         this.updatedDate = updatedDate;
     }
 
@@ -143,7 +142,7 @@ public class Article implements Serializable {
         return publishedDate;
     }
 
-    public void setPublishedDate(Date publishedDate) {
+    public void setPublishedDate(final Date publishedDate) {
         this.publishedDate = publishedDate;
     }
 
@@ -151,7 +150,7 @@ public class Article implements Serializable {
         return path;
     }
 
-    public void setPath(String path) {
+    public void setPath(final String path) {
         this.path = path;
     }
 
@@ -159,7 +158,7 @@ public class Article implements Serializable {
         return titleBeautify;
     }
 
-    public void setTitleBeautify(String titleBeautify) {
+    public void setTitleBeautify(final String titleBeautify) {
         this.titleBeautify = titleBeautify;
     }
 
@@ -167,7 +166,7 @@ public class Article implements Serializable {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(final Category category) {
         this.category = category;
     }
 
@@ -175,7 +174,7 @@ public class Article implements Serializable {
         return rubrique;
     }
 
-    public void setRubrique(Rubrique rubrique) {
+    public void setRubrique(final Rubrique rubrique) {
         this.rubrique = rubrique;
     }
 
@@ -183,7 +182,7 @@ public class Article implements Serializable {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(final Set<Tag> tags) {
         this.tags = tags;
     }
 
@@ -191,7 +190,7 @@ public class Article implements Serializable {
         return profile;
     }
 
-    public void setProfile(Profile profile) {
+    public void setProfile(final Profile profile) {
         this.profile = profile;
     }
 
@@ -199,7 +198,7 @@ public class Article implements Serializable {
         return status;
     }
 
-    public void setStatus(ArticleStatus status) {
+    public void setStatus(final ArticleStatus status) {
         this.status = status;
     }
 
@@ -207,11 +206,11 @@ public class Article implements Serializable {
         return coAuthors;
     }
 
-    public void setCoAuthors(Set<Profile> coAuthors) {
+    public void setCoAuthors(final Set<Profile> coAuthors) {
         this.coAuthors = coAuthors;
     }
 
-    public void setOldPath(Set<OldPath> oldPath) {
+    public void setOldPath(final Set<OldPath> oldPath) {
         this.oldPath = oldPath;
     }
 
@@ -224,12 +223,13 @@ public class Article implements Serializable {
         Ebean.saveManyToManyAssociations(this, "coAuthors");
     }
 
-    public static int countArticleByProfileAndStatus(long idProfile, long idArticle, ArticleStatus status) {
+    public static int countArticleByProfileAndStatus(final long idProfile, final long idArticle,
+            final ArticleStatus status) {
         return Ebean.find(Article.class).where().eq("profile.id", idProfile).eq("id", idArticle).eq("status", status)
                 .findRowCount();
     }
 
-    public static int countArticleByStatus(long idArticle, ArticleStatus status) {
+    public static int countArticleByStatus(final long idArticle, final ArticleStatus status) {
         return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
@@ -237,19 +237,26 @@ public class Article implements Serializable {
         return Ebean.find(Article.class).findSet();
     }
 
-    public static Collection<? extends Article> findToCheckAndDraftAndPublished(Long idProfile) {
-        return Ebean.find(Article.class).where().eq("profile.id", idProfile).findSet();
+    public static Collection<? extends Article> findToCheckAndDraftAndPublished(final Long idProfile) {
+        return Ebean.find(Article.class).fetch("profile", "pseudo").fetch("coAuthors", "pseudo").where()
+                .eq("profile.id", idProfile).findSet();
     }
 
-    public static Collection<? extends Article> findProfileArticles(Long profileId) {
-    	Set<Article> set = Sets.newHashSet();
+    public static Collection<? extends Article> findAllCoAuthorsArticle(final Long idProfile) {
+        return Ebean.find(Article.class).fetch("profile", "pseudo").fetch("coAuthors", "pseudo").where()
+                .eq("coAuthors.id", idProfile).findSet();
+    }
+
+    public static Collection<? extends Article> findProfileArticles(final Long profileId) {
+        Set<Article> set = Sets.newHashSet();
         set.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("profile.id", profileId)
                 .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet());
-        set.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("coAuthors.id", profileId).eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet());
+        set.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("coAuthors.id", profileId)
+                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet());
         return set;
     }
 
-    public static Set<Article> findOnline(Collection<String> collection) {
+    public static Set<Article> findOnline(final Collection<String> collection) {
         Set<Article> articles = Sets.newHashSet();
         if (collection != null && !collection.isEmpty()) {
             articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
@@ -270,23 +277,23 @@ public class Article implements Serializable {
         return articles;
     }
 
-    public static Article findArticle(long id) {
-        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags").fetch("coAuthors")
-                .fetch("oldPath").where().eq("id", id).findUnique();
+    public static Article findArticle(final long id) {
+        return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
+                .fetch("coAuthors").fetch("oldPath").where().eq("id", id).findUnique();
     }
 
-    public static Article findArticleByPath(String path) {
+    public static Article findArticleByPath(final String path) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
                 .fetch("coAuthors").where().eq("path", path).le("publishedDate", DateTime.now().toDate()).findUnique();
     }
 
-    public static Article findArticleByOldPath(String path) {
+    public static Article findArticleByOldPath(final String path) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
                 .fetch("coAuthors").where().eq("oldPath.path", path).le("publishedDate", DateTime.now().toDate())
                 .findUnique();
     }
 
-    public static int articleWithSameTitleBeautify(String titleBeautify, Long id) {
+    public static int articleWithSameTitleBeautify(final String titleBeautify, final Long id) {
         ExpressionList<Article> query = Ebean.find(Article.class).where().eq("titleBeautify", titleBeautify);
         if (id != null) {
             query.ne("id", id);
@@ -294,7 +301,7 @@ public class Article implements Serializable {
         return query.findRowCount();
     }
 
-    public static Set<Article> findRelatedArticles(long idArticle) {
+    public static Set<Article> findRelatedArticles(final long idArticle) {
         return Ebean.find(Article.class).fetch("rubrique").fetch("tags").where().ne("id", idArticle)
                 .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).findSet();
     }
@@ -310,8 +317,11 @@ public class Article implements Serializable {
                 .findUnique();
     }
 
-    public void update(String... properties) {
+    public void update(final String... properties) {
         Ebean.update(this, Sets.newHashSet(properties));
+    }
+
+    public void updateCoAuthors() {
         Ebean.saveManyToManyAssociations(this, "coAuthors");
     }
 
@@ -356,7 +366,7 @@ public class Article implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

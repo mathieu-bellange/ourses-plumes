@@ -59,6 +59,6 @@ public class ITAgendaResource {
         assertThat(clientResponse.getStatus()).isEqualTo(200);
         CalendarDayDTO day = clientResponse.getEntity(CalendarDayDTO.class);
         assertThat(day.getEvents()).onProperty("title").containsOnly(event.getTitle());
-        assertThat(day.getEvents()).onProperty("description").containsOnly(event.getDesc());
+        assertThat(day.getEvents()).onProperty("desc").containsOnly(event.getDesc());
     }
 }

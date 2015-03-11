@@ -164,8 +164,8 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setCoAuthors(coAuthors);
         article.setTitleBeautify(beautifyTitle(articleDTO.getTitle()));
         article.setUpdatedDate(new Date());
-        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate",
-                "coAuthors");
+        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate");
+        article.updateCoAuthors();
         // suppression des vieux tags
         for (Tag tag : oldTags) {
             if (tag.isUnreferenceByArticles()) {
@@ -265,7 +265,7 @@ public class ArticleHelperImpl implements ArticleHelper {
     public void delete(final Article article) {
         if (!article.getCoAuthors().isEmpty()) {
             article.getCoAuthors().clear();
-            article.update();
+            article.updateCoAuthors();
         }
         Set<Tag> tagsToDelete = article.getTags();
         article.delete();
