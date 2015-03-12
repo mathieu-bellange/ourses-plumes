@@ -130,32 +130,32 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     }
 
     @Override
-    public boolean delete(final long id, final boolean deleteArticles) {
-        BearAccount bearAccount = BearAccount.find(id);
-        Collection<? extends Article> articles = Article.findToCheckAndDraftAndPublished(bearAccount.getProfile()
-                .getId());
-        Profile profileDefault = new Profile(0l, "Ourses à plumes", "");
-        for (Article article : articles) {
-            if (deleteArticles) {
-                articleHelper.delete(article);
-            }
-            else {
-                Article updateArt = Article.findArticle(article.getId());
-                updateArt.setProfile(profileDefault);
-                updateArt.update("profile");
+    public void delete(final BearAccount bearAccount, final boolean deleteArticles) {
+        if (bearAccount != null) {
+            Collection<? extends Article> articles = Article.findToCheckAndDraftAndPublished(bearAccount.getProfile()
+                    .getId());
+            Profile profileDefault = new Profile(0l, "Ourses à plumes", "");
+            for (Article article : articles) {
+                if (deleteArticles) {
+                    articleHelper.delete(article);
+                }
+                else {
+                    Article updateArt = Article.findArticle(article.getId());
+                    updateArt.setProfile(profileDefault);
+                    updateArt.update("profile");
 
+                }
             }
+            Collection<? extends Article> coAuthorsArticles = Article.findAllCoAuthorsArticle(bearAccount.getProfile()
+                    .getId());
+            for (Article article : coAuthorsArticles) {
+                Set<Profile> coAuthors = article.getCoAuthors();
+                coAuthors.remove(bearAccount.getProfile());
+                Article updateArt = Article.findArticle(article.getId());
+                updateArt.setCoAuthors(coAuthors);
+                article.updateCoAuthors();
+            }
+            bearAccount.delete();
         }
-        Collection<? extends Article> coAuthorsArticles = Article.findAllCoAuthorsArticle(bearAccount.getProfile()
-                .getId());
-        for (Article article : coAuthorsArticles) {
-            Set<Profile> coAuthors = article.getCoAuthors();
-            coAuthors.remove(bearAccount.getProfile());
-            Article updateArt = Article.findArticle(article.getId());
-            updateArt.setCoAuthors(coAuthors);
-            article.updateCoAuthors();
-        }
-        bearAccount.delete();
-        return true;
     }
 }

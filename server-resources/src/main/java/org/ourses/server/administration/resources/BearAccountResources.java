@@ -28,6 +28,7 @@ import org.ourses.server.administration.domain.exception.AccountProfileNullExcep
 import org.ourses.server.administration.helpers.BearAccountHelper;
 import org.ourses.server.newsletter.helper.MailHelper;
 import org.ourses.server.security.helpers.SecurityHelper;
+import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -178,10 +179,22 @@ public class BearAccountResources {
     @DELETE
     @Path("/{id}")
     public Response deleteAccount(@PathParam("id")
-    final long id, @QueryParam("deleteArticles")
-    final boolean deleteArticles) {
-        helper.delete(id, deleteArticles);
-        return Response.status(Status.NO_CONTENT).build();
+    final Long id, @QueryParam("deleteArticles")
+    final boolean deleteArticles, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
+        BearAccount bearAccountToDelete = BearAccount.find(id);
+        BearAccount requestor = BearAccount.findAuthcUserProperties(securityHelper.findByToken(token).getLogin());
+        ResponseBuilder responseBuilder = null;
+        if (requestor != null
+                && (RolesUtil.ADMINISTRATRICE.equals(requestor.getAuthzInfo().getMainRole()) || id.equals(requestor
+                        .getId()))) {
+            helper.delete(bearAccountToDelete, deleteArticles);
+            responseBuilder = Response.status(Status.NO_CONTENT);
+        }
+        else {
+            responseBuilder = Response.status(Status.FORBIDDEN);
+        }
+        return responseBuilder.build();
     }
 
     @GET

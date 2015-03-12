@@ -36,6 +36,6 @@ public interface BearAccountHelper {
 
     void resetAccountPassword(String mail);
 
-    boolean delete(long id, boolean deleteArticles);
+    void delete(BearAccount bearAccount, boolean deleteArticles);
 
 }
