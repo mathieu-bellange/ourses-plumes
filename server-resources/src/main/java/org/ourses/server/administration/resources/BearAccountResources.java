@@ -185,7 +185,8 @@ public class BearAccountResources {
         BearAccount bearAccountToDelete = BearAccount.find(id);
         BearAccount requestor = BearAccount.findAuthcUserProperties(securityHelper.findByToken(token).getLogin());
         ResponseBuilder responseBuilder = null;
-        if (requestor != null
+        if (id != 0l
+                && requestor != null
                 && (RolesUtil.ADMINISTRATRICE.equals(requestor.getAuthzInfo().getMainRole()) || id.equals(requestor
                         .getId()))) {
             helper.delete(bearAccountToDelete, deleteArticles);
