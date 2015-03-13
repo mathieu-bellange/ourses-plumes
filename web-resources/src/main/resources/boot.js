@@ -201,6 +201,7 @@ $msg = {
 	"confirm_delete"        : {
 		"avatar"              : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"account"             : "&Ecirc;tes-vous certaine de vouloir supprimer ce compte&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"my_account"          : "&Ecirc;tes-vous certaine de vouloir supprimer votre compte&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"date_event"          : "&Ecirc;tes-vous certaine de vouloir supprimer cet &eacute;v&egrave;nement&nbsp;?<br>Cette action est irr&eacute;versible."

@@ -155,9 +155,53 @@ function submitAccountAJAX() {
 	});
 }
 
+function deleteEvent(id) {
+	//--------------------------------------------------------------------------------//
+	//                                                                                //
+	// TODO tenir compte du choix de l'utilisateur pour supprimer ou non ses articles //
+	//                       par défault deleteArticles=false                         //
+	//                                                                                //
+	//--------------------------------------------------------------------------------//
+	$.ajax({
+		type : "DELETE",
+		url : "/rest/account/" + id + "?deleteArticles=false",
+		contentType : "application/json; charset=utf-8",
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success : function(data, status, jqxhr) {
+			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : $time.duration.alert});
+			clearStorage();
+			UserSession.delete();
+			location.href = $nav.home.url;
+		},
+		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			createAlertBox();
+		}
+	});
+};
+
 /* ------------------------------------------------------------------ */
 /* # Live Events */
 /* ------------------------------------------------------------------ */
+
+$("html").on("click", "a#delete_account", function() {
+	var id = UserSession.getAccountId();
+	if ($conf.confirm_delete.account) {
+		// Confirm Delete Account
+		var modal_options = {
+			"text" : $msg.confirm_delete.my_account,
+			"class" : "panel radius",
+			"on_confirm" : function() {
+				deleteEvent(id) // delete account
+			}
+		};
+		$("#articles").create_confirmation_modal(modal_options);
+	} else {
+		deleteEvent(id) // delete account
+	}
+});
 
 $("html").on("submit", "#updateBearAccount", function() {
 	if (isFormValid()) {

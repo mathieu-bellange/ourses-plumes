@@ -103,9 +103,15 @@ function updateEvent(id) {
 };
 
 function deleteEvent(id) {
+	//--------------------------------------------------------------------------------//
+	//                                                                                //
+	// TODO tenir compte du choix de l'utilisateur pour supprimer ou non ses articles //
+	//                       par défault deleteArticles=false                         //
+	//                                                                                //
+	//--------------------------------------------------------------------------------//
 	$.ajax({
 		type : "DELETE",
-		url : "/rest/account/" + id,
+		url : "/rest/account/" + id + "?deleteArticles=false",
 		contentType : "application/json; charset=utf-8",
 		beforeSend: function(request) {
 			header_authentication(request);
