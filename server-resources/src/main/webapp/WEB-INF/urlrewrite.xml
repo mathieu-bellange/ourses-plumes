@@ -4,11 +4,11 @@
 
 <urlrewrite>
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<from>^/connexion$</from>
 		<to type="permanent-redirect">https://%{server-name}/connexion?redirection=%{parameter:redirection}</to>
 	</rule>
@@ -16,8 +16,7 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^http$</condition>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<from>^/connexion$</from>
 		<to type="permanent-redirect">https://%{server-name}/connexion</to>
 	</rule>
@@ -25,110 +24,125 @@
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/bug/nouveau$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/comptes(.*)$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/parametres/(.*)$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/articles/nouveau$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
 
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
 		<condition type="request-uri" operator="equal">^/articles/([0-9]+)$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<to type="permanent-redirect">https://%{server-name}%{request-uri}</to>
 	</rule>
 	
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">http</condition>
-		<condition type="parameter" name="redirection" operator="equal">^/(.*)$</condition>
+		<condition type="parameter" name="id" operator="equal">^/(.*)$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^http$</condition>
 		<from>^/parametres/compte/renouvellement$</from>
 		<to type="permanent-redirect">https://%{server-name}/parametres/compte/renouvellement?id=%{parameter:id}</to>
 	</rule>
 
 	<!-- Redirection http -->
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTP</name>
 		<note>Automatically redirect non secure requests to non secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
 		<condition type="request-uri" operator="equal">^/faq$</condition>
-		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
 
 	</rule>
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTP</name>
 		<note>Automatically redirect non secure requests to non secure protocol.</note>
-		<condition type="scheme" operator="equal">^https$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
 		<condition type="parameter" name="criteria" operator="equal">^(.*)$</condition>
 		<from>^/articles$</from>
-		<to type="redirect">http://%{server-name}:8080/articles?criteria=%{parameter:criteria}</to>
+		<to type="permanent-redirect">http://%{server-name}/articles?criteria=%{parameter:criteria}</to>
 	</rule>
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTP</name>
 		<note>Automatically redirect non secure requests to non secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
 		<condition type="request-uri" operator="equal">^/articles$</condition>
-		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
 	</rule>
 
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTP</name>
 		<note>Automatically redirect non secure requests to non secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^https$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/articles/(.*)/([0-9]*)/(.*)$</condition>
-		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/articles/(.*)/([0-9]*)/(.*)$</condition>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
 	</rule>
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTP</name>
 		<note>Automatically redirect non secure requests to non secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^https$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/profils/(.*)$</condition>
-		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/profils/(.*)$</condition>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
 	</rule>
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTP</name>
 		<note>Automatically redirect non secure requests to non secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^https$</condition>
-		<condition next="or" type="request-uri" operator="equal">^/agenda$</condition>
-		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/agenda$</condition>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
 	</rule>
 
-	<rule enabled="false">
+	<rule enabled="true">
 		<name>Force HTTP</name>
 		<note>Automatically redirect non secure requests to non secure protocol.</note>
-		<condition next="and" type="scheme" operator="equal">^https$</condition>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
 		<condition type="request-uri" operator="equal">^/$</condition>
-		<to type="redirect">http://%{server-name}:8080%{request-uri}</to>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
+	</rule>
+	<rule enabled="true">
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/service/(.*)$</condition>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
+	</rule>
+
+	<rule enabled="true">
+		<name>Force HTTP</name>
+		<note>Automatically redirect non secure requests to non secure protocol.</note>
+		<condition type="header" name="X-Forwarded-Proto" operator="equal">^https$</condition>
+		<condition type="request-uri" operator="equal">^/remerciements$</condition>
+		<to type="permanent-redirect">http://%{server-name}%{request-uri}</to>
 	</rule>
 
 	<!--Redirections JS-->
@@ -141,7 +155,6 @@
 	<!--Redirections HTML sécurisé-->
 	<rule>
 		<note>redirection vers la page de connexion</note>
-		<condition type="header" name="X-Forwarded-Proto" operator="equal">https</condition>
 		<from>^/connexion$</from>
 		<to>/login.html</to>
 	</rule>
