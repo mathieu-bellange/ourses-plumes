@@ -32,8 +32,18 @@ public class FreqAskedQuestionResources {
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
         cacheControl.setPrivate(false);
-        return Response.status(Status.OK).cacheControl(cacheControl).entity(freqAskedQuestionHelper.findAllFaq())
+        return Response.status(Status.OK).entity(freqAskedQuestionHelper.findAllFaq()).cacheControl(cacheControl)
                 .build();
+    }
+
+    @GET
+    @Path("/noCache")
+    public Response getFaqAdmin() {
+        // no-cache
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return Response.status(Status.OK).entity(freqAskedQuestionHelper.findAllFaq()).cacheControl(noCache).build();
     }
 
     @PUT

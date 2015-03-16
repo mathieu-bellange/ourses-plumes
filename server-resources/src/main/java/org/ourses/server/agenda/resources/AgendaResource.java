@@ -36,6 +36,15 @@ public class AgendaResource {
         return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(cacheControl).build();
     }
 
+    @GET
+    @Path("/noCache")
+    public Response getCalendarDaysAdmin() {
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setNoCache(true);
+        cacheControl.setPrivate(true);
+        return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(cacheControl).build();
+    }
+
     @PUT
     @Path("/{calendarDay}")
     public Response createEventOnOneDay(@PathParam("calendarDay")

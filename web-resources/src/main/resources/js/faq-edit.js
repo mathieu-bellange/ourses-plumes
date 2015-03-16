@@ -76,7 +76,7 @@ function check_faq() {
 function displayFAQ() {
 	$.ajax({
 		type : "GET",
-		url : "/rest/faq",
+		url : "/rest/faq/noCache",
 		contentType : "application/json; charset=utf-8",
 		success : function(faq, status, jqxhr) {
 			$(".main-body").append(file_pool.faq_list_tmpl(faq)).after(lb(1)); // process faq

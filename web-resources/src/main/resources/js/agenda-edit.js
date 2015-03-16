@@ -141,7 +141,7 @@ function send_date_event(data) {
 function getCalendarDays() {
 	$.ajax({
 		type: "GET",
-		url: "/rest/agenda",
+		url: "/rest/agenda/noCache",
 		contentType: "application/json; charset=utf-8",
 		beforeSend: function(request) {
 			header_authentication(request);
