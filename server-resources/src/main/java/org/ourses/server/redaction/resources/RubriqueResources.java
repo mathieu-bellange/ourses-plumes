@@ -30,6 +30,7 @@ public class RubriqueResources {
         // cache = 30 days
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(2592000);
+        cacheControl.setPrivate(true);
         return Response.ok(rubriquesDTO).cacheControl(cacheControl).build();
     }
 }

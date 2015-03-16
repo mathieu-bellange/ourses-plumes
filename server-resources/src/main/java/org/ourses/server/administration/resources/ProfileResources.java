@@ -62,13 +62,14 @@ public class ProfileResources {
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
+        cacheControl.setPrivate(false);
         return Response.ok().cacheControl(cacheControl).entity(profilesDTO).build();
     }
 
     @GET
     @Path("/{pseudo}/authz")
     public Response getProfileRole(@PathParam("pseudo")
-    String pseudoBeautify) {
+    final String pseudoBeautify) {
         String role = profileHelper.findProfileRole(pseudoBeautify);
         ResponseBuilder builder;
         if (role == null) {
@@ -80,13 +81,14 @@ public class ProfileResources {
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
+        cacheControl.setPrivate(false);
         return builder.cacheControl(cacheControl).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getProfile(@PathParam("id")
-    String id) {
+    final String id) {
 
         Profile profile = profileHelper.findPublicProfile(id);
         ResponseBuilder builder;
@@ -96,15 +98,17 @@ public class ProfileResources {
         else {
             builder = Response.ok().entity(profile.toProfileDTO());
         }
-        // no cache
-        return builder.build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return builder.cacheControl(noCache).build();
     }
 
     @PUT
     @Path("/{id}")
     public Response updateProfile(@PathParam("id")
-    Long id, CoupleDTO coupleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final Long id, final CoupleDTO coupleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
 
         BearAccount bearAccount = BearAccount.findAdminAccountByProfileId(id);
         ResponseBuilder builder;
@@ -150,8 +154,8 @@ public class ProfileResources {
     @DELETE
     @Path("/{id}/avatar")
     public Response deleteAvatar(@PathParam("id")
-    Long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final Long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         // vérification que le compte a récupéré est bien réalisé par l'utilisateur authentifié
         BearAccount bearAccount = BearAccount.findAdminAccountByProfileId(id);
         ResponseBuilder builder;
@@ -169,7 +173,7 @@ public class ProfileResources {
     @GET
     @Path("/{id}/articles")
     public Response userArticles(@PathParam("id")
-    Long id) {
+    final Long id) {
         Collection<? extends Article> articles = articleHelper.findProfileArticles(id);
         // passage en DTO
         Set<ArticleDTO> articlesDto = Sets.newHashSet();
@@ -179,6 +183,7 @@ public class ProfileResources {
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
+        cacheControl.setPrivate(false);
         return Response.ok().entity(articlesDto).cacheControl(cacheControl).build();
     }
 }

@@ -74,8 +74,10 @@ public class ArticleResources {
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
-        // no-cache
-        return responseBuilder.build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return responseBuilder.cacheControl(noCache).build();
     }
 
     @GET
@@ -94,6 +96,7 @@ public class ArticleResources {
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
+        cacheControl.setPrivate(false);
         responseBuilder = Response.status(Status.OK).cacheControl(cacheControl).entity(relatedArticlesDTO);
         return responseBuilder.build();
     }
@@ -112,9 +115,13 @@ public class ArticleResources {
             // cache = 1 year
             CacheControl cacheControl = new CacheControl();
             cacheControl.setMaxAge(31536000);
+            cacheControl.setPrivate(false);
             responseBuilder.cacheControl(cacheControl).tag(article.getPath());
         }
         else {
+            CacheControl noCache = new CacheControl();
+            noCache.setNoCache(true);
+            noCache.setPrivate(false);
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
@@ -133,8 +140,10 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        // no cache
-        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
 
@@ -157,8 +166,10 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        // no-cache
-        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
 
@@ -172,8 +183,10 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        // no cache
-        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(false);
+        responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
 
@@ -183,13 +196,15 @@ public class ArticleResources {
         Article lastWebReview = articleHelper.findLastWebReview();
         ResponseBuilder response = null;
         if (lastWebReview != null) {
-            // no cache
             response = Response.status(Status.OK).entity(lastWebReview.toArticleDTO());
         }
         else {
             response = Response.status(Status.NOT_FOUND);
         }
-        return response.build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(false);
+        return response.cacheControl(noCache).build();
     }
 
     @PUT

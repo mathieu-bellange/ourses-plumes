@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -172,8 +173,10 @@ public class BearAccountResources {
                 builder = Response.status(Status.UNAUTHORIZED);
             }
         }
-        // no cache
-        return builder.build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return builder.cacheControl(noCache).build();
     }
 
     @DELETE
@@ -211,7 +214,9 @@ public class BearAccountResources {
                         return bearAccount.toBearAccountDTO();
                     }
                 });
-        // no cache
-        return Response.ok().entity(listBearAccountDTO).build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return Response.ok().entity(listBearAccountDTO).cacheControl(noCache).build();
     }
 }

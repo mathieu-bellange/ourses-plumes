@@ -31,7 +31,7 @@ public class AvatarResources {
     @Path("/{id}")
     @Produces("image/jpeg")
     public Response getAvatar(@PathParam("id")
-    Long id) {
+    final Long id) {
 
         byte[] avatar = null;
         try {
@@ -50,6 +50,7 @@ public class AvatarResources {
         // cache = 1 year
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(31536000);
+        cacheControl.setPrivate(false);
         return builder.cacheControl(cacheControl).build();
     }
 
@@ -57,7 +58,7 @@ public class AvatarResources {
     @Path("/create")
     @Consumes("image/*")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createAvatar(File img) {
+    public Response createAvatar(final File img) {
         ResponseBuilder builder;
         if (avatarHelper.isOk(img)) {
             Avatar avatar;

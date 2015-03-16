@@ -32,6 +32,7 @@ public class AgendaResource {
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
+        cacheControl.setPrivate(false);
         return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(cacheControl).build();
     }
 
