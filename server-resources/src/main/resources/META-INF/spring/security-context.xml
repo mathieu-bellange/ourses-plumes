@@ -52,6 +52,7 @@
 				/rest/articles/* = oursesAuthc, oursesAuthz[writer]
 				/rest/articles/*/* = anon
 				
+				/rest/folder = oursesAuthc, oursesAuthz[writer]
 				
 				/rest/github = oursesAuthc, oursesAuthz[admin]
 				

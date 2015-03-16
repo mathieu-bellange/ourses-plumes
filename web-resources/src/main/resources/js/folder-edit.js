@@ -49,10 +49,24 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.folder_edit.title);
 			/* Insert template */
-			folder_list.build($(".main-body"), file_pool.folder_edit_list_tmpl(db_folder), db_article, db_rubrique); // process build edit
-			setup_folder("#folder_list_edit"); // setup folder list edit
-			/* Initialize component */
-			folder_list.init(); // init component
+			$.ajax({
+				type : "GET",
+				url : "/rest/folder",
+				contentType : "application/json; charset=utf-8",
+				beforeSend: function(request) {
+					header_authentication(request);
+				},
+				success : function(folders, status, jqxhr) {
+					folder_list.build($(".main-body"), file_pool.folder_edit_list_tmpl(folders), db_article, db_rubrique); // process build edit
+					setup_folder("#folder_list_edit"); // setup folder list edit
+					/* Initialize component */
+					folder_list.init(); // init component
+				},
+				error : function(jqXHR, status, errorThrown) {
+					createAlertBox();
+				},
+				dataType : "json"
+			});
 		}
 	}
 }());

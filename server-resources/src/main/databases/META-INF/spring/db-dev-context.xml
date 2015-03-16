@@ -14,6 +14,7 @@
 		<jdbc:script location="classpath:META-INF/sql/insert_redaction_dev.sql" encoding="UTF-8" />
 		<jdbc:script location="classpath:META-INF/sql/insert_agenda_dev.sql" encoding="UTF-8" />
 		<jdbc:script location="classpath:META-INF/sql/insert_faq_dev.sql" encoding="UTF-8" />
+		<jdbc:script location="classpath:META-INF/sql/insert_folder_dev.sql" encoding="UTF-8" />
 	</jdbc:embedded-database>
 
 	<!-- Transaction Manager -->

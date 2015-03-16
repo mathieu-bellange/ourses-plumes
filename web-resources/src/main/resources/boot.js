@@ -226,7 +226,7 @@ $nav = {
 	"article_add"           : {"url" : "/articles/nouveau",        "title" : "Écrire un article"},
 	"article_edit"          : {"url" : null,                       "title" : "Modifier un article"},
 	"folder_view"           : {"url" : null,                       "title" : "Dossiers"},
-	"folder_edit"           : {"url" : null,                       "title" : "Modifier les dossiers"},
+	"folder_edit"           : {"url" : "/parametres/dossiers",     "title" : "Modifier les dossiers"},
 	"bug_report"            : {"url" : "/bug/nouveau",             "title" : "Signaler un bug"},
 	"password_reset"        : {"url" : "/parametres/motdepasse",   "title" : "Réinitialiser son mot de passe"},
 	"contact"               : {"url" : null,                       "title" : "Nous contacter"},

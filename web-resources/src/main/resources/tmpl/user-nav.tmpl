@@ -9,6 +9,7 @@
 							<li class="hide-for-small"><span id="user_avatar" class="picture medium radius" data-image="{{= UserSession.getUserAvatar() }}">Image</span></li>
 							{{? OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter() }}
 								<li><a href="{{= $nav.draft_article_list.url }}" data-current>Mes articles</a></li>
+								<li><a href="{{= $nav.folder_edit.url }}" data-current>{{= $nav.folder_edit.title }}</a></li>
 							{{?}}
 							{{? isComputer() }}
 								<li><a href="{{= $nav.profile_edit.url }}" data-current>Mon profil</a></li>
