@@ -15,6 +15,7 @@ import org.ourses.server.redaction.domain.dto.FolderDTO;
 import org.springframework.beans.BeanUtils;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.ExpressionList;
 
 @Entity
 public class Folder implements Serializable {
@@ -66,6 +67,14 @@ public class Folder implements Serializable {
 
     public static Set<Folder> findAllFolder() {
         return Ebean.find(Folder.class).findSet();
+    }
+
+    public static int folderWithSameHash(final String hash, final Long id) {
+        ExpressionList<Folder> query = Ebean.find(Folder.class).where().eq("hash", hash);
+        if (id != null) {
+            query.ne("id", id);
+        }
+        return query.findRowCount();
     }
 
     public FolderDTO toFolderDTO() {

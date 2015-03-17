@@ -7,4 +7,6 @@ import org.ourses.server.redaction.domain.dto.FolderDTO;
 public interface FolderHelper {
 
     Collection<FolderDTO> findAllFolder();
+
+    boolean isNameAlreadyTaken(String name, Long id);
 }
