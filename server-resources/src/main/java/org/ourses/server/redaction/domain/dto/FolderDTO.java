@@ -3,6 +3,8 @@ package org.ourses.server.redaction.domain.dto;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.ourses.server.redaction.domain.entities.Folder;
+import org.springframework.beans.BeanUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FolderDTO {
@@ -44,8 +46,15 @@ public class FolderDTO {
         this.hash = hash;
     }
 
+    public Folder toFolder() {
+        Folder folder = new Folder();
+        BeanUtils.copyProperties(this, folder);
+        return folder;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
+
 }

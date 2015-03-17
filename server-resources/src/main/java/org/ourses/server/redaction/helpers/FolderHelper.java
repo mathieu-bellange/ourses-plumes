@@ -9,4 +9,6 @@ public interface FolderHelper {
     Collection<FolderDTO> findAllFolder();
 
     boolean isNameAlreadyTaken(String name, Long id);
+
+    FolderDTO createFolder(FolderDTO folderDTO);
 }

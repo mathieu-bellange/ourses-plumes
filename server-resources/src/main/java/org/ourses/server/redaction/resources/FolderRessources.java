@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -50,5 +51,19 @@ public class FolderRessources {
         cacheControl.setNoCache(true);
         cacheControl.setPrivate(true);
         return Response.status(Status.OK).entity(folders).cacheControl(cacheControl).build();
+    }
+
+    @PUT
+    public Response createFolder(final FolderDTO folderDTO) {
+        ResponseBuilder responseBuilder = null;
+        if (folderDTO.getName().isEmpty() || folderHelper.isNameAlreadyTaken(folderDTO.getName(), null)) {
+            responseBuilder = Response.status(Status.FORBIDDEN);
+        }
+        else {
+            FolderDTO newFolderDTO = folderHelper.createFolder(folderDTO);
+            responseBuilder = Response.status(Status.OK).entity(newFolderDTO);
+        }
+        return responseBuilder.build();
+
     }
 }

@@ -44,4 +44,12 @@ public class FolderHelperImpl implements FolderHelper {
         return path.toString();
 
     }
+
+    @Override
+    public FolderDTO createFolder(final FolderDTO folderDTO) {
+        Folder newFolder = folderDTO.toFolder();
+        newFolder.setHash(beautifyName(newFolder.getName()));
+        newFolder.save();
+        return newFolder.toFolderDTO();
+    }
 }

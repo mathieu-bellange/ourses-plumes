@@ -77,6 +77,10 @@ public class Folder implements Serializable {
         return query.findRowCount();
     }
 
+    public void save() {
+        Ebean.save(this);
+    }
+
     public FolderDTO toFolderDTO() {
         FolderDTO folderDTO = new FolderDTO();
         BeanUtils.copyProperties(this, folderDTO);
