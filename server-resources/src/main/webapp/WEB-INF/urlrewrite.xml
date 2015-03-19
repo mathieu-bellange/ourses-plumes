@@ -4,6 +4,14 @@
 
 <urlrewrite>
 
+<rule enabled="true">
+		<name>Redirect heroku app</name>
+		<note>Redirect heroku app to lesoursesaplumes.com</note>
+		<condition type="server-name" operator="equal">^ourses-plumes.herokuapp.com$</condition>
+		<from>^(.*)$</from>
+		<to type="permanent-redirect">http://www.lesoursesaplumes.com$1</to>
+	</rule>
+
 	<rule enabled="true">
 		<name>Force HTTPS example</name>
 		<note>Automatically redirects adminstration requests to a secure protocol.</note>
