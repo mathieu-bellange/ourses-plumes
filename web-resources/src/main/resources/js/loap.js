@@ -2303,7 +2303,7 @@ function remove_pref(prefs, key) {
 /* # Compatibility */
 /* ------------------------------------------------------------------ */
 
-Window.prototype.checkCompatibility = function() {
+window.checkCompatibility = function() {
 	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
 }
 
