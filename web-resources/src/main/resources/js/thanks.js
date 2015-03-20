@@ -59,7 +59,7 @@ $(document).on("click", ".thanks-list .picture[tabindex]", function() {
 		var w = $(this).width(), h = $(this).height();
 		$("body").append(clone);
 		clone
-			.html($(this).parent().text())
+			.html($(this).parent().html())
 			.attr("data-clone", true)
 			.css({
 				"position" : "absolute",
