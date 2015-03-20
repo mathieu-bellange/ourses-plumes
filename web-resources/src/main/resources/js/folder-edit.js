@@ -232,75 +232,104 @@ function check_folder(o) {
 	a.check_validity();
 	b.check_validity();
 	// 2. Check form validity
-	if (a.add(b).is_valid()) { // if all fields are valid
-		o.removeClass("new"); // remove class new
-		unleash_folder(o); // release folder from abiding
-		folder_list.close(o); // close folder
-		var data = { // define data
-			"id" : id,
-			"hash" : encode_html_id(a.val()),
-			"name" : encode_html(a.val()),
-			"desc" : encode_html(b.val(), true),
-			"list" : {} // NOTE : could be undefined
-		};
-		o.find(".list li").each(function() { // build folder article list from DOM
-			data.list[$(this).attr("data-num")] = parseInt($(this).attr("data-id"));
-			l++;
-		});
-		if (is_def(typeof data.list) && l > 0) {
-			data.list = JSON.stringify(data.list) // fix folder article list to string
-		} else {
-			if (o.find("div.list.info").length === 0) {
-				o.find(".desc").after(file_pool.folder_edit_article_list_empty_tmpl()) // append empty list template
-				o.find("div.list.info").svg_icons(); // reload svg icons
-			}
-		}
-		send_folder(data, id); // send data to db
-	} else { // any field is invalid
-		var alert_box_id = "validate-folder-" + id;
-		$(document).clear_alert_box(alert_box_id);
-		o.create_alert_box($msg.form_invalid, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"}); // display form invalid alert
+	var pathName = "/rest/folder/check/name";
+	if (id !== null){
+		pathName = pathName + "?id=" + id;
 	}
+	$.ajax({
+		type : "POST",
+		url : pathName,
+		contentType : "application/json; charset=utf-8",
+		data : a.val(),
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success : function(folders, status, jqxhr) {
+			if (a.add(b).is_valid()) { // if all fields are valid
+				o.removeClass("new"); // remove class new
+				unleash_folder(o); // release folder from abiding
+				folder_list.close(o); // close folder
+				var data = { // define data
+						"name" : a.val(),
+						"desc" : encode_html(b.val(), true),
+				};
+				send_folder(data,id,o); // send data to db
+			} else { // any field is invalid
+				var alert_box_id = "validate-folder-" + id;
+				$(document).clear_alert_box(alert_box_id);
+				o.create_alert_box($msg.form_invalid, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"}); // display form invalid alert
+			}
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 403){
+				var alert_box_id = "validate-folder-" + id;
+				$(document).clear_alert_box(alert_box_id);
+				o.create_alert_box($msg.form_invalid, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"});
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
 	//console.log("check : " + id); // DEBUG
 }
 
-function send_folder(data, id) {
-//////////////////////////////////////////////////////////////////
-// TODO : AJAX
-//////////////////////////////////////////////////////////////////
-// - on fail : display error alert
-// - on success : register output to db
-//////////////////////////////////////////////////////////////////
-	alert("output : " + JSON.stringify(data));
-//////////////////////////////////////////////////////////////////
-	for (n in db_folder) {if (db_folder[n].id == id) {db_folder[n] = data}} // TEST only
-//////////////////////////////////////////////////////////////////
-	var alert_box_id = "validate-folder-" + id;
-	$(".folder-list.edit").clear_alert_box(alert_box_id);
-	$(".folder-list.edit").create_alert_box($msg.form_valid, alert_box_id, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert, "insert" : "before"}); // display form valid alert
-	//console.log("send => " + data); // DEBUG
+function send_folder(data,id,o) {
+	var pathPUT = "/rest/folder";
+	if (id !== null){
+		pathPUT = pathPUT + "/" + id;
+	}
+	$.ajax({
+		type : "PUT",
+		url : pathPUT,
+		contentType : "application/json; charset=utf-8",
+		data : JSON.stringify(data),
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success : function(folder, status, jqxhr) {
+			o.attr("data-id",folder.id);
+			o.attr("id",folder.hash + "-edit");
+			//TODO articles
+//			o.find(".list li").each(function() { // build folder article list from DOM
+//				folder.list[$(this).attr("data-num")] = parseInt($(this).attr("data-id"));
+//				l++;
+//			});
+//			if (is_def(typeof folder.list) && l > 0) {
+//				folder.list = JSON.stringify(folder.list) // fix folder article list to string
+//			} else {
+//				if (o.find("div.list.info").length === 0) {
+//					o.find(".desc").after(file_pool.folder_edit_article_list_empty_tmpl()) // append empty list template
+//					o.find("div.list.info").svg_icons(); // reload svg icons
+//				}
+//			}
+			var alert_box_id = "validate-folder-" + id;
+			$(".folder-list.edit").clear_alert_box(alert_box_id);
+			$(".folder-list.edit").create_alert_box($msg.form_valid, alert_box_id, {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert, "insert" : "before"}); // display form valid alert
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 403){
+				var alert_box_id = "validate-folder-" + id;
+				$(document).clear_alert_box(alert_box_id);
+				o.create_alert_box($msg.form_invalid, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"});
+			}else{
+				createAlertBox();
+			}
+		},
+		dataType : "json"
+	});
 }
 
 function add_folder(data) {
-	//////////////////////////////////////////////////////////////
-	// TODO : AJAX
-	//////////////////////////////////////////////////////////////
-	// - retrieve unset folder id
-	// - save new id in db (i.e. prevent id conflict)
-	//////////////////////////////////////////////////////////////
-	var id = get_unset_value(db_folder, "id").shift(); // retrieve unset folder id
-	var data = data || {"id" : id, "hash" : id, "name" : "", "desc" : ""};
-	db_folder.push({"id" : id}); // save id in db (at least ; could all pattern filled with null or "" except id)
-	//////////////////////////////////////////////////////////////
+	var data = data || {"id" : new Date().getTime(), "hash" : new Date().getTime(), "name" : "", "desc" : ""};
 	var tmpl = $(file_pool.folder_edit_list_item_tmpl(data));
 	$(".folder-list.edit").append(tmpl); // process template
 	$(tmpl).addClass("abide new"); // add class abide and new
 	$(tmpl).svg_icons(); // reload icons
 	$(tmpl).find("textarea").autosize(autosize_cfg); // init autosize
 	$(tmpl).find("textarea").add_confirmation_bar(); // add confirmation bar
+	$(tmpl).attr("data-id","");
 	folder_list.open(tmpl, true); // open folder and close others
-	//////////////////////////////////////////////////////////////
-	//console.log("add new folder"); // DEBUG
 }
 
 function setup_folder(sel) {
