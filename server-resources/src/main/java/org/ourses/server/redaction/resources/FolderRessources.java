@@ -38,7 +38,7 @@ public class FolderRessources {
     final Long id) {
         ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
         if (name.isEmpty() || folderHelper.isNameAlreadyTaken(name, id)) {
-            responseBuilder = Response.status(Status.FORBIDDEN);
+            responseBuilder = Response.status(Status.FORBIDDEN).entity("Ce nom de dossier est déjà utilisé");
         }
         return responseBuilder.build();
     }
@@ -57,7 +57,7 @@ public class FolderRessources {
     public Response createFolder(final FolderDTO folderDTO) {
         ResponseBuilder responseBuilder = null;
         if (folderDTO.getName().isEmpty() || folderHelper.isNameAlreadyTaken(folderDTO.getName(), null)) {
-            responseBuilder = Response.status(Status.FORBIDDEN);
+            responseBuilder = Response.status(Status.FORBIDDEN).entity("Ce nom de dossier est déjà utilisé");
         }
         else {
             FolderDTO newFolderDTO = folderHelper.createFolder(folderDTO);

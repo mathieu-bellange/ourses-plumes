@@ -264,7 +264,7 @@ function check_folder(o) {
 			if (jqXHR.status == 403){
 				var alert_box_id = "validate-folder-" + id;
 				$(document).clear_alert_box(alert_box_id);
-				o.create_alert_box($msg.form_invalid, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"});
+				o.create_alert_box(jqXHR.responseText, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"});
 			}else{
 				createAlertBox();
 			}
@@ -311,7 +311,7 @@ function send_folder(data,id,o) {
 			if (jqXHR.status == 403){
 				var alert_box_id = "validate-folder-" + id;
 				$(document).clear_alert_box(alert_box_id);
-				o.create_alert_box($msg.form_invalid, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"});
+				o.create_alert_box(jqXHR.responseText, alert_box_id, {"timeout" : $time.duration.alert_long, "insert" : "before"});
 			}else{
 				createAlertBox();
 			}
