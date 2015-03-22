@@ -609,7 +609,7 @@ $("html").on("focus", "#description", function(event) {
 $("html").on("blur", "#description", function(event) {
 	var str = $(this).val().trim();
 	$(this).val(str);
-	var couple = new Couple(descriptionProperty, str);
+	var couple = new Couple(descriptionProperty, encode_html(str, true));
 	modifiyCouple(couple);
 });
 
