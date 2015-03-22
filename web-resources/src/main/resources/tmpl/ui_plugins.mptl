@@ -55,9 +55,19 @@
 					<div class="dialog">
 						<h4 class="title">Confirmation<span class="close" tabindex="0"></span></h4>
 						<p class="message {{= data.class }}">{{= data.text }}</p>
+						{{ if (data.extra !== null) {out += data.extra} }}
 						<button class="success icon-confirm small" title="Confirmer" data-confirm><span class="hide">Confirmer</span></button>
 						<button class="alert icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></button>
 					</div>
 				</div>
 			</div>
+{{%}}
+
+<!--Delete Account Articles-->
+{{% delete_account_articles_tmpl }}
+						<p class="text-center">
+							<input title="{{= data.input }}" id="delete_account_articles" style="margin-bottom: 0; margin-right: .25rem;" type="checkbox" data-focus="true">
+							<label for="delete_account_articles">{{= data.label }}</label>
+							<span title="{{= data.helpz }}" style="cursor: help;" class="tiny icon-help"></span>
+						</p>
 {{%}}

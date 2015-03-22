@@ -1254,6 +1254,9 @@ a.icon:not(.button) > .text {
   font-size: 75%;
   text-transform: uppercase;
 }
+a.icon:not(.button) > .text.small {
+  text-transform: none;
+}
 a.icon:not(.button):not(.disabled):hover > .text,
 a.icon:not(.button):not(.disabled):focus > .text,
 a.icon:not(.button):not(.disabled):active > .text,

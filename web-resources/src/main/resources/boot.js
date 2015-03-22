@@ -204,7 +204,12 @@ $msg = {
 		"my_account"          : "&Ecirc;tes-vous certaine de vouloir supprimer votre compte&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est irr&eacute;versible.",
-		"date_event"          : "&Ecirc;tes-vous certaine de vouloir supprimer cet &eacute;v&egrave;nement&nbsp;?<br>Cette action est irr&eacute;versible."
+		"date_event"          : "&Ecirc;tes-vous certaine de vouloir supprimer cet &eacute;v&egrave;nement&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"account_articles"    : {
+			"input_p"           : "Supprime d&eacute;finitivement tous %1 articles%2.",
+			"label_p"           : "Supprimer tous %1 articles%2",
+			"helpz_p"           : "Si coch&eacute;, tous %1 articles en ligne, en cours de validation et les brouillons%2 seront d&eacute;finitivement supprim&eacute;s. Si d&eacute;coch&eacute;, tous les articles en ligne seront affect&eacute;s au compte global Les Ourses &agrave; plumes et resteront accessibles depuis le site."
+		}
 	},
 	"confirm_remove_p"      : "&Ecirc;tes-vous certaine de vouloir retirer %1&nbsp;?",
 	"confirm_delete_p"      : "&Ecirc;tes-vous certaine de vouloir supprimer %1&nbsp;?<br>Cette action est irr&eacute;versible.",

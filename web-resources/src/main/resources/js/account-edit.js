@@ -85,6 +85,7 @@ function getAccount() {
 			},
 			success : function(account, status, jqxhr) {
 				$(".main-body").append(file_pool.account_edit_tmpl(account)).after(lb(1));
+				$("section").svg_icons(); // reload svg icons for whole section
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -155,16 +156,11 @@ function submitAccountAJAX() {
 	});
 }
 
-function deleteEvent(id) {
-	//--------------------------------------------------------------------------------//
-	//                                                                                //
-	// TODO tenir compte du choix de l'utilisateur pour supprimer ou non ses articles //
-	//                       par défault deleteArticles=false                         //
-	//                                                                                //
-	//--------------------------------------------------------------------------------//
+function deleteEvent(id, val) {
+	var val = val || false;
 	$.ajax({
 		type : "DELETE",
-		url : "/rest/account/" + id + "?deleteArticles=false",
+		url : "/rest/account/" + id + "?deleteArticles=" + val.toString(),
 		contentType : "application/json; charset=utf-8",
 		beforeSend: function(request) {
 			header_authentication(request);
@@ -190,14 +186,21 @@ $("html").on("click", "a#delete_account", function() {
 	var id = UserSession.getAccountId();
 	if ($conf.confirm_delete.account) {
 		// Confirm Delete Account
-		var modal_options = {
+		var f = $msg.confirm_delete.account_articles, p = ["vos", ""];
+		var l = {
+			"input" : f.input_p.sprintf(p),
+			"label" : f.label_p.sprintf(p),
+			"helpz" : f.helpz_p.sprintf(p)
+		};
+		var m = {
 			"text" : $msg.confirm_delete.my_account,
 			"class" : "panel radius",
+			"extra" : file_pool.delete_account_articles_tmpl(l),
 			"on_confirm" : function() {
-				deleteEvent(id) // delete account
+				deleteEvent(id, ($("#delete_account_articles").is(":checked") ? true : false)); // delete account
 			}
 		};
-		$("#articles").create_confirmation_modal(modal_options);
+		$("#articles").create_confirmation_modal(m);
 	} else {
 		deleteEvent(id) // delete account
 	}

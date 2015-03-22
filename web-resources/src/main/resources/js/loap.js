@@ -1233,6 +1233,7 @@ jQuery.fn.extend({
 			"fx_resize"  : false,               // [Boolean]   Resize dialog box on opening. Default : false
 			"text"       : $msg.confirm_action, // [String]    Text of the message box. Default : $msg.confirm_action
 			"class"      : "",                  // [String]    CSS class name of the message box. Default : ""
+			"extra"      : null,                // [String]    Extra template bindable to the modal. Default : null
 			"focus"      : "confirm",           // [String]    Data attribute of the element focused on launch. Default : "confirm"
 			"on_cancel"  : function() {},       // [Handler]   Function launched on modal cancel. Default : function() {}
 			"on_confirm" : function() {},       // [Handler]   Function launched on modal confirm. Default : function() {}
