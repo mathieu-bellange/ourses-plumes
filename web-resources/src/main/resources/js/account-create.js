@@ -198,3 +198,17 @@ $("html").on("focus", "#pseudo, #mail, #password", function() {
 $("html").on("keypress", "#pseudo, #mail, #password", function() {
 	$(this).set_validation();
 });
+// Password Visibility
+$(document).on("click", "#password_visibility", function() {
+	var u = $(this), o = $("#password");
+	if (o.attr("type") == "password") {
+		o.attr("type", "text");
+		u.attr("title", $msg.password_hide);
+		u.find("use").attr("xlink:href", "#icon-hide");
+	} else {
+		o.attr("type", "password");
+		u.attr("title", $msg.password_show);
+		u.find("use").attr("xlink:href", "#icon-show");
+	}
+	u.blur();
+});

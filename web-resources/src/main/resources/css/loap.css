@@ -1232,6 +1232,8 @@ a.icon:not(.button) {
   text-decoration: none; /* TEMP : links underline fix */
   border-radius: .5rem; /* TEMP : better use .radius class instead */
 }
+a.icon.small:not(.button) {border-radius: .375rem;}
+a.icon.tiny:not(.button) {border-radius: .25rem;}
 a.icon.round:not(.button) {border-radius: 100%;}
 a.icon.radius:not(.button) {border-radius: .5rem;}
 a.icon.share:not(.button) {border-radius: 3px;}

@@ -189,6 +189,8 @@ $msg = {
 	"email_sent"            : "Le message &eacute;lectronique a correctement &eacute;t&eacute; envoy&eacute;.",
 	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&nbsp;&hellip;",
 	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&nbsp;!",
+	"password_show"         : "Voir le mot de passe",
+	"password_hide"         : "Cacher le mot de passe",
 	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
 	"account_deleted"       : "Compte supprim&eacute;&nbsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
