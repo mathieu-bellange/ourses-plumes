@@ -287,7 +287,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         if (parameter != null) {
             parameters.addAll(processParameters(parameter));
         }
-        return Article.findOnline(parameters);
+        return Article.findOnline(parameters, parameter);
     }
 
     @VisibleForTesting
@@ -297,13 +297,13 @@ public class ArticleHelperImpl implements ArticleHelper {
 
                     @Override
                     public boolean apply(final String parameter) {
-                        return !WORD_TO_ESCAPE.contains(parameter.toLowerCase());
+                        return !WORD_TO_ESCAPE.contains(parameter);
                     }
                 }), new Function<String, String>() {
 
                     @Override
                     public String apply(final String parameter) {
-                        return parameter.toLowerCase();
+                        return StringUtils.stripAccents(parameter.toLowerCase());
                     }
                 });
     }

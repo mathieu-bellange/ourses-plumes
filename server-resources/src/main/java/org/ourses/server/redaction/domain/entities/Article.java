@@ -256,13 +256,14 @@ public class Article implements Serializable {
         return set;
     }
 
-    public static Set<Article> findOnline(final Collection<String> collection) {
+    public static Set<Article> findOnline(final Collection<String> collection, final String tagParameter) {
         Set<Article> articles = Sets.newHashSet();
+        // TODO une seule requête pour pagination
         if (collection != null && !collection.isEmpty()) {
             articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
-                    .le("publishedDate", DateTime.now().toDate()).in("tags.tag", collection).findSet());
+                    .le("publishedDate", DateTime.now().toDate()).in("tags.tag", tagParameter).findSet());
             articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
-                    .le("publishedDate", DateTime.now().toDate()).in("rubrique.path", collection).findSet());
+                    .le("publishedDate", DateTime.now().toDate()).in("rubrique.path", tagParameter).findSet());
             ExpressionList<Article> expr = Ebean.find(Article.class).fetch("rubrique").where()
                     .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).disjunction();
             for (String parameter : collection) {
