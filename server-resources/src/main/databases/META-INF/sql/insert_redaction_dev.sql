@@ -6,7 +6,9 @@ Values
   (3, 'Spotlights'),
   (4, 'Interview'),
   (5, 'Tribune'),
-  (6, 'Revue du web');
+  (6, 'Revue du web'),
+  (7, 'Retour de terrain'),
+  (8, 'Forme libre');
 
 Insert into rubrique
   (id, rubrique, classe, path)
