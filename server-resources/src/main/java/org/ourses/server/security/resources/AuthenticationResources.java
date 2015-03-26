@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -34,7 +35,7 @@ public class AuthenticationResources {
     private SecurityHelper securityHelper;
 
     @POST
-    public Response authentication(LoginDTO loginDto) {
+    public Response authentication(final LoginDTO loginDto) {
         ResponseBuilder builder;
         try {
             securityHelper.doCredentialsMatch(loginDto.getMail(), loginDto.getPassword());
@@ -45,8 +46,9 @@ public class AuthenticationResources {
             // On renvoie à l'utilisateur un DTO comprenant les informations de profil et le token d'authentification
             BearAccount bearAccount = BearAccount.findAuthcUserProperties(loginDto.getMail());
             AuthenticatedUserDTO authcUserDTO = new AuthenticatedUserDTO(bearAccount.getId(), bearAccount.getProfile()
-                    .getId(), ourseAuthcToken.getId(), ourseAuthcToken.getToken(), bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo()
-                    .getMainRole(), bearAccount.getProfile().getAvatar().getPath());
+                    .getId(), ourseAuthcToken.getId(), ourseAuthcToken.getToken(),
+                    bearAccount.getProfile().getPseudo(), bearAccount.getAuthzInfo().getMainRole(), bearAccount
+                            .getProfile().getAvatar().getPath());
             builder = Response.ok(authcUserDTO);
         }
         catch (AuthenticationException e) {
@@ -59,13 +61,15 @@ public class AuthenticationResources {
     @GET
     @Path("/connected")
     public Response isAuthenticated() {
-        // no cache
-        return Response.noContent().build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return Response.noContent().cacheControl(noCache).build();
     }
 
     @POST
     @Path("/logout")
-    public Response logout(Long tokenId) {
+    public Response logout(final Long tokenId) {
         OurseSecurityToken secToken = OurseSecurityToken.findByTokenId(tokenId);
         if (secToken != null) {
             secToken.deleteMe();

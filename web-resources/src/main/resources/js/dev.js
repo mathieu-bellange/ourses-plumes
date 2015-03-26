@@ -53,38 +53,6 @@ $("html").on("click", "#_svg_fx_toggle", function() {
 	createAlertBox("Configuration de l&rsquo;affichage modifi&eacute;e. Rechargement de la page n&eacute;cessaire.", "alert_conf", {"class" : "warning", "timeout" : $time.duration.alert});
 });
 
-/* Toolbar Null Links Toggler */
-$("html").on("click", "#_null_links_toggle", function() {
-	if (!$(this).hasClass("active")) {
-		// Navs
-		$("nav ul li .disabled").addClass("not-disabled");
-		$("nav ul li[class^='icon-'] .disabled").parent("li").addClass("enabled"); // Navs Icons
-		$("nav ul li .disabled").removeClass("disabled");
-		// Sub Navigation
-		$(".sub-nav dd .disabled").addClass("enabled");
-		$(".sub-nav dd .disabled").addClass("not-disabled");
-		$(".sub-nav dd .disabled").removeClass("disabled");
-		// Pagination
-		$(".pagination li .disabled").addClass("enabled");
-		$(".pagination li .disabled").addClass("not-disabled");
-		$(".pagination li .disabled").removeClass("disabled");
-	} else {
-		// Navs
-		$("nav ul li .not-disabled").addClass("disabled");
-		$("nav ul li[class^='icon-'] .not-disabled").parent("li").removeClass("enabled"); // Navs Icons
-		$("nav ul li .not-disabled").removeClass("not-disabled");
-		// Sub Navigation
-		$(".sub-nav dd .not-disabled").addClass("disabled");
-		$(".sub-nav dd .not-disabled").removeClass("enabled");
-		$(".sub-nav dd .not-disabled").removeClass("not-disabled");
-		// Pagination
-		$(".pagination li .not-disabled").addClass("disabled");
-		$(".pagination li .not-disabled").removeClass("enabled");
-		$(".pagination li .not-disabled").removeClass("not-disabled");
-	}
-	$(this).toggleClass("active");
-});
-
 /* Toolbar CSS Debug Toggler */
 $("html").on("click", "[id^='_css_debug_']", function() {
 	if (!$(this).hasClass("disabled")) {

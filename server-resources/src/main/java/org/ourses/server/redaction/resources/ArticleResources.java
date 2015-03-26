@@ -50,8 +50,8 @@ public class ArticleResources {
 
     @POST
     @Path("/check/title")
-    public Response checkTitle(String title, @QueryParam("id")
-    Long id) {
+    public Response checkTitle(final String title, @QueryParam("id")
+    final Long id) {
         ResponseBuilder responseBuilder = Response.status(Status.NO_CONTENT);
         if (title.isEmpty() || articleHelper.isTitleAlreadyTaken(title, id)) {
             responseBuilder = Response.status(Status.FORBIDDEN);
@@ -62,8 +62,8 @@ public class ArticleResources {
     @GET
     @Path("/{id}")
     public Response read(@PathParam("id")
-    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
         Long idProfile = profileHelper.findIdProfile(token);
@@ -74,26 +74,31 @@ public class ArticleResources {
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
-        // no-cache
-        return responseBuilder.build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        noCache.setPrivate(true);
+        return responseBuilder.cacheControl(noCache).build();
     }
 
     @GET
     @Path("/{id}/related")
     public Response readRelated(@PathParam("id")
-    long id) {
+    final long id) {
         ResponseBuilder responseBuilder;
         List<Article> relatedArticles = articleHelper.findThreeArticlesWithMostTagsInCommon(id);
         List<ArticleDTO> relatedArticlesDTO = Lists.transform(relatedArticles, new Function<Article, ArticleDTO>() {
 
             @Override
-            public ArticleDTO apply(Article article) {
+            public ArticleDTO apply(final Article article) {
                 return article.toArticleDTO();
             }
         });
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
+        cacheControl.setPrivate(false);
         responseBuilder = Response.status(Status.OK).cacheControl(cacheControl).entity(relatedArticlesDTO);
         return responseBuilder.build();
     }
@@ -101,9 +106,9 @@ public class ArticleResources {
     @GET
     @Path("/{rubrique}/{dateLong}/{title}")
     public Response read(@PathParam("rubrique")
-    String rubrique, @PathParam("title")
-    String title, @PathParam("dateLong")
-    long dateLong) {
+    final String rubrique, @PathParam("title")
+    final String title, @PathParam("dateLong")
+    final long dateLong) {
         ResponseBuilder responseBuilder;
         Article article = articleHelper.findOnlineArticle(rubrique, title, dateLong);
         // détermine si un article est lisible par un utilisateur
@@ -112,9 +117,15 @@ public class ArticleResources {
             // cache = 1 year
             CacheControl cacheControl = new CacheControl();
             cacheControl.setMaxAge(31536000);
+            cacheControl.setPrivate(false);
             responseBuilder.cacheControl(cacheControl).tag(article.getPath());
         }
         else {
+            CacheControl noCache = new CacheControl();
+            noCache.setNoCache(true);
+            noCache.setPrivate(false);
+            noCache.setNoStore(true);
+            noCache.setMaxAge(-1);
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
@@ -122,8 +133,8 @@ public class ArticleResources {
 
     @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token, @QueryParam(value = "criteria")
-    String parameter) {
+    final String token, @QueryParam(value = "criteria")
+    final String parameter) {
         ResponseBuilder responseBuilder;
         Set<Article> articles = Sets.newHashSet();
         // push les articles en ligne pour tous les utilisateurs
@@ -133,17 +144,19 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        // cache = 1 hour
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(3600);
-        responseBuilder = Response.status(Status.OK).cacheControl(cacheControl).entity(articlesDto);
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
 
     @GET
     @Path("/draft")
     public Response readAllDraftArticles(@HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final String token) {
         ResponseBuilder responseBuilder;
         Set<Article> articles = Sets.newHashSet();
         if (token != null) {
@@ -159,8 +172,12 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        // no-cache
-        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
 
@@ -174,30 +191,38 @@ public class ArticleResources {
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
-        // no-cache
-        responseBuilder = Response.status(Status.OK).entity(articlesDto);
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(false);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
 
     @GET
     @Path("/last/review")
     public Response readLastWebReview() {
-    	Article lastWebReview = articleHelper.findLastWebReview();
-    	ResponseBuilder response = null;
-    	if (lastWebReview != null){
-    		// no-cache
-    		response = Response.status(Status.OK)
-                    .entity(lastWebReview.toArticleDTO());
-    	}else{
-    		response = Response.status(Status.NOT_FOUND);
-    	}
-        return response.build();
+        Article lastWebReview = articleHelper.findLastWebReview();
+        ResponseBuilder response = null;
+        if (lastWebReview != null) {
+            response = Response.status(Status.OK).entity(lastWebReview.toArticleDTO());
+        }
+        else {
+            response = Response.status(Status.NOT_FOUND);
+        }
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(false);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        return response.cacheControl(noCache).build();
     }
 
     @PUT
     @Path("/create")
-    public Response create(ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    public Response create(final ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         ResponseBuilder responseBuilder = Response.status(Status.CREATED);
         Article article = articleDTO.toArticle();
         // vérifie que l'aticle a bien un titre qui n'existe pas déjà
@@ -217,8 +242,8 @@ public class ArticleResources {
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id")
-    long id, ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final long id, final ArticleDTO articleDTO, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         ResponseBuilder responseBuilder;
         // vérification que l'article est bien modifiable par l'utilisateur connecté
         Long idProfile = profileHelper.findIdProfile(token);
@@ -245,8 +270,8 @@ public class ArticleResources {
     @PUT
     @Path("/{id}/validate")
     public Response validate(@PathParam("id")
-    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         ResponseBuilder responseBuilder;
         // vérification que l'article appartient au profil connecté
         Profile profile = profileHelper.findProfileByAuthcToken(token);
@@ -264,14 +289,14 @@ public class ArticleResources {
     @PUT
     @Path("/{id}/publish")
     public Response publish(@PathParam("id")
-    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token, Date publishedDate) {
+    final long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token, final Date publishedDate) {
         // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
         ResponseBuilder responseBuilder;
         Profile profile = profileHelper.findProfileByAuthcToken(token);
         if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)) {
             // update du status de l'article
-            Article article = articleHelper.publishArticle(id,publishedDate);
+            Article article = articleHelper.publishArticle(id, publishedDate);
             responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
         }
         else {
@@ -283,8 +308,8 @@ public class ArticleResources {
     @PUT
     @Path("/{id}/invalidate")
     public Response invalidate(@PathParam("id")
-    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         // vérification que l'action est fait pas une administratrice et que l'article est bien en à valider
         ResponseBuilder responseBuilder;
         Profile profile = profileHelper.findProfileByAuthcToken(token);
@@ -304,8 +329,8 @@ public class ArticleResources {
     @PUT
     @Path("/{id}/recall")
     public Response recall(@PathParam("id")
-    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         // vérification que l'action est fait pas une administratrice et que l'article est bien enligne
         // ou alors fait par une rédactrice sur ses articles uniquement
         ResponseBuilder responseBuilder;
@@ -326,8 +351,8 @@ public class ArticleResources {
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id")
-    long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
-    String token) {
+    final long id, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
         ResponseBuilder responseBuilder;
         Article article = Article.findArticle(id);
         if (article != null && ArticleStatus.BROUILLON.equals(article.getStatus())) {
@@ -343,8 +368,8 @@ public class ArticleResources {
     @PUT
     @Path("/{id}/share")
     public Response sharingByMail(@PathParam("id")
-    long id, String mail, @HeaderParam(HttpHeaders.HOST)
-    String hostName) {
+    final long id, final String mail, @HeaderParam(HttpHeaders.HOST)
+    final String hostName) {
         ResponseBuilder responseBuilder;
         if (mailHelper.isMailValid(mail)) {
             mailHelper.shareArticle(hostName, mail, id);

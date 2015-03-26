@@ -42,7 +42,7 @@ public class ITProfileResources {
         GenericType<List<ProfileDTO>> gt = new GenericType<List<ProfileDTO>>() {
         };
         List<ProfileDTO> profiles = clientResponse.getEntity(gt);
-        assertThat(profiles).onProperty("pseudo").containsOnly("mbellange", "jpetit", "Nadejda", "to_update",
+        assertThat(profiles).onProperty("pseudo").containsOnly("Ourses à plumes", "mbellange", "jpetit", "to_update",
                 "Ourse du Cheshire", "to_delete", "pseudo");
     }
 
@@ -121,7 +121,7 @@ public class ITProfileResources {
         assertThat(clientResponse.getStatus()).isEqualTo(404);
     }
 
-    private Set<String> processSocialUsers(ProfileDTO profile) {
+    private Set<String> processSocialUsers(final ProfileDTO profile) {
         Set<String> socialUsers = Sets.newHashSet();
         for (SocialLinkDTO link : profile.getSocialLinks()) {
             socialUsers.add(link.getSocialUser());
@@ -129,7 +129,7 @@ public class ITProfileResources {
         return socialUsers;
     }
 
-    private Set<String> processSocialNetwork(ProfileDTO profile) {
+    private Set<String> processSocialNetwork(final ProfileDTO profile) {
         Set<String> socialUsers = Sets.newHashSet();
         for (SocialLinkDTO link : profile.getSocialLinks()) {
             socialUsers.add(link.getNetwork());
@@ -357,7 +357,7 @@ public class ITProfileResources {
         assertThat(articles).onProperty("publishedDate").satisfies(new Condition<List<?>>() {
 
             @Override
-            public boolean matches(List<?> value) {
+            public boolean matches(final List<?> value) {
                 boolean isOk = true;
                 for (Object date : value) {
                     if (new DateTime(date).isAfterNow()) {
@@ -370,24 +370,25 @@ public class ITProfileResources {
         });
         assertThat(articles).satisfies(new Condition<List<?>>() {
 
-			@Override
-			public boolean matches(List<?> articles) {
-				boolean isOk = true;
-				for(Object articleDTO : articles){
-					if(((ArticleDTO) articleDTO).getProfile().getId() != 2L){
-						for(ProfileDTO coAuthor : ((ArticleDTO) articleDTO).getCoAuthors()){
-							if(coAuthor.getId() != 2L){
-								isOk = false;
-							}else{
-								isOk = true;
-							}
-						}
-					}
-					break;
-				}
-				return isOk;
-			}
-		});
-        assertThat(articles).onProperty("rubrique.rubrique").containsOnly("International", "Luttes");
+            @Override
+            public boolean matches(final List<?> articles) {
+                boolean isOk = true;
+                for (Object articleDTO : articles) {
+                    if (((ArticleDTO) articleDTO).getProfile().getId() != 2L) {
+                        for (ProfileDTO coAuthor : ((ArticleDTO) articleDTO).getCoAuthors()) {
+                            if (coAuthor.getId() != 2L) {
+                                isOk = false;
+                            }
+                            else {
+                                isOk = true;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                }
+                return isOk;
+            }
+        });
     }
 }

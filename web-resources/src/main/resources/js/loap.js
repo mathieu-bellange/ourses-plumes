@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Main File
  * Require jQuery Library
- * ver. 1.0.3
+ * ver. 1.1.0
  */
 
 /* ------------------------------------------------------------------ */
@@ -374,7 +374,7 @@ jQuery.fn.extend({
 			"tag" : "span",                         // String    The tag of the placeholder element. Default : "span"
 			"attr" : "data-placeholder",            // String    Attribute name of the placeholder element. Default : "data-placeholder"
 			"class" : "placeholder",                // String    Class name of the placeholder element. Default : "placeholder"
-			"delay" : 750                           // Integer   Timeout before checking empty field value on blur. Default : 500
+			"delay" : 10                            // Integer   Timeout before checking empty field value on blur (ms). Default : 10
 		};
 		var cfg = $.extend({}, defs, opts);
 		var t = 0;
@@ -388,7 +388,7 @@ jQuery.fn.extend({
 		// loop
 		$(this).each(function () {
 			// events
-			$(this).on("click", "[" + cfg.attr + "]", function() {
+			$(this).on("focusin", "[" + cfg.attr + "]", function() {
 				clearTimeout(t);
 				removePlaceholder($(this)); // erase placeholder
 			});
@@ -1233,6 +1233,7 @@ jQuery.fn.extend({
 			"fx_resize"  : false,               // [Boolean]   Resize dialog box on opening. Default : false
 			"text"       : $msg.confirm_action, // [String]    Text of the message box. Default : $msg.confirm_action
 			"class"      : "",                  // [String]    CSS class name of the message box. Default : ""
+			"extra"      : null,                // [String]    Extra template bindable to the modal. Default : null
 			"focus"      : "confirm",           // [String]    Data attribute of the element focused on launch. Default : "confirm"
 			"on_cancel"  : function() {},       // [Handler]   Function launched on modal cancel. Default : function() {}
 			"on_confirm" : function() {},       // [Handler]   Function launched on modal confirm. Default : function() {}
@@ -1398,6 +1399,85 @@ var user_menu = (function() {
 	}
 }());
 
+var spring_box = (function() {
+	// Configuration
+	var cfg = {
+		"fx_d"      : 375,              // Integer  Visual effets duration (milliseconds). Default : 375
+		"box_x"     : 0.5,              // Numeric  Vertical position adjustment for box (root EM). Default : 0.5
+		"box_y"     : 0.75,             // Numeric  Horizontal position adjustment for box (root EM). Default : 0.75
+		"box_id"    : "spring_box",     // String   Spring box element identifier. Default : "spring_box"
+		"box_class" : "",               // Selector Spring box element class. Default : ""
+		"box_close" : ".close",         // Selector Cancel element identifier. Default : ".close"
+		"box_valid" : ".success",       // Selector Confirmation element identifier. Default : ".success"
+		"box_focus" : ".success",       // Selector Focus element on creation. Default : ".success"
+		"box_html"  : null,             // String   Spring box content. Default : null
+		"on_open"   : function() {},    // Function Callback for opening. Default : function() {}
+		"on_close"  : function() {},    // Function Callback for closing. Default : function() {}
+		"on_opened" : function() {},    // Function Callback when opened. Default : function() {}
+		"on_closed" : function() {},    // Function Callback when closed. Default : function() {}
+	};
+	return {
+		open : function(o, d, t) {
+			cfg.on_open(); // open callback
+			o.finish(); // prompt any pending animation
+			o.scroll_to({"fx_d" : d / 2, "spacing" : o.outerHeight() / 4}); // scroll to box top
+			var w = o.outerWidth(), h = o.outerHeight(); // set animation vars
+			o.css({"width" : 0, "height" : 0, "margin-top" : h, "margin-left" : w, "opacity" : 0}); // set CSS values before animating
+			o.children().hide(); // hide children before animating
+			o.show().animate({"width" : w, "height" : h, "margin-top" : 0, "margin-left" : 0, "opacity" : 1 }, $conf.js_fx ? d : 0, function() {
+				o.children().show(); // show children on animation completion
+				o.css({"width" : "", "height" : "",}); // reset CSS values to default on animation completion
+				o.find(t).focus(); // focus confirm button on animation completion
+				cfg.on_opened(); // open callback
+			});
+		},
+		close : function(o, d, t) {
+			cfg.on_close(); // close callback
+			o.fadeOut($conf.js_fx ? d / 2 : 0, function() { // hide box
+				cfg.on_closed(); // close callback
+				o.remove(); // destroy spring box
+			});
+		},
+		create : function(launcher, opts) {
+			cfg = $.extend({}, cfg, opts); // extend config
+			var self = this; // set self
+			var obj = $(file_pool.spring_box_tmpl({"id" : cfg.box_id, "class" : cfg.box_class, "html" : cfg.box_html})); // create template
+			$("body").append(obj); // append template
+			var x = launcher.offset().left + launcher.outerWidth() - obj.outerWidth() + cfg.box_x.toPx(); // define vertical position
+			var y = launcher.offset().top - obj.outerHeight() - cfg.box_y.toPx(); // define horizontal position
+			obj.css({"left" : x, "top" : y}); // set box position
+			self.open(obj, cfg.fx_d, cfg.box_focus);
+			$(obj).on("click", cfg.box_close, function() { // bind close event
+				self.close(obj, cfg.fx_d, launcher);
+			});
+		}
+	}
+}());
+
+var list_overview = (function() {
+	return {
+		init : function (attachee) {
+			var triggerer = ".overview-tip";
+			var triggered = ".overview";
+			$(attachee).on("click", triggerer, function() {
+				var obj = $(this);
+				if (obj.data("is_sliding") !== "true") {
+					obj.data("is_sliding", "true");
+					obj.toggleClass("active");
+					if ($conf.js_fx) {
+						obj.next(triggered).slideToggle(250, function() {
+							obj.removeData("is_sliding");
+						});
+					} else {
+						obj.next(triggered).toggle();
+						obj.removeData("is_sliding");
+					}
+				}
+			});
+		}
+	}
+}());
+
 var faq_ui = (function() {
 	var cfg = {
 		"fx_d"       : 250,         // Integer  Visual effects duration (milliseconds). Default : 250
@@ -1496,14 +1576,14 @@ var faq_ui = (function() {
 
 var agenda_ui = (function() {
 	var cfg = {
-		"fx_d"         : 375,            // [Int]  Duration of effects (ms). Default : 375
-		"ev_t"         : 750,            // [Int]  Timeout before showing date events (ms). Default : 500
-		"show_events"  : true,           // [Bool] Show sliding date events ? Default : true
-		"template"     : function() {},  // [Func] Template function for compiling. Default : function() {}
-		"on_open"      : function() {},  // [Func] Callback function before modal opening. Default : function() {}
-		"on_close"     : function() {},  // [Func] Callback function before modal opening. Default : function() {}
-		"on_opened"    : function() {},  // [Func] Callback function after modal opening. Default : function() {}
-		"on_closed"    : function() {},  // [Func] Callback function after modal closing. Default : function() {}
+		"fx_d"         : 375,           // [Int]  Duration of effects (ms). Default : 375
+		"ev_t"         : 500,           // [Int]  Timeout before showing date events (ms). Default : 500
+		"show_events"  : true,          // [Bool] Show sliding date events ? Default : true
+		"template"     : function() {}, // [Func] Template function for compiling. Default : function() {}
+		"on_open"      : function() {}, // [Func] Callback function before modal opening. Default : function() {}
+		"on_close"     : function() {}, // [Func] Callback function before modal opening. Default : function() {}
+		"on_opened"    : function() {}, // [Func] Callback function after modal opening. Default : function() {}
+		"on_closed"    : function() {}, // [Func] Callback function after modal closing. Default : function() {}
 	};
 	return {
 		build : function(db) {
@@ -1516,8 +1596,8 @@ var agenda_ui = (function() {
 				var q = new Date(year, month, 1); // first day in month
 				var m = []; // month array
 				var w = []; // week array
-				var n = q.getDay();
 				var i = 1; // num counter
+				var n = q.getDay();
 				for (i; i < (n == 0 ? 7 : n); i++) {
 					w.push({}); // fill first week gap with empty object
 				} i = 1; // reset counter
@@ -1527,18 +1607,17 @@ var agenda_ui = (function() {
 					// set day object
 					d.num = i;
 					d.date = ymd;
+					var e = [];
 					for (k in db) { // check date in db
-						if (getDateTime(new Date(q)) == getDateTime(new Date(db[k].day))) {
+						var day = new Date(q);
+						if (getDateTime(day) == getDateTime(new Date(db[k].day))) {
 							if (typeof(db[k].events) !== "undefined") {
 								d.events = [];
 								for (e in db[k].events) {
 									var h = {};
-									if (typeof(db[k].events[e].title) !== "undefined") {
-										h.title = db[k].events[e].title; // get name
-									}
-									if (typeof(db[k].events[e].description) !== "undefined") {
-										h.description = db[k].events[e].description; // get desc
-									}
+									h.id = db[k].events[e].id; // get name
+									h.title = db[k].events[e].title; // get name
+									h.desc = db[k].events[e].desc || undefined; // get desc
 									d.events.push(h);
 								}
 							}
@@ -1561,11 +1640,14 @@ var agenda_ui = (function() {
 					w.push({}); // fill last week gap with empty object
 				}
 				m.push(w); // push last week array
+				// get last id in array
 				return m; // return month array
 			}
 			function update_agenda(year, month) {
+				var calendar = build_calendar(year, month);
 				$(".date-switcher h3").html($time.months[month].capitalize() + " " + year);
-				$(".date-table tbody").html(file_pool.date_table_tmpl({"month" : build_calendar(y, m)})); // append table body
+				$(".date-table tbody").html(file_pool.date_table_tmpl({"month" : calendar})); // append table body
+				$(".date-table tbody").svg_icons(); // reload svg icons
 			}
 			// process build
 			update_agenda(y, m);
@@ -1581,27 +1663,26 @@ var agenda_ui = (function() {
 		},
 		init : function(opts) {
 			cfg = $.extend({}, cfg, opts);
-			$(document).on("mouseenter", ".has-event", function() {
+			function show_events(obj) {
 				if (isComputer() && cfg.show_events) {
-					var self = $(this);
-					self.data("hover", true);
+					obj.data("hover", true);
 					setTimeout(function() {
-						if (self.data("hover") == true) {
-							self.css({"width" : self.outerWidth(), "position" : "absolute", "z-index" : "2"});
-							self.children(".event-list").slideDown($conf.js_fx ? cfg.fx_d / 2 : 0);
+						if (obj.data("hover") == true) {
+							obj.children(".event-list").slideDown($conf.js_fx ? cfg.fx_d / 2 : 0);
 						}
 					}, cfg.ev_t);
 				}
-			});
-			$(document).on("mouseleave", ".has-event", function() {
+			}
+			function hide_events(obj) {
 				if (isComputer() && cfg.show_events) {
-					var self = $(this);
-					self.data("hover", false);
-					self.children(".event-list").slideUp($conf.js_fx ? cfg.fx_d : 0, function() {
-						self.css({"width" : "", "position" : "", "z-index" : ""});
-					});
+					obj.data("hover", false);
+					obj.children(".event-list").slideUp($conf.js_fx ? cfg.fx_d : 0);
 				}
-			});
+			}
+			$(document).on("focus", ".has-event .over", function() {show_events($(this).parent(".has-event"))});
+			$(document).on("blur", ".has-event .over", function() {hide_events($(this).parent(".has-event"))});
+			$(document).on("mouseenter", ".has-event .over", function() {$(this).blur(); show_events($(this).parent(".has-event"))});
+			$(document).on("mouseleave", ".has-event .over", function() {hide_events($(this).parent(".has-event"))});
 			$(document).on("click", ".over", function() {
 				if ($(".reveal-modal").is(":visible")) {
 					if (!$("html").data("revealing-modal")) {
@@ -1613,17 +1694,18 @@ var agenda_ui = (function() {
 					var p = self.parent();
 					var e = [];
 					p.find(".event-list").children("li").each(function() {
+						var id = $(this).find(".title").attr("id") || null;
 						var title = $(this).find(".title").html() || null;
-						var text = $(this).find(".text").html() || null;
-						if (title) {e.push({"title" : decode_html(title), "text" : (text ? decode_html(text, true) : null)})}
+						var desc = $(this).find(".desc").html() || null;
+						if (title) {e.push({"id" : id, "title" : decode_html(title), "desc" : (desc ? decode_html(desc, true) : null)})}
 					});
 					var d = p.find("time").first().attr("datetime") || 0;  // Datetime
 					var a = d.split("-"); // YMD array
 					var t = new Date(a[0], a[1] - 1, a[2]); // Timestamp
 					var c = {
-						"id"       : d,
-						"date"     : $time.days[t.getDay() == 0 ? 6 : t.getDay() - 1].capitalize() + " " + dateToHTML(t),
-						"events"   : e
+						"day"    : $time.days[t.getDay() == 0 ? 6 : t.getDay() - 1].capitalize() + " " + dateToHTML(t),
+						"date"   : d,
+						"events" : e
 					};
 					var modal = $(cfg.template(c));
 					// Append modal
@@ -1646,7 +1728,6 @@ var agenda_ui = (function() {
 					});
 					modal.on("closed", function() {
 						cfg.on_closed(); // callback
-						self.focus(); // restore focus
 						$(this).remove();
 					});
 					// Initialize modal
@@ -1756,30 +1837,6 @@ var folder_list = (function() {
 					self.open($(this));
 				});
 			}
-		}
-	}
-}());
-
-var list_overview = (function() {
-	return {
-		init : function (attachee) {
-			var triggerer = ".overview-tip";
-			var triggered = ".overview";
-			$(attachee).on("click", triggerer, function() {
-				var obj = $(this);
-				if (obj.data("is_sliding") !== "true") {
-					obj.data("is_sliding", "true");
-					obj.toggleClass("active");
-					if ($conf.js_fx) {
-						obj.next(triggered).slideToggle(250, function() {
-							obj.removeData("is_sliding");
-						});
-					} else {
-						obj.next(triggered).toggle();
-						obj.removeData("is_sliding");
-					}
-				}
-			});
 		}
 	}
 }());
@@ -1906,7 +1963,7 @@ function getDateTime(date) { // passe une date en param pour obtenir une string 
 	return year + "-" + month + "-" + day;
 }
 
-/* Convert long date format to string */
+/* Convert date to string literal */
 function dateToString(date) {
 	var year = date.getFullYear().toString();
 	var month;
@@ -1918,9 +1975,23 @@ function dateToString(date) {
 	return day + " " + month + " " + year;
 }
 
-/* Convert long date format to HTML */
+/* Convert date to HTML */
 function dateToHTML(date) {
 	return (dateToString(date).replace("1er", "1<sup>er</sup>").replace("é", "&eacute;").replace("û", "&ucirc;"));
+}
+
+/* Convert date to long format string */
+function format_date(date) {
+	var d = date.getDay();
+	var day = d == 0 ? $time.days[6] : $time.days[d-1];
+	var d = date.getDate();
+	var m = date.getMonth();
+	var month = $time.months[m + 1];
+	var y = date.getFullYear();
+	var h = date.getHours().toString().format(2);
+	var mm = date.getMinutes().toString().format(2);
+	var s = date.getSeconds().toString().format(2);
+	return day.capitalize() + " " + (d == 1 ? d + "er" : d) + " " + month + " " + y + " à " + h + "h" + mm;
 }
 
 /* Get URL search params */
@@ -2233,7 +2304,7 @@ function remove_pref(prefs, key) {
 /* # Compatibility */
 /* ------------------------------------------------------------------ */
 
-Window.prototype.checkCompatibility = function() {
+window.checkCompatibility = function() {
 	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
 }
 

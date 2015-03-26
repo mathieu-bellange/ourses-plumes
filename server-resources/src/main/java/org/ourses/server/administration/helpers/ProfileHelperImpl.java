@@ -89,7 +89,7 @@ public class ProfileHelperImpl implements ProfileHelper {
                         Method getter = property.getReadMethod();
                         Object oldValue = getter.invoke(profile);
                         Object newValue = coupleDTO.getValue();
-                        if (!oldValue.equals(newValue)) {
+                        if (oldValue == null || !oldValue.equals(newValue)) {
                             property.getWriteMethod().invoke(profile, newValue);
                             updated = true;
                             if (property.getName().equals("pseudo")) {
@@ -169,7 +169,7 @@ public class ProfileHelperImpl implements ProfileHelper {
 
     @Override
     public void buildProfilePath(final Profile profile) {
-        profile.setPseudoBeautify(beautifyPseudo(StringUtils.stripAccents(profile.getPseudo())));
+        profile.setPseudoBeautify(beautifyPseudo(profile.getPseudo()));
         StringBuilder pathBuilder = new StringBuilder("/profils");
         pathBuilder.append("/");
         pathBuilder.append(profile.getPseudoBeautify());
@@ -179,7 +179,7 @@ public class ProfileHelperImpl implements ProfileHelper {
     @Override
     public String beautifyPseudo(final String pseudo) {
         StrBuilder path = new StrBuilder();
-        String[] tokens = pseudo.split("\\W");
+        String[] tokens = StringUtils.stripAccents(pseudo).split("\\W");
         for (String token : tokens) {
             if (!token.isEmpty()) {
                 path.appendSeparator(URL_SEPARATOR);

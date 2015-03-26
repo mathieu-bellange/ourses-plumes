@@ -28,13 +28,6 @@ var loax = (function() {
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
-// Define Icons Input Variables
-var user_links_icons_input = {
-	"input_container" : "#user-link",
-	"icons_container" : "#user_links_icons",
-	"icons_title_prefix" : "Votre "
-};
-
 // Define Pair Property-Value registering method
 function Couple(property, value) {
 	this.property = property;
@@ -197,7 +190,7 @@ function getProfile() {
 				processSocialLinks(profile.socialLinks); // process social links
 				$("section textarea").autosize({append: ""}); // reinitialize autosize plugin for all textareas for whole section
 				$("section textarea").add_confirmation_bar(); // initialize add_confirmation_bar plugin for all textareas for whole section
-				create_icons_input(user_links_icons_input); // process icons input for user links
+				user_icons(); // process icons input for user links
 				role_display.init(); // apply role display changing
 				loap.update(); // re-update loap for user picture
 				processAvatar();
@@ -241,7 +234,7 @@ function deleteAvatar(){
 
 function save(couple) {
 	var profileId = UserSession.getUserProfileId();
-	if(profileId != null) {
+	if (profileId != null) {
 		$.ajax({
 			type : "PUT",
 			url : "/rest/profile/" + profileId,
@@ -268,132 +261,108 @@ function save(couple) {
 /* # Create Icons Input */
 /* ------------------------------------------------------------------ */
 
-function create_icons_input(options) {
-	var defaults = {
-		"input_container" : "",
-		"icons_container" : "",
-		"icons_selector" : "[class*='icon']", // BUG : SVG icons are generated after function initialization ; so the only selector available at this time is class containing keyword 'icon' (i.e. switch from "[class*='icon-']" to ".icon")
-		"icons_title_prefix" : "",
-		"icons_tooltip" : true,
-		"animation_delay" : ($conf.js_fx ? 250 : 0)
+function user_icons(opts) {
+	// Configuration
+	var defs = {
+		"icons_container"    : "#user_links_icons",
+		"input_container"    : "#user-link",
+		"icons_selector"     : "[class^=icon]",
+		"input_selector"     : "input",
+		"label_selector"     : "label",
+		"icons_title_prefix" : "Votre ",
+		"fx_d"               : 250
 	};
-	// vars
-	var options = $.extend({}, defaults, options);
-	var input_container_margin_bottom = parseInt($(options.input_container).find("input").css("margin-bottom"));
-	var icons_container_margin_bottom = parseInt($(options.icons_container).css("margin-bottom"));
-	var is_icon_hover = false;
-	// functions
-	function show_input_container() {
-		var obj = $(options.input_container + " input");
-		var url = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url") === "undefined" ? "" : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url");
-		var url_prefix = typeof $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url-prefix") === "undefined" ? false : $(options.icons_container + " " + options.icons_selector + ".active").attr("data-url-prefix");
-		setTimeout(function() {
-			$(options.input_container).fadeIn(options.animation_delay, function() {
-				$(options.input_container + " input").css("margin-bottom", "0");
-				$(options.input_container).css("margin-bottom", input_container_margin_bottom + "px");
-				$(options.input_container + " .prefix").css("border-color", "darkgray");
-				$(options.input_container).find("input").css("box-shadow", "none");
-				$(options.input_container).css("box-shadow", "0 0 .25rem rgba(0, 0, 0, .5)");
-			});
-			obj.val(url);
-			obj.select_text(0, obj.val().length);
-			$(options.input_container).css("width", "100%");
-			// set input prefix visibility
-			if (!url_prefix) {
-				$(options.input_container + " .prefix").hide();
-				$(options.input_container + " input").css("width", "100%");
-			} else {
-				$(options.input_container + " .prefix").show();
-				$(options.input_container + " .prefix").text(url_prefix);
-				$(options.input_container + " .prefix").css({
-					"width" : "auto",
-					"display" : "inline-block"
-				});
-				// adjust input width
-				var w = $(options.input_container).innerWidth() - $(options.input_container + " .prefix").outerWidth(true);
-				var w_adj = parseInt($("html").css("font-size")) * 1.25; // REM to px conversion
-				$(options.input_container + " input").width(w - w_adj);
-				$(options.input_container).css("width", "auto");
-			}
-			// adjust container horizontal position
-			var h = $(options.input_container).outerHeight(true);
-			$(options.icons_container).css({"top" : h + "px", "margin-bottom" : h + icons_container_margin_bottom + "px"});
-		}, options.animation_delay);
-	}
-	function hide_input_container() {
-		$(options.input_container).fadeOut(options.animation_delay);
-		check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
-		$(options.icons_container + " " + options.icons_selector).removeClass("active");
-		setTimeout(function() {
-			$(options.icons_container).css({"top" : "0", "margin-bottom" : icons_container_margin_bottom});
-		}, options.animation_delay);
-	}
-	function check_icons_enabling(obj) {
-		if (typeof obj.attr("data-url") === "undefined" || obj.attr("data-url") == "") {
-			obj.addClass("disabled");
-		} else {
+	// Variables
+	var cfg = $.extend({}, defs, opts);
+	var field = $(cfg.input_container);
+	var icons = $(cfg.icons_container + " " + cfg.icons_selector);
+	var input = $(cfg.input_container + " " + cfg.input_selector);
+	var label = $(cfg.input_container + " " + cfg.label_selector);
+	// Functions
+	function check_icon(obj) {
+		if (is_def(typeof obj.attr("data-url")) && obj.attr("data-url") != "") {
 			obj.removeClass("disabled");
+		} else {
+			obj.addClass("disabled");
 		}
 	}
-	// events
-	$(options.icons_container + " " + options.icons_selector).on("mouseenter", function() {
-		is_icon_hover = true;
-		if (!$(this).hasClass("active") && $(this).hasClass("disabled")) {
-			$(this).css({
-				"cursor" : "pointer",
-				"outline" : "1px dotted gray",
-				"background-color" : "rgba(255, 255, 255, .5)",
-				"border-radius" : "0",
-				"opacity" : "1"
+	function show_input(obj) {
+		var url = is_def(typeof obj.attr("data-url")) ? obj.attr("data-url") : "";
+		var url_prefix = is_def(typeof obj.attr("data-url-prefix")) ? obj.attr("data-url-prefix") : "&nbsp;";
+		input.val(url);
+		label.html(url_prefix);
+		if (field.is(":hidden")) {
+			field.show();
+			var h = field.outerHeight();
+			field.css({"opacity" : 0, "height" : 0});
+			field.animate({"opacity" : 1, "height" : h}, $conf.js_fx ? cfg.fx_d : 0, function() {
+				field.css({"opacity" : "", "height" : ""});
+				input.select_text(0, input.val().length);
+			});
+		} else {
+			input.select_text(0, input.val().length);
+		}
+	}
+	function hide_input(obj) {
+		icons.removeClass("active");
+		obj.blur();
+		check_icon(obj);
+		if (field.is(":visible")) {
+			field.animate({"opacity" : 0, "height" : 0}, $conf.js_fx ? cfg.fx_d : 0, function() {
+				field.css({"opacity" : "", "height" : ""});
+				field.hide();
 			});
 		}
+	}
+	// Live Events
+	icons.on("mouseenter", function() {
+		is_icon_hover = true;
 	});
-	$(options.icons_container + " " + options.icons_selector).on("mouseleave", function() {
+	icons.on("mouseleave", function() {
 		is_icon_hover = false;
-		$(this).css({"cursor" : "", "outline" : "", "background-color" : "", "border-radius" : "", "opacity" : ""});
 		if (!$(this).hasClass("active")) {
 			if (typeof $(this).attr("data-url") === "undefined" || $(this).attr("data-url") == "") {
 				$(this).addClass("disabled");
 			}
 		}
 	});
-	$(options.icons_container + " " + options.icons_selector).on("click", function() {
-		$(options.icons_container + " " + options.icons_selector).removeClass("active");
-		$(this).removeClass("disabled");
-		$(this).addClass("active");
-		show_input_container()
-	});
-	$(options.input_container + " input").on("blur", function() {
-		$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
-		if (is_icon_hover == false) {
-			hide_input_container()
+	icons.on("click", function() {
+		if ($(this).hasClass("active")) {
+			$(this).removeClass("active");
+			hide_input($(this));
 		} else {
-			check_icons_enabling($(options.icons_container + " " + options.icons_selector + ".active"));
+			icons.removeClass("active");
+			$(this).removeClass("disabled");
+			$(this).addClass("active");
+			show_input($(this))
 		}
 	});
-	$(options.input_container + " input").on("keyup", function(event) {
-		if (event.which == 13) { // Enter
-			$(options.icons_container + " " + options.icons_selector + ".active").attr("data-url", $(this).val());
-			hide_input_container()
-		}
-		if (event.which == 27) { // Escape
-			hide_input_container()
+	input.on("blur", function() {
+		var obj = icons.filter(".active")
+		obj.attr("data-url", $(this).val());
+		if (!is_icon_hover) {
+			hide_input(obj)
+		} else {
+			check_icon(obj);
 		}
 	});
-	// init
-	$(document).ready(function() {
-		$(options.input_container).wrap("<div style='position: relative;'></div>");
-		$(options.input_container).css({"position" : "absolute", "width" : "100%", "display" : "none"});
-		$(options.icons_container).css({"position" : "relative", "top" : "0", "margin-bottom" : icons_container_margin_bottom, "transition" : "top " + options.animation_delay + "ms, margin-bottom " + options.animation_delay + "ms"});
-		$(options.icons_container + " " + options.icons_selector).each(function() {
-			var str = $(this).attr("title");
-			if (typeof str !== "undefined" && str != "") {
-				if (options.icons_tooltip) {
-					$(this).reload_tooltip(options.icons_title_prefix + str);
-				}
-			}
-			check_icons_enabling($(this));
-		});
+	input.on("keydown", function(e) {
+		var obj = icons.filter(".active");
+		if (e.which == 13) { // Enter
+			obj.attr("data-url", $(this).val());
+			hide_input(obj)
+		}
+		if (e.which == 27) { // Escape
+			hide_input(obj)
+		}
+	});
+	// Execution
+	icons.each(function() {
+		var str = $(this).children().text();
+		if (typeof str !== "undefined" && str != "") {
+			$(this).attr("title", cfg.icons_title_prefix + str);
+		}
+		check_icon($(this));
 	});
 }
 
@@ -640,7 +609,7 @@ $("html").on("focus", "#description", function(event) {
 $("html").on("blur", "#description", function(event) {
 	var str = $(this).val().trim();
 	$(this).val(str);
-	var couple = new Couple(descriptionProperty, str);
+	var couple = new Couple(descriptionProperty, encode_html(str, true));
 	modifiyCouple(couple);
 });
 

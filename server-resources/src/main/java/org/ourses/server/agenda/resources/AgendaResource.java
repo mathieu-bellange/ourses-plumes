@@ -1,5 +1,7 @@
 package org.ourses.server.agenda.resources;
 
+import java.util.Set;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -30,16 +32,28 @@ public class AgendaResource {
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
+        cacheControl.setPrivate(false);
         return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(cacheControl).build();
     }
 
+    @GET
+    @Path("/noCache")
+    public Response getCalendarDaysAdmin() {
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(noCache).build();
+    }
+
     @PUT
-    @Path("/{calendarDay}/create")
+    @Path("/{calendarDay}")
     public Response createEventOnOneDay(@PathParam("calendarDay")
-    String calendarDay, CalendarEventDTO event) {
+    final long calendarDay, final Set<CalendarEventDTO> events) {
         ResponseBuilder builder;
         try {
-            builder = Response.ok().entity(agendaHelper.createEventOnOneDay(calendarDay, event));
+            builder = Response.ok().entity(agendaHelper.createEventOnOneDay(calendarDay, events));
         }
         catch (IllegalArgumentException e) {
             builder = Response.serverError();

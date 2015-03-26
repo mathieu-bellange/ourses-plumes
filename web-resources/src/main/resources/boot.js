@@ -2,7 +2,7 @@
  * Les Ourses à plumes
  * Javascript Loader
  * No dependency
- * ver. 1.0.3
+ * ver. 1.1.0
  */
 
 /* ------------------------------------------------------------------ */
@@ -39,9 +39,9 @@ $org = {
 
 /* Application */
 $app = {
-	"name"               : "Webzine féministe",                   // String   Application name.
-	"ver"                : "1.0.3",                               // String   Application version.
 	"stage"              : "dev",                                 // String   Application stage. Allowed values are "dev" or "rtw" (release to web).
+	"ver"                : "1.1.0",                               // String   Application version.
+	"name"               : "Webzine féministe",                   // String   Application name.
 	"kwd"                : ["Webzine", "Féminisme"],              // Array    Application key words for browsers.
 	"desc"               : "Un webzine féministe.",               // String   Application description for browsers.
 	"genr"               : null,                                  // String   Application generator name for browsers (i.e. the software used for building the application).
@@ -91,10 +91,10 @@ $conf = {
 	},
 	"confirm_delete"     : {                                      // Object   Confirm delete configuration hash.
 		"avatar"           : true,                                  // Boolean  Confirm delete avatar. Default : true
-		"account"          : false,                                 // Boolean  Confirm delete account. Default : false
+		"account"          : true,                                  // Boolean  Confirm delete account. Default : true
 		"draft"            : true,                                  // Boolean  Confirm delete draft. Default : true
 		"faq"              : true,                                  // Boolean  Confirm delete faq. Default : true
-		"date_event"       : false,                                 // Boolean  Confirm delete date event. Default : false
+		"date_event"       : true,                                 // Boolean  Confirm delete date event. Default : true
 		"folder"           : true                                   // Boolean  Confirm delete folder. Default : true
 	},
 	"confirm_remove"     : {                                      // Object   Confirm remove configuration hash.
@@ -189,6 +189,8 @@ $msg = {
 	"email_sent"            : "Le message &eacute;lectronique a correctement &eacute;t&eacute; envoy&eacute;.",
 	"email_empty"           : "L&rsquo;adresse &eacute;lectronique est vide&nbsp;&hellip;",
 	"email_invalid"         : "L&rsquo;adresse &eacute;lectronique est incorrecte&nbsp;!",
+	"password_show"         : "Voir le mot de passe",
+	"password_hide"         : "Cacher le mot de passe",
 	"account_updated"       : "Compte mis &agrave; jour avec succ&egrave;s",
 	"account_deleted"       : "Compte supprim&eacute;&nbsp;!",
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
@@ -201,9 +203,15 @@ $msg = {
 	"confirm_delete"        : {
 		"avatar"              : "&Ecirc;tes-vous certaine de vouloir supprimer votre image utilisatrice&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"account"             : "&Ecirc;tes-vous certaine de vouloir supprimer ce compte&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"my_account"          : "&Ecirc;tes-vous certaine de vouloir supprimer votre compte&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"draft"               : "&Ecirc;tes-vous certaine de vouloir supprimer ce brouillon&nbsp;?<br>Cette action est irr&eacute;versible.",
 		"faq"                 : "&Ecirc;tes-vous certaine de vouloir supprimer cette FAQ&nbsp;?<br>Cette action est irr&eacute;versible.",
-		"date_event"          : "&Ecirc;tes-vous certaine de vouloir supprimer cet &eacute;v&egrave;nement&nbsp;?<br>Cette action est irr&eacute;versible."
+		"date_event"          : "&Ecirc;tes-vous certaine de vouloir supprimer cet &eacute;v&egrave;nement&nbsp;?<br>Cette action est irr&eacute;versible.",
+		"account_articles"    : {
+			"input_p"           : "Supprime d&eacute;finitivement tous %1 articles%2.",
+			"label_p"           : "Supprimer tous %1 articles%2",
+			"helpz_p"           : "Si coch&eacute;, tous %1 articles en ligne, en cours de validation et les brouillons%2 seront d&eacute;finitivement supprim&eacute;s. Si d&eacute;coch&eacute;, tous les articles en ligne seront affect&eacute;s au compte global Les Ourses &agrave; plumes et resteront accessibles depuis le site."
+		}
 	},
 	"confirm_remove_p"      : "&Ecirc;tes-vous certaine de vouloir retirer %1&nbsp;?",
 	"confirm_delete_p"      : "&Ecirc;tes-vous certaine de vouloir supprimer %1&nbsp;?<br>Cette action est irr&eacute;versible.",
@@ -236,6 +244,7 @@ $nav = {
 	"profile_view"          : {"url" : null,                       "title" : null},
 	"profile_edit"          : {"url" : "/parametres/profil",       "title" : "Mon profil"},
 	"faq"                   : {"url" : "/faq",                     "title" : "FAQ"},
+	"faq_edit"              : {"url" : "/parametres/faq",          "title" : "FAQ"},
 	"thanks"                : {"url" : "/remerciements",           "title" : "Remerciements"},
 	"legal_notice"          : {"url" : "/service/mentions",        "title" : "Mentions légales"},
 	"terms_of_use"          : {"url" : "/service/utilisation",     "title" : "Conditions d'utilisation"},

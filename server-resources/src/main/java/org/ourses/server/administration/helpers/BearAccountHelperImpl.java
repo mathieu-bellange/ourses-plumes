@@ -1,6 +1,6 @@
 package org.ourses.server.administration.helpers;
 
-import java.util.Date;
+import java.util.Collection;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -14,8 +14,12 @@ import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullExc
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
 import org.ourses.server.administration.util.BearAccountUtil;
 import org.ourses.server.newsletter.helper.MailHelper;
+import org.ourses.server.redaction.domain.entities.Article;
+import org.ourses.server.redaction.helpers.ArticleHelper;
 import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.RolesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +29,8 @@ import com.google.common.collect.Sets;
 @Component
 public class BearAccountHelperImpl implements BearAccountHelper {
 
+    Logger logger = LoggerFactory.getLogger(BearAccountHelperImpl.class);
+
     @Autowired
     private SecurityHelper securityHelper;
 
@@ -33,9 +39,12 @@ public class BearAccountHelperImpl implements BearAccountHelper {
 
     @Autowired
     private RenewPasswordHelper renewPasswordHelper;
-    
+
     @Autowired
     private MailHelper mailHelper;
+
+    @Autowired
+    private ArticleHelper articleHelper;
 
     @Override
     public String getPassword(final String username) {
@@ -94,7 +103,8 @@ public class BearAccountHelperImpl implements BearAccountHelper {
     public void resetAccountPassword(final String mail) {
         BearAccount bearAccount = BearAccount.findAuthcUserProperties(mail);
         if (bearAccount != null) {
-            bearAccount.setRenewPasswordDate(DateTime.now().plusHours(1).toString(DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")));
+            bearAccount.setRenewPasswordDate(DateTime.now().plusHours(1)
+                    .toString(DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")));
             String renewUrl = renewPasswordHelper.generateUrlToRenewPassword(mail, bearAccount.getRenewPasswordDate());
             mailHelper.renewPassword(renewUrl, mail);
             bearAccount.update("renewPasswordDate");
@@ -102,19 +112,50 @@ public class BearAccountHelperImpl implements BearAccountHelper {
 
     }
 
-	@Override
-	public boolean renewPassword(String mail, String id, String password) {
-		BearAccount bearAccount = BearAccount.findAuthcUserProperties(mail);
-		boolean isOk = false;
-		DateTime renewPasswordDate = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").parseDateTime(bearAccount.getRenewPasswordDate());
-		Long now = new DateTime().getMillis();
-		if (bearAccount != null && renewPasswordDate.isAfter(now)) {
-			isOk = renewPasswordHelper.isRenewPasswordIdMatch(id, mail, bearAccount.getRenewPasswordDate());
-			if(isOk){
-				bearAccount.setCredentials(securityHelper.encryptedPassword(password));
-				bearAccount.updateCredentials();
-			} 
-		}
-		return isOk;
-	}
+    @Override
+    public boolean renewPassword(final String mail, final String id, final String password) {
+        BearAccount bearAccount = BearAccount.findAuthcUserProperties(mail);
+        boolean isOk = false;
+        DateTime renewPasswordDate = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss").parseDateTime(
+                bearAccount.getRenewPasswordDate());
+        Long now = new DateTime().getMillis();
+        if (bearAccount != null && renewPasswordDate.isAfter(now)) {
+            isOk = renewPasswordHelper.isRenewPasswordIdMatch(id, mail, bearAccount.getRenewPasswordDate());
+            if (isOk) {
+                bearAccount.setCredentials(securityHelper.encryptedPassword(password));
+                bearAccount.updateCredentials();
+            }
+        }
+        return isOk;
+    }
+
+    @Override
+    public void delete(final BearAccount bearAccount, final boolean deleteArticles) {
+        if (bearAccount != null) {
+            Collection<? extends Article> articles = Article.findToCheckAndDraftAndPublished(bearAccount.getProfile()
+                    .getId());
+            Profile profileDefault = new Profile(0l, "Ourses à plumes", "");
+            for (Article article : articles) {
+                if (deleteArticles) {
+                    articleHelper.delete(article);
+                }
+                else {
+                    Article updateArt = Article.findArticle(article.getId());
+                    updateArt.setProfile(profileDefault);
+                    updateArt.update("profile");
+
+                }
+            }
+            Collection<? extends Article> coAuthorsArticles = Article.findAllCoAuthorsArticle(bearAccount.getProfile()
+                    .getId());
+            for (Article article : coAuthorsArticles) {
+                Set<Profile> coAuthors = article.getCoAuthors();
+                coAuthors.remove(bearAccount.getProfile());
+                Article updateArt = Article.findArticle(article.getId());
+                updateArt.setCoAuthors(coAuthors);
+                article.updateCoAuthors();
+            }
+            bearAccount.delete();
+        }
+    }
 }

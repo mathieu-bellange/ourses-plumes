@@ -85,6 +85,7 @@ function getAccount() {
 			},
 			success : function(account, status, jqxhr) {
 				$(".main-body").append(file_pool.account_edit_tmpl(account)).after(lb(1));
+				$("section").svg_icons(); // reload svg icons for whole section
 			},
 			error : function(jqXHR, status, errorThrown) {
 				createAlertBox();
@@ -155,9 +156,55 @@ function submitAccountAJAX() {
 	});
 }
 
+function deleteEvent(id, val) {
+	var val = val || false;
+	$.ajax({
+		type : "DELETE",
+		url : "/rest/account/" + id + "?deleteArticles=" + val.toString(),
+		contentType : "application/json; charset=utf-8",
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success : function(data, status, jqxhr) {
+			createAlertBox($msg.account_deleted, "delete_" + id, {"class" : "warning", "timeout" : $time.duration.alert});
+			clearStorage();
+			UserSession.delete();
+			location.href = $nav.home.url;
+		},
+		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			createAlertBox();
+		}
+	});
+};
+
 /* ------------------------------------------------------------------ */
 /* # Live Events */
 /* ------------------------------------------------------------------ */
+
+$("html").on("click", "a#delete_account", function() {
+	var id = UserSession.getAccountId();
+	if ($conf.confirm_delete.account) {
+		// Confirm Delete Account
+		var f = $msg.confirm_delete.account_articles, p = ["vos", ""];
+		var l = {
+			"input" : f.input_p.sprintf(p),
+			"label" : f.label_p.sprintf(p),
+			"helpz" : f.helpz_p.sprintf(p)
+		};
+		var m = {
+			"text" : $msg.confirm_delete.my_account,
+			"class" : "panel radius",
+			"extra" : file_pool.delete_account_articles_tmpl(l),
+			"on_confirm" : function() {
+				deleteEvent(id, ($("#delete_account_articles").is(":checked") ? true : false)); // delete account
+			}
+		};
+		$("#articles").create_confirmation_modal(m);
+	} else {
+		deleteEvent(id) // delete account
+	}
+});
 
 $("html").on("submit", "#updateBearAccount", function() {
 	if (isFormValid()) {

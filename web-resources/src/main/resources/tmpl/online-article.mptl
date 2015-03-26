@@ -10,7 +10,7 @@
 						<div id="search_field" class="validation-box left hide">
 							<input id="search" class="validation radius" type="text" maxlength="64" placeholder="Votre recherche (p. ex. homoparentalit&eacute;)">
 							<small class="error hide"></small>
-							<button id="find" class="icon-reply primary small" title="Lancer la recherche"><span class="text hide">Trouver</span></button>
+							<button id="find" class="icon-reply primary small postfix" title="Lancer la recherche"><span class="text hide">Trouver</span></button>
 						</div>
 					</div>
 {{%}}

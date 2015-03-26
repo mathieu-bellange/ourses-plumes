@@ -55,7 +55,7 @@
 				
 				/rest/github = oursesAuthc, oursesAuthz[admin]
 				
-				/rest/agenda/*/* = oursesAuthc, oursesAuthz[admin]
+				/rest/agenda/* = oursesAuthc, oursesAuthz[writer]
 				/rest/agenda = anon
 				
 				/** = noSessionCreation

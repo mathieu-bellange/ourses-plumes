@@ -14,7 +14,7 @@
 					<ul>
 						<li class="home"><a href="{{= $nav.home.url }}" data-current>Accueil</a></li>
 						<li><a href="{{= $nav.online_article_list.url }}" data-current>Articles</a></li>
-						<li{{ if ($app.stage == "rtw") { out += " class='hide'"} }}><a href="{{= $nav.agenda.url }}" data-current>Agenda</a></li>
+						<li><a href="{{= $nav.agenda.url }}" data-current>Agenda</a></li>
 						<li><a href="{{= $nav.faq.url }}" data-current>FAQ</a></li>
 						<li class="text-small"><a href="{{= $nav.thanks.url }}" data-current>Remerciements</a></li>
 						<li class="text-small"><a href="javascript:void(0)" class="no-current" title="Envoyer un courrier &eacute;l&eacute;ctronique &agrave; {{= $org.name}}" rel="contact" data-postmail="{{= $org.mail }}">Nous contacter</a></li>

@@ -28,7 +28,7 @@
 									{{?}}
 								</td>
 								<td class="text-right">
-								{{? account.profile.pseudo !== UserSession.getUserPseudo() }}
+								{{? account.profile.pseudo !== UserSession.getUserPseudo() && account.id != 0 }}
 									<button class="alert icon-remove tiny" title="Supprimer ce compte"><span class="text hide">Supprimer</span></button>
 								{{?}}
 								</td>

@@ -189,5 +189,5 @@
 #dev_testbar > input[type='range'] {margin: 0; vertical-align: middle;}
 
 /* Dev Container*/
-#dev_container {padding: 1rem;}
+#dev_container {padding: 1rem; left: 0; width: 100%;}
 #dev_container > h2:first-of-type {margin-top: 0;}

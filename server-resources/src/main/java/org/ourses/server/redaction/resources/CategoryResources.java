@@ -30,6 +30,7 @@ public class CategoryResources {
         // cache = 30 days
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(2592000);
+        cacheControl.setPrivate(true);
         return Response.ok(categoriesDTO).cacheControl(cacheControl).build();
     }
 }

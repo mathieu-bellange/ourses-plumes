@@ -9,6 +9,6 @@ public interface AgendaHelper {
 
     Set<CalendarDayDTO> findCalendarDays();
 
-    CalendarEventDTO createEventOnOneDay(String calendarDay, CalendarEventDTO eventDTO);
+    CalendarDayDTO createEventOnOneDay(long calendarDay, Set<CalendarEventDTO> eventDTO);
 
 }

@@ -13,4 +13,4 @@ CREATE SEQUENCE article_coauthor_seq START WITH 50;
 CREATE SEQUENCE calendar_event_seq START WITH 50;
 CREATE SEQUENCE old_path_seq START WITH 50;
 CREATE SEQUENCE faq_seq START WITH 50;
-CREATE SEQUENCE bear_security_token_seq START WITH 50;
+CREATE SEQUENCE ourse_security_token_seq START WITH 50;

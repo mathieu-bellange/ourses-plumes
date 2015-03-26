@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="fr">
 	<head>
-		<script src="boot.js"></script>
+		<script src="/js/faq-edit-${project.version}.js"></script>
+		<link rel="stylesheet" href="/css/faq-edit-${project.version}.css"/>
 		<meta name="robots" content="noindex">
 	</head>
 	<body>
 		<noscript>JavaScript est d&eacute;sactiv&eacute;. Le site ne peut pas &ecirc;tre affich&eacute;.</noscript>
 		<script>
-			load("faq-edit.js");
+			checkRole($conf.role_admin);
 		</script>
 	</body>
 </html>

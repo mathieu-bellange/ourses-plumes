@@ -1,7 +1,6 @@
 package org.ourses.server.administration.domain.entities;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -266,7 +265,7 @@ public class BearAccount implements Account {
     }
 
     public static BearAccount find(final Long id) {
-        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").where()
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile", "pseudo").where()
                 .eq("id", id).findUnique();
     }
 

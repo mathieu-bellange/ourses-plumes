@@ -1,8 +1,12 @@
 ﻿				<section id="updateAccount">
 					<form id="updateBearAccount" class="small-20 small-offset-2 medium-16 medium-offset-4 large-12 large-offset-6" onsubmit="return false;" autocomplete="off">
 						<fieldset>
-							<legend>L&acute;adresse mail li&eacute;e &agrave; mon compte</legend>
+							<legend>Mon compte</legend>
+							<label for="mail" class="text-gray">L&acute;adresse &eacute;lectronique du compte</label>
 							<input id="mail" type="text" value="{{= data.mail }}" disabled>
+							{{? UserSession.getAccountId() != 0 }}
+							<a href="javascript:void(0)" class="icon-remove small right" id="delete_account" title="Supprimer d&eacute;finitivement le compte."><span class="text small">Supprimer mon compte</span></a>
+							{{?}}
 						</fieldset>
 						<fieldset class="important">
 							<legend>Changer mon mot de passe</legend>
@@ -21,7 +25,9 @@
 								<input id="confirmPassword" class="validation" type="password" maxlength="20" placeholder="Minimum 7 caract&egrave;res dont une minuscule et un chiffre">
 								<small class="error hide">Confirmation du mot de passe incorrecte</small>
 							</div>
-							<input class="button right" id="confirm" type="submit" value="Valider">
+							<div class="button-bar text-right">
+								<button class="primary icon-confirm small" id="confirm" type="submit" title="Modifier le mot de passe du compte."><span class="text">Modifier mon mot de passe</span></button>
+							</div>
 						</fieldset>
 					</form>
 				</section>

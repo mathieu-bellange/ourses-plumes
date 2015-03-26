@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -22,13 +23,17 @@ public class TagResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllTag(@QueryParam("criteria")
-    String criteria) {
+    final String criteria) {
         Set<Tag> tags = Tag.findAllTag(criteria.toLowerCase());
         Set<TagDTO> tagsDTO = Sets.newHashSet();
         for (Tag tag : tags) {
             tagsDTO.add(tag.toTagDTO());
         }
-        // no cache
-        return Response.ok(tagsDTO).build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        return Response.ok(tagsDTO).cacheControl(noCache).build();
     }
 }

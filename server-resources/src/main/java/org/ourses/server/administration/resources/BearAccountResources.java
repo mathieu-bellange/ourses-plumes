@@ -3,7 +3,6 @@ package org.ourses.server.administration.resources;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,7 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -30,12 +29,12 @@ import org.ourses.server.administration.domain.exception.AccountProfileNullExcep
 import org.ourses.server.administration.helpers.BearAccountHelper;
 import org.ourses.server.newsletter.helper.MailHelper;
 import org.ourses.server.security.helpers.SecurityHelper;
+import org.ourses.server.security.util.RolesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 
 @Controller
@@ -136,17 +135,20 @@ public class BearAccountResources {
         }
         return response.build();
     }
-    
+
     @PUT
     @Path("/{mail}/renew")
-    public Response renewPassword(@PathParam("mail") final String mail, @QueryParam("id") final String id, final String password){
-    	ResponseBuilder response = null;
-    	if(helper.renewPassword(mail, id, password)){
-    		response = Response.status(Status.NO_CONTENT);
-    	}else{
-    		response = Response.status(Status.FORBIDDEN);
-    	}
-    	return response.build();
+    public Response renewPassword(@PathParam("mail")
+    final String mail, @QueryParam("id")
+    final String id, final String password) {
+        ResponseBuilder response = null;
+        if (helper.renewPassword(mail, id, password)) {
+            response = Response.status(Status.NO_CONTENT);
+        }
+        else {
+            response = Response.status(Status.FORBIDDEN);
+        }
+        return response.build();
     }
 
     @GET
@@ -171,18 +173,34 @@ public class BearAccountResources {
                 builder = Response.status(Status.UNAUTHORIZED);
             }
         }
-        // no cache
-        return builder.build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        return builder.cacheControl(noCache).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteAccount(@PathParam("id")
-    final long id) {
-        BearAccount bearAccount = new BearAccount();
-        bearAccount.setId(id);
-        bearAccount.delete();
-        return Response.status(Status.NO_CONTENT).build();
+    final Long id, @QueryParam("deleteArticles")
+    final boolean deleteArticles, @HeaderParam(HttpHeaders.AUTHORIZATION)
+    final String token) {
+        BearAccount bearAccountToDelete = BearAccount.find(id);
+        BearAccount requestor = BearAccount.findAuthcUserProperties(securityHelper.findByToken(token).getLogin());
+        ResponseBuilder responseBuilder = null;
+        if (id != 0l
+                && requestor != null
+                && (RolesUtil.ADMINISTRATRICE.equals(requestor.getAuthzInfo().getMainRole()) || id.equals(requestor
+                        .getId()))) {
+            helper.delete(bearAccountToDelete, deleteArticles);
+            responseBuilder = Response.status(Status.NO_CONTENT);
+        }
+        else {
+            responseBuilder = Response.status(Status.FORBIDDEN);
+        }
+        return responseBuilder.build();
     }
 
     @GET
@@ -198,7 +216,11 @@ public class BearAccountResources {
                         return bearAccount.toBearAccountDTO();
                     }
                 });
-        // no cache
-        return Response.ok().entity(listBearAccountDTO).build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        return Response.ok().entity(listBearAccountDTO).cacheControl(noCache).build();
     }
 }

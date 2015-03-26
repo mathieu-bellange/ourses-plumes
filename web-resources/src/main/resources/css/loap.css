@@ -3,7 +3,7 @@
  * Main Cascading Style Sheet
  * Includes Basics, CSS Effects and Responsive Design
  * Includes Normalize 3.0.1 | MIT License | git.io/normalize
- * ver. 1.0.3
+ * ver. 1.1.0
  */
 
 /* ------------------------------------------------------------------ */
@@ -549,20 +549,20 @@ textarea:focus {
 }
 
 /* Inputs */
-.css-fx input[type="text"],
-.css-fx input[type="password"],
-.css-fx input[type="date"],
-.css-fx input[type="datetime"],
-.css-fx input[type="datetime-local"],
-.css-fx input[type="month"],
-.css-fx input[type="week"],
-.css-fx input[type="email"],
-.css-fx input[type="number"],
-.css-fx input[type="search"],
-.css-fx input[type="tel"],
-.css-fx input[type="time"],
-.css-fx input[type="url"],
-.css-fx input[type="color"],
+.css-fx input[type='text'],
+.css-fx input[type='password'],
+.css-fx input[type='date'],
+.css-fx input[type='datetime'],
+.css-fx input[type='datetime-local'],
+.css-fx input[type='month'],
+.css-fx input[type='week'],
+.css-fx input[type='email'],
+.css-fx input[type='number'],
+.css-fx input[type='search'],
+.css-fx input[type='tel'],
+.css-fx input[type='time'],
+.css-fx input[type='url'],
+.css-fx input[type='color'],
 .css-fx textarea {
   -webkit-transition: -webkit-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
      -moz-transition:     moz-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
@@ -571,20 +571,20 @@ textarea:focus {
      -moz-box-shadow: 0 0 .125rem rgba(0, 0, 0, 0); /* Foundation override */
           box-shadow: 0 0 .125rem rgba(0, 0, 0, 0); /* Foundation override */
 }
-.css-fx input[type="text"]:focus,
-.css-fx input[type="password"]:focus,
-.css-fx input[type="date"]:focus,
-.css-fx input[type="datetime"]:focus,
-.css-fx input[type="datetime-local"]:focus,
-.css-fx input[type="month"]:focus,
-.css-fx input[type="week"]:focus,
-.css-fx input[type="email"]:focus,
-.css-fx input[type="number"]:focus,
-.css-fx input[type="search"]:focus,
-.css-fx input[type="tel"]:focus,
-.css-fx input[type="time"]:focus,
-.css-fx input[type="url"]:focus,
-.css-fx input[type="color"]:focus,
+.css-fx input[type='text']:focus,
+.css-fx input[type='password']:focus,
+.css-fx input[type='date']:focus,
+.css-fx input[type='datetime']:focus,
+.css-fx input[type='datetime-local']:focus,
+.css-fx input[type='month']:focus,
+.css-fx input[type='week']:focus,
+.css-fx input[type='email']:focus,
+.css-fx input[type='number']:focus,
+.css-fx input[type='search']:focus,
+.css-fx input[type='tel']:focus,
+.css-fx input[type='time']:focus,
+.css-fx input[type='url']:focus,
+.css-fx input[type='color']:focus,
 .css-fx textarea:focus {
   -webkit-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
      -moz-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
@@ -641,6 +641,7 @@ textarea.large {
 
 /* Selects */
 select {
+  width: 100%;
   text-transform: none; /* Normalize 3.0.1 : Address inconsistent `text-transform` inheritance for `button` and `select`. All other form control elements do not inherit `text-transform` values. Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera. Correct `select` style inheritance in Firefox. */
 }
 select:hover {
@@ -656,8 +657,8 @@ select > optgroup {
 select > optgroup > option {}
 
 /* Checkboxes and Radios */
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
   vertical-align: middle;
 }
 input[type="checkbox"] + label,
@@ -665,58 +666,6 @@ input[type="radio"] + label {
   margin: 0; /* Foundation override */
   vertical-align: middle;
 }
-
-/* ------------------------------------------------------------------ */
-/* # Input Fixes */
-/* ------------------------------------------------------------------ */
-
-input::-moz-focus-inner,
-button::-moz-focus-inner { /* Firefox extra spacing fix */
-  border: 0;
-  padding: 0;
-}
-
-button,
-html input[type='button'], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
-input[type='reset'],
-input[type='submit'] {
-  -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
-  cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
-}
-
-button[disabled],
-html input[disabled] {
-  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
-}
-
-input + input,
-textarea + input,
-input + button,
-textarea + button,
-input + .button,
-textarea + .button {
-  margin-top: .75rem; /* TEMP */
-}
-.prefix, .postfix {
-  margin: 0; /* TEMP */
-  padding: 0 .75rem;
-}
-.prefix.button, .postfix.button {
-  padding: 0; /* Foundation override */
-}
-
-/* ------------------------------------------------------------------ */
-/* # Inputs Placeholders */
-/* ------------------------------------------------------------------ */
-
-::-webkit-input-placeholder { /* Chrome */
-  color: rgba(0, 0, 0, .5);
-}
-:-ms-input-placeholder { /* IE 10+ */
-  color: rgba(0, 0, 0, .5);
-}
-
-.placeholder {color: rgba(0, 0, 0, .375);}
 
 /* ------------------------------------------------------------------ */
 /* # Buttons */
@@ -731,7 +680,7 @@ button, .button{
   cursor: pointer;
   position: relative;
   margin-bottom: 0; /* WARNING : Reset CSS Fix (Foundation override) */
-  line-height: 100%;
+  line-height: 1;
   font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif;
   letter-spacing: -.0625em;
   border-width: .1875rem; /* WARNING */
@@ -749,9 +698,9 @@ button:focus, .button:focus {
 }
 
 /* Buttons Sizing */
-button, .button {font-size: 1.1rem;}
-button.tiny, .button.tiny {font-size: .8rem;}
-button.small, .button.small {font-size: .9rem;}
+button, .button {font-size: 1.1rem; }
+button.tiny, .button.tiny {font-size: .8125rem; }
+button.small, .button.small {font-size: .875rem;}
 button.large, .button.large {font-size: 1.5rem;}
 
 /* Buttons Shaping */
@@ -762,7 +711,7 @@ button.tiny, .button.tiny {
   padding: .375em .5em;
 }
 button, .button,
-button:after, .button:after {border-radius: .125rem;}
+button:after, .button:after {border-radius: .25rem;}
 button.radius, .button.radius,
 button.radius:after, .button.radius:after {border-radius: .375rem;}
 button.round, .button.round,
@@ -868,13 +817,15 @@ button:focus:after, .button:focus:after {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  box-shadow: 0 0 .4375rem .25rem #759;
 }
-button.primary:focus:after, .button.primary:focus:after {box-shadow: 0 0 .4375rem .25rem #759;}
-button.secondary:focus:after, .button.secondary:focus:after {box-shadow: 0 0 .4375rem .25rem #999;}
-button.success:focus:after, .button.success:focus:after {box-shadow: 0 0 .4375rem .25rem #274;}
-button.alert:focus:after, .button:focus.alert:after,
-button.error:focus:after, .button:focus.error:after {box-shadow: 0 0 .4375rem .25rem #930;}
+input.button:focus, button:focus:after, .button:focus:after {
+  box-shadow: 0 .125rem 0 0 rgba(255, 255, 255, .125) inset, 0 0 .4375rem .25rem #759;
+}
+input.primary.button:focus, button.primary:focus:after, .button.primary:focus:after {box-shadow: 0 .125rem 0 0 rgba(255, 255, 255, .125) inset, 0 0 .4375rem .25rem #759;}
+input.secondary.button:focus, button.secondary:focus:after, .button.secondary:focus:after {box-shadow: 0 .125rem 0 0 rgba(255, 255, 255, .375) inset, 0 0 .4375rem .25rem #999;}
+input.success.button:focus, button.success:focus:after, .button.success:focus:after {box-shadow: 0 .125rem 0 0 rgba(255, 255, 255, .125) inset, 0 0 .4375rem .25rem #274;}
+input.alert.button:focus, button.alert:focus:after, .button:focus.alert:after,
+input.error.button:focus, button.error:focus:after, .button:focus.error:after {box-shadow: 0 .125rem 0 0 rgba(255, 255, 255, .125) inset, 0 0 .4375rem .25rem #930;}
 
 /* Disabled */
 button.disabled, .button.disabled,
@@ -889,6 +840,103 @@ button[disabled]:focus:after, .button[disabled]:focus:after {
   box-shadow: none;
   opacity: .5;
 }
+
+/* ------------------------------------------------------------------ */
+/* # Input Fixes */
+/* ------------------------------------------------------------------ */
+
+input::-moz-focus-inner,
+button::-moz-focus-inner { /* Firefox extra spacing fix */
+  border: 0;
+  padding: 0;
+}
+
+button,
+html input[type='button'], /* Normalize 3.0.1 : Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. */
+input[type='reset'],
+input[type='submit'] {
+  -webkit-appearance: button; /* Normalize 3.0.1 : Correct inability to style clickable `input` types in iOS. */
+  cursor: pointer; /* Normalize 3.0.1 : Improve usability and consistency of cursor style between image-type `input` and others. */
+}
+
+button[disabled],
+html input[disabled] {
+  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
+}
+
+input + input,
+textarea + input,
+input + button,
+textarea + button,
+input + .button,
+textarea + .button {
+  margin-top: .75rem; /* TEMP */
+}
+
+label.static,
+button.static,
+.button.static {
+  width: 100%;
+  height: 2.25rem;
+  font-size: .875rem;
+  text-align: center;
+}
+label.static {
+  color: dimgray;
+  line-height: 2rem;
+  border: .125rem solid lightgrey;
+  background-color: whitesmoke;
+}
+label.antefix {
+  border-right: 0;
+}
+.icon.antefix,
+button.antefix,
+.button.antefix,
+button.antefix:focus,
+.button.antefix:focus,
+button.antefix:after,
+.button.antefix:after,
+button.radius.antefix,
+.button.radius.antefix,
+button.round.antefix,
+.button.round.antefix {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+label.postfix {
+  border-left: 0;
+}
+.icon.postfix,
+button.postfix,
+.button.postfix,
+button.postfix:focus,
+.button.postfix:focus,
+button.postfix:after,
+.button.postfix:after,
+button.radius.postfix,
+.button.radius.postfix,
+button.round.postfix,
+.button.round.postfix {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+label.static[for]:hover {
+  background-color: white;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Inputs Placeholders */
+/* ------------------------------------------------------------------ */
+
+::-webkit-input-placeholder { /* Chrome */
+  color: rgba(0, 0, 0, .5);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(0, 0, 0, .5);
+}
+
+.placeholder {color: rgba(0, 0, 0, .375);}
 
 /* ------------------------------------------------------------------ */
 /* # Inputs Validation */
@@ -961,7 +1009,8 @@ label.error {
   margin: -.125rem 0; /* Box full height fix toward border width ; I know about negative margin ... AND I DON'T CARE ! */
 }
 .validation-box > input {
-  height: 100%;
+  /*height: 100%; /* UNUSED */
+  height: 2.625rem; /* TEMP : fixed height */
 }
 .validation-box > input.wrong {
   border-bottom-left-radius: 0;
@@ -980,17 +1029,22 @@ label.error {
   position: absolute;
   top: 0;
   right: 0;
-  height: 100%;
-  width: 3rem;
-  border-top-right-radius: .25rem;
-  border-bottom-right-radius: .25rem;
+  /*height: 100%; /* UNUSED */
+  height: 2.625rem; /* TEMP : fixed height */
+  width: 2.625rem;
+}
+.validation-box > button.icon{
+  border-top-left-radius: 0; /* TEMP */
+  border-bottom-left-radius: 0; /* TEMP */
+  border-top-right-radius: .375rem; /* TEMP */
+  border-bottom-right-radius: .375rem; /* TEMP */
 }
 
 /* ------------------------------------------------------------------ */
-/* # Send Boxes */
+/* # Spring Boxes */
 /* ------------------------------------------------------------------ */
 
-.send-box {
+.spring-box {
   position: absolute;
   bottom: 2rem;
   left: 0;
@@ -1004,15 +1058,15 @@ label.error {
   box-shadow: .125rem .125rem .375rem rgba(0, 0, 0, .25);
   z-index: 100;
 }
-.send-box.folder {width: 24rem;}
-.send-box.publish {width: 26rem;}
-.send-box.folder,
-.send-box.publish {
+.spring-box.folder,
+.spring-box.publish {width: 24rem;}
+.spring-box.folder,
+.spring-box.publish {
   max-width: 100%;
   bottom: auto;
   top: 0;
 }
-.send-box:before {
+.spring-box:before {
   content: '';
   position: absolute;
   display: inline-box;
@@ -1023,11 +1077,12 @@ label.error {
   border: .5rem solid transparent;
   border-top-color: silver;
 }
-.send-box.publish:before {
+.spring-box.folder:before,
+.spring-box.publish:before {
   left: auto;
   right: 1rem;
 }
-.send-box:after {
+.spring-box:after {
   content: '';
   position: absolute;
   display: inline-box;
@@ -1038,22 +1093,41 @@ label.error {
   border: .5rem solid transparent;
   border-top-color: #f0f0f0;
 }
-.send-box.publish:after {
+.spring-box.folder:after,
+.spring-box.publish:after {
   left: auto;
   right: 1rem;
 }
-.send-box > label {
-  margin-top: .5rem;
+.spring-box > .close {
+  position: absolute;
+  /*float: right;*/
+  /*margin-right: -.5rem; /* Fix X Position */
+  top: 0;
+  right: .75rem;
+  padding: .25rem .5rem;
+  font-size: 1.25rem;
+  z-index: 2;
 }
-.send-box select {
-  height: 2rem;
-  padding: 0 .25rem;
+.spring-box > fieldset {
+  display: block;
+  margin: .5rem 0 .75rem;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+.spring-box label {
+  margin-bottom: .25rem;
+}
+.spring-box select {
+  height: 1.875rem;
+  padding: 0;
   font-size: .875em;
+  border: .125rem solid lightgrey;
 }
-.send-box select > option{
-  padding: .125rem .375rem;
+.spring-box select > option {
+  padding: .125rem .25rem;
 }
-.send-box > .error{
+.spring-box .error {
   margin-bottom: 0;
   line-height: 100%;
 }
@@ -1141,7 +1215,7 @@ a.ourbody:hover, a.ourbody:focus, li.ourbody > a:hover, li.ourbody > a:focus {co
   color: darkgray;
 }
 
-/* SVG Icons Sizing */
+/* Sizing */
 .icon.share > svg {width: 20px; height: 20px;} /* 20px */
 .icon.tiny > svg {width: 1.5rem; height: 1.5rem;} /* 24px */
 .icon.small > svg {width: 2rem; height: 2rem;} /* 32px */
@@ -1149,8 +1223,8 @@ a.ourbody:hover, a.ourbody:focus, li.ourbody > a:hover, li.ourbody > a:focus {co
 .icon.large > svg {width: 3.5rem; height: 3.5rem;} /* 56px */
 .icon.huge > svg {width: 5rem; height: 5rem;} /* 80px */
 
-/* SVG Icons Shaping (i.e. link and button boxes) */
-a.icon {
+/* Shaping (i.e. link and button boxes) */
+.icon {
   position: relative;
 }
 a.icon:not(.button) {
@@ -1158,6 +1232,8 @@ a.icon:not(.button) {
   text-decoration: none; /* TEMP : links underline fix */
   border-radius: .5rem; /* TEMP : better use .radius class instead */
 }
+a.icon.small:not(.button) {border-radius: .375rem;}
+a.icon.tiny:not(.button) {border-radius: .25rem;}
 a.icon.round:not(.button) {border-radius: 100%;}
 a.icon.radius:not(.button) {border-radius: .5rem;}
 a.icon.share:not(.button) {border-radius: 3px;}
@@ -1180,6 +1256,9 @@ a.icon:not(.button) > .text {
   font-size: 75%;
   text-transform: uppercase;
 }
+a.icon:not(.button) > .text.small {
+  text-transform: none;
+}
 a.icon:not(.button):not(.disabled):hover > .text,
 a.icon:not(.button):not(.disabled):focus > .text,
 a.icon:not(.button):not(.disabled):active > .text,
@@ -1193,6 +1272,79 @@ a.icon.share:not(.button) > .text {
   text-transform: none;
 }
 
+/* Positioning */
+.icon > .text {
+  margin-right: .75rem;
+}
+.icon + .icon {
+  margin-left: .5rem;
+}
+
+/* Coloring */
+.icon.white > svg {fill: white;} /* Compatibility fix ; should not be used */
+.icon.black > svg {fill: black;} /* Compatibility fix ; should not be used  */
+
+.icon.orange > svg {fill: #f73;} /* Like struggles */
+a.icon.orange:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.orange:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.orange.active:not(.button):not(.disabled):not(.no-bg){background-color: #f73;}
+
+.icon.fuschia > svg {fill: #e2a;} /* Like ourbody (i.e. magenta) */
+a.icon.fuschia:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.fuschia:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.fuschia.active:not(.button):not(.disabled):not(.no-bg) {background-color: #e2a;}
+
+.icon.red > svg {fill: #c33;} /* Like intersec */
+a.icon.red:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.red:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.red.active:not(.button):not(.disabled):not(.no-bg) {background-color: #c33;}
+
+.icon.blue > svg {fill: #36c;} /* Like internat */
+a.icon.blue:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.blue:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.blue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #36c;}
+
+.icon.turquoise > svg {fill: #399;} /* Like educult (i.e. cyan) */
+a.icon.turquoise:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.turquoise:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.turquoise.active:not(.button):not(.disabled):not(.no-bg) {background-color: #399;}
+
+.icon.golden > svg {fill: #ca0;} /* Like ideas */
+a.icon.golden:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.golden:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.golden.active:not(.button):not(.disabled):not(.no-bg) {background-color: #ca0;}
+
+.icon.honey > svg {fill: #fa0;} /* Like syndicate */
+a.icon.honey:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.honey:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.honey.active:not(.button):not(.disabled):not(.no-bg) {background-color: #fa0;}
+
+.icon.skyblue > svg {fill: #0be;} /* Like twitter */
+a.icon.skyblue:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.skyblue:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.skyblue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #0be;}
+
+.icon.royalblue > svg {fill: #359;} /* Like facebook, tumblr */
+a.icon.royalblue:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.royalblue:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.royalblue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #359;}
+
+.icon.firered > svg {fill: #b33;} /* Like googleplus, pinterest */
+a.icon.firered:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.firered:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.firered.active:not(.button):not(.disabled):not(.no-bg) {background-color: #b33;}
+
+.icon.electricblue > svg {fill: #18c;} /* Like linkedin */
+a.icon.electricblue:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.electricblue:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.electricblue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #18c;}
+
+.icon.gingerred > svg {fill: #e42;} /* Like stumbleupon */
+a.icon.gingerred:not(.button):not(.disabled):not(.no-bg):focus,
+a.icon.gingerred:not(.button):not(.disabled):not(.no-bg):hover,
+a.icon.gingerred.active:not(.button):not(.disabled):not(.no-bg) {background-color: #e42;}
+
+/* Buttons */
 button.icon,
 a.button.icon {
   padding: 0;
@@ -1207,111 +1359,26 @@ button.icon > .text,
   vertical-align: middle;
 }
 
-/* SVG Icons Positioning */
-.icon > .text {
-  margin-right: .75rem;
-}
-.icon + .icon {
-  margin-left: .5rem;
-}
-
-/* SVG Icons Icons Visibility */
-.icon.disabled {
+/* Disabled */
+.icon.disabled:not(button):not(.button),
+.icon.disabled:not(button):not(.button):hover,
+.icon.disabled:not(button):not(.button):focus {
+  background-color: transparent;
   opacity: .25;
 }
-.icon.disabled:focus {
-  -webkit-animation: blink .25s; /* Chrome, Safari, Opera */
-          animation: blink .25s; /* Firefox */
-}
-@-webkit-keyframes blink { /* Chrome, Safari, Opera */
-  50% {opacity: .75;}
-}
-@keyframes blink { /* Firefox */
-  50% {opacity: .75;}
-}
 
-/* SVG Icons Coloring */
-.icon.white > svg {fill: white;} /* Compatibility fix ; should not be used */
-.icon.black > svg {fill: black;} /* Compatibility fix ; should not be used  */
-
-.orange > svg {fill: #f73;} /* Like struggles */
-a.icon.orange:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.orange:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.orange.active:not(.button):not(.disabled):not(.no-bg){background-color: #f73;}
-
-.fuschia > svg {fill: #e2a;} /* Like ourbody (i.e. magenta) */
-a.icon.fuschia:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.fuschia:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.fuschia.active:not(.button):not(.disabled):not(.no-bg) {background-color: #e2a;}
-
-.red > svg {fill: #c33;} /* Like intersec */
-a.icon.red:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.red:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.red.active:not(.button):not(.disabled):not(.no-bg) {background-color: #c33;}
-
-.blue > svg {fill: #36c;} /* Like internat */
-a.icon.blue:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.blue:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.blue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #36c;}
-
-.turquoise > svg {fill: #399;} /* Like educult (i.e. cyan) */
-a.icon.turquoise:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.turquoise:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.turquoise.active:not(.button):not(.disabled):not(.no-bg) {background-color: #399;}
-
-.golden > svg {fill: #ca0;} /* Like ideas */
-a.icon.golden:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.golden:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.golden.active:not(.button):not(.disabled):not(.no-bg) {background-color: #ca0;}
-
-.honey > svg {fill: #fa0;} /* Like syndicate */
-a.icon.honey:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.honey:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.honey.active:not(.button):not(.disabled):not(.no-bg) {background-color: #fa0;}
-
-.skyblue > svg {fill: #0be;} /* Like twitter */
-a.icon.skyblue:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.skyblue:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.skyblue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #0be;}
-
-.royalblue > svg {fill: #359;} /* Like facebook, tumblr */
-a.icon.royalblue:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.royalblue:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.royalblue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #359;}
-
-.firered > svg {fill: #b33;} /* Like googleplus, pinterest */
-a.icon.firered:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.firered:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.firered.active:not(.button):not(.disabled):not(.no-bg) {background-color: #b33;}
-
-.electricblue > svg {fill: #18c;} /* Like linkedin */
-a.icon.electricblue:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.electricblue:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.electricblue.active:not(.button):not(.disabled):not(.no-bg) {background-color: #18c;}
-
-.gingerred > svg {fill: #e42;} /* Like stumbleupon */
-a.icon.gingerred:not(.button):not(.disabled):not(.no-bg):focus,
-a.icon.gingerred:not(.button):not(.disabled):not(.no-bg):hover,
-a.icon.gingerred.active:not(.button):not(.disabled):not(.no-bg) {background-color: #e42;}
-
-/* Colored text */
+/* UNUSED */
 /*
-a.icon.orange:not(.button):not(.disabled):not(.no-bg) > .text {color: #f73;}
-a.icon.fuschia:not(.button):not(.disabled):not(.no-bg) > .text {color: #e2a;}
-a.icon.red:not(.button):not(.disabled):not(.no-bg) > .text {color: #c33;}
-a.icon.blue:not(.button):not(.disabled):not(.no-bg) > .text {color: #36c;}
-a.icon.turquoise:not(.button):not(.disabled):not(.no-bg) > .text {color: #399;}
-a.icon.golden:not(.button):not(.disabled):not(.no-bg) > .text {color: #ca0;}
-a.icon.honey:not(.button):not(.disabled):not(.no-bg) > .text {color: #fa0;}
-a.icon.skyblue:not(.button):not(.disabled):not(.no-bg) > .text {color: #0be;}
-a.icon.royalblue:not(.button):not(.disabled):not(.no-bg) > .text {color: #359;}
-a.icon.firered:not(.button):not(.disabled):not(.no-bg) > .text {color: #b33;}
-a.icon.electricblue:not(.button):not(.disabled):not(.no-bg) > .text {color: #18c;}
-a.icon.gingerred:not(.button):not(.disabled):not(.no-bg) > .text {color: #e42;}
-
-a.icon:hover:not(.button):not(.disabled):not(.no-bg) > .text,
-a.icon:focus:not(.button):not(.disabled):not(.no-bg) > .text,
-a.icon.active:not(.button):not(.disabled):not(.no-bg) > .text {color: white;}
+.icon.disabled:focus {
+  -webkit-animation: blink .25s; /* Chrome, Safari, Opera /
+          animation: blink .25s; /* Firefox /
+}
+@-webkit-keyframes blink { /* Chrome, Safari, Opera /
+  50% {opacity: .75;}
+}
+@keyframes blink { /* Firefox /
+  50% {opacity: .75;}
+}
 */
 
 /* Javascript Mouse Events Fixes */
@@ -1328,7 +1395,7 @@ a.icon > svg,
 span.icon > svg,
 button.icon > svg,
 [tabindex].icon > svg {
-  pointer-events: none; /* Pointer Events Fix */
+  pointer-events: none !important; /* Pointer Events Fix */
 }
 
 /* ------------------------------------------------------------------ */
@@ -1773,14 +1840,14 @@ a.close {
 .css-fx .site-nav ul li a:focus {text-shadow: -1px -1px rgba(0, 0, 0, .075), 0 0 .5rem #ffb;}
 
 /* Disabled */
-[class*="-nav"] ul li a.disabled,
-[class*="-nav"] ul li a:hover.disabled,
-[class*="-nav"] ul li a:focus.disabled,
-[class*="-nav"] ul li a:active.disabled,
-[class*="-nav"] ul li a.disabled.current,
-[class*="-nav"] ul li a:hover.disabled.current,
-[class*="-nav"] ul li a:focus.disabled.current,
-[class*="-nav"] ul li a:active.disabled.current {
+[class*='-nav'] ul li a.disabled,
+[class*='-nav'] ul li a:hover.disabled,
+[class*='-nav'] ul li a:focus.disabled,
+[class*='-nav'] ul li a:active.disabled,
+[class*='-nav'] ul li a.disabled.current,
+[class*='-nav'] ul li a:hover.disabled.current,
+[class*='-nav'] ul li a:focus.disabled.current,
+[class*='-nav'] ul li a:active.disabled.current {
   text-shadow: none;
 }
 
@@ -1872,14 +1939,14 @@ a.close {
   margin-left: .0625rem;
 }
 .legal-nav > ul > li + li:before {
-  content: ",";
+  content: ',';
   margin-right: .375rem;
 }
 .legal-nav > ul > li:last-child {
   margin-left: .25rem;
 }
 .legal-nav > ul > li:last-child:before {
-  content: "et";
+  content: 'et';
   margin-right: .25rem;
 }
 
@@ -1899,19 +1966,20 @@ a.close {
 /* ------------------------------------------------------------------ */
 
 .inline-list {
-  display: inline-block;
-  margin-left: auto; /* Foundation override */
-  overflow: visible; /* Foundation override */
+  margin-left: auto;
+  /*overflow: visible; /* Foundation override */
+  list-style: none;
 }
 .inline-list:last-child,
 .inline-list > li:last-child {
-  margin-left: 0; /* Foundation override */
+  /*margin-left: 0; /* Foundation override */
   margin-right: 0;
 }
 .inline-list > li {
-  margin-left: 0; /* Foundation override */
+  display: inline-block;
+  /*margin-left: 0; /* Foundation override */
   margin-right: .5rem;
-  margin-bottom: 0; /* Foundation override */
+  /*margin-bottom: 0; /* Foundation override */
 }
 
 .inline-list > dt, .inline-list > dd {
@@ -1926,7 +1994,7 @@ a.close {
 }
 
 .inline-list > li > * {
-  display: inline-block; /* Foundation override */
+  /*display: inline-block; /* Foundation override */
 }
 
 /* ------------------------------------------------------------------ */
@@ -2270,19 +2338,22 @@ a.close {
 /* ------------------------------------------------------------------ */
 
 .label, a.label {
-  font-family: Trebuchet MS, Liberation Sans, Droid Sans, Arimo, sans-serif; /* Foundation override */
-  margin-bottom: 0; /* WARNING : Reset CSS Fix (Foundation override) */
-  padding: .375rem; /* Foundation override */
+  padding: .375rem .5rem;
   color: white;
-  font-size: .875rem; /* Foundation override */
+  font-size: .875rem;
   background-color: #a8c;
+  text-decoration: none; /* TEMP : links underline fix */
 }
 .label.radius {
-  border-radius: .375rem; /* Foundation override */
+  border-radius: .375rem;
 }
 .label.round {
   padding-left: .75rem;
   padding-right: .75rem;
+  border-radius: 100rem;
+}
+.label + .label {
+  margin-left: .375rem;
 }
 
 a.label:hover, a.label:focus {color: white;}
@@ -2441,6 +2512,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
 }
 .reveal-modal > h4 {}
 .reveal-modal .close-reveal-modal {
+  position: absolute;
   top: 1rem;
   right: 1rem;
   width: 2.5rem;
@@ -2455,6 +2527,10 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   color: white;
   outline: none;
   background-color: crimson;
+}
+.reveal-modal .close-reveal-modal:after {
+  position: relative; /* Pointer Fix */
+  z-index: 1; /* Pointer Fix */
 }
 .css-fx .reveal-modal .close-reveal-modal:hover,
 .css-fx .reveal-modal .close-reveal-modal:focus {
@@ -2742,12 +2818,14 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   border-bottom: .125rem dotted lightgray;
 }
 [data-magellan-expedition] {
+  min-width: 100%;
   z-index: 50;
-  min-width: 75%;
+  left: 0;
   margin-top: 0;
   padding: .25rem 1rem .5rem;
 }
 .standard-layout [data-magellan-expedition] {
+  min-width: 75%;
   left: 25%;
 }
 
@@ -3079,7 +3157,6 @@ input:focus + button + .error + .autocomplete > ul {
 .over-block {
   position: relative;
   padding: .5rem; /* Inner spacing */
-  clear: both;
 }
 .over-block:after { /* Clearfix*/
   content: '';
@@ -3437,6 +3514,7 @@ input:focus + button + .error + .autocomplete > ul {
 .css-fx .article.edit .title {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .article.edit .title + .error {
   margin-top: -.625rem; /* WARNING : vertical position adjustment */
+  margin-bottom: .625rem; /* WARNING : vertical position adjustment */
 }
 .article.edit .summary.empty {
   border-style: dotted;
@@ -3481,13 +3559,19 @@ input:focus + button + .error + .autocomplete > ul {
 .css-fx .article.edit .inline-editor {transition: box-shadow .75s;}
 .css-fx .article.edit .inline-editor:focus {box-shadow: 0 0 .125rem .125rem rgba(0, 0, 0, .25);}
 
-.article.edit .incorrect {
+.article.edit .inline-editor .placeholder {
+  line-height: 150%;
+}
+.article.edit .inline-editor p:last-child {
+  margin-bottom: 0;
+}
+.article.edit .inline-editor .incorrect {
   display: inline;
   color: brown;
   font-weight: normal;
   text-decoration: line-through;
 }
-.article.edit .annotation {
+.article.edit .inline-editor .annotation {
   display: inline;
   margin: 0 .25rem;
   padding: .125rem .25rem;
@@ -4261,7 +4345,26 @@ input:focus + button + .error + .autocomplete > ul {
 }
 
 /* User Profile Effects */
-.css-fx .user-profile .user-name {text-shadow: 1px 1px rgba(0,0,0,.5);}
+.css-fx .user-profile .user-name {text-shadow: 1px 1px rgba(0, 0, 0, .5);}
+
+/* User Name */
+.user-profile .user-icons {
+  margin-bottom: .5rem;
+}
+.user-profile .user-icons > li {}
+.user-profile .user-icons > li > .icon {
+  border: .125rem dotted transparent;
+}
+.user-profile .user-icons > li > .icon.disabled:not(.active):hover,
+.user-profile .user-icons > li > .icon.disabled:not(.active):focus {
+  cursor: pointer;
+  background-color: white; /* RGBA Fix */
+  background-color: rgba(255, 255, 255, .75);
+  border-color: darkgray; /* RGBA Fix */
+  border-color: rgba(0, 0, 0, .375);
+  border-radius: 0;
+  opacity: 1
+}
 
 /* ------------------------------------------------------------------ */
 /* # Date Switcher */
@@ -4338,6 +4441,7 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Over block */
 .date-table .over-block {
+  position: relative;
   margin: .5rem .375rem;
 }
 .date-table .over-block > time {
@@ -4367,11 +4471,36 @@ input:focus + button + .error + .autocomplete > ul {
 
 /* Event list */
 .date-table .over-block .event-list {
-  margin: 0 0 .25rem;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin: 0;
+  margin-left: 0;
+  padding: .5rem;
+  color: white;
   list-style: none inside;
+  background-color: lightgrey;
+  border: .125rem solid lightgrey;
+  border-top-right-radius: .5rem;
+  border-top-left-radius: .5rem;
+  z-index: 2;
+}
+.date-table .over-block .over:focus {
+  border-width: .25rem;
+  outline: 0;
+}
+.date-table .over-block:hover .event-list,
+.date-table .over-block .over:focus + .event-list {
+  background-color: tan;
+  border-color: tan;
+}
+.date-table .over-block:hover .event-list:hover {
+  background-color: lightgrey;
+  border-color: lightgrey;
 }
 .date-table .over-block .event-list li {
   font-size: 75%;
+  text-align: left;
 }
 
 /* Has event */
@@ -4386,6 +4515,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .date-table .has-event .over:hover,
 .date-table .has-event .over:focus {
+  border-width: .25rem;
   border-color: tan;
 }
 .date-table .has-event > time {
@@ -4465,7 +4595,7 @@ input:focus + button + .error + .autocomplete > ul {
   margin-top: 0;
   margin-left: 2.25rem;
 }
-.date-edit .description {
+.date-edit .desc {
   margin: .5rem 0 .5rem;
   padding: 1.5rem;
   font-size: 1.0625rem;
@@ -4473,15 +4603,15 @@ input:focus + button + .error + .autocomplete > ul {
   border: .125rem solid lightgrey;
   background-color: whitesmoke;
 }
-.date-edit .description:hover,
-.date-edit .description:focus {
+.date-edit .desc:hover,
+.date-edit .desc:focus {
   background-color: white;
   border-color: darkgray;
 }
-.date-edit .description:hover {
+.date-edit .desc:hover {
   border-style: dotted;
 }
-.date-edit .description:focus {
+.date-edit .desc:focus {
   border-style: solid;
 }
 .date-edit .button-bar {
@@ -5368,7 +5498,7 @@ input:focus + button + .error + .autocomplete > ul {
 @media (min-width: 1120px) and (max-width: 1279px) {
   .frame {left: 1.785714285714285%; width: 96.42857142857143%;}
   .fast-nav {width: 93.3024691358025%;}
-  .frame[data-magellan-expedition] {left: 25.8928571428571%; min-width: 72.3214285714286%; width: 72.3214285714286%;}
+  .standard-layout[data-magellan-expedition] {left: 25.8928571428571%; min-width: 72.3214285714286%; width: 72.3214285714286%;}
 }
 
 /* Low-res */
@@ -5466,4 +5596,33 @@ input:focus + button + .error + .autocomplete > ul {
 @media (max-width: 479px) {
   .main-nav li {width: 33.333333333333333333333333333333%; line-height: 2rem;}
   .main-nav li a {font-size: .825em;}
+}
+
+/* ------------------------------------------------------------------ */
+/* # Positioning */
+/* ------------------------------------------------------------------ */
+
+.left {
+  float: left !important; }
+
+.right {
+  float: right !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Clearfix */
+/* ------------------------------------------------------------------ */
+
+.clearfix:after {
+  content: '';
+  display: block !important;
+  clear: both !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* # Visibility */
+/* ------------------------------------------------------------------ */
+
+.hide {
+  display: none !important;
 }

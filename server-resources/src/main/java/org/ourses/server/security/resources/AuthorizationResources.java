@@ -32,27 +32,32 @@ public class AuthorizationResources {
                 oursesAuthorizationInfos, new Function<OursesAuthorizationInfo, OursesAuthzInfoDTO>() {
 
                     @Override
-                    public OursesAuthzInfoDTO apply(OursesAuthorizationInfo input) {
+                    public OursesAuthzInfoDTO apply(final OursesAuthorizationInfo input) {
                         return input.toOursesAuthzInfoDTO();
                     }
                 }).iterator());
         // cache = 30 days
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(2592000);
+        cacheControl.setPrivate(true);
         return Response.ok(oursesAuthzInfoToReturn).cacheControl(cacheControl).build();
     }
 
     @GET
     @Path("/isadmin")
     public Response isAdmin() {
-        // no cache
-        return Response.noContent().build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return Response.noContent().cacheControl(noCache).build();
     }
 
     @GET
     @Path("/isredac")
     public Response isRedac() {
-        // no cache
-        return Response.noContent().build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        return Response.noContent().cacheControl(noCache).build();
     }
 }
