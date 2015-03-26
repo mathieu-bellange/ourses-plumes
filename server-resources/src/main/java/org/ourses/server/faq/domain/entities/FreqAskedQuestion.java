@@ -19,7 +19,7 @@ import com.avaje.ebean.Ebean;
 public class FreqAskedQuestion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "faq_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faq_seq_gen")
     @SequenceGenerator(name = "faq_seq_gen", sequenceName = "faq_seq")
     private Long id;
     private String question;
