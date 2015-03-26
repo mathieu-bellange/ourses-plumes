@@ -76,6 +76,8 @@ public class ArticleResources {
         }
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         noCache.setPrivate(true);
         return responseBuilder.cacheControl(noCache).build();
     }
@@ -122,6 +124,8 @@ public class ArticleResources {
             CacheControl noCache = new CacheControl();
             noCache.setNoCache(true);
             noCache.setPrivate(false);
+            noCache.setNoStore(true);
+            noCache.setMaxAge(-1);
             responseBuilder = Response.status(Status.NOT_FOUND);
         }
         return responseBuilder.build();
@@ -143,6 +147,8 @@ public class ArticleResources {
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
@@ -169,6 +175,8 @@ public class ArticleResources {
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
@@ -186,6 +194,8 @@ public class ArticleResources {
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(false);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         responseBuilder = Response.status(Status.OK).cacheControl(noCache).entity(articlesDto);
         return responseBuilder.build();
     }
@@ -204,6 +214,8 @@ public class ArticleResources {
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(false);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         return response.cacheControl(noCache).build();
     }
 

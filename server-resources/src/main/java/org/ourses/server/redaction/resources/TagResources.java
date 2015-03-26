@@ -32,6 +32,8 @@ public class TagResources {
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         return Response.ok(tagsDTO).cacheControl(noCache).build();
     }
 }

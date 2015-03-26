@@ -176,6 +176,8 @@ public class BearAccountResources {
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         return builder.cacheControl(noCache).build();
     }
 
@@ -217,6 +219,8 @@ public class BearAccountResources {
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
         return Response.ok().entity(listBearAccountDTO).cacheControl(noCache).build();
     }
 }

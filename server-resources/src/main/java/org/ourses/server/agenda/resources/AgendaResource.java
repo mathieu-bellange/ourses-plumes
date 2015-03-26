@@ -39,10 +39,12 @@ public class AgendaResource {
     @GET
     @Path("/noCache")
     public Response getCalendarDaysAdmin() {
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setNoCache(true);
-        cacheControl.setPrivate(true);
-        return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(cacheControl).build();
+        CacheControl noCache = new CacheControl();
+        noCache.setNoCache(true);
+        noCache.setPrivate(true);
+        noCache.setNoStore(true);
+        noCache.setMaxAge(-1);
+        return Response.ok().entity(agendaHelper.findCalendarDays()).cacheControl(noCache).build();
     }
 
     @PUT
