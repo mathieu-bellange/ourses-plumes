@@ -3,6 +3,7 @@ package org.ourses.server.agenda.domain.entities;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,6 +29,7 @@ public class CalendarEvent {
     @Temporal(TemporalType.DATE)
     private Date eventDate;
     private String title;
+    @Column(name="description")
     private String desc;
 
     public String getDesc() {
