@@ -2531,12 +2531,15 @@ select {
     background-color: #dddddd;
     cursor: default; }
 
+/* UNUSED */
 /* Adjust margin for form elements below */
+/*
 input[type="file"],
 input[type="checkbox"],
 input[type="radio"],
 select {
   margin: 0 0 1rem 0; }
+*/
 
 input[type="checkbox"] + label,
 input[type="radio"] + label {

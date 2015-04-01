@@ -520,7 +520,7 @@ var validate = (function () {
 						if ($("#title, #summary, #rubric_tag, #category_tag, #editor").hasClass("wrong")) {
 							createAlertBox($msg.form_invalid, "form_valid", {"timeout" : $time.duration.alert_long});
 						} else {
-							createAlertBox($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert_short});
+							//createAlertBox($msg.form_valid, "form_valid", {"class" : "success", "icon" : "info", "timeout" : $time.duration.alert_short});
 							sendArticle();
 						}
 					}, cfg.save_timeout);
@@ -716,8 +716,14 @@ function processArticle(article) {
 		dataType: "json"
 	});
 	// Extra Plugins
-	CKEDITOR.config.extraPlugins = "autosave";                             // https://github.com/w8tcha/CKEditor-AutoSave-Plugin
-	// Autosave Plugin
+	// 1. http://ckeditor.com/addon/lineutils (required for 'widget')
+	// 2. http://ckeditor.com/addon/widget (required for 'image2')
+	// 3. http://ckeditor.com/addon/image2
+	// 4. https://github.com/w8tcha/CKEditor-AutoSave-Plugin
+	CKEDITOR.config.extraPlugins = "lineutils,widget,image2,autosave";
+	// Image2 Configuration
+	CKEDITOR.config.image2_alignClasses = ["align-left", "align-center", "align-right"];
+	// Autosave Plugin Configuration
 	CKEDITOR.config.autosave_saveOnDestroy          = true;                // Setting to Save content on editor destroy (Default is false) ...
 	CKEDITOR.config.autosave_delay                  = 5;                   // The Plugin saves the content every 25 seconds (can be defined in the Config - autosave_delay), but only when the content has changed.
 	CKEDITOR.config.autosave_NotOlderThen           = 2880;                // The Default Minutes (Default is 1440 which is one day) after the auto saved content is ignored can beoveridden from the config ...

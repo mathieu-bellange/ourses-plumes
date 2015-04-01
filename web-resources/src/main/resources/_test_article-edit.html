@@ -216,7 +216,7 @@
 							<dt class="icon-tag small"><strong class="text hide">Tags</strong></dt>
 							<dd><a id="rubric_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Rubrique</a></dd>
 							<dd><a id="category_tag" href="javascript:void(0)" rel="tag" class="label radius undefined">Cat&eacute;gorie</a></dd>
-							<dd><a id="tag_new" href="javascript:void(0)" rel="tag" class="label radius undefined">Nouveau tag</a></dd>
+							<dd><a id="tag_new" href="javascript:void(0)" rel="tag" class="label radius undefined">Ajouter un tag</a></dd>
 						</dl>
 
 					</fieldset>
@@ -930,7 +930,14 @@
 				});
 
 				// Extra Plugins
-				CKEDITOR.config.extraPlugins = "autosave";                             // https://github.com/w8tcha/CKEditor-AutoSave-Plugin
+				// 1. http://ckeditor.com/addon/lineutils (required for 'widget')
+				// 2. http://ckeditor.com/addon/widget (required for 'image2')
+				// 3. http://ckeditor.com/addon/image2
+				// 4. https://github.com/w8tcha/CKEditor-AutoSave-Plugin
+				CKEDITOR.config.extraPlugins = "lineutils,widget,image2,autosave";
+
+				// Image2
+				CKEDITOR.config.image2_alignClasses = ["align-left", "align-center", "align-right"];
 
 				// Autosave Plugin
 				CKEDITOR.config.autosave_saveOnDestroy          = true;                // Setting to Save content on editor destroy (Default is false) ...

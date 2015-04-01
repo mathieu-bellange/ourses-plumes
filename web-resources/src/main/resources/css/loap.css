@@ -864,6 +864,11 @@ html input[disabled] {
   cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
 }
 
+input[type="checkbox"],
+input[type="radio"] {
+  margin: 0; /* Margin Fix */
+}
+
 input + input,
 textarea + input,
 input + button,
@@ -3452,14 +3457,12 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .css-fx .article .callout {letter-spacing: 0; font-family: 'Oswald', sans-serif;}
 .article .callout:before {
-  content : '“';
   position: absolute; /* Fix CKEditor callout position bug */
   top: 0; /* Fix CKEditor callout position bug */
   left: 0; /* Fix CKEditor callout position bug */
   margin-right: .5rem;
 }
 .article .callout:after{
-  content : '”';
   position: absolute; /* Fix CKEditor callout position bug */
   bottom: 0; /* Fix CKEditor callout position bug */
   right: 0; /* Fix CKEditor callout position bug */
@@ -3471,6 +3474,47 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .article .annotation {
   display: none;
+}
+/* CKEditor Image2 */
+.align-left {
+  float: left;
+  margin-right: 1rem;
+}
+.align-right {
+  float: right;
+  margin-left: 1rem;
+}
+.cke_widget_wrapper {
+  text-align: center;
+}
+.cke_widget_wrapper > .align-center {
+  display: inline-block;
+}
+.image {
+  position: relative;
+  line-height: 0;
+}
+.image > figcaption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: .25rem;
+  color: gray;
+  text-align: center;
+  background-color: black; /* RGBA Fix */
+  background-color: rgba(0, 0, 0, .75);
+  line-height: 1.0625rem;
+}
+
+/* The Ugliest Fix Ever ... */
+.article .cke_reset,
+.article .cke_widget_drag_handler {
+  display: none;
+}
+.article.edit .cke_reset,
+.article.edit .cke_widget_drag_handler {
+  display: inline-block;
 }
 
 /* ------------------------------------------------------------------ */
@@ -3552,6 +3596,11 @@ input:focus + button + .error + .autocomplete > ul {
   padding: .5rem;
   border: .125rem solid transparent;
   background-color: white;
+}
+.article.edit .inline-editor:after { /* Clearfix */
+  content: ''; 
+  display: block;
+  clear: both;
 }
 .article.edit .inline-editor:focus {
   outline: none;
