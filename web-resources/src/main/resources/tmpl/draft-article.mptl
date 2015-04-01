@@ -27,7 +27,7 @@
 {{%}}
 <!--Article Item-->
 {{% article_item_tmpl }}
-								<li data-published="{{= data.publishedDate}}" class="{{= data.profile.pseudo == UserSession.getUserPseudo() ? 'owner' : 'other' }} {{= data.rubrique.classe }}" style="display: none;">
+								<li data-published="{{= data.publishedDate }}" class="{{= data.profile.pseudo == UserSession.getUserPseudo() ? 'owner' : 'other' }} {{= data.rubrique.classe }}{{ if (data.publishedDate > new Date().valueOf()) {out += ' outlook'} }}" style="display: none;">
 									<div class="topic">
 										<h4 class="rubric">{{= data.rubrique.rubrique }}</h4>
 									</div>
@@ -97,23 +97,19 @@
 					<!--Draft articles list-->
 					<ul id="articles_draft" class="article-list draft">
 						{{~ data.drafts :params }}
-							{{? params.profile.pseudo == UserSession.getUserPseudo() }}
-							<li class="owner">{{# def.item:params }}</li>
-							{{?? OursesSecurity.isUserAdmin() }}
-							<li class="other">{{# def.item:params }}</li>
-							{{?}}
+							{{# def.item:params }}
 						{{~}}
 					</ul>
 					<!--Standby articles list-->
 					<ul id="articles_standby" class="article-list standby">
 						{{~ data.toCheck :params }}
-							<li>{{# def.item:params }}</li>
+							{{# def.item:params }}
 						{{~}}
 					</ul>
 					<!--Published articles list-->
 					<ul id="articles_publish" class="article-list online">
 						{{~ data.onLine :params }}
-							<li data-published="{{=params.publishedDate }}" >{{# def.item:params }}</li>
+							{{# def.item:params }}
 						{{~}}
 					</ul>
 				</section>

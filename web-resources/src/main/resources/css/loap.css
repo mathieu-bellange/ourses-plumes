@@ -3694,12 +3694,15 @@ input:focus + button + .error + .autocomplete > ul {
 .article-list.online .over-block .title,
 .article-list.online .over-block .overview,
 .article-list.standby .over-block .title,
-.article-list.standby .over-block .overview {
+.article-list.standby .over-block .overview,
+.article-list.outlook .over-block .title,
+.article-list.online .outlook .over-block .overview {
   margin-left: 2rem;
 }
 .article-list.draft .over-block .over:before,
 .article-list.standby .over-block .over:before,
-.article-list.online .over-block .over:before {
+.article-list.online .over-block .over:before,
+.article-list.online .outlook .over-block .over:before {
   position: absolute;
   z-index: 1;
   top: .375rem;
@@ -3829,6 +3832,34 @@ input:focus + button + .error + .autocomplete > ul {
   top: .25rem;
 }
 .article-list.online .over-block .over:after {
+  content: '';
+  position: absolute;
+  width: 2rem;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: .375rem .625rem;
+}
+
+/* Articles List Outlooks */
+.article-list.online .outlook {}
+.article-list.online .outlook .over-block {
+  background-color: gainsboro;
+}
+.article-list.online .outlook .over-block .over {}
+.article-list.online .outlook .over-block .over:before {
+  content: 'Programmé';
+  top: .825rem;
+  left: -.0625rem;
+  font-size: 87.5%;
+}
+.article-list.online .outlook .over-block:hover .over {
+  border-left-width: .125rem;
+}
+.article-list.online .outlook .over-block:hover .over:before {
+  top: .75rem;
+}
+.article-list.online .outlook .over-block .over:after {
   content: '';
   position: absolute;
   width: 2rem;
