@@ -4743,7 +4743,7 @@ input:focus + button + .error + .autocomplete > ul {
           transform: rotate(-90deg);
 }
 .faq .question > .vis-tip {
-  float: right;
+  position: static;
 }
 .faq .question > .vis-tip > svg {
   position: absolute;

@@ -3,7 +3,6 @@
 								<ul style="display: none;" class="event-list">
 									{{~ data.events :event }}
 									<li>
-										<span class="icon-info tiny white"></span>
 										<strong id="{{= event.id }}" class="title">{{= event.title }}</strong>
 										{{? typeof(event.desc) !== "undefined" && event.desc != "" }}
 										<span class="hide">&#8201;: </span>
