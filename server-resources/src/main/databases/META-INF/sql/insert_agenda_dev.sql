@@ -1,5 +1,5 @@
 Insert into calendar_event
-  (id, event_date, title, desc)
+  (id, event_date, title, description)
 Values
   (1, '2014-10-10', 'Event 1 du 10/10/2014','desc'),
   (2, '2014-11-11', 'Event 2 du 11/11/2014','desc'),
