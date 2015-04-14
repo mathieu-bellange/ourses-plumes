@@ -32,7 +32,7 @@ public class ITCategoryResources {
         };
         Set<CategoryDTO> response = clientResource.header("Content-Type", "application/json").get(gt);
         assertThat(response).isNotEmpty();
-        assertThat(response.size()).isEqualTo(6);
+        assertThat(response.size()).isEqualTo(15);
     }
 
 }

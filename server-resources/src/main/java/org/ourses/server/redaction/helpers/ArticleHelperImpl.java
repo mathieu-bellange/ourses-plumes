@@ -297,7 +297,7 @@ public class ArticleHelperImpl implements ArticleHelper {
 
                     @Override
                     public boolean apply(final String parameter) {
-                        return !WORD_TO_ESCAPE.contains(parameter);
+                        return !WORD_TO_ESCAPE.contains(parameter.toLowerCase());
                     }
                 }), new Function<String, String>() {
 
