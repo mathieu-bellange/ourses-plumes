@@ -137,7 +137,7 @@ function send_date_event(data) {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
-
+var calendarTimer = 1;
 function getCalendarDays() {
 	$.ajax({
 		type: "GET",
@@ -153,8 +153,12 @@ function getCalendarDays() {
 			ajax_error(jqXHR, status, errorThrown);
 			if (jqXHR.status == 404) {
 				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-			} else {
-				createAlertBox();
+			}else if (jqXHR.status == 503){
+				setTimeout(function(){
+					calendarTimer = calendarTimer * 10;
+					getCalendarDays();
+					}, calendarTimer);
+				
 			}
 		},
 		dataType: "json"

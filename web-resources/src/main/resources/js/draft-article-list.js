@@ -487,7 +487,7 @@ function recallArticle(id) {
 		dataType : "json"
 	});
 }
-
+var articlesTimer = 1;
 function displayArticles(url_params) {
 	var url_params = url_params || window.location.search;
 	$.ajax({
@@ -565,7 +565,13 @@ function displayArticles(url_params) {
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
-			createAlertBox();
+			if (jqXHR.status == 503){
+				setTimeout(function(){
+					articlesTimer = articlesTimer * 10;
+					displayArticles(url_params);
+				}, articlesTimer);
+				
+			}
 		},
 		dataType : "json"
 	});

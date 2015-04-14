@@ -21,22 +21,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.account_list.title);
 			/* Process */
-			$.ajax({
-				type : "GET",
-				url : "/rest/authz/roles",
-				contentType : "application/json; charset=utf-8",
-				beforeSend: function(request) {
-					header_authentication(request);
-				},
-				success : function(data, status, jqxhr) {
-					roles = data;
-					getAccount();
-				},
-				error : function(jqXHR, status, errorThrown) {
-					ajax_error(jqXHR, status, errorThrown);
-					createAlertBox();
-				}
-			});
+			loadRoles();
 		}
 	}
 }());
@@ -58,7 +43,29 @@ function OurseAuthzInfo(id, role) {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
-
+var countLaunch = 0;
+function loadRoles(){
+	$.ajax({
+		type : "GET",
+		url : "/rest/authz/roles",
+		contentType : "application/json; charset=utf-8",
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success : function(data, status, jqxhr) {
+			roles = data;
+			getAccount();
+		},
+		error : function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 503 && countLaunch < 2){
+				countLaunch ++;
+				loadRoles();
+			}
+		}
+	});
+}
+var accountTimer = 1;
 function getAccount() {
 	$.ajax({
 		type : "GET",
@@ -73,7 +80,13 @@ function getAccount() {
 		},
 		error : function(jqXHR, status, errorThrown) {
 			ajax_error(jqXHR, status, errorThrown);
-			createAlertBox();
+			if (jqXHR.status == 503){
+				setTimeout(function(){
+					accountTimer = accountTimer * 10;
+					getAccount();
+					}, accountTimer);
+				
+			}
 		},
 		dataType : "json"
 	});

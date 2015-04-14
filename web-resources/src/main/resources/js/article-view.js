@@ -129,7 +129,7 @@ var share = (function() {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
-
+var articleTimer = 1;
 function displayArticle() {
 	$.ajax({
 		type : "GET",
@@ -141,14 +141,18 @@ function displayArticle() {
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-			} else {
-				createAlertBox();
+			} else if (jqXHR.status == 503){
+				setTimeout(function(){
+					articleTimer = articleTimer * 10;
+					displayArticle();
+				}, articleTimer);
+				
 			}
 		},
 		dataType : "json"
 	});
 }
-
+var relatedArticleTimer = 1;
 function displayRelatedArticle(articleId) {
 	$.ajax({
 		type : "GET",
@@ -160,8 +164,12 @@ function displayRelatedArticle(articleId) {
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-			} else {
-				createAlertBox();
+			} else if (jqXHR.status == 503){
+				setTimeout(function(){
+					relatedArticleTimer = relatedArticleTimer * 10;
+					displayRelatedArticle(articleId);
+				}, relatedArticleTimer);
+				
 			}
 		},
 		dataType : "json"
@@ -209,8 +217,6 @@ function processArticle(article) {
 			error : function(jqXHR, status, errorThrown) {
 				if (jqXHR.status == 404) {
 					window.location.href = "/profils/" + pseudo;
-				}else{
-					createAlertBox();
 				}
 			},
 			dataType : "json"

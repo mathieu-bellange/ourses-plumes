@@ -16,26 +16,7 @@ var loax = (function() {
 		build : function() {
 			// si le path est /articles/{id}, c'est l'article avec l'id passé en param à aller chercher
 			if (/^\/articles\/[0-9]+/.test(window.location.pathname)) {
-				$.ajax({
-					type: "GET",
-					url: "/rest" + window.location.pathname,
-					contentType: "application/json; charset=utf-8",
-					beforeSend: function(request) {
-						header_authentication(request);
-					},
-					success: function(data, status, jqxhr) {
-						processArticle(data);
-					},
-					error: function(jqXHR, status, errorThrown) {
-						ajax_error(jqXHR, status, errorThrown);
-						if (jqXHR.status == 404) {
-							$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-						} else {
-							createAlertBox();
-						}
-					},
-					dataType: "json"
-				});
+				getArticle();
 			}
 			// sinon c'est une création d'article
 			else {
@@ -44,6 +25,35 @@ var loax = (function() {
 		}
 	}
 }());
+
+var articleTimer = 1;
+
+function getArticle(){
+	$.ajax({
+		type: "GET",
+		url: "/rest" + window.location.pathname,
+		contentType: "application/json; charset=utf-8",
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success: function(data, status, jqxhr) {
+			processArticle(data);
+		},
+		error: function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 404) {
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
+			}else if (jqXHR.status == 503){
+				setTimeout(function(){
+					articleTimer = articleTimer * 10;
+					getArticle();
+					}, articleTimer);
+				
+			}
+		},
+		dataType: "json"
+	});
+}
 
 /* ------------------------------------------------------------------ */
 /* # Components */
@@ -695,26 +705,7 @@ function processArticle(article) {
 		processCategory(json, article);
 	});
 	// list co authors
-	$.ajax({
-		type: "GET",
-		url: "/rest/profile/writer",
-		contentType: "application/json; charset=utf-8",
-		beforeSend: function(request) {
-			header_authentication(request);
-		},
-		success: function(data, status, jqxhr) {
-			processWriters(data, article);
-		},
-		error: function(jqXHR, status, errorThrown) {
-			ajax_error(jqXHR, status, errorThrown);
-			if (jqXHR.status == 404) {
-				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-			} else {
-				createAlertBox();
-			}
-		},
-		dataType: "json"
-	});
+	getCoAuthors();
 	// Extra Plugins
 	// 1. http://ckeditor.com/addon/lineutils (required for 'widget')
 	// 2. http://ckeditor.com/addon/widget (required for 'image2')
@@ -747,7 +738,35 @@ function processArticle(article) {
 	coauthoring.init(); // initialize co-authors component
 }
 
-function processWriters(json, article){
+var coAuthorsTimer = 1;
+function getCoAuthors(){
+	$.ajax({
+		type: "GET",
+		url: "/rest/profile/writer",
+		contentType: "application/json; charset=utf-8",
+		beforeSend: function(request) {
+			header_authentication(request);
+		},
+		success: function(data, status, jqxhr) {
+			processWriters(data);
+		},
+		error: function(jqXHR, status, errorThrown) {
+			ajax_error(jqXHR, status, errorThrown);
+			if (jqXHR.status == 404) {
+				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
+			}else if (jqXHR.status == 503){
+				setTimeout(function(){
+					coAuthorsTimer = coAuthorsTimer * 10;
+					getCoAuthors();
+					}, coAuthorsTimer);
+				
+			}
+		},
+		dataType: "json"
+	});
+}
+
+function processWriters(json){
 	var a = [];
 	$(".authoring .coauthor").each(function() {
 		a.push($(this).attr("data-id"));

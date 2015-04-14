@@ -161,7 +161,7 @@ function checkPseudoAJAX(couple) {
 		dataType : "json"
 	});
 }
-
+var roleTimer = 1;
 function getRole(pseudo) {
 	$.ajax({
 		type : "GET",
@@ -171,12 +171,20 @@ function getRole(pseudo) {
 			processRole(role);
 		},
 		error : function(jqXHR, status, errorThrown) {
-			createAlertBox();
+			if (jqXHR.status == 503){
+				setTimeout(function(){
+					roleTimer = roleTimer * 10;
+					getRole(pseudo);
+				}, roleTimer);
+				
+			}else{
+				createAlertBox();
+			}
 		},
 		dataType : "text"
 	});
 }
-
+var profileTimer = 1;
 function getProfile() {
 	var profileId = UserSession.getUserProfileId();
 	if (profileId != null) {
@@ -199,12 +207,16 @@ function getProfile() {
 				}
 			},
 			error : function(jqXHR, status, errorThrown) {
-				createAlertBox();
+				if (jqXHR.status == 503){
+					setTimeout(function(){
+						profileTimer = profileTimer * 10;
+						getProfile();
+					}, profileTimer);
+					
+				}
 			},
 			dataType : "json"
 		});
-	} else {
-		createAlertBox();
 	}
 };
 

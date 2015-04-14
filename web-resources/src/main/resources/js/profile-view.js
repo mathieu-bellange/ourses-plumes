@@ -65,7 +65,7 @@ function sortSocialLinks(links) {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
-
+var profileTimer = 1;
 function displayProfile() {
 	var path = window.location.pathname.replace("/profils","");
 	$.ajax({
@@ -80,14 +80,17 @@ function displayProfile() {
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-			} else {
-				createAlertBox();
+			}else if (jqXHR.status == 503){
+				setTimeout(function(){
+					profileTimer = profileTimer * 10;
+					displayProfile();
+				}, profileTimer);
 			}
 		},
 		dataType : "json"
 	});
 }
-
+var roleTimer = 1;
 function displayRole(pseudo) {
 	$.ajax({
 		type : "GET",
@@ -97,12 +100,17 @@ function displayRole(pseudo) {
 			processRole(role);
 		},
 		error : function(jqXHR, status, errorThrown) {
-			createAlertBox();
+			 if (jqXHR.status == 503){
+					setTimeout(function(){
+						roleTimer = roleTimer * 10;
+						displayRole(pseudo);
+					}, roleTimer);
+			 }
 		},
 		dataType : "text"
 	});
 }
-
+var articlesTimer = 1;
 function displayArticles(profileId) {
 	$.ajax({
 		type : "GET",
@@ -112,7 +120,12 @@ function displayArticles(profileId) {
 			processArticles(JSON.parse(articles));
 		},
 		error : function(jqXHR, status, errorThrown) {
-			createAlertBox();
+			if (jqXHR.status == 503){
+				setTimeout(function(){
+					articlesTimer = articlesTimer * 10;
+					displayArticles(profileId);
+				}, articlesTimer);
+		 }
 		},
 		dataType : "text"
 	});

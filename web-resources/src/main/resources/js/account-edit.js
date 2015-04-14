@@ -72,6 +72,7 @@ function clearForm() {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
+var accountTimer = 1;
 
 function getAccount() {
 	var accountId = UserSession.getAccountId();
@@ -88,7 +89,13 @@ function getAccount() {
 				$("section").svg_icons(); // reload svg icons for whole section
 			},
 			error : function(jqXHR, status, errorThrown) {
-				createAlertBox();
+				if (jqXHR.status == 503){
+					setTimeout(function(){
+						accountTimer = accountTimer * 10;
+						getAccount();
+						}, accountTimer);
+					
+				}
 			},
 			dataType : "json"
 		});

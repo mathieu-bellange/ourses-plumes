@@ -28,7 +28,7 @@ var loax = (function() {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
-
+var faqTimer = 1;
 function displayFAQ() {
 	$.ajax({
 		type : "GET",
@@ -40,7 +40,12 @@ function displayFAQ() {
 			faq_ui.init(); // init ui component
 		},
 		error : function(jqXHR, status, errorThrown) {
-			createAlertBox();
+			if (jqXHR.status == 503){
+				setTimeout(function(){
+					faqTimer = faqTimer * 10;
+					displayFAQ();
+				}, faqTimer);
+			}
 		},
 		dataType : "json"
 	});

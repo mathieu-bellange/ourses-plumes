@@ -129,7 +129,7 @@ var widgets = (function() {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
-
+var articlesTimer = 1;
 function displayArticles() {
 	$.ajax({
 		type : "GET",
@@ -152,7 +152,12 @@ function displayArticles() {
 			block_list.init(); // initialize block list component
 		},
 		error : function(jqXHR, status, errorThrown) {
-			createAlertBox();
+			if (jqXHR.status == 503){
+				setTimeout(function(){
+					articlesTimer = articlesTimer * 10;
+					displayArticles();
+				}, articlesTimer);
+			}
 		},
 		dataType : "json"
 	});
