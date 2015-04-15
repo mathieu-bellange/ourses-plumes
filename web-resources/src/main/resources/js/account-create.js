@@ -25,6 +25,14 @@ var loax = (function() {
 /* # Domain */
 /* ------------------------------------------------------------------ */
 
+function checkConfirmPassword() {
+	if ($("#confirmPassword").val().length == 0 || $("#confirmPassword").val() !== $("#password").val()) {
+		$("#confirmPassword").set_validation(false);
+	} else {
+		$("#confirmPassword").set_validation(true);
+	}
+}
+
 function BearAccount(mail,password,profile) {
 	this.profile = profile;
 	this.mail = mail;
@@ -42,7 +50,8 @@ function isFormValid() {
 	var isPseudoValid = !$("#pseudo").attr("data-invalid");
 	var isMailValid = !$("#mail").attr("data-invalid");
 	var isPasswordValid = !$("#password").attr("data-invalid");
-	return isPseudoValid && isMailValid && isPasswordValid;
+	var isConfirmPasswordValid = !$("#confirmPassword").attr("data-invalid");
+	return isPseudoValid && isMailValid && isPasswordValid && isConfirmPasswordValid;
 }
 
 /* ------------------------------------------------------------------ */
@@ -191,6 +200,12 @@ $("html").on("blur", "#password", function() {
 	if ($(this).val().length == 0) {
 		$(this).attr("placeholder", "Minimum 7 caract&egrave;res dont une minuscule et un chiffre");
 	}
+});
+$("html").on("keyup", "#confirmPassword", function() {
+	checkConfirmPassword();
+});
+$("html").on("change", "#password", function() {
+	checkConfirmPassword();
 });
 $("html").on("focus", "#pseudo, #mail, #password", function() {
 	$(this).set_validation(null);
