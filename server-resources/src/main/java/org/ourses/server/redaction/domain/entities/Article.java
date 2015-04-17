@@ -318,6 +318,10 @@ public class Article implements Serializable {
                 .findUnique();
     }
 
+    public static Set<Article> findToCheck() {
+        return Ebean.find(Article.class).where().eq("status", ArticleStatus.AVERIFIER).findSet();
+    }
+
     public void update(final String... properties) {
         Ebean.update(this, Sets.newHashSet(properties));
     }

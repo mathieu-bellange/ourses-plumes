@@ -26,6 +26,7 @@ import org.ourses.server.administration.domain.exception.AccountAuthcInfoNullExc
 import org.ourses.server.administration.domain.exception.AccountAuthzInfoNullException;
 import org.ourses.server.administration.domain.exception.AccountProfileNullException;
 import org.ourses.server.security.domain.entities.OurseSecurityToken;
+import org.ourses.server.security.util.RolesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -299,6 +300,11 @@ public class BearAccount implements Account {
         return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").findList();
     }
 
+    public static Set<BearAccount> findAdminAccounts() {
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").where()
+                .eq("authzInfo.mainRole", RolesUtil.ADMINISTRATRICE).findSet();
+    }
+
     /**
      * Récupère la mdp encrypté
      * 
@@ -380,5 +386,4 @@ public class BearAccount implements Account {
     public void updateCredentials() {
         this.authcInfo.update(Sets.newHashSet("credentials"));
     }
-
 }
