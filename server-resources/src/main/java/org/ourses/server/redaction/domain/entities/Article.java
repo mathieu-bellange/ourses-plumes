@@ -82,6 +82,7 @@ public class Article implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ARTICLE_ID")
     private Set<OldPath> oldPath = Sets.newHashSet();
+    private String shortenedUrl;
 
     public Article() {
     }
@@ -218,7 +219,15 @@ public class Article implements Serializable {
         return oldPath;
     }
 
-    public void save() {
+    public String getShortenedUrl() {
+		return shortenedUrl;
+	}
+
+	public void setShortenedUrl(String shortenedUrl) {
+		this.shortenedUrl = shortenedUrl;
+	}
+
+	public void save() {
         Ebean.save(this);
         Ebean.saveManyToManyAssociations(this, "coAuthors");
     }

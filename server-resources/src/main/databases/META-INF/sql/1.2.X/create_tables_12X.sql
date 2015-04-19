@@ -1,0 +1,1 @@
+alter table Article add shortened_url varchar(255);

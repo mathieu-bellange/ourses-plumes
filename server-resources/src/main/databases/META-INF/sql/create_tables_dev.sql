@@ -117,6 +117,7 @@ create table article (
   status                    int,
   path                      varchar(255),
   title_beautify            varchar(255),
+  shortened_url             varchar(255),
   constraint pk_article primary key (id))
 ;
 
