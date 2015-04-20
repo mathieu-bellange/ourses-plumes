@@ -2,36 +2,44 @@
 <html lang="fr">
 	<head>
 		<script src="boot.js"></script>
-		<!--Twitter Widget-->
+		<!--Twitter API-->
 		<!--
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		<script>
+		!function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? "http" : "https";
+			if (!d.getElementById(id)) {
+				js = d.createElement(s);
+				js.id = id;
+				js.src = p + "://platform.twitter.com/widgets.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}
+		}(document, "script", "twitter-wjs");
+		</script>
 		-->
-		<!--Facebook Widget-->
+		<!--Facebook API-->
 		<!--
-		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
+		<script>
+		(function(d, s, id) {
 			var js, fjs = d.getElementsByTagName(s)[0];
 			if (d.getElementById(id)) return;
 			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.0";
+			js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3";
 			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
-		-->
-		<!--GooglePlus Widget-->
-		<!--
-		<script src="https://apis.google.com/js/platform.js" async defer>
-			{lang: 'fr'}
+		}(document, "script", "facebook-jssdk"));
 		</script>
 		-->
-		<!--LinkedIn Widget-->
+		<!--GooglePlus API-->
+		<!-- <script src="https://apis.google.com/js/platform.js" async defer>{lang: 'fr'}</script> -->
+		<!--LinkedIn API-->
 		<!--
-		<script src="//platform.linkedin.com/in.js" type="text/javascript">
-			lang: fr_FR
-		</script>
+		<script src="//platform.linkedin.com/in.js" async defer>lang: fr_FR</script>
 		-->
 	</head>
 	<body>
-
+		<!--Facebook Root-->
+		<!--
+		<div id="fb-root"></div>
+		-->
 		<!--Dev Testbar-->
 		<div id="dev_testbar" class="panel">
 			<svg width="0" height="0" viewBox="0 0 48 48">
@@ -148,11 +156,9 @@
 
 					<!--Sharing-->
 					<h4 class="hide">Partager</h4>
-					<ul class="inline-list left">
+					<ul class="inline-list share-list left">
 						<!--Share by Mail-->
 						<li>
-							<a id="share_mail" href="javascript:void(0)" class="icon-mail share disabled" title="Cette fonctionnalit&eacute; est d&eacute;sactiv&eacute;e"><span class="text">Mail</span></a>
-							<!--
 							<a id="share_mail" href="javascript:void(0)" class="icon-mail share" title="Partager par mail"><span class="text">Mail</span></a>
 							<div class="spring-box" style="display: none;">
 								<a href="javascript:void(0)" class="close right"></a>
@@ -160,42 +166,19 @@
 								<input id="share_mail_input" class="validation" type="email" maxlength="255" placeholder="L&rsquo;adresse &eacute;lectronique de votre choix">
 								<small class="error hide"></small>
 							</div>
-							-->
 						</li>
+						<li><a id="share_twitter" href="" class="icon-twitter share" title="Partager sur Twitter"><span class="text">Twitter</span></a><span class="share-count" data-count="twitter">-</span></li>
+						<li><a id="share_facebook" href="" class="icon-facebook share" title="Partager sur Facebook"><span class="text">Facebook</span></a><span class="share-count" data-count="facebook">-</span></li>
+						<li><a id="share_googleplus" href="" class="icon-googleplus share" title="Partager sur Google+"><span class="text">Google+</span></a><span class="share-count" data-count="googleplus">-</span></li>
+						<li><a id="share_linkedin" href="" class="icon-linkedin share" title="Partager sur LinkedIn"><span class="text">LinkedIn</span></a><span class="share-count" data-count="linkedin">-</span></li>
 						<!--Share on Twitter-->
-						<!--
-						<li><a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-dnt="true">Partager</a></li>
-						<script>
-						$(document).ready(function() {
-							setTimeout(function() {
-							$(".twitter-share-button").html("Partager");
-							}, 2500);
-						});
-						</script>
-						-->
-						<li><a id="share_twitter" href="" class="icon-twitter share" title="Partager sur Twitter"><span class="text">Twitter</span></a></li>
+						<!--<li><a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" data-dnt="true">Tweet</a></li>-->
 						<!--Share on Facebook-->
-						<!--
-						<li><div class="fb-share-button" data-layout="button" style="margin-top: -4px;"></div></li>
-						<script>
-						$(document).ready(function() {
-							setTimeout(function() {
-							$(".fb-share-button > span").css("vertical-align","top");
-							}, 2500);
-						});
-						</script>
-						-->
-						<li><a id="share_facebook" href="" class="icon-facebook share" title="Partager sur Facebook"><span class="text">Facebook</span></a></li>
+						<!--<li><div class="fb-share-button" data-layout="box_count"></div></li>-->
 						<!--Share on GooglePlus-->
-						<!--
-						<li><div class="g-plus" data-action="share" data-annotation="none"></div></li>
-						-->
-						<li><a id="share_googleplus" href="" class="icon-googleplus share" title="Partager sur Google+"><span class="text">Google+</span></a></li>
+						<!--<li><div class="g-plus" data-action="share" data-annotation="vertical-bubble"></div></li>-->
 						<!--Share on LinkedIn-->
-						<!--
-						<li><script type="IN/Share"></script></li>
-						-->
-						<li><a id="share_linkedin" href="" class="icon-linkedin share" title="Partager sur LinkedIn"><span class="text">LinkedIn</span></a></li>
+						<!--<li><script type="IN/Share" data-counter="top"></script></li>-->
 					</ul>
 					<script>
 						var share = (function() {
@@ -211,7 +194,7 @@
 											"toolbar"    : false,          // Boolean  Set tool bar visibility. Default : false
 											"resizable"  : true,           // Boolean  Allow popup resize. Default : true
 											"scrollbars" : true,           // Boolean  Set scrollbars visibility. Default : true
-											"width"      : 500,            // Integer  Set popup width (px). Default : 500
+											"width"      : 520,            // Integer  Set popup width (px). Default : 520
 											"height"     : 320             // Integer  Set popup height (px). Default : 320
 										}
 									};
@@ -292,6 +275,66 @@
 										} else if (settings.target == "new") {
 											$("#share_twitter, #share_facebook, #share_googleplus, #share_linkedin").attr("target", "_blank");
 										}
+										////////////////////////////////////////////////////
+										// # Get counts
+										////////////////////////////////////////////////////
+										$("[data-count]").each(function() {
+											var o = $(this), n = o.data("count"), u = article_url;
+											switch(n) {
+												case "twitter" :
+													$.getJSON("http://cdn.api.twitter.com/1/urls/count.json?url=" + u + "&callback=?", function(data) {
+														o.html(data.count.toString());
+													});
+													break;
+												case "facebook" :
+													$.getJSON("http://graph.facebook.com/?id=" + u, function(data) {
+														o.html(data.shares.toString());
+													});
+													break;
+												case "googleplus" :
+													// -------------------------------------------
+													// # UNIMPLEMENTED
+													// -------------------------------------------
+													// A Google API Key is required in order to check shares on GooglePlus
+													// https://developers.google.com/+/api/oauth?hl=fr
+													// -------------------------------------------
+													var google_api_key = "undefined";
+													/*
+													$.ajax({
+														cache: false,
+														type: "POST",
+														url: "https://clients6.google.com/rpc?key=" + google_api_key,
+														data: [{
+															"method" : "pos.plusones.get",
+															"id" : "p",
+															"params" : {
+																"nolog" : true,
+																"id" : u,
+																"source" : "widget",
+																"userId" : "@viewer",
+																"groupId" : "@self"
+															},
+															"jsonrpc" : "2.0",
+															"key" : google_api_key,
+															"apiVersion" : "v1"
+															}],
+														dataType: "jsonp",
+														success: function (data) {
+															console.log(data);
+														},
+														error: function(data){
+															console.log(data);
+														}
+													});
+													*/
+													break;
+												case "linkedin" :
+													$.getJSON("http://www.linkedin.com/countserv/count/share?url=" + u + "&callback=?", function(data) {
+														o.html(data.count.toString());
+													});
+													break;
+											}
+										});
 									});
 								}
 							}

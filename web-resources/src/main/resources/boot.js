@@ -48,6 +48,13 @@ $app = {
 	"root"               : isFileProtocol ? "" : "/"              // String   Application base URL. Default : "/"
 };
 
+$api = {
+	"twitter"            : {"src" : "http://platform.twitter.com/widgets.js", "id" : "twitter-wjs"},
+	"facebook"           : {"src" : "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3", "id" : "facebook-jssdk"},
+	"google"             : {"src" : "https://apis.google.com/js/platform.js"},
+	"linkedin"           : {"src" : "//platform.linkedin.com/in.js"}
+}
+
 /* Authentication */
 $auth = {
 	"is_authenticated"   : "isAuthenticated",                     // Boolean  Cookie key of the user state connection. Default : "isAuthenticated"

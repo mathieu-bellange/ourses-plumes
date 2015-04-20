@@ -2181,7 +2181,9 @@ form .row textarea.columns {
 /* # Inputs */
 /* ------------------------------------------------------------------ */
 
+/* UNUSED */
 /* Label Styles */
+/*
 label {
   font-size: 0.875rem;
   color: #4d4d4d;
@@ -2190,7 +2192,6 @@ label {
   font-weight: normal;
   line-height: 1.5;
   margin-bottom: 0;
-  /* Styles for required inputs */ }
   label.right {
     float: none !important;
     text-align: right; }
@@ -2203,6 +2204,7 @@ label {
 
 select::-ms-expand {
   display: none; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Input Fixes */
@@ -2294,7 +2296,9 @@ span.postfix, label.postfix {
   border-color: #cccccc; }
 */
 
+/* UNUSED */
 /* We use this to get basic styling on all basic form elements */
+/*
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -2501,12 +2505,18 @@ form .row .postfix-round.row.collapse .postfix {
 input[type="submit"] {
   -webkit-appearance: none;
   -webkit-border-radius: 0px; }
+*/
 
+/* UNUSED */
 /* Respect enforced amount of rows for textarea */
+/*
 textarea[rows] {
   height: auto; }
+*/
 
+/* UNUSED */
 /* Add height value for select elements to match text input height */
+/*
 select {
   -webkit-appearance: none !important;
   -webkit-border-radius: 0px;
@@ -2530,6 +2540,7 @@ select {
   select:disabled {
     background-color: #dddddd;
     cursor: default; }
+*/
 
 /* UNUSED */
 /* Adjust margin for form elements below */
@@ -2541,6 +2552,8 @@ select {
   margin: 0 0 1rem 0; }
 */
 
+/* UNUSED */
+/*
 input[type="checkbox"] + label,
 input[type="radio"] + label {
   display: inline-block;
@@ -2548,13 +2561,18 @@ input[type="radio"] + label {
   margin-right: 1rem;
   margin-bottom: 0;
   vertical-align: baseline; }
+*/
 
+/* UNUSED */
 /* Normalize file input width */
+/*
 input[type="file"] {
   width: 100%; }
+*/
 
 /* HTML5 Number spinners settings */
 /* We add basic fieldset styling */
+/*
 fieldset {
   border: 1px solid #dddddd;
   padding: 1.25rem;
@@ -2565,6 +2583,7 @@ fieldset {
     padding: 0 0.1875rem;
     margin: 0;
     margin-left: -0.1875rem; }
+*/
 
 /* ------------------------------------------------------------------ */
 /* # Errors */

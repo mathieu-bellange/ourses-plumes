@@ -15,6 +15,7 @@ var loax_pool = {
 var loax = (function() {
 	return {
 		build : function() {
+			setup_api();
 			displayArticle();
 		}
 	}
@@ -42,8 +43,6 @@ var share = (function() {
 			};
 			var settings = $.extend({}, defaults, options);
 			// functions
-			/* UNUSED for now ... DO NOT REMOVE ! */
-			/*
 			function open_box(obj, d) {
 				var w = obj.outerWidth();
 				var h = obj.outerHeight();
@@ -58,15 +57,12 @@ var share = (function() {
 			function close_box(obj, d) {
 				obj.fadeOut($conf.js_fx ? d : 0);
 			}
-			*/
 			// events
 			$(document).ready(function() {
 				var article_url = encodeURI(window.location).replace("?", "%3F");
 				var article_title = encodeURI($(".article h2.title").text()).replace("?", "%3F");
 				var article_summary = encodeURI($(".article p.summary").text()).replace("?", "%3F");
 				var article_source = encodeURI($org.name).replace("?", "%3F");
-				/* UNUSED for now ... DO NOT REMOVE ! */
-				/*
 				$("#share_mail").on("click", function() {
 					if ($(this).next(".spring-box").is(":hidden")) {
 						$(this).next(".spring-box").find("input").first().set_validation(null); // reset validation
@@ -104,7 +100,6 @@ var share = (function() {
 						$(this).set_validation(null); // reset validation
 					}
 				});
-				*/
 				var twitter_href = "https://twitter.com/share";
 				$("#share_twitter").attr("href", twitter_href);
 				var facebook_href = "https://www.facebook.com/share.php?u=" + article_url;
@@ -129,6 +124,7 @@ var share = (function() {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
+
 var articleTimer = 1;
 function displayArticle() {
 	$.ajax({
@@ -152,6 +148,7 @@ function displayArticle() {
 		dataType : "json"
 	});
 }
+
 var relatedArticleTimer = 1;
 function displayRelatedArticle(articleId) {
 	$.ajax({
@@ -204,7 +201,6 @@ function processArticle(article) {
 	$(".main-body").append(file_pool.article_view_tmpl(article)).after(lb(1));
 	$(".header, .footer").update_separators(); // update separators
 	$("section").svg_icons(); // reload svg icons for whole section
-	share.init(); // initialize share module
 	$("a[rel='author']").on("click",function(){
 		var pseudo = $(this).html();
 		$.ajax({
@@ -226,7 +222,7 @@ function processArticle(article) {
 }
 
 function processRelatedArticles(articles) {
-	if (articles.length > 0){
+	if (articles.length > 0) {
 		articles.sort(function compare(a, b) {
 			if (a.publishedDate > b.publishedDate)
 				return -1;

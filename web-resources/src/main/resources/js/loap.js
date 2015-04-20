@@ -1852,6 +1852,20 @@ var folder_list = (function() {
  * And, thus, they aren't supposed to be reloaded after main processing.
  */
 
+/* Setup API */
+function setup_api(a) {
+	var a = a || null;
+	for (k in $api) {
+		if (a != null && a.indexOf(k) == -1) {continue}
+		if (k == "facebook") {$("body").prepend($("<div>", {"id" : "fb-root"}))}
+		var o = $("<script>", {"src" : $api[k].src, "async" : "async", "defer" : "defer"});
+		if ($api[k].id) {o.attr("id", $api[k].id)}
+		if (k == "google") {o.html("{lang: 'fr'}")}
+		if (k == "linkedin") {o.html(" lang: fr_FR")}
+		$("head").append(o);
+	}
+}
+
 /* Is Computer (i.e. Desktop or Laptop) */
 function isComputer() {
 	return (Modernizr.mq("(min-width: 800px)") && !Modernizr.touch); // Not Small Display and not Touch Device (i.e. exclude smartphones and tablets)

@@ -30,23 +30,11 @@
 									<span class="separator"></span><a href="javascript:void(0);" data-profile-id="{{= coAuthor.id }}" class="coauthor" rel="author" title="Voir le profil de la co-auteure">{{= coAuthor.pseudo }}</a></span>
 								{{~}}
 							</p>
-							<ul class="inline-list left">
-								<!--UNUSED for now ... DO NOT REMOVE !-->
-								<!--
-								<li>
-									<a id="share_mail" href="javascript:void(0)" class="icon-mail share" title="Partager par mail" data-article="{{= data.id }}"><span class="text">Mail</span></a>
-									<div class="spring-box" style="display: none;">
-										<a href="javascript:void(0)" class="close right"></a>
-										<label for="share_mail_input">Partager par mail</label>
-										<input id="share_mail_input" class="validation" type="email" maxlength="255" placeholder="L&rsquo;adresse &eacute;lectronique de votre choix">
-										<small class="error hide"></small>
-									</div>
-								</li>
-								-->
-								<li><a id="share_twitter" href="" class="icon-twitter share" title="Partager sur Twitter"><span class="text">Twitter</span></a></li>
-								<li><a id="share_facebook" href="" class="icon-facebook share" title="Partager sur Facebook"><span class="text">Facebook</span></a></li>
-								<li><a id="share_googleplus" href="" class="icon-googleplus share" title="Partager sur Google+"><span class="text">Google+</span></a></li>
-								<li><a id="share_linkedin" href="" class="icon-linkedin share" title="Partager sur LinkedIn"><span class="text">LinkedIn</span></a></li>
+							<ul class="inline-list share-list left">
+								<li><a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" data-lang="fr" data-dnt="false"></a></li>
+								<li><div class="fb-share-button" data-layout="box_count"></div></li>
+								<li><div class="g-plus" data-action="share" data-annotation="vertical-bubble"></div></li>
+								<li><script type="IN/Share" data-counter="top"></script></li>
 							</ul>
 						</div>
 					</article>
