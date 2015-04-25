@@ -198,7 +198,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setPath(buildPath(article));
         article.setUpdatedDate(new Date());
         article.setPublishedDate(publishedDate);
-        BitlyUrl bitlyUrl = bitlyHelper.shortenUrl(EnvironnementVariable.DOMAIN_NAME + article.getPath());
+        BitlyUrl bitlyUrl = bitlyHelper.shortenUrl("http://"+EnvironnementVariable.DOMAIN_NAME + article.getPath());
         if (Status.OK.getStatusCode() == bitlyUrl.getStatusCode()) {
             article.setShortenedUrl(bitlyUrl.getData().getUrl());
         }

@@ -3,11 +3,11 @@ package org.ourses.server.external;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.ourses.security.github.GithubInfoApi;
 import org.ourses.server.external.domain.dto.GithubBug;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

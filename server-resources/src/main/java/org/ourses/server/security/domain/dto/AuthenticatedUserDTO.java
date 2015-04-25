@@ -2,7 +2,8 @@ package org.ourses.server.security.domain.dto;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AuthenticatedUserDTO {
 

@@ -5,8 +5,9 @@ import java.net.URI;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
+
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;

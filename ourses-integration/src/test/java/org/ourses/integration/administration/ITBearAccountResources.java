@@ -8,9 +8,6 @@ import java.util.Set;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.administration.domain.dto.BearAccountDTO;
@@ -21,6 +18,10 @@ import org.ourses.server.security.domain.dto.AuthenticatedUserDTO;
 import org.ourses.server.security.domain.dto.LoginDTO;
 import org.ourses.server.security.util.RolesUtil;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
@@ -42,8 +43,7 @@ public class ITBearAccountResources {
     /* Account création */
 
     @Test
-    public void shouldCreateAccount() throws JsonGenerationException, JsonMappingException, UniformInterfaceException,
-            ClientHandlerException, IOException {
+    public void shouldCreateAccount() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper.webResourceWithAdminRole(uri)
@@ -63,8 +63,7 @@ public class ITBearAccountResources {
     }
 
     @Test
-    public void shouldNotCreateAccountWithoutPseudo() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldNotCreateAccountWithoutPseudo() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
@@ -78,8 +77,7 @@ public class ITBearAccountResources {
     }
 
     @Test
-    public void shouldNotCreateAccountWithPseudoAlreadyTaken() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldNotCreateAccountWithPseudoAlreadyTaken() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
@@ -93,8 +91,7 @@ public class ITBearAccountResources {
     }
 
     @Test
-    public void shouldNotCreateAccountWithoutMail() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldNotCreateAccountWithoutMail() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
@@ -108,8 +105,7 @@ public class ITBearAccountResources {
     }
 
     @Test
-    public void shouldNotCreateAccountWithWrongMail() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldNotCreateAccountWithWrongMail() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
@@ -123,8 +119,7 @@ public class ITBearAccountResources {
     }
 
     @Test
-    public void shouldNotCreateAccountWithMailAlreadyTaken() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldNotCreateAccountWithMailAlreadyTaken() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
@@ -138,8 +133,7 @@ public class ITBearAccountResources {
     }
 
     @Test
-    public void shouldNotCreateAccountWithoutMdp() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldNotCreateAccountWithoutMdp() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
@@ -153,8 +147,7 @@ public class ITBearAccountResources {
     }
 
     @Test
-    public void shouldNotCreateAccountWithWrongMdp() throws JsonGenerationException, JsonMappingException,
-            UniformInterfaceException, ClientHandlerException, IOException {
+    public void shouldNotCreateAccountWithWrongMdp() throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
         URI uri = UriBuilder.fromPath(PATH_CREATE).build();
         ObjectMapper mapper = new ObjectMapper();
         ClientResponse clientResponse = TestHelper
@@ -236,7 +229,7 @@ public class ITBearAccountResources {
         assertThat(clientResponse.getStatus()).isEqualTo(204);
         ClientResponse clientResponseGet = TestHelper.webResourceWithAdminRole(UriBuilder.fromPath(PATH_AUTHC).build())
                 .header("Content-Type", "application/json")
-                .post(ClientResponse.class, new LoginDTO("nadejda@pussyriot.ru", "a"));
+                .post(ClientResponse.class, new LoginDTO("nadejda", "a"));
         assertThat(clientResponseGet.getStatus()).isEqualTo(200);
         AuthenticatedUserDTO userDTO = clientResponseGet.getEntity(AuthenticatedUserDTO.class);
         assertThat(userDTO.getRole()).isEqualTo(RolesUtil.REDACTRICE);
@@ -255,7 +248,7 @@ public class ITBearAccountResources {
         uri = UriBuilder.fromPath(PATH_AUTHC).build();
         WebResource clientResource = TestHelper.webResource(uri);
         clientResponse = clientResource.header("Content-Type", "application/json").post(ClientResponse.class,
-                new LoginDTO("account_to_update@gmail.com", "Yoda44Ouf"));
+                new LoginDTO("account_to_update", "Yoda44Ouf"));
         assertThat(clientResponse.getStatus()).isEqualTo(Status.OK.getStatusCode());
     }
 

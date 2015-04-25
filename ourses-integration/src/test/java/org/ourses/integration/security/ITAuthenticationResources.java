@@ -7,13 +7,13 @@ import java.net.URI;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.security.domain.dto.AuthenticatedUserDTO;
 import org.ourses.server.security.domain.dto.LoginDTO;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;

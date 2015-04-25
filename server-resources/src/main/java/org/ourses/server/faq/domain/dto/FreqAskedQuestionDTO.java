@@ -2,9 +2,10 @@ package org.ourses.server.faq.domain.dto;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.ourses.server.faq.domain.entities.FreqAskedQuestion;
 import org.springframework.beans.BeanUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FreqAskedQuestionDTO {

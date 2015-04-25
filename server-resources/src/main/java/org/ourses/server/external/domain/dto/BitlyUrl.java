@@ -1,13 +1,18 @@
 package org.ourses.server.external.domain.dto;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BitlyUrl {
-
+	
+	
     @JsonProperty("status_code")
     private int statusCode;
+    @JsonInclude(Include.NON_NULL)
     private BitlyData data;
 
     public int getStatusCode() {

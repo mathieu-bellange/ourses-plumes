@@ -5,8 +5,6 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.redaction.domain.entities.Article;
@@ -16,6 +14,8 @@ import org.ourses.server.redaction.domain.entities.Rubrique;
 import org.ourses.server.redaction.domain.entities.Tag;
 import org.springframework.beans.BeanUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

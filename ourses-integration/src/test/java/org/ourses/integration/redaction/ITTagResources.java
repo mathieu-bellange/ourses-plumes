@@ -8,12 +8,12 @@ import java.util.Set;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 import org.ourses.integration.util.TestHelper;
 import org.ourses.server.redaction.domain.dto.TagDTO;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;

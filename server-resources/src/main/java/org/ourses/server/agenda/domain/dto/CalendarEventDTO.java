@@ -4,9 +4,10 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.ourses.server.agenda.domain.entities.CalendarEvent;
 import org.springframework.beans.BeanUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CalendarEventDTO implements Serializable {

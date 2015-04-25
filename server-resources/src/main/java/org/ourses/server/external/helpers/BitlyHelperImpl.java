@@ -3,13 +3,16 @@ package org.ourses.server.external.helpers;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.ourses.server.external.domain.dto.BitlyUrl;
 import org.ourses.server.util.EnvironnementVariable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
@@ -18,6 +21,8 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 public class BitlyHelperImpl implements BitlyHelper {
 
     private static final String SHORTENER_URL = "https://api-ssl.bitly.com/v3/shorten";
+    
+    Logger logger = LoggerFactory.getLogger(BitlyHelperImpl.class);
 
     private ClientResponse doShortenUrl(final String longUrl) {
         ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
@@ -32,8 +37,14 @@ public class BitlyHelperImpl implements BitlyHelper {
 
     @Override
     public BitlyUrl shortenUrl(final String longUrl) {
-        ClientResponse bitlyResponse = doShortenUrl(longUrl);
-        BitlyUrl url = bitlyResponse.getEntity(BitlyUrl.class);
-        return url;
+    	BitlyUrl url = new BitlyUrl();
+    	try{
+    		ClientResponse bitlyResponse = doShortenUrl(longUrl);
+    		url = bitlyResponse.getEntity(BitlyUrl.class);
+    	}catch(Exception e){
+    		logger.error("Erreur lors du shorten", e);
+    		url.setStatusCode(Status.INTERNAL_SERVER_ERROR.getStatusCode());
+    	}
+    	return url;
     }
 }

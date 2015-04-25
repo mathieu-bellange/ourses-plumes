@@ -13,8 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.fest.assertions.Condition;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -28,6 +26,8 @@ import org.ourses.server.redaction.domain.dto.RubriqueDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
 import org.ourses.server.redaction.domain.entities.ArticleStatus;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
