@@ -1581,6 +1581,7 @@ var agenda_ui = (function() {
 		"fx_d"         : 375,           // [Int]  Duration of effects (ms). Default : 375
 		"ev_t"         : 500,           // [Int]  Timeout before showing date events (ms). Default : 500
 		"show_events"  : true,          // [Bool] Show sliding date events ? Default : true
+		"decode_html"  : false,         // [Bool] Decode HTML entities for date events ? Default : false
 		"template"     : function() {}, // [Func] Template function for compiling. Default : function() {}
 		"on_open"      : function() {}, // [Func] Callback function before modal opening. Default : function() {}
 		"on_close"     : function() {}, // [Func] Callback function before modal opening. Default : function() {}
@@ -1699,7 +1700,10 @@ var agenda_ui = (function() {
 						var id = $(this).find(".title").attr("id") || null;
 						var title = $(this).find(".title").html() || null;
 						var desc = $(this).find(".desc").html() || null;
-						if (title) {e.push({"id" : id, "title" : decode_html(title), "desc" : (desc ? decode_html(desc, true) : null)})}
+						if (title) {e.push({
+							"id" : id, "title" : (cfg.decode_html ? decode_html(title) : title),
+							"desc" : (desc ? (cfg.decode_html ? decode_html(desc, true) : desc) : null)
+						})}
 					});
 					var d = p.find("time").first().attr("datetime") || 0;  // Datetime
 					var a = d.split("-"); // YMD array

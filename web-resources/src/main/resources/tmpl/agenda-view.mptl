@@ -3,7 +3,7 @@
 								<ul style="display: none;" class="event-list">
 									{{~ data.events :event }}
 									<li>
-										<strong id="{{= event.id }}" class="title">{{= event.title }}</strong>
+										<strong{{ if (typeof(event.id) !== "undefined") { out += ' id="' + event.id + '"'; } }} class="title">{{= event.title }}</strong>
 										{{? typeof(event.desc) !== "undefined" && event.desc != "" }}
 										<span class="hide">&#8201;: </span>
 										<span class="desc hide">{{= event.desc }}</span>
@@ -44,9 +44,9 @@
 				<h2 class="icon-date large"><time datetime="{{= data.date }}">{{= data.day }}</time></h2>
 				{{? data.events.length > 0 }}
 					{{~ data.events :event }}
-				<h4 id="{{= event.id }}" class="subheader">{{= event.title }}</h4>
+				<h4{{ if (event.id !== null) { out += ' id="' + event.id + '"'; } }} class="subheader">{{= event.title }}</h4>
 						{{? event.desc }}
-				<p class="panel radius">{{= event.desc }}</p>
+				<div class="panel radius">{{= event.desc }}</div>
 						{{?}}
 					{{~}}
 				{{??}}

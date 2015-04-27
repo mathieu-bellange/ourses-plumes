@@ -23,6 +23,7 @@ var loax = (function() {
 			$(".main-body").append(file_pool.agenda_tmpl).after(lb(1));
 			getCalendarDays()
 			agenda_ui.init({ // initialize ui component
+				"decode_html"  : true,
 				"template" : function(arg) {return file_pool.date_modal_edit_tmpl(arg)},
 				"on_open" : function() {$("#agenda").disable_tabnav()},
 				"on_close" : function() {$("#agenda").renable_tabnav(); $("#date_modal").data("caller").focus();},

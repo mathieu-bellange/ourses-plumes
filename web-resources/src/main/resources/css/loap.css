@@ -2580,7 +2580,7 @@ a.label.ourbody:active, a.label.ourbody.active {background-color: #a17;}
   box-shadow: 0 0 16rem 4rem black inset;
 }
 .reveal-modal {
-  padding: .75rem 2rem 1rem;
+  padding: 1rem 2rem 2rem;
   border: solid .125rem gainsboro;
   border-radius: .5rem;
   z-index: 1005;
@@ -4677,6 +4677,9 @@ input:focus + button + .error + .autocomplete > ul {
 .date-table .over-block .event-list li {
   font-size: 75%;
   text-align: left;
+}
+.date-table .over-block .event-list li + li {
+  margin-top: .5rem;
 }
 
 /* Has event */
