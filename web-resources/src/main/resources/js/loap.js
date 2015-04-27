@@ -178,6 +178,11 @@ var file_pool = $.extend({}, loap_pool, loax_pool);
 var loap = (function() {
 	return {
 		build : function() {
+			// Define document end user kind (i.e. machine or person)
+			$app.user = navigator.userAgent.indexOf("crawl_filter") !== -1 ? "robot-parser" : "human-reader"; // register global
+			$("head").append("<meta name='user-kind' content='" + $app.user + "'>"); // insert meta into DOM (almost for debug)
+			// Remove useless tags for crawlers
+			if ($app.user == "robot-parser") {$("noscript").remove()} // remove noscript tag (appears in search engine results)
 			// Turn off debug mode on any stage but dev
 			if ($app.stage !== "dev") {$debug.mode = false}
 			// Apply css debug
@@ -194,13 +199,19 @@ var loap = (function() {
 			// Build toolbar template
 			if ($build.toolbar) {$("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1))}
 			// Build icons
-			if ($build.icons) {
+			if ($build.icons && $app.user == "human-reader") {
 				// Prepend SVG effects
 				if ($conf.svg_fx) {
-					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + file_pool.icons_fx_file + lb(1) + tb(2) + "</style>").prepend(lb(1))
+					var str = file_pool.icons_fx_file;
+					str = str.replace(/\/\*([\s\S]*?)\*\//g, ""); // remove comments
+					if ($build.compress) {str = str.replace(/[\t\r\n\f]*/gm, "")} // remove white spaces
+					else {str = str.replace(/^\s*[\r\n]$/gm, "").replace(/^[\r\n]/, "")} // remove blank lines
+					$("body").prepend(tb(2) + "<style type='text/css'>" + lb(1) + str + lb(1) + tb(2) + "</style>").prepend(lb(1))
 				}
 				// Prepend SVG icons
-				$("body").prepend(file_pool.icons_file).prepend(lb(1));
+				var str = file_pool.icons_file;
+				if ($build.compress) {str = str.replace(/[\t\r\n\f]*/gm, "")}
+				$("body").prepend(str).prepend(lb(1));
 			}
 			compatibilityWarning(); // user warning for compatibilities issues
 		},
@@ -2342,7 +2353,7 @@ window.checkCompatibility = function() {
 }
 
 function compatibilityWarning() {
-	if (!checkCompatibility()) {
+	if ($app.user == "human-reader" && !checkCompatibility()) {
 		create_alert_bar($msg.compatibility_warning);
 	}
 }

@@ -20,36 +20,38 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-
 @Component
 public final class CrawlFilter implements Filter {
-	
-	Logger logger = LoggerFactory.getLogger(CrawlFilter.class);
+
+    Logger logger = LoggerFactory.getLogger(CrawlFilter.class);
+    BrowserVersion browser = BrowserVersion.INTERNET_EXPLORER_11;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         if ((httpRequest.getQueryString() != null) && (httpRequest.getQueryString().contains("_escaped_fragment_"))) {
-        	logger.debug("Crawl page : {}", httpRequest.getRequestURI());
-            // rewrite the URL back to the original #! version
-            // remember to unescape any %XX characters
+            // Rewrite the URL back to the original #! version
+            // Remember to unescape any %XX characters
             // String url_with_hash_fragment = rewriteQueryString(httpRequest.getQueryString());
-
-            // use the headless browser to obtain an HTML snapshot
-            final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_11);
+            logger.debug("Crawl page : {}", httpRequest.getRequestURI());
+            // Set up dummy browser properties (i.e. customise user agent)
+            browser.setUserAgent("Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko [crawl_filter]");
+            // Set an headless browser to obtain an HTML snapshot
+            final WebClient webClient = new WebClient(browser);
             webClient.addRequestHeader("Accept-Charset", "utf-8");
+            // Set and trigger a web request for the headless browser (i.e. simulate http get)
             WebRequest webRequest = new WebRequest(new URL(httpRequest.getScheme() + "://" + httpRequest.getServerName()
-            		+ ":" + httpRequest.getServerPort() + httpRequest.getRequestURI()));
+            + ":" + httpRequest.getServerPort() + httpRequest.getRequestURI()));
             HtmlPage page = webClient.getPage(webRequest);
-            webClient.waitForBackgroundJavaScript(5000);
-            // important! Give the headless browser enough time to execute JavaScript
+            // Important ! Give the headless browser enough time to execute JavaScript
             // The exact time to wait may depend on your application.
-            // return the snapshot
+            webClient.waitForBackgroundJavaScript(5000);
+            // Return the snapshot
             response.getWriter().write(page.asXml());
         }
         else {
             try {
-                // not an _escaped_fragment_ URL, so move up the chain of servlet (filters)
+                // Not an _escaped_fragment_ URL, so move up the chain of servlet (filters)
                 chain.doFilter(request, response);
             }
             catch (ServletException e) {
@@ -61,11 +63,9 @@ public final class CrawlFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
     public void destroy() {
-
     }
 }

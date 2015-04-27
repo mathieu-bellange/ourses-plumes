@@ -453,21 +453,19 @@ if (isFileProtocol) {
 /* Prebuild methods */
 function p_char(n, c) { // Print Character (n.b. for local use only)
 	var s = "";
-	if ($build.compress == false) {
-		for (var i = 0; i < n; i++) {
-			s += c;
-		}
+	if (!$build.compress) {
+		for (var i = 0; i < n; i++) {s += c}
 	}
 	return s;
 }
 
 function tb(n, c) { // Tabulation (alias)
-	var n = n || 1, c = c || "\t"; // default params
+	var n = n || 1, c = c || "\t";
 	return p_char(n, c);
 }
 
 function lb(n, c) { // Line Break (alias)
-	var n = n || 1, c = c || "\n"; // default params
+	var n = n || 1, c = c || "\n";
 	return p_char(n, c);
 }
 
