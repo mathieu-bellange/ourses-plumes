@@ -178,6 +178,8 @@ var file_pool = $.extend({}, loap_pool, loax_pool);
 var loap = (function() {
 	return {
 		build : function() {
+			// Turn off debug mode on any stage but dev
+			if ($app.stage !== "dev") {$debug.mode = false}
 			// Apply css debug
 			if ($conf.css_debug) {$("body").addClass("css-debug")}
 			// Apply css fx
@@ -1869,6 +1871,19 @@ function setup_api(a) {
 /* Is Computer (i.e. Desktop or Laptop) */
 function isComputer() {
 	return (Modernizr.mq("(min-width: 800px)") && !Modernizr.touch); // Not Small Display and not Touch Device (i.e. exclude smartphones and tablets)
+}
+
+/* Wait for execution (i.e. delay function) */
+function wait_for_execution(time, callback, log) {
+	var time = time || 1.0, callback = callback || function() {}, log = log || false;
+	var t = Math.floor(time * 4), n = 0;
+	var i = setInterval(function() { n++;
+		if (log) {console.log("wait " + (parseInt(n) * 250).toString() + "ms")}
+		if (n === t) {
+			clearInterval(i);
+			callback();
+		}
+	}, 250);
 }
 
 /* Global String Replacement (low-level) */

@@ -25,10 +25,18 @@ var article_list_cfg = {
 var loax = (function() {
 	return {
 		build : function() {
-			/* Set page title */
+			// Set page title
 			set_page_title($nav.draft_article_list.title);
-			/* Process */
-			displayArticles();
+			// Insert wait image
+			var a = $("<div>", {"id" : "loading", "class" : "text-center"});
+			var b = $("<img>", {"src" : $img.ui + "ui-loading.gif" , "alt" : "Chargement"});
+			$(".main-body").prepend(a.html(b)); // process loading
+			// Process
+			if (isLocalHost && $debug.mode) {
+				wait_for_execution($debug.wait_for_db, function(){displayArticles()}, true); // delay process during 5s (i.e. DB lag test)
+			} else {
+				displayArticles(); // process articles list
+			}
 		}
 	}
 }());
@@ -498,6 +506,7 @@ function displayArticles(url_params) {
 		},
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
+			$("#loading").remove(); // delete loading image
 			// set articles status
 			var brouillons = articles.filter(function(n) {
 				return n.status === "BROUILLON";
@@ -565,12 +574,20 @@ function displayArticles(url_params) {
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
-			if (jqXHR.status == 503){
-				setTimeout(function(){
+			if (jqXHR.status == 503) {
+				setTimeout(function() {
 					articlesTimer = articlesTimer * 10;
 					displayArticles(url_params);
 				}, articlesTimer);
-				
+			} else {
+				$("#loading").remove(); // delete loading image
+				////////////////////////////////////////////////////////////////
+				// # NOTE
+				////////////////////////////////////////////////////////////////
+				// Que se passe-t-il en terme d'affichage pour l'utilisateur
+				// si autre erreur qu'une 503 ???
+				// Pas de message d'erreur ? Redirection ? Ou cas improbable ?
+				////////////////////////////////////////////////////////////////
 			}
 		},
 		dataType : "json"

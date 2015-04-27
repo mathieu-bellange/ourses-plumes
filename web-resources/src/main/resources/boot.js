@@ -78,6 +78,12 @@ $build = {
 	"likebox"            : false                                  // Boolean  Create Facebook likebox widget on home page. Default : false
 };
 
+/* Debug */
+$debug = {
+	"mode"               : true,                                  // Boolean  Turn on/off debug mode. Default : false
+	"wait_for_db"        : 5.0                                    // Float    Simulate DB waiting time. Default : 5.0
+}
+
 /* Configuration */
 $conf = {
 	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false

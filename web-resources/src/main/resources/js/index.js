@@ -17,8 +17,16 @@ var loax = (function() {
 		build : function() {
 			// Set page title
 			set_page_title($nav.home.title);
-			// Get templates
-			displayArticles();
+			// Insert wait image
+			var a = $("<div>", {"id" : "loading", "class" : "text-center"});
+			var b = $("<img>", {"src" : $img.ui + "ui-loading.gif" , "alt" : "Chargement"});
+			$(".main-body").prepend(a.html(b)); // process loading
+			// Process
+			if (isLocalHost && $debug.mode) {
+				wait_for_execution($debug.wait_for_db / 2, function(){displayArticles()}, true); // delay process during 5s (i.e. DB lag test)
+			} else {
+				displayArticles(); // process articles list
+			}
 		},
 		init : function() {
 			// EMPTY
@@ -136,6 +144,7 @@ function displayArticles() {
 		url : "/rest/articles/last",
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
+			$("#loading").remove(); // delete loading image
 			$(".main-body").append(file_pool.article_list_tmpl(articles) + lb(1));
 			/* UNUSED ... for now */
 			/*
@@ -152,11 +161,20 @@ function displayArticles() {
 			block_list.init(); // initialize block list component
 		},
 		error : function(jqXHR, status, errorThrown) {
-			if (jqXHR.status == 503){
-				setTimeout(function(){
+			if (jqXHR.status == 503) {
+				setTimeout(function() {
 					articlesTimer = articlesTimer * 10;
 					displayArticles();
 				}, articlesTimer);
+			} else {
+				$("#loading").remove(); // delete loading image
+				////////////////////////////////////////////////////////////////
+				// # NOTE
+				////////////////////////////////////////////////////////////////
+				// Que se passe-t-il en terme d'affichage pour l'utilisateur
+				// si autre erreur qu'une 503 ???
+				// Pas de message d'erreur ? Redirection ? Ou cas improbable ?
+				////////////////////////////////////////////////////////////////
 			}
 		},
 		dataType : "json"
