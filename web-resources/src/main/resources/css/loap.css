@@ -539,7 +539,7 @@ input[type='color']:focus,
 textarea:focus,
 select:focus {
   border-color: darkgray;
-  outline: 0; /* Chrome Focus Fix */
+  outline: 0; /* Focus Fix */
 }
 
 /* Inputs */
@@ -563,6 +563,16 @@ select:focus {
      -moz-transition:     moz-box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
           transition:         box-shadow .25s ease-in, border-color .25s ease-out, background-color .125s linear;
 }
+input[type='radio'],
+input[type='checkbox'] {
+  height: 1rem;
+  width: 1rem;
+}
+input[type='radio'] {
+  border-radius: 100%;
+}
+.css-fx input[type='radio']:focus,
+.css-fx input[type='checkbox']:focus,
 .css-fx input[type='text']:focus,
 .css-fx input[type='password']:focus,
 .css-fx input[type='date']:focus,
@@ -579,9 +589,10 @@ select:focus {
 .css-fx input[type='color']:focus,
 .css-fx select:focus,
 .css-fx textarea:focus {
-  -webkit-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
-     -moz-box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
-          box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
+  outline: 0; /* Focus Fix */
+  -webkit-box-shadow: 0 0 .25rem .125rem rgba(0, 0, 0, .375);
+     -moz-box-shadow: 0 0 .25rem .125rem rgba(0, 0, 0, .375);
+          box-shadow: 0 0 .25rem .125rem rgba(0, 0, 0, .375);
 }
 .css-fx select:focus + small.error,
 .css-fx input:focus + small.error,
@@ -2061,7 +2072,6 @@ a.close {
 .share-list .share-count {
   position: relative;
   display: inline-block;
-  margin-left: .375rem;
   padding-left: .25rem;
   padding-right: .25rem;
   line-height: 20px;
@@ -2070,31 +2080,12 @@ a.close {
   vertical-align: middle;
   border: 1px solid lightgray;
   border-radius: .25rem;
-  background-color: whitesmoke;
+  background-color: white;
 }
-.share-list .share-count:before,
-.share-list .share-count:after {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  border-style: solid;
+.share-list li a:hover + .share-count,
+.share-list li a:focus + .share-count {
   border-color: transparent;
-}
-.share-list .share-count:before {
-  left: -10px;
-  top: 5px;
-  height: 10px;
-  width: 10px;
-  border-width: 5px;
-  border-right-color: silver;
-}
-.share-list .share-count:after {
-  left: -8px;
-  top: 6px;
-  height: 8px;
-  width: 8px;
-  border-width: 4px;
-  border-right-color: whitesmoke;
+  background-color: transparent;
 }
 
 /* ------------------------------------------------------------------ */
@@ -3237,8 +3228,18 @@ input:focus + button + .error + .autocomplete > ul {
   overflow-x: auto;
 }
 .code-block > .code {
+  margin: 0;
+  color: dimgray;
   cursor: text;
   overflow-x: auto;
+}
+.code.text-wrap { /* TEMP */
+ white-space: normal;
+ word-wrap: break-word;
+}
+.code.no-wrap { /* TEMP */
+ white-space: nowrap;
+ word-wrap: normal;
 }
 .num + .code {margin-left: 2rem;}
 .code .tag {color: blue;}

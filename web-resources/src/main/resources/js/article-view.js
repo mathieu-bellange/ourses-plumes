@@ -15,8 +15,27 @@ var loax_pool = {
 var loax = (function() {
 	return {
 		build : function() {
-			setup_api();
-			displayArticle();
+			/*
+			setup_api("facebook"); // insert external API
+			// ---------------------------------------------------------------
+			// # Facebook Application Initialization
+			// ---------------------------------------------------------------
+			// https://developers.facebook.com/apps/1076087169072990/ // Les Ourses à plumes
+			// https://developers.facebook.com/apps/1576895285917760/ // Les Ourses à plumes [dev]
+			// https://developers.facebook.com/apps/1576896615917627/ // Les Ourses à plumes [test] (from dev)
+			// ---------------------------------------------------------------
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId      : 1076087169072990, // Les Ourses à plumes (i.e. for rtw)
+					// appId      : 1576895285917760, // Les Ourses à plumes [dev] (i.e. for www)
+					// appId      : 1576896615917627, // Les Ourses à plumes [test] (i.e. for localhost)
+					status     : true,
+					xfbml      : true,
+					version    : "v2.3"
+				});
+			};
+			*/
+			displayArticle(); // process article
 		}
 	}
 }());
@@ -28,7 +47,6 @@ var loax = (function() {
 var share = (function() {
 	return {
 		init : function(options) {
-			// vars
 			var addr = []; // internal
 			var defaults = {
 				"target" : "popup",             // String   Window type for the share plugin. Allowed values are "popup", "new" or "none". Default : "popup"
@@ -42,7 +60,6 @@ var share = (function() {
 				}
 			};
 			var settings = $.extend({}, defaults, options);
-			// functions
 			function open_box(obj, d) {
 				var w = obj.outerWidth();
 				var h = obj.outerHeight();
@@ -54,10 +71,7 @@ var share = (function() {
 					obj.find("input").first().focus(); // focus first field
 				});
 			}
-			function close_box(obj, d) {
-				obj.fadeOut($conf.js_fx ? d : 0);
-			}
-			// events
+			function close_box(obj, d) {obj.fadeOut($conf.js_fx ? d : 0)}
 			$(document).ready(function() {
 				var article_url = encodeURI(window.location).replace("?", "%3F");
 				var article_title = encodeURI($(".article h2.title").text()).replace("?", "%3F");
@@ -108,6 +122,40 @@ var share = (function() {
 				$("#share_googleplus").attr("href", googleplus_href);
 				var linkedin_href = "http://www.linkedin.com/shareArticle?mini=true&url=" + article_url + "&title=" + article_title + "&summary=" + article_summary + "&source=" + article_source;
 				$("#share_linkedin").attr("href", linkedin_href);
+				/*
+				$(document).on("click", "#share_facebook", function() {
+					// -----------------------------------------------------------
+					// # Facebook Dialog Feed
+					// -----------------------------------------------------------
+					FB.ui({
+						method      : "feed",
+						name        : $(".article h2.title").text(),                              // title of the link
+						link        : window.location.toString(),                                 // url of the link (canonical)
+						picture     : $org.domain + $img.pub + "loap_share_picture.jpg",          // url of the image
+						caption     : $org.name,                                                  // source caption of the link (i.e. website)
+						description : $(".article p.summary").text()                              // description of the link
+					});
+					// -----------------------------------------------------------
+					// # Facebook Dialog Share (i.e. standard action)
+					// -----------------------------------------------------------
+					// FB.ui({
+						// method : "share",
+						// href   : $org.domain,                                                  // url of the link
+					// });
+					// -----------------------------------------------------------
+					// # Facebook Dialog Share Open Graph (i.e. custom action)
+					// -----------------------------------------------------------
+					// FB.ui({
+						// method            : "share_open_graph",
+						// action_type       : "lesoursesaplumes:share",
+						// action_properties : JSON.stringify({
+							// website         : $org.domain,                                       // url of the link
+							// image           : $org.domain + $img.pub + "loap_share_picture.jpg", // url of the image
+						// })
+					// });
+					return false;
+				});
+				*/
 				if (settings.target == "popup") {
 					$("#share_twitter, #share_facebook, #share_googleplus, #share_linkedin").on("click", function() {
 						window.open(this.href, "", "menubar=" + (settings.popup.menubar ? "yes" : "no") + ",toolbar=" + (settings.popup.toolbar ? "yes" : "no") + ",resizable=" + (settings.popup.resizable ? "yes" : "no") + ",scrollbars=" + (settings.popup.scrollbars ? "yes" : "no") + ",width=" + settings.popup.width + ",height=" + settings.popup.height);
@@ -116,6 +164,48 @@ var share = (function() {
 				} else if (settings.target == "new") {
 					$("#share_twitter, #share_facebook, #share_googleplus, #share_linkedin").attr("target", "_blank");
 				}
+				$("[data-count]").each(function() {
+					var o = $(this), n = o.data("count"), u = article_url;
+					switch(n) {
+						case "twitter" :
+							var q = "http://cdn.api.twitter.com/1/urls/count.json?url=" + u + "&callback=?";
+							$.getJSON(q, function(data) {o.html(data.count.toString())});
+							break;
+						case "facebook" :
+							var q = "http://graph.facebook.com/?id=" + u;
+							$.getJSON(q, function(data) {o.html(data.shares.toString())}).fail(o.html("0"));
+							break;
+						case "googleplus" :
+							var q = "https://clients6.google.com/rpc";
+							var r = {
+								"method" : "pos.plusones.get",
+								"id" : u,
+								"params" : {
+									"nolog" : true,
+									"id" : u,
+									"source" : "widget",
+									"userId" : "@viewer",
+									"groupId" : "@self"
+								},
+								"jsonrpc" : "2.0",
+								"key" : "p",
+								"apiVersion" : "v1"
+							};
+							$.ajax({
+								type : "POST",
+								url : q,
+								processData : true,
+								contentType : "application/json",
+								data : JSON.stringify(r),
+								success : function(data){o.html(typeof data.result !== "undefined" ? data.result.metadata.globalCounts.count.toString() : "0")}
+							});
+							break;
+						case "linkedin" :
+							var q = "http://www.linkedin.com/countserv/count/share?url=" + u + "&callback=?";
+							$.getJSON(q, function(data) {o.html(data.count.toString())});
+							break;
+					}
+				});
 			});
 		}
 	}
@@ -201,6 +291,7 @@ function processArticle(article) {
 	$(".main-body").append(file_pool.article_view_tmpl(article)).after(lb(1));
 	$(".header, .footer").update_separators(); // update separators
 	$("section").svg_icons(); // reload svg icons for whole section
+	share.init(); // init share
 	$("a[rel='author']").on("click",function(){
 		var pseudo = $(this).html();
 		$.ajax({

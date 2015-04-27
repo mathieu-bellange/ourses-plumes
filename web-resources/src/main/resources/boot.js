@@ -28,8 +28,8 @@ var isLocalHost = (function() {
 /* Organization */
 $org = {
 	"name"               : "Les Ourses à plumes",                 // String   Organization name.
-	"mail"               : "oursesaplumes at gmail dot com",      // String   Organization mail (unbound -- Google Bot can actually parse JS [or so they say]).
-	"domain"             : "http://www.ourses-plumes.org/",       // String   Organization domain.
+	"mail"               : "oursesaplumes at gmail dot com",      // String   Organization mail.
+	"domain"             : "http://www.lesoursesaplumes.com",     // String   Organization domain.
 	"newsletter"         : null,                                  // String   Organization newsletter.
 	"mailinglist"        : null,                                  // String   Organization mailinglist.
 	"twitter"            : "https://twitter.com/OursesaPlumes",
@@ -50,7 +50,7 @@ $app = {
 
 $api = {
 	"twitter"            : {"src" : "http://platform.twitter.com/widgets.js", "id" : "twitter-wjs"},
-	"facebook"           : {"src" : "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.3", "id" : "facebook-jssdk"},
+	"facebook"           : {"src" : "//connect.facebook.net/fr_FR/sdk.js", "id" : "facebook-jssdk"},
 	"google"             : {"src" : "https://apis.google.com/js/platform.js"},
 	"linkedin"           : {"src" : "//platform.linkedin.com/in.js"}
 }
@@ -374,14 +374,46 @@ $rest = {
 
 /* Prebuild vars */
 var head_tags = [
+	// -------------------------------------------------------------------
+	// # Meta Charset
+	// -------------------------------------------------------------------
 	{elem: "meta", attr: {charset: "utf-8"}},
+	// -------------------------------------------------------------------
+	// # Meta Viewport
+	// -------------------------------------------------------------------
 	{elem: "meta", attr: {name: "viewport", content: "width=device-width, initial-scale=1.0"}},
-	{elem: "meta", attr: {name: "author", content: $org.name}},
-	{elem: "meta", attr: {name: "application-name", content: $app.name}},
-	{elem: "meta", attr: {name: "keywords", content: $app.kwd.toString()}},
+	// -------------------------------------------------------------------
+	// # Meta Indexing * UNUSED
+	// -------------------------------------------------------------------
+	// {elem: "meta", attr: {name: "author", content: $org.name}},
+	// {elem: "meta", attr: {name: "application-name", content: $app.name}},
+	// {elem: "meta", attr: {name: "generator", content: $app.genr}},
+	// {elem: "meta", attr: {name: "keywords", content: $app.kwd.toString()}},
+	// -------------------------------------------------------------------
+	// # Meta Description (used by crawlers)
+	// -------------------------------------------------------------------
 	{elem: "meta", attr: {name: "description", content: $app.desc}},
-	{elem: "meta", attr: {name: "generator", content: $app.genr}},
+	// -------------------------------------------------------------------
+	// # Meta Open Graph
+	// -------------------------------------------------------------------
+	{elem: "meta", attr: {property: "og:url", content: $org.domain}},
+	{elem: "meta", attr: {property: "og:title", content: $org.name}},
+	{elem: "meta", attr: {property: "og:image", content: $org.domain + $img.pub + "loap_share_picture.jpg"}},
+	{elem: "meta", attr: {property: "og:description", content: $app.desc}},
+	// -------------------------------------------------------------------
+	// # Meta Twitter
+	// -------------------------------------------------------------------
+	{elem: "meta", attr: {property: "twitter:card", content: "summary_large_image"}},
+	{elem: "meta", attr: {property: "twitter:site", content: "@OursesaPlumes"}},
+	{elem: "meta", attr: {property: "twitter:image:src", content: $org.domain + $img.pub + "loap_share_picture.jpg"}},
+	{elem: "meta", attr: {property: "twitter:description", content: $app.desc}},
+	// -------------------------------------------------------------------
+	// # Document Title
+	// -------------------------------------------------------------------
 	{elem: "title", text: $org.name},
+	// -------------------------------------------------------------------
+	// # Document Favicon
+	// -------------------------------------------------------------------
 	{elem: "link", attr: {href: $img.ui + "icon-loap.png", rel: "icon", type: "image/x-icon"}},
 ];
 var body_tags = [];
