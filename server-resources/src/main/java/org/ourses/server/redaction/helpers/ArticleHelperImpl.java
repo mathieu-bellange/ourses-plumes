@@ -8,14 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.ws.rs.core.Response.Status;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
-import org.ourses.server.external.domain.dto.BitlyUrl;
 import org.ourses.server.external.helpers.BitlyHelper;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.TagDTO;
@@ -27,7 +24,6 @@ import org.ourses.server.redaction.domain.utils.RelatedArticle;
 import org.ourses.server.security.domain.entities.OurseSecurityToken;
 import org.ourses.server.security.helpers.SecurityHelper;
 import org.ourses.server.security.util.RolesUtil;
-import org.ourses.server.util.EnvironnementVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -198,11 +194,11 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setPath(buildPath(article));
         article.setUpdatedDate(new Date());
         article.setPublishedDate(publishedDate);
-        BitlyUrl bitlyUrl = bitlyHelper.shortenUrl("http://"+EnvironnementVariable.DOMAIN_NAME + article.getPath());
-        if (Status.OK.getStatusCode() == bitlyUrl.getStatusCode()) {
-            article.setShortenedUrl(bitlyUrl.getData().getUrl());
-        }
-        article.update("status", "path", "updatedDate", "publishedDate", "shortenedUrl");
+        // BitlyUrl bitlyUrl = bitlyHelper.shortenUrl("http://"+EnvironnementVariable.DOMAIN_NAME + article.getPath());
+        // if (Status.OK.getStatusCode() == bitlyUrl.getStatusCode()) {
+        // article.setShortenedUrl(bitlyUrl.getData().getUrl());
+        // }
+        article.update("status", "path", "updatedDate", "publishedDate");
         return article;
     }
 
