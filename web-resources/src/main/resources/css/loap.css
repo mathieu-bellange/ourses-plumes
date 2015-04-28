@@ -2074,7 +2074,7 @@ a.close {
   display: inline-block;
   padding-left: .25rem;
   padding-right: .25rem;
-  line-height: 20px;
+  line-height: 18px; /* WARNING : 20px - 2 x 1px border-width */
   color: dimgray;
   font-size: .875rem;
   vertical-align: middle;
@@ -2082,10 +2082,15 @@ a.close {
   border-radius: .25rem;
   background-color: white;
 }
+.share-list li a + .share-count,
+.share-list li a + .share-count {
+  left: -.125rem;
+}
 .share-list li a:hover + .share-count,
 .share-list li a:focus + .share-count {
-  border-color: transparent;
-  background-color: transparent;
+  border-left-color: transparent;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -3529,13 +3534,10 @@ input:focus + button + .error + .autocomplete > ul {
 .article .summary::-webkit-input-placeholder { /* Chrome */
   color: rgba(0, 0, 0, .25);
 }
-
-/* Article Tags */
 .article .tags {
   margin-bottom: 0;
   border: .125rem solid transparent;
 }
-/* Article Callout */
 .article .callout {
   position: relative;
   width: 75%;
@@ -3564,6 +3566,11 @@ input:focus + button + .error + .autocomplete > ul {
   right: 0; /* Fix CKEditor callout position bug */
   margin-left: .5rem;
 }
+.article .panel:after { /* Clearfix*/
+  content: '';
+  display: block;
+  clear: both;
+}
 .article:not(.edit) .incorrect {
   font-style: italic;
   opacity: .75;
@@ -3571,26 +3578,24 @@ input:focus + button + .error + .autocomplete > ul {
 .article .annotation {
   display: none;
 }
-/* CKEditor Image2 */
-.align-left {
+
+/* CKEditor Image2 Plugin */
+.article .align-left {
   float: left;
   margin-right: 1rem;
 }
-.align-right {
+.article .align-right {
   float: right;
   margin-left: 1rem;
 }
-.cke_widget_wrapper {
+.article .align-center {
   text-align: center;
 }
-.cke_widget_wrapper > .align-center {
-  display: inline-block;
-}
-.image {
+.article .image {
   position: relative;
   line-height: 0;
 }
-.image > figcaption {
+.article .image > figcaption {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -3601,16 +3606,6 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: black; /* RGBA Fix */
   background-color: rgba(0, 0, 0, .75);
   line-height: 1.0625rem;
-}
-
-/* The Ugliest Fix Ever ... */
-.article .cke_reset,
-.article .cke_widget_drag_handler {
-  display: none;
-}
-.article.edit .cke_reset,
-.article.edit .cke_widget_drag_handler {
-  display: inline-block;
 }
 
 /* ------------------------------------------------------------------ */

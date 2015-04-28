@@ -5,8 +5,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'fr', {
 	alt: 'Texte de remplacement',
 	btnUpload: 'Envoyer sur le serveur',
-	captioned: 'Légende', // EDIT
-	captionPlaceholder: '©', // EDIT
+	captioned: 'Légende et/ou Crédits', // EDIT
+	captionPlaceholder: 'Crédits ©', // EDIT
 	infoTab: 'Informations sur l\'image',
 	lockRatio: 'Conserver les proportions',
 	menu: 'Propriétés de l\'image',

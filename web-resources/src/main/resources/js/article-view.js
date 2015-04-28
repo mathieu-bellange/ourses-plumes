@@ -197,7 +197,7 @@ var share = (function() {
 								processData : true,
 								contentType : "application/json",
 								data : JSON.stringify(r),
-								success : function(data){o.html(typeof data.result !== "undefined" ? data.result.metadata.globalCounts.count.toString() : "0")}
+								success : function(data) {o.html(typeof data.result !== "undefined" ? data.result.metadata.globalCounts.count.toString() : "0")}
 							});
 							break;
 						case "linkedin" :
@@ -207,6 +207,97 @@ var share = (function() {
 					}
 				});
 			});
+		}
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # CKEditor Post-Load Batch */
+/* ------------------------------------------------------------------ */
+
+var editor = (function() {
+	return {
+		fluidify : function(obj) {
+			// CKEditor Images Size Fix (for Image and Image2 Plugins)
+			obj.find("img").each(function() {
+				var o = $(this);
+				var w = o.css("width");
+				var f = o.css("float");
+				o.attr("width", w); // compatibility fix (for 1.1.0 using Image Plugin)
+				o.css({
+					"border" : "none", // compatibility fix (for 1.1.0 using Image Plugin)
+					"margin" : "0", // compatibility fix (for 1.1.0 using Image Plugin)
+					"width" : "100%",
+					"height" : "auto",
+					"max-width" : w
+				});
+				if (f == "right" || f == "left") { // compatibility fix (for 1.1.0 using Image Plugin)
+					switch (f) {
+						case "left" : o.css("margin-right", "1rem"); break; // compatibility fix (for 1.1.0 using Image Plugin)
+						case "right" : o.css("margin-left", "1rem"); break; // compatibility fix (for 1.1.0 using Image Plugin)
+					}
+					o.parent().addClass("clearfix"); // compatibility fix (for 1.1.0 using Image Plugin)
+				}
+			});
+			// CKEditor iFrame Size Fix (for YouTube Plugin)
+			function resize_iframe(obj) {
+				var w = parseInt(obj.attr("width"));
+				var h = parseInt(obj.attr("height"));
+				var r = w / h; // ratio
+				var r_w = obj.width(); // real width (computed at 100%)
+				var r_h = r_w / r; // real height
+				obj.css("height", r_h);
+			}
+			obj.find("iframe").each(function() {
+				var o = $(this);
+				var w = o.attr("width");
+				o.css({
+					"width" : "100%",
+					"max-width" : w + "px"
+				});
+				o.parent().addClass("text-center"); // alignment fix
+				resize_iframe(o);
+			});
+			$(window).on("resize", function() {
+				obj.find("iframe").each(function() {
+					resize_iframe($(this));
+				});
+			});
+		},
+		clean : function(obj) {
+			// CKEditor Link Plugin Cleanup
+			obj.find("a").each(function() {
+				$(this).removeAttr("data-cke-saved-href"); // cke saved
+			});
+			// CKEditor Image Plugin Cleanup
+			obj.find("img").each(function() {
+				$(this).removeAttr("data-cke-saved-src"); // cke saved
+			});
+			// CKEditor Image2 Plugin Cleanup
+			$(".body").find("[data-cke-temp]").remove(); // remove
+			$(".body").find("[data-cke-hidden-sel]").remove(); // remove * USELESS : same as above
+			$(".body").find(".cke_widget_drag_handler_container").remove(); // remove
+			$(".body").find(".cke_widget_drag_handler").remove(); // remove * USELESS : contained in above
+			$(".body").find(".cke_image_resizer").remove(); // remove
+			$(".body").find(".cke_image_resizer_wrapper").children().unwrap(); // unwrap
+			$(".body").find("[class*='cke_widget']").each(function() {
+				$(this) // unbind all widgets
+					.removeClass("cke_widget_wrapper cke_widget_element cke_widget_editable cke_widget_selected cke_widget_block cke_widget_inline cke_image_nocaption")
+					.removeAttr("data-widget data-cke-widget-editable data-cke-widget-id data-cke-widget-data data-cke-widget-keep-attr data-cke-display-name data-cke-filter data-cke-enter-mode data-cke-widget-wrapper contenteditable tabindex");
+			})
+			// CKEditor BasicStyles Plugin Cleanup
+			obj.find("p").each(function() {
+				var o = $(this);
+				o.find("br:last-child").remove(); // remove line breaks at paragraphs end
+				// -----------------------------------------------------------------
+				// # UNUSED : redacters may insert empty paragraphs for spacing (bad practices should be let up to users)
+				// -----------------------------------------------------------------
+				// if (o.length == 0 && o.text() == "") {o.remove()} // remove empty paragrahs
+			});
+		},
+		patch : function(obj) {
+			this.fluidify(obj);
+			this.clean(obj);
 		}
 	}
 }());
@@ -227,8 +318,8 @@ function displayArticle() {
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-			} else if (jqXHR.status == 503){
-				setTimeout(function(){
+			} else if (jqXHR.status == 503) {
+				setTimeout(function() {
 					articleTimer = articleTimer * 10;
 					displayArticle();
 				}, articleTimer);
@@ -251,8 +342,8 @@ function displayRelatedArticle(articleId) {
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 404) {
 				$(".main-body").append(file_pool.error_tmpl).after(lb(1));
-			} else if (jqXHR.status == 503){
-				setTimeout(function(){
+			} else if (jqXHR.status == 503) {
+				setTimeout(function() {
 					relatedArticleTimer = relatedArticleTimer * 10;
 					displayRelatedArticle(articleId);
 				}, relatedArticleTimer);
@@ -263,7 +354,7 @@ function displayRelatedArticle(articleId) {
 	});
 }
 
-function shareByMail(articleId, mail){
+function shareByMail(articleId, mail) {
 	$.ajax({
 		type : "PUT",
 		data : mail,
@@ -279,36 +370,40 @@ function shareByMail(articleId, mail){
 	});
 }
 
+function goUserProfile(id, pseudo) {
+	$.ajax({
+		type : "GET",
+		url : "/rest/profile/" + id,
+		contentType : "application/json; charset=utf-8",
+		success : function(profile, status, jqxhr) {
+			window.location.href = profile.path;
+		},
+		error : function(jqXHR, status, errorThrown) {
+			if (jqXHR.status == 404) {
+				window.location.href = "/profils/" + pseudo;
+			}
+		},
+		dataType : "json"
+	});
+}
+
 function processArticle(article) {
 	set_page_title(article.title);
-	if (window.location.pathname !== article.path){
-		if (history.pushState){
+	if (window.location.pathname !== article.path) {
+		if (history.pushState) {
 			window.history.pushState("", "", article.path); // live update address bar without reloading document (HTML5 method)
 		} else {
 			window.location.href = article.path;
 		}
 	}
 	$(".main-body").append(file_pool.article_view_tmpl(article)).after(lb(1));
+	$(".article").on("click", "a[rel='author']", function() {
+		goUserProfile($(this).attr("data-profile-id"), $(this).html());
+	}); // bind author profile redirection
 	$(".header, .footer").update_separators(); // update separators
 	$("section").svg_icons(); // reload svg icons for whole section
+	editor.patch($(".body")); // ckeditor post-load batch
 	share.init(); // init share
-	$("a[rel='author']").on("click",function(){
-		var pseudo = $(this).html();
-		$.ajax({
-			type : "GET",
-			url : "/rest/profile/" + $(this).attr("data-profile-id"),
-			contentType : "application/json; charset=utf-8",
-			success : function(profile, status, jqxhr) {
-				window.location.href = profile.path;
-			},
-			error : function(jqXHR, status, errorThrown) {
-				if (jqXHR.status == 404) {
-					window.location.href = "/profils/" + pseudo;
-				}
-			},
-			dataType : "json"
-		});
-	});
 	displayRelatedArticle(article.id);
 }
 

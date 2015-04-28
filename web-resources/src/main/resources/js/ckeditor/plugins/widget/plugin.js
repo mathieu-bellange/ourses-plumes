@@ -28,23 +28,15 @@
 					'display:inline-block' +
 				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_element{' +
-					// 'outline:2px solid yellow;' +
-					// 'cursor:default' +
-					'outline:.25rem dashed crimson;' + // EDIT
-					'outline-offset:.25rem;' + // NEW
-					'cursor:pointer' + // EDIT
+					'outline:.25rem dashed crimson;' +
+					'outline-offset:.25rem;' +
+					'cursor:pointer' +
 				'}' +
-				/*
-				'.cke_widget_wrapper:hover .cke_widget_editable{' +
-					// 'outline:2px solid yellow' +
-					'outline:.25rem dashed crismon;' + // EDIT
-				'}' +
-				*/
-				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element,' +
+				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element{' +
 				// We need higher specificity than hover style.
-				'.cke_widget_wrapper .cke_widget_editable.cke_widget_editable_focused{' +
-					// 'outline:2px solid #ace' +
-					'box-shadow:0 0 .5rem .375rem crimson' + // EDIT
+					'outline:.25rem solid crimson;' +
+					'outline-offset:.25rem;' +
+					'cursor:default' +
 				'}' +
 				'.cke_widget_editable{' +
 					'cursor:text' +
