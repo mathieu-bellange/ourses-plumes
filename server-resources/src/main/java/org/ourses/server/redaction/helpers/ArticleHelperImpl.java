@@ -295,7 +295,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         if (parameter != null) {
             parameters.addAll(processParameters(parameter));
         }
-        return Article.findOnline(parameters, parameter);
+        return Article.findOnline(parameters);
     }
 
     @VisibleForTesting

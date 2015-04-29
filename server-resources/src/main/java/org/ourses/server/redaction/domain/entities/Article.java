@@ -267,18 +267,16 @@ public class Article implements Serializable {
         return set;
     }
 
-    public static Set<Article> findOnline(final Collection<String> collection, final String tagParameter) {
+    public static Set<Article> findOnline(final Collection<String> collection) {
         Set<Article> articles = Sets.newHashSet();
         // TODO une seule requête pour pagination
         if (collection != null && !collection.isEmpty()) {
-            articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
-                    .le("publishedDate", DateTime.now().toDate()).in("tags.tag", tagParameter).findSet());
-            articles.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
-                    .le("publishedDate", DateTime.now().toDate()).in("rubrique.path", tagParameter).findSet());
             ExpressionList<Article> expr = Ebean.find(Article.class).fetch("rubrique").where()
                     .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).disjunction();
             for (String parameter : collection) {
                 expr.ilike("titleBeautify", "%" + parameter + "%");
+                expr.ilike("tags.tag", "%" + parameter + "%");
+                expr.ilike("rubrique.path", "%" + parameter + "%");
             }
             articles.addAll(expr.findSet());
         }
@@ -288,6 +286,27 @@ public class Article implements Serializable {
         }
         return articles;
     }
+
+    // public static List<Article> findOnline(final Collection<String> collection) {
+    // // TODO une seule requête pour pagination
+    // int pageSize = 1;
+    // ExpressionList<Article> expr;
+    //
+    // if (collection != null && !collection.isEmpty()) {
+    // expr = Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+    // .le("publishedDate", DateTime.now().toDate()).disjunction();
+    // for (String parameter : collection) {
+    // expr.ilike("titleBeautify", "%" + parameter + "%");
+    // expr.ilike("tags.tag", "%" + parameter + "%");
+    // expr.ilike("rubrique.path", "%" + parameter + "%");
+    // }
+    // }
+    // else {
+    // expr = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
+    // .le("publishedDate", DateTime.now().toDate());
+    // }
+    // return expr.orderBy().desc("publishedDate").findPagingList(pageSize).getPage(0).getList();
+    // }
 
     public static Article findArticle(final long id) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
