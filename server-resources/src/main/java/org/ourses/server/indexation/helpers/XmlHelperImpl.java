@@ -25,14 +25,14 @@ public class XmlHelperImpl implements XmlHelper {
     }
 
     private Collection<? extends SitemapUrl> buildArticlesSitemapUrl() {
-        Set<Article> articles = Article.findOnline(null, null);
+        Set<Article> articles = Article.findOnline(null);
         Set<SitemapUrl> articlesUrl = new HashSet<SitemapUrl>();
         for (Article art : articles) {
             SitemapUrl artUrl = new SitemapUrl();
             artUrl.setChangeFrequency(SitemapChangeFreq.YEARLY);
             artUrl.setPriority(1.0);
             artUrl.setLastModification(art.getPublishedDate());
-            artUrl.setPath("http://"+ EnvironnementVariable.DOMAIN_NAME + art.getPath());
+            artUrl.setPath("http://" + EnvironnementVariable.DOMAIN_NAME + art.getPath());
             articlesUrl.add(artUrl);
         }
         return articlesUrl;
@@ -40,11 +40,11 @@ public class XmlHelperImpl implements XmlHelper {
 
     private Collection<? extends SitemapUrl> buildStaticSitemapUrl() {
         SitemapUrl homeUrl = new SitemapUrl();
-        homeUrl.setPath("http://"+ EnvironnementVariable.DOMAIN_NAME);
+        homeUrl.setPath("http://" + EnvironnementVariable.DOMAIN_NAME);
         homeUrl.setChangeFrequency(SitemapChangeFreq.DAILY);
         homeUrl.setPriority(0.8);
         SitemapUrl faqUrl = new SitemapUrl();
-        faqUrl.setPath("http://"+ EnvironnementVariable.DOMAIN_NAME + "/faq");
+        faqUrl.setPath("http://" + EnvironnementVariable.DOMAIN_NAME + "/faq");
         faqUrl.setChangeFrequency(SitemapChangeFreq.MONTHLY);
         faqUrl.setPriority(0.5);
         return Sets.newHashSet(homeUrl, faqUrl);
