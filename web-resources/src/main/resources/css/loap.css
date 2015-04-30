@@ -3230,7 +3230,7 @@ input:focus + button + .error + .autocomplete > ul {
 .code-block {
   position: relative;
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 1.5rem .75rem 2rem;
   font-family: Courier New, Liberation Mono, Droid Sans Mono, Cousine, monospace;
   font-size: 87.5%;
   line-height: 200%;
@@ -3238,7 +3238,44 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: whitesmoke;
   overflow: hidden;
 }
-.code-block.radius {border-radius: .5rem;}
+.code-block > .num {
+  float: left;
+  width: 2rem;
+  position: relative;
+  padding-right: .5rem;
+  color: grey;
+  text-align: right;
+  border-right: .25rem solid silver; /* RGBA Fix*/
+  border-right: .25rem solid rgba(0, 0, 0, .25);
+  left: 0;
+  top: 0;
+}
+.code-block > .code {
+  position: absolute;
+  width: 90%;
+  left: .75rem;
+  top: 1.5rem;
+  margin: 0;
+  padding-left: .5rem;
+  color: dimgray;
+  border-left: 1rem solid palegreen; /* RGBA Fix*/
+  border-left: 1rem solid rgba(128, 224, 0, .25);
+  overflow-x: auto;
+}
+.code-block > .code:after {
+  content: '[fin]';
+  display: block;
+  color: silver;
+}
+
+.code-block.wrap > .code {
+  position: static;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.code-block.radius {
+  border-radius: .5rem;
+}
 .code-block > .bar,
 .code-block > .num {
   -webkit-user-select: none;
@@ -3272,33 +3309,6 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: rgb(216, 216, 160);
   outline: 0;
 }
-.code-block > .num {
-  position: absolute;
-  padding-right: .5rem;
-  color: gray;
-  border-right: .25rem solid silver;
-  overflow-x: auto;
-}
-.code-block > .code {
-  margin: 0;
-  color: dimgray;
-  cursor: text;
-  overflow-x: auto;
-}
-.code::selection {
-	background: yellow;
-}
-.code::-moz-selection {
-	background: yellow;
-}
-.code.text-wrap { /* TEMP */
- white-space: normal;
- word-wrap: break-word;
-}
-.code.no-wrap { /* TEMP */
- white-space: nowrap;
- word-wrap: normal;
-}
 .num + .code {margin-left: 2rem;}
 .code .tag {color: blue;}
 .code .attr {color: red;}
@@ -3308,6 +3318,22 @@ input:focus + button + .error + .autocomplete > ul {
 .code .val {color: sienna;}
 .code .key {color: midnightblue;}
 .code .pair {color: cadetblue;}
+.code::selection {
+  background: yellow; /* RGBA Fix */
+  background: rgba(255, 255, 0, .5);
+}
+.code::-moz-selection {
+  background: yellow; /* RGBA Fix */
+  background: rgba(255, 255, 0, .5);
+}
+.code > *::selection {
+  background: yellow; /* RGBA Fix */
+  background: rgba(255, 255, 0, .5);
+}
+.code > *::-moz-selection {
+  background: yellow; /* RGBA Fix */
+  background: rgba(255, 255, 0, .5);
+}
 
 /* ------------------------------------------------------------------ */
 /* # Over Blocks */

@@ -77,8 +77,8 @@
 				<div id="mptl_holder" class="panel callout radius">
 				</div>
 				<div class="code-block radius">
-	<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
-	<pre class="code">
+					<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</pre>
+					<pre class="code">
 <mark>&#123;&#123;%</mark> <b class="var">part1</b> <mark>&#125;&#125;</mark>
 	<span class="tag">&lt;h4&gt;</span>&#123;&#123;= data.title &#125;&#125; in a template<span class="tag">&lt;/h4&gt;</span>
 	<span class="tag">&lt;p&gt;</span>&#123;&#123;= data.text &#125;&#125; <span class="tag">&lt;/p&gt;</span>
@@ -94,7 +94,9 @@
 			<section id="dev_customize_settings">
 				<h2 class="red">Customize settings</h2>
 				<h3>Standard configuration</h3>
-<pre class="panel code">
+					<div class="code-block radius">
+					<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</pre>
+					<pre class="code">
 <var class="var">doT.templateSettings</var> = {
 	<span class="key">evaluate</span> : <span class="pair">regexp</span>,      <span class="comment">// parse a string as a javascript instruction WITHOUT appending it to the result function (mostly used for statements)</span>
 	<span class="key">interpolate</span> : <span class="pair">regexp</span>,   <span class="comment">// parse a string as a javascript instruction and append it to the result function (n.b. this is default behaviour)</span>
@@ -109,6 +111,7 @@
 	<span class="key">selfcontained</span> : <span class="pair">boolean</span> <span class="comment">// include 'encodeHTML' function in result function (i.e. result function should not depend on doT.js that way)</span>
 };
 </pre>
+					</div>
 				<h3>Custom configuration</h3>
 <pre class="panel callout code">
 <var class="var">doT.templateSettings.varname</var> = <span class="val">"<mark>data</mark>"</span>;

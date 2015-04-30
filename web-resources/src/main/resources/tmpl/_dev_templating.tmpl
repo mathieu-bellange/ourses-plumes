@@ -3,7 +3,8 @@
 <h3>Basic templating</h3>
 
 <div class="code-block">
-<pre class="code" style="height: 15rem;">
+<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40</pre>
+<pre class="code">
 <var class="var">data</var> = {
   <span class="key">"title"</span> : <span class="pair">"A title"</span>,
   <span class="key">"text"</span> : <span class="pair">"Some text."</span>,
@@ -54,7 +55,7 @@
 	<p style="color: green;">{{= data.text }}</p>
 </div>
 <div class="code-block radius">
-	<pre class="num">1<br>2</pre>
+	<pre class="num">1<br>2<br>3</pre>
 	<pre class="code">
 <span class="tag">&lt;h5</span> <span class="attr">style</span>=<span class="prop">"color: red;"</span> <span class="tag">&gt;</span><mark>&#123;&#123;=</mark> data.title <mark>&#125;&#125;</mark><span class="tag">&lt;/h5&gt;</span>
 <span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="prop">"color: green;"</span> <span class="tag">&gt;</span><mark>&#123;&#123;=</mark> data.text <mark>&#125;&#125;</mark><span class="tag">&lt;/p&gt;</span>
@@ -72,7 +73,7 @@
 	</ul>
 </div>
 <div class="code-block radius">
-	<pre class="num">1<br>2<br>3<br>4<br>5</pre>
+	<pre class="num">1<br>2<br>3<br>4<br>5<br>6</pre>
 	<pre class="code">
 <span class="tag">&lt;ul</span>
 <mark>&#123;&#123;</mark> for (var key in data) { <mark>&#125;&#125;</mark>
@@ -93,7 +94,7 @@
 	<p>This partial define {{# def.partial}}</p>
 </div>
 <div class="code-block radius">
-	<pre class="num">1<br>2<br>3<br>4<br>5<br>6</pre>
+	<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7</pre>
 	<pre class="code">
 <span class="comment">&lt;!--Partial Define--&gt;</span>
 <mark>&#123;&#123;##</mark> def.partial <mark>:</mark>
@@ -117,7 +118,7 @@
 {{?}}
 </div>
 <div class="code-block radius">
-	<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7</pre>
+	<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</pre>
 	<pre class="code">
 <mark>&#123;&#123;?</mark> data.title.length == 0 <mark>&#125;&#125;</mark> <span class="comment">&lt;!--if--&gt;</span>
 	<span class="tag">&lt;p&gt;</span><span class="tag">&lt;code&gt;</span>&#123;&#123;= data.title &#125;&#125;<span class="tag">&lt;/code&gt;</span> string is 0 character length.<span class="tag">&lt;/p&gt;</span>
@@ -140,7 +141,7 @@
 	</ol>
 </div>
 <div class="code-block radius">
-	<pre class="num">1<br>2<br>3<br>4<br>5</pre>
+	<pre class="num">1<br>2<br>3<br>4<br>5<br>6</pre>
 	<pre class="code">
 <span class="tag">&lt;ul</span>
 <mark>&#123;&#123;~</mark> data.list :value <mark>&#125;&#125;</mark>
@@ -157,7 +158,7 @@
 	<p>To set up the biggest title in HTML use the <code>{{! data.code }}</code> tag</p>
 </div>
 <div class="code-block radius">
-	<pre class="num">1</pre>
+	<pre class="num">1<br>2</pre>
 	<pre class="code">
 <span class="tag">&lt;p&gt;</span>To set up the biggest title in HTML use the <span class="tag">&lt;code&gt;</span><mark>&#123;&#123;!</mark> data.code <mark>&#125;&#125;</mark><span class="tag">&lt;code&gt;</span> tag<span class="tag">&lt;/p&gt;</span>
 </pre>
@@ -185,7 +186,7 @@
 </ol>
 </div>
 <div class="code-block radius">
-	<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17</pre>
+	<pre class="num">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</pre>
 	<pre class="code">
 <span class="comment">&lt;!--Define Partial for Attributes--&gt;</span>
 &#123;&#123;## def.attributes: hash:
