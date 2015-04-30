@@ -1,5 +1,6 @@
 package org.ourses.server.redaction.helpers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -318,7 +319,7 @@ public class ArticleHelperImpl implements ArticleHelper {
 
     @Override
     public Collection<? extends Article> findToCheckAndDraftAndPublished(final Long profileId, final String token) {
-        Set<Article> articles = Sets.newHashSet();
+        List<Article> articles = new ArrayList<Article>();
         OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
         // Je suis admin
         if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {

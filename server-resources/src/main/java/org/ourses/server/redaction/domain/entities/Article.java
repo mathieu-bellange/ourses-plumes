@@ -244,13 +244,15 @@ public class Article implements Serializable {
         return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
-    public static Set<Article> findToCheckAndDraftAndPublished() {
-        return Ebean.find(Article.class).findSet();
+    public static Collection<? extends Article> findToCheckAndDraftAndPublished() {
+        return Ebean.find(Article.class).orderBy().asc("status").orderBy().desc("publishedDate").orderBy()
+                .desc("updatedDate").orderBy().desc("createdDate").findList();
     }
 
     public static Collection<? extends Article> findToCheckAndDraftAndPublished(final Long idProfile) {
         return Ebean.find(Article.class).fetch("profile", "pseudo").fetch("coAuthors", "pseudo").where()
-                .eq("profile.id", idProfile).findSet();
+                .eq("profile.id", idProfile).orderBy().asc("status").orderBy().desc("publishedDate").orderBy()
+                .desc("updatedDate").orderBy().desc("createdDate").findList();
     }
 
     public static Collection<? extends Article> findAllCoAuthorsArticle(final Long idProfile) {
