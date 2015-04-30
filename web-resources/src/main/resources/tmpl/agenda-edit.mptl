@@ -1,6 +1,6 @@
 ﻿<!--Date Event Edit-->
 {{% date_event_edit_tmpl }}
-					<button class="icon-remove tiny alert" title="Supprimer cet &eacute;v&egrave;nement" data-delete></button>
+					<button class="button reject icon-remove tiny" title="Supprimer cet &eacute;v&egrave;nement" data-delete></button>
 					<input id="{{= data.id }}" class="title" type="text" maxlength="64" value="{{= data.title ? data.title : '' }}" placeholder="Le titre de l&rsquo;&eacute;v&egrave;nement" required>
 					<textarea class="desc min" maxlength="255" placeholder="Une description facultative de l&rsquo;&eacute;v&egrave;nement (255 charact&egrave;res max.)">{{= data.desc == null ? "" : data.desc }}</textarea>
 {{%}}
@@ -17,9 +17,9 @@
 				{{~}}
 				</fieldset>
 				<div class="button-bar">
-					<button class="primary" title="Ajouter un nouvel &eacute;v&egrave;nement &agrave; cette date" data-add>Ajouter</button>
-					<button class="success" title="Valider les &eacute;v&egrave;nements &agrave; cette date" data-submit>Valider</button>
-					<button class="alert" title="Annuler les changements apport&eacute;es &agrave; cette date" data-cancel>Annuler</button>
+					<button class="button action" title="Ajouter un nouvel &eacute;v&egrave;nement &agrave; cette date" data-add>Ajouter</button>
+					<button class="button accept" title="Valider les &eacute;v&egrave;nements &agrave; cette date" data-submit>Valider</button>
+					<button class="button reject" title="Annuler les changements apport&eacute;es &agrave; cette date" data-cancel>Annuler</button>
 				</div>
 			</div>
 {{%}}

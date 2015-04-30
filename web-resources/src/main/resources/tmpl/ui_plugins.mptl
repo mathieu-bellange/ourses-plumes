@@ -56,8 +56,8 @@
 						<h4 class="title">Confirmation<span class="close" tabindex="0"></span></h4>
 						<p class="message {{= data.class }}">{{= data.text }}</p>
 						{{ if (data.extra !== null) {out += data.extra} }}
-						<button class="success icon-confirm small" title="Confirmer" data-confirm><span class="hide">Confirmer</span></button>
-						<button class="alert icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></button>
+						<button class="button accept icon-confirm small" title="Confirmer" data-confirm><span class="hide">Confirmer</span></button>
+						<button class="button reject icon-cancel small" title="Annuler" data-cancel><span class="hide">Annuler</span></button>
 					</div>
 				</div>
 			</div>

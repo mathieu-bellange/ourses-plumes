@@ -2,7 +2,7 @@
 {{% faq_item_tmpl }}
 						<dt class="question icon-right small" tabindex="0">
 							<input required type="text" placeholder="Question" value="{{= decode_html(data.question, true) }}" disabled>
-							<button class="icon-remove alert tiny " title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
+							<button class="button reject icon-remove tiny" title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
 						</dt>
 						<dd class="answer" style="display: none;">
 							<textarea required placeholder="R&eacute;ponse" class="min">{{= decode_html(data.answer, true) }}</textarea>
@@ -17,8 +17,8 @@
 						{{~}}
 					</dl>
 					<p class="text-center">
-						<button class="primary" data-create>Nouvelle FAQ</button>
-						<button class="success" data-valid>Valider les FAQ</button>
+						<button class="button action" data-create>Nouvelle FAQ</button>
+						<button class="button accept" data-valid>Valider les FAQ</button>
 					</p>
 				</section>
 {{%}}

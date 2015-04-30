@@ -84,14 +84,14 @@
 					<!--
 					<dt class="question icon-right small" tabindex="0">
 						<input required type="text" placeholder="Question" value="Mais...Pourquoi &laquo; Les Ourses &agrave; plumes &raquo; ???" disabled>
-						<button class="icon-remove alert tiny " title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
+						<button class="button reject icon-remove tiny" title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
 					</dt>
 					<dd class="answer" style="display: none;">
 						<textarea required placeholder="R&eacute;ponse" class="min">Nous n'avons pas d'explication r&eacute;ellement rationnelle &agrave; cette question. Ce que nous pouvons vous dire, c'est que nous ne voulions pas d'un titre trop &quot;intello&quot;, mais quelque chose allant vers l'imaginaire et qui sonne bien, que l'on retient. Nous avons donc choisi un animal : une ourse. Son c&ocirc;t&eacute; &quot;forte&quot; nous plaisait. De l&agrave;, est parti un brainstorming intense (si si !) pour choisir un nom. Vous avez donc &eacute;chapp&eacute; &agrave; notamment : &quot;les grandes ourses&quot;, &quot;ourses rousses&quot;, &quot;les ourses tricotent&quot;, ou encore &quot;le prisme des ourses&quot;. &quot;Les Ourses &agrave; plumes&quot; l'a emport&eacute; pour la double signification des &quot;plumes&quot;, celles pour &eacute;crire, mais &eacute;galement celles qui servent &agrave; s'envoler. Un grain de fantaisie, mais aussi d'espoir, que le f&eacute;minisme d&eacute;colle dans notre soci&eacute;t&eacute; o&ugrave; il est toujours malheureusement aussi n&eacute;cessaire.</textarea>
 					</dd>
 					<dt class="question icon-right small" tabindex="0">
 						<input required type="text" placeholder="Question" value="Y a-t-il des crit&egrave;res pour &eacute;crire dans Les Ourses &agrave; plumes ?" disabled>
-						<button class="icon-remove alert tiny " title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
+						<button class="button reject icon-remove tiny" title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
 					</dt>
 					<dd class="answer" style="display: none;">
 						<textarea required placeholder="R&eacute;ponse" class="min">Nous avons fait le choix que nos r&eacute;dactrices soient concern&eacute;es au premier chef par les oppressions qu'elles d&eacute;crivent. De m&ecirc;me qu&rsquo;il nous para&icirc;t important que les articles traitant d&rsquo;handicap ou du racisme soient &eacute;crits par des personnes en situation de handicap ou subissant le racisme, il nous semble primordial que cela soit les femmes (cis ou trans) et les hommes trans qui &eacute;crivent sur leur propre oppression.<br>Nous sommes toutefois pas compl&egrave;tement ferm&eacute;es &agrave; l&rsquo;id&eacute;e d&rsquo;avoir un jour des r&eacute;dacteurs- hommes cis f&eacute;ministes, mais cela restera des exceptions. Parce que nous consid&eacute;rons que les hommes cis ont d&eacute;j&agrave; &eacute;norm&eacute;ment d'espaces ailleurs pour s'exprimer, y compris sur le f&eacute;minisme.
@@ -100,7 +100,7 @@
 					</dd>
 					<dt class="question icon-right small" tabindex="0">
 						<input required type="text" placeholder="Question" disabled>
-						<button class="icon-remove alert tiny " title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
+						<button class="button reject icon-remove tiny" title="Supprimer" data-delete="0"><span class="hide">Supprimer</span></button>
 					</dt>
 					<dd class="answer" style="display: none;">
 						<textarea required placeholder="R&eacute;ponse" class="min"></textarea>
@@ -108,8 +108,8 @@
 					-->
 				</dl>
 				<p class="text-center">
-					<button class="primary" data-create>Nouvelle FAQ</button>
-					<button class="success" data-valid>Valider les FAQ</button>
+					<button class="button action" data-create>Nouvelle FAQ</button>
+					<button class="button accept" data-valid>Valider les FAQ</button>
 				</p>
 			</div>
 
@@ -129,7 +129,7 @@
 					{"question" : "Que signifie le terme “intersectionnalité” ?", "answer" : "<p>C’est un terme forgé en 1991 par Kimberlé Crenshaw, une chercheuse féministe américaine qui travaillait sur les violences subies par les femmes racisées des classes populaires. L’intersectionnalité, c’est celle des différentes oppressions (sexisme, racisme, homophobie, de classe, mais aussi handiphobie, transphobie...). Ce terme permet de souligner que chacune se trouve à l’intersection de plusieurs systèmes d’oppression, et qu’il faut tenir compte dans nos analyses de ces différentes oppressions. Ainsi, on ne peut pas analyser de la même façon la situation d’une femme racisée et celle d’une femme non-racisée, ou encore celle d’une femme hétéro et celle d’une femme lesbienne. Sans parler des femmes racisées et lesbiennes !</p><p>Le concept d’intersectionnalité permet d’éviter de nier les divergences de situations et donc de vécus, tout en les replaçant dans une perspective de systèmes et non de situations individuelles.</p>"}
 				];
 				var faq_view_template = "<dt class='question icon-right small' tabindex='0'><span class='text'>{{= question }}</span><span class='icon-hide vis-tip'></span></dt><dd class='answer' style='display: none;'>{{= answer }}</dd>";
-				var faq_edit_template = "<dt class='question icon-right small' tabindex='0'><input type='text' placeholder='Question' value='{{= question }}' required disabled><button class='icon-remove alert tiny ' title='Supprimer' data-delete><span class='hide'>Supprimer</span></button></dt><dd class='answer' style='display: none;'><textarea placeholder='R&eacute;ponse' class='min' required>{{= answer }}</textarea></dd>";
+				var faq_edit_template = "<dt class='question icon-right small' tabindex='0'><input type='text' placeholder='Question' value='{{= question }}' required disabled><button class='button reject icon-remove tiny' title='Supprimer' data-delete><span class='hide'>Supprimer</span></button></dt><dd class='answer' style='display: none;'><textarea placeholder='R&eacute;ponse' class='min' required>{{= answer }}</textarea></dd>";
 				/* ------------------------------------------------------------ */
 
 				// Functions

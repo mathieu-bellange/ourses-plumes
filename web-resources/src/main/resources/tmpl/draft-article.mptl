@@ -53,9 +53,9 @@
 											<p class="validate" style="display: none;">
 												{{? isComputer() }}
 												{{? data.profile.id == UserSession.getUserProfileId() }}
-												<button class="icon-reply success tiny" title="Valider l&rsquo;article" data-validate="{{= data.id }}"></button>
+												<button class="button accept icon-reply tiny" title="Valider l&rsquo;article" data-validate="{{= data.id }}"></button>
 												{{?}}
-												<button class="icon-remove alert tiny" title="Supprimer l&rsquo;article" data-delete="{{= data.id }}"></button>
+												<button class="button reject icon-remove tiny" title="Supprimer l&rsquo;article" data-delete="{{= data.id }}"></button>
 												{{?}}
 											</p>
 										{{?? data.status == "AVERIFIER" }}
@@ -66,10 +66,10 @@
 											{{?}}
 											<p class="validate" style="display: none;">
 												{{? OursesSecurity.isUserAdmin() }}
-												<button class="icon-confirm success tiny" title="Publier l&rsquo;article" data-publish="{{= data.id }}"></button>
+												<button class="button accept icon-confirm tiny" title="Publier l&rsquo;article" data-publish="{{= data.id }}"></button>
 												{{?}}
 												{{? isComputer() }}
-												<button class="icon-cancel alert tiny" title="Renvoyer l&rsquo;article" data-invalidate="{{= data.id }}"></button>
+												<button class="button reject icon-cancel tiny" title="Renvoyer l&rsquo;article" data-invalidate="{{= data.id }}"></button>
 												{{?}}
 											</p>
 										{{??}}
@@ -77,12 +77,12 @@
 											{{? OursesSecurity.isUserAdmin() || OursesSecurity.isUserWriter() || data.profile.id == UserSession.getUserProfileId() }}
 											<p class="validate" style="display: none;">
 												{{? $app.stage == "dev" && true }}
-												<button class="icon-folder tiny" title="Ajouter au dossier" data-folder="{{= data.id }}"></button>
+												<button class="button action icon-folder tiny" title="Ajouter au dossier" data-folder="{{= data.id }}"></button>
 												{{?? $app.stage == "dev" }}
-												<button class="icon-folder warning tiny" title="Modifier le dossier" data-folder="{{= data.id }}"></button>
+												<button class="button reject icon-folder tiny" title="Modifier le dossier" data-folder="{{= data.id }}"></button>
 												{{?}}
 												{{? OursesSecurity.isUserAdmin() }}
-												<button class="icon-reply alert tiny" title="Rappeler l&rsquo;article" data-recall="{{= data.id }}"></button>
+												<button class="button reject icon-reply tiny" title="Rappeler l&rsquo;article" data-recall="{{= data.id }}"></button>
 												{{?}}
 											</p>
 											{{?}}
@@ -124,7 +124,7 @@
 						<div class="column small-7"><select id="publishing_month"></select></div>
 						<div class="column small-5"><select id="publishing_year"></select></div>
 						<div class="column small-5"><select id="publishing_hour"></select></div>
-						<div class="column small-3 text-right"><button class="icon-confirm success tiny" data-submit-publish><span class="hide">Publier</span></button></div>
+						<div class="column small-3 text-right"><button class="button accept icon-confirm tiny" data-submit-publish><span class="hide">Publier</span></button></div>
 					</div>
 {{%}}
 <!--Folder Box-->
@@ -134,6 +134,6 @@
 					</div>
 					<div class="row collapse">
 						<div class="column small-21"><select id="folder_select"><option disabled selected>Choisir un dossier</select></div>
-						<div class="column small-3 text-right"><button class="icon-confirm success tiny right" data-submit-folder><span class="hide">Dossier</span></button></div>
+						<div class="column small-3 text-right"><button class="button accept icon-confirm tiny right" data-submit-folder><span class="hide">Dossier</span></button></div>
 					</div>
 {{%}}

@@ -29,7 +29,7 @@
 								</td>
 								<td class="text-center">
 								{{? account.profile.pseudo !== UserSession.getUserPseudo() && account.id != 0 }}
-									<button class="alert icon-remove tiny" title="Supprimer ce compte"><span class="text hide">Supprimer</span></button>
+									<button class="button reject icon-remove tiny" title="Supprimer ce compte"><span class="text hide">Supprimer</span></button>
 								{{?}}
 								</td>
 							</tr>
@@ -37,6 +37,6 @@
 						</tbody>
 					</table>
 					<p class="text-center" style="margin-bottom: 0;">
-						<a href="/comptes/nouveau" class="button icon-add" style="margin-bottom: 0;"><span class="text">Ajouter un compte</span></a>
+						<a href="/comptes/nouveau" class="button action icon-add" style="margin-bottom: 0;"><span class="text">Ajouter un compte</span></a>
 					</p>
 				</section>

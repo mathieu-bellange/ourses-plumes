@@ -26,7 +26,7 @@
 			<input id="show_editor" type="checkbox" name="show" value="editor_fieldset" checked>
 			<label for="show_rubrics_switcher">Rubrics Switcher</label>
 			<input id="show_rubrics_switcher" type="checkbox" name="show" value="rubrics_switcher">
-			<input id="cke_plugins" class="button tiny secondary" type="button" value="CKEditor plugins">
+			<input id="cke_plugins" class="button tiny" type="button" value="CKEditor plugins">
 		</div>
 		<script>
 			// Events
@@ -93,7 +93,7 @@
 										<li data-id="4">&#220;ber Big Keenv&eacute;</li>
 									</ul>
 								</div>
-								<button id="coauthor_add" type="button" class="icon-add small left postfix" style="height: 2.25rem;"></button>
+								<button id="coauthor_add" type="button" class="button action icon-add small left postfix" style="height: 2.25rem;"></button>
 							</div>
 						</div>
 						<script>
@@ -263,7 +263,7 @@
 						<div id="tag_field" style="display: none;" style="margin-bottom: 1rem;">
 							<label for="tag">Tags</label>
 							<div>
-								<input id="tag" class="tag validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class="icon-add small postfix"></button>
+								<input id="tag" class="tag validation" type="text" maxlength="32" placeholder="Une &eacute;tiquette au choix (32 carac.)"><button id="tag_add" type="button" class="button action icon-add small postfix"></button>
 								<small class="error"></small>
 								<div class="autocomplete">
 									<ul>
@@ -515,12 +515,12 @@
 					</style>
 					<div id="rubrics_switcher">
 						<ul class="inline-list">
-							<li><a id="cke_rub_intersec" href="javascript:void(0)" class="button small secondary">Intersectionnalit&eacute;</a></li>
-							<li><a id="cke_rub_struggles" href="javascript:void(0)" class="button small secondary">Luttes</a></li>
-							<li><a id="cke_rub_ideas" href="javascript:void(0)" class="button small secondary">Id&eacute;es</a></li>
-							<li><a id="cke_rub_educult" href="javascript:void(0)" class="button small secondary">&Eacute;ducation &amp; Culture</a></li>
-							<li><a id="cke_rub_internat" href="javascript:void(0)" class="button small secondary">International</a></li>
-							<li><a id="cke_rub_ourbody" href="javascript:void(0)" class="button small secondary">Nos corps, nous-m&ecirc;mes</a></li>
+							<li><a id="cke_rub_intersec" href="javascript:void(0)" class="button small">Intersectionnalit&eacute;</a></li>
+							<li><a id="cke_rub_struggles" href="javascript:void(0)" class="button small">Luttes</a></li>
+							<li><a id="cke_rub_ideas" href="javascript:void(0)" class="button small">Id&eacute;es</a></li>
+							<li><a id="cke_rub_educult" href="javascript:void(0)" class="button small">&Eacute;ducation &amp; Culture</a></li>
+							<li><a id="cke_rub_internat" href="javascript:void(0)" class="button small">International</a></li>
+							<li><a id="cke_rub_ourbody" href="javascript:void(0)" class="button small">Nos corps, nous-m&ecirc;mes</a></li>
 						</ul>
 					</div>
 					<script>
@@ -690,9 +690,9 @@
 
 				<!--Validation Buttons-->
 				<div class="text-center">
-					<input id="readonly" class="button secondary" type="button" value="Lecture seule" title="Visualiser l&rsquo;article sans les fonctionnalit&eacute;s d&rsquo;&eacute;dition">
-					<input id="save" class="button success" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard">
-					<input id="validate" class="button alert" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" tabindex="-1" disabled>
+					<input id="readonly" class="button" type="button" value="Lecture seule" title="Visualiser l&rsquo;article sans les fonctionnalit&eacute;s d&rsquo;&eacute;dition">
+					<input id="save" class="button accept" type="button" value="Enregistrer" title="Mettre l&rsquo;article de c&ocirc;t&eacute; pour le modifier plus tard">
+					<input id="validate" class="button reject" type="button" value="Valider" title="Soumettre l&rsquo;article &agrave; la r&eacute;daction pour publication" tabindex="-1" disabled>
 				</div>
 				<script>
 					// Validate component

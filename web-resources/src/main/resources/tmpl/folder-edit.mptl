@@ -2,9 +2,9 @@
 {{% folder_edit_article_list_item_tmpl }}
 							<li data-id="{{= data.id }}" data-num="{{= data.num }}">
 								<div class="button-bar">
-									<span class="icon-up button tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier" data-up></span>
-									<span class="icon-down button tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier" data-down></span>
-									<span class="icon-cancel button alert tiny" tabindex="0" title="Retirer l&rsquo;article du dossier" data-remove></span>
+									<span class="button action icon-up tiny" tabindex="0" title="Monter l&rsquo;article dans le dossier" data-up></span>
+									<span class="button action icon-down tiny" tabindex="0" title="Descendre l&rsquo;article dans le dossier" data-down></span>
+									<span class="button reject icon-cancel tiny" tabindex="0" title="Retirer l&rsquo;article du dossier" data-remove></span>
 								</div>
 							</li>
 {{%}}
@@ -28,7 +28,7 @@
 						</div>
 						<div class="desc">
 							<textarea class="min" maxlength="1024" placeholder="La description du dossier (1024 charact&egrave;res max.)" required>{{= decode_html(data.desc, true) }}</textarea>
-							<button class="icon-remove alert tiny" title="Supprimer le dossier" data-delete><span class="text hide">Supprimer</span></button>
+							<button class="button reject icon-remove tiny" title="Supprimer le dossier" data-delete><span class="text hide">Supprimer</span></button>
 						</div>
 						{{? typeof(data.list) === "undefined" || data.list.length == 0 || data.list === "{}" }}
 							{{? typeof(data.name) !== "undefined" && data.name !== "" }}
@@ -42,8 +42,8 @@
 						</ul>
 						{{?}}
 						<div class="text-center button-bar" style="display: none;">
-							<button class="icon-confirm success small" title="Valider les modifications" data-submit><span class="text">Valider</span></button>
-							<button class="icon-cancel alert small" title="Annuler les modifications" data-reset><span class="text">Annuler</span></button>
+							<button class="button accept icon-confirm small" title="Valider les modifications" data-submit><span class="text">Valider</span></button>
+							<button class="button reject icon-cancel small" title="Annuler les modifications" data-reset><span class="text">Annuler</span></button>
 						</div>
 					</li>
 {{%}}
@@ -57,7 +57,7 @@
 					{{~}}
 				</ul>
 				<div class="button-bar">
-					<button class="icon-add" data-add><span class="text">Nouveau dossier</span></button>
+					<button class="button action icon-add" data-add><span class="text">Nouveau dossier</span></button>
 				</div>
 			</section>
 {{%}}

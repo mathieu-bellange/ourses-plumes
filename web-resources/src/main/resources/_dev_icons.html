@@ -96,30 +96,30 @@
 			/* Blur Effect */
 			.icon.blur use {filter: url(#blur);} 
 			a.blur:not(.disabled):focus use, a.blur:not(.disabled):hover use,
-			button.blur:not(.disabled):focus use, button.blur:not(.disabled):hover use {}
+			.button.blur:not(.disabled):focus use, .button.blur:not(.disabled):hover use {}
 			a.blur:not(.disabled):active use, a.blur.active use,
-			button.blur:not(.disabled):active use, button.blur.active use {opacity: .5;}
+			.button.blur:not(.disabled):active use, .button.blur.active use {opacity: .5;}
 
 			/* Glow Effect */
 			.icon.glow use {filter: url(#glow);}
 			a.glow:not(.disabled):focus use, a.glow:not(.disabled):hover use,
-			button.glow:not(.disabled):focus use, button.glow:not(.disabled):hover use {}
+			.button.glow:not(.disabled):focus use, .button.glow:not(.disabled):hover use {}
 			a.glow:not(.disabled):active use, a.glow.active use,
-			button.glow:not(.disabled):active use, button.glow.active use {filter: url(#blur);}
+			.button.glow:not(.disabled):active use, .button.glow.active use {filter: url(#blur);}
 
 			/* Shadow Effect */
 			.icon.shadow use {filter: url(#shadow);}
 			a.shadow:not(.disabled):focus use, a.shadow:not(.disabled):hover use,
-			button.shadow:not(.disabled):focus use, button.shadow:not(.disabled):hover use {}
+			.button.shadow:not(.disabled):focus use, .button.shadow:not(.disabled):hover use {}
 			a.shadow:not(.disabled):active use, a.shadow.active use,
-			button.shadow:not(.disabled):active use, button.shadow.active use {filter: url(#shadow_over);}
+			.button.shadow:not(.disabled):active use, .button.shadow.active use {filter: url(#shadow_over);}
 
 			/* Bevel Effect */
 			.icon.bevel use {filter: url(#bevel); opacity: .5; fill: rgba(0, 0, 0, .75);}
 			a.bevel:not(.disabled):focus use, a.bevel:not(.disabled):hover use,
-			button.bevel:not(.disabled):focus use, button.bevel:not(.disabled):hover use {filter: url(#glow); opacity: 1; fill: white;}
+			.button.bevel:not(.disabled):focus use, .button.bevel:not(.disabled):hover use {filter: url(#glow); opacity: 1; fill: white;}
 			a.bevel:not(.disabled):active use, a.bevel.active use,
-			button.bevel:not(.disabled):active use, button.bevel.active use {filter: url(#blur); opacity: .5;}
+			.button.bevel:not(.disabled):active use, .button.bevel.active use {filter: url(#blur); opacity: .5;}
 		</style>
 
 		<!--Dev Testbar-->
@@ -245,19 +245,19 @@
 				<!--SVG Icons Buttons TEST-->
 				<h6 class="subheader">SVG Icons Buttons</h6>
 				<p>
-					<button class="icon">
+					<button class="button icon">
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
 							<use xlink:href="#icon-left"></use>
 						</svg>
 					</button>
 					Une icône dans un bouton
-					<button class="icon small">
+					<button class="button icon small">
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
 							<use xlink:href="#icon-left"></use>
 						</svg>
 					</button>
 					Une petite icône dans un bouton
-					<button class="icon large">
+					<button class="button icon large">
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
 							<use xlink:href="#icon-left"></use>
 						</svg>
@@ -285,7 +285,7 @@
 					Une grande icône dans un lien-bouton
 				</p>
 				<p>
-					<button class="icon">
+					<button class="button icon">
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
 							<use xlink:href="#icon-left"></use>
 						</svg>
@@ -301,6 +301,24 @@
 						<span class="text">Je suis une légende</span>
 					</a>
 					Une icône dans un lien-bouton avec une légende
+				</p>
+				<p>
+					<button class="button action icon">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+							<use xlink:href="#icon-left"></use>
+						</svg>
+						<span class="text">Je suis une légende</span>
+					</button>
+					Une icône dans un bouton coloré avec une légende
+				</p>
+				<p>
+					<a href="javascript:void(0)" class="button action icon">
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+							<use xlink:href="#icon-left"></use>
+						</svg>
+						<span class="text">Je suis une légende</span>
+					</a>
+					Une icône dans un lien-bouton coloré avec une légende
 				</p>
 
 				<!--SVG Icons Visibility TEST-->
@@ -323,7 +341,7 @@
 						<use xlink:href="#icon-left"></use>
 					</svg>
 				</a>
-				<button href="javascript:void(0)" class="icon disabled">
+				<button href="javascript:void(0)" class="button icon disabled">
 					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
 						<use xlink:href="#icon-left"></use>
 					</svg>
@@ -346,7 +364,7 @@
 						<use xlink:href="#icon-left"></use>
 					</svg>
 				</a>
-				<button href="javascript:void(0)" class="icon active">
+				<button href="javascript:void(0)" class="button icon active">
 					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
 						<use xlink:href="#icon-left"></use>
 					</svg>
@@ -377,7 +395,7 @@
 						<use xlink:href="#icon-left"></use>
 					</svg>
 				</a>
-				<button href="javascript:void(0)" class="icon blur">
+				<button href="javascript:void(0)" class="button icon blur">
 					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon " viewBox="0 0 48 48">
 						<use xlink:href="#icon-left"></use>
 					</svg>
@@ -405,7 +423,7 @@
 						<use xlink:href="#icon-left"></use>
 					</svg>
 				</a>
-				<button href="javascript:void(0)" class="icon glow">
+				<button href="javascript:void(0)" class="button icon glow">
 					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon " viewBox="0 0 48 48">
 						<use xlink:href="#icon-left"></use>
 					</svg>
@@ -433,7 +451,7 @@
 						<use xlink:href="#icon-left"></use>
 					</svg>
 				</a>
-				<button href="javascript:void(0)" class="icon shadow">
+				<button href="javascript:void(0)" class="button icon shadow">
 					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon " viewBox="0 0 48 48">
 						<use xlink:href="#icon-left"></use>
 					</svg>
@@ -461,7 +479,7 @@
 						<use xlink:href="#icon-left"></use>
 					</svg>
 				</a>
-				<button href="javascript:void(0)" class="icon bevel">
+				<button href="javascript:void(0)" class="button icon bevel">
 					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon " viewBox="0 0 48 48">
 						<use xlink:href="#icon-left"></use>
 					</svg>
@@ -623,9 +641,9 @@
 					<span class="icon-left"></span>
 					<a href="javascript:void(0)" class="icon-left"></a>
 					<a href="javascript:void(0)" class="icon-left"><span class="text">Je suis une légende</span></a>
-					<button class="icon-left"></button>
+					<button class="button icon-left"></button>
 					<a href="javascript:void(0)" class="button icon-left"></a>
-					<button class="icon-left"><span class="text">Je suis une légende</span></button>
+					<button class="button icon-left"><span class="text">Je suis une légende</span></button>
 					<a href="javascript:void(0)" class="button icon-left"><span class="text">Je suis une légende</span></a>
 				</div>
 
