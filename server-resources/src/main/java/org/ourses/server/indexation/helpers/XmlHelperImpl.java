@@ -25,7 +25,7 @@ public class XmlHelperImpl implements XmlHelper {
     }
 
     private Collection<? extends SitemapUrl> buildArticlesSitemapUrl() {
-        Set<Article> articles = Article.findOnline(null);
+        Collection<? extends Article> articles = Article.findOnline();
         Set<SitemapUrl> articlesUrl = new HashSet<SitemapUrl>();
         for (Article art : articles) {
             SitemapUrl artUrl = new SitemapUrl();

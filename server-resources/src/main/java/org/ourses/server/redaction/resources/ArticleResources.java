@@ -1,8 +1,8 @@
 package org.ourses.server.redaction.resources;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -31,7 +31,6 @@ import org.springframework.stereotype.Controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.ClientResponse.Status;
 
@@ -134,13 +133,13 @@ public class ArticleResources {
     @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
     final String token, @QueryParam(value = "criteria")
-    final String parameter) {
+    final String parameter, @HeaderParam("page") int page) {
         ResponseBuilder responseBuilder;
-        Set<Article> articles = Sets.newHashSet();
+        List<Article> articles = new ArrayList<Article>();
         // push les articles en ligne pour tous les utilisateurs
-        articles.addAll(articleHelper.findOnline(parameter));
+        articles.addAll(articleHelper.findOnline(parameter,page));
         // passage en DTO
-        Set<ArticleDTO> articlesDto = Sets.newHashSet();
+        List<ArticleDTO> articlesDto = new ArrayList<ArticleDTO>();
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }
@@ -156,19 +155,19 @@ public class ArticleResources {
     @GET
     @Path("/draft")
     public Response readAllDraftArticles(@HeaderParam(HttpHeaders.AUTHORIZATION)
-    final String token) {
+    final String token, @HeaderParam("page") int page) {
         ResponseBuilder responseBuilder;
-        Set<Article> articles = Sets.newHashSet();
+        List<Article> articles = new ArrayList<Article>();
         if (token != null) {
             // recherche le profil associé
             Profile profile = profileHelper.findProfileByAuthcToken(token);
             // Je suis connecté
             if (profile != null) {
-                articles.addAll(articleHelper.findToCheckAndDraftAndPublished(profile.getId(), token));
+                articles.addAll(articleHelper.findToCheckAndDraftAndPublished(profile.getId(), token, page));
             }
         }
         // passage en DTO
-        Set<ArticleDTO> articlesDto = Sets.newHashSet();
+        List<ArticleDTO> articlesDto = new ArrayList<ArticleDTO>();
         for (Article article : articles) {
             articlesDto.add(article.toArticleDTO());
         }

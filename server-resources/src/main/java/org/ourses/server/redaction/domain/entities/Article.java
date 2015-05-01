@@ -51,6 +51,8 @@ public class Article implements Serializable {
 	 */
     private static final long serialVersionUID = -6748991147610491255L;
 
+	private static final int ARTICLE_PAGE_SIZE = 8;
+
     static Logger logger = LoggerFactory.getLogger(Article.class);
 
     @Id
@@ -244,14 +246,22 @@ public class Article implements Serializable {
         return Ebean.find(Article.class).where().eq("id", idArticle).eq("status", status).findRowCount();
     }
 
-    public static Set<Article> findToCheckAndDraftAndPublished() {
-        return Ebean.find(Article.class).findSet();
+    public static Collection<? extends Article> findToCheckAndDraftAndPublished(int page) {
+        return Ebean.find(Article.class).orderBy().asc("status").orderBy().desc("publishedDate").orderBy()
+                .desc("updatedDate").orderBy().desc("createdDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
     }
 
-    public static Collection<? extends Article> findToCheckAndDraftAndPublished(final Long idProfile) {
-        return Ebean.find(Article.class).fetch("profile", "pseudo").fetch("coAuthors", "pseudo").where()
-                .eq("profile.id", idProfile).findSet();
+    public static Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, final int page) {
+        return Ebean.find(Article.class).where()
+                .eq("profile.id", profileId).orderBy().asc("status").orderBy().desc("publishedDate").orderBy()
+                .desc("updatedDate").orderBy().desc("createdDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
     }
+    
+    public static Collection<? extends Article> findToCheckAndDraftAndPublished(
+			Long profileId) {
+		return Ebean.find(Article.class).fetch("profile", "pseudo").fetch("coAuthors", "pseudo").where()
+                .eq("profile.id", profileId).findSet();
+	}
 
     public static Collection<? extends Article> findAllCoAuthorsArticle(final Long idProfile) {
         return Ebean.find(Article.class).fetch("profile", "pseudo").fetch("coAuthors", "pseudo").where()
@@ -267,46 +277,29 @@ public class Article implements Serializable {
         return set;
     }
 
-    public static Set<Article> findOnline(final Collection<String> collection) {
-        Set<Article> articles = Sets.newHashSet();
-        // TODO une seule requête pour pagination
+    public static List<Article> findOnline(final Collection<String> collection, int page) {
+        ExpressionList<Article> expr;
+
         if (collection != null && !collection.isEmpty()) {
-            ExpressionList<Article> expr = Ebean.find(Article.class).fetch("rubrique").where()
-                    .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).disjunction();
+            expr = Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+                    .le("publishedDate", DateTime.now().toDate()).disjunction();
             for (String parameter : collection) {
                 expr.ilike("titleBeautify", "%" + parameter + "%");
                 expr.ilike("tags.tag", "%" + parameter + "%");
                 expr.ilike("rubrique.path", "%" + parameter + "%");
             }
-            articles.addAll(expr.findSet());
         }
         else {
-            articles = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
-                    .le("publishedDate", DateTime.now().toDate()).findSet();
+            expr = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
+                    .le("publishedDate", DateTime.now().toDate());
         }
-        return articles;
+        return expr.orderBy().desc("publishedDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
     }
-
-    // public static List<Article> findOnline(final Collection<String> collection) {
-    // // TODO une seule requête pour pagination
-    // int pageSize = 1;
-    // ExpressionList<Article> expr;
-    //
-    // if (collection != null && !collection.isEmpty()) {
-    // expr = Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
-    // .le("publishedDate", DateTime.now().toDate()).disjunction();
-    // for (String parameter : collection) {
-    // expr.ilike("titleBeautify", "%" + parameter + "%");
-    // expr.ilike("tags.tag", "%" + parameter + "%");
-    // expr.ilike("rubrique.path", "%" + parameter + "%");
-    // }
-    // }
-    // else {
-    // expr = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
-    // .le("publishedDate", DateTime.now().toDate());
-    // }
-    // return expr.orderBy().desc("publishedDate").findPagingList(pageSize).getPage(0).getList();
-    // }
+    
+    public static Collection<? extends Article> findOnline() {
+		return Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+                .le("publishedDate", DateTime.now().toDate()).findSet();
+	}
 
     public static Article findArticle(final long id) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")

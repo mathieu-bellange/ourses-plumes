@@ -139,8 +139,7 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER,
-                ArticleStatus.ENLIGNE);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER);
         Collection<ArticleDTO> drafts = Collections2.filter(articles, new Predicate<ArticleDTO>() {
 
             @Override
@@ -192,8 +191,7 @@ public class ITArticleResources {
         GenericType<List<ArticleDTO>> gt = new GenericType<List<ArticleDTO>>() {
         };
         List<ArticleDTO> articles = clientResponse.getEntity(gt);
-        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON, ArticleStatus.AVERIFIER,
-                ArticleStatus.ENLIGNE);
+        assertThat(articles).onProperty("status").containsOnly(ArticleStatus.BROUILLON);
     }
 
     @Test
