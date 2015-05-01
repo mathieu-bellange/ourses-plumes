@@ -38,6 +38,7 @@ public class Profile {
     public static final String PATH = "path";
     public static final String PSEUDO_BEAUTIFY = "pseudoBeautify";
     private static final Long DEFAULT_ID_PRODILE = 0l;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "profile_seq_gen")
     @SequenceGenerator(name = "profile_seq_gen", sequenceName = "profile_seq")

@@ -163,7 +163,7 @@ public class ArticleHelperImpl implements ArticleHelper {
             }
         }
         if (tags.isEmpty()){
-        	tags.add(Tag.find(Article.NO_TAG_ID));
+        	tags.add(Tag.find(Tag.NO_TAG_ID));
         }
         article.setTags(tags);
         Set<Profile> coAuthors = Sets.newHashSet();
@@ -177,7 +177,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.updateCoAuthors();
         // suppression des vieux tags
         for (Tag tag : oldTags) {
-            if (tag.isUnreferenceByArticles() && !tag.getId().equals(Article.NO_TAG_ID)) {
+            if (tag.isUnreferenceByArticles() && !tag.getId().equals(Tag.NO_TAG_ID)) {
                 tag.delete();
             }
         }
@@ -200,13 +200,16 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setUpdatedDate(new Date());
         article.setPublishedDate(publishedDate);
         if (article.getTags().isEmpty()){
-        	article.setTags(Sets.newHashSet(Tag.find(Article.NO_TAG_ID)));
+        	article.setTags(Sets.newHashSet(Tag.find(Tag.NO_TAG_ID)));
+        }
+        if (article.getCoAuthors().isEmpty()){
+        	article.setCoAuthors(Sets.newHashSet(Profile.findPublicProfile(BearAccount.NO_ROLE_ID)));
         }
         // BitlyUrl bitlyUrl = bitlyHelper.shortenUrl("http://"+EnvironnementVariable.DOMAIN_NAME + article.getPath());
         // if (Status.OK.getStatusCode() == bitlyUrl.getStatusCode()) {
         // article.setShortenedUrl(bitlyUrl.getData().getUrl());
         // }
-        article.update("status", "path", "updatedDate", "publishedDate","tags");
+        article.update("status", "path", "updatedDate", "publishedDate","tags","coAuthorsS");
         return article;
     }
 

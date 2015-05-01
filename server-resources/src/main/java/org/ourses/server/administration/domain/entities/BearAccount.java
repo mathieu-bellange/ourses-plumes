@@ -34,6 +34,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -48,6 +49,8 @@ public class BearAccount implements Account {
     static Logger logger = LoggerFactory.getLogger(BearAccount.class);
 
     protected static final String REALM_NAME = "staticRealm";
+    
+    public static Long NO_ROLE_ID = -1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "bear_account_seq_gen")
@@ -297,12 +300,12 @@ public class BearAccount implements Account {
      * @return
      */
     public static List<BearAccount> findAllAdministrationBearAccounts() {
-        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").findList();
+        return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").fetch("profile").where(Expr.not(Expr.eq("id", NO_ROLE_ID))).findList();
     }
 
     public static Set<BearAccount> findAdminAccounts() {
         return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo").where()
-                .eq("authzInfo.mainRole", RolesUtil.ADMINISTRATRICE).findSet();
+                .and(Expr.eq("authzInfo.mainRole", RolesUtil.ADMINISTRATRICE), Expr.not(Expr.eq("id", NO_ROLE_ID))).findSet();
     }
 
     /**
@@ -345,7 +348,7 @@ public class BearAccount implements Account {
      */
     public static BearAccount findAuthcUserProperties(final String mail) {
         return Ebean.find(BearAccount.class).fetch("authcInfo").fetch("authzInfo", "mainRole").fetch("profile")
-                .fetch("profile.avatar", "path").where().eq("authcInfo.mail", mail).findUnique();
+                .fetch("profile.avatar", "path").where().and(Expr.not(Expr.eq("id", NO_ROLE_ID)), Expr.eq("authcInfo.mail", mail)).findUnique();
     }
 
     public static BearAccount findAccountByPseudo(final String pseudoBeautify) {

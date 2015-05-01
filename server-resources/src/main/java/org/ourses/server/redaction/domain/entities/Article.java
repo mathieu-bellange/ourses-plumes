@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.joda.time.DateTime;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
+import org.ourses.server.administration.domain.entities.BearAccount;
 import org.ourses.server.administration.domain.entities.Profile;
 import org.ourses.server.redaction.domain.dto.ArticleDTO;
 import org.ourses.server.redaction.domain.dto.CategoryDTO;
@@ -59,7 +60,6 @@ public class Article implements Serializable {
 
 	private static final int ARTICLE_PAGE_SIZE = 8;
 
-	public static final Long NO_TAG_ID = 0l;
 
     static Logger logger = LoggerFactory.getLogger(Article.class);
 
@@ -385,7 +385,7 @@ public class Article implements Serializable {
         articleDTO.setProfile(profileDTO);
         Set<TagDTO> tags = Sets.newHashSet();
         for (Tag tag : this.tags) {
-        	if (!NO_TAG_ID.equals(tag.getId())){
+        	if (!Tag.NO_TAG_ID.equals(tag.getId())){
         		tags.add(tag.toTagDTO());
         	}
         }
@@ -393,7 +393,9 @@ public class Article implements Serializable {
         if (coAuthors != null) {
             Set<ProfileDTO> coAuthorsDTO = Sets.newHashSet();
             for (Profile profile : this.coAuthors) {
-                coAuthorsDTO.add(profile.toPartialProfileDTO());
+            	if (!BearAccount.NO_ROLE_ID.equals(profile.getId())){
+            		coAuthorsDTO.add(profile.toPartialProfileDTO());
+            	}
             }
             articleDTO.setCoAuthors(coAuthorsDTO);
         }

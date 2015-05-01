@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 
 @Entity
 @Component
@@ -31,6 +32,8 @@ public class Tag implements Serializable {
 	 */
     private static final long serialVersionUID = -9104090602361704641L;
     static Logger logger = LoggerFactory.getLogger(Tag.class);
+    
+    public static final Long NO_TAG_ID = 0l;
 
     public Tag(Long id, String tag) {
         this.id = id;
@@ -69,7 +72,7 @@ public class Tag implements Serializable {
     }
 
     public static Set<Tag> findAllTag(String criteria) {
-        return Ebean.find(Tag.class).where().like("tag", criteria + "%").findSet();
+        return Ebean.find(Tag.class).where().and(Expr.like("tag", criteria + "%"),Expr.not(Expr.eq("id", NO_TAG_ID))).findSet();
     }
 
     public static Tag find(String tag) {
