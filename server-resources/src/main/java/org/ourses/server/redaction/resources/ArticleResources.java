@@ -133,11 +133,11 @@ public class ArticleResources {
     @GET
     public Response readAll(@HeaderParam(HttpHeaders.AUTHORIZATION)
     final String token, @QueryParam(value = "criteria")
-    final String parameter) {
+    final String parameter, @HeaderParam("page") int page) {
         ResponseBuilder responseBuilder;
         List<Article> articles = new ArrayList<Article>();
         // push les articles en ligne pour tous les utilisateurs
-        articles.addAll(articleHelper.findOnline(parameter));
+        articles.addAll(articleHelper.findOnline(parameter,page));
         // passage en DTO
         List<ArticleDTO> articlesDto = new ArrayList<ArticleDTO>();
         for (Article article : articles) {
@@ -155,7 +155,7 @@ public class ArticleResources {
     @GET
     @Path("/draft")
     public Response readAllDraftArticles(@HeaderParam(HttpHeaders.AUTHORIZATION)
-    final String token) {
+    final String token, @HeaderParam("page") int page) {
         ResponseBuilder responseBuilder;
         List<Article> articles = new ArrayList<Article>();
         if (token != null) {
@@ -163,7 +163,7 @@ public class ArticleResources {
             Profile profile = profileHelper.findProfileByAuthcToken(token);
             // Je suis connecté
             if (profile != null) {
-                articles.addAll(articleHelper.findToCheckAndDraftAndPublished(profile.getId(), token));
+                articles.addAll(articleHelper.findToCheckAndDraftAndPublished(profile.getId(), token, page));
             }
         }
         // passage en DTO

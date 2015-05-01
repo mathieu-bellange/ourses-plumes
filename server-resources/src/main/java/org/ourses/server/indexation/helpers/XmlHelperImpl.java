@@ -2,7 +2,6 @@ package org.ourses.server.indexation.helpers;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.ourses.server.indexation.domain.dto.Sitemap;
@@ -26,7 +25,7 @@ public class XmlHelperImpl implements XmlHelper {
     }
 
     private Collection<? extends SitemapUrl> buildArticlesSitemapUrl() {
-        List<Article> articles = Article.findOnline(null);
+        Collection<? extends Article> articles = Article.findOnline();
         Set<SitemapUrl> articlesUrl = new HashSet<SitemapUrl>();
         for (Article art : articles) {
             SitemapUrl artUrl = new SitemapUrl();

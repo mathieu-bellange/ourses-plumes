@@ -64,10 +64,10 @@ Values
 Insert into article
   (id, title, description, body, published_date, created_date, updated_date, profile_id, category_id, rubrique_id, status, path, title_beautify)
 Values
-  (1, 'titre 1', 'description', '<p>body</p>', null, '2014-05-01', null, 2, 1, 1, 0, '/articles/1', 'titre-1'),
+  (1, 'titre 1', 'description', '<p>body</p>', null, '2014-05-01', '2014-05-01', 2, 1, 1, 0, '/articles/1', 'titre-1'),
   (2, 'titre 2', 'description', '<p>body</p>', null, '2014-02-02', '2014-02-02', 2, 1, 2, 1, '/articles/2', 'titre-2'),
-  (3, 'titre 3', 'description', '<p>body</p>', null, '2014-01-04', null, 1, 2, 3, 0, '/articles/3', 'titre-3'),
-  (4, 'titre 4', 'description', '<p>body</p>', null, '2014-03-01', null, 2, 2, 3, 0, '/articles/4', 'titre-4'),
+  (3, 'titre 3', 'description', '<p>body</p>', null, '2014-01-04', '2014-01-04', 1, 2, 3, 0, '/articles/3', 'titre-3'),
+  (4, 'titre 4', 'description', '<p>body</p>', null, '2014-03-01', '2014-03-01', 2, 2, 3, 0, '/articles/4', 'titre-4'),
   (5, 'titre 5', 'description', '<p>body</p>', null, '2014-12-01', '2014-12-01', 2, 2, 3, 1, '/articles/5', 'titre-5'),
   (6, 'titre 6', 'description', '<p>body</p>', null, '2014-01-05', '2014-01-06', 2, 2, 3, 1, '/articles/6', 'titre-6'),
   (7, 'titre 7', 'to delete', '<p>body</p>', null, '2014-11-01', '2014-11-05', 2, 2, 3, 0, '/articles/7', 'titre-7'),
@@ -80,12 +80,12 @@ Values
   (14, 'titre 14', 'en ligne au 01/01/2010', '<p>body</p>', '2010-01-01 07:00:00', '2014-02-06', '2014-01-05', 3, 6, 5, 2, '/articles/education-culture/2/titre-14', 'titre-14'),
   (15, 'titre 15', 'en ligne au 14/03/1982', '<p>body</p>', '1982-03-14 14:00:00', '2014-10-21', '2014-01-05', 2, 5, 4, 2, '/articles/international/3/titre-15', 'titre-15'),
   (16, 'titre 16', 'en ligne au 25/02/2007', '<p>body</p>', '2007-02-25 09:00:00', '2014-11-13', '2014-01-05', 2, 4, 4, 2, '/articles/international/4/titre-16', 'titre-16'),
-  (17, 'titre 17', 'desc', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 0, '/articles/international/titre-17', 'titre-17'),
-  (18, 'titre 18', 'invalidate own', '<p>body</p>', null, '2014-11-13', '2014-01-05', 2, 4, 4, 1, '/articles/18', 'titre-18'),
-  (19, 'titre 19', 'invalidate another', '<p>body</p>', null, '2014-11-13', '2014-01-05', 1, 4, 4, 1, '/articles/19', 'titre-19'),
+  (17, 'titre 17', 'desc', '<p>body</p>', null, '2013-11-13', '2014-01-05', 2, 4, 4, 0, '/articles/international/titre-17', 'titre-17'),
+  (18, 'titre 18', 'invalidate own', '<p>body</p>', null, '2013-11-13', '2014-01-05', 2, 4, 4, 1, '/articles/18', 'titre-18'),
+  (19, 'titre 19', 'invalidate another', '<p>body</p>', null, '2013-11-13', '2014-01-05', 1, 4, 4, 1, '/articles/19', 'titre-19'),
   (20, 'titre 20', 'desc', '<p>recall own</p>', '2013-11-13 20:00:00', '2013-11-13', '2013-01-05', 2, 4, 1, 2, '/articles/luttes/5/titre-20', 'titre-20'),
   (21, 'titre 21', 'desc', '<p>recall another</p>', '2013-11-13 12:00:00', '2013-11-13', '2013-01-05', 1, 4, 4, 2, '/articles/international/6/titre-21', 'titre-21'),
-  (22, 'Brouillon de Nadejda', 'desc', '<p>recall another</p>', null, '2014-09-01', null, 3, 1, 4, 0, '/articles/22', 'brouillon-de-nadejda'),
+  (22, 'Brouillon de Nadejda', 'desc', '<p>recall another</p>', null, '2014-09-01', '2014-09-01', 3, 1, 4, 0, '/articles/22', 'brouillon-de-nadejda'),
   (23, 'Sexisme dans les jeux-vidéos, une critique impossible ?',
     'Ces dernières années sur le net et dans les milieux féministes anglophones et francophones, des débats et discussions sont nés autour de la question des représentations sexistes dans les jeux-vidéos et des comportements sexistes parmi les joueurs. Les réactions de rejet particulièrement virulentes de la part de ceux qui se sentent mis en cause, comme on a pu le constater suite aux déchaînements qu’ont subis entres autres Anita Sarkeesian et Mar-Lard, conduisent cependant à s’interroger sur la possibilité même de mener une telle réflexion.', 
     '<h4>Une industrie au sexisme bien ancré.</h4>

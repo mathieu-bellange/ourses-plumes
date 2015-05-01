@@ -36,9 +36,9 @@ public interface ArticleHelper {
 
     void delete(Article article);
 
-    Collection<? extends Article> findOnline(String parameter);
+    Collection<? extends Article> findOnline(String parameter, int page);
 
-    Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, String token);
+    Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, String token, int page);
 
     Collection<? extends Article> findProfileArticles(Long profileId);
 

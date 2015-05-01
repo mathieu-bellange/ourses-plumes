@@ -131,6 +131,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setStatus(ArticleStatus.BROUILLON);
         article.setTitleBeautify(beautifyTitle(article.getTitle()));
         article.setCreatedDate(new Date());
+        article.setUpdatedDate(new Date());
         article.save();
         // créer le path
         article.setPath(buildPath(article));
@@ -291,12 +292,12 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Collection<? extends Article> findOnline(final String parameter) {
+    public Collection<? extends Article> findOnline(final String parameter, int page) {
         Set<String> parameters = Sets.newHashSet();
         if (parameter != null) {
             parameters.addAll(processParameters(parameter));
         }
-        return Article.findOnline(parameters);
+        return Article.findOnline(parameters, page);
     }
 
     @VisibleForTesting
@@ -318,16 +319,16 @@ public class ArticleHelperImpl implements ArticleHelper {
     }
 
     @Override
-    public Collection<? extends Article> findToCheckAndDraftAndPublished(final Long profileId, final String token) {
+    public Collection<? extends Article> findToCheckAndDraftAndPublished(final Long profileId, final String token, int page) {
         List<Article> articles = new ArrayList<Article>();
         OurseSecurityToken ourseSecurityToken = securityHelper.findByToken(token);
         // Je suis admin
         if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.ADMINISTRATRICE))) {
-            articles.addAll(Article.findToCheckAndDraftAndPublished());
+            articles.addAll(Article.findToCheckAndDraftAndPublished(page));
         }
         // je suis redac, j'ai accès à mes brouillons
         else if (securityHelper.hasRoles(ourseSecurityToken, Sets.newHashSet(RolesUtil.REDACTRICE))) {
-            articles.addAll(Article.findToCheckAndDraftAndPublished(profileId));
+            articles.addAll(Article.findToCheckAndDraftAndPublished(profileId, page));
         }
         return articles;
     }
