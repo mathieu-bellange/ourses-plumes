@@ -2,7 +2,7 @@
 {{% date_event_edit_tmpl }}
 					<button class="button reject icon-remove tiny" title="Supprimer cet &eacute;v&egrave;nement" data-delete></button>
 					<input id="{{= data.id }}" class="title" type="text" maxlength="64" value="{{= data.title ? data.title : '' }}" placeholder="Le titre de l&rsquo;&eacute;v&egrave;nement" required>
-					<textarea class="desc min" maxlength="255" placeholder="Une description facultative de l&rsquo;&eacute;v&egrave;nement (255 charact&egrave;res max.)">{{= data.desc == null ? "" : data.desc }}</textarea>
+					<textarea class="desc min" maxlength="1024" placeholder="Une description facultative de l&rsquo;&eacute;v&egrave;nement (1024 charact&egrave;res max.)">{{= data.desc == null ? "" : data.desc }}</textarea>
 {{%}}
 
 <!--Date Modal Edit-->

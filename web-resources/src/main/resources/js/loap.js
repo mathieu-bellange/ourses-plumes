@@ -2417,9 +2417,11 @@ $("html").on("click", ".sub-nav dd a, .sub-nav dt a, .sub-nav li a", function() 
  * to click on those elements (e.g. span.close or dt.accordion).
  * It may have unpredictable effect in some configuration, so be wary.
  */
-$(document).on("keydown", "[tabindex]", function(e) {
-	if (e.which == 13) { // Enter
-		$(this).click();
+$(document).on("keypress", "[tabindex]", function(e) {
+	if ($(this).attr("tabindex") !== "-1") {
+		if (e.which == 13) { // Enter
+			$(this).click();
+		}
 	}
 });
 
@@ -2595,7 +2597,7 @@ var OursesSecurity = (function() {
 /* Define third-party on-the-fly custom settings */
 var autosize_cfg = {                           // Autosize jQuery plugin (i.e. remove line feed)
 	"append"                : "",                // New line appended at the end of the textarea. Default : "\n"
-	"resizeDelay"           : -1                  // Debounce timeout before resizing. Default : 10
+	"resizeDelay"           : -1                 // Debounce timeout before resizing. Default : 10
 };
 var f_magellan_cfg = {                         // Foundation Magellan Sticky Nav component
 	"threshold"             : 0,                 // Pixels from the top of the expedition for it to become fixes. Default : 0
