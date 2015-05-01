@@ -185,6 +185,12 @@ public class Profile {
         }
         return profile;
     }
+    
+    public ProfileDTO toPartialProfileDTO() {
+    	ProfileDTO profile = new ProfileDTO();
+        BeanUtils.copyProperties(this, profile, new String[] { "socialLinks", "avatar" });
+    	return profile;
+	}
 
     @Override
     public String toString() {
@@ -234,5 +240,4 @@ public class Profile {
         }
         return true;
     }
-
 }

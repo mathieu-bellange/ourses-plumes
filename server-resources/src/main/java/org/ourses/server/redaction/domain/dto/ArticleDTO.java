@@ -195,6 +195,7 @@ public class ArticleDTO {
                 }
             }
         }
+        
         article.setTags(tags);
         Set<Profile> coAuthors = Sets.newHashSet();
         for (ProfileDTO profile : this.coAuthors) {

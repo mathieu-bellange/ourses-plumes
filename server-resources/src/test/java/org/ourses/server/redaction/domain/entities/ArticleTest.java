@@ -24,7 +24,7 @@ public class ArticleTest {
         article.setCategory(new Category(1l, "category"));
         article.setTags(Sets.newHashSet(new Tag(1l, "tag1"), new Tag(2l, "tag2")));
         article.setCoAuthors(Sets.newHashSet(new Profile()));
-        ArticleDTO dto = article.toArticleDTO();
+        ArticleDTO dto = article.toFullArticleDTO();
         assertThat(dto.getId()).isEqualTo(article.getId());
         assertThat(dto.getBody()).isEqualTo(article.getBody());
         assertThat(dto.getTitle()).isEqualTo(article.getTitle());

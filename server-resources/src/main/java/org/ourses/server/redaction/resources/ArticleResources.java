@@ -1,6 +1,7 @@
 package org.ourses.server.redaction.resources;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -29,8 +30,6 @@ import org.ourses.server.redaction.helpers.ArticleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import com.google.common.net.HttpHeaders;
 import com.sun.jersey.api.client.ClientResponse.Status;
 
@@ -68,7 +67,7 @@ public class ArticleResources {
         Long idProfile = profileHelper.findIdProfile(token);
         // détermine si un article est lisible par un utilisateur
         if (article != null && articleHelper.isArticleUpdatable(idProfile, id, article.getStatus())) {
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            responseBuilder = Response.status(Status.OK).entity(article.toFullArticleDTO());
         }
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
@@ -87,13 +86,7 @@ public class ArticleResources {
     final long id) {
         ResponseBuilder responseBuilder;
         List<Article> relatedArticles = articleHelper.findThreeArticlesWithMostTagsInCommon(id);
-        List<ArticleDTO> relatedArticlesDTO = Lists.transform(relatedArticles, new Function<Article, ArticleDTO>() {
-
-            @Override
-            public ArticleDTO apply(final Article article) {
-                return article.toArticleDTO();
-            }
-        });
+        Collection<ArticleDTO> relatedArticlesDTO = articleHelper.transformIntoPartial(relatedArticles);
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
         cacheControl.setMaxAge(86400);
@@ -112,7 +105,7 @@ public class ArticleResources {
         Article article = articleHelper.findOnlineArticle(rubrique, title, dateLong);
         // détermine si un article est lisible par un utilisateur
         if (article != null && articleHelper.isArticleReadable(null, null, article.getStatus())) {
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            responseBuilder = Response.status(Status.OK).entity(article.toFullArticleDTO());
             // cache = 1 year
             CacheControl cacheControl = new CacheControl();
             cacheControl.setMaxAge(31536000);
@@ -139,10 +132,7 @@ public class ArticleResources {
         // push les articles en ligne pour tous les utilisateurs
         articles.addAll(articleHelper.findOnline(parameter,page));
         // passage en DTO
-        List<ArticleDTO> articlesDto = new ArrayList<ArticleDTO>();
-        for (Article article : articles) {
-            articlesDto.add(article.toArticleDTO());
-        }
+        Collection<ArticleDTO> articlesDto = articleHelper.transformIntoPartial(articles);
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(true);
@@ -167,10 +157,7 @@ public class ArticleResources {
             }
         }
         // passage en DTO
-        List<ArticleDTO> articlesDto = new ArrayList<ArticleDTO>();
-        for (Article article : articles) {
-            articlesDto.add(article.toArticleDTO());
-        }
+        Collection<ArticleDTO> articlesDto = articleHelper.transformIntoPartial(articles);
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(true);
@@ -186,10 +173,7 @@ public class ArticleResources {
         ResponseBuilder responseBuilder;
         List<Article> articles = articleHelper.findLastPublishedArticle();
         // passage en DTO
-        List<ArticleDTO> articlesDto = Lists.newArrayList();
-        for (Article article : articles) {
-            articlesDto.add(article.toArticleDTO());
-        }
+        Collection<ArticleDTO> articlesDto = articleHelper.transformIntoPartial(articles);
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
         noCache.setPrivate(false);
@@ -205,7 +189,7 @@ public class ArticleResources {
         Article lastWebReview = articleHelper.findLastWebReview();
         ResponseBuilder response = null;
         if (lastWebReview != null) {
-            response = Response.status(Status.OK).entity(lastWebReview.toArticleDTO());
+            response = Response.status(Status.OK).entity(lastWebReview.toPartialArticleDTO());
         }
         else {
             response = Response.status(Status.NOT_FOUND);
@@ -230,7 +214,7 @@ public class ArticleResources {
             article.setProfile(profileHelper.findProfileByAuthcToken(token));
             // créer le brouillon
             articleHelper.createDraft(article);
-            responseBuilder.entity(article.toArticleDTO());
+            responseBuilder.entity(article.toFullArticleDTO());
         }
         else {
             responseBuilder = Response.status(Status.FORBIDDEN);
@@ -254,7 +238,7 @@ public class ArticleResources {
             if (!articleHelper.isTitleAlreadyTaken(articleDTO.getTitle(), id)) {
                 // update de l'article passé en param
                 articleHelper.updateFromDTO(article, articleDTO);
-                responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+                responseBuilder = Response.status(Status.OK).entity(article.toFullArticleDTO());
             }
             else {
                 responseBuilder = Response.status(Status.FORBIDDEN);
@@ -277,7 +261,7 @@ public class ArticleResources {
         if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.BROUILLON)) {
             // update du status de l'article
             Article article = articleHelper.validateDraft(id);
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            responseBuilder = Response.status(Status.OK).entity(article.toPartialArticleDTO());
         }
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
@@ -296,7 +280,7 @@ public class ArticleResources {
         if (profile != null && articleHelper.isArticleUpdatable(profile.getId(), id, ArticleStatus.AVERIFIER)) {
             // update du status de l'article
             Article article = articleHelper.publishArticle(id, publishedDate);
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            responseBuilder = Response.status(Status.OK).entity(article.toPartialArticleDTO());
         }
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
@@ -317,7 +301,7 @@ public class ArticleResources {
                         .isProfileIsTheOwner(profile.getId(), id, ArticleStatus.AVERIFIER))) {
             // update du status de l'article
             Article article = articleHelper.invalidateArticle(id);
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            responseBuilder = Response.status(Status.OK).entity(article.toPartialArticleDTO());
         }
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);
@@ -339,7 +323,7 @@ public class ArticleResources {
                         .isProfileIsTheOwner(profile.getId(), id, ArticleStatus.ENLIGNE))) {
             // update du status de l'article
             Article article = articleHelper.recallArticle(id);
-            responseBuilder = Response.status(Status.OK).entity(article.toArticleDTO());
+            responseBuilder = Response.status(Status.OK).entity(article.toPartialArticleDTO());
         }
         else {
             responseBuilder = Response.status(Status.NOT_FOUND);

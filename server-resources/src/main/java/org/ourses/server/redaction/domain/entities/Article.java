@@ -23,6 +23,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.text.StrBuilder;
 import org.joda.time.DateTime;
 import org.ourses.server.administration.domain.dto.ProfileDTO;
 import org.ourses.server.administration.domain.entities.Profile;
@@ -38,7 +39,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.ExpressionList;
+import com.avaje.ebean.Junction;
+import com.avaje.ebean.Query;
+import com.avaje.ebean.RawSql;
+import com.avaje.ebean.RawSqlBuilder;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -52,6 +58,8 @@ public class Article implements Serializable {
     private static final long serialVersionUID = -6748991147610491255L;
 
 	private static final int ARTICLE_PAGE_SIZE = 8;
+
+	public static final Long NO_TAG_ID = 0l;
 
     static Logger logger = LoggerFactory.getLogger(Article.class);
 
@@ -247,19 +255,19 @@ public class Article implements Serializable {
     }
 
     public static Collection<? extends Article> findToCheckAndDraftAndPublished(int page) {
-        return Ebean.find(Article.class).orderBy().asc("status").orderBy().desc("publishedDate").orderBy()
+        return Ebean.find(Article.class).fetch("profile").fetch("rubrique").orderBy().asc("status").orderBy().desc("publishedDate").orderBy()
                 .desc("updatedDate").orderBy().desc("createdDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
     }
 
     public static Collection<? extends Article> findToCheckAndDraftAndPublished(Long profileId, final int page) {
-        return Ebean.find(Article.class).where()
+        return Ebean.find(Article.class).fetch("profile").fetch("rubrique").where()
                 .eq("profile.id", profileId).orderBy().asc("status").orderBy().desc("publishedDate").orderBy()
                 .desc("updatedDate").orderBy().desc("createdDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
     }
     
     public static Collection<? extends Article> findToCheckAndDraftAndPublished(
 			Long profileId) {
-		return Ebean.find(Article.class).fetch("profile", "pseudo").fetch("coAuthors", "pseudo").where()
+		return Ebean.find(Article.class).fetch("profile").fetch("rubrique").where()
                 .eq("profile.id", profileId).findSet();
 	}
 
@@ -269,51 +277,43 @@ public class Article implements Serializable {
     }
 
     public static Collection<? extends Article> findProfileArticles(final Long profileId) {
-        Set<Article> set = Sets.newHashSet();
-        set.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("profile.id", profileId)
-                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet());
-        set.addAll(Ebean.find(Article.class).fetch("rubrique").where().eq("coAuthors.id", profileId)
-                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).findSet());
-        return set;
+        return Ebean.find(Article.class).fetch("rubrique").where()
+                .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).or(Expr.eq("profile.id", profileId), Expr.eq("coAuthors.id", profileId)).findSet();
     }
 
-    public static List<Article> findOnline(final Collection<String> collection, int page) {
-        ExpressionList<Article> expr;
+    public static List<Article> findOnline(final List<String> collection, int page) {
+    	Query<Article> query = Ebean.find(Article.class).fetch("profile").fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+                .le("publishedDate", DateTime.now().toDate()).query();
 
         if (collection != null && !collection.isEmpty()) {
-            expr = Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
-                    .le("publishedDate", DateTime.now().toDate()).disjunction();
+        	Junction<Article> disJunction = query.where().disjunction();
             for (String parameter : collection) {
-                expr.ilike("titleBeautify", "%" + parameter + "%");
-                expr.ilike("tags.tag", "%" + parameter + "%");
-                expr.ilike("rubrique.path", "%" + parameter + "%");
+            	disJunction.ilike("titleBeautify", "%" + parameter + "%");
+            	disJunction.ilike("tags.tag", "%" + parameter + "%");
+            	disJunction.ilike("rubrique.path", "%" + parameter + "%");
             }
         }
-        else {
-            expr = Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
-                    .le("publishedDate", DateTime.now().toDate());
-        }
-        return expr.orderBy().desc("publishedDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
+        return query.orderBy().desc("publishedDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
     }
     
     public static Collection<? extends Article> findOnline() {
-		return Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+		return Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
                 .le("publishedDate", DateTime.now().toDate()).findSet();
 	}
 
     public static Article findArticle(final long id) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors").fetch("oldPath").where().eq("id", id).findUnique();
+                .fetch("coAuthors","pseudo").fetch("oldPath").where().eq("id", id).findUnique();
     }
 
     public static Article findArticleByPath(final String path) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors").where().eq("path", path).le("publishedDate", DateTime.now().toDate()).findUnique();
+                .fetch("coAuthors","pseudo, path").where().eq("path", path).le("publishedDate", DateTime.now().toDate()).findUnique();
     }
 
     public static Article findArticleByOldPath(final String path) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors").where().eq("oldPath.path", path).le("publishedDate", DateTime.now().toDate())
+                .fetch("coAuthors","pseudo, path").where().eq("oldPath.path", path).le("publishedDate", DateTime.now().toDate())
                 .findUnique();
     }
 
@@ -331,12 +331,12 @@ public class Article implements Serializable {
     }
 
     public static List<Article> findLastPublishedArticle() {
-        return Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+        return Ebean.find(Article.class).fetch("profile").fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
                 .le("publishedDate", new Date()).orderBy().desc("publishedDate").setMaxRows(6).findList();
     }
 
     public static Article findLastWebReview() {
-        return Ebean.find(Article.class).fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
+        return Ebean.find(Article.class).fetch("profile").fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
                 .le("publishedDate", new Date()).eq("category.id", 6l).orderBy().desc("publishedDate").setMaxRows(1)
                 .findUnique();
     }
@@ -346,7 +346,7 @@ public class Article implements Serializable {
     }
 
     public void update(final String... properties) {
-        Ebean.update(this, Sets.newHashSet(properties));
+        Ebean.update(this);
     }
 
     public void updateCoAuthors() {
@@ -356,8 +356,21 @@ public class Article implements Serializable {
     public void delete() {
         Ebean.delete(this);
     }
+    
+    public ArticleDTO toPartialArticleDTO() {
+        ArticleDTO articleDTO = new ArticleDTO();
+        BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile", "tags",
+                "coAuthors" });
+        // rubrique ne peut pas être null
+        RubriqueDTO rubriqueDTO = this.rubrique.toRubriqueDTO();
+        articleDTO.setRubrique(rubriqueDTO);
+        // profile ne peut pas être null
+        ProfileDTO profileDTO = this.profile.toPartialProfileDTO();
+        articleDTO.setProfile(profileDTO);
+        return articleDTO;
+    }
 
-    public ArticleDTO toArticleDTO() {
+    public ArticleDTO toFullArticleDTO() {
         ArticleDTO articleDTO = new ArticleDTO();
         BeanUtils.copyProperties(this, articleDTO, new String[] { "category", "rubrique", "profile", "tags",
                 "coAuthors" });
@@ -368,17 +381,19 @@ public class Article implements Serializable {
         RubriqueDTO rubriqueDTO = this.rubrique.toRubriqueDTO();
         articleDTO.setRubrique(rubriqueDTO);
         // profile ne peut pas être null
-        ProfileDTO profileDTO = this.profile.toProfileDTO();
+        ProfileDTO profileDTO = this.profile.toPartialProfileDTO();
         articleDTO.setProfile(profileDTO);
         Set<TagDTO> tags = Sets.newHashSet();
         for (Tag tag : this.tags) {
-            tags.add(tag.toTagDTO());
+        	if (!NO_TAG_ID.equals(tag.getId())){
+        		tags.add(tag.toTagDTO());
+        	}
         }
         articleDTO.setTags(tags);
         if (coAuthors != null) {
             Set<ProfileDTO> coAuthorsDTO = Sets.newHashSet();
             for (Profile profile : this.coAuthors) {
-                coAuthorsDTO.add(profile.toProfileDTO());
+                coAuthorsDTO.add(profile.toPartialProfileDTO());
             }
             articleDTO.setCoAuthors(coAuthorsDTO);
         }

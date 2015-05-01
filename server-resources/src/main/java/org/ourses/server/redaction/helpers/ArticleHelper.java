@@ -49,4 +49,10 @@ public interface ArticleHelper {
     Article findLastWebReview();
 
     Article findOnlineArticle(String rubrique, String title, long dateLong);
+    
+	Collection<ArticleDTO> transformIntoPartial(
+			Collection<? extends Article> articles);
+
+	Collection<ArticleDTO> transformIntoFull(
+			Collection<? extends Article> articles);
 }

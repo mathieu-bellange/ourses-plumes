@@ -180,7 +180,7 @@ public class ProfileResources {
         // passage en DTO
         Set<ArticleDTO> articlesDto = Sets.newHashSet();
         for (Article article : articles) {
-            articlesDto.add(article.toArticleDTO());
+            articlesDto.add(article.toPartialArticleDTO());
         }
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();

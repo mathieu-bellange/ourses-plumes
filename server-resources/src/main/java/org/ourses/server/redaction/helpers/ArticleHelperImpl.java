@@ -162,6 +162,9 @@ public class ArticleHelperImpl implements ArticleHelper {
                 }
             }
         }
+        if (tags.isEmpty()){
+        	tags.add(Tag.find(Article.NO_TAG_ID));
+        }
         article.setTags(tags);
         Set<Profile> coAuthors = Sets.newHashSet();
         for (ProfileDTO profile : articleDTO.getCoAuthors()) {
@@ -174,7 +177,7 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.updateCoAuthors();
         // suppression des vieux tags
         for (Tag tag : oldTags) {
-            if (tag.isUnreferenceByArticles()) {
+            if (tag.isUnreferenceByArticles() && !tag.getId().equals(Article.NO_TAG_ID)) {
                 tag.delete();
             }
         }
@@ -196,11 +199,14 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setPath(buildPath(article));
         article.setUpdatedDate(new Date());
         article.setPublishedDate(publishedDate);
+        if (article.getTags().isEmpty()){
+        	article.setTags(Sets.newHashSet(Tag.find(Article.NO_TAG_ID)));
+        }
         // BitlyUrl bitlyUrl = bitlyHelper.shortenUrl("http://"+EnvironnementVariable.DOMAIN_NAME + article.getPath());
         // if (Status.OK.getStatusCode() == bitlyUrl.getStatusCode()) {
         // article.setShortenedUrl(bitlyUrl.getData().getUrl());
         // }
-        article.update("status", "path", "updatedDate", "publishedDate");
+        article.update("status", "path", "updatedDate", "publishedDate","tags");
         return article;
     }
 
@@ -293,7 +299,7 @@ public class ArticleHelperImpl implements ArticleHelper {
 
     @Override
     public Collection<? extends Article> findOnline(final String parameter, int page) {
-        Set<String> parameters = Sets.newHashSet();
+        List<String> parameters = new ArrayList<>();
         if (parameter != null) {
             parameters.addAll(processParameters(parameter));
         }
@@ -414,5 +420,29 @@ public class ArticleHelperImpl implements ArticleHelper {
         }
         return art;
     }
+
+	@Override
+	public Collection<ArticleDTO> transformIntoPartial(Collection<? extends Article> articles) {
+		 Collection<ArticleDTO> articlesDTO = Collections2.transform(articles, new Function<Article, ArticleDTO>() {
+
+	            @Override
+	            public ArticleDTO apply(final Article article) {
+	                return article.toPartialArticleDTO();
+	            }
+	        });
+		return articlesDTO;
+	}
+
+	@Override
+	public Collection<ArticleDTO> transformIntoFull(Collection<? extends Article> articles) {
+		 Collection<ArticleDTO> articlesDTO = Collections2.transform(articles, new Function<Article, ArticleDTO>() {
+
+	            @Override
+	            public ArticleDTO apply(final Article article) {
+	                return article.toFullArticleDTO();
+	            }
+	        });
+		return articlesDTO;
+	}
 
 }
