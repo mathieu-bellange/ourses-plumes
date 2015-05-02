@@ -6,10 +6,7 @@ var loax_pool = {
 	"online_article_mptl" : $loc.tmpl + "online-article.mptl"
 }
 
-var article_list_cfg = {
-	"fade_duration" : 500,            // Integer   Duration for updated articles fade in/out. Default : 500
-	"page_startup"  : false           // Internal  Start up flag ; do not change this. Default : false
-};
+var article_list_setup = {};
 
 /* ------------------------------------------------------------------ */
 /* # Module */
@@ -20,16 +17,8 @@ var loax = (function() {
 		build : function() {
 			// Set page title
 			set_page_title($nav.online_article_list.title);
-			// Insert wait image
-			var a = $("<div>", {"id" : "loading", "class" : "text-center"});
-			var b = $("<img>", {"src" : $img.ui + "ui-loading.gif" , "alt" : "Chargement"});
-			$(".main-body").prepend(a.html(b)); // process loading
 			// Process
-			if (isLocalHost && $debug.mode) {
-				wait_for_execution($debug.wait_for_db, function(){displayArticles()}, true); // delay process during 5s (i.e. DB lag test)
-			} else {
-				displayArticles(); // process articles list
-			}
+			displayArticles(); // process articles list
 		}
 	}
 }());
@@ -103,11 +92,12 @@ var article_list_tools = (function(options) {
 					$("#search_button").removeClass("active");
 					close_search(settings.anim_duration);
 				} else if (e.which == 13) { // Enter
+					article_list_pages.reflow(); // clear pagination
 					if (s.length == 0) {
 						if (history.pushState){
 							window.history.pushState("", "", location.pathname); // live update address bar without reloading document (HTML5 method)
 						}
-						displayArticles("");
+						displayArticles();
 					} else if (s.length > 0 && s.length <= 2) {
 						$(this).set_validation(false, "La recherche doit comporter au moins trois lettres.");
 					// ===========================================================
@@ -171,21 +161,169 @@ var article_list_prefs = (function() {
 	}
 }());
 
+var article_list_pages = (function() {
+	// defaults
+	var defs = {
+		auto    : true,  // [bool] Increment pages on document bottom. Default : true
+		start   : true,  // [bool] Update component on initialization. Default : true
+		limit   : 4,     // [int]  Number of times to request server on document bottom. Default : 4
+		offset  : 16,    // [int]  Arbitrary value for triggering the document bottom (px). Default : 16
+		timeout : 2000,  // [int]  Time to wait before requesting server again after an error occured (ms). Default : 2000
+		intval  : 1500,  // [int]  Interval at which document height is requested by script for changes (ms). Default : 1500
+		delay   : 1000,  // [int]  Waiting time before checking window resize again after a first trigger (ms). Default : 1000
+		fx_d    : 250    // [int]  Duration of animation effects (ms). Default : 250
+	};
+	// internals
+	var page = 0;
+	var stop = false;
+	var busy = false;
+	var posy = null;
+	var loop = null;
+	var conf;
+	return {
+		get_page : function() {return page},
+		prompt : function() {
+			// 1. yield process
+			stop = true;
+			// 2. max-up limit
+			conf.limit = page;
+			// 3. remove more result
+			delete_show_more();
+		},
+		reflow : function() {
+			// 1. reset page
+			page = 0;
+			// 2. reset limit
+			conf.limit = defs.limit;
+			// 3. unleash process
+			stop = false;
+		},
+		request : function() {
+			var self = this;
+			displayArticles(null, page, function() {self.update()});
+		},
+		update : function() {
+			var self = this;
+			if ($conf.debug) {console.log("server response : OK => process articles")} // DEBUG
+			page++; // increment index
+			if (conf.auto && $(document).height() <= $(window).height()
+			 && page < conf.limit) {
+				if ($conf.debug) {console.log("omg ! not enough content => launch again at once")};
+				stop = true; // yield process
+				self.request();
+			} else if (!conf.auto || page >= conf.limit) {
+				stop = true; // yield process
+				delete_show_more();
+				create_show_more();
+			} else {
+				stop = false; // unleash fiber
+			}
+		},
+		init : function(opts) {
+			var self = this;
+			conf = $.extend({}, defs, opts);
+			posy = $(document).scrollTop();
+			if ($conf.debug) {console.log(" *** pagination inialized")};// DEBUG
+			if (conf.auto) {
+				// -------------------------------------------------------------
+				// * A. Bind window scroll event
+				// -------------------------------------------------------------
+				$(window).on("scroll.pagination", function() {
+					if (stop) {return} // return on stop defined
+					// 1. check scroll direction
+					var last_pos = posy;
+					posy = null;
+					if ($(document).scrollTop() < last_pos) {
+						if ($conf.debug) {console.log("upward => break")} // DEBUG
+						return;
+					} else {
+						if ($conf.debug) {console.log("downward => continue")} // DEBUG
+						// 2. check if window bottom is reached
+						if ($(document).scrollTop() >= $(document).height() - $(window).height() - conf.offset) {
+							if ($conf.debug) {console.log(" *** window bottom reached")} // DEBUG
+							stop = true; // break scroll check
+							// 3. request AJAX and deactivate check until server response
+							if ($conf.debug) {console.log("send request to server...")} // DEBUG
+							self.request();
+						}
+					}
+				});
+				// -------------------------------------------------------------
+				// * B. Bind window resize event
+				// -------------------------------------------------------------
+				$(window).on("resize.pagination", function() {
+					// handle odd case of screen increased (i.e. scrollbar disappeared),
+					// play just once below a certain amount of time (i.e. prevent multiple triggerings at once bugs)
+					if (!busy) {
+						busy = true; // switch flag
+						if ($(document).height() <= $(window).height()
+								&& page < conf.limit) {
+							if ($conf.debug) {console.log("window height increased => request server for one more page")} // DEBUG
+							stop = true;
+							self.request();
+						}
+						setTimeout(function() {busy = false}, conf.delay); // reset flag
+					}
+				});
+				// -------------------------------------------------------------
+				// * C. Loop checking document height
+				// -------------------------------------------------------------
+				loop = setInterval(function() {
+					if (page >= conf.limit) {
+						// destroy interval upon reaching max pages
+						if ($conf.debug) {console.log("clear interval")} // DEBUG
+						clearInterval(loop);
+					} else if (!stop) {
+						// check document height and request if needed
+						if ($(document).height() <= $(window).height()) {
+							if ($conf.debug) {console.log("document height changes detected by interval => request server for one more page")} // DEBUG
+							stop = true;
+							self.request();
+						}
+					}
+				}, conf.intval);
+			}
+			$(document).on("click.pagination", "#show_more a", function() {
+				if ($conf.debug) {console.log("asking for more => proceed now without delay")} // DEBUG
+				self.request();
+			});
+			if (conf.start) {self.update()} else {self.prompt()}
+		},
+		kill : function() {
+			// 1. shutdown
+			this.prompt();
+			// 2. unbind namespace
+			$(document, window).off(".pagination");
+		}
+	}
+}());
+
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
+
+function displayArticles(url_params, page, callback) {
+	var url_params = url_params || window.location.search, page = page || 0, callback = callback || function() {};
+	create_loading_image(); // display loading image in any case
+	$(".main-body").clear_alert_box(); // remove alert box if any
+	if (isLocalHost && $conf.debug && $debug.db_wait) {
+		wait_for_execution($debug.db_wait_time, function(){getArticles(url_params, page, callback)}, true); // delay process
+	} else {
+		getArticles(url_params, page, callback); // process articles list
+	}
+}
+
 var articlesTimer = 1;
-function displayArticles(url_params) {
-	var url_params = url_params || window.location.search;
+function getArticles(url_params, page, callback) {
 	$.ajax({
 		type : "GET",
 		url : "/rest/articles" + url_params,
-		beforeSend: function(request) {
-			header_authentication(request);
-		},
+		headers : {"page" : page},
+		beforeSend : function(request){header_authentication(request)},
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
-			$("#loading").remove(); // delete loading image
+			/* UNUSED : articles already ordered */
+			/*
 			articles.sort(function compare(a, b) {
 				if (a.publishedDate > b.publishedDate)
 					return -1;
@@ -194,25 +332,32 @@ function displayArticles(url_params) {
 				// a doit être égal à b
 				return 0;
 			});
-			if (article_list_cfg.startup !== true) { // this is first launch of the page
-				$(".main-body").append(file_pool.article_tool_tmpl(articles) + lb(1)); // process toolbar
-			} else { // this is not first launch of the page, articles lists need to be flushed
-				$(".article-list").detach(); // clear articles list (if any)
-			}
-			$(".tool-bar").after(file_pool.article_list_tmpl(articles)).after(lb(1));
-			if (article_list_cfg.startup !== true) { // this is first launch of the page
-				article_list_tools.init(); // set up articles list tools
-				article_list_cfg.startup = true; // first launch has been done
-				$(".tool-bar").svg_icons(); // reload icons only for toolbar
-			}
-			$("#articles").svg_icons(); // always reload icons only for articles
-			// display article search empty message
-			if (articles.length == 0) {
-				$(".main-body").create_alert_box($msg.article_search_empty, null, {"class" : "info", "icon" : "info", "icon_class" : null, "insert" : "append"});
-			} else {
-				$("#alert_box").fadeOut(function() {
-					$("#alert_box").remove();
+			*/
+			delete_loading_image(); // delete loading image
+			if (!article_list_setup.run) { // first time process
+				$(".main-body")
+					.prepend(file_pool.article_tool_tmpl(articles) + lb(1)) // process toolbar
+					.append(file_pool.article_list_tmpl(articles)).after(lb(1)); // process article list
+				article_list_tools.init(); // initialize articles list tools
+				article_list_pages.init({"start" : articles.length < 8 ? false : true}); // initialize pagination
+				article_list_setup.run = true; // register setup flag
+			} else { // later time process
+				// 1. clear article list on reflow
+				if (page == 0) {
+					$("#articles_publish").empty();
+				}
+				// 2. always feed article list
+				articles.forEach(function(article) {
+					$("#articles_publish").append(file_pool.article_item_tmpl(article)).after(lb(1));
 				});
+			}
+			$(".main-body").svg_icons(); // always reload icons for main body
+			callback();
+			if (articles.length < 8) {
+				article_list_pages.prompt(); // shutdown pagination process until reflow
+				if (articles.length == 0) { // response null
+					$(".main-body").create_alert_box($("#articles_publish").children().size() == 0 ? $msg.article_search_empty : $msg.article_search_last, null, {"class" : "info", "icon" : "info", "icon_class" : null, "insert" : "append"});
+				}
 			}
 		},
 		error : function(jqXHR, status, errorThrown) {
@@ -222,14 +367,7 @@ function displayArticles(url_params) {
 					displayArticles(url_params);
 				}, articlesTimer);
 			} else {
-				$("#loading").remove(); // delete loading image
-				////////////////////////////////////////////////////////////////
-				// # NOTE
-				////////////////////////////////////////////////////////////////
-				// Que se passe-t-il en terme d'affichage pour l'utilisateur
-				// si autre erreur qu'une 503 ???
-				// Pas de message d'erreur ? Redirection ? Ou cas improbable ?
-				////////////////////////////////////////////////////////////////
+				delete_loading_image(); // delete loading image
 			}
 		},
 		dataType : "json"

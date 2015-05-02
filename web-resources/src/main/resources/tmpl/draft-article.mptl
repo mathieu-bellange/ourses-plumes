@@ -8,7 +8,7 @@
 								<ul id="filters_list" class="small" style="display: none;">
 									<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
 									{{? OursesSecurity.isUserAdmin() }}
-									<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
+									<li><a id="other_drafts" href="javascript:void(0)">Autres brouillons</a></li>
 									<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
 									{{?}}
 									<li><a id="onlines" href="javascript:void(0)">Publi&eacute;s</a></li>

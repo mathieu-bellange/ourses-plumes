@@ -125,7 +125,7 @@
 						<a id="filter_button" class="icon-filter" href="javascript:void(0)" title="Filtrer la liste des articles"><span class="text">Filtrer</span></a>
 						<ul id="filters_list" class="small" style="display: none;">
 							<li><a id="owner_drafts" href="javascript:void(0)">Mes brouillons</a></li>
-							<li><a id="other_drafts" href="javascript:void(0)">Brouillons des autres</a></li>
+							<li><a id="other_drafts" href="javascript:void(0)">Autres brouillons</a></li>
 							<li><a id="standbys" href="javascript:void(0)">&Agrave; v&eacute;rifier</a></li>
 							<li><a id="onlines" href="javascript:void(0)">En ligne</a></li>
 						</ul>
@@ -788,7 +788,7 @@
 				];
 				////////////////////////////////////////////////////////////////
 
-				var article_list_dialogs = (function() {
+				var article_list_diags = (function() {
 					// Configuration
 					var cfg = {
 						"min_age"   : 1,                   // Integer  Year variation toward past (n - 1). Default : 1
@@ -925,7 +925,7 @@
 					}
 				}());
 				$(document).ready(function() {
-					article_list_dialogs.init();
+					article_list_diags.init();
 				});
 			</script>
 

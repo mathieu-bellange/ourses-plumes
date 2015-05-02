@@ -1424,7 +1424,7 @@ a.icon.gingerred.active:not(.button):not(.disabled):not(.no-bg) {background-colo
   padding: 0;
 }
 .button.icon > svg {
-  padding: .1875rem;
+  padding: .125rem;
 }
 .button > .text {
   color: dimgray;
@@ -3267,7 +3267,9 @@ input:focus + button + .error + .autocomplete > ul {
   display: block;
   color: silver;
 }
-
+.code-block.wrap {
+  padding: .75rem;
+}
 .code-block.wrap > .code {
   position: static;
   white-space: pre-wrap;
@@ -3282,9 +3284,15 @@ input:focus + button + .error + .autocomplete > ul {
      -moz-user-select: none;
       -ms-user-select: none;
 }
+.code-block .bar + .code {
+  display: inline-block;
+  width: 82.5%;
+}
 .code-block > .bar {
+  display: inline-block;
   float: right;
-  margin: 0 0 0 .75rem;
+  width: 15%;
+  margin: 0 0 0 .5rem;
   padding: 0;
   font-size: 0;
   list-style: none;
@@ -3902,14 +3910,20 @@ input:focus + button + .error + .autocomplete > ul {
   background-color: ghostwhite;
 }
 .article-list.draft .other .over-block {
-  background-color: lemonchiffon;
+  background-color: lemonchiffon; /* RGBA Fix */
+  background-color: rgba(255, 224, 96, .375);
 }
 .article-list.draft .over-block .over {
   border-style: dotted;
   border-color: silver;
 }
+.article-list.draft .owner .over-block:hover .over {
+  border-style: solid;
+  border-color: rgba(64, 64, 64, .25);
+}
 .article-list.draft .other .over-block:hover .over {
   border-width: .125rem;
+  border-style: dotted;
 }
 .article-list.draft .over-block .over:before {
   content: 'Brouillon';
@@ -3922,9 +3936,6 @@ input:focus + button + .error + .autocomplete > ul {
   transition: box-shadow .625s ease-out .125s;
 }
 @media (min-width: 800px) {
-  .article-list.draft .owner .over-block:hover .over {
-    border-style: solid;
-  }
   .article-list.draft .owner .over-block:hover .over:before {
     top: .375rem;
     left: -.125rem;
@@ -4014,9 +4025,28 @@ input:focus + button + .error + .autocomplete > ul {
 /* Articles List Outlooks */
 .article-list.online .outlook {}
 .article-list.online .outlook .over-block {
-  background-color: gainsboro;
+	background-color: #e9e9e9;
+  background-image: url('../img/ui/ui-band_w.png');
 }
-.article-list.online .outlook .over-block .over {}
+.article-list.online .outlook .over-block:hover {
+	background-color: #f0f0f0;
+}
+.article-list.online .outlook .over-block .title {
+  opacity: .5;
+}
+.article-list.online .outlook .over-block:hover .title {
+  opacity: 1;
+}
+.article-list.online .outlook .over-block .overview .date {
+  font-weight: bold;
+  color: #c44;
+}
+.article-list.online .outlook .over-block .overview .date > svg {
+  fill: #c44;
+}
+.article-list.online .outlook .over-block .over {
+  border-color: #a0a0a0;
+}
 .article-list.online .outlook .over-block .over:before {
   content: 'Programmé';
   top: .825rem;
@@ -4025,6 +4055,7 @@ input:focus + button + .error + .autocomplete > ul {
 }
 .article-list.online .outlook .over-block:hover .over {
   border-left-width: .125rem;
+  border-color: #606060;
 }
 .article-list.online .outlook .over-block:hover .over:before {
   top: .75rem;
@@ -4037,6 +4068,10 @@ input:focus + button + .error + .autocomplete > ul {
   top: 0;
   left: 0;
   padding: .375rem .625rem;
+  background-color: #a0a0a0;
+}
+.article-list.online .outlook .over-block:hover .over:after {
+  background-color: #606060;
 }
 
 /* Articles List Web Review */

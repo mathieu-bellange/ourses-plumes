@@ -80,14 +80,15 @@ $build = {
 
 /* Debug */
 $debug = {
-	"mode"               : true,                                  // Boolean  Turn on/off debug mode. Default : false
-	"wait_for_db"        : 5.0                                    // Float    Simulate DB waiting time. Default : 5.0
+	"free_log"           : true,                                  // Boolean  Disable abide validation for logger. Default : false
+	"db_wait"            : true,                                  // Boolean  Simulate database request time. Default : false
+	"db_wait_time"       : 2000                                   // Integer  Dummy request time. Default : 2000
 }
 
 /* Configuration */
 $conf = {
-	"free_log"           : $app.stage == "dev" ? true : false,    // Boolean  Disable abide validation for logger. Default : false
 	"lib_ext"            : $app.stage == "dev" ? "" : ".min",     // String   JS libraries additional extension. Default : ".min"
+	"debug"              : $app.stage == "dev" ? true : false,    // Boolean  Turn on/off debug mode. Default : false
 	"css_debug"          : false,                                 // Boolean  Enable CSS debug on HTML elements (i.e. show background masks for all pages). Default : false
 	"css_fx"             : true,                                  // Boolean  Enable CSS effects on HTML elements (i.e. multiple backgrounds, transitions, animations, box shadows, text shadows and ribbons). Default : true
 	"svg_fx"             : true,                                  // Boolean  Enable SVG effects on icons (i.e. blur, glow, shadow and bevel). Default : true
@@ -190,6 +191,7 @@ $msg = {
 	"tag_dup"               : "Cette &eacute;tiquette a d&eacute;j&agrave; &eacute;t&eacute; choisie.",
 	"tag_max"               : "Maximum de tags&nbsp;!",
 	"char_illegal"          : "Caract&egrave;re invalide&nbsp;!",
+	"show_more"             : "Plus de r&eacute;sultats",
 	"faq_deleted"           : "FAQ supprim&eacute;e&nbsp;!",
 	"form_sent"             : "Le formulaire que vous avez soumis a bien &eacute;t&eacute; envoy&eacute;&nbsp;!",
 	"form_valid"            : "Le formulaire que vous avez soumis est correct et a &eacute;t&eacute; envoy&eacute;&nbsp;!",
@@ -209,6 +211,7 @@ $msg = {
 	"article_deleted"       : "Cet article n&rsquo;existe plus, il a &eacute;t&eacute; supprim&eacute;.",
 	"article_offcheck"      : "Cet article n&rsquo;est plus &agrave; v&eacute;rifier, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
 	"article_offline"       : "Cet article n&rsquo;est plus en ligne, vous pouvez raffra&icirc;chir la page pour voir les derniers changements.",
+	"article_search_last"   : "Plus aucun article &agrave; afficher.",
 	"article_search_empty"  : "Aucun article ne correspond aux crit&egrave;res de recherche.",
 	"article_no_filter"     : "Vous n&rsquo;avez aucun filtre s&eacute;lectionn&eacute; pour l&rsquo;affichage des articles.",
 	"date_event_empty"      : "Pas d&rsquo;&eacute;v&egrave;nement pr&eacute;vu ce jour.",

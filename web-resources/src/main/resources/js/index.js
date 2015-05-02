@@ -18,12 +18,10 @@ var loax = (function() {
 			// Set page title
 			set_page_title($nav.home.title);
 			// Insert wait image
-			var a = $("<div>", {"id" : "loading", "class" : "text-center"});
-			var b = $("<img>", {"src" : $img.ui + "ui-loading.gif" , "alt" : "Chargement"});
-			$(".main-body").prepend(a.html(b)); // process loading
+			create_loading_image();
 			// Process
-			if (isLocalHost && $debug.mode) {
-				wait_for_execution($debug.wait_for_db / 2, function(){displayArticles()}, true); // delay process during 5s (i.e. DB lag test)
+			if (isLocalHost && $conf.debug && $debug.db_wait) {
+				wait_for_execution($debug.db_wait_time, function(){displayArticles()}, true); // delay process during 5s (i.e. DB lag test)
 			} else {
 				displayArticles(); // process articles list
 			}
@@ -137,6 +135,7 @@ var widgets = (function() {
 /* ------------------------------------------------------------------ */
 /* # AJAX */
 /* ------------------------------------------------------------------ */
+
 var articlesTimer = 1;
 function displayArticles() {
 	$.ajax({
@@ -144,7 +143,7 @@ function displayArticles() {
 		url : "/rest/articles/last",
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
-			$("#loading").remove(); // delete loading image
+			delete_loading_image(); // delete loading image
 			$(".main-body").append(file_pool.article_list_tmpl(articles) + lb(1));
 			/* UNUSED ... for now */
 			/*
@@ -167,14 +166,7 @@ function displayArticles() {
 					displayArticles();
 				}, articlesTimer);
 			} else {
-				$("#loading").remove(); // delete loading image
-				////////////////////////////////////////////////////////////////
-				// # NOTE
-				////////////////////////////////////////////////////////////////
-				// Que se passe-t-il en terme d'affichage pour l'utilisateur
-				// si autre erreur qu'une 503 ???
-				// Pas de message d'erreur ? Redirection ? Ou cas improbable ?
-				////////////////////////////////////////////////////////////////
+				delete_loading_image(); // delete loading image
 			}
 		},
 		dataType : "json"

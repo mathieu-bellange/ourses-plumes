@@ -1888,10 +1888,14 @@ function isComputer() {
 	return (Modernizr.mq("(min-width: 800px)") && !Modernizr.touch); // Not Small Display and not Touch Device (i.e. exclude smartphones and tablets)
 }
 
-/* Wait for execution (i.e. delay function) */
+/* Wait for execution (i.e. delay function)
+ * - time     : Waiting time in seconds (i.e. = 2.0).            [float]
+ * - callback : Nameless function to execute upon wait complete. [function]
+ * - log      : Waiting time report in console.                  [boolean]
+ */
 function wait_for_execution(time, callback, log) {
-	var time = time || 1.0, callback = callback || function() {}, log = log || false;
-	var t = Math.floor(time * 4), n = 0;
+	var time = time || 1000, callback = callback || function() {}, log = log || false, n = 0;
+	var t = Math.floor(time / 250)
 	var i = setInterval(function() { n++;
 		if (log) {console.log("wait " + (parseInt(n) * 250).toString() + "ms")}
 		if (n === t) {
@@ -2059,6 +2063,37 @@ function get_url_search_params() {
 	return null; // search is null
 }
 
+/* Display loading image on main body */
+function create_loading_image() {
+	// Insert wait image
+	if ($("#loading").length == 0) {
+		var a = $("<div>", {"id" : "loading", "class" : "text-center"});
+		var b = $("<img>", {"src" : $img.ui + "ui-loading.gif" , "alt" : "Chargement"});
+		$(".main-body").append(a.html(b)); // process loading
+	}
+}
+
+/* Remove any loading image */
+function delete_loading_image() {
+	$("#loading").remove();
+}
+
+/* Display show more link on main body */
+function create_show_more() {
+	if ($("#show_more").length == 0) {
+		var a = $("<div>", {"id" : "show_more", "class" : "text-left"}).css("margin-top", "1rem");
+		var b = $("<a>", {"href" :"javascript:void(0)" , "class" : "icon-download small"}).css("padding", ".375rem");
+		var c = $("<span>", {"class" : "text"}).html($msg.show_more);
+		$(".main-body").append(a.html(b.html(c))); // process show more
+		a.svg_icons(); // reload svg icons
+	}
+}
+
+/* Remove any show more link */
+function delete_show_more() {
+	$("#show_more").detach();
+}
+
 /* Create alert bar */
 function create_alert_bar(msg, opts) {
 	var msg = msg || $msg.error;
@@ -2086,6 +2121,11 @@ function create_alert_bar(msg, opts) {
 	if (cfg.position == "top") {fix(true)}
 }
 
+/* Insert alert box right after header */
+function createAlertBox(msg, id, opts) {
+	$(".main-body").create_alert_box(msg, id, opts);
+}
+
 /* Close alert box */
 function close_alert_box(o) {
 	$(o).css("color", "transparent"); // mask box content
@@ -2098,11 +2138,6 @@ function close_alert_box(o) {
 	}, $conf.js_fx ? $time.duration.fx : 0, function() { // hide alert box
 		o.remove();
 	});
-}
-
-/* Insert alert box after header */
-function createAlertBox(msg, id, opts) {
-	$(".main-body").create_alert_box(msg, id, opts);
 }
 
 /* Set page title */
