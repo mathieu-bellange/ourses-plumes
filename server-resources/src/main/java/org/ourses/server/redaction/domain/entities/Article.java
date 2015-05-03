@@ -332,7 +332,7 @@ public class Article implements Serializable {
 
     public static List<Article> findLastPublishedArticle() {
         return Ebean.find(Article.class).fetch("profile").fetch("rubrique").where().eq("status", ArticleStatus.ENLIGNE)
-                .le("publishedDate", new Date()).orderBy().desc("publishedDate").setMaxRows(6).findList();
+                .le("publishedDate", new Date()).orderBy().desc("publishedDate").setMaxRows(8).findList();
     }
 
     public static Article findLastWebReview() {

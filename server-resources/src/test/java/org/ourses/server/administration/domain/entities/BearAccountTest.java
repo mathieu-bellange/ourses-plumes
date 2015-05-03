@@ -19,20 +19,18 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
-    public void shouldGetBearAccountDTO() {
+    public void shouldGetPartialBearAccountDTO() {
         BearAccount bearAccount = new BearAccount(1l, "julie.marie@gmail.com", "mdp", new Profile(1l, "moi", "test"), 0);
         bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, "role"));
         Avatar avatar = new Avatar(0l, "path", null);
         bearAccount.getProfile().setAvatar(avatar);
         BearAccountDTO bearAccounToVerify = bearAccount.toPartialBearAccountDTO();
         assertThat(bearAccounToVerify).isNotNull();
-        assertThat(bearAccounToVerify.getProfile()).isNotNull();
-        assertThat(bearAccounToVerify.getRole()).isNotNull();
+        assertThat(bearAccounToVerify.getProfile()).isNull();
+        assertThat(bearAccounToVerify.getRole()).isNull();
         assertThat(bearAccounToVerify.getPassword()).isNull();
         assertThat(bearAccounToVerify.getMail()).isEqualTo(
                 (String) bearAccount.getAuthcInfo().getPrincipals().getPrimaryPrincipal());
-        assertThat(bearAccounToVerify.getProfile().getAvatar()).isNotNull();
-        assertThat(bearAccounToVerify.getProfile().getAvatar().getPath()).isEqualTo(avatar.getPath());
 
         // prinicpal ne peut pas être null dans shiro
         bearAccount = new BearAccount(1l, "Principal", null, null, 0);
