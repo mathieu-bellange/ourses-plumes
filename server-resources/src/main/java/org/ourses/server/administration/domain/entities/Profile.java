@@ -169,7 +169,7 @@ public class Profile {
                 .findSet();
     }
 
-    public ProfileDTO toProfileDTO() {
+    public ProfileDTO toFullProfileDTO() {
         ProfileDTO profile = new ProfileDTO();
         BeanUtils.copyProperties(this, profile, new String[] { "socialLinks", "avatar" });
         if (socialLinks != null) {

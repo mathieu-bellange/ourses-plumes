@@ -20,7 +20,7 @@ public class ProfileTest {
         profile.setAvatar(avatar);
         profile.setSocialLinks(Sets.newHashSet(link1, link2));
         // verify
-        ProfileDTO profileDTO = profile.toProfileDTO();
+        ProfileDTO profileDTO = profile.toFullProfileDTO();
         assertThat(profileDTO.getPseudo()).isEqualTo(profile.getPseudo());
         assertThat(profileDTO.getDescription()).isEqualTo(profile.getDescription());
         assertThat(profileDTO.getSocialLinks().size()).isEqualTo(profile.getSocialLinks().size());
@@ -39,7 +39,7 @@ public class ProfileTest {
         Profile profile = new Profile(1l, "pseudo", "desc");
         profile.setSocialLinks(null);
         // verify
-        ProfileDTO profileDTO = profile.toProfileDTO();
+        ProfileDTO profileDTO = profile.toFullProfileDTO();
         assertThat(profileDTO.getPseudo()).isEqualTo(profile.getPseudo());
         assertThat(profileDTO.getDescription()).isEqualTo(profile.getDescription());
         assertThat(profileDTO.getSocialLinks()).isEmpty();
@@ -51,7 +51,7 @@ public class ProfileTest {
         Profile profile = new Profile(1l, "pseudo", "desc");
         profile.setSocialLinks(null);
         // verify
-        ProfileDTO profileDTO = profile.toProfileDTO();
+        ProfileDTO profileDTO = profile.toFullProfileDTO();
         assertThat(profileDTO.getPseudo()).isEqualTo(profile.getPseudo());
         assertThat(profileDTO.getDescription()).isEqualTo(profile.getDescription());
         assertThat(profileDTO.getAvatar()).isNull();

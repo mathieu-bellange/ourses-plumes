@@ -351,8 +351,8 @@ public class BearAccount implements Account {
                 .fetch("profile.avatar", "path").where().and(Expr.not(Expr.eq("id", NO_ROLE_ID)), Expr.eq("authcInfo.mail", mail)).findUnique();
     }
 
-    public static BearAccount findAccountByPseudo(final String pseudoBeautify) {
-        return Ebean.find(BearAccount.class).fetch("authcInfo").where().eq("profile.pseudoBeautify", pseudoBeautify)
+    public static BearAccount findAccountRoleByPseudo(final String pseudoBeautify) {
+        return Ebean.find(BearAccount.class).fetch("authzInfo","mainRole").where().eq("profile.pseudoBeautify", pseudoBeautify)
                 .findUnique();
     }
 
@@ -364,23 +364,31 @@ public class BearAccount implements Account {
     }
 
     /**
-     * Transforme un bear account en bear account DTO. Attention ebean ne récupère pas l'ensemble des données du bean,
-     * il ne le fait que sur demande. On ne doit pas copier le mdp dans le dto, il reste côté serveur
+     * Transforme un bear account en bear account DTO. On ne doit pas copier le mdp dans le dto, il reste côté serveur
      * 
      * @return
      */
-    public BearAccountDTO toBearAccountDTO() {
+    public BearAccountDTO toPartialBearAccountDTO() {
         String mail = null;
-        OursesAuthzInfoDTO role = null;
-        ProfileDTO profileDTO = null;
         if (authcInfo != null) {
             mail = (String) authcInfo.getPrincipals().getPrimaryPrincipal();
         }
-        if (authzInfo != null) {
-            role = authzInfo.toOursesAuthzInfoDTO();
+        BearAccountDTO bearAccountDTO = new BearAccountDTO(this.id, mail, null, null, null, version);
+        return bearAccountDTO;
+    }
+    
+    public BearAccountDTO toFullBearAccountDTO() {
+        String mail = null;
+        ProfileDTO profileDTO = null;
+        OursesAuthzInfoDTO role = null;
+        if (authcInfo != null) {
+            mail = (String) authcInfo.getPrincipals().getPrimaryPrincipal();
+        }
+        if (authzInfo != null){
+        	role = authzInfo.toOursesAuthzInfoDTO();
         }
         if (profile != null) {
-            profileDTO = profile.toProfileDTO();
+        	profileDTO = profile.toPartialProfileDTO();
         }
         BearAccountDTO bearAccountDTO = new BearAccountDTO(this.id, mail, null, profileDTO, role, version);
         return bearAccountDTO;

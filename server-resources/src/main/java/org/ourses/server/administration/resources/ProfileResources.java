@@ -57,7 +57,7 @@ public class ProfileResources {
 
         Set<ProfileDTO> profilesDTO = Sets.newHashSet();
         for (Profile profile : profiles) {
-            profilesDTO.add(profile.toProfileDTO());
+            profilesDTO.add(profile.toPartialProfileDTO());
         }
         // cache = 1 day
         CacheControl cacheControl = new CacheControl();
@@ -96,7 +96,7 @@ public class ProfileResources {
             builder = Response.status(Status.NOT_FOUND);
         }
         else {
-            builder = Response.ok().entity(profile.toProfileDTO());
+            builder = Response.ok().entity(profile.toFullProfileDTO());
         }
         CacheControl noCache = new CacheControl();
         noCache.setNoCache(true);
@@ -164,7 +164,7 @@ public class ProfileResources {
         try {
             securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
             Profile profile = profileHelper.deleteAvatar(id);
-            builder = Response.ok().entity(profile.toProfileDTO());
+            builder = Response.ok().entity(profile.toPartialProfileDTO());
         }
         catch (AuthenticationException ae) {
             builder = Response.status(Status.UNAUTHORIZED);

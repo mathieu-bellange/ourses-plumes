@@ -159,7 +159,7 @@ public class ProfileHelperImpl implements ProfileHelper {
 
     @Override
     public String findProfileRole(final String pseudoBeautify) {
-        BearAccount account = BearAccount.findAccountByPseudo(pseudoBeautify);
+        BearAccount account = BearAccount.findAccountRoleByPseudo(pseudoBeautify);
         String role = null;
         if (account != null) {
             role = account.getAuthzInfo().getLabel();

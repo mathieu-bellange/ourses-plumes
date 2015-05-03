@@ -24,7 +24,7 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
         bearAccount.setAuthzInfo(new OursesAuthorizationInfo(1l, "role"));
         Avatar avatar = new Avatar(0l, "path", null);
         bearAccount.getProfile().setAvatar(avatar);
-        BearAccountDTO bearAccounToVerify = bearAccount.toBearAccountDTO();
+        BearAccountDTO bearAccounToVerify = bearAccount.toPartialBearAccountDTO();
         assertThat(bearAccounToVerify).isNotNull();
         assertThat(bearAccounToVerify.getProfile()).isNotNull();
         assertThat(bearAccounToVerify.getRole()).isNotNull();
@@ -38,7 +38,7 @@ public class BearAccountTest extends AbstractTransactionalJUnit4SpringContextTes
         bearAccount = new BearAccount(1l, "Principal", null, null, 0);
         // set null après l'instanciation
         bearAccount.setAuthcInfo(null);
-        bearAccounToVerify = bearAccount.toBearAccountDTO();
+        bearAccounToVerify = bearAccount.toPartialBearAccountDTO();
         assertThat(bearAccounToVerify).isNotNull();
         assertThat(bearAccounToVerify.getProfile()).isNull();
         assertThat(bearAccounToVerify.getRole()).isNull();

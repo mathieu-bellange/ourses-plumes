@@ -65,7 +65,7 @@ public class BearAccountResources {
                     && helper.isPasswordValid(bearAccountDTO.getPassword())) {
                 // on créé par défaut un compte en rédactrice
                 BearAccount account = helper.create(bearAccountDTO.toBearAccount());
-                responseBuilder = responseBuilder.entity(account.toBearAccountDTO());
+                responseBuilder = responseBuilder.entity(account.toPartialBearAccountDTO());
             }
             else {
                 responseBuilder = Response.status(Status.FORBIDDEN);
@@ -167,7 +167,7 @@ public class BearAccountResources {
                 // vérification que le compte a récupéré est bien réalisé par l'utilisateur authentifié
                 securityHelper.checkAuthenticatedUser(bearAccount.getAuthcInfo().getMail(), token);
 
-                builder = Response.ok().entity(bearAccount.toBearAccountDTO());
+                builder = Response.ok().entity(bearAccount.toPartialBearAccountDTO());
             }
             catch (AuthenticationException ae) {
                 builder = Response.status(Status.UNAUTHORIZED);
@@ -213,7 +213,7 @@ public class BearAccountResources {
                     @Nullable
                     public BearAccountDTO apply(@Nullable
                     final BearAccount bearAccount) {
-                        return bearAccount.toBearAccountDTO();
+                        return bearAccount.toFullBearAccountDTO();
                     }
                 });
         CacheControl noCache = new CacheControl();

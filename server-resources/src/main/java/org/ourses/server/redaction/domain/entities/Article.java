@@ -277,7 +277,7 @@ public class Article implements Serializable {
     }
 
     public static Collection<? extends Article> findProfileArticles(final Long profileId) {
-        return Ebean.find(Article.class).fetch("rubrique").where()
+        return Ebean.find(Article.class).fetch("rubrique").fetch("profile").where()
                 .eq("status", ArticleStatus.ENLIGNE).le("publishedDate", DateTime.now().toDate()).or(Expr.eq("profile.id", profileId), Expr.eq("coAuthors.id", profileId)).findSet();
     }
 
@@ -303,17 +303,17 @@ public class Article implements Serializable {
 
     public static Article findArticle(final long id) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors","pseudo").fetch("oldPath").where().eq("id", id).findUnique();
+                .fetch("coAuthors").fetch("oldPath").where().eq("id", id).findUnique();
     }
 
     public static Article findArticleByPath(final String path) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors","pseudo, path").where().eq("path", path).le("publishedDate", DateTime.now().toDate()).findUnique();
+                .fetch("coAuthors").where().eq("path", path).le("publishedDate", DateTime.now().toDate()).findUnique();
     }
 
     public static Article findArticleByOldPath(final String path) {
         return Ebean.find(Article.class).fetch("profile").fetch("category").fetch("rubrique").fetch("tags")
-                .fetch("coAuthors","pseudo, path").where().eq("oldPath.path", path).le("publishedDate", DateTime.now().toDate())
+                .fetch("coAuthors").where().eq("oldPath.path", path).le("publishedDate", DateTime.now().toDate())
                 .findUnique();
     }
 
