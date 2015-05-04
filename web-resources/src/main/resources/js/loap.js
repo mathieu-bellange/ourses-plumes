@@ -151,7 +151,6 @@ Number.prototype.toPx = function() {
 
 var loap_pool = {
 //"varname"                       : "filename" (which be replaced in object by file text/plain content on execution)
-	"dev_toolbar_tmpl"              : $loc.tmpl + "_dev_toolbar.tmpl",
 	"ui_plugins_mptl"               : $loc.tmpl + "ui_plugins.mptl",
 	"user_nav_tmpl"                 : $loc.tmpl + "user-nav.tmpl",
 	"frame_tmpl"                    : $loc.tmpl + "frame.tmpl",

@@ -7,7 +7,7 @@ public final class EnvironnementVariable {
     public static final String SHA_SALT = System.getenv("SHA_SALT");
     public static final String DOMAIN_NAME = System.getenv("DOMAIN_NAME");
 
-    public static final String BITLY_ACCESS_TOKEN = System.getenv("BITLY_ACCESS_TOKEN");
+   // public static final String BITLY_ACCESS_TOKEN = System.getenv("BITLY_ACCESS_TOKEN");
 
     private EnvironnementVariable() {
 
