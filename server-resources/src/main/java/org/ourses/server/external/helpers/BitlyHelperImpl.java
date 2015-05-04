@@ -23,16 +23,16 @@ public class BitlyHelperImpl implements BitlyHelper {
 
     Logger logger = LoggerFactory.getLogger(BitlyHelperImpl.class);
 
-    private ClientResponse doShortenUrl(final String longUrl) {
-        ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
-        Client client = Client.create(cc);
-        // Basic authentication
-        WebResource webResource = client.resource(UriBuilder.fromUri(SHORTENER_URL).build())
-                .queryParam("access_token", EnvironnementVariable.BITLY_ACCESS_TOKEN).queryParam("longUrl", longUrl);
-        return webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-                .get(ClientResponse.class);
-
-    }
+//    private ClientResponse doShortenUrl(final String longUrl) {
+//        ClientConfig cc = new DefaultClientConfig(JacksonJsonProvider.class);
+//        Client client = Client.create(cc);
+//        // Basic authentication
+//        WebResource webResource = client.resource(UriBuilder.fromUri(SHORTENER_URL).build())
+//                .queryParam("access_token", EnvironnementVariable.BITLY_ACCESS_TOKEN).queryParam("longUrl", longUrl);
+//        return webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+//                .get(ClientResponse.class);
+//
+//    }
 
     @Override
     public BitlyUrl shortenUrl(final String longUrl) {
