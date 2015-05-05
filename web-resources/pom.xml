@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.ourses</groupId>
@@ -28,11 +29,11 @@
 		<sonar.sources>${js.sourceDirectory}</sonar.sources>
 		<sonar.javascript.jstestdriver.reportsPath>${testDriver.report.path}</sonar.javascript.jstestdriver.reportsPath>
 		<sonar.javascript.lcov.reportPath>${testDriver.report.coverage}</sonar.javascript.lcov.reportPath>
-		
+
 		<!-- plugin maven -->
 		<assembly-plugin-version>2.4</assembly-plugin-version>
 	</properties>
-	
+
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -41,22 +42,25 @@
 			</activation>
 			<properties>
 				<minimize>false</minimize>
+				<grunt.task>build_dev</grunt.task>
 			</properties>
 		</profile>
 		<profile>
 			<id>recette</id>
 			<properties>
 				<minimize>false</minimize>
+				<grunt.task>build_recette</grunt.task>
 			</properties>
 		</profile>
 		<profile>
 			<id>production</id>
 			<properties>
 				<minimize>true</minimize>
+				<grunt.task>build_prod</grunt.task>
 			</properties>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<sourceDirectory>${js.sourceDirectory}</sourceDirectory>
 		<testSourceDirectory>${js.testSourceDirectory}</testSourceDirectory>
@@ -80,28 +84,28 @@
 				<targetPath>${project.build.directory}/resources</targetPath>
 			</resource>
 		</resources>
-		
+
 		<plugins>
 			<!-- configuration du projet -->
 			<plugin>
-		        <groupId>ro.isdc.wro4j</groupId>
-		        <artifactId>wro4j-maven-plugin</artifactId>
-		        <version>${wro4j.version}</version>
-		        <executions>
-		        	<execution>
-		                <phase>package</phase>
-		                <goals>
-		                    <goal>run</goal>
-		                </goals>
-		             </execution>
-		        </executions>
-		        <configuration>
-		        	<wroFile>${project.build.directory}/resources/wro.xml</wroFile>
-		            <cssDestinationFolder>${wro4j.outputDirectory}/css/</cssDestinationFolder>
-      				<jsDestinationFolder>${wro4j.outputDirectory}/js/</jsDestinationFolder>
-		            <contextFolder>${basedir}/src/main/resources/</contextFolder>
-		        </configuration>
-		    </plugin>
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+				<version>${wro4j.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<wroFile>${project.build.directory}/resources/wro.xml</wroFile>
+					<cssDestinationFolder>${wro4j.outputDirectory}/css/</cssDestinationFolder>
+					<jsDestinationFolder>${wro4j.outputDirectory}/js/</jsDestinationFolder>
+					<contextFolder>${basedir}/src/main/resources/</contextFolder>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -158,16 +162,16 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- server -->
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
-		    	<artifactId>jetty-maven-plugin</artifactId>
+				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
 					<webAppConfig>
 						<contextPath>/</contextPath>
 					</webAppConfig>
-					<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory> 
+					<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
 				</configuration>
 			</plugin>
 
@@ -176,6 +180,58 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- grunt -->
+			<plugin>
+				<groupId>pl.allegro</groupId>
+				<artifactId>grunt-maven-plugin</artifactId>
+				<version>1.4.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>npm</goal>
+							<goal>grunt</goal>
+						</goals>
+						<configuration>
+							<target>${grunt.task}</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>pl.allegro</groupId>
+										<artifactId>
+											grunt-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.4.1,)
+										</versionRange>
+										<goals>
+											<goal>grunt</goal>
+											<goal>npm</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>

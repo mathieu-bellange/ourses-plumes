@@ -1,0 +1,23 @@
+{
+  "name": "node-grunt",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-html-build": "^0.4.3"
+  },
+  "variable" : {
+		"src_root" : "src/main/gruntTest",
+		"build_root" : "target/buildGrunt",
+		"templates_root" : "src/main/gruntTest/template",
+		"src_js" : "src/main/gruntTest/js",
+		"build_js" : "target/buildGrunt/js",
+		"build_concat_js" : "target/buildGrunt/concat/js",
+		"src_css" : "src/main/gruntTest/css",
+		"build_css" : "target/buildGrunt/css",
+		"build_concat_css" : "target/buildGrunt/concat/css"
+	}
+}
