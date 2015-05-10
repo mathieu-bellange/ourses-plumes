@@ -179,7 +179,7 @@ $file = {
 
 /* Messages */
 $msg = {
-	"compatibility_warning" : "Vous utilisez un navigateur obsol&egrave;te, certaines fonctionnalit&eacute;s ont donc &eacute;t&eacute; d&eacute;sactiv&eacute;es pour cause de s&eacute;curit&eacute;.",
+	"compatibility_warning" : "Vous utilisez un navigateur obsol&egrave;te ou non support&eacute;. Certaines fonctionnalit&eacute;s susceptibles de cr&eacute;er une faille de s&eacute;curit&eacute; ont &eacute;t&eacute; d&eacute;sactiv&eacute;es.",
 	"error"                 : "Une erreur technique s&rsquo;est produite. Veuillez pr&eacute;venir l&rsquo;administateur du site.",
 	"saving"                : "Enregistrement&hellip;",
 	"checking"              : "V&eacute;rification&hellip;",
@@ -419,10 +419,10 @@ var head_tags = [
 	// -------------------------------------------------------------------
 	// # Meta Twitter
 	// -------------------------------------------------------------------
-	{elem: "meta", attr: {property: "twitter:card", content: "summary_large_image"}},
-	{elem: "meta", attr: {property: "twitter:site", content: "@OursesaPlumes"}},
-	{elem: "meta", attr: {property: "twitter:image:src", content: $org.domain + $img.pub + "loap_share_picture.jpg"}},
-	{elem: "meta", attr: {property: "twitter:description", content: $app.desc}},
+	{elem: "meta", attr: {name: "twitter:card", content: "summary_large_image"}},
+	{elem: "meta", attr: {name: "twitter:site", content: "@OursesaPlumes"}},
+	{elem: "meta", attr: {name: "twitter:image:src", content: $org.domain + $img.pub + "loap_share_picture.jpg"}},
+	{elem: "meta", attr: {name: "twitter:description", content: $app.desc}},
 	// -------------------------------------------------------------------
 	// # Document Title
 	// -------------------------------------------------------------------

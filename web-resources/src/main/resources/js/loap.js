@@ -161,6 +161,175 @@ var loax_pool = loax_pool || null;
 var file_pool = $.extend({}, loap_pool, loax_pool);
 
 /* ------------------------------------------------------------------ */
+/* # Compatibility */
+/* ------------------------------------------------------------------ */
+
+/* DEBUG TEST (i.e. NS_ERROR_FAILURE -- checkCompatibility() is undefined [FF 37.0.1]) */
+/*
+window.checkCompatibility = function() {
+	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
+}
+*/
+var isBrowserCompatible = (function() { // WARNING : UNTESTED !!!
+	try {
+		if (typeof getXHR() === "undefined") {return}
+		var test = getXHR().upload
+		 && window.localStorage
+		 && window.FileReader
+		 && window.JSON
+		 && window.URL;
+		return test;
+	} catch(e) {
+		console.log("Compatibility issue detected. " + e);
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # User Session */
+/* ------------------------------------------------------------------ */
+
+var UserSession = (function() {
+
+	if (isFileProtocol && !isBrowserCompatible) {return} // TEMP
+
+	var is_user_remembered = docCookies.getItem($auth.remember_me) === "true";
+	var is_client_connected = docCookies.hasItem($auth.is_authenticated);
+	var user_account_id = is_user_remembered ? localStorage.getItem($auth.account_id) : sessionStorage.getItem($auth.account_id);
+	var user_account_role = docCookies.getItem($auth.user_role);
+	var user_token = is_user_remembered  ? localStorage.getItem($auth.token) : sessionStorage.getItem($auth.token);
+	var user_token_id = docCookies.getItem($auth.token_id);
+	var user_profile_id = is_user_remembered ? localStorage.getItem($auth.profile_id) : sessionStorage.getItem($auth.profile_id);
+	var user_profile_pseudo = docCookies.getItem($auth.user_name);
+	var user_profile_avatar = docCookies.getItem($auth.avatar_path);
+
+	var persist_user_session = function(authcUser, rememberMe) {
+		delete_user_session();
+		// persiste sur une journée
+		var expirationDate = rememberMe ? new Date() : 0;
+		if (rememberMe) {
+			expirationDate.setDate(expirationDate.getDate() + 1);
+			// données sensibles restent dans le local storage
+			localStorage.setItem($auth.account_id, authcUser.accountId);
+			localStorage.setItem($auth.profile_id, authcUser.profileId);
+			localStorage.setItem($auth.token, authcUser.token);
+		} else {
+			sessionStorage.setItem($auth.account_id, authcUser.accountId);
+			sessionStorage.setItem($auth.profile_id, authcUser.profileId);
+			sessionStorage.setItem($auth.token, authcUser.token);
+		}
+		docCookies.setItem($auth.is_authenticated,true,expirationDate, "/");
+		docCookies.setItem($auth.user_role, authcUser.role,expirationDate, "/");
+		docCookies.setItem($auth.user_name, authcUser.pseudo,expirationDate, "/");
+		docCookies.setItem($auth.token_id, authcUser.tokenId,expirationDate, "/");
+		docCookies.setItem($auth.avatar_path, authcUser.avatar,expirationDate, "/");
+		docCookies.setItem($auth.remember_me,rememberMe,expirationDate,"/");
+	}
+
+	var delete_user_session = function() {
+		docCookies.removeItem($auth.is_authenticated, "/");
+		docCookies.removeItem($auth.user_role, "/");
+		docCookies.removeItem($auth.user_name, "/");
+		docCookies.removeItem($auth.token_id, "/");
+		docCookies.removeItem($auth.avatar_path, "/");
+		if (is_user_remembered) {
+			localStorage.removeItem($auth.account_id);
+			localStorage.removeItem($auth.profile_id);
+			localStorage.removeItem($auth.token);
+		} else {
+			sessionStorage.removeItem($auth.account_id);
+			sessionStorage.removeItem($auth.profile_id);
+			sessionStorage.removeItem($auth.token);
+		}
+		is_user_remembered = false;
+		is_client_connected = false;
+		user_account_id = null;
+		user_account_role = null;
+		user_token = null;
+		user_token_id = null;
+		user_profile_id = null;
+		user_profile_pseudo = null;
+		user_profile_avatar = null;
+	}
+
+	var update_user_pseudo = function(pseudo) {
+		var tomorrow = is_user_remembered ? new Date() : 0;
+		if (is_user_remembered) {
+			tomorrow.setDate(tomorrow.getDate() + 1);
+		}
+		docCookies.setItem($auth.user_name, pseudo, tomorrow, "/");
+		user_profile_pseudo = docCookies.getItem($auth.user_name);
+	}
+
+	var update_user_avatar = function(avatar) {
+		var tomorrow = is_user_remembered ? new Date() : 0;
+		if (is_user_remembered) {
+			tomorrow.setDate(tomorrow.getDate() + 1);
+		}
+		docCookies.setItem($auth.avatar_path, avatar, tomorrow, "/");
+		user_profile_avatar = docCookies.getItem($auth.avatar_path);
+	}
+
+	return {
+		isConnected : function() {
+			return is_client_connected;
+		},
+		save : function(authcUser, rememberMe) {
+			persist_user_session(authcUser, rememberMe);
+		},
+		delete : function() {
+			delete_user_session();
+		},
+		updatePseudo : function(pseudo) {
+			update_user_pseudo(pseudo);
+		},
+		updateAvatar : function(avatar) {
+			update_user_avatar(avatar);
+		},
+		getAccountId : function() {
+			return user_account_id;
+		},
+		getUserToken : function() {
+			return user_token;
+		},
+		getUserTokenId : function() {
+			return user_token_id;
+		},
+		getUserProfileId : function() {
+			return user_profile_id;
+		},
+		getUserPseudo : function() {
+			return user_profile_pseudo;
+		},
+		getUserAvatar : function() {
+			return user_profile_avatar;
+		},
+		getUserRole : function() {
+			return user_account_role;
+		}
+	}
+}());
+
+/* ------------------------------------------------------------------ */
+/* # Ourses Security */
+/* ------------------------------------------------------------------ */
+
+var OursesSecurity = (function() {
+
+	if (isFileProtocol && !isBrowserCompatible) {return} // TEMP
+
+	var is_user_admin = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_admin;
+	var is_user_writer = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_redac;
+	return {
+		isUserAdmin : function() {
+			return is_user_admin;
+		},
+		isUserWriter : function() {
+			return is_user_writer;
+		}
+	}
+})();
+
+/* ------------------------------------------------------------------ */
 /* # Module */
 /* ------------------------------------------------------------------ */
 /*
@@ -198,7 +367,7 @@ var loap = (function() {
 			// Build toolbar template
 			if ($build.toolbar) {$("body").prepend(file_pool.dev_toolbar_tmpl).prepend(lb(1))}
 			// Build icons
-			if ($build.icons && $app.user == "human-reader") {
+			if ($app.user == "human-reader" && $build.icons) {
 				// Prepend SVG effects
 				if ($conf.svg_fx) {
 					var str = file_pool.icons_fx_file;
@@ -212,7 +381,10 @@ var loap = (function() {
 				if ($build.compress) {str = str.replace(/[\t\r\n\f]*/gm, "")}
 				$("body").prepend(str).prepend(lb(1));
 			}
-			compatibilityWarning(); // user warning for compatibilities issues
+			// Check compatibility
+			if ($app.user == "human-reader" && !isBrowserCompatible) {
+				create_alert_bar($msg.compatibility_warning);
+			}
 		},
 		update : function() {
 			$(document).svg_icons(); // WARNING : set svg icons for whole document
@@ -2230,7 +2402,7 @@ function disconnect(str) {
 
 /* Check user connected through AJAX (deferred to document ready state) */
 function check_user_connected() {
-	if (checkCompatibility()) {
+	if (isBrowserCompatible) {
 		set_user_connected(UserSession.isConnected()); // connect user
 		$(".user-connect").fadeIn($conf.js_fx ? 500 : 0);
 	}
@@ -2240,7 +2412,7 @@ function check_user_connected() {
  * NOTE : connected auth check has been deferred to ready state.
  */
 function set_user_connected(is_connected) {
-	if (checkCompatibility()) {
+	if (isBrowserCompatible) {
 		var is_connected = is_connected || false, sel = "#user_connect";
 		if (is_connected) {
 			$(sel + " svg use").attr("xlink:href", "#icon-menu");
@@ -2379,20 +2551,6 @@ function remove_pref(prefs, key) {
 }());
 
 /* ------------------------------------------------------------------ */
-/* # Compatibility */
-/* ------------------------------------------------------------------ */
-
-window.checkCompatibility = function() {
-	return window.localStorage && new XMLHttpRequest().upload && window.FileReader && window.URL && window.JSON;
-}
-
-function compatibilityWarning() {
-	if ($app.user == "human-reader" && !checkCompatibility()) {
-		create_alert_bar($msg.compatibility_warning);
-	}
-}
-
-/* ------------------------------------------------------------------ */
 /* # Alert Boxes */
 /* ------------------------------------------------------------------ */
 
@@ -2483,146 +2641,6 @@ $(document).on("focus", "[required]", function() {
 $(document).on("click", "[data-postmail]", function() {
 	document.location.href = "mailto:" + $(this).attr("data-postmail").rebind_postmail();
 });
-
-/* ------------------------------------------------------------------ */
-/* # User Session */
-/* ------------------------------------------------------------------ */
-
-var UserSession = (function() {
-
-	var is_user_remembered = docCookies.getItem($auth.remember_me) === "true";
-	var is_client_connected = docCookies.hasItem($auth.is_authenticated);
-	var user_account_id = is_user_remembered ? localStorage.getItem($auth.account_id) : sessionStorage.getItem($auth.account_id);
-	var user_account_role = docCookies.getItem($auth.user_role);
-	var user_token = is_user_remembered  ? localStorage.getItem($auth.token) : sessionStorage.getItem($auth.token);
-	var user_token_id = docCookies.getItem($auth.token_id);
-	var user_profile_id = is_user_remembered ? localStorage.getItem($auth.profile_id) : sessionStorage.getItem($auth.profile_id);
-	var user_profile_pseudo = docCookies.getItem($auth.user_name);
-	var user_profile_avatar = docCookies.getItem($auth.avatar_path);
-
-	var persist_user_session = function(authcUser, rememberMe) {
-		delete_user_session();
-		// persiste sur une journée
-		var expirationDate = rememberMe ? new Date() : 0;
-		if (rememberMe) {
-			expirationDate.setDate(expirationDate.getDate() + 1);
-			// données sensibles restent dans le local storage
-			localStorage.setItem($auth.account_id, authcUser.accountId);
-			localStorage.setItem($auth.profile_id, authcUser.profileId);
-			localStorage.setItem($auth.token, authcUser.token);
-		} else {
-			sessionStorage.setItem($auth.account_id, authcUser.accountId);
-			sessionStorage.setItem($auth.profile_id, authcUser.profileId);
-			sessionStorage.setItem($auth.token, authcUser.token);
-		}
-		docCookies.setItem($auth.is_authenticated,true,expirationDate, "/");
-		docCookies.setItem($auth.user_role, authcUser.role,expirationDate, "/");
-		docCookies.setItem($auth.user_name, authcUser.pseudo,expirationDate, "/");
-		docCookies.setItem($auth.token_id, authcUser.tokenId,expirationDate, "/");
-		docCookies.setItem($auth.avatar_path, authcUser.avatar,expirationDate, "/");
-		docCookies.setItem($auth.remember_me,rememberMe,expirationDate,"/");
-	}
-
-	var delete_user_session = function() {
-		docCookies.removeItem($auth.is_authenticated, "/");
-		docCookies.removeItem($auth.user_role, "/");
-		docCookies.removeItem($auth.user_name, "/");
-		docCookies.removeItem($auth.token_id, "/");
-		docCookies.removeItem($auth.avatar_path, "/");
-		if (is_user_remembered) {
-			localStorage.removeItem($auth.account_id);
-			localStorage.removeItem($auth.profile_id);
-			localStorage.removeItem($auth.token);
-		} else {
-			sessionStorage.removeItem($auth.account_id);
-			sessionStorage.removeItem($auth.profile_id);
-			sessionStorage.removeItem($auth.token);
-		}
-		is_user_remembered = false;
-		is_client_connected = false;
-		user_account_id = null;
-		user_account_role = null;
-		user_token = null;
-		user_token_id = null;
-		user_profile_id = null;
-		user_profile_pseudo = null;
-		user_profile_avatar = null;
-	}
-
-	var update_user_pseudo = function(pseudo) {
-		var tomorrow = is_user_remembered ? new Date() : 0;
-		if (is_user_remembered) {
-			tomorrow.setDate(tomorrow.getDate() + 1);
-		}
-		docCookies.setItem($auth.user_name, pseudo, tomorrow, "/");
-		user_profile_pseudo = docCookies.getItem($auth.user_name);
-	}
-
-	var update_user_avatar = function(avatar) {
-		var tomorrow = is_user_remembered ? new Date() : 0;
-		if (is_user_remembered) {
-			tomorrow.setDate(tomorrow.getDate() + 1);
-		}
-		docCookies.setItem($auth.avatar_path, avatar, tomorrow, "/");
-		user_profile_avatar = docCookies.getItem($auth.avatar_path);
-	}
-
-	return {
-		isConnected : function() {
-			return is_client_connected;
-		},
-		save : function(authcUser, rememberMe) {
-			persist_user_session(authcUser, rememberMe);
-		},
-		delete : function() {
-			delete_user_session();
-		},
-		updatePseudo : function(pseudo) {
-			update_user_pseudo(pseudo);
-		},
-		updateAvatar : function(avatar) {
-			update_user_avatar(avatar);
-		},
-		getAccountId : function() {
-			return user_account_id;
-		},
-		getUserToken : function() {
-			return user_token;
-		},
-		getUserTokenId : function() {
-			return user_token_id;
-		},
-		getUserProfileId : function() {
-			return user_profile_id;
-		},
-		getUserPseudo : function() {
-			return user_profile_pseudo;
-		},
-		getUserAvatar : function() {
-			return user_profile_avatar;
-		},
-		getUserRole : function() {
-			return user_account_role;
-		}
-	}
-}());
-
-/* ------------------------------------------------------------------ */
-/* # Ourses Security */
-/* ------------------------------------------------------------------ */
-
-var OursesSecurity = (function() {
-	var is_user_admin = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_admin;
-	var is_user_writer = UserSession.getUserRole() !== null && UserSession.getUserRole() == $conf.role_redac;
-	return {
-		isUserAdmin : function() {
-			return is_user_admin;
-		},
-		isUserWriter : function() {
-			return is_user_writer;
-		}
-	}
-})();
 
 /* ------------------------------------------------------------------ */
 /* # Initialize */
