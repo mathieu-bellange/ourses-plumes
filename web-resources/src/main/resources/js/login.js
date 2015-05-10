@@ -16,7 +16,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.login.title);
 			/* Insert template */
-			if(checkCompatibility()){
+			if (isBrowserCompatible) {
 				$(".main-body").append(file_pool.login_tmpl).after(lb(1));
 			}
 		}
