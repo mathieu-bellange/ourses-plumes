@@ -879,7 +879,7 @@ input[type='submit'] {
 
 button[disabled],
 html input[disabled] {
-  cursor: default; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
+  cursor: default !important; /* Normalize 3.0.1 : Re-set default cursor for disabled elements. */
 }
 
 input[type="checkbox"],
@@ -1174,7 +1174,7 @@ label.error {
   top: 45%;
   right: .75rem;
   border: 5px solid transparent; /* WARNING : using px instead of rem (messy unit) */
-  border-top-color: white;
+  border-top-color: black;
   opacity: .5;
   pointer-events: none !important; /* WARNING */
 }
@@ -1197,7 +1197,7 @@ label.error {
 .dropdown-list li a {
   display: inline-block;
   color: whitesmoke; /* RGBA Fix */
-  color: rgba(255, 255, 255, .875);
+  color: rgba(255, 255, 255, .75);
   display: inline-block;
   width: 100%;
   height: auto !important; /* WARNING */
@@ -1286,6 +1286,7 @@ a.ourbody:hover, a.ourbody:focus, li.ourbody > a:hover, li.ourbody > a:focus {co
 }
 .icon > .text {
   color: darkgray;
+  vertical-align: middle;
 }
 
 /* Sizing */
@@ -1428,12 +1429,21 @@ a.icon.gingerred.active:not(.button):not(.disabled):not(.no-bg) {background-colo
 }
 .button > .text {
   color: dimgray;
-  vertical-align: middle;
 }
 .button.action > .text,
 .button.accept > .text,
 .button.reject > .text {
   color: white;
+}
+
+/* Titles */
+h1.icon,
+h2.icon,
+h3.icon,
+h4.icon,
+h5.icon,
+h6.icon {
+  display: block;
 }
 
 /* Disabled */
