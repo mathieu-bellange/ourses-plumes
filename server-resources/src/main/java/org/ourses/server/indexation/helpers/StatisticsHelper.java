@@ -1,6 +1,7 @@
 package org.ourses.server.indexation.helpers;
 
-public interface StatistiquesHelper {
+public interface StatisticsHelper {
 
 	void countView(String requestUri);
+	
 }
