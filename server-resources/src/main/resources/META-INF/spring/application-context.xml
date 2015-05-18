@@ -59,6 +59,8 @@
 				<value>org.ourses.server.redaction.domain.entities.Article</value>
 				<value>org.ourses.server.agenda.domain.entities.CalendarEvent</value>
 				<value>org.ourses.server.faq.domain.entities.FreqAskedQuestion</value>
+				<value>org.ourses.server.indexation.domain.entities.WebSiteStatisticId</value>
+				<value>org.ourses.server.indexation.domain.entities.WebSiteStatistic</value>
 			</list>
 		</property>
 		<property name="dataSource" ref="dataSource"/>
