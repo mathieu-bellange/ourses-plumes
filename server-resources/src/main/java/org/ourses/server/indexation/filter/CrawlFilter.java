@@ -11,7 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.ourses.server.indexation.helpers.StatistiquesHelper;
+import org.ourses.server.indexation.helpers.StatisticsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -27,7 +27,7 @@ public final class CrawlFilter implements Filter {
     Logger logger = LoggerFactory.getLogger(CrawlFilter.class);
     BrowserVersion browser = BrowserVersion.INTERNET_EXPLORER_11;
     
-    private StatistiquesHelper statsHelper;
+    private StatisticsHelper statsHelper;
      
 
     @Override
@@ -70,7 +70,7 @@ public final class CrawlFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
     	ApplicationContext ctx = WebApplicationContextUtils
     		    .getRequiredWebApplicationContext(filterConfig.getServletContext());
-    	this.statsHelper = ctx.getBean(StatistiquesHelper.class);
+    	this.statsHelper = ctx.getBean(StatisticsHelper.class);
     }
 
     @Override
