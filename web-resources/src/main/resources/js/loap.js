@@ -2023,6 +2023,22 @@ function dateToString(date) {
 	return day + " " + month + " " + year;
 }
 
+function dayOfMonthToString(date) {
+	var month;
+	var day = date.getDate().toString();
+	if (date.getDate() === 1) {
+		day += "er";
+	}
+	month = $time.months[date.getMonth()];
+	return day + " " + month;
+}
+
+function monthOfYearToString(date) {
+	var year = date.getFullYear().toString();
+	var month = $time.months[date.getMonth()];
+	return month + " " + year;
+}
+
 /* Convert date to HTML */
 function dateToHTML(date) {
 	return (dateToString(date).replace("1er", "1<sup>er</sup>").replace("é", "&eacute;").replace("û", "&ucirc;"));
