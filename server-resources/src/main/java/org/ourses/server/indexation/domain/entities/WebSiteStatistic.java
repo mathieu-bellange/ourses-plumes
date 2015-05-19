@@ -1,7 +1,14 @@
 package org.ourses.server.indexation.domain.entities;
 
+import java.util.Collection;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+
+
+
+
+import org.ourses.server.indexation.domain.dto.WebSiteStatisticDTO;
 
 import com.avaje.ebean.Ebean;
 import com.google.common.collect.Sets;
@@ -42,4 +49,18 @@ public class WebSiteStatistic {
 	public void save() {
 		Ebean.save(this);
 	}
+
+	public static Collection<? extends WebSiteStatistic> findAllStatsByPage(String page) {
+		return Ebean.find(WebSiteStatistic.class).where().eq("id.page", page).findSet();
+		
+	}
+
+	public WebSiteStatisticDTO toWebSiteStatisticDTO() {
+		return new WebSiteStatisticDTO(id.getPage(),id.getCountDay(), viewCount);
+	}
+
+	public static Collection<? extends WebSiteStatistic> findAllStats() {
+		return Ebean.find(WebSiteStatistic.class).findSet();
+	}
+
 }

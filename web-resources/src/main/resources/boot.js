@@ -245,6 +245,7 @@ $nav = {
 	"agenda_edit"           : {"url" : "/parametres/agenda",       "title" : "Modifier l'agenda"},
 	"online_article_list"   : {"url" : "/articles",                "title" : "Tous les articles"},
 	"draft_article_list"    : {"url" : "/parametres/articles",     "title" : "Mes articles"},
+	"dashboard_stats"       : {"url" : "/parametres/statistiques",  "title" : "Statistiques"},
 	"article_view"          : {"url" : null,                       "title" : null},
 	"article_add"           : {"url" : "/articles/nouveau",        "title" : "Écrire un article"},
 	"article_edit"          : {"url" : null,                       "title" : "Modifier un article"},
