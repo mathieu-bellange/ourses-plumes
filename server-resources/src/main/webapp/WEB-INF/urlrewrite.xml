@@ -329,5 +329,11 @@
 		<from>^.*$</from>
 		<to>/browser-incompatible.html</to>
 	</rule>
+	
+	<rule>
+		<note>redirection vers le dashboard</note>
+		<from>^/parametres/statistiques$</from>
+		<to>/dashboard-stats.html</to>
+	</rule>
 
 </urlrewrite>
