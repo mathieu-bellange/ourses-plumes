@@ -297,7 +297,7 @@ public class Article implements Serializable {
     }
     
     public static Collection<? extends Article> findOnline() {
-		return Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE)
+		return Ebean.find(Article.class).fetch("rubrique").fetch("profile").where().eq("status", ArticleStatus.ENLIGNE)
                 .le("publishedDate", DateTime.now().toDate()).findSet();
 	}
 
