@@ -5,9 +5,6 @@ import java.util.Collection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
-
-
-
 import org.ourses.server.indexation.domain.dto.WebSiteStatisticDTO;
 
 import com.avaje.ebean.Ebean;
@@ -36,7 +33,6 @@ public class WebSiteStatistic {
 		this.viewCount = count;
 	}
 	
-	
 	public static WebSiteStatistic findById(WebSiteStatisticId id){
 		return Ebean.find(WebSiteStatistic.class, (WebSiteStatisticId)id);
 	}
@@ -61,6 +57,10 @@ public class WebSiteStatistic {
 
 	public static Collection<? extends WebSiteStatistic> findAllStats() {
 		return Ebean.find(WebSiteStatistic.class).findSet();
+	}
+
+	public static Collection<? extends WebSiteStatistic> findArticlesStats() {
+		return Ebean.find(WebSiteStatistic.class).where().ne("id.page", "/").orderBy().asc("id.countDay").findList();
 	}
 
 }

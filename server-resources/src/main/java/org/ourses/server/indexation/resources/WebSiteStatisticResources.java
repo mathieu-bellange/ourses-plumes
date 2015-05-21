@@ -23,4 +23,11 @@ public class WebSiteStatisticResources {
 	public Response findHomePageStatistic() {
 		return Response.ok(statsHelper.findHomePageStatistic()).build();
 	}
+	
+	@GET
+	@Path("/articles")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response findArticlePageStatistic() {
+		return Response.ok(statsHelper.findArticlePageStatistic()).build();
+	}
 }
