@@ -290,7 +290,7 @@ public class Article implements Serializable {
             for (String parameter : collection) {
             	disJunction.ilike("titleBeautify", "%" + parameter + "%");
             	disJunction.ilike("tags.tag", "%" + parameter + "%");
-            	disJunction.ilike("rubrique.path", "%" + parameter + "%");
+            	disJunction.ilike("rubrique.rubrique", "%" + parameter + "%");
             }
         }
         return query.orderBy().desc("publishedDate").findPagingList(ARTICLE_PAGE_SIZE).getPage(page).getList();
