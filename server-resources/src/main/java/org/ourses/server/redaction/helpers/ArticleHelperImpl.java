@@ -322,7 +322,7 @@ public class ArticleHelperImpl implements ArticleHelper {
 
                     @Override
                     public String apply(final String parameter) {
-                        return StringUtils.stripAccents(parameter.toLowerCase());
+                        return parameter.toLowerCase();
                     }
                 });
     }
