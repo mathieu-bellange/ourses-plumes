@@ -1,8 +1,0 @@
-﻿		{{% part1 }}
-			<h4>{{= data.title }} in a template</h4>
-			<p>{{= data.text }}</p>
-		{{%}}
-		{{% part2 }}
-			<h4>{{= data.title }} in another template</h4>
-			<p>{{= data.text }}</p>
-		{{%}}

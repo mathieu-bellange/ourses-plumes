@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>ourses-plumes</artifactId>
 		<groupId>org.ourses</groupId>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>1.2.1</version>
 	</parent>
 	<artifactId>server-resources</artifactId>
 	<packaging>war</packaging>
@@ -285,9 +285,6 @@
 	<profiles>
 		<profile>
 			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<spring.db.context>db-dev-context.xml</spring.db.context>
 				<logback.level>DEBUG</logback.level>
@@ -326,6 +323,9 @@
 		</profile>
 		<profile>
 			<id>production</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<spring.db.context>db-production-context.xml</spring.db.context>
 				<logback.level>ERROR</logback.level>
