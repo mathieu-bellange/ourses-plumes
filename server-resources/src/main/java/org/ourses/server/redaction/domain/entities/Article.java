@@ -3,6 +3,7 @@ package org.ourses.server.redaction.domain.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -79,7 +80,7 @@ public class Article implements Serializable {
     private Category category;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Rubrique rubrique;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "ARTICLE_TAG", joinColumns = @JoinColumn(name = "ARTICLE_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
     private Set<Tag> tags;
     @OneToOne(optional = false, fetch = FetchType.EAGER)
@@ -346,11 +347,15 @@ public class Article implements Serializable {
     }
 
     public void update(final String... properties) {
-        Ebean.update(this);
+        Ebean.update(this, Sets.newHashSet(properties));
     }
-
+    
     public void updateCoAuthors() {
         Ebean.saveManyToManyAssociations(this, "coAuthors");
+    }
+    
+    public void updateTags() {
+    	Ebean.saveManyToManyAssociations(this, "tags");
     }
 
     public void delete() {
