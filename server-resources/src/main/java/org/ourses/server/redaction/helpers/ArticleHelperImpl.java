@@ -132,7 +132,14 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setTitleBeautify(beautifyTitle(article.getTitle()));
         article.setCreatedDate(new Date());
         article.setUpdatedDate(new Date());
+        for (Tag tag : article.getTags()){
+        	if (tag.getId() == null){
+        		tag.save();
+        	}
+        }
         article.save();
+        article.updateTags();
+        article.updateCoAuthors();
         // créer le path
         article.setPath(buildPath(article));
         article.update("path");
@@ -158,12 +165,11 @@ public class ArticleHelperImpl implements ArticleHelper {
                     tags.add(tagBdd);
                 }
                 else {
-                    tags.add(tag.toTag());
+                	Tag newTag = tag.toTag();
+                	newTag.save();
+                    tags.add(newTag);
                 }
             }
-        }
-        if (tags.isEmpty()){
-        	tags.add(Tag.find(Tag.NO_TAG_ID));
         }
         article.setTags(tags);
         Set<Profile> coAuthors = Sets.newHashSet();
@@ -173,8 +179,13 @@ public class ArticleHelperImpl implements ArticleHelper {
         article.setCoAuthors(coAuthors);
         article.setTitleBeautify(beautifyTitle(articleDTO.getTitle()));
         article.setUpdatedDate(new Date());
-        article.update("category", "rubrique", "title", "body", "description", "tags", "titleBeautify", "updatedDate");
+        article.update("category", "rubrique", "title", "body", "description", "titleBeautify", "updatedDate");
         article.updateCoAuthors();
+        article.updateTags();
+        if (article.getPath() == null){
+        	article.setPath(buildPath(article));
+        	article.update("path");
+        }
         // suppression des vieux tags
         for (Tag tag : oldTags) {
             if (tag.isUnreferenceByArticles() && !tag.getId().equals(Tag.NO_TAG_ID)) {
@@ -209,7 +220,9 @@ public class ArticleHelperImpl implements ArticleHelper {
         // if (Status.OK.getStatusCode() == bitlyUrl.getStatusCode()) {
         // article.setShortenedUrl(bitlyUrl.getData().getUrl());
         // }
-        article.update("status", "path", "updatedDate", "publishedDate","tags","coAuthorsS");
+        article.update("status", "path", "updatedDate", "publishedDate");
+        article.updateCoAuthors();
+        article.updateTags();
         return article;
     }
 
