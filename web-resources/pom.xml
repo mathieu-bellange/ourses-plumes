@@ -46,7 +46,7 @@
 		<profile>
 			<id>recette</id>
 			<properties>
-				<minimize>true</minimize>
+				<minimize>false</minimize>
 			</properties>
 		</profile>
 		<profile>

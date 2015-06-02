@@ -134,6 +134,7 @@ var loax = (function() {
 			/* Set page title */
 			set_page_title($nav.dashboard_stats.title);
 			$(".main-body").append(file_pool.dashboard_stat_tmpl()).after(lb(1));
+			dashboard.init_component();
 			dashboard.init_home();
 		}
 	}
@@ -145,6 +146,8 @@ var dashboard = (function(){
 	var rubriques_data;
 	var articles_data;
 	var pie_rubriques = [];
+	var current_view;
+	var current_rubrique;
 	return {
 		data : function(data){
 			this.data = data;
@@ -227,33 +230,58 @@ var dashboard = (function(){
 			return {x_axis : x_axis, data : data};
 		},
 		navigate : function(selection){
-			if (selection.name === dashboard.home_pie_name){
+			if(selection === dashboard.home_pie_name){
+				current_view = selection;
+				$("#dashboard a").addClass("hide");
+				dashboard.init_home();
+			}else if (selection === dashboard.articles_pie_name){
+				current_view = selection;
+				dashboard.init_articles();
+				$("#dashboard a").removeClass("hide");
+			}else if (selection === dashboard.home_line_name){
+				current_view = selection;
 				//line charts
-				var stats = dashboard.build_line_data(dashboard.data.statistics);
+				var stats = dashboard.build_line_data(data.statistics);
 				var line_data = [{name : dashboard.home_line_name, data : stats.data}];
 				$('#home-container').lineChart(line_data, stats.x_axis, "Nombre d'accès à la page d'accueil", dashboard.title_view);
-			}else if(selection.name === dashboard.articles_pie_name){
-				dashboard.init_articles();
-			}else if(pie_rubriques.indexOf(selection.name) > -1 ){
+				$("#dashboard a").removeClass("hide");
+			}else if(pie_rubriques.indexOf(selection) > -1 ){
+				current_view = selection;
+				current_rubrique = selection;
 				rubriques_data.forEach(function(article_data){
-					if(selection.name === article_data.rubrique.rubrique){
+					if(selection === article_data.rubrique.rubrique){
 						articles_data = article_data.articles;
 						var stats = dashboard.build_bar_data(article_data.articles, dashboard.title_view);
 						$('#home-container').barChart(stats.x_axis, stats.data,article_data.rubrique.rubrique, function(selection){
-							dashboard.navigate(selection);
+							dashboard.navigate(selection.category);
 						} , "Nombre de vues des articles de la rubrique " + article_data.rubrique.rubrique, dashboard.title_view);
 					}
 				});
+				$("#dashboard a").removeClass("hide");
 			}else {
+				current_view = selection;
 				articles_data.forEach(function(article_data){
-					if(selection.category === article_data.article.title){
+					if(selection === article_data.article.title){
 						var stats = dashboard.build_line_data(article_data.statistics);
 						var line_data = [{name : article_data.article.title, data : stats.data}];
-						$('#home-container').lineChart(line_data, stats.x_axis, selection.category, dashboard.title_view);
+						$('#home-container').lineChart(line_data, stats.x_axis, selection, dashboard.title_view);
 					}
 				});
+				$("#dashboard a").removeClass("hide");
 			}
-			console.log(selection.name);
+		},
+		init_component : function(){
+			$("#back").on("click", function(){
+				if (current_view === dashboard.articles_pie_name){
+					dashboard.navigate(dashboard.home_pie_name);
+				}else if (current_view === dashboard.home_line_name){
+					dashboard.navigate(dashboard.home_pie_name);
+				}else if(pie_rubriques.indexOf(current_view) > -1 ){
+					dashboard.navigate(dashboard.articles_pie_name);
+				}else{
+					dashboard.navigate(current_rubrique);
+				}
+			});
 		},
 		init_home : function() {
 			$.getJSON("/rest/statistic/home", function(result) {
@@ -267,11 +295,11 @@ var dashboard = (function(){
 					  }
 					  return 0;
 				});
-				dashboard.data = result;
+				data = result;
 				//pie chart
-				var pie_data = [[dashboard.home_pie_name, result.homeViews], [dashboard.articles_pie_name, result.articleViews]];
+				var pie_data = [[dashboard.home_line_name, result.homeViews], [dashboard.articles_pie_name, result.articleViews]];
 				$('#home-container').pieChart(pie_data, "Nombre d'accès au site", dashboard.title_view, function(selection){
-					dashboard.navigate(selection);
+					dashboard.navigate(selection.name);
 				});
 			});
 		},
@@ -316,7 +344,7 @@ var dashboard = (function(){
 					dashboard.add_pie_rubrique(stat.rubrique.rubrique);
 				});
 				$('#home-container').pieChart(pie_data, "Nombre d'accès aux articles", dashboard.title_view, function(selection){
-					dashboard.navigate(selection);
+					dashboard.navigate(selection.name);
 				});
 			});
 		},
