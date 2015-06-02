@@ -2,7 +2,7 @@
 
 	<group name="dashboard-stats-${project.version}">
 		<group-ref>commons-lib-${project.version}</group-ref>
-		<js>/js/highcharts/highcharts.js</js>
+		<js minimize="false">/js/highcharts/highcharts.js</js>
 		<js>/js/dashboard-stats.js</js>
 		<group-ref>commons-loap-${project.version}</group-ref>
 	</group>

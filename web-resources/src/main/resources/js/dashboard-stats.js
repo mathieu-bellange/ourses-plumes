@@ -60,10 +60,7 @@ jQuery.fn.extend({
 				}]
 			},
 			legend: {
-				layout: 'vertical',
-				align: 'right',
-				verticalAlign: 'middle',
-				borderWidth: 0
+				enabled : false
 			},
 			series: lineData
 		})
@@ -99,6 +96,17 @@ jQuery.fn.extend({
 	                    enabled: true
 	                }
 	            }
+	        },
+	        tooltip: {
+	            backgroundColor: 'white',
+	            borderWidth: 0,
+	            borderRadius: 0,
+	            headerFormat: '{point.key} ',
+	            pointFormat: ' | <span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b>',
+	            positioner: function () {
+	                return { x: 10, y: 35 };
+	            },
+	            shadow: false
 	        },
 	        series: [{
 				type: 'bar',
@@ -170,17 +178,16 @@ var dashboard = (function(){
 				if (nextMonth.getTime() >= new Date().getTime()){
 					var max_index = new Date().getDate() - firstDay.getDate() + 1;
 					var index_stat = 0;
-					for (var index = 0; index < max_index; index ++){
-						var day = new Date();
-						day.setDate(firstDay.getDate() + index);
-						day.setHours(0, 0, 0, 0);
+					while(firstDay.getTime() < new Date().getTime()){
 						var countDayView = 0;
-						if(index_stat < stats.length && day.getTime() === new Date(stats[index_stat].countDay).getTime()){
+						if(index_stat < stats.length && firstDay.getTime() === new Date(stats[index_stat].countDay).getTime()){
 							countDayView = stats[index_stat].viewCount;
 							index_stat = index_stat + 1;
 						}
-						cat.push(dayOfMonthToString(day));
+						cat.push(dayOfMonthToString(firstDay));
 						stat_data.push(countDayView);
+						//incrémente d'une journée
+						firstDay.setDate(firstDay.getDate() + 1);
 					}
 				}
 				//on affiche les données sur plusieurs mois
@@ -222,7 +229,7 @@ var dashboard = (function(){
 		navigate : function(selection){
 			if (selection.name === dashboard.home_pie_name){
 				//line charts
-				var stats = dashboard.build_line_data(data.statistics);
+				var stats = dashboard.build_line_data(dashboard.data.statistics);
 				var line_data = [{name : dashboard.home_line_name, data : stats.data}];
 				$('#home-container').lineChart(line_data, stats.x_axis, "Nombre d'accès à la page d'accueil", dashboard.title_view);
 			}else if(selection.name === dashboard.articles_pie_name){
@@ -242,7 +249,7 @@ var dashboard = (function(){
 					if(selection.category === article_data.article.title){
 						var stats = dashboard.build_line_data(article_data.statistics);
 						var line_data = [{name : article_data.article.title, data : stats.data}];
-						$('#home-container').lineChart(line_data, stats.x_axis, dashboard.title_view, dashboard.title_view);
+						$('#home-container').lineChart(line_data, stats.x_axis, selection.category, dashboard.title_view);
 					}
 				});
 			}
