@@ -58,7 +58,8 @@
 				/rest/agenda/* = oursesAuthc, oursesAuthz[writer]
 				/rest/agenda = anon
 				
-				/rest/statistic = oursesAuthc, oursesAuthz[admin]
+				/rest/statistic = anon
+				/rest/statistic/* = anon
 				
 				/** = noSessionCreation
 	        </value>

@@ -151,6 +151,14 @@ function displayArticles() {
 			$("#articles_publish > li").first().addClass("hide"); // EDIT : add class 'hide' instead of 'web-review'
 			$("#articles_publish > li").not(":first").addClass("block"); // set up block list classes
 			*/
+			$("li a").on("click", function(){
+				$.ajax({
+					type : "PUT",
+					url : "/rest/statistic?path=" + encodeURI($(this).attr("href")),
+					contentType : "application/json; charset=utf-8",
+					dataType : 'json'
+				});
+			});
 			$("#articles_publish > li").addClass("block"); // set up block list classes
 			$("#articles_publish")
 				.wrap("<div class='row collapse'></div>") // add row wrapper

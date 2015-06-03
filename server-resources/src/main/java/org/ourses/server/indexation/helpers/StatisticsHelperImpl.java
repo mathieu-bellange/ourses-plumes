@@ -52,19 +52,25 @@ public class StatisticsHelperImpl implements StatisticsHelper {
 	public HomePageStatisticDTO findHomePageStatistic() {
 		Collection<? extends WebSiteStatistic> stats = WebSiteStatistic.findAllStats();
 		int homeViews = 0;
+		int homeInternalView = 0;
+		int articleInternalView = 0;
 		int articleViews = 0;
 		List<WebSiteStatisticDTO> dto = new ArrayList<WebSiteStatisticDTO>();
 		for (WebSiteStatistic stat : stats){
 			if (stat.getId().getPage().equals("/")){
 				dto.add(stat.toWebSiteStatisticDTO());
 				homeViews = homeViews + stat.getViewCount();
+				homeInternalView = homeInternalView + stat.getViewInternalCount();
 			}else if(stat.getId().getPage().matches("^/articles/(.*)/([0-9]*)/(.*)$")){
 				articleViews = articleViews + stat.getViewCount();
+				articleInternalView = articleInternalView + stat.getViewInternalCount();
 			}
 		}
 		HomePageStatisticDTO homeStats = new HomePageStatisticDTO();
 		homeStats.setArticleViews(articleViews);
+		homeStats.setArticleInternalViews(articleInternalView);
 		homeStats.setHomeViews(homeViews);
+		homeStats.setHomeInternalViews(homeInternalView);
 		homeStats.setStatistics(dto);
 		return homeStats;
 	}
@@ -87,6 +93,23 @@ public class StatisticsHelperImpl implements StatisticsHelper {
 			pages.add(artStat);
 		}
 		return pages;
+	}
+
+	@Override
+	@Async
+	public void addWebStatistic(String path) {
+		if (path.matches("^/articles/(.*)/([0-9]*)/(.*)$")){
+			WebSiteStatisticId id = new WebSiteStatisticId(path, DateTime.parse(DateTime.now().toString(countDayFormatter)).toDate());
+			WebSiteStatistic dayStat = WebSiteStatistic.findById(id);
+			if (dayStat != null){
+				dayStat.addInternalCount();
+			}else{
+				dayStat = new WebSiteStatistic();
+				dayStat.setId(id);
+				dayStat.setViewInternalCount(1);
+				dayStat.save();
+			}
+		}
 	}
 
 }

@@ -14,5 +14,7 @@ public interface StatisticsHelper {
 	HomePageStatisticDTO findHomePageStatistic();
 
 	Collection<? extends ArticlePageStatisticDTO> findArticlePageStatistic();
+
+	void addWebStatistic(String path);
 	
 }

@@ -16,6 +16,7 @@ public class WebSiteStatistic {
 	@EmbeddedId
 	private WebSiteStatisticId id;
 	private int viewCount;
+	private int viewInternalCount;
 	
 	public WebSiteStatisticId getId() {
 		return id;
@@ -33,6 +34,14 @@ public class WebSiteStatistic {
 		this.viewCount = count;
 	}
 	
+	public int getViewInternalCount() {
+		return viewInternalCount;
+	}
+
+	public void setViewInternalCount(int viewInternalCount) {
+		this.viewInternalCount = viewInternalCount;
+	}
+
 	public static WebSiteStatistic findById(WebSiteStatisticId id){
 		return Ebean.find(WebSiteStatistic.class, (WebSiteStatisticId)id);
 	}
@@ -52,7 +61,7 @@ public class WebSiteStatistic {
 	}
 
 	public WebSiteStatisticDTO toWebSiteStatisticDTO() {
-		return new WebSiteStatisticDTO(id.getPage(),id.getCountDay(), viewCount);
+		return new WebSiteStatisticDTO(id.getPage(),id.getCountDay(), viewCount, viewInternalCount);
 	}
 
 	public static Collection<? extends WebSiteStatistic> findAllStats() {
@@ -61,6 +70,11 @@ public class WebSiteStatistic {
 
 	public static Collection<? extends WebSiteStatistic> findArticlesStats() {
 		return Ebean.find(WebSiteStatistic.class).where().ne("id.page", "/").orderBy().asc("id.countDay").findList();
+	}
+
+	public void addInternalCount() {
+		viewInternalCount = viewInternalCount + 1;
+		Ebean.update(this, Sets.newHashSet("viewInternalCount"));
 	}
 
 }

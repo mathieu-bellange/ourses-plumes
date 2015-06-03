@@ -13,11 +13,13 @@ public class WebSiteStatisticDTO {
 	private String page;
 	private Date countDay;
 	private int viewCount;
+	private int viewInternalCount;
 	
-	public WebSiteStatisticDTO(String page, Date countDay, int viewCount) {
+	public WebSiteStatisticDTO(String page, Date countDay, int viewCount, int viewInternalCount) {
 		this.page = page;
 		this.countDay = countDay;
 		this.viewCount = viewCount;
+		this.viewInternalCount = viewInternalCount;
 	}
 	public String getPage() {
 		return page;
@@ -38,6 +40,12 @@ public class WebSiteStatisticDTO {
 		this.viewCount = viewCount;
 	}
 	
+	public int getViewInternalCount() {
+		return viewInternalCount;
+	}
+	public void setViewInternalCount(int viewInternalCount) {
+		this.viewInternalCount = viewInternalCount;
+	}
 	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
