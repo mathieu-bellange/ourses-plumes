@@ -98,7 +98,7 @@ public class StatisticsHelperImpl implements StatisticsHelper {
 	@Override
 	@Async
 	public void addWebStatistic(String path) {
-		if (path.matches("^/articles/(.*)/([0-9]*)/(.*)$")){
+		if ("/".equals(path) || path.matches("^/articles/(.*)/([0-9]*)/(.*)$")){
 			WebSiteStatisticId id = new WebSiteStatisticId(path, DateTime.parse(DateTime.now().toString(countDayFormatter)).toDate());
 			WebSiteStatistic dayStat = WebSiteStatistic.findById(id);
 			if (dayStat != null){

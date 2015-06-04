@@ -322,17 +322,6 @@ function getArticles(url_params, page, callback) {
 		beforeSend : function(request){header_authentication(request)},
 		contentType : "application/json; charset=utf-8",
 		success : function(articles, status, jqxhr) {
-			/* UNUSED : articles already ordered */
-			/*
-			articles.sort(function compare(a, b) {
-				if (a.publishedDate > b.publishedDate)
-					return -1;
-				if (a.publishedDate < b.publishedDate)
-					return 1;
-				// a doit être égal à b
-				return 0;
-			});
-			*/
 			delete_loading_image(); // delete loading image
 			if (!article_list_setup.run) { // first time process
 				$(".main-body")
@@ -359,6 +348,15 @@ function getArticles(url_params, page, callback) {
 					$(".main-body").create_alert_box($("#articles_publish").children().size() == 0 ? $msg.article_search_empty : $msg.article_search_last, null, {"class" : "info", "icon" : "info", "icon_class" : null, "insert" : "append"});
 				}
 			}
+			$("li a").off();
+			$("li a").on("click", function(){
+				$.ajax({
+					type : "PUT",
+					url : "/rest/statistic?path=" + encodeURI($(this).attr("href")),
+					contentType : "application/json; charset=utf-8",
+					dataType : 'json'
+				});
+			});
 		},
 		error : function(jqXHR, status, errorThrown) {
 			if (jqXHR.status == 503) {

@@ -237,11 +237,15 @@ var dashboard = (function(){
 					var countOfMonth = 0;
 					var countInternalOfMonth = 0;
 					var month = firstDay;
-					var lastMonth = new Date().getMonth();
 					stats.forEach(function(stat, index){
 						if (new Date(stat.countDay).getMonth() === month.getMonth()){
 							countOfMonth = countOfMonth + stat.viewCount;
 							countInternalOfMonth = countInternalOfMonth + stat.viewInternalCount;
+							if (index === stats.length - 1){
+								cat.push(monthOfYearToString(month));
+								stat_data.push(stat.viewCount - stat.viewInternalCount);
+								stat_internal_data.push(stat.viewInternalCount);
+							}
 						}else{
 							cat.push(monthOfYearToString(month));
 							stat_data.push(countOfMonth - countInternalOfMonth);
@@ -249,11 +253,6 @@ var dashboard = (function(){
 							month = new Date(month.setMonth(month.getMonth() + 1));
 							countOfMonth = 0;
 							countInternalOfMonth = 0;
-							if (index === stats.length - 1){
-								cat.push(monthOfYearToString(month));
-								stat_data.push(stat.viewCount - stat.viewInternalCount);
-								stat_internal_data.push(stat.viewInternalCount);
-							}
 						}
 					});
 				}
@@ -347,10 +346,10 @@ var dashboard = (function(){
 				//pie chart
 				var colors = Highcharts.getOptions().colors;
 				var pie_data = [{
-									name : dashboard.home_line_name, 
+									name : dashboard.home_pie_name, 
 									y : result.homeViews, 
 									color : colors[0],
-									category : dashboard.home_pie_name
+									category : dashboard.home_line_name
 								},
 								{
 									name : dashboard.articles_pie_name, 
@@ -364,13 +363,13 @@ var dashboard = (function(){
 									  name : external_user, 
 									  y : home_external_views,
 									  color : Highcharts.Color(colors[0]).brighten(home_external_views/result.homeViews/5).get(),
-									  category : dashboard.home_pie_name
+									  category : dashboard.home_line_name
 								  },
 								  {
 									  name : internal_user, 
 									  y : result.homeInternalViews,
 									  color : Highcharts.Color(colors[0]).brighten(result.homeInternalViews/result.homeViews/5).get(),
-									  category : dashboard.home_pie_name
+									  category : dashboard.home_line_name
 								  },
 								  {
 									  name : external_user, 

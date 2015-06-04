@@ -386,6 +386,15 @@ var loap = (function() {
 			if ($app.user == "human-reader" && !isBrowserCompatible) {
 				create_alert_bar($msg.compatibility_warning);
 			}
+			//event on logo
+			$(".logo a").on("click", function(){
+				$.ajax({
+					type : "PUT",
+					url : "/rest/statistic?path=" + encodeURI($(this).attr("href")),
+					contentType : "application/json; charset=utf-8",
+					dataType : 'json'
+				});
+			});
 		},
 		update : function() {
 			$(document).svg_icons(); // WARNING : set svg icons for whole document
