@@ -33,6 +33,13 @@ public class WebSiteStatisticResources {
 		return Response.ok(statsHelper.findArticlePageStatistic()).build();
 	}
 	
+	@GET
+	@Path("/articles/count")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response findArticleCountStatistic(@QueryParam("online") boolean online) {
+		return Response.ok(statsHelper.findArticleCountStatistic(online)).build();
+	}
+	
 	@PUT
 	public Response addWebStatistic(@QueryParam("path") String path){
 		statsHelper.addWebStatistic(path);

@@ -341,6 +341,14 @@ public class Article implements Serializable {
     public static Set<Article> findToCheck() {
         return Ebean.find(Article.class).where().eq("status", ArticleStatus.AVERIFIER).findSet();
     }
+    
+    public static int countArticleOnline() {
+    	return Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).le("publishedDate", new Date()).findRowCount();
+    }
+    
+    public static int countArticleProgammed() {
+    	return Ebean.find(Article.class).where().eq("status", ArticleStatus.ENLIGNE).gt("publishedDate", new Date()).findRowCount();
+    }
 
     public void update(final String... properties) {
         Ebean.update(this, Sets.newHashSet(properties));
@@ -438,4 +446,5 @@ public class Article implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
+
 }

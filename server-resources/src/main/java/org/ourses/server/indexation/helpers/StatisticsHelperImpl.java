@@ -14,6 +14,7 @@ import org.ourses.server.indexation.domain.dto.WebSiteStatisticDTO;
 import org.ourses.server.indexation.domain.entities.WebSiteStatistic;
 import org.ourses.server.indexation.domain.entities.WebSiteStatisticId;
 import org.ourses.server.redaction.domain.entities.Article;
+import org.ourses.server.redaction.domain.entities.ArticleStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
@@ -115,6 +116,17 @@ public class StatisticsHelperImpl implements StatisticsHelper {
 				dayStat.save();
 			}
 		}
+	}
+
+	@Override
+	public int findArticleCountStatistic(boolean online) {
+		int count;
+		if (online){
+			count = Article.countArticleOnline();
+		}else{
+			count = Article.countArticleProgammed();
+		}
+		return count;
 	}
 
 }

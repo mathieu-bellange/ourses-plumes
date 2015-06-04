@@ -16,5 +16,7 @@ public interface StatisticsHelper {
 	Collection<? extends ArticlePageStatisticDTO> findArticlePageStatistic();
 
 	void addWebStatistic(String path);
+
+	int findArticleCountStatistic(boolean online);
 	
 }

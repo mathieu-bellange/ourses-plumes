@@ -183,6 +183,19 @@ var dashboard = (function(){
 	var current_rubrique;
 	var external_user = "Visiteur extérieur";
 	var internal_user = "Visite du site web";
+	var show_article_number = function(show){
+		if (show){
+			$("#online_article").removeClass("hide");
+			$("#prog_article").removeClass("hide");
+			$("#lbl_number_online").removeClass("hide");
+			$("#lbl_number_prog").removeClass("hide");
+		}else{
+			$("#online_article").addClass("hide");
+			$("#prog_article").addClass("hide");
+			$("#lbl_number_online").addClass("hide");
+			$("#lbl_number_prog").addClass("hide");
+		}
+	};
 	return {
 		data : function(data){
 			this.data = data;
@@ -278,14 +291,17 @@ var dashboard = (function(){
 		},
 		navigate : function(selection){
 			if(selection === dashboard.home_pie_name){
+				show_article_number(true);
 				current_view = selection;
 				$("#dashboard a").addClass("hide");
 				dashboard.init_home();
 			}else if (selection === dashboard.articles_pie_name){
+				show_article_number(false);
 				current_view = selection;
 				dashboard.init_articles();
 				$("#dashboard a").removeClass("hide");
 			}else if (selection === dashboard.home_line_name){
+				show_article_number(false);
 				current_view = selection;
 				//line charts
 				var stats = dashboard.build_line_data(data.statistics);
@@ -385,6 +401,24 @@ var dashboard = (function(){
 								  }];
 				$('#home-container').pieChart(pie_data, "Nombre d'accès au site", dashboard.title_view, dashboard.title_view,donut_data, function(selection){
 					dashboard.navigate(selection.category);
+				});
+				$.when($.ajax({
+								type:"GET",
+						        url: "/rest/statistic/articles/count?online=true",
+						        dataType: "json"           
+			    				}),
+			    	   $.ajax({
+			    		   		type:"GET",
+			    			    url: "/rest/statistic/articles/count?online=false",
+			    			    dataType: "json",
+			    			    })
+			    ).done(function ( r1, r2) {
+			    	if (r1[1] === "success"){
+			    		$("#online_article").html(r1[0]);
+			    	}
+			    	if (r2[1] === "success"){
+			    		$("#prog_article").html(r2[0]);
+			    	}
 				});
 			});
 		},
