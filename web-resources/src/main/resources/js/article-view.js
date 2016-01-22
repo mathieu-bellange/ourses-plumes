@@ -216,28 +216,57 @@ var share = (function() {
 /* ------------------------------------------------------------------ */
 
 var editor = (function() {
+	var cfg = {
+		"img_ck_times" : 5,  // [int] Number of times an image will be checked for resize. Default : 5
+		"img_ck_delay" : 500 // [int] Time elapsed between two checks of image resize (ms). Default : 500
+	}, img = {};
 	return {
 		fluidify : function(obj) {
 			// CKEditor Images Size Fix (for Image and Image2 Plugins)
-			obj.find("img").each(function() {
-				var o = $(this);
-				var w = o.css("width");
-				var f = o.css("float");
-				o.attr("width", w); // compatibility fix (for 1.1.0 using Image Plugin)
-				o.css({
-					"border" : "none", // compatibility fix (for 1.1.0 using Image Plugin)
-					"margin" : "0", // compatibility fix (for 1.1.0 using Image Plugin)
-					"width" : "100%",
-					"height" : "auto",
-					"max-width" : w
-				});
-				if (f == "right" || f == "left") { // compatibility fix (for 1.1.0 using Image Plugin)
-					switch (f) {
-						case "left" : o.css("margin-right", "1rem"); break; // compatibility fix (for 1.1.0 using Image Plugin)
-						case "right" : o.css("margin-left", "1rem"); break; // compatibility fix (for 1.1.0 using Image Plugin)
+			var i = 0;
+			function resize_image(obj, i) {
+				img[i]++;
+				// -------------------------------------------------------------
+				// console.log("PROCESS : Checking size of image n° " + i + " for the " + img[i] + " time ..."); // DEBUG
+				// -------------------------------------------------------------
+				if (obj.width() > 0) {
+					var w = obj.css("width");
+					var f = obj.css("float");
+					obj.attr("width", w); // compatibility fix (for 1.1.0 using Image Plugin)
+					obj.css({
+						"border" : "none", // compatibility fix (for 1.1.0 using Image Plugin)
+						"margin" : "0", // compatibility fix (for 1.1.0 using Image Plugin)
+						"width" : "100%",
+						"height" : "auto",
+						"max-width" : w
+					});
+					if (f == "right" || f == "left") { // compatibility fix (for 1.1.0 using Image Plugin)
+						switch (f) {
+							case "left" : obj.css("margin-right", "1rem"); break; // compatibility fix (for 1.1.0 using Image Plugin)
+							case "right" : obj.css("margin-left", "1rem"); break; // compatibility fix (for 1.1.0 using Image Plugin)
+						}
+						obj.parent().addClass("clearfix"); // compatibility fix (for 1.1.0 using Image Plugin)
 					}
-					o.parent().addClass("clearfix"); // compatibility fix (for 1.1.0 using Image Plugin)
+					// -----------------------------------------------------------
+					// console.log("SUCCESS : Image n° " + i + " found ; resize fix applied !"); // DEBUG
+					// -----------------------------------------------------------
+				} else {
+					if (img[i] < cfg.img_ck_times) {
+						setTimeout(function() {
+							// ---------------------------------------------------------
+							// console.log("ERROR : Image n° " + i + " not found ; checking size again in a while"); // DEBUG
+							// ---------------------------------------------------------
+							resize_image(obj, i);
+						}, cfg.img_ck_delay);
+					} else {
+						// ---------------------------------------------------------
+						// console.log("TIME OVER : Stop checking size of image n° " + i); // DEBUG
+						// ---------------------------------------------------------
+					}
 				}
+			}
+			obj.find("img").each(function() {
+				i++; img[i] = 0; resize_image($(this), i);
 			});
 			// CKEditor iFrame Size Fix (for YouTube Plugin)
 			function resize_iframe(obj) {
@@ -296,8 +325,8 @@ var editor = (function() {
 			});
 		},
 		patch : function(obj) {
-			this.fluidify(obj);
 			this.clean(obj);
+			this.fluidify(obj);
 		}
 	}
 }());
