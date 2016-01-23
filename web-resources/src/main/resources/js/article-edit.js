@@ -403,7 +403,6 @@ var validate = (function () {
 					$(this).set_validation(true);
 				},
 				blur : function() {
-					//checkTitleAJAX();
 					checkTitle();
 				},
 				keydown : function(e) {
@@ -821,7 +820,7 @@ function processCategory(json, article) {
 // créer ou ajouter un article
 function sendArticle() {
 	// set article's topic
-	var title = $("#title").val();
+	var title = encode_html($("#title").val());
 	var coauthors = [];
 	$(".article > .header .coauthor").each(function() {
 		coauthors.push({"id" : $(this).attr("data-id"), "pseudo" : $(this).text()});
@@ -876,31 +875,33 @@ function checkTitleAJAX() {
 		clearTimeout(titleTimeoutValid);
 	}
 	var selector = $("#title");
-	selector.set_validation();
 	var title = selector.val();
-	$.ajax({
-		type : "POST",
-		url : pathTitle,
-		contentType : "application/json; charset=utf-8",
-		data : title,
-		beforeSend: function(request) {
-			header_authentication(request);
-		},
-		success : function(data, textStatus, jqXHR) {
-			pseudoTimeoutValid = setTimeout(function() {
-				selector.set_validation(true);
-			}, 500);
-		},
-		error : function(jqXHR, status, errorThrown) {
-			ajax_error(jqXHR, status, errorThrown);
-			if (jqXHR.status == 403) {
-				pseudoTimeoutValid = setTimeout(function() {
-					selector.set_validation(false, "Ce titre est d&eacute;j&agrave; pris");
+	selector.set_validation();
+	if (title !== "") {
+		$.ajax({
+			type : "POST",
+			url : pathTitle,
+			contentType : "application/json; charset=utf-8",
+			data : title,
+			beforeSend: function(request) {
+				header_authentication(request);
+			},
+			success : function(data, textStatus, jqXHR) {
+				titleTimeoutValid = setTimeout(function() {
+					selector.set_validation(true);
 				}, 500);
-			}
-		},
-		dataType : "json"
-	});
+			},
+			error : function(jqXHR, status, errorThrown) {
+				ajax_error(jqXHR, status, errorThrown);
+				if (jqXHR.status == 403) {
+					titleTimeoutValid = setTimeout(function() {
+						selector.set_validation(false, "Ce titre est d&eacute;j&agrave; pris");
+					}, 500);
+				}
+			},
+			dataType : "json"
+		});
+	}
 }
 
 /* ------------------------------------------------------------------ */

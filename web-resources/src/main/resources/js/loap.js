@@ -2135,7 +2135,6 @@ function decode_line_ends(str) {
 
 /* Convert HTML */
 function encode_html(str, lb) {
-	// var lb = (typeof (lb) !== "undefined" ? lb : true);
 	var lb = lb || false;
 	str = encode_illegals(str);
 	str = encode_formats(str);
@@ -2145,7 +2144,6 @@ function encode_html(str, lb) {
 	return str;
 }
 function decode_html(str, lb) {
-	// var lb = (typeof (lb) !== "undefined" ? lb : true);
 	var lb = lb || false;
 	str = str.replace(/(")/g, "'"); // Double Quotations Fix
 	str = str.replace(/[\t|\r\n]*/g, ""); // Tabulation and Line Feed Fix
