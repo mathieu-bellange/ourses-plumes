@@ -53,7 +53,7 @@
 											<p class="validate" style="display: none;">
 												{{? isComputer() }}
 												{{? data.profile.id == UserSession.getUserProfileId() }}
-												<button class="button accept icon-reply tiny" title="Valider l&rsquo;article" data-validate="{{= data.id }}"></button>
+												<button class="button accept tiny" title="Envoyer l&rsquo;article pour relecture avant publication" data-validate="{{= data.id }}">Soumettre</button>
 												{{?}}
 												<button class="button reject icon-remove tiny" title="Supprimer l&rsquo;article" data-delete="{{= data.id }}"></button>
 												{{?}}

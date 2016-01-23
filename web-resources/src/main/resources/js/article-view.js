@@ -120,8 +120,6 @@ var share = (function() {
 				$("#share_facebook").attr("href", facebook_href);
 				var googleplus_href = "https://plus.google.com/share?url=" + article_url;
 				$("#share_googleplus").attr("href", googleplus_href);
-				var linkedin_href = "http://www.linkedin.com/shareArticle?mini=true&url=" + article_url + "&title=" + article_title + "&summary=" + article_summary + "&source=" + article_source;
-				$("#share_linkedin").attr("href", linkedin_href);
 				/*
 				$(document).on("click", "#share_facebook", function() {
 					// -----------------------------------------------------------
@@ -157,12 +155,12 @@ var share = (function() {
 				});
 				*/
 				if (settings.target == "popup") {
-					$("#share_twitter, #share_facebook, #share_googleplus, #share_linkedin").on("click", function() {
+					$("#share_twitter, #share_facebook, #share_googleplus").on("click", function() {
 						window.open(this.href, "", "menubar=" + (settings.popup.menubar ? "yes" : "no") + ",toolbar=" + (settings.popup.toolbar ? "yes" : "no") + ",resizable=" + (settings.popup.resizable ? "yes" : "no") + ",scrollbars=" + (settings.popup.scrollbars ? "yes" : "no") + ",width=" + settings.popup.width + ",height=" + settings.popup.height);
 						return false;
 					});
 				} else if (settings.target == "new") {
-					$("#share_twitter, #share_facebook, #share_googleplus, #share_linkedin").attr("target", "_blank");
+					$("#share_twitter, #share_facebook, #share_googleplus").attr("target", "_blank");
 				}
 				$("[data-count]").each(function() {
 					var o = $(this), n = o.data("count"), u = article_url;
@@ -199,10 +197,6 @@ var share = (function() {
 								data : JSON.stringify(r),
 								success : function(data) {o.html(typeof data.result !== "undefined" ? data.result.metadata.globalCounts.count.toString() : "0")}
 							});
-							break;
-						case "linkedin" :
-							var q = "http://www.linkedin.com/countserv/count/share?url=" + u + "&callback=?";
-							$.getJSON(q, function(data) {o.html(data.count.toString())});
 							break;
 					}
 				});

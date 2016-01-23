@@ -17,7 +17,7 @@
 				{{~}}
 				</fieldset>
 				<div class="button-bar">
-					<button class="button action" title="Ajouter un nouvel &eacute;v&egrave;nement &agrave; cette date" data-add>Ajouter</button>
+					<button class="button action" title="Ajouter un nouvel &eacute;v&egrave;nement &agrave; cette date" data-add>Nouvel &eacute;v&egrave;nement</button>
 					<button class="button accept" title="Valider les &eacute;v&egrave;nements &agrave; cette date" data-submit>Valider</button>
 					<button class="button reject" title="Annuler les changements apport&eacute;es &agrave; cette date" data-cancel>Annuler</button>
 				</div>
